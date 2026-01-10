@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  /* Light, soothing pastel palette - peach, lilac, lavender, sky blue */
+  /* Light, soothing pastel palette - peach/orange primary, violet secondary */
   --background: oklch(0.99 0.01 70);
   --foreground: oklch(0.3 0.03 280);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.3 0.03 280);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.3 0.03 280);
-  --primary: oklch(0.7 0.15 270);
+  --primary: oklch(0.75 0.12 45);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.75 0.12 350);
-  --secondary-foreground: oklch(0.3 0.03 280);
+  --secondary: oklch(0.7 0.15 270);
+  --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.96 0.02 280);
   --muted-foreground: oklch(0.5 0.03 280);
   --accent: oklch(0.8 0.1 45);
@@ -20,21 +20,21 @@
   --destructive-foreground: oklch(0.99 0.005 50);
   --border: oklch(0.93 0.02 280);
   --input: oklch(0.96 0.02 280);
-  --ring: oklch(0.7 0.15 270);
-  --chart-1: oklch(0.7 0.15 270);
-  --chart-2: oklch(0.75 0.12 350);
+  --ring: oklch(0.75 0.12 45);
+  --chart-1: oklch(0.75 0.12 45);
+  --chart-2: oklch(0.7 0.15 270);
   --chart-3: oklch(0.8 0.1 45);
   --chart-4: oklch(0.72 0.12 220);
   --chart-5: oklch(0.68 0.1 180);
   --radius: 1.25rem;
   --sidebar: oklch(0.99 0.01 280);
   --sidebar-foreground: oklch(0.3 0.03 280);
-  --sidebar-primary: oklch(0.7 0.15 270);
+  --sidebar-primary: oklch(0.75 0.12 45);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.97 0.02 280);
   --sidebar-accent-foreground: oklch(0.3 0.03 280);
   --sidebar-border: oklch(0.93 0.02 280);
-  --sidebar-ring: oklch(0.7 0.15 270);
+  --sidebar-ring: oklch(0.75 0.12 45);
 }
 
 .dark {
@@ -44,9 +44,9 @@
   --card-foreground: oklch(0.96 0.01 280);
   --popover: oklch(0.18 0.02 280);
   --popover-foreground: oklch(0.96 0.01 280);
-  --primary: oklch(0.75 0.15 270);
+  --primary: oklch(0.8 0.14 45);
   --primary-foreground: oklch(0.15 0.02 280);
-  --secondary: oklch(0.8 0.12 350);
+  --secondary: oklch(0.75 0.15 270);
   --secondary-foreground: oklch(0.15 0.02 280);
   --muted: oklch(0.25 0.02 280);
   --muted-foreground: oklch(0.6 0.02 280);
@@ -56,20 +56,20 @@
   --destructive-foreground: oklch(0.95 0.01 50);
   --border: oklch(0.25 0.02 280);
   --input: oklch(0.25 0.02 280);
-  --ring: oklch(0.75 0.15 270);
-  --chart-1: oklch(0.75 0.15 270);
-  --chart-2: oklch(0.8 0.12 350);
+  --ring: oklch(0.8 0.14 45);
+  --chart-1: oklch(0.8 0.14 45);
+  --chart-2: oklch(0.75 0.15 270);
   --chart-3: oklch(0.85 0.1 45);
   --chart-4: oklch(0.72 0.12 220);
   --chart-5: oklch(0.68 0.1 180);
   --sidebar: oklch(0.18 0.02 280);
   --sidebar-foreground: oklch(0.96 0.01 280);
-  --sidebar-primary: oklch(0.75 0.15 270);
+  --sidebar-primary: oklch(0.8 0.14 45);
   --sidebar-primary-foreground: oklch(0.15 0.02 280);
   --sidebar-accent: oklch(0.25 0.02 280);
   --sidebar-accent-foreground: oklch(0.96 0.01 280);
   --sidebar-border: oklch(0.25 0.02 280);
-  --sidebar-ring: oklch(0.75 0.15 270);
+  --sidebar-ring: oklch(0.8 0.14 45);
 }
 
 /* @theme is a valid Tailwind CSS v4 directive - linter warning can be ignored */
@@ -124,7 +124,25 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    /* Light mode: gradient background */
+    background-image: linear-gradient(
+      to bottom right,
+      rgb(255 237 213),
+      /* orange-100 */ rgb(253 242 248),
+      /* pink-50 */ rgb(243 232 255) /* purple-100 */
+    );
+    min-height: 100vh;
+  }
+
+  .dark body {
+    /* Dark mode: solid slate background - override gradient */
+    background-image: none;
+    background-color: rgb(15 23 42); /* slate-900 */
+  }
+
+  .pile {
+    @apply grid grid-cols-1 grid-rows-1 *:col-start-1 *:row-start-1;
   }
 }
 
@@ -143,11 +161,11 @@
   0%,
   100% {
     opacity: 1;
-    box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+    box-shadow: 0 0 20px rgba(232, 184, 159, 0.3);
   }
   50% {
     opacity: 0.8;
-    box-shadow: 0 0 30px rgba(147, 51, 234, 0.5);
+    box-shadow: 0 0 30px rgba(232, 184, 159, 0.5);
   }
 }
 

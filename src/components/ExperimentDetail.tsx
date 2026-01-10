@@ -1,6 +1,5 @@
 "use client";
 
-import { use } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -55,12 +54,7 @@ const MOCK_EXPERIMENT = {
   ],
 };
 
-export default function ExperimentDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = use(params);
+export function ExperimentDetail() {
   const [checkInNote, setCheckInNote] = useState("");
 
   const handleAddCheckIn = () => {
@@ -72,7 +66,7 @@ export default function ExperimentDetailPage({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-primary/10 text-primary border-primary/20";
+        return "bg-secondary/10 text-secondary border-secondary/20";
       case "draft":
         return "bg-muted text-muted-foreground border-border";
       case "completed":
@@ -87,7 +81,7 @@ export default function ExperimentDetailPage({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-purple-50">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -98,7 +92,7 @@ export default function ExperimentDetailPage({
             </Link>
           </Button>
           <Link href="/" className="inline-flex items-center gap-2">
-            <FlaskConical className="w-6 h-6 text-primary" />
+            <FlaskConical className="w-6 h-6 text-secondary" />
             <span className="font-bold text-foreground">Self-Lab</span>
           </Link>
         </div>
@@ -216,7 +210,7 @@ export default function ExperimentDetailPage({
         {MOCK_EXPERIMENT.status === "active" && (
           <Card className="p-6 bg-card/80 backdrop-blur border-border/50 mb-8">
             <h3 className="text-lg font-semibold text-foreground mb-4">
-              Add Today's Check-in
+              Add Today&apos;s Check-in
             </h3>
             <Textarea
               value={checkInNote}

@@ -2,6 +2,9 @@ import type React from "react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Suspense } from "react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -44,13 +47,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
-      >
-        {children}
-        <Analytics />
-      </body>
-    </html>
+    <ClerkProvider
+      // Configure custom routes for session tasks
+      // Reference: https://clerk.com/docs/nextjs/reference/components/authentication/task-reset-password
+      taskUrls={{
+        "reset-password": "/reset-password",
+      }}
+      // Configure waitlist URL for waitlist functionality
+      // Reference: https://clerk.com/docs/nextjs/reference/components/authentication/waitlist
+      waitlistUrl="/waitlist"
+    >
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+        >
+          <Suspense
+            fallback={
+              <div className="min-h-screen flex items-center justify-center">
+                Loading...
+              </div>
+            }
+          >
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </Suspense>
+          <Analytics />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

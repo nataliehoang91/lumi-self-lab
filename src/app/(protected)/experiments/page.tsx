@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { FlaskConical, Plus, Calendar, Clock, ArrowRight } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { FlaskConical, Plus, Calendar, Clock, ArrowRight } from "lucide-react";
 
 // Mock data - in a real app, this would come from a database
 const MOCK_EXPERIMENTS = [
@@ -27,7 +27,8 @@ const MOCK_EXPERIMENTS = [
     frequency: "daily",
     daysCompleted: 3,
     startDate: "2026-01-08",
-    hypothesis: "I feel more confident in one-on-one conversations than group settings",
+    hypothesis:
+      "I feel more confident in one-on-one conversations than group settings",
   },
   {
     id: "3",
@@ -37,7 +38,8 @@ const MOCK_EXPERIMENTS = [
     frequency: "daily",
     daysCompleted: 0,
     startDate: null,
-    hypothesis: "I keep my commitments most of the time, but struggle with spontaneous promises",
+    hypothesis:
+      "I keep my commitments most of the time, but struggle with spontaneous promises",
   },
   {
     id: "4",
@@ -47,43 +49,46 @@ const MOCK_EXPERIMENTS = [
     frequency: "daily",
     daysCompleted: 10,
     startDate: "2025-12-20",
-    hypothesis: "I make better decisions when I take time to reflect rather than rushing",
+    hypothesis:
+      "I make better decisions when I take time to reflect rather than rushing",
   },
-]
+];
 
-type ExperimentStatus = "all" | "active" | "draft" | "completed"
+type ExperimentStatus = "all" | "active" | "draft" | "completed";
 
 export default function ExperimentsPage() {
-  const [filter, setFilter] = useState<ExperimentStatus>("all")
+  const [filter, setFilter] = useState<ExperimentStatus>("all");
 
   const filteredExperiments =
-    filter === "all" ? MOCK_EXPERIMENTS : MOCK_EXPERIMENTS.filter((exp) => exp.status === filter)
+    filter === "all"
+      ? MOCK_EXPERIMENTS
+      : MOCK_EXPERIMENTS.filter((exp) => exp.status === filter);
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-primary/10 text-primary border-primary/20"
+        return "bg-secondary/10 text-secondary border-secondary/20";
       case "draft":
-        return "bg-muted text-muted-foreground border-border"
+        return "bg-muted text-muted-foreground border-border";
       case "completed":
-        return "bg-accent/10 text-accent border-accent/20"
+        return "bg-accent/10 text-accent border-accent/20";
       default:
-        return "bg-muted text-muted-foreground"
+        return "bg-muted text-muted-foreground";
     }
-  }
+  };
 
   const getProgressPercentage = (completed: number, total: number) => {
-    return Math.round((completed / total) * 100)
-  }
+    return Math.round((completed / total) * 100);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-purple-50">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Link href="/" className="inline-flex items-center gap-2">
-              <FlaskConical className="w-8 h-8 text-primary" />
+              <FlaskConical className="w-8 h-8 text-secondary" />
               <h1 className="text-3xl font-bold text-foreground">Self-Lab</h1>
             </Link>
           </div>
@@ -97,39 +102,54 @@ export default function ExperimentsPage() {
 
         {/* Page Title */}
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-foreground mb-2">Your Experiments</h2>
-          <p className="text-muted-foreground text-lg">Track your journey of self-discovery and personal insights</p>
+          <h2 className="text-4xl font-bold text-foreground mb-2">
+            Your Experiments
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            Track your journey of self-discovery and personal insights
+          </p>
         </div>
 
         {/* Filters */}
         <div className="flex gap-2 mb-8">
           <Button
-            variant={filter === "all" ? "default" : "outline"}
+            variant={filter === "all" ? "secondary" : "outline"}
             onClick={() => setFilter("all")}
-            className={filter !== "all" ? "bg-transparent" : ""}
+            className={`${
+              filter !== "all" ? "bg-transparent" : ""
+            } hover:border-secondary`}
           >
             All ({MOCK_EXPERIMENTS.length})
           </Button>
           <Button
-            variant={filter === "active" ? "default" : "outline"}
+            variant={filter === "active" ? "secondary" : "outline"}
             onClick={() => setFilter("active")}
-            className={filter !== "active" ? "bg-transparent" : ""}
+            className={`${
+              filter !== "active" ? "bg-transparent" : ""
+            } hover:border-secondary`}
           >
-            Active ({MOCK_EXPERIMENTS.filter((e) => e.status === "active").length})
+            Active (
+            {MOCK_EXPERIMENTS.filter((e) => e.status === "active").length})
           </Button>
           <Button
-            variant={filter === "draft" ? "default" : "outline"}
+            variant={filter === "draft" ? "secondary" : "outline"}
             onClick={() => setFilter("draft")}
-            className={filter !== "draft" ? "bg-transparent" : ""}
+            className={`${
+              filter !== "draft" ? "bg-transparent" : ""
+            } hover:border-secondary`}
           >
-            Drafts ({MOCK_EXPERIMENTS.filter((e) => e.status === "draft").length})
+            Drafts (
+            {MOCK_EXPERIMENTS.filter((e) => e.status === "draft").length})
           </Button>
           <Button
-            variant={filter === "completed" ? "default" : "outline"}
+            variant={filter === "completed" ? "secondary" : "outline"}
             onClick={() => setFilter("completed")}
-            className={filter !== "completed" ? "bg-transparent" : ""}
+            className={`${
+              filter !== "completed" ? "bg-transparent" : ""
+            } hover:border-secondary`}
           >
-            Completed ({MOCK_EXPERIMENTS.filter((e) => e.status === "completed").length})
+            Completed (
+            {MOCK_EXPERIMENTS.filter((e) => e.status === "completed").length})
           </Button>
         </div>
 
@@ -142,14 +162,21 @@ export default function ExperimentsPage() {
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <Badge className={`mb-3 ${getStatusColor(experiment.status)}`}>
-                    {experiment.status.charAt(0).toUpperCase() + experiment.status.slice(1)}
+                  <Badge
+                    className={`mb-3 ${getStatusColor(experiment.status)}`}
+                  >
+                    {experiment.status.charAt(0).toUpperCase() +
+                      experiment.status.slice(1)}
                   </Badge>
-                  <h3 className="text-xl font-semibold text-foreground mb-2">{experiment.title}</h3>
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
+                    {experiment.title}
+                  </h3>
                 </div>
               </div>
 
-              <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-2">{experiment.hypothesis}</p>
+              <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-2">
+                {experiment.hypothesis}
+              </p>
 
               <div className="space-y-3 mb-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -158,7 +185,9 @@ export default function ExperimentsPage() {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Clock className="w-4 h-4" />
-                  <span className="capitalize">{experiment.frequency} check-ins</span>
+                  <span className="capitalize">
+                    {experiment.frequency} check-ins
+                  </span>
                 </div>
               </div>
 
@@ -172,15 +201,24 @@ export default function ExperimentsPage() {
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-primary transition-all"
-                      style={{ width: `${getProgressPercentage(experiment.daysCompleted, experiment.duration)}%` }}
+                      className="h-full bg-secondary transition-all"
+                      style={{
+                        width: `${getProgressPercentage(
+                          experiment.daysCompleted,
+                          experiment.duration
+                        )}%`,
+                      }}
                     />
                   </div>
                 </div>
               )}
 
               <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 bg-transparent" asChild>
+                <Button
+                  variant="outline"
+                  className="flex-1 bg-transparent hover:border-secondary"
+                  asChild
+                >
                   <Link href={`/experiments/${experiment.id}`}>
                     View Details
                     <ArrowRight className="w-4 h-4 ml-2" />
@@ -198,7 +236,9 @@ export default function ExperimentsPage() {
 
         {filteredExperiments.length === 0 && (
           <Card className="p-12 text-center bg-card/80 backdrop-blur border-border/50">
-            <p className="text-muted-foreground mb-4">No experiments found in this category</p>
+            <p className="text-muted-foreground mb-4">
+              No experiments found in this category
+            </p>
             <Button asChild>
               <Link href="/dashboard">Create Your First Experiment</Link>
             </Button>
@@ -206,5 +246,5 @@ export default function ExperimentsPage() {
         )}
       </div>
     </div>
-  )
+  );
 }

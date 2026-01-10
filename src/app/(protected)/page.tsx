@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
 
-export default function LandingPage() {
+export default function ProtectedHomePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-12 md:py-20 max-w-md md:max-w-2xl">
         {/* Header */}
         <header className="mb-12 md:mb-16 text-center">
@@ -23,14 +23,14 @@ export default function LandingPage() {
           </p>
         </header>
 
-        {/* Login/Auth Section */}
+        {/* Hero Section */}
         <div className="flex flex-col gap-3 mb-8">
           <Button
             size="lg"
             asChild
             className="w-full text-lg py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            <Link href="/sign-in">Sign In</Link>
+            <Link href="/dashboard">Start New Experiment</Link>
           </Button>
           <Button
             size="lg"
@@ -38,7 +38,7 @@ export default function LandingPage() {
             asChild
             className="w-full text-lg py-6 rounded-2xl bg-card/80 backdrop-blur border-2 hover:bg-card transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            <Link href="/sign-up">Create Account</Link>
+            <Link href="/experiments">View Past Reflections</Link>
           </Button>
         </div>
 
@@ -49,7 +49,7 @@ export default function LandingPage() {
               A Space for Reflection
             </h3>
             <p className="text-muted-foreground leading-relaxed">
-              Self-Lab is not a therapy app or a to-do list. It&apos;s a calm,
+              Self-Lab is not a therapy app or a to-do list. It's a calm,
               private space to slow down and observe your thoughts, emotions,
               and life patterns.
             </p>
