@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Experiment {
+  id             String   @id @default(uuid())
+  userId         String
+  title          String
+  whyMatters     String?
+  hypothesis     String?
+  durationDays   Int
+  frequency      String
+  faithEnabled   Boolean  @default(false)
+  scriptureNotes String?
+  status         String   @default("draft")
+  createdAt      DateTime @default(now())
+  startedAt      DateTime?
+  completedAt    DateTime?
+
+  fields         ExperimentField[]
+  checkins       ExperimentCheckin[]
+}
+
+model ExperimentField {
+  id            String   @id @default(uuid())
+  experiment    Experiment @relation(fields: [experimentId], references: [id])
+  experimentId  String
+  label         String
+  type          String
+  required      Boolean  @default(false)
+  order         Int
+
+  textType      String?  // short | long
+  emojiCount    Int?
+  minValue      Int?
+  maxValue      Int?
+  selectOptions String[]
+
+  responses     ExperimentCheckinResponse[]
+}
+
+model ExperimentCheckin {
+  id           String   @id @default(uuid())
+  experiment   Experiment @relation(fields: [experimentId], references: [id])
+  experimentId String
+  userId       String
+  checkinDate  DateTime
+  aiSummary    String?
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  responses    ExperimentCheckinResponse[]
+}
+
+model ExperimentCheckinResponse {
+  id          String   @id @default(uuid())
+  checkin     ExperimentCheckin @relation(fields: [checkinId], references: [id])
+  checkinId   String
+  field       ExperimentField   @relation(fields: [fieldId], references: [id])
+  fieldId     String
+
+  responseText   String?
+  responseNumber Int?
+  responseEmoji  String?
+  responseBool   Boolean?
+  selectedOption String?
+  aiFeedback     String?
+}
