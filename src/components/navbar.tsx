@@ -43,6 +43,8 @@ export function Navbar() {
   const navLinks = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/experiments", label: "Experiments" },
+    { href: "/templates", label: "Templates" },
+    { href: "/insights", label: "Insights" },
   ];
 
   return (

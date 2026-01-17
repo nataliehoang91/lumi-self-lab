@@ -1,4 +1,10 @@
+"use client";
+
 import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { Container } from "@/components/ui/container";
+import { GeneralErrorFallback } from "@/components/GeneralErrorFallback";
+import { ExperimentsSkeleton } from "@/components/ExperimentsSkeleton";
 
 export default function ExperimentsLayout({
   children,
@@ -6,10 +12,12 @@ export default function ExperimentsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="min-h-screen">
-        <div className="container mx-auto px-4 py-8 max-w-4xl">{children}</div>
-      </div>
-    </Suspense>
+    <Container maxWidth="7xl" className="min-h-screen mb-8 md:px-6 md:py-8">
+      <ErrorBoundary
+        fallbackRender={(props) => <GeneralErrorFallback {...props} />}
+      >
+        <Suspense fallback={<ExperimentsSkeleton />}>{children}</Suspense>
+      </ErrorBoundary>
+    </Container>
   );
 }

@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../node_modules/.prisma/client"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -14,68 +7,119 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+////////////////////////////////////////////////////////////
+// EXPERIMENT (top-level object)
+////////////////////////////////////////////////////////////
 
 model Experiment {
-  id             String   @id @default(uuid())
-  userId         String
-  title          String
-  whyMatters     String?
-  hypothesis     String?
-  durationDays   Int
-  frequency      String
-  faithEnabled   Boolean  @default(false)
-  scriptureNotes String?
-  status         String   @default("draft")
-  createdAt      DateTime @default(now())
-  startedAt      DateTime?
-  completedAt    DateTime?
+  id              String   @id @default(cuid())
+  clerkUserId     String   // from Clerk: auth().userId
 
-  fields         ExperimentField[]
-  checkins       ExperimentCheckin[]
+  title           String
+  whyMatters      String?
+  hypothesis      String?
+
+  durationDays    Int
+  frequency       String   // daily | every-2-days | weekly
+
+  faithEnabled    Boolean  @default(false)
+  scriptureNotes  String?
+
+  status          String   @default("draft") // draft | active | completed
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  startedAt       DateTime?
+  completedAt     DateTime?
+
+  fields          ExperimentField[]
+  checkIns        ExperimentCheckIn[]
+
+  @@index([clerkUserId])
 }
 
+////////////////////////////////////////////////////////////
+// FIELD DEFINITIONS (WHAT USER DESIGNS IN UI)
+////////////////////////////////////////////////////////////
+
 model ExperimentField {
-  id            String   @id @default(uuid())
-  experiment    Experiment @relation(fields: [experimentId], references: [id])
+  id            String   @id @default(cuid())
   experimentId  String
+  experiment    Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+
   label         String
-  type          String
+  type          String   // text | number | select | emoji | yesno
   required      Boolean  @default(false)
   order         Int
 
+  // ---- text ----
   textType      String?  // short | long
-  emojiCount    Int?
+
+  // ---- number ----
   minValue      Int?
   maxValue      Int?
-  selectOptions String[]
 
-  responses     ExperimentCheckinResponse[]
+  // ---- emoji ----
+  emojiCount    Int?     // 3 | 5 | 7
+
+  // ---- select ----
+  selectOptions String[] // empty array if not select
+
+  responses     ExperimentFieldResponse[]
+
+  @@index([experimentId])
 }
 
-model ExperimentCheckin {
-  id           String   @id @default(uuid())
-  experiment   Experiment @relation(fields: [experimentId], references: [id])
-  experimentId String
-  userId       String
-  checkinDate  DateTime
-  aiSummary    String?
-  notes        String?
-  createdAt    DateTime @default(now())
+////////////////////////////////////////////////////////////
+// DAILY CHECK-IN (ONE PER DAY PER EXPERIMENT)
+////////////////////////////////////////////////////////////
 
-  responses    ExperimentCheckinResponse[]
+model ExperimentCheckIn {
+  id            String   @id @default(cuid())
+  experimentId  String
+  experiment    Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+
+  clerkUserId   String
+  checkInDate   DateTime
+
+  notes         String?
+  aiSummary     String?
+
+  createdAt     DateTime @default(now())
+
+  responses     ExperimentFieldResponse[]
+
+  @@index([experimentId])
+  @@index([clerkUserId])
 }
 
-model ExperimentCheckinResponse {
-  id          String   @id @default(uuid())
-  checkin     ExperimentCheckin @relation(fields: [checkinId], references: [id])
-  checkinId   String
-  field       ExperimentField   @relation(fields: [fieldId], references: [id])
-  fieldId     String
+////////////////////////////////////////////////////////////
+// FIELD RESPONSES (ONE PER FIELD PER CHECK-IN)
+////////////////////////////////////////////////////////////
 
-  responseText   String?
-  responseNumber Int?
-  responseEmoji  String?
-  responseBool   Boolean?
-  selectedOption String?
-  aiFeedback     String?
+model ExperimentFieldResponse {
+  id            String   @id @default(cuid())
+
+  checkInId     String
+  checkIn       ExperimentCheckIn @relation(fields: [checkInId], references: [id], onDelete: Cascade)
+
+  fieldId       String
+  field         ExperimentField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+
+  // ---- response values (only one used depending on field.type)
+  // text: uses responseText
+  // number: uses responseNumber (minValue to maxValue)
+  // emoji: uses responseNumber (1 to emojiCount, where 1=lowest, emojiCount=highest)
+  // yesno: uses responseBool
+  // select: uses selectedOption
+  responseText    String?
+  responseNumber  Int?      // For number scale OR emoji ranking (1-based)
+  responseBool    Boolean?  // For yes/no
+  selectedOption  String?   // For select dropdown
+
+  // ---- future AI
+  aiFeedback      String?
+
+  @@index([checkInId])
+  @@index([fieldId])
 }
