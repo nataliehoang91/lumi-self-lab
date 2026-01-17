@@ -185,6 +185,16 @@ export function CustomFieldBuilder({
     }
   };
 
+  /**
+   * Helper function to get emoji array based on count
+   */
+  const getEmojiArray = (count: number): string[] => {
+    if (count === 3) return ["😔", "😐", "😊"];
+    if (count === 5) return ["😔", "😕", "😐", "😊", "😄"];
+    if (count === 7) return ["😫", "😔", "😕", "😐", "😊", "😄", "🤩"];
+    return ["😐"]; // fallback
+  };
+
   return (
     <div className="space-y-3">
       {/* Field List */}
@@ -344,28 +354,50 @@ export function CustomFieldBuilder({
             )}
 
             {newField.type === "emoji" && (
-              <div>
-                <Label className="text-sm mb-2 block">Emoji Scale Levels</Label>
-                <Select
-                  value={newField.emojiCount?.toString()}
-                  onValueChange={(value) =>
-                    setNewField({
-                      ...newField,
-                      emojiCount: Number.parseInt(value),
-                    })
-                  }
-                >
-                  <SelectTrigger className="rounded-xl">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="3">3 levels (e.g., 😔 😐 😊)</SelectItem>
-                    <SelectItem value="5">
-                      5 levels (e.g., 😔 😕 😐 😊 😄)
-                    </SelectItem>
-                    <SelectItem value="7">7 levels (More granular)</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm mb-2 block">Emoji Scale Levels</Label>
+                  <Select
+                    value={newField.emojiCount?.toString()}
+                    onValueChange={(value) =>
+                      setNewField({
+                        ...newField,
+                        emojiCount: Number.parseInt(value),
+                      })
+                    }
+                  >
+                    <SelectTrigger className="rounded-xl">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="3">3 levels (Simple)</SelectItem>
+                      <SelectItem value="5">5 levels (Balanced)</SelectItem>
+                      <SelectItem value="7">7 levels (Detailed)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Live emoji preview */}
+                <div className="p-4 rounded-xl bg-background border border-border/50">
+                  <p className="text-xs text-muted-foreground mb-3 text-center">
+                    During check-in, you&apos;ll select one emoji:
+                  </p>
+                  <div className="flex items-center justify-center gap-2">
+                    {getEmojiArray(newField.emojiCount || 5).map((emoji, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        className="w-10 h-10 rounded-xl border-2 border-transparent hover:border-primary/50 hover:bg-primary/10 flex items-center justify-center text-2xl transition-all hover:scale-110"
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex justify-between text-xs text-muted-foreground mt-2 px-1">
+                    <span>Low</span>
+                    <span>High</span>
+                  </div>
+                </div>
               </div>
             )}
 
