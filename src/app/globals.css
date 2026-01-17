@@ -155,7 +155,7 @@
   .dark body {
     /* Dark mode: solid slate background - override gradient */
     background-image: none;
-    background-color: rgb(15 23 42); /* slate-900 */
+    background-color: rgb(4, 9, 20); /* slate-900 */
   }
 
   .pile {

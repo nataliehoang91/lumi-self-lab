@@ -34,8 +34,16 @@ export default async function ExperimentsPage() {
     orderBy: { updatedAt: "desc" },
   });
 
+  // Sort experiments: active status first, then by updatedAt desc
+  const sortedExperiments = [...experiments].sort((a, b) => {
+    if (a.status === "active" && b.status !== "active") return -1;
+    if (a.status !== "active" && b.status === "active") return 1;
+    // If both have same status priority, keep original order (updatedAt desc)
+    return 0;
+  });
+
   // Transform database format to UI format
-  const uiExperiments = experiments.map((exp) => {
+  const uiExperiments = sortedExperiments.map((exp) => {
     // Calculate daysCompleted from total check-ins count
     const daysCompleted = exp._count.checkIns;
 

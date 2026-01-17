@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -25,7 +26,9 @@ interface ExperimentsListProps {
 }
 
 export function ExperimentsList({ experiments }: ExperimentsListProps) {
+  const router = useRouter();
   const [filter, setFilter] = useState<ExperimentStatus>("all");
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   const filteredExperiments =
     filter === "all"
@@ -35,11 +38,11 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-secondary/10 text-secondary border-secondary/20";
+        return "bg-sky-50 text-sky-600 border-sky-100 dark:bg-sky-950/30 dark:text-sky-400 dark:border-sky-900";
       case "draft":
         return "bg-muted text-muted-foreground border-border";
       case "completed":
-        return "bg-accent/10 text-accent border-accent/20";
+        return "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900";
       default:
         return "bg-muted text-muted-foreground";
     }
@@ -47,6 +50,47 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
 
   const getProgressPercentage = (completed: number, total: number) => {
     return Math.round((completed / total) * 100);
+  };
+
+  /**
+   * Start an experiment (sets status to active and startedAt to today)
+   */
+  const handleStart = async (experimentId: string) => {
+    setUpdatingId(experimentId);
+    try {
+      const response = await fetch(`/api/experiments/${experimentId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          status: "active",
+          startedAt: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to start experiment");
+      }
+
+      router.refresh();
+    } catch (error) {
+      console.error("Error starting experiment:", error);
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  /**
+   * Check if experiment is active but not started yet
+   */
+  const isActiveNotStarted = (experiment: UIExperiment) => {
+    return experiment.status === "active" && !experiment.startDate;
+  };
+
+  /**
+   * Check if experiment should show Start button
+   */
+  const shouldShowStart = (experiment: UIExperiment) => {
+    return experiment.status === "draft" || isActiveNotStarted(experiment);
   };
 
   return (
@@ -126,7 +170,8 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
               </div>
             </div>
 
-            {experiment.status === "active" && (
+            {/* Progress Bar - Only show for active experiments that have started */}
+            {experiment.status === "active" && experiment.startDate && (
               <div className="mb-4">
                 <div className="flex justify-between text-sm mb-2">
                   <span className="text-muted-foreground">Progress</span>
@@ -136,7 +181,7 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-secondary transition-all"
+                    className="h-full bg-gradient-to-r from-primary/80 to-primary/60 transition-all"
                     style={{
                       width: `${getProgressPercentage(
                         experiment.daysCompleted,
@@ -148,6 +193,7 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
               </div>
             )}
 
+            {/* Action Buttons */}
             <div className="flex gap-2">
               <Button
                 variant="outline"
@@ -159,9 +205,13 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
-              {experiment.status === "draft" && (
-                <Button className="flex-1" asChild>
-                  <Link href="/dashboard">Start</Link>
+              {shouldShowStart(experiment) && (
+                <Button
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                  onClick={() => handleStart(experiment.id)}
+                  disabled={updatingId === experiment.id}
+                >
+                  {updatingId === experiment.id ? "Starting..." : "Start"}
                 </Button>
               )}
             </div>

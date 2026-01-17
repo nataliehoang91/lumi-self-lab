@@ -53,7 +53,15 @@ export async function GET(request: Request) {
       orderBy: { updatedAt: "desc" },
     });
 
-    return NextResponse.json(experiments);
+    // Sort experiments: active status first, then by updatedAt desc
+    const sortedExperiments = [...experiments].sort((a, b) => {
+      if (a.status === "active" && b.status !== "active") return -1;
+      if (a.status !== "active" && b.status === "active") return 1;
+      // If both have same status priority, keep original order (updatedAt desc)
+      return 0;
+    });
+
+    return NextResponse.json(sortedExperiments);
   } catch (error) {
     console.error("Error fetching experiments:", error);
     return NextResponse.json(

@@ -22,9 +22,21 @@ import {
   Book,
   Pencil,
   Plus,
+  Eye,
 } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { CheckInForm } from "@/components/CheckInForm";
-import type { UIExperimentDetail, UICheckIn, CustomField } from "@/types";
+import type {
+  UIExperimentDetail,
+  CustomField,
+  ExperimentStatus,
+} from "@/types";
 
 /**
  * Get emoji based on rank (1-based) and emoji count
@@ -82,15 +94,17 @@ export function ExperimentDetailClient({
 }: ExperimentDetailClientProps) {
   const router = useRouter();
   const [isCheckInDialogOpen, setIsCheckInDialogOpen] = useState(false);
+  const [isPreviewDialogOpen, setIsPreviewDialogOpen] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-secondary/10 text-secondary border-secondary/20";
+        return "bg-sky-50 text-sky-600 border-sky-100 dark:bg-sky-950/30 dark:text-sky-400 dark:border-sky-900";
       case "draft":
         return "bg-muted text-muted-foreground border-border";
       case "completed":
-        return "bg-accent/10 text-accent border-accent/20";
+        return "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900";
       default:
         return "bg-muted text-muted-foreground";
     }
@@ -113,6 +127,81 @@ export function ExperimentDetailClient({
   const handleCheckInSuccess = () => {
     setIsCheckInDialogOpen(false); // Close dialog
     router.refresh(); // Refresh to get updated check-ins
+  };
+
+  /**
+   * Update experiment status
+   */
+  const updateExperimentStatus = async (
+    status: string,
+    startedAt?: string | null,
+    completedAt?: string | null
+  ) => {
+    setIsUpdating(true);
+    try {
+      const updateData: {
+        status: string;
+        startedAt?: string | null;
+        completedAt?: string | null;
+      } = { status };
+      if (startedAt !== undefined) updateData.startedAt = startedAt;
+      if (completedAt !== undefined) updateData.completedAt = completedAt;
+
+      const response = await fetch(`/api/experiments/${experiment.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update experiment status");
+      }
+
+      router.refresh();
+    } catch (error) {
+      console.error("Error updating experiment status:", error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  /**
+   * Start experiment (sets status to active and startedAt to today)
+   */
+  const handleStart = () => {
+    updateExperimentStatus("active", new Date().toISOString(), null);
+  };
+
+  /**
+   * Publish draft (sets status to active but doesn't set startedAt)
+   */
+  const handlePublish = () => {
+    updateExperimentStatus("active", null, null);
+  };
+
+  /**
+   * Check if experiment is active but not started yet
+   */
+  const isActiveNotStarted = () => {
+    return experiment.status === "active" && !experiment.startDate;
+  };
+
+  /**
+   * Handle status change from dropdown
+   */
+  const handleStatusChange = (newStatus: ExperimentStatus) => {
+    // If changing to active and not started, set startedAt
+    if (newStatus === "active" && !experiment.startDate) {
+      updateExperimentStatus(newStatus, new Date().toISOString(), null);
+    }
+    // If changing to completed, set completedAt
+    else if (newStatus === "completed") {
+      updateExperimentStatus(newStatus, null, new Date().toISOString());
+    }
+    // Otherwise just update status
+    else {
+      updateExperimentStatus(newStatus, null, null);
+    }
   };
 
   /**
@@ -229,10 +318,27 @@ export function ExperimentDetailClient({
 
         {/* Experiment Header */}
         <div className="mb-8">
-          <Badge className={`mb-3 ${getStatusColor(experiment.status)}`}>
-            {experiment.status.charAt(0).toUpperCase() +
-              experiment.status.slice(1)}
-          </Badge>
+          <div className="flex items-center gap-3 mb-3">
+            <Badge className={getStatusColor(experiment.status)}>
+              {experiment.status.charAt(0).toUpperCase() +
+                experiment.status.slice(1)}
+            </Badge>
+            {/* Status Selector */}
+            <Select
+              value={experiment.status}
+              onValueChange={handleStatusChange}
+              disabled={isUpdating}
+            >
+              <SelectTrigger className="w-[140px] h-7 text-xs rounded-xl border-border/50">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <h1 className="text-4xl font-bold text-foreground mb-4">
             {experiment.title}
           </h1>
@@ -256,8 +362,8 @@ export function ExperimentDetailClient({
             </div>
           </div>
 
-          {/* Progress Bar */}
-          {experiment.status === "active" && (
+          {/* Progress Bar - Only show for active experiments that have started */}
+          {experiment.status === "active" && experiment.startDate && (
             <div>
               <div className="flex justify-between text-sm mb-2">
                 <span className="text-muted-foreground">Progress</span>
@@ -272,7 +378,7 @@ export function ExperimentDetailClient({
               </div>
               <div className="h-3 bg-muted rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-secondary transition-all"
+                  className="h-full bg-gradient-to-r from-primary/80 to-primary/60 transition-all"
                   style={{
                     width: `${getProgressPercentage(
                       experiment.daysCompleted,
@@ -330,52 +436,80 @@ export function ExperimentDetailClient({
             </Card>
           )}
 
-          {/* Experiment Design Preview */}
+          {/* Preview Experiment Template Button */}
           {experiment.fields.length > 0 && (
-            <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Pencil className="w-4 h-4 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground">
-                  Experiment Design
-                </h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                This is what your daily check-in will look like:
-              </p>
-              <div className="space-y-4">
-                {experiment.fields.map((field) => (
-                  <div
-                    key={field.id}
-                    className="p-4 rounded-xl bg-muted/30 border border-border/30"
-                  >
-                    <label className="text-sm font-medium text-foreground mb-2 block">
-                      {field.label}
-                      {field.required && (
-                        <span className="text-primary ml-1">*</span>
-                      )}
-                    </label>
-                    {renderFieldPreview(field)}
-                  </div>
-                ))}
-              </div>
-            </Card>
+            <Button
+              variant="outline"
+              onClick={() => setIsPreviewDialogOpen(true)}
+              className="w-full py-6 rounded-2xl border-2 border-dashed border-primary/30 hover:border-primary hover:bg-primary/5 transition-all hover:scale-[1.02] bg-transparent"
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Preview Experiment Template
+            </Button>
           )}
         </div>
 
-        {/* Check-In Button */}
-        {experiment.status === "active" && experiment.fields.length > 0 && (
-          <div className="mb-8">
+        {/* Status Action Buttons */}
+        <div className="mb-8 space-y-3">
+          {/* Draft: Show Publish and Start buttons */}
+          {experiment.status === "draft" && (
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={handlePublish}
+                disabled={isUpdating}
+                className="flex-1 py-6 rounded-2xl"
+              >
+                Publish
+              </Button>
+              <Button
+                onClick={handleStart}
+                disabled={isUpdating}
+                className="flex-1 py-6 rounded-2xl bg-primary hover:bg-primary/90"
+              >
+                {isUpdating ? "Starting..." : "Start"}
+              </Button>
+            </div>
+          )}
+
+          {/* Active but not started: Show Start button */}
+          {isActiveNotStarted() && (
             <Button
-              onClick={() => setIsCheckInDialogOpen(true)}
+              onClick={handleStart}
+              disabled={isUpdating}
               className="w-full py-6 rounded-3xl bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
-              <Plus className="w-5 h-5 mr-2" />
-              Check-in
+              {isUpdating ? "Starting..." : "Start Experiment"}
             </Button>
-          </div>
-        )}
+          )}
+
+          {/* Active and started: Show Check-in button */}
+          {experiment.status === "active" &&
+            experiment.startDate &&
+            experiment.fields.length > 0 && (
+              <Button
+                onClick={() => setIsCheckInDialogOpen(true)}
+                className="w-full py-6 rounded-3xl bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Plus className="w-5 h-5 mr-2" />
+                Check-in
+              </Button>
+            )}
+
+          {/* Completed: Show Results button */}
+          {experiment.status === "completed" && (
+            <Button
+              variant="outline"
+              className="w-full py-6 rounded-2xl"
+              onClick={() => {
+                // TODO: Navigate to results page or show results in dialog
+                console.log("Show results");
+              }}
+            >
+              View Results
+            </Button>
+          )}
+        </div>
 
         {/* Check-In Dialog */}
         <Dialog
@@ -396,6 +530,40 @@ export function ExperimentDetailClient({
               hideCard={true}
               hideTitle={true}
             />
+          </DialogContent>
+        </Dialog>
+
+        {/* Preview Experiment Template Dialog */}
+        <Dialog
+          open={isPreviewDialogOpen}
+          onOpenChange={setIsPreviewDialogOpen}
+        >
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Pencil className="w-5 h-5 text-primary" />
+                Experiment Design
+              </DialogTitle>
+              <DialogDescription>
+                This is what your daily check-in will look like:
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 mt-4">
+              {experiment.fields.map((field) => (
+                <div
+                  key={field.id}
+                  className="p-4 rounded-xl bg-muted/30 border border-border/30"
+                >
+                  <label className="text-sm font-medium text-foreground mb-2 block">
+                    {field.label}
+                    {field.required && (
+                      <span className="text-primary ml-1">*</span>
+                    )}
+                  </label>
+                  {renderFieldPreview(field)}
+                </div>
+              ))}
+            </div>
           </DialogContent>
         </Dialog>
 
