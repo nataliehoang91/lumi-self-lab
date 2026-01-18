@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
@@ -31,6 +31,10 @@ export async function GET() {
       }
     }
 
+    // Get email from Clerk
+    const clerkUser = await clerkClient.users.getUser(userId);
+    const email = clerkUser.emailAddresses.find(e => e.id === clerkUser.primaryEmailAddressId)?.emailAddress || null;
+
     // Get or create user
     let user = await prisma.user.findUnique({
       where: { clerkUserId: userId },
@@ -48,8 +52,22 @@ export async function GET() {
       user = await prisma.user.create({
         data: {
           clerkUserId: userId,
+          email: email,
           accountType: "individual",
         },
+        include: {
+          organisationMemberships: {
+            include: {
+              organisation: true,
+            },
+          },
+        },
+      });
+    } else if (user.email !== email) {
+      // Update email if it changed in Clerk
+      user = await prisma.user.update({
+        where: { clerkUserId: userId },
+        data: { email: email },
         include: {
           organisationMemberships: {
             include: {
@@ -63,6 +81,7 @@ export async function GET() {
     return NextResponse.json({
       id: user.id,
       clerkUserId: user.clerkUserId,
+      email: user.email,
       accountType: user.accountType,
       upgradedAt: user.upgradedAt,
       organisations: user.organisationMemberships.map((membership) => ({

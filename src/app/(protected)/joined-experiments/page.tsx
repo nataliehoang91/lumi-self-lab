@@ -287,45 +287,59 @@ export default function OrgsPage() {
               Your Organizations ({filteredOrgs.length})
             </h2>
 
-            {filteredOrgs.map((org) => (
-              <Link key={org.id} href={`/joined-experiments/${org.id}`}>
-                <Card className="p-5 bg-card border-border/50 rounded-3xl hover:shadow-lg hover:shadow-primary/5 transition-all group cursor-pointer">
-                  <div className="flex items-center gap-5">
-                    <div
-                      className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${org.logoColor} flex items-center justify-center text-white font-bold text-xl flex-shrink-0`}
-                    >
-                      {org.name.charAt(0)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors truncate">
-                          {org.name}
-                        </h3>
-                        {getRoleBadge(org.role)}
+            {filteredOrgs.map((org) => {
+              // Check if user is manager in this org
+              const userRoleInOrg =
+                userData?.orgs?.find((o) => o.id === org.id)?.role || "member";
+              const isManager =
+                userRoleInOrg === "team_manager" ||
+                userRoleInOrg === "org_admin";
+
+              // Route managers to manager view, members to participant view
+              const orgDetailHref = isManager
+                ? `/manager/orgs/${org.id}`
+                : `/joined-experiments/${org.id}`;
+
+              return (
+                <Link key={org.id} href={orgDetailHref}>
+                  <Card className="p-5 bg-card border-border/50 rounded-3xl hover:shadow-lg hover:shadow-primary/5 transition-all group cursor-pointer">
+                    <div className="flex items-center gap-5">
+                      <div
+                        className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${org.logoColor} flex items-center justify-center text-white font-bold text-xl flex-shrink-0`}
+                      >
+                        {org.name.charAt(0)}
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
-                        {org.description}
-                      </p>
-                      <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Users className="w-3.5 h-3.5" />
-                          {org.teamsCount} teams
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Sparkles className="w-3.5 h-3.5" />
-                          {org.activeExperiments} active experiments
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3.5 h-3.5" />
-                          Joined {org.joinedDate}
-                        </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors truncate">
+                            {org.name}
+                          </h3>
+                          {getRoleBadge(org.role)}
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
+                          {org.description}
+                        </p>
+                        <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Users className="w-3.5 h-3.5" />
+                            {org.teamsCount} teams
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Sparkles className="w-3.5 h-3.5" />
+                            {org.activeExperiments} active experiments
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3.5 h-3.5" />
+                            Joined {org.joinedDate}
+                          </span>
+                        </div>
                       </div>
+                      <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                     </div>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
-                  </div>
-                </Card>
-              </Link>
-            ))}
+                  </Card>
+                </Link>
+              );
+            })}
 
             {filteredOrgs.length === 0 && (
               <Card className="p-8 bg-card/50 border-border/50 rounded-3xl text-center">

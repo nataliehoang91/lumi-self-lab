@@ -16,6 +16,7 @@ export type UserScenario = "individual" | "team-manager" | "org-admin" | null;
 type APIUser = {
   id: string;
   clerkUserId: string;
+  email: string | null;
   accountType: "individual" | "organisation";
   upgradedAt: string | null;
   organisations: Array<{
@@ -94,7 +95,7 @@ function transformAPIUserToUserData(apiUser: APIUser): UserData {
     }));
 
   return {
-    email: "", // TODO: Get from Clerk user object if needed
+    email: apiUser.email || "",
     name: "", // TODO: Get from Clerk user object if needed
     accountType: apiUser.accountType,
     hasManagerRole,

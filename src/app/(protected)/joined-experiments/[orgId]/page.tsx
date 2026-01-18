@@ -20,6 +20,7 @@ import {
   BarChart3,
   Play,
 } from "lucide-react"
+import { useUser, type UserData } from "@/hooks/user-context"
 
 // Mock org data
 const mockOrg = {
@@ -32,8 +33,11 @@ const mockOrg = {
   joinedDate: "Aug 15, 2025",
 }
 
-// Mock user's role in this org
-const mockUserRole = "member" as "member" | "team_manager" | "org_admin"
+// Helper to get user's role in org from userData
+function getUserRoleInOrg(orgId: string, userData: UserData | null): "member" | "team_manager" | "org_admin" {
+  const org = userData?.orgs?.find((o) => o.id === orgId)
+  return org?.role || "member"
+}
 
 // Mock teams user is part of
 const mockUserTeams = [
@@ -42,6 +46,7 @@ const mockUserTeams = [
 ]
 
 // Mock user's active experiments in this org
+// Note: org experiments should include orgId in the data
 const mockActiveExperiments = [
   {
     id: "exp-1",
@@ -51,6 +56,7 @@ const mockActiveExperiments = [
     progress: 67,
     daysLeft: 7,
     lastCheckIn: "Today",
+    orgId: "org-1", // Org experiment includes orgId
   },
   {
     id: "exp-2",
@@ -60,6 +66,7 @@ const mockActiveExperiments = [
     progress: 45,
     daysLeft: 12,
     lastCheckIn: "Yesterday",
+    orgId: "org-1", // Org experiment includes orgId
   },
 ]
 
@@ -99,7 +106,21 @@ const getScopeBadge = (scope: "personal" | "team" | "org") => {
 
 export default function OrgDetailPage({ params }: { params: Promise<{ orgId: string }> }) {
   const { orgId } = use(params)
+  const { userData } = useUser()
   const [activeTab, setActiveTab] = useState<"overview" | "teams" | "insights">("overview")
+  
+  // Get user's role in this org
+  const userRoleInOrg = getUserRoleInOrg(orgId, userData)
+  const isManager = userRoleInOrg === "team_manager" || userRoleInOrg === "org_admin"
+  
+  // Route to manager view if user is manager, otherwise participant view
+  const getExperimentLink = (expId: string, expOrgId?: string) => {
+    // If this is an org experiment (has orgId), include it in the URL
+    if (expOrgId) {
+      return `/experiments/${expId}?orgId=${expOrgId}`
+    }
+    return `/experiments/${expId}`
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-violet-50 dark:from-background dark:via-background dark:to-violet-950/20">
@@ -121,7 +142,7 @@ export default function OrgDetailPage({ params }: { params: Promise<{ orgId: str
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <h1 className="text-2xl font-bold text-foreground">{mockOrg.name}</h1>
-                {getRoleBadge(mockUserRole)}
+                {getRoleBadge(userRoleInOrg)}
               </div>
               <p className="text-muted-foreground mb-4">{mockOrg.description}</p>
               <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
@@ -176,7 +197,7 @@ export default function OrgDetailPage({ params }: { params: Promise<{ orgId: str
                 </h2>
                 <div className="grid gap-4">
                   {mockActiveExperiments.map((exp) => (
-                    <Link key={exp.id} href={`/experiments/${exp.id}`}>
+                    <Link key={exp.id} href={getExperimentLink(exp.id, exp.orgId)}>
                       <Card className="p-5 bg-card border-border/50 rounded-2xl hover:shadow-lg hover:shadow-primary/5 transition-all group cursor-pointer">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                           <div className="flex-1">

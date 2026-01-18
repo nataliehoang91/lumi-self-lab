@@ -73,15 +73,31 @@ export function Navbar() {
 
     if (!userData) return links; // Return default links if no user data
 
-    // ALL accounts see "Joined Experiments"
-    links.push({
-      href: "/joined-experiments",
-      label: "Joined Experiments",
-      badge:
-        userData.pendingAssignments > 0
-          ? userData.pendingAssignments
-          : undefined,
-    });
+    // Individual accounts see "Joined Experiments" and "Upgrade"
+    if (userData.accountType === "individual") {
+      links.push({
+        href: "/joined-experiments",
+        label: "Joined Experiments",
+        badge:
+          userData.pendingAssignments > 0
+            ? userData.pendingAssignments
+            : undefined,
+      });
+      links.push({ href: "/upgrade", label: "Upgrade", isUpgrade: true });
+    }
+
+    // Organisation accounts see "Joined Experiments" (for participant experiments)
+    // but not "Upgrade" (already upgraded)
+    if (userData.accountType === "organisation") {
+      links.push({
+        href: "/joined-experiments",
+        label: "Joined Experiments",
+        badge:
+          userData.pendingAssignments > 0
+            ? userData.pendingAssignments
+            : undefined,
+      });
+    }
 
     // Org admins also see "Organisations" - they manage organizations
     if (userData.isOrgAdmin) {
@@ -89,11 +105,6 @@ export function Navbar() {
         href: "/organisations",
         label: "Organisations",
       });
-    }
-
-    // Add upgrade button for non-managers
-    if (!userData.hasManagerRole) {
-      links.push({ href: "/upgrade", label: "Upgrade", isUpgrade: true });
     }
 
     return links;
@@ -111,7 +122,7 @@ export function Navbar() {
             className="flex items-center gap-2 transition-transform hover:scale-105"
           >
             <div className="flex size-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 text-primary">
-              <Sparkles className="size-5" />
+              <Sparkles className="size-5 text-secondary" />
             </div>
             <span className="text-lg font-semibold text-foreground">
               Self-Lab
