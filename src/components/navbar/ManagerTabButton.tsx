@@ -1,24 +1,32 @@
 "use client";
 
-import { useUser } from "@/hooks/use-user";
+import { useUser } from "@/hooks/user-context";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { BarChart3 } from "lucide-react";
+import { BarChart3, Loader2 } from "lucide-react";
 
 interface ManagerTabButtonProps {
   pathname: string;
 }
 
 export function ManagerTabButton({ pathname }: ManagerTabButtonProps) {
-  const { user, loading } = useUser();
+  const { userData, loading } = useUser();
 
-  // Show loading state or nothing while loading
+  // Show loading state
   if (loading) {
-    return null;
+    return (
+      <Button
+        variant="ghost"
+        className="rounded-3xl transition-all hover:scale-105 gap-2 text-violet-500"
+        disabled
+      >
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </Button>
+    );
   }
 
-  // Only show if user has organisation account
-  if (user?.accountType !== "organisation") {
+  // Only show if user has manager role or org admin
+  if (!userData?.hasManagerRole && !userData?.isOrgAdmin) {
     return (
       <Link href="/upgrade">
         <Button
@@ -32,7 +40,7 @@ export function ManagerTabButton({ pathname }: ManagerTabButtonProps) {
     );
   }
 
-  // Show Manager tab for organisation accounts
+  // Show Manager tab for users with manager role
   return (
     <Link href="/manager">
       <Button

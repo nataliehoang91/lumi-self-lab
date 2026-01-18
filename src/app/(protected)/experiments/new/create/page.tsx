@@ -8,7 +8,7 @@ import { Building2, Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-// Mock: Get organization name
+// Mock: Get organisation name
 function getOrgName(orgId: string | null) {
   if (!orgId) return null;
   const orgs: Record<string, string> = {
@@ -86,7 +86,7 @@ export default function CreateExperimentPage() {
                   Creating personal experiment
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  This experiment is completely private. You can link it to an organization later if you want.
+                  This experiment is completely private. You can link it to an organisation later if you want.
                 </p>
               </div>
             </div>

@@ -13,7 +13,7 @@ export default function NewExperimentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedLocation, setSelectedLocation] = useState<
-    "personal" | "organization" | null
+    "personal" | "organisation" | null
   >(null);
   const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);
   const [showPrivacyReminder, setShowPrivacyReminder] = useState(false);
@@ -24,25 +24,25 @@ export default function NewExperimentPage() {
   const assignedInviteId = searchParams.get("assigned");
   const orgIdFromParams = searchParams.get("org");
 
-  // Mock: User's organizations (replace with real data)
-  const userOrganizations = [
+  // Mock: User's organisations (replace with real data)
+  const userOrganisations = [
     { id: "org1", name: "Acme Corp" },
     { id: "org2", name: "Design Team" },
   ];
 
-  const handleLocationSelect = (location: "personal" | "organization") => {
+  const handleLocationSelect = (location: "personal" | "organisation") => {
     setSelectedLocation(location);
 
-    if (location === "organization") {
-      if (userOrganizations.length === 0) {
+    if (location === "organisation") {
+      if (userOrganisations.length === 0) {
         // No orgs - redirect to join
-        router.push("/organizations?join=true");
+        router.push("/organisations?join=true");
         return;
       }
 
-      if (userOrganizations.length === 1) {
+      if (userOrganisations.length === 1) {
         // Single org - auto-select
-        setSelectedOrgId(userOrganizations[0].id);
+        setSelectedOrgId(userOrganisations[0].id);
         setShowPrivacyReminder(true);
       } else {
         // Multiple orgs - show selector (handled in next step)
@@ -64,7 +64,7 @@ export default function NewExperimentPage() {
   ) => {
     const params = new URLSearchParams();
 
-    if (selectedLocation === "organization" && selectedOrgId) {
+    if (selectedLocation === "organisation" && selectedOrgId) {
       params.set("org", selectedOrgId);
     }
 
@@ -147,16 +147,16 @@ export default function NewExperimentPage() {
               <p className="text-xs text-muted-foreground">
                 This experiment is yours alone. Your check-ins, reflections, and
                 insights are completely private. You can always link it to an
-                organization later if you change your mind.
+                organisation later if you change your mind.
               </p>
             </button>
 
-            {/* Organization Option */}
-            {userOrganizations.length > 0 ? (
+            {/* Organisation Option */}
+            {userOrganisations.length > 0 ? (
               <button
-                onClick={() => handleLocationSelect("organization")}
+                onClick={() => handleLocationSelect("organisation")}
                 className={`p-6 rounded-2xl border-2 text-left transition-all ${
-                  selectedLocation === "organization"
+                  selectedLocation === "organisation"
                     ? "border-primary bg-primary/10"
                     : "border-border hover:border-primary/50"
                 }`}
@@ -164,14 +164,14 @@ export default function NewExperimentPage() {
                 <div className="flex items-center gap-3 mb-3">
                   <Building2 className="w-6 h-6 text-violet" />
                   <h3 className="font-semibold text-foreground">
-                    With an organization
+                    With an organisation
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-2">
                   Share aggregate insights (Your reflections stay private)
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Link this experiment to an organization to contribute to team
+                  Link this experiment to an organisation to contribute to team
                   insights. Your personal reflections and text responses remain
                   private. Only aggregate patterns (like average mood scores)
                   are shared.
@@ -182,14 +182,14 @@ export default function NewExperimentPage() {
                 <div className="flex items-center gap-3 mb-3">
                   <Building2 className="w-6 h-6 text-muted-foreground" />
                   <h3 className="font-semibold text-muted-foreground">
-                    With an organization
+                    With an organisation
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Join an organization to enable team insights
+                  Join an organisation to enable team insights
                 </p>
                 <Button variant="outline" asChild className="w-full">
-                  <Link href="/organizations">
+                  <Link href="/organisations">
                     Learn More <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 </Button>
@@ -208,12 +208,12 @@ export default function NewExperimentPage() {
               </Button>
               <Button
                 onClick={() => {
-                  if (selectedLocation === "organization") {
-                    if (userOrganizations.length > 1) {
+                  if (selectedLocation === "organisation") {
+                    if (userOrganisations.length > 1) {
                       // Show org selector
                       setShowPrivacyReminder(true);
                     } else {
-                      handleLocationSelect("organization");
+                      handleLocationSelect("organisation");
                     }
                   } else {
                     handleLocationSelect("personal");
@@ -233,7 +233,7 @@ export default function NewExperimentPage() {
         open={showPrivacyReminder}
         onOpenChange={setShowPrivacyReminder}
         onConfirm={handlePrivacyConfirmed}
-        organizations={userOrganizations}
+        organisations={userOrganisations}
         selectedOrgId={selectedOrgId}
         onOrgSelect={setSelectedOrgId}
       />

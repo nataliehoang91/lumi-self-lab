@@ -1,23 +1,41 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ArrowLeft, Plus, Eye, Save, Sparkles, Smile, Hash, Type, CheckSquare, List, Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import Link from "next/link"
+import { useState } from "react";
+import {
+  ArrowLeft,
+  Plus,
+  Eye,
+  Save,
+  Sparkles,
+  Smile,
+  Hash,
+  Type,
+  CheckSquare,
+  List,
+  Trash2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import Link from "next/link";
 
-type FieldType = "emoji" | "number" | "text" | "yesno" | "select"
+type FieldType = "emoji" | "number" | "text" | "yesno" | "select";
 
 interface TemplateField {
-  id: string
-  type: FieldType
-  label: string
-  required: boolean
-  options?: string[]
-  config?: Record<string, unknown>
+  id: string;
+  type: FieldType;
+  label: string;
+  required: boolean;
+  options?: string[];
+  config?: Record<string, unknown>;
 }
 
 const fieldTypeOptions = [
@@ -56,28 +74,35 @@ const fieldTypeOptions = [
     icon: List,
     color: "bg-gradient-to-br from-violet-400 to-purple-500",
   },
-]
+];
 
-const categories = ["Productivity", "Collaboration", "Wellness", "Remote Work", "Learning", "Custom"]
+const categories = [
+  "Productivity",
+  "Collaboration",
+  "Wellness",
+  "Remote Work",
+  "Learning",
+  "Custom",
+];
 
 export default function CreateTemplatePage() {
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [hypothesis, setHypothesis] = useState("")
-  const [category, setCategory] = useState("")
-  const [duration, setDuration] = useState("14")
-  const [frequency, setFrequency] = useState("daily")
-  const [fields, setFields] = useState<TemplateField[]>([])
-  const [isAddingField, setIsAddingField] = useState(false)
-  const [newFieldType, setNewFieldType] = useState<FieldType | null>(null)
-  const [newFieldLabel, setNewFieldLabel] = useState("")
-  const [newFieldRequired, setNewFieldRequired] = useState(true)
-  const [newFieldOptions, setNewFieldOptions] = useState("")
-  const [showPreview, setShowPreview] = useState(false)
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [hypothesis, setHypothesis] = useState("");
+  const [category, setCategory] = useState("");
+  const [duration, setDuration] = useState("14");
+  const [frequency, setFrequency] = useState("daily");
+  const [fields, setFields] = useState<TemplateField[]>([]);
+  const [isAddingField, setIsAddingField] = useState(false);
+  const [newFieldType, setNewFieldType] = useState<FieldType | null>(null);
+  const [newFieldLabel, setNewFieldLabel] = useState("");
+  const [newFieldRequired, setNewFieldRequired] = useState(true);
+  const [newFieldOptions, setNewFieldOptions] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
 
   const handleAddField = () => {
-    if (!newFieldType) return
-    if (newFieldType !== "text" && !newFieldLabel.trim()) return
+    if (!newFieldType) return;
+    if (newFieldType !== "text" && !newFieldLabel.trim()) return;
 
     const newField: TemplateField = {
       id: Date.now().toString(),
@@ -90,32 +115,32 @@ export default function CreateTemplatePage() {
           .map((o) => o.trim())
           .filter(Boolean),
       }),
-    }
+    };
 
-    setFields([...fields, newField])
-    setNewFieldType(null)
-    setNewFieldLabel("")
-    setNewFieldRequired(true)
-    setNewFieldOptions("")
-    setIsAddingField(false)
-  }
+    setFields([...fields, newField]);
+    setNewFieldType(null);
+    setNewFieldLabel("");
+    setNewFieldRequired(true);
+    setNewFieldOptions("");
+    setIsAddingField(false);
+  };
 
   const handleDeleteField = (id: string) => {
-    setFields(fields.filter((f) => f.id !== id))
-  }
+    setFields(fields.filter((f) => f.id !== id));
+  };
 
   const getFieldIcon = (type: FieldType) => {
-    const option = fieldTypeOptions.find((o) => o.type === type)
-    return option ? option.icon : Smile
-  }
+    const option = fieldTypeOptions.find((o) => o.type === type);
+    return option ? option.icon : Smile;
+  };
 
   const getFieldColor = (type: FieldType) => {
-    const option = fieldTypeOptions.find((o) => o.type === type)
-    return option ? option.color : "bg-gray-400"
-  }
+    const option = fieldTypeOptions.find((o) => o.type === type);
+    return option ? option.color : "bg-gray-400";
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-violet-50 dark:from-background dark:via-background dark:to-violet-950/20">
+    <div className="min-h-screen bg-linear-to-br from-orange-50 via-white to-violet-50 dark:from-background dark:via-background dark:to-violet-950/20">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -126,13 +151,21 @@ export default function CreateTemplatePage() {
               </button>
             </Link>
             <div>
-              <h1 className="text-2xl font-semibold text-foreground">Create Team Template</h1>
-              <p className="text-sm text-muted-foreground">Design an experiment for your organization</p>
+              <h1 className="text-2xl font-semibold text-foreground">
+                Create Team Template
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Design an experiment for your organisation
+              </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <Button variant="outline" className="rounded-xl gap-2 bg-transparent" onClick={() => setShowPreview(true)}>
+            <Button
+              variant="outline"
+              className="rounded-xl gap-2 bg-transparent"
+              onClick={() => setShowPreview(true)}
+            >
               <Eye className="w-4 h-4" />
               Preview
             </Button>
@@ -154,7 +187,9 @@ export default function CreateTemplatePage() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Template Title *</label>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Template Title *
+                </label>
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -164,7 +199,9 @@ export default function CreateTemplatePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Description *</label>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Description *
+                </label>
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -174,7 +211,9 @@ export default function CreateTemplatePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Hypothesis</label>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Hypothesis
+                </label>
                 <Textarea
                   value={hypothesis}
                   onChange={(e) => setHypothesis(e.target.value)}
@@ -185,7 +224,9 @@ export default function CreateTemplatePage() {
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Category</label>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Category
+                  </label>
                   <Select value={category} onValueChange={setCategory}>
                     <SelectTrigger className="rounded-xl">
                       <SelectValue placeholder="Select..." />
@@ -201,7 +242,9 @@ export default function CreateTemplatePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Duration (days)</label>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Duration (days)
+                  </label>
                   <Input
                     type="number"
                     value={duration}
@@ -211,7 +254,9 @@ export default function CreateTemplatePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Check-in Frequency</label>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Check-in Frequency
+                  </label>
                   <Select value={frequency} onValueChange={setFrequency}>
                     <SelectTrigger className="rounded-xl">
                       <SelectValue />
@@ -229,28 +274,39 @@ export default function CreateTemplatePage() {
 
           {/* Check-in Fields */}
           <div className="bg-card rounded-2xl p-6 shadow-lg shadow-black/5 border border-border/50">
-            <h2 className="text-lg font-medium text-foreground mb-2">Check-in Fields</h2>
-            <p className="text-sm text-muted-foreground mb-6">Define what participants will track each check-in</p>
+            <h2 className="text-lg font-medium text-foreground mb-2">
+              Check-in Fields
+            </h2>
+            <p className="text-sm text-muted-foreground mb-6">
+              Define what participants will track each check-in
+            </p>
 
             {/* Existing fields */}
             <div className="space-y-3 mb-6">
-              {fields.map((field, index) => {
-                const IconComponent = getFieldIcon(field.type)
+              {fields.map((field) => {
+                const IconComponent = getFieldIcon(field.type);
                 return (
                   <div
                     key={field.id}
                     className="flex items-center gap-4 p-4 rounded-xl bg-muted/30 border border-border/50"
                   >
                     <div
-                      className={`w-10 h-10 rounded-xl ${getFieldColor(field.type)} flex items-center justify-center`}
+                      className={`w-10 h-10 rounded-xl ${getFieldColor(
+                        field.type
+                      )} flex items-center justify-center`}
                     >
                       <IconComponent className="w-5 h-5 text-white" />
                     </div>
 
-                    <div className="flex-grow">
-                      <p className="font-medium text-foreground">{field.label}</p>
+                    <div className="grow">
+                      <p className="font-medium text-foreground">
+                        {field.label}
+                      </p>
                       <p className="text-sm text-muted-foreground">
-                        {fieldTypeOptions.find((o) => o.type === field.type)?.label}
+                        {
+                          fieldTypeOptions.find((o) => o.type === field.type)
+                            ?.label
+                        }
                         {field.required && " • Required"}
                         {field.options && ` • ${field.options.length} options`}
                       </p>
@@ -263,12 +319,14 @@ export default function CreateTemplatePage() {
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                )
+                );
               })}
 
               {fields.length === 0 && !isAddingField && (
                 <div className="text-center py-8 text-muted-foreground">
-                  <p>No fields added yet. Add your first check-in field below.</p>
+                  <p>
+                    No fields added yet. Add your first check-in field below.
+                  </p>
                 </div>
               )}
             </div>
@@ -277,12 +335,15 @@ export default function CreateTemplatePage() {
             {isAddingField && newFieldType && (
               <div className="p-4 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 mb-4">
                 <h3 className="font-medium text-foreground mb-4">
-                  Configure {fieldTypeOptions.find((o) => o.type === newFieldType)?.label}
+                  Configure{" "}
+                  {fieldTypeOptions.find((o) => o.type === newFieldType)?.label}
                 </h3>
 
                 {newFieldType !== "text" && (
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-foreground mb-2">Question / Label *</label>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Question / Label *
+                    </label>
                     <Input
                       value={newFieldLabel}
                       onChange={(e) => setNewFieldLabel(e.target.value)}
@@ -294,7 +355,9 @@ export default function CreateTemplatePage() {
 
                 {newFieldType === "select" && (
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-foreground mb-2">Options (comma separated)</label>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Options (comma separated)
+                    </label>
                     <Input
                       value={newFieldOptions}
                       onChange={(e) => setNewFieldOptions(e.target.value)}
@@ -306,7 +369,10 @@ export default function CreateTemplatePage() {
 
                 <div className="flex items-center justify-between">
                   <label className="flex items-center gap-2 text-sm">
-                    <Switch checked={newFieldRequired} onCheckedChange={setNewFieldRequired} />
+                    <Switch
+                      checked={newFieldRequired}
+                      onCheckedChange={setNewFieldRequired}
+                    />
                     Required field
                   </label>
 
@@ -315,8 +381,8 @@ export default function CreateTemplatePage() {
                       variant="ghost"
                       className="rounded-xl"
                       onClick={() => {
-                        setIsAddingField(false)
-                        setNewFieldType(null)
+                        setIsAddingField(false);
+                        setNewFieldType(null);
                       }}
                     >
                       Cancel
@@ -336,7 +402,7 @@ export default function CreateTemplatePage() {
             {isAddingField && !newFieldType && (
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
                 {fieldTypeOptions.map((option) => {
-                  const IconComponent = option.icon
+                  const IconComponent = option.icon;
                   return (
                     <button
                       key={option.type}
@@ -348,10 +414,14 @@ export default function CreateTemplatePage() {
                       >
                         <IconComponent className="w-5 h-5 text-white" />
                       </div>
-                      <p className="font-medium text-sm text-foreground">{option.label}</p>
-                      <p className="text-xs text-muted-foreground">{option.description}</p>
+                      <p className="font-medium text-sm text-foreground">
+                        {option.label}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {option.description}
+                      </p>
                     </button>
-                  )
+                  );
                 })}
               </div>
             )}
@@ -375,7 +445,9 @@ export default function CreateTemplatePage() {
             <div className="bg-card rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
               <div className="p-6 border-b border-border/50">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-foreground">Check-in Preview</h3>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    Check-in Preview
+                  </h3>
                   <button
                     onClick={() => setShowPreview(false)}
                     className="p-2 rounded-lg hover:bg-muted transition-colors"
@@ -383,18 +455,24 @@ export default function CreateTemplatePage() {
                     &times;
                   </button>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">What participants will see</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  What participants will see
+                </p>
               </div>
 
               <div className="p-6 space-y-6">
                 {fields.length === 0 ? (
-                  <p className="text-center text-muted-foreground py-8">Add fields to see preview</p>
+                  <p className="text-center text-muted-foreground py-8">
+                    Add fields to see preview
+                  </p>
                 ) : (
                   fields.map((field) => (
                     <div key={field.id}>
                       <label className="block text-sm font-medium text-foreground mb-2">
                         {field.label}
-                        {field.required && <span className="text-destructive ml-1">*</span>}
+                        {field.required && (
+                          <span className="text-destructive ml-1">*</span>
+                        )}
                       </label>
 
                       {field.type === "emoji" && (
@@ -424,7 +502,11 @@ export default function CreateTemplatePage() {
                       )}
 
                       {field.type === "text" && (
-                        <Textarea placeholder="Write your thoughts..." className="rounded-xl" disabled />
+                        <Textarea
+                          placeholder="Write your thoughts..."
+                          className="rounded-xl"
+                          disabled
+                        />
                       )}
 
                       {field.type === "yesno" && (
@@ -459,5 +541,5 @@ export default function CreateTemplatePage() {
         )}
       </div>
     </div>
-  )
+  );
 }

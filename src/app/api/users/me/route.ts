@@ -69,8 +69,10 @@ export async function GET() {
         id: membership.organisation.id,
         name: membership.organisation.name,
         description: membership.organisation.description,
-        role: membership.role,
-        joinedAt: membership.joinedAt,
+        role: membership.role, // member | team_manager | org_admin
+        ...(membership.teamId && { teamId: membership.teamId }), // Only if exists
+        ...(membership.teamName && { teamName: membership.teamName }), // Only if exists
+        joinedAt: membership.joinedAt.toISOString(),
       })),
     });
   } catch (error) {

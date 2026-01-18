@@ -329,7 +329,7 @@ export function ExperimentDetailClient({
             {false && ( // TODO: Replace with experiment.orgId check
               <Badge className="bg-violet/10 text-violet border-violet/20">
                 <Building2 className="w-3 h-3 mr-1" />
-                Linked to Organization
+                Linked to Organisation
               </Badge>
             )}
             {/* Status Selector */}
@@ -460,7 +460,7 @@ export function ExperimentDetailClient({
           {/* Org Linking Section */}
           <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-foreground">Organization</h3>
+              <h3 className="font-semibold text-foreground">Organisation</h3>
               <Button variant="outline" size="sm" asChild>
                 <Link href={`/experiments/${experiment.id}/org-linking`}>
                   Manage
@@ -471,7 +471,7 @@ export function ExperimentDetailClient({
               {false ? ( // TODO: Replace with experiment.orgId check
                 <div className="flex items-center gap-2">
                   <Building2 className="w-4 h-4 text-violet" />
-                  <span>Linked to organization</span>
+                  <span>Linked to organisation</span>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">

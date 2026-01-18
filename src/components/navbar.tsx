@@ -4,11 +4,27 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Moon, Sun, Menu, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  Sparkles,
+  Moon,
+  Sun,
+  Menu,
+  X,
+  BarChart3,
+  Building2,
+  Crown,
+} from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { ManagerTabButton } from "@/components/navbar/ManagerTabButton";
-import { ManagerTabButtonMobile } from "@/components/navbar/ManagerTabButtonMobile";
+import { useUser } from "@/hooks/user-context";
+
+type NavLink = {
+  href: string;
+  label: string;
+  badge?: number;
+  isUpgrade?: boolean;
+};
 
 /**
  * Navbar Component with Clerk Integration
@@ -27,6 +43,7 @@ import { ManagerTabButtonMobile } from "@/components/navbar/ManagerTabButtonMobi
 export function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const { userData } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Don't show navbar on landing/auth pages
@@ -42,13 +59,47 @@ export function Navbar() {
     return null;
   }
 
-  const navLinks = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/experiments", label: "Experiments" },
-    { href: "/templates", label: "Templates" },
-    { href: "/insights", label: "Insights" },
-    { href: "/organizations", label: "Organizations" },
-  ];
+  // Navigation structure:
+  // Individual: Dashboard, Experiments, Joined Experiments, Upgrade
+  // Participant: Dashboard, Experiments, Joined Experiments
+  // Team Manager: Dashboard, Experiments, Joined Experiments, Manager
+  // Org Admin: Dashboard, Experiments, Joined Experiments, Organisations, Manager
+
+  const buildNavLinks = (): NavLink[] => {
+    const links: NavLink[] = [
+      { href: "/dashboard", label: "Dashboard" },
+      { href: "/experiments", label: "Experiments" },
+    ];
+
+    if (!userData) return links; // Return default links if no user data
+
+    // ALL accounts see "Joined Experiments"
+    links.push({
+      href: "/joined-experiments",
+      label: "Joined Experiments",
+      badge:
+        userData.pendingAssignments > 0
+          ? userData.pendingAssignments
+          : undefined,
+    });
+
+    // Org admins also see "Organisations" - they manage organizations
+    if (userData.isOrgAdmin) {
+      links.push({
+        href: "/organisations",
+        label: "Organisations",
+      });
+    }
+
+    // Add upgrade button for non-managers
+    if (!userData.hasManagerRole) {
+      links.push({ href: "/upgrade", label: "Upgrade", isUpgrade: true });
+    }
+
+    return links;
+  };
+
+  const navLinks = buildNavLinks();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
@@ -59,7 +110,7 @@ export function Navbar() {
             href="/dashboard"
             className="flex items-center gap-2 transition-transform hover:scale-105"
           >
-            <div className="flex size-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 text-secondary">
+            <div className="flex size-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 text-primary">
               <Sparkles className="size-5" />
             </div>
             <span className="text-lg font-semibold text-foreground">
@@ -73,19 +124,43 @@ export function Navbar() {
               <Link key={link.href} href={link.href}>
                 <Button
                   variant="ghost"
-                  className={`rounded-2xl transition-all hover:scale-105 border border-transparent hover:border-secondary/50 ${
+                  className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
                     pathname === link.href ||
                     pathname.startsWith(link.href + "/")
-                      ? "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary font-medium"
-                      : "hover:bg-muted/50 hover:text-secondary"
+                      ? "bg-primary text-black hover:bg-secondary hover:text-white"
+                      : link.isUpgrade
+                      ? "border-2 border-amber-500/50 text-amber-600 hover:border-amber-500 hover:bg-amber-500 hover:text-white"
+                      : "border-2 border-primary/50 text-foreground hover:border-secondary hover:bg-secondary hover:text-white"
                   }`}
                 >
+                  {link.href === "/organisations" && (
+                    <Building2 className="size-4" />
+                  )}
+                  {link.isUpgrade && <Crown className="size-4" />}
                   {link.label}
+                  {link.badge && (
+                    <Badge className="ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs">
+                      {link.badge}
+                    </Badge>
+                  )}
                 </Button>
               </Link>
             ))}
-            {/* Manager tab - only show for organisation accounts */}
-            <ManagerTabButton pathname={pathname} />
+            {userData?.hasManagerRole && (
+              <Link href="/manager">
+                <Button
+                  variant="ghost"
+                  className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
+                    pathname === "/manager" || pathname.startsWith("/manager/")
+                      ? "bg-violet text-white hover:bg-violet/90"
+                      : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet hover:text-white"
+                  }`}
+                >
+                  <BarChart3 className="size-4" />
+                  Manager
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Desktop Actions */}
@@ -95,7 +170,7 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="rounded-2xl transition-all hover:scale-105"
+              className="rounded-2xl transition-all hover:scale-105 hover:bg-secondary/10 hover:text-secondary"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (
@@ -171,22 +246,43 @@ export function Navbar() {
               >
                 <Button
                   variant="ghost"
-                  className={`w-full justify-start rounded-2xl border border-transparent hover:border-secondary/50 ${
+                  className={`w-full justify-start rounded-2xl gap-2 ${
                     pathname === link.href ||
                     pathname.startsWith(link.href + "/")
-                      ? "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary font-medium"
-                      : "hover:bg-muted/50 hover:text-secondary"
+                      ? "bg-primary text-primary-foreground"
+                      : link.isUpgrade
+                      ? "text-amber-600"
+                      : ""
                   }`}
                 >
+                  {link.href === "/organisations" && (
+                    <Building2 className="size-4" />
+                  )}
+                  {link.isUpgrade && <Crown className="size-4" />}
                   {link.label}
+                  {link.badge && (
+                    <Badge className="ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs">
+                      {link.badge}
+                    </Badge>
+                  )}
                 </Button>
               </Link>
             ))}
-            {/* Manager tab in mobile - conditional */}
-            <ManagerTabButtonMobile
-              pathname={pathname}
-              onClose={() => setMobileMenuOpen(false)}
-            />
+            {userData?.hasManagerRole && (
+              <Link href="/manager" onClick={() => setMobileMenuOpen(false)}>
+                <Button
+                  variant="ghost"
+                  className={`w-full justify-start rounded-2xl gap-2 ${
+                    pathname === "/manager" || pathname.startsWith("/manager/")
+                      ? "bg-violet text-white"
+                      : "text-violet"
+                  }`}
+                >
+                  <BarChart3 className="size-4" />
+                  Manager
+                </Button>
+              </Link>
+            )}
 
             {/* Theme Toggle in Mobile Menu */}
             <div className="flex items-center gap-2 pt-2">

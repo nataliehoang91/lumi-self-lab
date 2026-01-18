@@ -40,7 +40,7 @@ export default function OnboardingPage() {
       id: "browse",
       icon: Target,
       title: "Show me templates",
-      description: "Browse proven experiments from your organization's library",
+      description: "Browse proven experiments from your organisation's library",
       href: "/templates",
       gradient:
         "from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20",

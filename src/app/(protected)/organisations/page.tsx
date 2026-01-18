@@ -7,7 +7,7 @@ import { Building2, Plus, ArrowRight, Users } from "lucide-react";
 import Link from "next/link";
 
 // Mock data - replace with real API call
-const userOrganizations = [
+const userOrganisations = [
   {
     id: "org1",
     name: "Acme Corp",
@@ -33,23 +33,23 @@ const pendingInvitations = [
   },
 ];
 
-export default function OrganizationsPage() {
+export default function OrganisationsPage() {
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-semibold text-foreground mb-2">
-              Organizations
+              Organisations
             </h1>
             <p className="text-muted-foreground">
-              Manage your organization memberships and team experiments
+              Manage your organisation memberships and team experiments
             </p>
           </div>
           <Button asChild>
-            <Link href="/organizations/join">
+            <Link href="/organisations/join">
               <Plus className="w-4 h-4 mr-2" />
-              Join Organization
+                      Join Organisation
             </Link>
           </Button>
         </div>
@@ -74,7 +74,7 @@ export default function OrganizationsPage() {
                       </p>
                     </div>
                     <Button asChild>
-                      <Link href={`/organizations/invites/${invitation.id}`}>
+                      <Link href={`/organisations/invites/${invitation.id}`}>
                         View Details <ArrowRight className="w-4 h-4 ml-2" />
                       </Link>
                     </Button>
@@ -85,14 +85,14 @@ export default function OrganizationsPage() {
           </div>
         )}
 
-        {/* Organizations List */}
+        {/* Organisations List */}
         <div>
           <h2 className="text-xl font-semibold text-foreground mb-4">
-            Your Organizations
+            Your Organisations
           </h2>
-          {userOrganizations.length > 0 ? (
+          {userOrganisations.length > 0 ? (
             <div className="grid md:grid-cols-2 gap-6">
-              {userOrganizations.map((org) => (
+              {userOrganisations.map((org) => (
                 <Card
                   key={org.id}
                   className="p-6 hover:border-primary transition-all"
@@ -125,12 +125,12 @@ export default function OrganizationsPage() {
 
                   <div className="flex gap-3">
                     <Button variant="outline" className="flex-1" asChild>
-                      <Link href={`/organizations/${org.id}`}>
+                      <Link href={`/organisations/${org.id}`}>
                         View Dashboard
                       </Link>
                     </Button>
                     <Button variant="outline" className="flex-1" asChild>
-                      <Link href={`/organizations/${org.id}/templates`}>
+                      <Link href={`/organisations/${org.id}/templates`}>
                         Templates
                       </Link>
                     </Button>
@@ -142,14 +142,14 @@ export default function OrganizationsPage() {
             <Card className="p-12 text-center">
               <Building2 className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
               <h3 className="text-lg font-semibold text-foreground mb-2">
-                No Organizations
+                No Organisations
               </h3>
               <p className="text-muted-foreground mb-6">
-                You&apos;re not part of any organizations yet. Join one to
+                You&apos;re not part of any organisations yet. Join one to
                 enable team insights and shared templates.
               </p>
               <Button asChild>
-                <Link href="/organizations/join">Join Organization</Link>
+                <Link href="/organisations/join">Join Organisation</Link>
               </Button>
             </Card>
           )}

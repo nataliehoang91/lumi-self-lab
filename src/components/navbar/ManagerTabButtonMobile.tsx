@@ -1,9 +1,9 @@
 "use client";
 
-import { useUser } from "@/hooks/use-user";
+import { useUser } from "@/hooks/user-context";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { BarChart3 } from "lucide-react";
+import { BarChart3, Loader2 } from "lucide-react";
 
 interface ManagerTabButtonMobileProps {
   pathname: string;
@@ -11,13 +11,22 @@ interface ManagerTabButtonMobileProps {
 }
 
 export function ManagerTabButtonMobile({ pathname, onClose }: ManagerTabButtonMobileProps) {
-  const { user, loading } = useUser();
+  const { userData, loading } = useUser();
 
   if (loading) {
-    return null;
+    return (
+      <Button
+        variant="ghost"
+        className="w-full justify-start rounded-2xl gap-2 text-violet-500"
+        disabled
+      >
+        <Loader2 className="size-4 animate-spin" />
+        Loading...
+      </Button>
+    );
   }
 
-  if (user?.accountType !== "organisation") {
+  if (!userData?.hasManagerRole && !userData?.isOrgAdmin) {
     return (
       <Link href="/upgrade" onClick={onClose}>
         <Button

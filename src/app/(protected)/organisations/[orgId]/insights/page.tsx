@@ -28,7 +28,7 @@ function getOrgInsights(orgId: string) {
   };
 }
 
-export default function OrganizationInsightsPage({
+export default function OrganisationInsightsPage({
   params,
 }: {
   params: Promise<{ orgId: string }>;
@@ -45,11 +45,11 @@ export default function OrganizationInsightsPage({
               Team Insights
             </h1>
             <p className="text-muted-foreground">
-              Aggregate insights from organization-linked experiments
+              Aggregate insights from organisation-linked experiments
             </p>
           </div>
           <Button variant="outline" asChild>
-            <Link href={`/organizations/${orgId}`}>
+            <Link href={`/organisations/${orgId}`}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Link>
@@ -65,7 +65,7 @@ export default function OrganizationInsightsPage({
                 Privacy Protected
               </h3>
               <p className="text-sm text-muted-foreground mb-2">
-                These insights are built from experiments linked to this organization. They show patterns across the team, not individual journeys.
+                These insights are built from experiments linked to this organisation. They show patterns across the team, not individual journeys.
               </p>
               <div className="text-sm text-muted-foreground space-y-1">
                 <p className="font-medium text-foreground">What you&apos;re seeing:</p>

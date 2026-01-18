@@ -59,12 +59,15 @@ model OrganisationMember {
   organisation    Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
   clerkUserId     String
   user            User     @relation("OrganisationMemberships", fields: [clerkUserId], references: [clerkUserId], onDelete: Cascade)
-  role            String   @default("member") // member | admin
+  role            String   @default("member") // member | team_manager | org_admin
+  teamId          String?  // Optional: for team_manager, specifies which team they manage
+  teamName        String?  // Optional: denormalized team name for easier queries
   joinedAt        DateTime @default(now())
 
   @@unique([organisationId, clerkUserId])
   @@index([clerkUserId])
   @@index([organisationId])
+  @@index([role])
 }
 
 ////////////////////////////////////////////////////////////

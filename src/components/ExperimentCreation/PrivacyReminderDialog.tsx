@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Shield, CheckCircle2, XCircle } from "lucide-react";
 
-interface Organization {
+interface Organisation {
   id: string;
   name: string;
 }
@@ -20,7 +20,7 @@ interface PrivacyReminderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
-  organizations: Organization[];
+  organisations: Organisation[];
   selectedOrgId: string | null;
   onOrgSelect: (orgId: string) => void;
 }
@@ -29,12 +29,12 @@ export function PrivacyReminderDialog({
   open,
   onOpenChange,
   onConfirm,
-  organizations,
+  organisations,
   selectedOrgId,
   onOrgSelect,
 }: PrivacyReminderDialogProps) {
   const handleConfirm = () => {
-    if (organizations.length > 1 && !selectedOrgId) {
+    if (organisations.length > 1 && !selectedOrgId) {
       return; // Require org selection if multiple
     }
     onConfirm();
@@ -49,23 +49,23 @@ export function PrivacyReminderDialog({
             Privacy Protected
           </DialogTitle>
           <DialogDescription>
-            Before you link this experiment to an organization
+            Before you link this experiment to an organisation
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Organization Selection (if multiple) */}
-          {organizations.length > 1 && (
+          {/* Organisation Selection (if multiple) */}
+          {organisations.length > 1 && (
             <div>
               <label className="text-sm font-medium text-foreground mb-2 block">
-                Select Organization
+                Select Organisation
               </label>
               <Select value={selectedOrgId || ""} onValueChange={onOrgSelect}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Choose an organization" />
+                  <SelectValue placeholder="Choose an organisation" />
                 </SelectTrigger>
                 <SelectContent>
-                  {organizations.map((org) => (
+                  {organisations.map((org) => (
                     <SelectItem key={org.id} value={org.id}>
                       {org.name}
                     </SelectItem>
@@ -79,7 +79,7 @@ export function PrivacyReminderDialog({
           <div className="space-y-3">
             <h3 className="font-semibold text-foreground flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              Your organization will see:
+              Your organisation will see:
             </h3>
             <ul className="space-y-2 text-sm text-muted-foreground ml-6">
               <li>• Aggregate patterns (e.g., &quot;Team mood averages 7.2/10&quot;)</li>
@@ -92,7 +92,7 @@ export function PrivacyReminderDialog({
           <div className="space-y-3">
             <h3 className="font-semibold text-foreground flex items-center gap-2">
               <XCircle className="w-4 h-4 text-red-600" />
-              Your organization will NOT see:
+              Your organisation will NOT see:
             </h3>
             <ul className="space-y-2 text-sm text-muted-foreground ml-6">
               <li>• Your personal reflections</li>
@@ -120,7 +120,7 @@ export function PrivacyReminderDialog({
             </Button>
             <Button
               onClick={handleConfirm}
-              disabled={organizations.length > 1 && !selectedOrgId}
+              disabled={organisations.length > 1 && !selectedOrgId}
               className="flex-1"
             >
               I understand, continue

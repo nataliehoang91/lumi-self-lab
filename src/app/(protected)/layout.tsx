@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/navbar";
+import { UserProvider } from "@/hooks/user-context";
 
 /**
  * Protected Layout - Wraps protected routes with Navbar
@@ -18,9 +19,9 @@ export default function ProtectedLayout({
 }) {
   // User is authenticated (middleware ensures this), render navbar and children
   return (
-    <>
+    <UserProvider>
       <Navbar />
       {children}
-    </>
+    </UserProvider>
   );
 }

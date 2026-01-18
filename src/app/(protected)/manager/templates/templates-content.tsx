@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState } from "react"
 import {
   Plus,
   Search,
@@ -15,33 +15,23 @@ import {
   CheckCircle2,
   Clock,
   MoreVertical,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import Link from "next/link"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 // Mock team templates
 const teamTemplates = [
   {
     id: "1",
     title: "Focus & Deep Work",
-    description:
-      "Help your team understand their focus patterns and optimize for deep work",
+    description: "Help your team understand their focus patterns and optimize for deep work",
     category: "Productivity",
     fields: [
       { type: "emoji", label: "How focused did you feel today?" },
       { type: "number", label: "Hours of deep work" },
-      {
-        type: "select",
-        label: "Main distraction",
-        options: ["Meetings", "Slack", "Email", "Other"],
-      },
+      { type: "select", label: "Main distraction", options: ["Meetings", "Slack", "Email", "Other"] },
       { type: "text", label: "What helped you focus?" },
     ],
     duration: 14,
@@ -54,8 +44,7 @@ const teamTemplates = [
   {
     id: "2",
     title: "Meeting Effectiveness",
-    description:
-      "Evaluate meeting quality and find opportunities to improve team collaboration",
+    description: "Evaluate meeting quality and find opportunities to improve team collaboration",
     category: "Collaboration",
     fields: [
       { type: "number", label: "Number of meetings today" },
@@ -73,8 +62,7 @@ const teamTemplates = [
   {
     id: "3",
     title: "Energy & Wellbeing",
-    description:
-      "Track energy levels throughout the day to find optimal work patterns",
+    description: "Track energy levels throughout the day to find optimal work patterns",
     category: "Wellness",
     fields: [
       { type: "emoji", label: "Morning energy level" },
@@ -97,11 +85,7 @@ const teamTemplates = [
     fields: [
       { type: "emoji", label: "Work-from-home satisfaction" },
       { type: "yesno", label: "Did you feel connected to team?" },
-      {
-        type: "select",
-        label: "Biggest challenge",
-        options: ["Communication", "Focus", "Isolation", "Tech issues"],
-      },
+      { type: "select", label: "Biggest challenge", options: ["Communication", "Focus", "Isolation", "Tech issues"] },
     ],
     duration: 30,
     frequency: "Daily",
@@ -110,36 +94,24 @@ const teamTemplates = [
     status: "draft",
     createdAt: "2026-01-10",
   },
-];
+]
 
-const categories = [
-  "All",
-  "Productivity",
-  "Collaboration",
-  "Wellness",
-  "Remote Work",
-];
+const categories = ["All", "Productivity", "Collaboration", "Wellness", "Remote Work"]
 
 export default function ManagerTemplatesContent() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("All")
 
   const filteredTemplates = teamTemplates.filter((template) => {
     const matchesSearch =
       template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All" || template.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+      template.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesCategory = selectedCategory === "All" || template.category === selectedCategory
+    return matchesSearch && matchesCategory
+  })
 
-  const activeTemplates = teamTemplates.filter(
-    (t) => t.status === "active"
-  ).length;
-  const totalParticipants = teamTemplates.reduce(
-    (sum, t) => sum + t.activeUsers,
-    0
-  );
+  const activeTemplates = teamTemplates.filter((t) => t.status === "active").length
+  const totalParticipants = teamTemplates.reduce((sum, t) => sum + t.activeUsers, 0)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-violet-50 dark:from-background dark:via-background dark:to-violet-950/20">
@@ -147,12 +119,8 @@ export default function ManagerTemplatesContent() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-semibold text-foreground mb-1">
-              Team Templates
-            </h1>
-            <p className="text-muted-foreground">
-              Create and manage experiment templates for your organisation
-            </p>
+            <h1 className="text-3xl font-semibold text-foreground mb-1">Team Templates</h1>
+            <p className="text-muted-foreground">Create and manage experiment templates for your organization</p>
           </div>
 
           <Link href="/manager/templates/create">
@@ -171,9 +139,7 @@ export default function ManagerTemplatesContent() {
                 <BarChart3 className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-semibold text-foreground">
-                  {teamTemplates.length}
-                </p>
+                <p className="text-2xl font-semibold text-foreground">{teamTemplates.length}</p>
                 <p className="text-sm text-muted-foreground">Total Templates</p>
               </div>
             </div>
@@ -185,12 +151,8 @@ export default function ManagerTemplatesContent() {
                 <CheckCircle2 className="w-5 h-5 text-emerald-600" />
               </div>
               <div>
-                <p className="text-2xl font-semibold text-foreground">
-                  {activeTemplates}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Active Templates
-                </p>
+                <p className="text-2xl font-semibold text-foreground">{activeTemplates}</p>
+                <p className="text-sm text-muted-foreground">Active Templates</p>
               </div>
             </div>
           </div>
@@ -201,12 +163,8 @@ export default function ManagerTemplatesContent() {
                 <Users className="w-5 h-5 text-sky-600" />
               </div>
               <div>
-                <p className="text-2xl font-semibold text-foreground">
-                  {totalParticipants}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Total Participants
-                </p>
+                <p className="text-2xl font-semibold text-foreground">{totalParticipants}</p>
+                <p className="text-sm text-muted-foreground">Total Participants</p>
               </div>
             </div>
           </div>
@@ -293,12 +251,8 @@ export default function ManagerTemplatesContent() {
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-semibold text-foreground mb-2">
-                {template.title}
-              </h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                {template.description}
-              </p>
+              <h3 className="text-xl font-semibold text-foreground mb-2">{template.title}</h3>
+              <p className="text-muted-foreground text-sm mb-4">{template.description}</p>
 
               {/* Fields preview */}
               <div className="flex flex-wrap gap-2 mb-4">
@@ -312,9 +266,7 @@ export default function ManagerTemplatesContent() {
                     {field.type === "text" && "T"}
                     {field.type === "yesno" && "✓"}
                     {field.type === "select" && "▼"}
-                    {field.label.length > 20
-                      ? field.label.substring(0, 20) + "..."
-                      : field.label}
+                    {field.label.length > 20 ? field.label.substring(0, 20) + "..." : field.label}
                   </span>
                 ))}
               </div>
@@ -337,18 +289,12 @@ export default function ManagerTemplatesContent() {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1 text-sm">
                       <Users className="w-4 h-4 text-muted-foreground" />
-                      <span className="font-medium text-foreground">
-                        {template.activeUsers}
-                      </span>
-                      <span className="text-muted-foreground">
-                        participants
-                      </span>
+                      <span className="font-medium text-foreground">{template.activeUsers}</span>
+                      <span className="text-muted-foreground">participants</span>
                     </div>
                     <div className="flex items-center gap-1 text-sm">
                       <BarChart3 className="w-4 h-4 text-muted-foreground" />
-                      <span className="font-medium text-foreground">
-                        {template.completionRate}%
-                      </span>
+                      <span className="font-medium text-foreground">{template.completionRate}%</span>
                       <span className="text-muted-foreground">completion</span>
                     </div>
                   </div>
@@ -384,12 +330,8 @@ export default function ManagerTemplatesContent() {
             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-muted/50 flex items-center justify-center">
               <Search className="w-8 h-8 text-muted-foreground" />
             </div>
-            <h3 className="text-lg font-medium text-foreground mb-2">
-              No templates found
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              Try adjusting your search or filter criteria
-            </p>
+            <h3 className="text-lg font-medium text-foreground mb-2">No templates found</h3>
+            <p className="text-muted-foreground mb-6">Try adjusting your search or filter criteria</p>
             <Link href="/manager/templates/create">
               <Button className="rounded-2xl gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
                 <Plus className="w-4 h-4" />
@@ -400,5 +342,5 @@ export default function ManagerTemplatesContent() {
         )}
       </div>
     </div>
-  );
+  )
 }

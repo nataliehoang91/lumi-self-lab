@@ -133,4 +133,107 @@ Three roles with different permissions:
 
 ---
 
-**This document outlines the new flow structure. Implementation details will follow.**
+---
+
+## 🗄️ Database Structure & Relationships
+
+### User Account Types
+
+All users sign up via Clerk, but account type and roles are managed in the internal database:
+
+```prisma
+model User {
+  id              String   @id @default(cuid())
+  clerkUserId     String   @unique // from Clerk
+  accountType     String   @default("individual") // individual | organisation
+  upgradedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  experiments     Experiment[]
+  organisationMemberships OrganisationMember[]
+  createdOrganisations Organisation[] // Only if accountType = "organisation"
+}
+```
+
+**Account Types:**
+- `individual` - Default (all users start here)
+- `organisation` - Upgraded account (can create orgs via `/upgrade`)
+
+### Organisation Membership & Roles
+
+```prisma
+model OrganisationMember {
+  id              String   @id @default(cuid())
+  organisationId  String
+  clerkUserId     String
+  role            String   @default("member") // member | team_manager | org_admin
+  teamId          String?  // Optional: for team_manager scope
+  teamName        String?  // Optional: denormalized team name
+  joinedAt        DateTime @default(now())
+
+  @@unique([organisationId, clerkUserId])
+}
+```
+
+**Roles in Organisation:**
+- `member` - Participate only (read-only access)
+- `team_manager` - Manage team experiments (assigned by org_admin)
+- `org_admin` - Full access (can create org, assign team managers)
+
+### Permission Matrix
+
+| Action | Individual | Team Manager | Org Admin |
+|--------|-----------|--------------|-----------|
+| Personal experiment | ✅ | ✅ | ✅ |
+| Join assigned experiment | ✅ | ✅ | ✅ |
+| Create team experiment | ❌ | ✅ | ✅ |
+| Assign participants | ❌ | ✅ (team only) | ✅ (any team) |
+| View aggregate result | ❌ | ✅ (team) | ✅ (org-wide) |
+| Create org | ❌ | ❌ | ✅ |
+| Assign team managers | ❌ | ❌ | ✅ |
+
+### Permission Logic
+
+**Individual:**
+- `accountType = "individual"`
+- No `OrganisationMember` records OR `role = "member"`
+- `hasManagerRole = false`
+- `isOrgAdmin = false`
+
+**Team Manager:**
+- `accountType = "individual"` OR `"organisation"`
+- `OrganisationMember.role = "team_manager"` (in at least one org)
+- `hasManagerRole = true`
+- `isOrgAdmin = false`
+
+**Org Admin:**
+- `accountType = "organisation"` OR `OrganisationMember.role = "org_admin"` (in at least one org)
+- `hasManagerRole = true`
+- `isOrgAdmin = true`
+
+## 🔧 User Hook Implementation
+
+### Unified Hook: `src/hooks/user-context.tsx`
+
+The hook supports both mock data (for test scenarios) and real API data:
+
+```typescript
+const { scenario, setScenario, userData, loading, error, refreshUser } = useUser();
+```
+
+**Behavior:**
+- If `scenario` is set (from localStorage) → uses mock data from `SCENARIO_DATA`
+- If `scenario` is `null` → fetches real data from `/api/users/me` and transforms it
+
+**Data Transformation:**
+- API returns: `accountType`, `organisations` array with `role`
+- Transforms to: `hasManagerRole`, `isOrgAdmin`, `isParticipant`, `orgs`, `teams`
+
+**Test Scenarios:**
+- Use `setScenario("individual" | "team-manager" | "org-admin")` to switch mock data
+- Use `setScenario(null)` to switch back to real API data
+
+---
+
+**This document outlines the new flow structure with database relationships and hook implementation.**

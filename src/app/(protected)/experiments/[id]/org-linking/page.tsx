@@ -20,7 +20,7 @@ function getExperiment(experimentId: string) {
   };
 }
 
-function getUserOrganizations() {
+function getUserOrganisations() {
   return [
     { id: "org1", name: "Acme Corp" },
     { id: "org2", name: "Design Team" },
@@ -35,7 +35,7 @@ export default function ExperimentOrgLinkingPage({
   const { id } = use(params);
   const router = useRouter();
   const experiment = getExperiment(id);
-  const organizations = getUserOrganizations();
+  const organisations = getUserOrganisations();
   const [isLinked, setIsLinked] = useState(!!experiment.orgId);
   const [linkedOrgId, setLinkedOrgId] = useState<string | null>(experiment.orgId);
 
@@ -68,7 +68,7 @@ export default function ExperimentOrgLinkingPage({
         <Card className="p-8">
           <div className="mb-6">
             <h1 className="text-2xl font-semibold text-foreground mb-2">
-              Organization Linking
+              Organisation Linking
             </h1>
             <p className="text-muted-foreground">
               {experiment.title}
@@ -86,7 +86,7 @@ export default function ExperimentOrgLinkingPage({
                   <Building2 className="w-5 h-5 text-violet" />
                   <div>
                     <p className="font-medium text-foreground">
-                      Linked to {organizations.find((o) => o.id === linkedOrgId)?.name}
+                      Linked to {organisations.find((o) => o.id === linkedOrgId)?.name}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       This experiment contributes to team insights
@@ -121,17 +121,17 @@ export default function ExperimentOrgLinkingPage({
                 </h3>
                 <div className="text-sm text-muted-foreground space-y-2">
                   <p>
-                    When linked to an organization, your experiment contributes to aggregate insights. Your personal data stays private.
+                    When linked to an organisation, your experiment contributes to aggregate insights. Your personal data stays private.
                   </p>
                   <div>
-                    <p className="font-medium text-foreground mb-1">Organization will see:</p>
+                    <p className="font-medium text-foreground mb-1">Organisation will see:</p>
                     <ul className="list-disc list-inside ml-2">
                       <li>Aggregate patterns (averages, trends)</li>
                       <li>Participation rates</li>
                     </ul>
                   </div>
                   <div>
-                    <p className="font-medium text-foreground mb-1">Organization will NOT see:</p>
+                    <p className="font-medium text-foreground mb-1">Organisation will NOT see:</p>
                     <ul className="list-disc list-inside ml-2">
                       <li>Your personal reflections</li>
                       <li>Your text responses</li>
@@ -148,7 +148,7 @@ export default function ExperimentOrgLinkingPage({
             experimentId={id}
             isLinked={isLinked}
             linkedOrgId={linkedOrgId}
-            organizations={organizations}
+            organisations={organisations}
             onLink={handleLink}
             onUnlink={handleUnlink}
           />

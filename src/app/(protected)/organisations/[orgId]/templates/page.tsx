@@ -33,7 +33,7 @@ function getOrgTemplates(orgId: string) {
   ];
 }
 
-export default function OrganizationTemplatesPage({
+export default function OrganisationTemplatesPage({
   params,
 }: {
   params: Promise<{ orgId: string }>;
@@ -47,14 +47,14 @@ export default function OrganizationTemplatesPage({
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-semibold text-foreground mb-2">
-              Organization Templates
+              Organisation Templates
             </h1>
             <p className="text-muted-foreground">
-              Browse and start experiments from organization templates
+              Browse and start experiments from organisation templates
             </p>
           </div>
           <Button asChild>
-            <Link href={`/organizations/${orgId}`}>
+            <Link href={`/organisations/${orgId}`}>
               <ArrowRight className="w-4 h-4 mr-2" />
               Back to Dashboard
             </Link>
@@ -106,7 +106,7 @@ export default function OrganizationTemplatesPage({
               No Templates
             </h3>
             <p className="text-muted-foreground">
-              This organization doesn&apos;t have any templates yet.
+              This organisation doesn&apos;t have any templates yet.
             </p>
           </Card>
         )}

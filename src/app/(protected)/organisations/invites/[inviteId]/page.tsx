@@ -55,14 +55,14 @@ export default function InvitationDetailPage({
 
   const handleDecline = () => {
     // TODO: Call API to decline invitation
-    router.push("/organizations");
+    router.push("/organisations");
   };
 
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <Button variant="ghost" asChild className="mb-6">
-          <Link href="/organizations">
+          <Link href="/organisations">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Link>
@@ -107,7 +107,7 @@ export default function InvitationDetailPage({
                     {invitation.orgName} suggested this experiment because they think it might be valuable for the team. But this is your experiment, and you&apos;re in complete control.
                   </p>
                   <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
-                    <li>Accept and link it to the organization (share aggregate insights)</li>
+                    <li>Accept and link it to the organisation (share aggregate insights)</li>
                     <li>Accept it as personal (keep it completely private)</li>
                     <li>Decline the invitation (no hard feelings)</li>
                   </ul>
@@ -148,7 +148,7 @@ export default function InvitationDetailPage({
         open={showPrivacyReminder}
         onOpenChange={setShowPrivacyReminder}
         onConfirm={handlePrivacyConfirmed}
-        organizations={[{ id: "org1", name: invitation.orgName }]}
+        organisations={[{ id: "org1", name: invitation.orgName }]}
         selectedOrgId="org1"
         onOrgSelect={() => {}}
       />
