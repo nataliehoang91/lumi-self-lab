@@ -23,6 +23,8 @@ import {
   Pencil,
   Plus,
   Eye,
+  Building2,
+  Home,
 } from "lucide-react";
 import {
   Select,
@@ -323,6 +325,13 @@ export function ExperimentDetailClient({
               {experiment.status.charAt(0).toUpperCase() +
                 experiment.status.slice(1)}
             </Badge>
+            {/* Org Badge - Mock: replace with real data */}
+            {false && ( // TODO: Replace with experiment.orgId check
+              <Badge className="bg-violet/10 text-violet border-violet/20">
+                <Building2 className="w-3 h-3 mr-1" />
+                Linked to Organization
+              </Badge>
+            )}
             {/* Status Selector */}
             <Select
               value={experiment.status}
@@ -378,7 +387,7 @@ export function ExperimentDetailClient({
               </div>
               <div className="h-3 bg-muted rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-primary/80 to-primary/60 transition-all"
+                  className="h-full bg-linear-to-r from-primary/80 to-primary/60 transition-all"
                   style={{
                     width: `${getProgressPercentage(
                       experiment.daysCompleted,
@@ -447,6 +456,31 @@ export function ExperimentDetailClient({
               Preview Experiment Template
             </Button>
           )}
+
+          {/* Org Linking Section */}
+          <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold text-foreground">Organization</h3>
+              <Button variant="outline" size="sm" asChild>
+                <Link href={`/experiments/${experiment.id}/org-linking`}>
+                  Manage
+                </Link>
+              </Button>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {false ? ( // TODO: Replace with experiment.orgId check
+                <div className="flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-violet" />
+                  <span>Linked to organization</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Home className="w-4 h-4" />
+                  <span>Personal experiment</span>
+                </div>
+              )}
+            </div>
+          </Card>
         </div>
 
         {/* Status Action Buttons */}
@@ -477,7 +511,7 @@ export function ExperimentDetailClient({
             <Button
               onClick={handleStart}
               disabled={isUpdating}
-              className="w-full py-6 rounded-3xl bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full py-6 rounded-3xl bg-linear-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               {isUpdating ? "Starting..." : "Start Experiment"}
             </Button>
@@ -489,7 +523,7 @@ export function ExperimentDetailClient({
             experiment.fields.length > 0 && (
               <Button
                 onClick={() => setIsCheckInDialogOpen(true)}
-                className="w-full py-6 rounded-3xl bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full py-6 rounded-3xl bg-linear-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Plus className="w-5 h-5 mr-2" />
                 Check-in

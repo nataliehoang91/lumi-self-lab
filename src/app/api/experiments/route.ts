@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 /**
  * GET /api/experiments
  * Get all experiments for the current user
- * 
+ *
  * Query params:
  * - status: filter by status (draft | active | completed)
  * - tags: comma-separated tags to filter by (optional - if you add tags field later)
@@ -23,7 +23,15 @@ export async function GET(request: Request) {
     const statusFilter = searchParams.get("status");
     const searchTerm = searchParams.get("search");
 
-    const where: any = { clerkUserId: userId };
+    const where: {
+      clerkUserId: string;
+      status?: string;
+      OR?: Array<{
+        title?: { contains: string; mode: "insensitive" };
+        whyMatters?: { contains: string; mode: "insensitive" };
+        hypothesis?: { contains: string; mode: "insensitive" };
+      }>;
+    } = { clerkUserId: userId };
 
     // Filter by status if provided
     if (statusFilter) {
@@ -74,7 +82,7 @@ export async function GET(request: Request) {
 /**
  * POST /api/experiments
  * Create a new experiment
- * 
+ *
  * Body:
  * {
  *   title: string
@@ -120,10 +128,7 @@ export async function POST(request: Request) {
     } = body;
 
     if (!title || typeof title !== "string") {
-      return NextResponse.json(
-        { error: "Title is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Title is required" }, { status: 400 });
     }
 
     if (!durationDays || typeof durationDays !== "number") {
@@ -140,6 +145,16 @@ export async function POST(request: Request) {
       );
     }
 
+    // Ensure User record exists (auto-create if doesn't exist)
+    await prisma.user.upsert({
+      where: { clerkUserId: userId },
+      update: {},
+      create: {
+        clerkUserId: userId,
+        accountType: "individual",
+      },
+    });
+
     // Create experiment with fields
     const experiment = await prisma.experiment.create({
       data: {
@@ -153,17 +168,30 @@ export async function POST(request: Request) {
         scriptureNotes: scriptureNotes || null,
         status: status || "draft",
         fields: {
-          create: fields?.map((field: any) => ({
-            label: field.label,
-            type: field.type,
-            required: field.required || false,
-            order: field.order,
-            textType: field.textType || null,
-            minValue: field.minValue || null,
-            maxValue: field.maxValue || null,
-            emojiCount: field.emojiCount || null,
-            selectOptions: field.selectOptions || [],
-          })) || [],
+          create:
+            fields?.map(
+              (field: {
+                label: string;
+                type: string;
+                required?: boolean;
+                order: number;
+                textType?: string;
+                minValue?: number;
+                maxValue?: number;
+                emojiCount?: number;
+                selectOptions?: string[];
+              }) => ({
+                label: field.label,
+                type: field.type,
+                required: field.required || false,
+                order: field.order,
+                textType: field.textType || null,
+                minValue: field.minValue || null,
+                maxValue: field.maxValue || null,
+                emojiCount: field.emojiCount || null,
+                selectOptions: field.selectOptions || [],
+              })
+            ) || [],
         },
       },
       include: {

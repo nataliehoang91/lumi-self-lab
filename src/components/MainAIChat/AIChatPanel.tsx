@@ -200,12 +200,12 @@ export function AiChatPanel() {
       {/* Chat Input */}
       <div className="sticky bottom-0 bg-sidebar/95 backdrop-blur-xl border-t border-sidebar-border/50 p-4">
         <form onSubmit={handleSubmit}>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your thoughts..."
-              className="flex-1 bg-sidebar-accent/50 border-sidebar-border/50 rounded-2xl text-sidebar-foreground placeholder:text-sidebar-foreground/40"
+              className="flex-1 min-w-0 bg-sidebar-accent/50 border-sidebar-border/50 rounded-2xl text-sidebar-foreground placeholder:text-sidebar-foreground/40"
               disabled={isLoading}
             />
             <Button

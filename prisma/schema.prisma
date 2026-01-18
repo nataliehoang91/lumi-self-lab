@@ -8,12 +8,117 @@ datasource db {
 }
 
 ////////////////////////////////////////////////////////////
+// USER ACCOUNT (linked to Clerk)
+////////////////////////////////////////////////////////////
+
+model User {
+  id              String   @id @default(cuid())
+  clerkUserId     String   @unique // from Clerk: auth().userId
+  accountType     String   @default("individual") // individual | organisation
+  upgradedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  experiments     Experiment[]
+  organisationMemberships OrganisationMember[] @relation("OrganisationMemberships")
+  createdOrganisations Organisation[] @relation("CreatedOrganisations") // Organisations this user created (if org account)
+
+  @@index([clerkUserId])
+  @@index([accountType])
+}
+
+////////////////////////////////////////////////////////////
+// ORGANISATION
+////////////////////////////////////////////////////////////
+
+model Organisation {
+  id              String   @id @default(cuid())
+  name            String
+  description     String?
+  createdBy       String   // clerkUserId of creator
+  creator         User?    @relation("CreatedOrganisations", fields: [createdBy], references: [clerkUserId], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  members         OrganisationMember[]
+  templates       OrganisationTemplate[]
+  experiments     Experiment[] // experiments linked to this org
+
+  @@index([createdBy])
+}
+
+////////////////////////////////////////////////////////////
+// ORGANISATION MEMBERSHIP
+////////////////////////////////////////////////////////////
+
+model OrganisationMember {
+  id              String   @id @default(cuid())
+  organisationId  String
+  organisation    Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  clerkUserId     String
+  user            User     @relation("OrganisationMemberships", fields: [clerkUserId], references: [clerkUserId], onDelete: Cascade)
+  role            String   @default("member") // member | admin
+  joinedAt        DateTime @default(now())
+
+  @@unique([organisationId, clerkUserId])
+  @@index([clerkUserId])
+  @@index([organisationId])
+}
+
+////////////////////////////////////////////////////////////
+// ORGANISATION TEMPLATE
+////////////////////////////////////////////////////////////
+
+model OrganisationTemplate {
+  id              String   @id @default(cuid())
+  organisationId  String
+  organisation    Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  
+  title           String
+  description     String?
+  category        String?
+  durationDays    Int
+  frequency       String   // daily | every-2-days | weekly
+  
+  // Template fields (similar to ExperimentField)
+  fields          OrganisationTemplateField[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([organisationId])
+}
+
+model OrganisationTemplateField {
+  id              String   @id @default(cuid())
+  templateId      String
+  template        OrganisationTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  
+  label           String
+  type            String   // text | number | select | emoji | yesno
+  required        Boolean  @default(false)
+  order           Int
+  
+  // Field-specific config
+  textType        String?  // short | long
+  minValue        Int?
+  maxValue        Int?
+  emojiCount      Int?     // 3 | 5 | 7
+  selectOptions   String[] // empty array if not select
+
+  @@index([templateId])
+}
+
+////////////////////////////////////////////////////////////
 // EXPERIMENT (top-level object)
 ////////////////////////////////////////////////////////////
 
 model Experiment {
   id              String   @id @default(cuid())
   clerkUserId     String   // from Clerk: auth().userId
+  user            User?    @relation(fields: [clerkUserId], references: [clerkUserId], onDelete: Cascade)
 
   title           String
   whyMatters      String?
@@ -27,6 +132,10 @@ model Experiment {
 
   status          String   @default("draft") // draft | active | completed
 
+  // Organisation linking (optional)
+  organisationId  String?
+  organisation    Organisation? @relation(fields: [organisationId], references: [id], onDelete: SetNull)
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   startedAt       DateTime?
@@ -36,6 +145,7 @@ model Experiment {
   checkIns        ExperimentCheckIn[]
 
   @@index([clerkUserId])
+  @@index([organisationId])
 }
 
 ////////////////////////////////////////////////////////////

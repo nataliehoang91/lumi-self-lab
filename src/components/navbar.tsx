@@ -4,9 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Moon, Sun, Menu, X, BarChart3 } from "lucide-react";
+import { Sparkles, Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { ManagerTabButton } from "@/components/navbar/ManagerTabButton";
+import { ManagerTabButtonMobile } from "@/components/navbar/ManagerTabButtonMobile";
 
 /**
  * Navbar Component with Clerk Integration
@@ -45,6 +47,7 @@ export function Navbar() {
     { href: "/experiments", label: "Experiments" },
     { href: "/templates", label: "Templates" },
     { href: "/insights", label: "Insights" },
+    { href: "/organizations", label: "Organizations" },
   ];
 
   return (
@@ -81,19 +84,8 @@ export function Navbar() {
                 </Button>
               </Link>
             ))}
-            <Link href="/manager">
-              <Button
-                variant="ghost"
-                className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-                  pathname === "/manager"
-                    ? "bg-primary text-black hover:bg-secondary hover:text-white"
-                    : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet/10 hover:text-violet"
-                }`}
-              >
-                <BarChart3 className="size-4" />
-                Manager
-              </Button>
-            </Link>
+            {/* Manager tab - only show for organisation accounts */}
+            <ManagerTabButton pathname={pathname} />
           </div>
 
           {/* Desktop Actions */}
@@ -190,19 +182,11 @@ export function Navbar() {
                 </Button>
               </Link>
             ))}
-            <Link href="/manager" onClick={() => setMobileMenuOpen(false)}>
-              <Button
-                variant="ghost"
-                className={`w-full justify-start rounded-2xl gap-2 ${
-                  pathname === "/manager"
-                    ? "bg-violet text-white"
-                    : "text-violet hover:bg-violet/10"
-                }`}
-              >
-                <BarChart3 className="size-4" />
-                Manager
-              </Button>
-            </Link>
+            {/* Manager tab in mobile - conditional */}
+            <ManagerTabButtonMobile
+              pathname={pathname}
+              onClose={() => setMobileMenuOpen(false)}
+            />
 
             {/* Theme Toggle in Mobile Menu */}
             <div className="flex items-center gap-2 pt-2">
