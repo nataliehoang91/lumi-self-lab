@@ -32,7 +32,7 @@ export default function TestScenariosPage() {
       setScenario(scenarioId);
       setSelectedScenario(scenarioId);
       // Redirect to dashboard to see the changes
-      router.push("/dashboard");
+      router.push("/create");
     }
   };
 

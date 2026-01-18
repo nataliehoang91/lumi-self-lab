@@ -76,7 +76,7 @@ export default async function ExperimentsPage() {
             </Link>
           </div>
           <Button asChild>
-            <Link href="/dashboard">
+            <Link href="/create">
               <Plus className="w-4 h-4 mr-2" />
               New Experiment
             </Link>

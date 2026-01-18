@@ -5,7 +5,7 @@ import { UserProvider } from "@/hooks/user-context";
  * Protected Layout - Wraps protected routes with Navbar
  *
  * Routes protected by this layout:
- * - /dashboard
+ * - /create
  * - /experiments
  * - /experiments/[id]
  *

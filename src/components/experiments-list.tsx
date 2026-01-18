@@ -225,7 +225,7 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
             No experiments found in this category
           </p>
           <Button asChild>
-            <Link href="/dashboard">Create Your First Experiment</Link>
+            <Link href="/create">Create Your First Experiment</Link>
           </Button>
         </Card>
       )}

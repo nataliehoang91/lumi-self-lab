@@ -108,10 +108,10 @@ export default function SignUpPage() {
           path="/sign-up"
           signInUrl="/sign-in"
           waitlistUrl="/waitlist"
-          signInFallbackRedirectUrl="/dashboard"
-          signInForceRedirectUrl="/dashboard"
-          fallbackRedirectUrl="/dashboard"
-          forceRedirectUrl="/dashboard"
+          signInFallbackRedirectUrl="/create"
+          signInForceRedirectUrl="/create"
+          fallbackRedirectUrl="/create"
+          forceRedirectUrl="/create"
           oauthFlow="redirect"
         />
 

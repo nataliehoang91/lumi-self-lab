@@ -188,7 +188,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Load scenario from localStorage on mount
+  // Load scenario from localStorage on mount - only run once
   useEffect(() => {
     const saved = localStorage.getItem("userScenario");
     if (
@@ -199,11 +199,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
     ) {
       setScenarioState(saved as UserScenario);
       setLoading(false); // Mock data, no loading needed
-    } else {
-      // Fetch real user data from API
+    } else if (!apiUser) {
+      // Only fetch if we don't have user data yet
       fetchUser();
     }
-  }, [fetchUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps - only run once on mount
 
   const setScenario = (newScenario: UserScenario | null) => {
     setScenarioState(newScenario);

@@ -118,7 +118,7 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link
-            href="/dashboard"
+            href="/create"
             className="flex items-center gap-2 transition-transform hover:scale-105"
           >
             <div className="flex size-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 text-primary">

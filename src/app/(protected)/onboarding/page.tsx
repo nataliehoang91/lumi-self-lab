@@ -31,7 +31,7 @@ export default function OnboardingPage() {
       title: "I have something in mind",
       description:
         "Create a custom experiment from scratch with full flexibility",
-      href: "/dashboard",
+      href: "/create",
       gradient:
         "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
       iconBg: "bg-amber-500",

@@ -61,7 +61,7 @@ export const LoginForm = ({
           "use server";
           // TODO: Update to use Clerk authentication
           // For now, redirect to dashboard (Clerk will handle auth in protected layout)
-          const redirectUrl = callbackUrl || "/dashboard";
+          const redirectUrl = callbackUrl || "/create";
           return {
             redirect: redirectUrl,
             refresh: true,

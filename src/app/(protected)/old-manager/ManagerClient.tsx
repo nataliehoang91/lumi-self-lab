@@ -207,7 +207,7 @@ export function ManagerClient({ experiments, stats }: ManagerClientProps) {
           </h2>
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-2xl">
-              <Link href="/dashboard">
+              <Link href="/create">
                 <Plus className="w-4 h-4 mr-2" />
                 New Experiment
               </Link>
@@ -295,7 +295,7 @@ export function ManagerClient({ experiments, stats }: ManagerClientProps) {
               <FlaskConical className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
               <p className="text-muted-foreground mb-4">No experiments yet</p>
               <Button asChild className="rounded-2xl">
-                <Link href="/dashboard">
+                <Link href="/create">
                   <Plus className="w-4 h-4 mr-2" />
                   Create Your First Experiment
                 </Link>

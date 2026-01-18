@@ -30,7 +30,7 @@ export default function ProtectedHomePage() {
             asChild
             className="w-full text-lg py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            <Link href="/dashboard">Start New Experiment</Link>
+            <Link href="/create">Start New Experiment</Link>
           </Button>
           <Button
             size="lg"

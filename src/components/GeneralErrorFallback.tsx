@@ -26,7 +26,7 @@ export function GeneralErrorFallback({
   icon: Icon,
   defaultDescription = "An unexpected error occurred.",
   showHomeButton = true,
-  homeUrl = "/dashboard",
+  homeUrl = "/create",
 }: GeneralErrorFallbackProps) {
   const router = useRouter();
 

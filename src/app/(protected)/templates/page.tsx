@@ -164,7 +164,7 @@ export default function TemplatesPage() {
             Filter
           </Button>
           <Button className="rounded-3xl" asChild>
-            <Link href="/dashboard">
+            <Link href="/create">
               <Sparkles className="w-4 h-4 mr-2" />
               Create Custom
             </Link>
