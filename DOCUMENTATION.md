@@ -143,11 +143,11 @@ lumi-self-lab/
 - `/insights` - Personal insights dashboard
 
 #### Organisation Routes (All Users)
-- `/organizations` - List organisations user belongs to (as member)
-- `/organizations/[orgId]` - Organisation dashboard (member view, read-only)
-- `/organizations/[orgId]/templates` - Browse org templates (read-only)
-- `/organizations/[orgId]/insights` - View aggregate insights (read-only)
-- `/organizations/invites/[inviteId]` - Accept/decline invitation
+- `/organisations` - List organisations user belongs to (as member)
+- `/organisations/[orgId]` - Organisation dashboard (member view, read-only)
+- `/organisations/[orgId]/templates` - Browse org templates (read-only)
+- `/organisations/[orgId]/insights` - View aggregate insights (read-only)
+- `/organisations/invites/[inviteId]` - Accept/decline invitation
 
 #### Organisation Management Routes (Organisation Accounts Only)
 - `/manager` - Manager dashboard (full access)
@@ -557,23 +557,74 @@ export function ClientComponent({ data }: Props) {
 
 ---
 
-## 👥 Account Types & Organisation System
+## 👥 Self-Lab UI Rules & Organisation System
 
-### Account Types
+### Self-Lab UI Rules
 
-#### 1. Individual Account (Default)
-- All users start here
-- Can create personal experiments
-- Can join organisations (as member)
-- Can link personal experiments to organisations
+#### 1. Identify Context
+
+Three contexts for experiments and features:
+
+- **Personal** - User's own experiments, completely private
+- **Org** - Organisation-wide experiments and templates
+- **Team** - Team-specific experiments within an organisation
+
+#### 2. Identify Role
+
+Three roles with different permissions:
+
+- **member** - Participate only (read-only access)
+- **team_manager** - Manage team experiments (full access to team)
+- **org_admin** - Manage organisation & teams (full access to org and all teams)
+
+#### 3. Permissions
+
+**Members (participate only):**
+- Can participate in experiments (check-ins only)
+- Can view templates (read-only)
+- Can view aggregate insights (read-only)
+- **Cannot** create templates
+- **Cannot** manage experiments
+
+**Team Managers (manage team experiments):**
+- Everything Members can do
+- **Can** manage team experiments (create, edit, delete)
+- **Can** view team aggregate insights
+- **Cannot** manage organisation settings
 - **Cannot** create organisation templates
 
-#### 2. Organisation Account (Upgraded)
-- Everything Individual accounts can do
+**Org Admins (manage org & teams):**
+- Everything Team Managers can do
+- **Can** manage organisation settings
 - **Can** create organisation templates
-- **Can** manage organisation experiments
-- **Can** view organisation aggregate insights
-- Still have personal experiments (separate)
+- **Can** manage all teams
+- **Can** view organisation-wide aggregate insights
+
+#### 4. Experiments
+
+- **Always owned by user** - User creates and owns their experiment instances
+- **Scoped by org/team** - Experiments can be linked to organisation or team for aggregate insights
+- **Personal always available** - Users always have personal experiments (outside org/team)
+
+#### 5. Data Visibility
+
+- **Aggregate only** - Only counts, averages, trends shared
+- **No personal text exposed** - Text reflections always private
+- **Individual check-ins private** - Never shared, only aggregate patterns
+
+#### 6. UI Separation (Never Mix)
+
+**Org Participation UI** (`/organisations/*`):
+- Read-only views (browse templates, view insights)
+- No create/edit/delete actions
+- Member mindset
+- Accessible by all users who are members
+
+**Manager Control UI** (`/manager/*`):
+- Full access (create templates, manage experiments)
+- Admin/Manager mindset (org_admin or team_manager roles)
+- Separate from participation UI
+- Only accessible by managers/admins
 
 ### Organisation System
 
@@ -581,51 +632,56 @@ export function ClientComponent({ data }: Props) {
 
 **Route = Mode = Mindset**
 
-- **`/organizations/*`** = **Membership Mode** (read-only)
+- **`/organisations/*`** = **Membership Mode** (read-only)
   - View organisations you belong to as member
   - Browse templates, view insights
   - No create/edit/delete actions
+  - Role: member (participate only)
 
 - **`/manager/*`** = **Management Mode** (full access)
-  - Manage organisations you created
-  - Create templates, manage orgs
+  - Manage organisations you created/administer
+  - Create templates, manage orgs and teams
   - Full access actions
+  - Roles: team_manager or org_admin
 
 #### Design Rules
 
-1. **Route determines mode** - `/organizations/*` = read-only, `/manager/*` = full access
-2. **Never mix modes** - No create buttons on `/organizations/*` pages
+1. **Route determines mode** - `/organisations/*` = read-only, `/manager/*` = full access
+2. **Never mix modes** - No create buttons on `/organisations/*` pages
 3. **Default to read-only** - When in doubt, show read-only
 4. **Separate UI by route** - One route = one mindset
 
 ### Organisation Flows
 
-#### Membership Flow (All Users)
+#### Membership Flow (All Users - member role)
 ```
-/organizations
-  → List organisations user belongs to
-  → Click org → /organizations/[orgId]
+/organisations
+  → List organisations user belongs to (as member)
+  → Click org → /organisations/[orgId]
   → View dashboard (read-only)
   → Browse templates (read-only)
   → View insights (read-only)
+  → No create/edit/delete actions
 ```
 
-#### Management Flow (Organisation Accounts)
+#### Management Flow (team_manager or org_admin roles)
 ```
 /manager
   → Manager dashboard (full access)
-  → Create templates
+  → Create templates (org_admin only)
+  → Manage team experiments (team_manager or org_admin)
   → View aggregate insights
-  → Manage organisation
+  → Manage organisation (org_admin only)
 ```
 
 #### Template Usage Flow
 ```
-/organizations/[orgId]/templates
+/organisations/[orgId]/templates
   → Browse templates (read-only)
   → "Start from Template"
   → /experiments/new?template=[id]&org=[id]
   → Creates personal experiment from template
+  → User owns experiment, scoped to org/team
 ```
 
 ---
@@ -635,12 +691,13 @@ export function ClientComponent({ data }: Props) {
 ### Organisation Feature Rules
 
 1. **Route = Mode = Mindset**
-   - `/organizations/*` → Membership mode (read-only)
-   - `/manager/*` → Management mode (full access)
+   - `/organisations/*` → Membership mode (read-only, member role)
+   - `/manager/*` → Management mode (full access, team_manager or org_admin roles)
 
 2. **Never Mix Modes**
-   - No "Create" buttons on `/organizations/*` pages
+   - No "Create" buttons on `/organisations/*` pages
    - No "View as member" on `/manager/*` pages
+   - Separate UI for participation vs. management
 
 3. **Default to Read-Only**
    - When uncertain, default to read-only
