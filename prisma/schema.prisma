@@ -16,6 +16,7 @@ model User {
   clerkUserId     String   @unique // from Clerk: auth().userId
   email           String?  // User email (synced from Clerk)
   accountType     String   @default("individual") // individual | organisation
+  role            String   @default("user") // user | super_admin (global admin for whole app; distinct from org_admin)
   upgradedAt      DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -28,6 +29,7 @@ model User {
   @@index([clerkUserId])
   @@index([accountType])
   @@index([email])
+  @@index([role])
 }
 
 ////////////////////////////////////////////////////////////

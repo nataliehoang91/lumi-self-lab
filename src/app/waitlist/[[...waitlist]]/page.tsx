@@ -63,7 +63,7 @@ export default function WaitlistPage() {
               <Link href="/sign-in">Sign In</Link>
             </Button>
             <Button asChild>
-              <Link href="/sign-up">Early Access</Link>
+              <Link href="#waitlist-form">Early Access</Link>
             </Button>
           </div>
         </div>
