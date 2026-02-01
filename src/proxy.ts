@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 // Define public routes that don't require authentication
 // Reference: https://clerk.com/docs/nextjs/guides/development/custom-sign-in-or-up-page
@@ -13,9 +14,16 @@ const isPublicRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  // Protect all routes except public routes
+  // Protected route: unauthenticated users go to waitlist (pages) or 401 (API)
   if (!isPublicRoute(req)) {
-    await auth.protect();
+    const { isAuthenticated } = await auth();
+    if (!isAuthenticated) {
+      const pathname = req.nextUrl.pathname;
+      if (pathname.startsWith("/api/")) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      return NextResponse.redirect(new URL("/waitlist", req.url));
+    }
   }
 });
 

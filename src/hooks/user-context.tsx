@@ -18,6 +18,7 @@ type APIUser = {
   clerkUserId: string;
   email: string | null;
   accountType: "individual" | "organisation";
+  role?: string; // user | super_admin (global admin; distinct from org_admin)
   upgradedAt: string | null;
   organisations: Array<{
     id: string;
@@ -38,6 +39,8 @@ export type UserData = {
   accountType: "individual" | "organisation";
   hasManagerRole: boolean; // True if team_manager or org_admin in any org
   isOrgAdmin: boolean; // True if org_admin in any org OR accountType === "organisation"
+  isSuperAdmin: boolean; // True if User.role === "super_admin" (global admin; distinct from org_admin)
+  isUpgraded: boolean; // True if upgradedAt set OR super_admin (full access)
   isParticipant: boolean; // True if has experiments linked to orgs (derived from experiments count)
   pendingAssignments: number; // TODO: Implement actual assignment tracking
   orgs: Array<{
@@ -66,15 +69,24 @@ export type UserContextType = {
 
 // Transform API user data to UserData structure
 function transformAPIUserToUserData(apiUser: APIUser): UserData {
-  // Check if user is org_admin in any org OR has organisation accountType
+  // Global admin: full access to everything (manager, org admin, upgraded)
+  const isSuperAdmin = apiUser.role === "super_admin";
+
+  // Check if user is org_admin in any org OR has organisation accountType (or super_admin)
   const isOrgAdmin =
+    isSuperAdmin ||
     apiUser.accountType === "organisation" ||
     apiUser.organisations.some((org) => org.role === "org_admin");
 
-  // Check if user has manager role (team_manager or org_admin)
-  const hasManagerRole = apiUser.organisations.some(
-    (org) => org.role === "team_manager" || org.role === "org_admin",
-  );
+  // Check if user has manager role (team_manager or org_admin) (or super_admin)
+  const hasManagerRole =
+    isSuperAdmin ||
+    apiUser.organisations.some(
+      (org) => org.role === "team_manager" || org.role === "org_admin",
+    );
+
+  // Upgraded: has upgradedAt OR super_admin (auto full access)
+  const isUpgraded = !!apiUser.upgradedAt || isSuperAdmin;
 
   // Build orgs array with proper typing
   const orgs = apiUser.organisations.map((org) => ({
@@ -105,6 +117,8 @@ function transformAPIUserToUserData(apiUser: APIUser): UserData {
     accountType: apiUser.accountType,
     hasManagerRole,
     isOrgAdmin,
+    isSuperAdmin,
+    isUpgraded,
     isParticipant, // Based on org memberships or org-linked experiments from API
     pendingAssignments: 0, // TODO: Implement actual assignment tracking
     orgs,
@@ -127,11 +141,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("/api/users/me");
+      const response = await fetch("/api/users/me", {
+        cache: "no-store",
+        credentials: "same-origin",
+      });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
-        const message = (data?.error ?? data?.details) || "Failed to fetch user";
-        throw new Error(typeof message === "string" ? message : "Failed to fetch user");
+        const message =
+          (data?.error ?? data?.details) || "Failed to fetch user";
+        throw new Error(
+          typeof message === "string" ? message : "Failed to fetch user",
+        );
       }
       setApiUser(data);
     } catch (err) {
@@ -167,6 +187,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
     return null;
   }, [apiUser]);
+
+  // Debug: log super_admin status when user data is available
+  useEffect(() => {
+    if (userData) {
+      const isSuperAdmin = userData.isSuperAdmin;
+      console.log("[UserContext] super_admin:", isSuperAdmin, "| email:", userData.email, "| role from API:", apiUser?.role);
+    }
+  }, [userData, apiUser?.role]);
 
   return (
     <UserContext.Provider

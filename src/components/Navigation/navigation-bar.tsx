@@ -15,6 +15,7 @@ import {
   Building2,
   Crown,
   Loader2,
+  Shield,
 } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
@@ -70,7 +71,7 @@ export function NavigationBar() {
 
     if (!userData) return links; // Return default links if no user data
 
-    // Individual accounts see "Joined Experiments" and "Upgrade"
+    // Individual accounts see "Joined Experiments" and "Upgrade" (unless already upgraded or super_admin)
     if (userData.accountType === "individual") {
       links.push({
         href: "/joined-experiments",
@@ -80,7 +81,10 @@ export function NavigationBar() {
             ? userData.pendingAssignments
             : undefined,
       });
-      links.push({ href: "/upgrade", label: "Upgrade", isUpgrade: true });
+      // Don't show Upgrade for upgraded users or super_admin (full access)
+      if (!userData.isUpgraded && !userData.isSuperAdmin) {
+        links.push({ href: "/upgrade", label: "Upgrade", isUpgrade: true });
+      }
     }
 
     // Organisation accounts see "Joined Experiments" (for participant experiments)
@@ -184,6 +188,23 @@ export function NavigationBar() {
                 </Button>
               </Link>
             )}
+            {/* Super Admin: highest, after Manager */}
+            {userData?.isSuperAdmin && (
+              <Link href="/super-admin">
+                <Button
+                  variant="ghost"
+                  className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
+                    pathname === "/super-admin" ||
+                    pathname.startsWith("/super-admin/")
+                      ? "bg-violet-500 text-white hover:bg-violet-600"
+                      : "border-2 border-violet-500/50 text-violet-600 dark:text-violet-400 hover:border-violet-500 hover:bg-violet-500 hover:text-white"
+                  }`}
+                >
+                  <Shield className="size-4" />
+                  Super Admin
+                </Button>
+              </Link>
+            )}
               </>
             )}
           </div>
@@ -218,7 +239,7 @@ export function NavigationBar() {
                   },
                 }}
                 userProfileMode="modal"
-                afterSignOutUrl="/"
+                afterSignOutUrl="/waitlist"
               />
             </SignedIn>
 
@@ -322,6 +343,23 @@ export function NavigationBar() {
                     </Button>
                   </Link>
                 )}
+                {/* Super Admin: highest, after Manager */}
+                {userData?.isSuperAdmin && (
+                  <Link href="/super-admin" onClick={() => setMobileMenuOpen(false)}>
+                    <Button
+                      variant="ghost"
+                      className={`w-full justify-start rounded-2xl gap-2 ${
+                        pathname === "/super-admin" ||
+                        pathname.startsWith("/super-admin/")
+                          ? "bg-violet-500 text-white"
+                          : "text-violet-600 dark:text-violet-400"
+                      }`}
+                    >
+                      <Shield className="size-4" />
+                      Super Admin
+                    </Button>
+                  </Link>
+                )}
               </>
             )}
 
@@ -359,7 +397,7 @@ export function NavigationBar() {
                       },
                     }}
                     userProfileMode="modal"
-                    afterSignOutUrl="/"
+                    afterSignOutUrl="/waitlist"
                   />
                 </div>
               </SignedIn>

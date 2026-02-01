@@ -5,12 +5,9 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   try {
     const { userId } = await auth();
-    
+
     if (!userId) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Ensure database connection is active
@@ -25,8 +22,11 @@ export async function GET() {
       } catch (retryError) {
         console.error("Failed to reconnect:", retryError);
         return NextResponse.json(
-          { error: "Database connection error", details: "Unable to connect to database" },
-          { status: 500 }
+          {
+            error: "Database connection error",
+            details: "Unable to connect to database",
+          },
+          { status: 500 },
         );
       }
     }
@@ -34,9 +34,10 @@ export async function GET() {
     // Get email from Clerk
     const client = await clerkClient();
     const clerkUser = await client.users.getUser(userId);
-    const email = clerkUser.emailAddresses.find(
-      (e: { id: string }) => e.id === clerkUser.primaryEmailAddressId
-    )?.emailAddress ?? null;
+    const email =
+      clerkUser.emailAddresses.find(
+        (e: { id: string }) => e.id === clerkUser.primaryEmailAddressId,
+      )?.emailAddress ?? null;
 
     // Get or create user
     let user = await prisma.user.findUnique({
@@ -104,7 +105,7 @@ export async function GET() {
     if (!user) {
       return NextResponse.json(
         { error: "User not found after create" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -116,31 +117,60 @@ export async function GET() {
         : false;
     const isParticipant = hasOrgMemberships || hasOrgLinkedExperiments;
 
-    return NextResponse.json({
-      id: user.id,
-      clerkUserId: user.clerkUserId,
-      email: user.email,
-      accountType: user.accountType,
-      upgradedAt: user.upgradedAt,
-      organisations: user.organisationMemberships.map((membership) => ({
-        id: membership.organisation.id,
-        name: membership.organisation.name,
-        description: membership.organisation.description,
-        role: membership.role, // member | team_manager | org_admin
-        ...(membership.teamId && { teamId: membership.teamId }), // Only if exists
-        ...(membership.teamName && { teamName: membership.teamName }), // Only if exists
-        joinedAt: membership.joinedAt.toISOString(),
-      })),
-      isParticipant, // True if has org memberships or org-linked experiments
-    });
+    // Role from DB; may be undefined if Prisma client was generated before role column - run: npx prisma generate
+    const roleFromDb = (user as { role?: string }).role ?? "user";
+    // Fallback: treat as super_admin by email (e.g. production DB/client out of sync). Set SUPER_ADMIN_EMAILS in env.
+    const superAdminEmails = (process.env.SUPER_ADMIN_EMAILS ?? "")
+      .split(",")
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean);
+    const emailLower = user.email?.trim().toLowerCase();
+    const role =
+      roleFromDb === "super_admin" ||
+      (emailLower && superAdminEmails.includes(emailLower))
+        ? "super_admin"
+        : roleFromDb;
+    // Super admin: treat as upgraded for API (full access)
+    const upgradedAt =
+      role === "super_admin"
+        ? user.upgradedAt ?? user.createdAt
+        : user.upgradedAt;
+
+    return NextResponse.json(
+      {
+        id: user.id,
+        clerkUserId: user.clerkUserId,
+        email: user.email,
+        accountType: user.accountType,
+        role, // user | super_admin (global admin)
+        upgradedAt,
+        organisations: user.organisationMemberships.map((membership) => ({
+          id: membership.organisation.id,
+          name: membership.organisation.name,
+          description: membership.organisation.description,
+          role: membership.role, // member | team_manager | org_admin
+          ...(membership.teamId && { teamId: membership.teamId }), // Only if exists
+          ...(membership.teamName && { teamName: membership.teamName }), // Only if exists
+          joinedAt: membership.joinedAt.toISOString(),
+        })),
+        isParticipant, // True if has org memberships or org-linked experiments
+      },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          Pragma: "no-cache",
+        },
+      },
+    );
   } catch (error) {
     console.error("Error fetching user:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     const errorDetails = error instanceof Error ? error.stack : String(error);
     console.error("Error details:", errorDetails);
     return NextResponse.json(
       { error: "Failed to fetch user", details: errorMessage },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

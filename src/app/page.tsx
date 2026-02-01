@@ -1,9 +1,15 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
 
 export default function LandingPage() {
+  // In production, main page is the waitlist
+  if (process.env.NODE_ENV === "production") {
+    redirect("/waitlist");
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 py-12 md:py-20 max-w-md md:max-w-2xl">
