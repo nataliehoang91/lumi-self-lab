@@ -14,6 +14,7 @@ import {
   BarChart3,
   Building2,
   Crown,
+  Loader2,
 } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
@@ -27,7 +28,7 @@ type NavLink = {
 };
 
 /**
- * Navbar Component with Clerk Integration
+ * Navigation bar component with Clerk integration.
  *
  * Features:
  * - Clerk UserButton for authenticated users
@@ -35,15 +36,11 @@ type NavLink = {
  * - Theme toggle (light/dark mode)
  * - Responsive mobile menu
  * - Navigation links for protected routes
- *
- * References:
- * - https://clerk.com/docs/nextjs/reference/components/user/user-button
- * - https://clerk.com/docs/nextjs/reference/components/user/user-avatar
  */
-export function Navbar() {
+export function NavigationBar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
-  const { userData } = useUser();
+  const { userData, loading: userLoading } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Don't show navbar on landing/auth pages
@@ -111,6 +108,7 @@ export function Navbar() {
   };
 
   const navLinks = buildNavLinks();
+  const showNavLinks = !userLoading;
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
@@ -129,8 +127,15 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - show skeleton until roles loaded */}
           <div className="hidden items-center gap-1 md:flex">
+            {!showNavLinks ? (
+              <div className="flex items-center gap-2 rounded-3xl border-2 border-border/50 bg-muted/30 px-4 py-2">
+                <Loader2 className="size-5 animate-spin text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Loading…</span>
+              </div>
+            ) : (
+              <>
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 <Button
@@ -157,20 +162,29 @@ export function Navbar() {
                 </Button>
               </Link>
             ))}
-            {userData?.hasManagerRole && (
+            {/* Show Manager tab for:
+                - Organisation accounts (always)
+                - Individual accounts who are participants (has org memberships or org-linked experiments)
+                - Users with manager role (team_manager or org_admin)
+            */}
+            {(userData?.accountType === "organisation" ||
+              userData?.isParticipant ||
+              userData?.hasManagerRole) && (
               <Link href="/manager">
                 <Button
                   variant="ghost"
                   className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
                     pathname === "/manager" || pathname.startsWith("/manager/")
-                      ? "bg-violet text-white hover:bg-violet/90"
-                      : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet hover:text-white"
+                      ? "bg-secondary text-white hover:bg-secondary/90"
+                      : "border-2 border-secondary/50 text-secondary hover:border-secondary hover:bg-secondary hover:text-white"
                   }`}
                 >
                   <BarChart3 className="size-4" />
                   Manager
                 </Button>
               </Link>
+            )}
+              </>
             )}
           </div>
 
@@ -249,50 +263,66 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="border-t border-border/40 bg-background/95 backdrop-blur-xl md:hidden">
           <div className="space-y-1 px-4 pb-3 pt-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Button
-                  variant="ghost"
-                  className={`w-full justify-start rounded-2xl gap-2 ${
-                    pathname === link.href ||
-                    pathname.startsWith(link.href + "/")
-                      ? "bg-primary text-primary-foreground"
-                      : link.isUpgrade
-                      ? "text-amber-600"
-                      : ""
-                  }`}
-                >
-                  {link.href === "/organisations" && (
-                    <Building2 className="size-4" />
-                  )}
-                  {link.isUpgrade && <Crown className="size-4" />}
-                  {link.label}
-                  {link.badge && (
-                    <Badge className="ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs">
-                      {link.badge}
-                    </Badge>
-                  )}
-                </Button>
-              </Link>
-            ))}
-            {userData?.hasManagerRole && (
-              <Link href="/manager" onClick={() => setMobileMenuOpen(false)}>
-                <Button
-                  variant="ghost"
-                  className={`w-full justify-start rounded-2xl gap-2 ${
-                    pathname === "/manager" || pathname.startsWith("/manager/")
-                      ? "bg-violet text-white"
-                      : "text-violet"
-                  }`}
-                >
-                  <BarChart3 className="size-4" />
-                  Manager
-                </Button>
-              </Link>
+            {!showNavLinks ? (
+              <div className="flex items-center gap-2 rounded-2xl border border-border/50 bg-muted/30 px-4 py-3">
+                <Loader2 className="size-5 animate-spin text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Loading…</span>
+              </div>
+            ) : (
+              <>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Button
+                      variant="ghost"
+                      className={`w-full justify-start rounded-2xl gap-2 ${
+                        pathname === link.href ||
+                        pathname.startsWith(link.href + "/")
+                          ? "bg-primary text-primary-foreground"
+                          : link.isUpgrade
+                          ? "text-amber-600"
+                          : ""
+                      }`}
+                    >
+                      {link.href === "/organisations" && (
+                        <Building2 className="size-4" />
+                      )}
+                      {link.isUpgrade && <Crown className="size-4" />}
+                      {link.label}
+                      {link.badge && (
+                        <Badge className="ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs">
+                          {link.badge}
+                        </Badge>
+                      )}
+                    </Button>
+                  </Link>
+                ))}
+                {/* Show Manager tab for:
+                    - Organisation accounts (always)
+                    - Individual accounts who are participants (has org memberships or org-linked experiments)
+                    - Users with manager role (team_manager or org_admin)
+                */}
+                {(userData?.accountType === "organisation" ||
+                  userData?.isParticipant ||
+                  userData?.hasManagerRole) && (
+                  <Link href="/manager" onClick={() => setMobileMenuOpen(false)}>
+                    <Button
+                      variant="ghost"
+                      className={`w-full justify-start rounded-2xl gap-2 ${
+                        pathname === "/manager" || pathname.startsWith("/manager/")
+                          ? "bg-secondary text-white"
+                          : "text-secondary"
+                      }`}
+                    >
+                      <BarChart3 className="size-4" />
+                      Manager
+                    </Button>
+                  </Link>
+                )}
+              </>
             )}
 
             {/* Theme Toggle in Mobile Menu */}

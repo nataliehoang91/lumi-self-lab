@@ -94,11 +94,7 @@ export default function CreateExperimentPage() {
         )}
 
         {/* Experiment Creation Form */}
-        <ExperimentFormPanel 
-          orgId={orgId}
-          templateId={templateId}
-          assignedInviteId={assignedInviteId}
-        />
+        <ExperimentFormPanel />
       </div>
     </div>
   );

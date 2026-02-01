@@ -32,8 +32,11 @@ export async function GET() {
     }
 
     // Get email from Clerk
-    const clerkUser = await clerkClient.users.getUser(userId);
-    const email = clerkUser.emailAddresses.find(e => e.id === clerkUser.primaryEmailAddressId)?.emailAddress || null;
+    const client = await clerkClient();
+    const clerkUser = await client.users.getUser(userId);
+    const email = clerkUser.emailAddresses.find(
+      (e: { id: string }) => e.id === clerkUser.primaryEmailAddressId
+    )?.emailAddress ?? null;
 
     // Get or create user
     let user = await prisma.user.findUnique({
@@ -42,6 +45,14 @@ export async function GET() {
         organisationMemberships: {
           include: {
             organisation: true,
+          },
+        },
+        experiments: {
+          where: {
+            organisationId: { not: null },
+          },
+          select: {
+            id: true,
           },
         },
       },
@@ -61,6 +72,10 @@ export async function GET() {
               organisation: true,
             },
           },
+          experiments: {
+            where: { organisationId: { not: null } },
+            select: { id: true },
+          },
         },
       });
     } else if (user.email !== email) {
@@ -74,9 +89,32 @@ export async function GET() {
               organisation: true,
             },
           },
+          experiments: {
+            where: {
+              organisationId: { not: null },
+            },
+            select: {
+              id: true,
+            },
+          },
         },
       });
     }
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not found after create" },
+        { status: 500 }
+      );
+    }
+
+    // Check if user is a participant (has org memberships OR has experiments linked to orgs)
+    const hasOrgMemberships = user.organisationMemberships.length > 0;
+    const hasOrgLinkedExperiments =
+      "experiments" in user && Array.isArray(user.experiments)
+        ? user.experiments.length > 0
+        : false;
+    const isParticipant = hasOrgMemberships || hasOrgLinkedExperiments;
 
     return NextResponse.json({
       id: user.id,
@@ -93,6 +131,7 @@ export async function GET() {
         ...(membership.teamName && { teamName: membership.teamName }), // Only if exists
         joinedAt: membership.joinedAt.toISOString(),
       })),
+      isParticipant, // True if has org memberships or org-linked experiments
     });
   } catch (error) {
     console.error("Error fetching user:", error);

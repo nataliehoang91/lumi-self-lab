@@ -15,8 +15,8 @@ export async function POST(request: Request) {
     );
   }
 
-  // Get the headers
-  const headerPayload = headers();
+  // Get the headers (Next.js 15+ returns a Promise)
+  const headerPayload = await headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");

@@ -510,8 +510,8 @@ if (!experiment) return NextResponse.json({ error: "Not found" }, { status: 404 
 
 ### Key Components
 
-#### Navigation
-- `Navbar` - Main navigation with conditional Manager tab
+#### Navigation (`src/components/Navigation/`)
+- `NavigationBar` - Main navigation with conditional Manager tab (`navigation-bar.tsx`)
 - `ManagerTabButton` - Desktop Manager/Upgrade button
 - `ManagerTabButtonMobile` - Mobile Manager/Upgrade button
 

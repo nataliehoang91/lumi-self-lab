@@ -8,6 +8,7 @@ const isPublicRoute = createRouteMatcher([
   "/forgot-password(.*)",
   "/reset-password(.*)",
   "/waitlist(.*)",
+  "/api/waitlist", // Waitlist signup (unauthenticated)
   "/", // Home page is public
 ]);
 

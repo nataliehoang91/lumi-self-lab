@@ -1,8 +1,8 @@
-import { Navbar } from "@/components/navbar";
+import { NavigationBar } from "@/components/Navigation/navigation-bar";
 import { UserProvider } from "@/hooks/user-context";
 
 /**
- * Protected Layout - Wraps protected routes with Navbar
+ * Protected Layout - Wraps protected routes with NavigationBar
  *
  * Routes protected by this layout:
  * - /create
@@ -17,10 +17,10 @@ export default function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // User is authenticated (middleware ensures this), render navbar and children
+  // User is authenticated (middleware ensures this), render navigation bar and children
   return (
     <UserProvider>
-      <Navbar />
+      <NavigationBar />
       {children}
     </UserProvider>
   );

@@ -133,12 +133,12 @@ await prisma.user.upsert({
 - `src/app/api/users/upgrade/route.ts`
 - `src/app/(protected)/upgrade/page.tsx`
 - `src/hooks/use-user.ts`
-- `src/components/navbar/ManagerTabButton.tsx`
-- `src/components/navbar/ManagerTabButtonMobile.tsx`
+- `src/components/Navigation/ManagerTabButton.tsx`
+- `src/components/Navigation/ManagerTabButtonMobile.tsx`
 
 ### Updated Files:
 - `prisma/schema.prisma` - Added User, Organisation models
-- `src/components/navbar.tsx` - Conditional Manager tab
+- `src/components/Navigation/navigation-bar.tsx` - Conditional Manager tab
 
 ---
 

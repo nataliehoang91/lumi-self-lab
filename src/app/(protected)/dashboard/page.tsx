@@ -8,7 +8,6 @@ import {
   Sparkles,
   Target,
   TrendingUp,
-  Clock,
   Users,
   Building2,
   Plus,
@@ -23,7 +22,16 @@ import Link from "next/link";
 import { useUser } from "@/hooks/user-context";
 
 export default function DashboardPage() {
-  const { userData, scenario } = useUser();
+  const { userData } = useUser();
+
+  // Determine user type based on accountType and roles from database
+  const isIndividual =
+    userData?.accountType === "individual" && !userData?.hasManagerRole;
+  const isParticipant =
+    userData?.accountType === "individual" &&
+    (userData?.orgs.length > 0 || userData?.isParticipant);
+  const isTeamManager = userData?.hasManagerRole && !userData?.isOrgAdmin;
+  const isOrgAdmin = userData?.isOrgAdmin;
 
   // Mock data - would come from API
   const mockPersonalStats = {
@@ -74,12 +82,12 @@ export default function DashboardPage() {
             Welcome back, {userData?.name || "there"}
           </h1>
           <p className="text-muted-foreground">
-            Here's what's happening with your experiments
+            Here&apos;s what&apos;s happening with your experiments
           </p>
         </div>
 
         {/* Individual User Dashboard */}
-        {scenario === "individual" && (
+        {isIndividual && (
           <div className="space-y-6">
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -174,7 +182,7 @@ export default function DashboardPage() {
         )}
 
         {/* Participant Dashboard */}
-        {scenario === "participant" && (
+        {isParticipant && (
           <div className="space-y-6">
             {/* Personal Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -287,7 +295,7 @@ export default function DashboardPage() {
         )}
 
         {/* Team Manager Dashboard */}
-        {scenario === "team-manager" && (
+        {isTeamManager && (
           <div className="space-y-6">
             {/* Combined Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -431,7 +439,7 @@ export default function DashboardPage() {
         )}
 
         {/* Org Admin Dashboard */}
-        {scenario === "org-admin" && (
+        {isOrgAdmin && (
           <div className="space-y-6">
             {/* Org Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -606,100 +614,108 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Default view when no scenario is set - show based on accountType */}
-        {!scenario && userData && (
-          <div className="space-y-6">
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card className="p-5 bg-card border-border/50 rounded-2xl">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-primary" />
+        {/* Default view - show individual dashboard if no specific role */}
+        {userData &&
+          !isIndividual &&
+          !isParticipant &&
+          !isTeamManager &&
+          !isOrgAdmin && (
+            <div className="space-y-6">
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Card className="p-5 bg-card border-border/50 rounded-2xl">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Target className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">
+                        {mockPersonalStats.activeExperiments}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Active</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">
-                      {mockPersonalStats.activeExperiments}
-                    </p>
-                    <p className="text-xs text-muted-foreground">Active</p>
+                </Card>
+                <Card className="p-5 bg-card border-border/50 rounded-2xl">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">
+                        {mockPersonalStats.totalCompleted}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Completed</p>
+                    </div>
                   </div>
-                </div>
-              </Card>
-              <Card className="p-5 bg-card border-border/50 rounded-2xl">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                </Card>
+                <Card className="p-5 bg-card border-border/50 rounded-2xl">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                      <Flame className="w-5 h-5 text-orange-600" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">
+                        {mockPersonalStats.currentStreak}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Day Streak
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">
-                      {mockPersonalStats.totalCompleted}
-                    </p>
-                    <p className="text-xs text-muted-foreground">Completed</p>
+                </Card>
+                <Card className="p-5 bg-card border-border/50 rounded-2xl">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-secondary" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">
+                        {mockPersonalStats.completionRate}%
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Completion
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Card>
-              <Card className="p-5 bg-card border-border/50 rounded-2xl">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                    <Flame className="w-5 h-5 text-orange-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">
-                      {mockPersonalStats.currentStreak}
-                    </p>
-                    <p className="text-xs text-muted-foreground">Day Streak</p>
-                  </div>
-                </div>
-              </Card>
-              <Card className="p-5 bg-card border-border/50 rounded-2xl">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-secondary" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">
-                      {mockPersonalStats.completionRate}%
-                    </p>
-                    <p className="text-xs text-muted-foreground">Completion</p>
-                  </div>
+                </Card>
+              </div>
+
+              {/* Quick Actions */}
+              <Card className="p-6 bg-card border-border/50 rounded-3xl">
+                <h2 className="text-lg font-semibold text-foreground mb-4">
+                  Quick Actions
+                </h2>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <Link href="/create">
+                    <Button className="w-full rounded-2xl h-auto py-4 justify-start gap-3 bg-primary hover:bg-primary/90">
+                      <Plus className="w-5 h-5" />
+                      <div className="text-left">
+                        <div className="font-medium">Create New Experiment</div>
+                        <div className="text-xs opacity-80">
+                          Start tracking a new habit or behavior
+                        </div>
+                      </div>
+                    </Button>
+                  </Link>
+                  <Link href="/templates">
+                    <Button
+                      variant="outline"
+                      className="w-full rounded-2xl h-auto py-4 justify-start gap-3 bg-transparent"
+                    >
+                      <Sparkles className="w-5 h-5" />
+                      <div className="text-left">
+                        <div className="font-medium">Browse Templates</div>
+                        <div className="text-xs text-muted-foreground">
+                          Get inspired by proven experiments
+                        </div>
+                      </div>
+                    </Button>
+                  </Link>
                 </div>
               </Card>
             </div>
-
-            {/* Quick Actions */}
-            <Card className="p-6 bg-card border-border/50 rounded-3xl">
-              <h2 className="text-lg font-semibold text-foreground mb-4">
-                Quick Actions
-              </h2>
-              <div className="grid md:grid-cols-2 gap-3">
-                <Link href="/create">
-                  <Button className="w-full rounded-2xl h-auto py-4 justify-start gap-3 bg-primary hover:bg-primary/90">
-                    <Plus className="w-5 h-5" />
-                    <div className="text-left">
-                      <div className="font-medium">Create New Experiment</div>
-                      <div className="text-xs opacity-80">
-                        Start tracking a new habit or behavior
-                      </div>
-                    </div>
-                  </Button>
-                </Link>
-                <Link href="/templates">
-                  <Button
-                    variant="outline"
-                    className="w-full rounded-2xl h-auto py-4 justify-start gap-3 bg-transparent"
-                  >
-                    <Sparkles className="w-5 h-5" />
-                    <div className="text-left">
-                      <div className="font-medium">Browse Templates</div>
-                      <div className="text-xs text-muted-foreground">
-                        Get inspired by proven experiments
-                      </div>
-                    </div>
-                  </Button>
-                </Link>
-              </div>
-            </Card>
-          </div>
-        )}
+          )}
       </div>
     </div>
   );

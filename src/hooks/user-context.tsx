@@ -28,6 +28,7 @@ type APIUser = {
     teamName?: string; // Optional: for team_manager role
     joinedAt: string;
   }>;
+  isParticipant?: boolean; // True if has org memberships or org-linked experiments
 };
 
 // Transformed user data structure
@@ -55,9 +56,9 @@ export type UserData = {
 };
 
 export type UserContextType = {
-  scenario: UserScenario | null; // null = use real API data
+  scenario: UserScenario | null; // Only for test scenarios page, doesn't affect userData
   setScenario: (scenario: UserScenario | null) => void;
-  userData: UserData | null;
+  userData: UserData | null; // Always based on real database accountType
   loading: boolean;
   error: string | null;
   refreshUser: () => Promise<void>;
@@ -72,7 +73,7 @@ function transformAPIUserToUserData(apiUser: APIUser): UserData {
 
   // Check if user has manager role (team_manager or org_admin)
   const hasManagerRole = apiUser.organisations.some(
-    (org) => org.role === "team_manager" || org.role === "org_admin"
+    (org) => org.role === "team_manager" || org.role === "org_admin",
   );
 
   // Build orgs array with proper typing
@@ -94,73 +95,25 @@ function transformAPIUserToUserData(apiUser: APIUser): UserData {
       orgName: org.name,
     }));
 
+  // User is a participant if they have org memberships OR org-linked experiments
+  const isParticipant =
+    apiUser.isParticipant ?? apiUser.organisations.length > 0;
+
   return {
     email: apiUser.email || "",
     name: "", // TODO: Get from Clerk user object if needed
     accountType: apiUser.accountType,
     hasManagerRole,
     isOrgAdmin,
-    isParticipant: false, // TODO: Check if user has experiments with organisationId
+    isParticipant, // Based on org memberships or org-linked experiments from API
     pendingAssignments: 0, // TODO: Implement actual assignment tracking
     orgs,
     teams,
   };
 }
 
-// Mock scenario data (for test scenarios page)
-const SCENARIO_DATA: Record<string, UserData> = {
-  individual: {
-    email: "alex@personal.com",
-    name: "Alex Chen",
-    accountType: "individual",
-    hasManagerRole: false,
-    isOrgAdmin: false,
-    isParticipant: false,
-    pendingAssignments: 0,
-    orgs: [],
-    teams: [],
-  },
-  "org-admin": {
-    email: "admin@acmecorp.com",
-    name: "Sarah Admin",
-    accountType: "organisation",
-    hasManagerRole: true,
-    isOrgAdmin: true,
-    isParticipant: false,
-    pendingAssignments: 3,
-    orgs: [
-      { id: "org-1", name: "Acme Corp", role: "org_admin" },
-      { id: "org-2", name: "StartupCo", role: "org_admin" },
-    ],
-    teams: [],
-  },
-  "team-manager": {
-    email: "manager@personal.com",
-    name: "Mike Manager",
-    accountType: "individual",
-    hasManagerRole: true,
-    isOrgAdmin: false,
-    isParticipant: true,
-    pendingAssignments: 1,
-    orgs: [
-      {
-        id: "org-1",
-        name: "Acme Corp",
-        role: "team_manager",
-        teamId: "team-1",
-        teamName: "Engineering",
-      },
-    ],
-    teams: [
-      {
-        id: "team-1",
-        name: "Engineering",
-        orgId: "org-1",
-        orgName: "Acme Corp",
-      },
-    ],
-  },
-};
+// Note: Scenario functionality is kept for test scenarios page compatibility
+// but userData always comes from real database based on accountType
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -173,13 +126,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const fetchUser = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/users/me");
-      if (!response.ok) {
-        throw new Error("Failed to fetch user");
-      }
-      const data = await response.json();
-      setApiUser(data);
       setError(null);
+      const response = await fetch("/api/users/me");
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const message = (data?.error ?? data?.details) || "Failed to fetch user";
+        throw new Error(typeof message === "string" ? message : "Failed to fetch user");
+      }
+      setApiUser(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch user");
       console.error("Error fetching user:", err);
@@ -188,44 +142,31 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Load scenario from localStorage on mount - only run once
+  // Always fetch real user data from database on mount
   useEffect(() => {
-    const saved = localStorage.getItem("userScenario");
-    if (
-      saved &&
-      (saved === "individual" ||
-        saved === "team-manager" ||
-        saved === "org-admin")
-    ) {
-      setScenarioState(saved as UserScenario);
-      setLoading(false); // Mock data, no loading needed
-    } else if (!apiUser) {
-      // Only fetch if we don't have user data yet
+    if (!apiUser) {
       fetchUser();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty deps - only run once on mount
 
   const setScenario = (newScenario: UserScenario | null) => {
+    // Scenario is only for test scenarios page, doesn't affect userData
     setScenarioState(newScenario);
     if (newScenario) {
       localStorage.setItem("userScenario", newScenario);
     } else {
       localStorage.removeItem("userScenario");
-      fetchUser(); // Fetch real data when switching off scenario
     }
   };
 
-  // Compute userData: use scenario mock data if set, otherwise transform API data
+  // Compute userData: always use real API data based on accountType from database
   const userData = useMemo<UserData | null>(() => {
-    if (scenario) {
-      return SCENARIO_DATA[scenario] || null;
-    }
     if (apiUser) {
       return transformAPIUserToUserData(apiUser);
     }
     return null;
-  }, [scenario, apiUser]);
+  }, [apiUser]);
 
   return (
     <UserContext.Provider
