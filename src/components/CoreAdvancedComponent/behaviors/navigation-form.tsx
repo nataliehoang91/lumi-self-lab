@@ -63,7 +63,7 @@ export function NavigationForm({
           e.preventDefault();
           handleSubmit(new FormData(e.currentTarget));
           if (typeof otherProps.onSubmit === "function") {
-            otherProps.onSubmit(e);
+            (otherProps.onSubmit as (e: React.FormEvent<HTMLFormElement>) => void)(e);
           }
         }
       : otherProps.onSubmit,
