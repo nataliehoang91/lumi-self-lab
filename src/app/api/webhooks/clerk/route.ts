@@ -33,18 +33,25 @@ export async function POST(request: Request) {
   const payload = await request.json();
   const body = JSON.stringify(payload);
 
-  // Create a new Svix instance with your secret
   const wh = new Webhook(WEBHOOK_SECRET);
 
-  let evt: any;
+  type ClerkWebhookEvent = {
+    type: string;
+    data: {
+      id?: string;
+      primary_email_address_id?: string;
+      email_addresses?: Array<{ id: string; email_address?: string }>;
+    };
+  };
 
-  // Verify the payload with the headers
+  let evt: ClerkWebhookEvent;
+
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
-    }) as any;
+    }) as ClerkWebhookEvent;
   } catch (err) {
     console.error("Error verifying webhook:", err);
     return NextResponse.json(
@@ -53,114 +60,55 @@ export async function POST(request: Request) {
     );
   }
 
-  // Handle the webhook event
   const eventType = evt.type;
-  console.log(`📥 Webhook received: ${eventType}`);
-  console.log(
-    `📋 Full webhook payload (data only):`,
-    JSON.stringify(evt.data, null, 2)
-  );
 
   try {
     if (eventType === "user.created") {
-      // Handle user creation
       const clerkUserId = evt.data.id;
-
-      // Extract email from webhook payload
-      // Clerk webhook payload structure:
-      // evt.data.email_addresses[] - array of email addresses
-      // evt.data.primary_email_address_id - ID of primary email
-      let email = null;
-
+      let email: string | null = null;
       if (evt.data.email_addresses && Array.isArray(evt.data.email_addresses)) {
-        const primaryEmailId = evt.data.primary_email_address_id;
         const primaryEmail = evt.data.email_addresses.find(
-          (e: any) => e.id === primaryEmailId
+          (e) => e.id === evt.data.primary_email_address_id
         );
-        email = primaryEmail?.email_address || null;
+        email = primaryEmail?.email_address ?? null;
       }
 
-      console.log(
-        `📋 Webhook payload data:`,
-        JSON.stringify(
-          {
-            id: clerkUserId,
-            email_addresses_count: evt.data.email_addresses?.length || 0,
-            primary_email_address_id: evt.data.primary_email_address_id,
-            extracted_email: email,
-          },
-          null,
-          2
-        )
-      );
-
       if (!clerkUserId) {
-        console.error(`❌ Missing user ID in webhook payload`);
         return NextResponse.json(
           { error: "Missing user ID in webhook payload" },
           { status: 400 }
         );
       }
 
-      // Check if user already exists
-      const existingUser = await prisma.user.findUnique({
+      await prisma.user.upsert({
         where: { clerkUserId },
+        update: { email },
+        create: {
+          clerkUserId,
+          email,
+          accountType: "individual",
+          role: "user",
+        },
       });
 
-      if (existingUser) {
-        console.log(`ℹ️  User already exists: ${clerkUserId}`);
-        return NextResponse.json({
-          success: true,
-          message: `User ${clerkUserId} already exists`,
-        });
-      }
-
-      // Create user in database (default to individual account)
-      try {
-        const newUser = await prisma.user.create({
-          data: {
-            clerkUserId,
-            email,
-            accountType: "individual",
-          },
-        });
-
-        console.log(`✅ User created successfully: ${clerkUserId}`);
-        console.log(`📧 Email: ${email || "No email"}`);
-        console.log(`👤 Account type: individual (default)`);
-        console.log(`🆔 Database ID: ${newUser.id}`);
-
-        return NextResponse.json({
-          success: true,
-          message: `User ${clerkUserId} created successfully`,
-        });
-      } catch (dbError) {
-        console.error(`❌ Database error creating user:`, dbError);
-        throw dbError;
-      }
+      return NextResponse.json({
+        success: true,
+        message: `User ${clerkUserId} upserted successfully`,
+      });
     }
 
     if (eventType === "user.deleted") {
-      // Handle user deletion
       const clerkUserId = evt.data.id;
-
       if (!clerkUserId) {
         return NextResponse.json(
           { error: "Missing user ID in webhook payload" },
           { status: 400 }
         );
       }
-
-      // Delete user from database (cascade will handle related records)
+      // TODO: prefer soft delete when User.deletedAt exists; for now hard-delete
       await prisma.user.deleteMany({
         where: { clerkUserId },
       });
-
-      console.log(`✅ User deleted: ${clerkUserId}`);
-      console.log(
-        `🗑️  Deleted user from database and related records (cascade)`
-      );
-
       return NextResponse.json({
         success: true,
         message: `User ${clerkUserId} deleted successfully`,
@@ -168,12 +116,11 @@ export async function POST(request: Request) {
     }
 
     if (eventType === "user.updated") {
-      // Handle user update (e.g., email change)
       const clerkUserId = evt.data.id;
       const email =
         evt.data.email_addresses?.find(
-          (e: any) => e.id === evt.data.primary_email_address_id
-        )?.email_address || null;
+          (e) => e.id === evt.data.primary_email_address_id
+        )?.email_address ?? null;
 
       if (!clerkUserId) {
         return NextResponse.json(
@@ -182,18 +129,14 @@ export async function POST(request: Request) {
         );
       }
 
-      // Update user email if changed
       const user = await prisma.user.findUnique({
         where: { clerkUserId },
       });
-
       if (user && user.email !== email) {
         await prisma.user.update({
           where: { clerkUserId },
           data: { email },
         });
-        console.log(`✅ User updated: ${clerkUserId}`);
-        console.log(`📧 Email updated: ${email || "No email"}`);
       }
 
       return NextResponse.json({

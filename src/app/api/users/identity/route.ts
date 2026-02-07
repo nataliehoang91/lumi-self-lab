@@ -65,12 +65,13 @@ export async function GET() {
     });
 
     if (!user) {
-      // Create user if doesn't exist (default to individual)
+      // Failsafe: ensure every Clerk-authenticated user has a User row (no org, no upgrade)
       user = await prisma.user.create({
         data: {
           clerkUserId: userId,
           email: email,
           accountType: "individual",
+          role: "user",
         },
         include: {
           organisationMemberships: {

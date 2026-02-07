@@ -11,6 +11,7 @@ const isPublicRoute = createRouteMatcher([
   "/waitlist(.*)",
   "/welcome", // Welcome page (sign in / get started)
   "/api/waitlist", // Waitlist signup (unauthenticated)
+  "/api/webhooks(.*)", // Clerk webhooks (no auth; verified by signature)
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
