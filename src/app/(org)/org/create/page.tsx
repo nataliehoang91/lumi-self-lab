@@ -76,7 +76,7 @@ export default function CreateOrganisationPage() {
                 Create an organisation
               </h1>
               <p className="text-sm text-muted-foreground">
-                An organisation is a workspace for your team. You will be the org admin.
+                An organisation is a workspace for your team. You will have the organisation admin role.
               </p>
             </div>
           </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
@@ -24,6 +25,8 @@ import { Sparkles } from "lucide-react";
  * Organization context is entered only via /org routes. See docs/auth-identity-decision-2025-02-07.md.
  */
 export default function SignInPage() {
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect_url") ?? "/dashboard";
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -111,8 +114,8 @@ export default function SignInPage() {
           path="/sign-in"
           signUpUrl="/sign-up"
           waitlistUrl="/waitlist"
-          fallbackRedirectUrl="/dashboard"
-          forceRedirectUrl="/dashboard"
+          fallbackRedirectUrl={redirectUrl}
+          forceRedirectUrl={redirectUrl}
           oauthFlow="redirect"
         />
 

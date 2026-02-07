@@ -47,8 +47,9 @@ model Organisation {
 
   // Relations
   members         OrganisationMember[]
-  templates       OrganisationTemplate[]
-  experiments     Experiment[] // experiments linked to this org
+  invites        OrganisationInvite[]
+  templates      OrganisationTemplate[]
+  experiments    Experiment[] // experiments linked to this org
 
   @@index([createdBy])
 }
@@ -72,6 +73,28 @@ model OrganisationMember {
   @@index([clerkUserId])
   @@index([organisationId])
   @@index([role])
+}
+
+////////////////////////////////////////////////////////////
+// ORGANISATION INVITE (Phase 5: token-based, one-time)
+////////////////////////////////////////////////////////////
+
+model OrganisationInvite {
+  id              String    @id @default(cuid())
+  organisationId  String
+  organisation    Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  email           String    // normalised lowercase
+  role            String    @default("member") // member | team_manager | org_admin
+  token           String    @unique
+  invitedBy       String    // clerkUserId
+  expiresAt       DateTime
+  acceptedAt      DateTime?
+  createdAt       DateTime  @default(now())
+
+  @@index([organisationId])
+  @@index([email])
+  @@index([token])
+  @@index([expiresAt])
 }
 
 ////////////////////////////////////////////////////////////

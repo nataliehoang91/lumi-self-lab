@@ -22,7 +22,7 @@ import {
 const features = [
   {
     icon: Building2,
-    title: "Create Organizations",
+    title: "Create organisation workspaces",
     description: "Build teams and departments for collaborative self-experiments",
   },
   {
@@ -32,8 +32,8 @@ const features = [
   },
   {
     icon: Users,
-    title: "Invite Members",
-    description: "Add team members and assign experiments to individuals or groups",
+    title: "Add & manage members",
+    description: "Add team members by email and manage organisation admin role",
   },
   {
     icon: BarChart3,
@@ -93,14 +93,14 @@ export default function UpgradePage() {
             Unlock More Possibilities
           </div>
           <h1 className="text-4xl font-bold text-foreground mb-4">
-            Upgrade to{" "}
+            Unlock{" "}
             <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              Organisation
+              team & organisation features
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Take your self-reflection practice to the team level. Create organizations, design experiment templates,
-            and gain aggregate insights while respecting everyone's privacy.
+            Take your self-reflection practice to the team level. Create organisation workspaces, design experiment templates,
+            and gain aggregate insights while respecting everyone&apos;s privacy.
           </p>
         </div>
 
@@ -149,9 +149,9 @@ export default function UpgradePage() {
             </div>
             <ul className="space-y-3 mb-6">
               {[
-                "Create & manage organizations",
+                "Create & manage organisation workspaces",
                 "Design experiment templates",
-                "Invite & manage members",
+                "Add & manage members",
                 "View aggregate team insights",
                 "Assign experiments to teams",
                 "Privacy-respecting analytics",
@@ -170,11 +170,11 @@ export default function UpgradePage() {
               {isUpgrading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Upgrading...
+                  Unlocking…
                 </>
               ) : (
                 <>
-                  Upgrade to Organisation
+                  Unlock team & organisation features
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -212,7 +212,7 @@ export default function UpgradePage() {
           <Shield className="w-12 h-12 mx-auto text-sky-500 dark:text-sky-400 mb-4" />
           <h3 className="text-lg font-semibold text-foreground mb-2">Privacy is Non-Negotiable</h3>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Even with Organisation access, you'll only see aggregate data. Individual responses, personal reflections,
+            Even with team & organisation features, you&apos;ll only see aggregate data. Individual responses, personal reflections,
             and text entries are never shared with organisation admins or other members. Trust is the foundation of Self-Lab.
           </p>
         </Card>

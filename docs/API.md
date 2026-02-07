@@ -12,7 +12,8 @@ This document lists all API routes in the Lumi Self-Lab app. **Keep it updated**
 | Area           | Base path              | Auth    | Notes                    |
 |----------------|------------------------|---------|---------------------------|
 | User           | `/api/users/*`         | identity: yes | Personal data only       |
-| Orgs           | `/api/orgs/*`          | yes     | List/detail + POST create (accountType organisation) |
+| Orgs           | `/api/orgs/*`          | yes     | List/detail, create, members, invites (Phase 5)        |
+| Org invites    | `/api/org-invites/*`   | GET: no, POST accept: yes | Token-based invite accept                             |
 | Experiments    | `/api/experiments/*`   | yes     | Owner-only (clerkUserId) |
 | Chat           | `/api/chat`            | yes     | Personal AI chat         |
 | Waitlist       | `/api/waitlist`        | no      | Public signup            |
@@ -162,6 +163,155 @@ Phase 3: list and detail (read-only). Phase 4.1: create organisation (POST). See
 ```
 
 **Implementation:** `src/app/api/orgs/[orgId]/route.ts`
+
+---
+
+### `GET /api/orgs/[orgId]/members` (Phase 4.2)
+
+**Purpose:** List organisation members (for org admin and any member with access).
+
+**Auth:** Required.
+
+**Permission:** `canAccessOrg(clerkUserId, orgId)`. 404 if org not found or no access.
+
+**Response (200):**
+```json
+{
+  "members": [
+    {
+      "id": "<organisationMemberId>",
+      "clerkUserId": "<clerkUserId>",
+      "email": "<string | null>",
+      "role": "member" | "team_manager" | "org_admin",
+      "joinedAt": "<ISO date>"
+    }
+  ]
+}
+```
+
+Email comes from User (join). No team data.
+
+**Implementation:** `src/app/api/orgs/[orgId]/members/route.ts`
+
+---
+
+### `POST /api/orgs/[orgId]/members` (Phase 4.2)
+
+**Purpose:** Add an existing user to the organisation by email.
+
+**Auth:** Required.
+
+**Permission:** `canActAsOrgAdmin(clerkUserId, orgId)`. 403 if not org_admin/super_admin.
+
+**Request body:**
+```json
+{
+  "email": "<string, required>",
+  "role": "member" | "team_manager" | "org_admin (optional, default: member)"
+}
+```
+
+**Behaviour:** Look up User by email. If not found → 400 "User not found. Invitation flow not implemented yet." If already member → 409. Else create OrganisationMember.
+
+**Response (201):** `{ "id", "email", "role" }`
+
+**Implementation:** `src/app/api/orgs/[orgId]/members/route.ts`
+
+---
+
+### `PATCH /api/orgs/[orgId]/members/[memberId]` (Phase 4.2)
+
+**Purpose:** Update a member’s role.
+
+**Auth:** Required.
+
+**Permission:** `canActAsOrgAdmin(clerkUserId, orgId)`.
+
+**Request body:** `{ "role": "member" | "team_manager" | "org_admin" }`
+
+**Rules:** Cannot demote the last org_admin; super_admin bypasses.
+
+**Response (200):** `{ "id", "role" }`
+
+**Implementation:** `src/app/api/orgs/[orgId]/members/[memberId]/route.ts`
+
+---
+
+### `DELETE /api/orgs/[orgId]/members/[memberId]` (Phase 4.2)
+
+**Purpose:** Remove a member from the organisation.
+
+**Auth:** Required.
+
+**Permission:** `canActAsOrgAdmin(clerkUserId, orgId)`.
+
+**Rules:** Cannot remove the last org_admin; super_admin bypasses.
+
+**Response (200):** `{ "success": true }`
+
+**Implementation:** `src/app/api/orgs/[orgId]/members/[memberId]/route.ts`
+
+---
+
+### `POST /api/orgs/[orgId]/invites` (Phase 5)
+
+**Purpose:** Create an organisation invite by email (token-based, 7-day expiry).
+
+**Auth:** Required.
+
+**Permission:** `canActAsOrgAdmin(clerkUserId, orgId)`.
+
+**Request body:** `{ "email": "<string, required>", "role": "member" | "team_manager" | "org_admin (optional, default: member)" }`
+
+**Validation:** Email not already a member; no active (unexpired) invite for same email.
+
+**Response (201):** `{ "id", "email", "role", "expiresAt", "token" }`
+
+**Errors:** 409 already member or active invite.
+
+**Implementation:** `src/app/api/orgs/[orgId]/invites/route.ts`
+
+---
+
+### `GET /api/orgs/[orgId]/invites` (Phase 5)
+
+**Purpose:** List pending invites (not accepted, not expired).
+
+**Auth:** Required.
+
+**Permission:** `canActAsOrgAdmin(clerkUserId, orgId)`.
+
+**Response (200):** `{ "invites": [{ "id", "email", "role", "expiresAt", "createdAt" }] }`
+
+**Implementation:** `src/app/api/orgs/[orgId]/invites/route.ts`
+
+---
+
+### `GET /api/org-invites/[token]` (Phase 5)
+
+**Purpose:** Get invite details for display (org name, role). No auth required.
+
+**Response (200):** `{ "organisationId", "organisationName", "email", "role", "expiresAt" }`
+
+**Errors:** 404 invalid, expired, or already accepted.
+
+**Implementation:** `src/app/api/org-invites/[token]/route.ts`
+
+---
+
+### `POST /api/org-invites/[token]/accept` (Phase 5)
+
+**Purpose:** Accept invite: create OrganisationMember, set invite acceptedAt. Invite email must match signed-in user email.
+
+**Auth:** Required.
+
+**Validation:** Token valid and not expired; invite.email matches current user email; user not already a member.
+
+**Response (200):** `{ "success": true, "organisationId", "organisationName", "role" }`
+
+**Errors:** 404 invalid/expired; 403 email mismatch; 409 already member.
+
+**Implementation:** `src/app/api/org-invites/[token]/accept/route.ts`
 
 ---
 
