@@ -12,6 +12,7 @@ This document lists all API routes in the Lumi Self-Lab app. **Keep it updated**
 | Area           | Base path              | Auth    | Notes                    |
 |----------------|------------------------|---------|---------------------------|
 | User           | `/api/users/*`         | identity: yes | Personal data only       |
+| Orgs           | `/api/orgs/*`          | yes     | List/detail + POST create (accountType organisation) |
 | Experiments    | `/api/experiments/*`   | yes     | Owner-only (clerkUserId) |
 | Chat           | `/api/chat`            | yes     | Personal AI chat         |
 | Waitlist       | `/api/waitlist`        | no      | Public signup            |
@@ -72,7 +73,99 @@ This document lists all API routes in the Lumi Self-Lab app. **Keep it updated**
 
 ---
 
-## 2. Experiments
+## 2. Orgs
+
+Phase 3: list and detail (read-only). Phase 4.1: create organisation (POST). See `docs/phase-3-org-core-readonly-2025-02-07.md` and `docs/phase-4-1-create-organisation-2025-02-07.md`.
+
+### `GET /api/orgs`
+
+**Purpose:** List organisations the current user belongs to.
+
+**Auth:** Required. Returns 401 if not authenticated.
+
+**Permission:** Returns only orgs where the user has an `OrganisationMember` row.
+
+**Response (200):**
+```json
+{
+  "organisations": [
+    {
+      "id": "<org id>",
+      "name": "<string>",
+      "description": "<string | null>",
+      "role": "member" | "team_manager" | "org_admin",
+      "joinedAt": "<ISO date>",
+      "memberCount": <number>,
+      "templatesCount": <number>,
+      "experimentsCount": <number>
+    }
+  ]
+}
+```
+
+**Implementation:** `src/app/api/orgs/route.ts`
+
+---
+
+### `POST /api/orgs` (Phase 4.1)
+
+**Purpose:** Create an organisation and make the current user its org_admin.
+
+**Auth:** Required. Returns 401 if not authenticated.
+
+**Permission:** User.accountType MUST be `"organisation"`. If not, 403 with message: "Upgrade required to create an organisation".
+
+**Request body:**
+```json
+{
+  "name": "<string, required>",
+  "description": "<string, optional>"
+}
+```
+
+**Response (201):**
+```json
+{
+  "id": "<org id>",
+  "name": "<string>",
+  "description": "<string | null>",
+  "role": "org_admin"
+}
+```
+
+**Errors:** 400 (validation), 403 (not upgraded), 500 (unexpected).
+
+**Implementation:** `src/app/api/orgs/route.ts`
+
+---
+
+### `GET /api/orgs/[orgId]`
+
+**Purpose:** Org basic info for a member (read-only). Used by `/org/[orgId]` dashboard.
+
+**Auth:** Required.
+
+**Permission:** `canAccessOrg(clerkUserId, orgId)`. Returns 404 if org does not exist or user is not a member.
+
+**Response (200):**
+```json
+{
+  "id": "<org id>",
+  "name": "<string>",
+  "description": "<string | null>",
+  "role": "member" | "team_manager" | "org_admin",
+  "memberCount": <number>,
+  "totalTemplates": <number>,
+  "activeExperiments": <number>,
+  "avgCompletionRate": null
+}
+```
+
+**Implementation:** `src/app/api/orgs/[orgId]/route.ts`
+
+---
+
+## 3. Experiments
 
 All experiment routes enforce **ownership**: only the experiment owner (`clerkUserId`) may access. No org or manager role grants access. See `requireExperimentOwner()` in `src/lib/permissions.ts`.
 

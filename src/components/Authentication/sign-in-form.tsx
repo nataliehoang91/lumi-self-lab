@@ -50,7 +50,7 @@ export function SignInForm() {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        return { redirect: "/create", refresh: true };
+        return { redirect: "/dashboard", refresh: true };
       } else {
         return { error: "Sign in incomplete. Please try again." };
       }

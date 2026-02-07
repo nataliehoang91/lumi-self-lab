@@ -60,8 +60,8 @@ export const LoginForm = ({
         action={async (formData: FormData) => {
           "use server";
           // TODO: Update to use Clerk authentication
-          // For now, redirect to dashboard (Clerk will handle auth in protected layout)
-          const redirectUrl = callbackUrl || "/create";
+          // Redirect to dashboard (personal default). No org at sign-in. See docs/auth-identity-decision-2025-02-07.md.
+          const redirectUrl = callbackUrl || "/dashboard";
           return {
             redirect: redirectUrl,
             refresh: true,

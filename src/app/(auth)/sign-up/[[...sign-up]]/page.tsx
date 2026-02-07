@@ -19,6 +19,10 @@ import { Sparkles } from "lucide-react";
  * - Loading states
  * - Email verification flow
  * - Sign-in links
+ *
+ * Auth & identity: Sign-up creates a single user account (1 email = 1 user).
+ * Intent ("personal" vs "for my team") does not change identity; both go to /dashboard after sign-up.
+ * See docs/auth-identity-decision-2025-02-07.md.
  */
 export default function SignUpPage() {
   return (
@@ -108,10 +112,10 @@ export default function SignUpPage() {
           path="/sign-up"
           signInUrl="/sign-in"
           waitlistUrl="/waitlist"
-          signInFallbackRedirectUrl="/create"
-          signInForceRedirectUrl="/create"
-          fallbackRedirectUrl="/create"
-          forceRedirectUrl="/create"
+          signInFallbackRedirectUrl="/dashboard"
+          signInForceRedirectUrl="/dashboard"
+          fallbackRedirectUrl="/dashboard"
+          forceRedirectUrl="/dashboard"
           oauthFlow="redirect"
         />
 

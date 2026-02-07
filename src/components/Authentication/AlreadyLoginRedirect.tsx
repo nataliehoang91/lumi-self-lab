@@ -20,11 +20,10 @@ export const AlreadyLoggedInRedirect = ({
     }, 1000);
     const timeout = setTimeout(() => {
       router.refresh();
-      // Use callbackUrl if provided, otherwise default to /dashboard/public-companies
-      // Redirect directly to avoid double redirect (dashboard -> dashboard/public-companies)
+      // Use callbackUrl if provided, otherwise personal default. No org at sign-in.
       const redirectUrl = callbackUrl
         ? decodeURIComponent(callbackUrl)
-        : "/dashboard/public-companies";
+        : "/dashboard";
       router.replace(redirectUrl);
     }, 3000);
     return () => {

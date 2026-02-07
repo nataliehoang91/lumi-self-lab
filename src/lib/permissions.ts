@@ -178,9 +178,9 @@ export async function getDbUser(
 // ---------------------------------------------------------------------------
 
 /**
- * Returns true if the user may access the org portal (manager, organisations,
- * joined-experiments). Access requires at least one org membership OR
- * super_admin role. Used by server layout guards.
+ * Returns true if the user may access the org portal (/org, /org/create, etc.).
+ * Access: super_admin OR at least one org membership OR accountType "organisation"
+ * (so upgraded users can reach /org/create before they have any org).
  */
 export async function canAccessOrgPortal(
   clerkUserId: string
@@ -189,10 +189,12 @@ export async function canAccessOrgPortal(
     where: { clerkUserId },
     select: {
       role: true,
+      accountType: true,
       organisationMemberships: { take: 1, select: { id: true } },
     },
   });
   if (!user) return false;
   if (user.role === "super_admin") return true;
+  if (user.accountType === "organisation") return true;
   return user.organisationMemberships.length > 0;
 }

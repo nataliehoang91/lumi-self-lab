@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import {
   Building2,
   Users,
-  Target,
   ChevronRight,
   Clock,
   CheckCircle2,
@@ -19,43 +18,38 @@ import {
   Shield,
   Sparkles,
   Calendar,
-  User,
 } from "lucide-react";
 import { useUser } from "@/hooks/user-context";
 
-// Mock data for orgs user belongs to
-const mockOrgs = [
-  {
-    id: "org-1",
-    name: "Acme Corp",
-    description: "Company-wide self-reflection initiatives",
-    logoColor: "from-blue-500 to-cyan-500",
-    role: "member" as const,
-    teamsCount: 3,
-    activeExperiments: 2,
-    joinedDate: "Aug 2025",
-  },
-  {
-    id: "org-2",
-    name: "Product Team",
-    description: "Product development team experiments",
-    logoColor: "from-purple-500 to-pink-500",
-    role: "team_manager" as const,
-    teamsCount: 2,
-    activeExperiments: 1,
-    joinedDate: "Nov 2025",
-  },
-  {
-    id: "org-3",
-    name: "Engineering Guild",
-    description: "Engineering best practices and growth",
-    logoColor: "from-emerald-500 to-teal-500",
-    role: "org_admin" as const,
-    teamsCount: 5,
-    activeExperiments: 3,
-    joinedDate: "Jan 2026",
-  },
+// API response shape (GET /api/orgs) — real data from DB
+type OrgListItem = {
+  id: string;
+  name: string;
+  description: string | null;
+  role: "member" | "team_manager" | "org_admin";
+  joinedAt: string;
+  memberCount: number;
+  templatesCount: number;
+  experimentsCount: number;
+};
+
+const LOGO_COLORS = [
+  "from-blue-500 to-cyan-500",
+  "from-purple-500 to-pink-500",
+  "from-emerald-500 to-teal-500",
+  "from-amber-500 to-orange-500",
+  "from-rose-500 to-red-500",
 ];
+const getLogoColor = (index: number) => LOGO_COLORS[index % LOGO_COLORS.length];
+
+function formatJoinedDate(iso: string) {
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  } catch {
+    return "";
+  }
+}
 
 // Mock pending experiment assignments
 const mockPendingAssignments = [
@@ -141,13 +135,40 @@ const Loading = () => null;
 
 export default function OrgsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const searchParams = useSearchParams();
+  const [orgs, setOrgs] = useState<OrgListItem[]>([]);
+  const [orgsLoading, setOrgsLoading] = useState(true);
+  const [orgsError, setOrgsError] = useState<string | null>(null);
+  useSearchParams(); // for Suspense boundary
   const { userData } = useUser();
 
-  const filteredOrgs = mockOrgs.filter(
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/orgs")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load organizations");
+        return res.json();
+      })
+      .then((data: { organisations: OrgListItem[] }) => {
+        if (!cancelled) {
+          setOrgs(data.organisations ?? []);
+          setOrgsError(null);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) setOrgsError(err instanceof Error ? err.message : "Failed to load");
+      })
+      .finally(() => {
+        if (!cancelled) setOrgsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const filteredOrgs = orgs.filter(
     (org) =>
       org.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      org.description.toLowerCase().includes(searchQuery.toLowerCase())
+      (org.description ?? "").toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Page title and description based on user role
@@ -281,29 +302,33 @@ export default function OrgsPage() {
             </div>
           </div>
 
-          {/* Organizations List */}
+          {/* Organizations List — real data from GET /api/orgs */}
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-foreground">
-              Your Organizations ({filteredOrgs.length})
-            </h2>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <h2 className="text-lg font-semibold text-foreground">
+                Your Organizations ({orgsLoading ? "…" : filteredOrgs.length})
+              </h2>
+              {userData?.accountType === "organisation" && (
+                <Button asChild>
+                  <Link href="/org/create">Create organisation</Link>
+                </Button>
+              )}
+            </div>
 
-            {filteredOrgs.map((org) => {
-              // Check if user is manager in this org
-              const userRoleInOrg =
-                userData?.orgs?.find((o) => o.id === org.id)?.role || "member";
-              const isManager =
-                userRoleInOrg === "team_manager" ||
-                userRoleInOrg === "org_admin";
+            {orgsError && (
+              <Card className="p-4 border-destructive/50 bg-destructive/5 rounded-2xl">
+                <p className="text-sm text-destructive">{orgsError}</p>
+              </Card>
+            )}
 
-              // Org portal: single org detail route
+            {!orgsLoading && !orgsError && filteredOrgs.map((org, index) => {
               const orgDetailHref = `/org/${org.id}`;
-
               return (
                 <Link key={org.id} href={orgDetailHref}>
                   <Card className="p-5 bg-card border-border/50 rounded-3xl hover:shadow-lg hover:shadow-primary/5 transition-all group cursor-pointer">
                     <div className="flex items-center gap-5">
                       <div
-                        className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${org.logoColor} flex items-center justify-center text-white font-bold text-xl flex-shrink-0`}
+                        className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${getLogoColor(index)} flex items-center justify-center text-white font-bold text-xl shrink-0`}
                       >
                         {org.name.charAt(0)}
                       </div>
@@ -315,39 +340,47 @@ export default function OrgsPage() {
                           {getRoleBadge(org.role)}
                         </div>
                         <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
-                          {org.description}
+                          {org.description ?? ""}
                         </p>
                         <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <Users className="w-3.5 h-3.5" />
-                            {org.teamsCount} teams
+                            {org.memberCount} members
                           </span>
                           <span className="flex items-center gap-1">
                             <Sparkles className="w-3.5 h-3.5" />
-                            {org.activeExperiments} active experiments
+                            {org.experimentsCount} experiments
                           </span>
                           <span className="flex items-center gap-1">
                             <Calendar className="w-3.5 h-3.5" />
-                            Joined {org.joinedDate}
+                            Joined {formatJoinedDate(org.joinedAt)}
                           </span>
                         </div>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                      <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
                     </div>
                   </Card>
                 </Link>
               );
             })}
 
-            {filteredOrgs.length === 0 && (
+            {!orgsLoading && !orgsError && filteredOrgs.length === 0 && (
               <Card className="p-8 bg-card/50 border-border/50 rounded-3xl text-center">
                 <Building2 className="w-12 h-12 mx-auto text-muted-foreground/50 mb-3" />
                 <h3 className="font-medium text-foreground mb-1">
-                  No organizations found
+                  {orgs.length === 0 ? "No organizations yet" : "No organizations found"}
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Try a different search term
+                  {orgs.length === 0
+                    ? "When you join an organization, it will appear here."
+                    : "Try a different search term"}
                 </p>
+              </Card>
+            )}
+
+            {orgsLoading && (
+              <Card className="p-8 bg-card/50 border-border/50 rounded-3xl text-center">
+                <p className="text-sm text-muted-foreground">Loading organizations…</p>
               </Card>
             )}
           </div>

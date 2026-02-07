@@ -1,19 +1,34 @@
+import { notFound } from "next/navigation";
+import { cookies, headers } from "next/headers";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Building2, FileText, BarChart3, Users, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-// Mock data - replace with real API call
-function getOrgData(orgId: string) {
-  return {
-    id: orgId,
-    name: "Acme Corp",
-    description: "Productivity and wellness experiments",
-    memberCount: 24,
-    activeExperiments: 12,
-    totalTemplates: 8,
-    avgCompletionRate: 78,
-  };
+// Real data from GET /api/orgs/[orgId] (Phase 3 read-only)
+type OrgDetail = {
+  id: string;
+  name: string;
+  description: string | null;
+  role: string;
+  memberCount: number;
+  totalTemplates: number;
+  activeExperiments: number;
+  avgCompletionRate: number | null;
+};
+
+async function getOrgDetail(orgId: string): Promise<OrgDetail | null> {
+  const cookieStore = await cookies();
+  const h = await headers();
+  const host = h.get("host") ?? "localhost:3000";
+  const proto = h.get("x-forwarded-proto") ?? "http";
+  const base = `${proto}://${host}`;
+  const res = await fetch(`${base}/api/orgs/${orgId}`, {
+    cache: "no-store",
+    headers: { Cookie: cookieStore.toString() },
+  });
+  if (!res.ok) return null;
+  return res.json();
 }
 
 export default async function OrganisationDashboardPage({
@@ -22,7 +37,8 @@ export default async function OrganisationDashboardPage({
   params: Promise<{ orgId: string }>;
 }) {
   const { orgId } = await params;
-  const org = getOrgData(orgId);
+  const org = await getOrgDetail(orgId);
+  if (!org) notFound();
 
   return (
     <div className="min-h-screen">
@@ -37,7 +53,7 @@ export default async function OrganisationDashboardPage({
               <h1 className="text-3xl font-semibold text-foreground">
                 {org.name}
               </h1>
-              <p className="text-muted-foreground">{org.description}</p>
+              <p className="text-muted-foreground">{org.description ?? ""}</p>
             </div>
           </div>
         </div>
@@ -85,7 +101,7 @@ export default async function OrganisationDashboardPage({
               <BarChart3 className="w-5 h-5 text-muted-foreground" />
               <div>
                 <p className="text-2xl font-semibold text-foreground">
-                  {org.avgCompletionRate}%
+                  {org.avgCompletionRate != null ? `${org.avgCompletionRate}%` : "—"}
                 </p>
                 <p className="text-sm text-muted-foreground">Avg Completion</p>
               </div>

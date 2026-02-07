@@ -18,6 +18,10 @@ import { Sparkles } from "lucide-react";
  * - Loading states
  * - Password reset links
  * - Sign-up links
+ *
+ * Auth & identity: ONE sign-in flow only. No organization chooser at sign-in.
+ * Users always sign in as an individual; after sign-in we redirect to /dashboard (personal default).
+ * Organization context is entered only via /org routes. See docs/auth-identity-decision-2025-02-07.md.
  */
 export default function SignInPage() {
   return (
@@ -107,8 +111,8 @@ export default function SignInPage() {
           path="/sign-in"
           signUpUrl="/sign-up"
           waitlistUrl="/waitlist"
-          fallbackRedirectUrl="/create"
-          forceRedirectUrl="/create"
+          fallbackRedirectUrl="/dashboard"
+          forceRedirectUrl="/dashboard"
           oauthFlow="redirect"
         />
 
