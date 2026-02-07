@@ -157,7 +157,7 @@ export async function canActAsOrgAdmin(
 ): Promise<boolean> {
   if (await requireSuperAdmin(clerkUserId)) return true;
   const membership = await getOrgMembership(clerkUserId, orgId);
-  return membership?.role === "org_admin" ?? false;
+  return membership?.role === "org_admin";
 }
 
 /**

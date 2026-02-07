@@ -18,10 +18,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Self-Lab — Explore your inner life",
+  metadataBase: new URL("https://selfwithin.space"),
+  title: "SelfWithin — Explore your inner life",
   description:
-    "A personal reflection lab for exploring your thoughts and emotions with AI guidance",
-  generator: "v0.app",
+    "A personal reflection space for exploring your thoughts and emotions with AI guidance.",
   icons: {
     icon: [
       {

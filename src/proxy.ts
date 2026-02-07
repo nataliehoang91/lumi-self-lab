@@ -9,12 +9,20 @@ const isPublicRoute = createRouteMatcher([
   "/forgot-password(.*)",
   "/reset-password(.*)",
   "/waitlist(.*)",
+  "/welcome", // Welcome page (sign in / get started)
   "/api/waitlist", // Waitlist signup (unauthenticated)
-  "/", // Home page is public
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
   const pathname = req.nextUrl.pathname;
+
+  // Root: redirect without rendering MainPage to avoid Performance API / negative timestamp errors
+  if (pathname === "/") {
+    const { isAuthenticated } = await auth();
+    const target = isAuthenticated ? "/dashboard" : "/welcome";
+    return NextResponse.redirect(new URL(target, req.url));
+  }
+
   const isInviteAccept = pathname.startsWith("/org/invites/");
 
   // Org invite accept: unauthenticated → sign-in with redirect back

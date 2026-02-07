@@ -17,6 +17,10 @@
   --secondary: oklch(0.7 0.15 270); /* Violet/Purple */
   --secondary-foreground: oklch(0.985 0 0);
 
+  /* Tertiary color: Amber/Gold (hue 85) - third brand color, replaces teal */
+  --tertiary: oklch(0.82 0.18 85); /* Amber/Gold */
+  --tertiary-foreground: oklch(0.22 0.04 85);
+
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
 
@@ -63,6 +67,10 @@
   --secondary: oklch(0.75 0.15 270); /* Darker Violet/Purple */
   --secondary-foreground: oklch(0.985 0 0);
 
+  /* Tertiary: Amber/Gold - brighter for dark mode */
+  --tertiary: oklch(0.88 0.18 85);
+  --tertiary-foreground: oklch(0.2 0.04 85);
+
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
 
@@ -105,6 +113,8 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-foreground: var(--tertiary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
@@ -212,6 +222,8 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-foreground: var(--tertiary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
