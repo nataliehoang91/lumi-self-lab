@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3005",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postbuild": "prisma migrate deploy",
     "start": "next start --port 3005",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -16,7 +17,9 @@
     "clean:all": "rm -rf dist .next node_modules/.cache .turbo",
     "reset": "rm -rf node_modules package-lock.json && npm install",
     "check": "npm run typecheck && npm run lint && npm run format:check",
-    "prepare": "npm run typecheck"
+    "prepare": "npm run typecheck",
+    "db:migrate": "prisma migrate deploy",
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.37.1",

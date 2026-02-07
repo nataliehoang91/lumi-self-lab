@@ -46,6 +46,9 @@ async function resetDatabase() {
     console.log("Deleting OrganisationMember...");
     await prisma.organisationMember.deleteMany({});
 
+    console.log("Deleting OrganisationInvite...");
+    await prisma.organisationInvite.deleteMany({});
+
     console.log("Deleting Organisation...");
     await prisma.organisation.deleteMany({});
 
