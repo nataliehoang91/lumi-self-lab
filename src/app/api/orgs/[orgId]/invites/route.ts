@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { OrganisationInvite } from "@prisma/client";
 import { getAuthenticatedUserId, canActAsOrgAdmin } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 import { randomBytes } from "crypto";
@@ -162,7 +163,7 @@ export async function GET(
   });
 
   return NextResponse.json({
-    invites: invites.map((i) => ({
+    invites: invites.map((i: OrganisationInvite) => ({
       id: i.id,
       email: i.email,
       role: i.role as "member" | "team_manager" | "org_admin",

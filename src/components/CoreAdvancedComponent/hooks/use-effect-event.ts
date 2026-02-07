@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 import { useRef } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic event callback args
 type VoidFunction = (...args: any[]) => void;
 
 export default function useEffectEvent<T extends VoidFunction>(fn: T): T {

@@ -17,7 +17,7 @@ export const Debugger = memo(function Debugger() {
     <GridListRow disabled>
       <dl
         className="text-sm bg-muted/50 p-1 rounded-md text-muted-foreground flex flex-row gap-8 col-span-full"
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+         
         // eslint-disable-next-line jsx-a11y/use-semantic-elements
         role="gridcell"
         tabIndex={-1}

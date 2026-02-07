@@ -16,8 +16,9 @@
     "clean": "rm -rf dist .next node_modules/.cache",
     "clean:all": "rm -rf dist .next node_modules/.cache .turbo",
     "reset": "rm -rf node_modules package-lock.json && npm install",
-    "check": "npm run typecheck && npm run lint && npm run format:check",
-    "prepare": "npm run typecheck",
+    "check": "prisma generate && npm run typecheck",
+    "check:full": "prisma generate && npm run typecheck && npm run lint && npm run format:check",
+    "prepare": "prisma generate && npm run typecheck",
     "db:migrate": "prisma migrate deploy",
     "db:generate": "prisma generate"
   },

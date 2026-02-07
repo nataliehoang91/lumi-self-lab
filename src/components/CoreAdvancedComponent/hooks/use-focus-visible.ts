@@ -148,8 +148,9 @@ export function useFocusVisible(
     () => "pointer"
   );
 
-  // Update global text input context if this component is a text input
+  // Update global text input context if this component is a text input (module-level state for focus handling)
   if (isTextInput) {
+    // eslint-disable-next-line react-hooks/globals -- intentional module-level side effect for focus-visible
     isTextInputContext = true;
   }
 
