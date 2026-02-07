@@ -255,3 +255,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Clerk: ensure "Continue with Google" (social button) label is visible in dark mode */
+.dark [class*="socialButtonsBlockButton"] {
+  color: var(--foreground);
+}
+.dark [class*="socialButtonsBlockButton"] * {
+  color: inherit;
+}

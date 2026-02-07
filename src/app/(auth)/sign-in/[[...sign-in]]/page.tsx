@@ -70,9 +70,10 @@ export default function SignInPage() {
               formButtonSecondary:
                 "w-full text-lg py-6 rounded-2xl bg-background/50 backdrop-blur border-2 border-border hover:bg-background transition-all hover:scale-[1.02] active:scale-[0.98]",
 
-              // Social buttons (if enabled in Clerk Dashboard)
+              // Social buttons (if enabled in Clerk Dashboard) — text-foreground for dark mode visibility
               socialButtonsBlockButton:
-                "w-full text-lg py-6 rounded-2xl bg-background/50 backdrop-blur border-2 border-border hover:bg-background transition-all hover:scale-[1.02] active:scale-[0.98]",
+                "w-full text-lg py-6 rounded-2xl bg-background/50 backdrop-blur border-2 border-border hover:bg-background transition-all hover:scale-[1.02] active:scale-[0.98] text-foreground",
+              socialButtonsBlockButtonText: "text-foreground",
 
               // Input fields
               formFieldInput:
