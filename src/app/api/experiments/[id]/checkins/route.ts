@@ -1,11 +1,11 @@
-import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
  * GET /api/experiments/[id]/checkins
- * Get all check-ins for an experiment
- * 
+ * Personal only: list check-ins for an experiment. Access by ownership only.
+ *
  * Query params:
  * - date: filter by specific date (YYYY-MM-DD format)
  */
@@ -14,8 +14,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -24,11 +23,7 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const dateFilter = searchParams.get("date");
 
-    // Verify experiment ownership
-    const experiment = await prisma.experiment.findFirst({
-      where: { id: experimentId, clerkUserId: userId },
-    });
-
+    const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }
@@ -68,22 +63,14 @@ export async function GET(
 
 /**
  * POST /api/experiments/[id]/checkins
- * Create a new check-in for an experiment
- * 
+ * Personal only: create a check-in for an experiment. Owner only.
+ *
  * Body:
  * {
  *   checkInDate: string (ISO date string)
  *   notes?: string
  *   aiSummary?: string
- *   responses: Array<{
- *     fieldId: string
- *     responseText?: string
- *     responseNumber?: number
- *     responseEmoji?: string
- *     responseBool?: boolean
- *     selectedOption?: string
- *     aiFeedback?: string
- *   }>
+ *   responses: Array<{ fieldId, responseText?, ... }>
  * }
  */
 export async function POST(
@@ -91,8 +78,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -101,11 +87,7 @@ export async function POST(
     const body = await request.json();
     const { checkInDate, notes, aiSummary, responses } = body;
 
-    // Verify experiment ownership
-    const experiment = await prisma.experiment.findFirst({
-      where: { id: experimentId, clerkUserId: userId },
-    });
-
+    const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }

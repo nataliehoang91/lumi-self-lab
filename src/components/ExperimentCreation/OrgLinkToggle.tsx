@@ -33,7 +33,7 @@ export function OrgLinkToggle({
   const handleLinkClick = () => {
     if (organisations.length === 0) {
       // No orgs - redirect to join
-      window.location.href = "/organisations?join=true";
+      window.location.href = "/org";
       return;
     }
 

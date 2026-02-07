@@ -87,7 +87,7 @@ Try creating a user manually to test database:
 ```bash
 # Via Prisma Studio
 # Or via API:
-curl -X POST http://localhost:3005/api/users/me
+curl -X GET http://localhost:3005/api/users/identity
 ```
 
 ---
@@ -135,7 +135,7 @@ curl -X POST http://localhost:3005/api/users/me
 - User not in database (confusing!)
 
 **Solutions:**
-1. User might have been created via `/api/users/me` first
+1. User might have been created via `/api/users/identity` first
 2. Check if user exists: `npx prisma studio` → User table
 3. If empty, webhook might have failed silently before
 

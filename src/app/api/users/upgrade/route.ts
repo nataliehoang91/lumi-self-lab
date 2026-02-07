@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
+/**
+ * Personal action: self-upgrade to organisation account type only.
+ * Permission: canAccessPersonalData (caller must be authenticated; no role check).
+ * Future: if we add "admin upgrades another user", that must be a separate endpoint guarded by requireSuperAdmin().
+ */
 export async function POST() {
   try {
     const { userId } = await auth();

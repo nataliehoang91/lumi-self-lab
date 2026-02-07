@@ -155,7 +155,7 @@ export default function ManagerTemplatesContent() {
             </p>
           </div>
 
-          <Link href="/manager/templates/create">
+          <Link href="/org/create">
             <Button className="rounded-2xl gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
               <Plus className="w-4 h-4" />
               Create Template
@@ -353,7 +353,7 @@ export default function ManagerTemplatesContent() {
                     </div>
                   </div>
 
-                  <Link href={`/manager/templates/${template.id}/insights`}>
+                  <Link href={`/org/${template.id}/insights`}>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -390,7 +390,7 @@ export default function ManagerTemplatesContent() {
             <p className="text-muted-foreground mb-6">
               Try adjusting your search or filter criteria
             </p>
-            <Link href="/manager/templates/create">
+            <Link href="/org/create">
               <Button className="rounded-2xl gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
                 <Plus className="w-4 h-4" />
                 Create Template

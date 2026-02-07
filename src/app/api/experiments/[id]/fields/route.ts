@@ -1,29 +1,24 @@
-import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
  * GET /api/experiments/[id]/fields
- * Get all fields for an experiment
+ * Personal only: list fields for an experiment. Access by ownership only.
  */
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: experimentId } = await params;
 
-    // Verify experiment ownership
-    const experiment = await prisma.experiment.findFirst({
-      where: { id: experimentId, clerkUserId: userId },
-    });
-
+    const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }
@@ -45,28 +40,14 @@ export async function GET(
 
 /**
  * POST /api/experiments/[id]/fields
- * Create a new field for an experiment
- * 
- * Body:
- * {
- *   label: string
- *   type: string
- *   required?: boolean
- *   order: number
- *   textType?: string (short | long)
- *   minValue?: number
- *   maxValue?: number
- *   emojiCount?: number (3 | 5 | 7)
- *   selectOptions?: string[]
- * }
+ * Personal only: create a field for an experiment. Owner only.
  */
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -75,11 +56,7 @@ export async function POST(
     const body = await request.json();
     const { label, type, required, order, textType, minValue, maxValue, emojiCount, selectOptions } = body;
 
-    // Verify experiment ownership
-    const experiment = await prisma.experiment.findFirst({
-      where: { id: experimentId, clerkUserId: userId },
-    });
-
+    const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }

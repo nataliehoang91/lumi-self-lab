@@ -147,7 +147,7 @@ After creating a user, verify:
 ### User Already Exists Error
 
 If you see "User already exists":
-- This is normal if user was created via `/api/users/me` first
+- This is normal if user was created via `/api/users/identity` first
 - Webhook will skip creation if user exists
 - This prevents duplicate users
 

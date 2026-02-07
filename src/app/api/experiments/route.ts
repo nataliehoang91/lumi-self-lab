@@ -1,10 +1,11 @@
-import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { getAuthenticatedUserId } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
  * GET /api/experiments
- * Get all experiments for the current user
+ * Personal only: list experiments owned by the current user (clerkUserId).
+ * No org or manager role grants access; experiments are always user-owned.
  *
  * Query params:
  * - status: filter by status (draft | active | completed)
@@ -13,8 +14,7 @@ import { NextResponse } from "next/server";
  */
 export async function GET(request: Request) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -81,7 +81,8 @@ export async function GET(request: Request) {
 
 /**
  * POST /api/experiments
- * Create a new experiment
+ * Personal only: create an experiment owned by the current user. Ownership is
+ * fixed to clerkUserId; organisationId is not set here (future link API).
  *
  * Body:
  * {
@@ -93,23 +94,12 @@ export async function GET(request: Request) {
  *   faithEnabled?: boolean
  *   scriptureNotes?: string
  *   status?: string (draft | active | completed)
- *   fields?: Array<{
- *     label: string
- *     type: string
- *     required?: boolean
- *     order: number
- *     textType?: string (short | long)
- *     minValue?: number
- *     maxValue?: number
- *     emojiCount?: number (3 | 5 | 7)
- *     selectOptions?: string[]
- *   }>
+ *   fields?: Array<{...}>
  * }
  */
 export async function POST(request: Request) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

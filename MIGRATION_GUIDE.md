@@ -94,10 +94,10 @@ await prisma.user.upsert({
 ## Step 4: Test Upgrade Flow
 
 1. Sign in with Clerk
-2. Check `/api/users/me` - should return user with accountType: "individual"
+2. Check `/api/users/identity` - should return user with accountType: "individual"
 3. Navigate to `/upgrade`
 4. Click "Upgrade Now"
-5. Check `/api/users/me` again - should return accountType: "organisation"
+5. Check `/api/users/identity` again - should return accountType: "organisation"
 6. Manager tab should appear in navbar
 
 ## Step 5: Verify Manager Access
@@ -111,12 +111,12 @@ await prisma.user.upsert({
 ## Troubleshooting
 
 ### Error: "User not found"
-- Make sure User record exists (auto-created by `/api/users/me`)
+- Make sure User record exists (auto-created by `/api/users/identity`)
 - Check clerkUserId matches
 
 ### Manager tab not showing
 - Check user.accountType === "organisation" in database
-- Check `/api/users/me` returns correct accountType
+- Check `/api/users/identity` returns correct accountType
 - Clear browser cache
 
 ### Migration fails
@@ -129,7 +129,7 @@ await prisma.user.upsert({
 ## Files Created/Updated
 
 ### New Files:
-- `src/app/api/users/me/route.ts`
+- `src/app/api/users/identity/route.ts`
 - `src/app/api/users/upgrade/route.ts`
 - `src/app/(protected)/upgrade/page.tsx`
 - `src/hooks/use-user.ts`

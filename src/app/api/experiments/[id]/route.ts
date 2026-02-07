@@ -1,29 +1,27 @@
-import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
  * GET /api/experiments/[id]
- * Get a specific experiment by ID with all fields and check-ins
+ * Personal only: get experiment by ID. Access only if current user owns it
+ * (clerkUserId). No org/manager role grants access.
  */
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
 
+    // Personal only: access by ownership (clerkUserId) only.
     const experiment = await prisma.experiment.findFirst({
-      where: {
-        id,
-        clerkUserId: userId, // Ensure user can only access their own experiments
-      },
+      where: { id, clerkUserId: userId },
       include: {
         fields: {
           orderBy: { order: "asc" },
@@ -57,8 +55,9 @@ export async function GET(
 
 /**
  * PATCH /api/experiments/[id]
- * Update an experiment
- * 
+ * Personal only: update experiment. Ownership (clerkUserId) is immutable.
+ * organisationId is not accepted here; use future link/unlink API when implemented.
+ *
  * Body:
  * {
  *   title?: string
@@ -77,8 +76,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -86,16 +84,12 @@ export async function PATCH(
     const { id } = await params;
     const body = await request.json();
 
-    // Verify ownership
-    const existing = await prisma.experiment.findFirst({
-      where: { id, clerkUserId: userId },
-    });
-
+    const existing = await requireExperimentOwner(id, userId);
     if (!existing) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }
 
-    // Prepare update data
+    // Ownership is immutable: never accept clerkUserId. organisationId deferred to link API.
     const updateData: any = {};
     if (body.title !== undefined) updateData.title = body.title;
     if (body.whyMatters !== undefined) updateData.whyMatters = body.whyMatters;
@@ -177,26 +171,21 @@ export async function PATCH(
 
 /**
  * DELETE /api/experiments/[id]
- * Delete an experiment (cascade deletes all fields and check-ins)
+ * Personal only: delete experiment. Cascade deletes fields and check-ins.
  */
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
 
-    // Verify ownership
-    const existing = await prisma.experiment.findFirst({
-      where: { id, clerkUserId: userId },
-    });
-
+    const existing = await requireExperimentOwner(id, userId);
     if (!existing) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }

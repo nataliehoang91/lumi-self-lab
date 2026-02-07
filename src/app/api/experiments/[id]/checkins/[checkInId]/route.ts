@@ -1,29 +1,24 @@
-import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
  * GET /api/experiments/[id]/checkins/[checkInId]
- * Get a specific check-in
+ * Personal only: get a check-in. Access by experiment ownership only.
  */
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string; checkInId: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: experimentId, checkInId } = await params;
 
-    // Verify experiment ownership
-    const experiment = await prisma.experiment.findFirst({
-      where: { id: experimentId, clerkUserId: userId },
-    });
-
+    const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }
@@ -59,23 +54,14 @@ export async function GET(
 
 /**
  * PATCH /api/experiments/[id]/checkins/[checkInId]
- * Update a check-in
- * 
- * Body:
- * {
- *   checkInDate?: string
- *   notes?: string
- *   aiSummary?: string
- *   responses?: Array<{...}> (upsert logic)
- * }
+ * Personal only: update a check-in. Access by experiment ownership only.
  */
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string; checkInId: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -83,11 +69,7 @@ export async function PATCH(
     const { id: experimentId, checkInId } = await params;
     const body = await request.json();
 
-    // Verify experiment ownership
-    const experiment = await prisma.experiment.findFirst({
-      where: { id: experimentId, clerkUserId: userId },
-    });
-
+    const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }
@@ -179,31 +161,25 @@ export async function PATCH(
 
 /**
  * DELETE /api/experiments/[id]/checkins/[checkInId]
- * Delete a check-in (cascade deletes all responses)
+ * Personal only: delete a check-in. Access by experiment ownership only.
  */
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string; checkInId: string }> }
 ) {
   try {
-    const { userId } = await auth();
-
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: experimentId, checkInId } = await params;
 
-    // Verify experiment ownership
-    const experiment = await prisma.experiment.findFirst({
-      where: { id: experimentId, clerkUserId: userId },
-    });
-
+    const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }
 
-    // Verify check-in exists and belongs to user
     const existingCheckIn = await prisma.experimentCheckIn.findFirst({
       where: {
         id: checkInId,

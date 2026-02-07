@@ -12,7 +12,7 @@ import {
 
 export type UserScenario = "individual" | "team-manager" | "org-admin" | null;
 
-// API User type (from /api/users/me)
+// API User type (from /api/users/identity)
 type APIUser = {
   id: string;
   clerkUserId: string;
@@ -141,7 +141,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("/api/users/me", {
+      const response = await fetch("/api/users/identity", {
         cache: "no-store",
         credentials: "same-origin",
       });

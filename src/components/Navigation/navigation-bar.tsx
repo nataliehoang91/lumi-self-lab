@@ -74,7 +74,7 @@ export function NavigationBar() {
     // Individual accounts see "Joined Experiments" and "Upgrade" (unless already upgraded or super_admin)
     if (userData.accountType === "individual") {
       links.push({
-        href: "/joined-experiments",
+        href: "/org",
         label: "Joined Experiments",
         badge:
           userData.pendingAssignments > 0
@@ -91,7 +91,7 @@ export function NavigationBar() {
     // but not "Upgrade" (already upgraded)
     if (userData.accountType === "organisation") {
       links.push({
-        href: "/joined-experiments",
+        href: "/org",
         label: "Joined Experiments",
         badge:
           userData.pendingAssignments > 0
@@ -103,7 +103,7 @@ export function NavigationBar() {
     // Org admins also see "Organisations" - they manage organizations
     if (userData.isOrgAdmin) {
       links.push({
-        href: "/organisations",
+        href: "/org",
         label: "Organisations",
       });
     }
@@ -153,7 +153,7 @@ export function NavigationBar() {
                       : "border-2 border-primary/50 text-foreground hover:border-secondary hover:bg-secondary hover:text-white"
                   }`}
                 >
-                  {link.href === "/organisations" && (
+                  {link.href === "/org" && (
                     <Building2 className="size-4" />
                   )}
                   {link.isUpgrade && <Crown className="size-4" />}
@@ -174,11 +174,11 @@ export function NavigationBar() {
             {(userData?.accountType === "organisation" ||
               userData?.isParticipant ||
               userData?.hasManagerRole) && (
-              <Link href="/manager">
+              <Link href="/org">
                 <Button
                   variant="ghost"
                   className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-                    pathname === "/manager" || pathname.startsWith("/manager/")
+                    pathname === "/org" || pathname.startsWith("/org/")
                       ? "bg-secondary text-white hover:bg-secondary/90"
                       : "border-2 border-secondary/50 text-secondary hover:border-secondary hover:bg-secondary hover:text-white"
                   }`}
@@ -308,7 +308,7 @@ export function NavigationBar() {
                           : ""
                       }`}
                     >
-                      {link.href === "/organisations" && (
+                      {link.href === "/org" && (
                         <Building2 className="size-4" />
                       )}
                       {link.isUpgrade && <Crown className="size-4" />}
@@ -329,11 +329,11 @@ export function NavigationBar() {
                 {(userData?.accountType === "organisation" ||
                   userData?.isParticipant ||
                   userData?.hasManagerRole) && (
-                  <Link href="/manager" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href="/org" onClick={() => setMobileMenuOpen(false)}>
                     <Button
                       variant="ghost"
                       className={`w-full justify-start rounded-2xl gap-2 ${
-                        pathname === "/manager" || pathname.startsWith("/manager/")
+                        pathname === "/org" || pathname.startsWith("/org/")
                           ? "bg-secondary text-white"
                           : "text-secondary"
                       }`}

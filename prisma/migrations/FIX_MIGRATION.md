@@ -6,7 +6,7 @@ Migration failed because existing experiments have `clerkUserId` values that don
 ## Solution
 
 ### Option 1: Make Relation Optional (Already Done)
-The `Experiment.user` relation is now optional (`User?`), so the migration should work. User records will be created automatically when needed via `/api/users/me`.
+The `Experiment.user` relation is now optional (`User?`), so the migration should work. User records will be created automatically when needed via `/api/users/identity`.
 
 ### Option 2: Create User Records First (Optional)
 If you want to create User records for all existing experiments, you can run this after migration:

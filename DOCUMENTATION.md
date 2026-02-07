@@ -483,7 +483,7 @@ const { user } = useUser();
 
 ### User API
 
-#### `GET /api/users/me`
+#### `GET /api/users/identity`
 - Get current user info (accountType, organisations)
 - Auto-creates User record if missing (defaults to "individual")
 

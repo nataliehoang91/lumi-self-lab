@@ -1,6 +1,19 @@
+import { getAuthenticatedUserId } from "@/lib/permissions";
+
 export const maxDuration = 30
 
+/**
+ * Personal action: AI chat for the authenticated user only. No role or org checks.
+ */
 export async function POST(req: Request) {
+  const userId = await getAuthenticatedUserId();
+  if (!userId) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const { messages } = await req.json()
 
   const systemMessage = {

@@ -42,11 +42,11 @@ export function ManagerTabButton({ pathname }: ManagerTabButtonProps) {
 
   // Show Manager tab for users with manager role
   return (
-    <Link href="/manager">
+    <Link href="/org">
       <Button
         variant="ghost"
         className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-          pathname === "/manager"
+          pathname === "/org"
             ? "bg-primary text-black hover:bg-secondary hover:text-white"
             : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet/10 hover:text-violet"
         }`}

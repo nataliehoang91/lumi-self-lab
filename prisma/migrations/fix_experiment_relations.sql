@@ -17,5 +17,5 @@ ALTER TABLE "Experiment"
 
 -- Note: We're NOT adding the foreign key to User table yet
 -- because existing experiments don't have User records.
--- User records will be created automatically when needed via /api/users/me
+-- User records will be created automatically when needed via /api/users/identity
 -- The relation is optional in the schema, so this is fine.

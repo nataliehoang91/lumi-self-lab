@@ -41,11 +41,11 @@ export function ManagerTabButtonMobile({ pathname, onClose }: ManagerTabButtonMo
   }
 
   return (
-    <Link href="/manager" onClick={onClose}>
+    <Link href="/org" onClick={onClose}>
       <Button
         variant="ghost"
         className={`w-full justify-start rounded-2xl gap-2 ${
-          pathname === "/manager"
+          pathname === "/org"
             ? "bg-primary text-black hover:bg-secondary hover:text-white"
             : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet hover:text-white"
         }`}

@@ -224,7 +224,7 @@ const { scenario, setScenario, userData, loading, error, refreshUser } = useUser
 
 **Behavior:**
 - If `scenario` is set (from localStorage) → uses mock data from `SCENARIO_DATA`
-- If `scenario` is `null` → fetches real data from `/api/users/me` and transforms it
+- If `scenario` is `null` → fetches real data from `/api/users/identity` and transforms it
 
 **Data Transformation:**
 - API returns: `accountType`, `organisations` array with `role`
