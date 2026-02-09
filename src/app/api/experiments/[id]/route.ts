@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
+import { getAuthenticatedUserId, requireExperimentOwner, experimentHasCheckIns } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
@@ -90,7 +90,7 @@ export async function PATCH(
     }
 
     // Ownership is immutable: never accept clerkUserId. organisationId deferred to link API.
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     if (body.title !== undefined) updateData.title = body.title;
     if (body.whyMatters !== undefined) updateData.whyMatters = body.whyMatters;
     if (body.hypothesis !== undefined) updateData.hypothesis = body.hypothesis;
@@ -98,12 +98,55 @@ export async function PATCH(
     if (body.frequency !== undefined) updateData.frequency = body.frequency;
     if (body.faithEnabled !== undefined) updateData.faithEnabled = body.faithEnabled;
     if (body.scriptureNotes !== undefined) updateData.scriptureNotes = body.scriptureNotes;
-    if (body.status !== undefined) updateData.status = body.status;
-    if (body.startedAt !== undefined) updateData.startedAt = body.startedAt ? new Date(body.startedAt) : null;
-    if (body.completedAt !== undefined) updateData.completedAt = body.completedAt ? new Date(body.completedAt) : null;
+
+    // Phase 1: enforce status lifecycle (draft → active → completed only)
+    if (body.status !== undefined) {
+      const currentStatus = existing.status;
+      const newStatus = body.status as string;
+
+      const allowedTransitions: Record<string, string[]> = {
+        draft: ["active"],
+        active: ["completed"],
+        completed: [],
+      };
+      const allowed = allowedTransitions[currentStatus]?.includes(newStatus) || newStatus === currentStatus;
+      if (!allowed) {
+        return NextResponse.json(
+          {
+            error: "Invalid status transition",
+            detail: `Cannot change status from ${currentStatus} to ${newStatus}. Allowed: draft→active, active→completed.`,
+          },
+          { status: 400 }
+        );
+      }
+
+      updateData.status = newStatus;
+
+      if (newStatus === "active" && currentStatus === "draft") {
+        updateData.startedAt = body.startedAt ? new Date(body.startedAt as string) : new Date();
+      }
+      if (newStatus === "completed" && currentStatus === "active") {
+        updateData.completedAt = body.completedAt ? new Date(body.completedAt as string) : new Date();
+      }
+    }
+    if (body.startedAt !== undefined && !("startedAt" in updateData)) {
+      updateData.startedAt = body.startedAt ? new Date(body.startedAt) : null;
+    }
+    if (body.completedAt !== undefined && !("completedAt" in updateData)) {
+      updateData.completedAt = body.completedAt ? new Date(body.completedAt) : null;
+    }
 
     // Handle fields update (upsert logic)
     if (body.fields !== undefined) {
+      if (await experimentHasCheckIns(id)) {
+        return NextResponse.json(
+          {
+            error: "Experiment structure is locked",
+            detail: "You cannot modify fields after check-ins have been recorded.",
+          },
+          { status: 400 }
+        );
+      }
       // Delete fields that are not in the new list
       const existingFieldIds = body.fields
         .map((f: any) => f.id)

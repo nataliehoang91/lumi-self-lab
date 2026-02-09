@@ -93,9 +93,9 @@ export async function GET(request: Request) {
  *   frequency: string (daily | every-2-days | weekly)
  *   faithEnabled?: boolean
  *   scriptureNotes?: string
- *   status?: string (draft | active | completed)
  *   fields?: Array<{...}>
  * }
+ * Note: status is ignored; new experiments are always created as draft.
  */
 export async function POST(request: Request) {
   try {
@@ -113,7 +113,6 @@ export async function POST(request: Request) {
       frequency,
       faithEnabled,
       scriptureNotes,
-      status,
       fields,
     } = body;
 
@@ -145,7 +144,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // Create experiment with fields
+    // Phase 1.3: new experiments are always draft; only start action sets active + startedAt
     const experiment = await prisma.experiment.create({
       data: {
         clerkUserId: userId,
@@ -156,7 +155,9 @@ export async function POST(request: Request) {
         frequency,
         faithEnabled: faithEnabled || false,
         scriptureNotes: scriptureNotes || null,
-        status: status || "draft",
+        status: "draft",
+        startedAt: null,
+        completedAt: null,
         fields: {
           create:
             fields?.map(

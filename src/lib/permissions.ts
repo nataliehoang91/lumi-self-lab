@@ -72,6 +72,17 @@ export async function requireExperimentOwner(
   });
 }
 
+/**
+ * Phase 1.4: true if the experiment has at least one check-in.
+ * Used to lock field structure (no add/remove/change fields once data exists).
+ */
+export async function experimentHasCheckIns(experimentId: string): Promise<boolean> {
+  const count = await prisma.experimentCheckIn.count({
+    where: { experimentId },
+  });
+  return count > 0;
+}
+
 // ---------------------------------------------------------------------------
 // Super-admin (global admin)
 // ---------------------------------------------------------------------------

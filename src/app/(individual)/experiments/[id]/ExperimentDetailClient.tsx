@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { CheckInReminderBanner } from "@/components/Experiment/CheckInReminderBanner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -91,6 +92,13 @@ interface ExperimentDetailClientProps {
   experiment: UIExperimentDetail;
 }
 
+type ReminderState = {
+  paused: boolean;
+  pausedAt: string | null;
+  snoozed?: boolean;
+  snoozedUntil?: string | null;
+};
+
 export function ExperimentDetailClient({
   experiment,
 }: ExperimentDetailClientProps) {
@@ -98,6 +106,26 @@ export function ExperimentDetailClient({
   const [isCheckInDialogOpen, setIsCheckInDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setIsPreviewDialogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [reminder, setReminder] = useState<ReminderState | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/experiments/${experiment.id}/reminder`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data && typeof data.paused === "boolean")
+          setReminder({
+            paused: data.paused,
+            pausedAt: data.pausedAt ?? null,
+            snoozed: data.snoozed === true,
+            snoozedUntil: data.snoozedUntil ?? null,
+          });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [experiment.id]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -399,6 +427,33 @@ export function ExperimentDetailClient({
             </div>
           )}
         </div>
+
+        {/* In-app check-in reminder (Phase R.2) */}
+        {reminder !== null && (
+          <div className="mb-6">
+            <CheckInReminderBanner
+              experiment={{
+                id: experiment.id,
+                status: experiment.status,
+                startDate: experiment.startDate,
+                checkIns: experiment.checkIns,
+              }}
+              reminder={reminder}
+            >
+              {experiment.status === "active" &&
+                experiment.startDate &&
+                experiment.fields.length > 0 && (
+                  <Button
+                    onClick={() => setIsCheckInDialogOpen(true)}
+                    size="sm"
+                    className="bg-amber-600 hover:bg-amber-700 text-white"
+                  >
+                    Check in now
+                  </Button>
+                )}
+            </CheckInReminderBanner>
+          </div>
+        )}
 
         {/* Experiment Details */}
         <div className="space-y-6 mb-8">

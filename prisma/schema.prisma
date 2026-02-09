@@ -98,6 +98,53 @@ model OrganisationInvite {
 }
 
 ////////////////////////////////////////////////////////////
+// SYSTEM EXPERIMENT TEMPLATES (Phase T.1 — seeded, read-only)
+////////////////////////////////////////////////////////////
+
+model ExperimentTemplate {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  title         String
+  description   String?
+  durationDays  Int?
+  frequency     String?
+
+  // T.2 — metadata for UI (display-only, system-owned)
+  categories    String[]  @default([]) // e.g. ["Wellness & Health"]
+  tags          String[]  @default([]) // e.g. ["Energy", "Morning Routine"]
+  featured      Boolean   @default(false)
+  difficulty    String?   // "Easy" | "Medium" | "Hard"
+  rating        Float?    // static for now
+  usageCount    Int?      // static for now
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  fields        ExperimentTemplateField[]
+
+  @@index([key])
+}
+
+model ExperimentTemplateField {
+  id             String   @id @default(cuid())
+  templateId     String
+  template       ExperimentTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  label          String
+  type           String   // text | number | select | emoji | yesno
+  required       Boolean  @default(false)
+  order          Int
+
+  textType       String?  // short | long
+  minValue       Int?
+  maxValue       Int?
+  emojiCount     Int?     // 3 | 5 | 7
+  selectOptions  String[] // empty array if not select
+
+  @@index([templateId])
+}
+
+////////////////////////////////////////////////////////////
 // ORGANISATION TEMPLATE
 ////////////////////////////////////////////////////////////
 
@@ -173,6 +220,7 @@ model Experiment {
 
   fields          ExperimentField[]
   checkIns        ExperimentCheckIn[]
+  reminder        ExperimentReminder?
 
   @@index([clerkUserId])
   @@index([organisationId])
@@ -231,6 +279,19 @@ model ExperimentCheckIn {
 
   @@index([experimentId])
   @@index([clerkUserId])
+}
+
+////////////////////////////////////////////////////////////
+// REMINDER PAUSE + SNOOZE (Phase R.3 / R.4 — per-experiment, notification only)
+////////////////////////////////////////////////////////////
+
+model ExperimentReminder {
+  experimentId   String     @id
+  experiment     Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  pausedAt       DateTime?
+  snoozedUntil   DateTime?  // R.4: temporary snooze; auto-resumes after this time
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }
 
 ////////////////////////////////////////////////////////////

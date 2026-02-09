@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
+import { getAuthenticatedUserId, requireExperimentOwner, experimentHasCheckIns } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
@@ -66,6 +66,16 @@ export async function PATCH(
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
     }
 
+    if (await experimentHasCheckIns(experimentId)) {
+      return NextResponse.json(
+        {
+          error: "Experiment structure is locked",
+          detail: "You cannot modify fields after check-ins have been recorded.",
+        },
+        { status: 400 }
+      );
+    }
+
     // Verify field exists
     const existingField = await prisma.experimentField.findFirst({
       where: {
@@ -79,7 +89,7 @@ export async function PATCH(
     }
 
     // Prepare update data
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     if (body.label !== undefined) updateData.label = body.label;
     if (body.type !== undefined) updateData.type = body.type;
     if (body.required !== undefined) updateData.required = body.required;
@@ -124,6 +134,16 @@ export async function DELETE(
     const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
+    }
+
+    if (await experimentHasCheckIns(experimentId)) {
+      return NextResponse.json(
+        {
+          error: "Experiment structure is locked",
+          detail: "You cannot modify fields after check-ins have been recorded.",
+        },
+        { status: 400 }
+      );
     }
 
     // Verify field exists

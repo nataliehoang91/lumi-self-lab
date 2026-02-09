@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
+import { toStartOfDayUTC, startOfNextDayUTC } from "@/lib/date-utils";
+import { validateCheckInResponses } from "@/lib/checkin-response-validation";
 import { NextResponse } from "next/server";
 
 /**
@@ -87,14 +89,51 @@ export async function PATCH(
       return NextResponse.json({ error: "Check-in not found" }, { status: 404 });
     }
 
-    // Prepare update data
-    const updateData: any = {};
-    if (body.checkInDate !== undefined) updateData.checkInDate = new Date(body.checkInDate);
+    const updateData: Record<string, unknown> = {};
     if (body.notes !== undefined) updateData.notes = body.notes || null;
     if (body.aiSummary !== undefined) updateData.aiSummary = body.aiSummary || null;
 
+    if (body.checkInDate !== undefined) {
+      const normalizedDate = toStartOfDayUTC(body.checkInDate);
+      const endExclusive = startOfNextDayUTC(normalizedDate);
+      const otherOnSameDay = await prisma.experimentCheckIn.findFirst({
+        where: {
+          experimentId,
+          id: { not: checkInId },
+          checkInDate: { gte: normalizedDate, lt: endExclusive },
+        },
+      });
+      if (otherOnSameDay) {
+        return NextResponse.json(
+          { error: "A check-in already exists for this date." },
+          { status: 409 }
+        );
+      }
+      updateData.checkInDate = normalizedDate;
+    }
+
     // Handle responses update (upsert logic)
     if (body.responses !== undefined) {
+      const fields = await prisma.experimentField.findMany({
+        where: { experimentId },
+        orderBy: { order: "asc" },
+      });
+      const validationError = validateCheckInResponses(
+        fields.map((f) => ({
+          id: f.id,
+          type: f.type,
+          required: f.required,
+          minValue: f.minValue,
+          maxValue: f.maxValue,
+          emojiCount: f.emojiCount,
+          selectOptions: f.selectOptions ?? [],
+        })),
+        body.responses
+      );
+      if (validationError) {
+        return NextResponse.json(validationError, { status: 400 });
+      }
+
       // Delete responses that are not in the new list
       const existingResponseIds = body.responses
         .map((r: any) => r.id)

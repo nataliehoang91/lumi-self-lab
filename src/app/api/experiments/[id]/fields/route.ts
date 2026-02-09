@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
+import { getAuthenticatedUserId, requireExperimentOwner, experimentHasCheckIns } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
@@ -59,6 +59,16 @@ export async function POST(
     const experiment = await requireExperimentOwner(experimentId, userId);
     if (!experiment) {
       return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
+    }
+
+    if (await experimentHasCheckIns(experimentId)) {
+      return NextResponse.json(
+        {
+          error: "Experiment structure is locked",
+          detail: "You cannot modify fields after check-ins have been recorded.",
+        },
+        { status: 400 }
+      );
     }
 
     if (!label || !type || order === undefined) {
