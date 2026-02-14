@@ -13,7 +13,7 @@ import {
  */
 export default function WelcomePage() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-orange-50 via-white to-second/10 dark:from-background dark:via-background dark:to-second/20">
+    <div className="relative welcome-page-background">
       <WelcomeThemeToggle />
       <Container maxWidth="5xl" className="px-4 py-16 md:py-24">
         <WelcomeHeader />

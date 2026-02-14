@@ -3,7 +3,6 @@
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
-import { cn } from "@/lib/utils";
 
 export function WelcomeThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -15,15 +14,22 @@ export function WelcomeThemeToggle() {
         variant="ghost"
         size="icon"
         onClick={toggleTheme}
-        className={cn(
-          "rounded-2xl ring-1 transition-colors",
-          isDark
-            ? "bg-red-500/20 text-red-600 hover:bg-red-500/30 ring-red-500/40 hover:ring-red-500/60 dark:text-red-400"
-            : "bg-blue-500/20 text-blue-600 hover:bg-blue-500/30 ring-blue-500/40 hover:ring-blue-500/60 hover:text-blue-600"
-        )}
+        className="relative flex w-10 h-10 shrink-0 items-center justify-center gap-0 rounded-2xl bg-card/60 backdrop-blur border border-border/50 hover:bg-card hover:scale-105 transition-all duration-300 group overflow-hidden [&_svg]:!size-5"
         aria-label="Toggle theme"
       >
-        {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
+        <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
+          <Sun
+            className={`theme-toggle-icon theme-toggle-sun absolute inset-0 !h-5 !w-5 text-tertiary ${
+              isDark ? "theme-toggle-hidden" : "theme-toggle-visible"
+            }`}
+          />
+          <Moon
+            className={`theme-toggle-icon theme-toggle-moon absolute inset-0 !h-5 !w-5 text-sky-blue ${
+              isDark ? "theme-toggle-visible" : "theme-toggle-hidden"
+            }`}
+          />
+        </div>
+        <span className="sr-only">Toggle theme</span>
       </Button>
     </div>
   );

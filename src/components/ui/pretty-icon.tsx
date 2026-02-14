@@ -1,7 +1,14 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export type PrettyIconVariant = "primary" | "secondary" | "tertiary" | "logo";
+export type PrettyIconVariant =
+  | "primary"
+  | "secondary"
+  | "second"
+  | "tertiary"
+  | "coral"
+  | "sky-blue"
+  | "logo";
 export type PrettyIconSize = "sm" | "md" | "lg";
 
 interface PrettyIconProps {
@@ -21,9 +28,15 @@ const variantClasses: Record<PrettyIconVariant, string> = {
   primary:
     "bg-primary/25 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-primary",
   secondary:
-    "bg-second/25 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-second",
+    "bg-second/10 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-second",
+  second:
+    "bg-second/10 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-second",
   tertiary:
     "bg-tertiary/30 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-tertiary",
+  coral:
+    "bg-coral/10 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-coral",
+  "sky-blue":
+    "bg-sky-blue/10 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-sky-blue",
   logo: "bg-gradient-to-br from-primary/20 to-second/20 flex items-center justify-center ring-1 ring-primary/30 [&>svg]:shrink-0 [&>svg]:w-10 [&>svg]:h-10 md:[&>svg]:w-12 md:[&>svg]:h-12 [&>svg]:text-primary",
 };
 

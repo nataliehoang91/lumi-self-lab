@@ -5,19 +5,19 @@ import { Zap, Moon, Heart } from "lucide-react";
 
 const features = [
   {
-    variant: "primary" as const,
+    variant: "second" as const,
     icon: Zap,
     title: "Design Experiments",
     description: "Create structured experiments to test your habits and behaviors.",
   },
   {
-    variant: "secondary" as const,
+    variant: "coral" as const,
     icon: Moon,
     title: "Daily Reflections",
     description: "Check in each day and capture your observations and feelings.",
   },
   {
-    variant: "tertiary" as const,
+    variant: "sky-blue" as const,
     icon: Heart,
     title: "Find Patterns",
     description: "Discover meaningful insights about yourself through data.",
@@ -25,9 +25,9 @@ const features = [
 ];
 
 const cardVariantClasses = {
-  primary: "border-primary/20 hover:border-primary/30",
-  secondary: "border-second/20 hover:border-second/30",
-  tertiary: "border-tertiary/25 hover:border-tertiary/40",
+  second: "border-second/25 hover:border-second/40",
+  coral: "border-coral/25 hover:border-coral/40",
+  "sky-blue": "border-sky-blue/25 hover:border-sky-blue/40 ",
 };
 
 export function WelcomeFeatureCards() {

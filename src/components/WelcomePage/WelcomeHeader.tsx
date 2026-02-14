@@ -1,13 +1,10 @@
-import { Sparkles } from "lucide-react";
-import { PrettyIcon } from "@/components/ui/pretty-icon";
+import { LogoWithSmallerText } from "@/components/GeneralComponents";
 
 export function WelcomeHeader() {
   return (
     <header className="mb-16 text-center">
       <div className="inline-flex items-center justify-center mb-8">
-        <PrettyIcon variant="logo" size="lg">
-          <Sparkles strokeWidth={1.5} />
-        </PrettyIcon>
+        <LogoWithSmallerText href="/" />
       </div>
       <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance text-foreground leading-tight">
         Understand Yourself
