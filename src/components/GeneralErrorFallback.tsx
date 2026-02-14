@@ -4,14 +4,8 @@ import { RefreshCw, LucideIcon, Home } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { FallbackProps } from "react-error-boundary";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Container } from "./ui/container";
+import { Card } from "./ui/card";
 
 interface GeneralErrorFallbackProps extends FallbackProps {
   icon?: LucideIcon;
@@ -26,12 +20,11 @@ export function GeneralErrorFallback({
   icon: Icon,
   defaultDescription = "An unexpected error occurred.",
   showHomeButton = true,
-  homeUrl = "/create",
+  homeUrl = "/dashboard",
 }: GeneralErrorFallbackProps) {
   const router = useRouter();
 
   const getErrorType = () => {
-    // Check error message or type to determine what kind of error
     if (
       error.message?.includes("fetch") ||
       error.message?.includes("network") ||
@@ -43,29 +36,20 @@ export function GeneralErrorFallback({
       return {
         title: "Connection Error",
         description: "Unable to load data. Please check your internet connection and try again.",
-        color: "text-gray-600 dark:text-gray-400",
-        bgColor: "bg-gray-100 dark:bg-gray-900/20",
       };
     }
-
     if (error.message?.includes("404") || error.message?.includes("not found")) {
       return {
         title: "Data Not Found",
         description: "The requested data could not be found.",
-        color: "text-blue-600 dark:text-blue-400",
-        bgColor: "bg-blue-100 dark:bg-blue-900/20",
       };
     }
-
     if (error.message?.includes("401") || error.message?.includes("unauthorized")) {
       return {
         title: "Authentication Required",
         description: "You need to log in to access this data.",
-        color: "text-red-600 dark:text-red-400",
-        bgColor: "bg-red-100 dark:bg-red-900/20",
       };
     }
-
     if (
       error.message?.includes("Prisma") ||
       error.message?.includes("database") ||
@@ -76,64 +60,53 @@ export function GeneralErrorFallback({
         title: "Database Connection Error",
         description:
           "Unable to connect to the database. Please check your connection and try again.",
-        color: "text-orange-600 dark:text-orange-400",
-        bgColor: "bg-orange-100 dark:bg-orange-900/20",
       };
     }
-
-    // Default error
     return {
       title: "Something went wrong",
       description: defaultDescription,
-      color: "text-red-600 dark:text-red-400",
-      bgColor: "bg-red-100 dark:bg-red-900/20",
     };
   };
 
   const { title, description } = getErrorType();
 
   return (
-    <div className="flex items-center justify-center p-4 min-h-[400px]">
-      <Card className="w-full max-w-lg border-none shadow-none bg-transparent">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+    <Container maxWidth="md" className="flex items-center justify-center min-h-screen">
+      <Card className="w-full max-w-md text-center p-6 border-none shadow-none">
+        <div className="flex justify-center mb-6">
+          <div className="h-20 w-20 flex items-center justify-center rounded-full bg-red-50 border border-red-400 shadow-sm">
             {Icon ? (
-              <div className="h-48 w-48 flex items-center justify-center bg-muted rounded-full">
-                <Icon className="h-24 w-24 text-muted-foreground" />
-              </div>
+              <Icon className="h-9 w-9 text-coral" />
             ) : (
-              <div className="h-48 w-48 flex items-center justify-center bg-muted rounded-full">
-                <RefreshCw className="h-24 w-24 text-muted-foreground" />
-              </div>
+              <RefreshCw className="h-9 w-9 text-coral" />
             )}
           </div>
-          <CardTitle className="text-xl">{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {process.env.NODE_ENV === "development" && (
-            <div className="rounded-md bg-red-50 dark:bg-red-900/20 p-3">
-              <p className="text-sm text-red-800 dark:text-red-200 font-mono break-words">
-                {error.message}
-              </p>
-            </div>
-          )}
-        </CardContent>
+        </div>
+        <h1 className="text-2xl font-bold text-foreground mb-2">{title}</h1>
+        <p className="text-muted-foreground mb-6">{description}</p>
 
-        <CardFooter className="flex flex-row gap-3 px-4 py-2">
-          <Button onClick={resetErrorBoundary} className="flex-1">
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Try Again
-          </Button>
+        {process.env.NODE_ENV === "development" && (
+          <details className="text-left mb-6 rounded-lg border border-border bg-muted/50 p-3">
+            <summary className="text-sm font-medium text-muted-foreground cursor-pointer">
+              Technical details
+            </summary>
+            <p className="mt-2 text-xs text-destructive font-mono break-words">{error.message}</p>
+          </details>
+        )}
 
+        <div className="flex flex-col-reverse sm:flex-row gap-3 justify-center">
           {showHomeButton && (
-            <Button variant="outline" onClick={() => router.push(homeUrl)} className="flex-1">
+            <Button variant="outline" onClick={() => router.push(homeUrl)}>
               <Home className="mr-2 h-4 w-4" />
               Go to Dashboard
             </Button>
           )}
-        </CardFooter>
+          <Button variant="secondaryLight" onClick={resetErrorBoundary}>
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Try Again
+          </Button>
+        </div>
       </Card>
-    </div>
+    </Container>
   );
 }
