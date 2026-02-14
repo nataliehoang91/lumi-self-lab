@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary-dark text-primary-foreground hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-input bg-background hover:bg-primary/10 hover:border-input",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
@@ -20,7 +20,7 @@ const buttonVariants = cva(
         gradientSecond:
           "bg-[linear-gradient(135deg,#B8A4E8_0%,#9b7ddb_100%)] text-white hover:opacity-90 transition-opacity",
         gradientPrimary:
-          "bg-[linear-gradient(135deg,oklch(0.86_0.1_35)_0%,oklch(0.68_0.14_35)_100%)] text-white hover:opacity-90 transition-opacity",
+          "bg-[linear-gradient(135deg,#ffb399_0%,#ff9073_100%)] text-white hover:opacity-90 transition-opacity",
         ghost: "hover:bg-primary/10 hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },

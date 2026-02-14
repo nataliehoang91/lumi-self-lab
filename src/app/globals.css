@@ -82,11 +82,7 @@
   --gradient-peach: rgb(255 247 237);
   --gradient-peach-button: linear-gradient(135deg, #ffb38c 0%, #fca17e 100%);
   --gradient-second-button: linear-gradient(135deg, #b8a4e8 0%, #9b7ddb 100%);
-  --gradient-primary-button: linear-gradient(
-    135deg,
-    oklch(0.86 0.1 35) 0%,
-    oklch(0.68 0.14 35) 100%
-  );
+  --gradient-primary-button: linear-gradient(135deg, #ffb399 0%, #ff9073 100%);
   --gradient-white: rgb(255 255 255);
   --gradient-violet-tint: rgb(245 243 255 / 0.3);
 }
