@@ -79,7 +79,7 @@ export default function GuidedOnboardingPage() {
 
   if (isGenerating) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-violet-50 dark:from-background dark:via-background dark:to-violet-950/20 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-violet/20 mb-6 animate-pulse">
             <Sparkles className="w-10 h-10 text-primary animate-float" />
@@ -92,7 +92,7 @@ export default function GuidedOnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-violet-50 dark:from-background dark:via-background dark:to-violet-950/20">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         {/* Progress bar */}
         <div className="mb-12">

@@ -18,7 +18,7 @@ import {
 
 export default function InsightsPage() {
   return (
-    <div className="min-h-screen bg-linear-to-br from-orange-50 via-amber-50 to-purple-50 dark:from-background dark:via-background dark:to-background">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

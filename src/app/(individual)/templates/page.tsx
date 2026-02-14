@@ -246,7 +246,7 @@ export default function TemplatesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-purple-50 dark:from-background dark:via-background dark:to-background">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">Experiment Templates</h1>

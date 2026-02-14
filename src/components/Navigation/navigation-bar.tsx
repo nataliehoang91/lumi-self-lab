@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Sparkles,
   Moon,
   Sun,
   Menu,
@@ -17,6 +16,7 @@ import {
   Loader2,
   Shield,
 } from "lucide-react";
+import { LogoWithSmallerText } from "@/components/GeneralComponents";
 import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@/hooks/user-context";
@@ -113,15 +113,7 @@ export function NavigationBar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link
-            href="/create"
-            className="flex items-center gap-2 transition-transform hover:scale-105"
-          >
-            <div className="flex size-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-second/20 text-primary">
-              <Sparkles className="size-5 text-second" />
-            </div>
-            <span className="text-lg font-semibold text-foreground">Self-Lab</span>
-          </Link>
+          <LogoWithSmallerText href="/dashboard" width={100} height={23} className="transition-transform hover:scale-105" />
 
           {/* Desktop Navigation - show skeleton until roles loaded */}
           <div className="hidden items-center gap-1 md:flex">
