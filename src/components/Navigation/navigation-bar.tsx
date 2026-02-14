@@ -1,32 +1,378 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Moon,
-  Sun,
-  Menu,
-  X,
-  BarChart3,
-  Building2,
-  Crown,
-  Loader2,
-  Shield,
-} from "lucide-react";
+import { Moon, Sun, Menu, X, BarChart3, Building2, Crown, Loader2, Shield } from "lucide-react";
 import { LogoWithSmallerText } from "@/components/GeneralComponents";
+import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@/hooks/user-context";
 
-type NavLink = {
-  href: string;
-  label: string;
+// Shared class constants (active = bg primary, hover border second; inactive = border second, hover border primary; border-1)
+const BASE_DESKTOP = "rounded-3xl transition-all hover:scale-105 gap-2";
+const BASE_MOBILE = "w-full justify-start rounded-2xl gap-2";
+const ACTIVE_DESKTOP = "bg-primary-dark text-white hover:border hover:border-second";
+const ACTIVE_MOBILE = "bg-primary-dark text-white";
+const INACTIVE_DESKTOP = "border border-second text-foreground hover:border-primary";
+const INACTIVE_UPGRADE_DESKTOP = "border border-second text-amber-600 hover:border-primary";
+const INACTIVE_UPGRADE_MOBILE = "text-amber-600";
+const INACTIVE_MANAGER_DESKTOP = "border border-second/50 text-second hover:border-primary";
+const INACTIVE_MANAGER_MOBILE = "text-second";
+const BADGE_CLASS =
+  "ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs";
+
+function DashboardButton({
+  pathname,
+  variant,
+  onClick,
+}: {
+  pathname: string;
+  variant: "desktop" | "mobile";
+  onClick?: () => void;
+}) {
+  const isActive = pathname === "/dashboard" || pathname.startsWith("/dashboard/");
+  const isDesktop = variant === "desktop";
+
+  return (
+    <Link href="/dashboard" onClick={onClick}>
+      <Button
+        variant="ghost"
+        className={cn(
+          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
+          isActive && isDesktop && ACTIVE_DESKTOP,
+          isActive && !isDesktop && ACTIVE_MOBILE,
+          !isActive && isDesktop && INACTIVE_DESKTOP
+        )}
+      >
+        Dashboard
+      </Button>
+    </Link>
+  );
+}
+
+function ExperimentsButton({
+  pathname,
+  variant,
+  onClick,
+}: {
+  pathname: string;
+  variant: "desktop" | "mobile";
+  onClick?: () => void;
+}) {
+  const isActive = pathname === "/experiments" || pathname.startsWith("/experiments/");
+  const isDesktop = variant === "desktop";
+
+  return (
+    <Link href="/experiments" onClick={onClick}>
+      <Button
+        variant="ghost"
+        className={cn(
+          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
+          isActive && isDesktop && ACTIVE_DESKTOP,
+          isActive && !isDesktop && ACTIVE_MOBILE,
+          !isActive && isDesktop && INACTIVE_DESKTOP
+        )}
+      >
+        Experiments
+      </Button>
+    </Link>
+  );
+}
+
+function JoinedExperimentsButton({
+  pathname,
+  variant,
+  badge,
+  onClick,
+}: {
+  pathname: string;
+  variant: "desktop" | "mobile";
   badge?: number;
-  isUpgrade?: boolean;
-};
+  onClick?: () => void;
+}) {
+  const isActive = pathname === "/org" || pathname.startsWith("/org/");
+  const isDesktop = variant === "desktop";
+
+  return (
+    <Link href="/org" onClick={onClick}>
+      <Button
+        variant="ghost"
+        className={cn(
+          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
+          isActive && isDesktop && ACTIVE_DESKTOP,
+          isActive && !isDesktop && ACTIVE_MOBILE,
+          !isActive && isDesktop && INACTIVE_DESKTOP
+        )}
+      >
+        <Building2 className="size-4" />
+        Joined Experiments
+        {badge != null && badge > 0 && <Badge className={BADGE_CLASS}>{badge}</Badge>}
+      </Button>
+    </Link>
+  );
+}
+
+function OrganisationsButton({
+  pathname,
+  variant,
+  onClick,
+}: {
+  pathname: string;
+  variant: "desktop" | "mobile";
+  onClick?: () => void;
+}) {
+  const isActive = pathname === "/org" || pathname.startsWith("/org/");
+  const isDesktop = variant === "desktop";
+
+  return (
+    <Link href="/org" onClick={onClick}>
+      <Button
+        variant="ghost"
+        className={cn(
+          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
+          isActive && isDesktop && ACTIVE_DESKTOP,
+          isActive && !isDesktop && ACTIVE_MOBILE,
+          !isActive && isDesktop && INACTIVE_DESKTOP
+        )}
+      >
+        <Building2 className="size-4" />
+        Organisations
+      </Button>
+    </Link>
+  );
+}
+
+function UpgradeButton({
+  pathname,
+  variant,
+  onClick,
+}: {
+  pathname: string;
+  variant: "desktop" | "mobile";
+  onClick?: () => void;
+}) {
+  const isActive = pathname === "/upgrade" || pathname.startsWith("/upgrade/");
+  const isDesktop = variant === "desktop";
+
+  return (
+    <Link href="/upgrade" onClick={onClick}>
+      <Button
+        variant="ghost"
+        className={cn(
+          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
+          isActive && isDesktop && ACTIVE_DESKTOP,
+          isActive && !isDesktop && ACTIVE_MOBILE,
+          !isActive && isDesktop && INACTIVE_UPGRADE_DESKTOP,
+          !isActive && !isDesktop && INACTIVE_UPGRADE_MOBILE
+        )}
+      >
+        <Crown className="size-4" />
+        Upgrade
+      </Button>
+    </Link>
+  );
+}
+
+function ManagerButton({
+  pathname,
+  variant,
+  onClick,
+}: {
+  pathname: string;
+  variant: "desktop" | "mobile";
+  onClick?: () => void;
+}) {
+  const isActive = pathname === "/org" || pathname.startsWith("/org/");
+  const isDesktop = variant === "desktop";
+
+  return (
+    <Link href="/org" onClick={onClick}>
+      <Button
+        variant="ghost"
+        className={cn(
+          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
+          isActive && isDesktop && ACTIVE_DESKTOP,
+          isActive && !isDesktop && ACTIVE_MOBILE,
+          !isActive && isDesktop && INACTIVE_MANAGER_DESKTOP,
+          !isActive && !isDesktop && INACTIVE_MANAGER_MOBILE
+        )}
+      >
+        <BarChart3 className="size-4" />
+        Manager
+      </Button>
+    </Link>
+  );
+}
+
+function SuperAdminButton({
+  pathname,
+  variant,
+  onClick,
+}: {
+  pathname: string;
+  variant: "desktop" | "mobile";
+  onClick?: () => void;
+}) {
+  const isActive = pathname === "/super-admin" || pathname.startsWith("/super-admin/");
+  const isDesktop = variant === "desktop";
+
+  const activeViolet = "bg-violet-500 text-white";
+  const activeVioletHover = "hover:bg-violet-600";
+  const inactiveVioletDesktop =
+    "border border-violet-500/50 text-violet-600 dark:text-violet-400 hover:border-violet-500 hover:bg-violet-500 hover:text-white";
+  const inactiveVioletMobile = "text-violet-600 dark:text-violet-400";
+
+  return (
+    <Link href="/super-admin" onClick={onClick}>
+      <Button
+        variant="ghost"
+        className={cn(
+          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
+          isActive && activeViolet,
+          isActive && isDesktop && activeVioletHover,
+          !isActive && isDesktop && inactiveVioletDesktop,
+          !isActive && !isDesktop && inactiveVioletMobile
+        )}
+      >
+        <Shield className="size-4" />
+        Super Admin
+      </Button>
+    </Link>
+  );
+}
+
+function ThemeToggleButton({ variant }: { variant: "desktop" | "mobile" }) {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
+  const [displayDark, setDisplayDark] = useState(isDark);
+
+  useEffect(() => {
+    setDisplayDark(isDark);
+  }, [isDark]);
+
+  const handleClick = () => {
+    setDisplayDark((prev) => !prev);
+    toggleTheme();
+  };
+
+  const buttonContent = (
+    <>
+      <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
+        <Sun
+          className={cn(
+            "theme-toggle-icon theme-toggle-sun absolute inset-0 !h-5 !w-5 text-tertiary",
+            displayDark ? "theme-toggle-hidden" : "theme-toggle-visible"
+          )}
+        />
+        <Moon
+          className={cn(
+            "theme-toggle-icon theme-toggle-moon absolute inset-0 !h-5 !w-5 text-sky-blue",
+            displayDark ? "theme-toggle-visible" : "theme-toggle-hidden"
+          )}
+        />
+      </div>
+      <span className="sr-only">Toggle theme</span>
+    </>
+  );
+
+  if (variant === "desktop") {
+    return (
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={handleClick}
+        className="relative flex w-10 h-10 shrink-0 items-center justify-center gap-0 rounded-2xl bg-card/60 backdrop-blur border border-border/50 hover:bg-card hover:scale-105 transition-all duration-300 group overflow-hidden [&_svg]:!size-5"
+        aria-label="Toggle theme"
+      >
+        {buttonContent}
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      onClick={handleClick}
+      className={cn(
+        "relative flex w-10 h-10 shrink-0 items-center justify-center gap-0 rounded-2xl bg-card/60 backdrop-blur border border-border/50 hover:bg-card hover:scale-105 transition-all duration-300 overflow-hidden [&_svg]:!size-5",
+        "w-full justify-start"
+      )}
+      aria-label="Toggle theme"
+    >
+      {buttonContent}
+    </Button>
+  );
+}
+
+function SignInButton({
+  onClick,
+  variant = "desktop",
+}: {
+  onClick?: () => void;
+  variant?: "desktop" | "mobile";
+}) {
+  return (
+    <Button
+      variant="ghost"
+      className={cn(
+        "rounded-2xl transition-all hover:scale-105",
+        variant === "mobile" && "w-full justify-start"
+      )}
+      asChild
+    >
+      <Link href="/sign-in" onClick={onClick}>
+        Sign In
+      </Link>
+    </Button>
+  );
+}
+
+function SignUpButton({
+  onClick,
+  variant = "desktop",
+}: {
+  onClick?: () => void;
+  variant?: "desktop" | "mobile";
+}) {
+  return (
+    <Button
+      className={cn(
+        "rounded-2xl transition-all hover:scale-105",
+        variant === "mobile" && "w-full justify-start"
+      )}
+      asChild
+    >
+      <Link href="/sign-up" onClick={onClick}>
+        Sign Up
+      </Link>
+    </Button>
+  );
+}
+
+function MobileMenuButton({ open, onClick }: { open: boolean; onClick: () => void }) {
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      className="rounded-2xl md:hidden"
+      onClick={onClick}
+      aria-label="Toggle menu"
+    >
+      {open ? <X className="size-5" /> : <Menu className="size-5" />}
+    </Button>
+  );
+}
+
+const LOADING_DESKTOP =
+  "flex items-center gap-2 rounded-3xl border border-border/50 bg-muted/30 px-4 py-2";
+const LOADING_MOBILE =
+  "flex items-center gap-2 rounded-2xl border border-border/50 bg-muted/30 px-4 py-3";
+const LOADING_SPINNER = "size-5 animate-spin text-muted-foreground";
+const LOADING_TEXT = "text-sm text-muted-foreground";
 
 /**
  * Navigation bar component with Clerk integration.
@@ -40,11 +386,9 @@ type NavLink = {
  */
 export function NavigationBar() {
   const pathname = usePathname();
-  const { theme, toggleTheme } = useTheme();
   const { userData, loading: userLoading } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Don't show navbar on landing/auth pages
   const hideNavbar =
     pathname === "/" ||
     pathname.startsWith("/sign-in") ||
@@ -57,152 +401,58 @@ export function NavigationBar() {
     return null;
   }
 
-  // Navigation structure:
-  // Individual: Dashboard, Experiments, Joined Experiments, Upgrade
-  // Participant: Dashboard, Experiments, Joined Experiments
-  // Team Manager: Dashboard, Experiments, Joined Experiments, Manager
-  // Org Admin: Dashboard, Experiments, Joined Experiments, Organisations, Manager
-
-  const buildNavLinks = (): NavLink[] => {
-    const links: NavLink[] = [
-      { href: "/dashboard", label: "Dashboard" },
-      { href: "/experiments", label: "Experiments" },
-    ];
-
-    if (!userData) return links; // Return default links if no user data
-
-    // Individual accounts see "Joined Experiments" and "Upgrade" (unless already upgraded or super_admin)
-    if (userData.accountType === "individual") {
-      links.push({
-        href: "/org",
-        label: "Joined Experiments",
-        badge: userData.pendingAssignments > 0 ? userData.pendingAssignments : undefined,
-      });
-      // Don't show Upgrade for upgraded users or super_admin (full access)
-      if (!userData.isUpgraded && !userData.isSuperAdmin) {
-        links.push({ href: "/upgrade", label: "Upgrade", isUpgrade: true });
-      }
-    }
-
-    // Organisation accounts see "Joined Experiments" (for participant experiments)
-    // but not "Upgrade" (already upgraded)
-    if (userData.accountType === "organisation") {
-      links.push({
-        href: "/org",
-        label: "Joined Experiments",
-        badge: userData.pendingAssignments > 0 ? userData.pendingAssignments : undefined,
-      });
-    }
-
-    // Org admins also see "Organisations" - they manage organizations
-    if (userData.isOrgAdmin) {
-      links.push({
-        href: "/org",
-        label: "Organisations",
-      });
-    }
-
-    return links;
-  };
-
-  const navLinks = buildNavLinks();
   const showNavLinks = !userLoading;
+  const showManager =
+    userData?.accountType === "organisation" || userData?.isParticipant || userData?.hasManagerRole;
+  const closeMobile = () => setMobileMenuOpen(false);
+
+  const showJoinedExperiments =
+    userData?.accountType === "individual" || userData?.accountType === "organisation";
+  const showUpgrade =
+    userData?.accountType === "individual" && !userData?.isUpgraded && !userData?.isSuperAdmin;
+  const showOrganisations = userData?.isOrgAdmin === true;
+  const pendingAssignments = userData?.pendingAssignments ?? 0;
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <LogoWithSmallerText href="/dashboard" width={100} height={23} className="transition-transform hover:scale-105" />
+          <LogoWithSmallerText
+            href="/dashboard"
+            width={100}
+            height={23}
+            className="transition-transform hover:scale-105"
+          />
 
-          {/* Desktop Navigation - show skeleton until roles loaded */}
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-3 md:flex">
             {!showNavLinks ? (
-              <div className="flex items-center gap-2 rounded-3xl border-2 border-border/50 bg-muted/30 px-4 py-2">
-                <Loader2 className="size-5 animate-spin text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Loading…</span>
+              <div className={LOADING_DESKTOP}>
+                <Loader2 className={LOADING_SPINNER} />
+                <span className={LOADING_TEXT}>Loading…</span>
               </div>
             ) : (
               <>
-                {navLinks.map((link) => (
-                  <Link key={link.href} href={link.href}>
-                    <Button
-                      variant="ghost"
-                      className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-                        pathname === link.href || pathname.startsWith(link.href + "/")
-                          ? "bg-primary text-black hover:bg-second hover:text-white"
-                          : link.isUpgrade
-                            ? "border-2 border-amber-500/50 text-amber-600 hover:border-amber-500 hover:bg-amber-500 hover:text-white"
-                            : "border-2 border-primary/50 text-foreground hover:border-second hover:bg-second hover:text-white"
-                      }`}
-                    >
-                      {link.href === "/org" && <Building2 className="size-4" />}
-                      {link.isUpgrade && <Crown className="size-4" />}
-                      {link.label}
-                      {link.badge && (
-                        <Badge className="ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs">
-                          {link.badge}
-                        </Badge>
-                      )}
-                    </Button>
-                  </Link>
-                ))}
-                {/* Show Manager tab for:
-                - Organisation accounts (always)
-                - Individual accounts who are participants (has org memberships or org-linked experiments)
-                - Users with manager role (team_manager or org_admin)
-            */}
-                {(userData?.accountType === "organisation" ||
-                  userData?.isParticipant ||
-                  userData?.hasManagerRole) && (
-                  <Link href="/org">
-                    <Button
-                      variant="ghost"
-                      className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-                        pathname === "/org" || pathname.startsWith("/org/")
-                          ? "bg-second text-white hover:bg-second/90"
-                          : "border-2 border-second/50 text-second hover:border-second hover:bg-second hover:text-white"
-                      }`}
-                    >
-                      <BarChart3 className="size-4" />
-                      Manager
-                    </Button>
-                  </Link>
+                <DashboardButton pathname={pathname} variant="desktop" />
+                <ExperimentsButton pathname={pathname} variant="desktop" />
+                {showJoinedExperiments && (
+                  <JoinedExperimentsButton
+                    pathname={pathname}
+                    variant="desktop"
+                    badge={pendingAssignments > 0 ? pendingAssignments : undefined}
+                  />
                 )}
-                {/* Super Admin: highest, after Manager */}
+                {showUpgrade && <UpgradeButton pathname={pathname} variant="desktop" />}
+                {showOrganisations && <OrganisationsButton pathname={pathname} variant="desktop" />}
+                {showManager && <ManagerButton pathname={pathname} variant="desktop" />}
                 {userData?.isSuperAdmin && (
-                  <Link href="/super-admin">
-                    <Button
-                      variant="ghost"
-                      className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-                        pathname === "/super-admin" || pathname.startsWith("/super-admin/")
-                          ? "bg-violet-500 text-white hover:bg-violet-600"
-                          : "border-2 border-violet-500/50 text-violet-600 dark:text-violet-400 hover:border-violet-500 hover:bg-violet-500 hover:text-white"
-                      }`}
-                    >
-                      <Shield className="size-4" />
-                      Super Admin
-                    </Button>
-                  </Link>
+                  <SuperAdminButton pathname={pathname} variant="desktop" />
                 )}
               </>
             )}
           </div>
 
-          {/* Desktop Actions */}
           <div className="hidden items-center gap-2 md:flex">
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="rounded-2xl transition-all hover:scale-105 hover:bg-second/10 hover:text-second"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
-            </Button>
-
-            {/* Clerk UserButton for authenticated users */}
+            <ThemeToggleButton variant="desktop" />
             <SignedIn>
               <UserButton
                 appearance={{
@@ -218,134 +468,60 @@ export function NavigationBar() {
                 afterSignOutUrl="/waitlist"
               />
             </SignedIn>
-
-            {/* Sign In/Sign Up buttons for unauthenticated users */}
             <SignedOut>
               <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  className="rounded-2xl transition-all hover:scale-105"
-                  asChild
-                >
-                  <Link href="/sign-in">Sign In</Link>
-                </Button>
-                <Button className="rounded-2xl transition-all hover:scale-105" asChild>
-                  <Link href="/sign-up">Sign Up</Link>
-                </Button>
+                <SignInButton />
+                <SignUpButton />
               </div>
             </SignedOut>
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-2xl md:hidden"
+          <MobileMenuButton
+            open={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-          </Button>
+          />
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="border-t border-border/40 bg-background/95 backdrop-blur-xl md:hidden">
           <div className="space-y-1 px-4 pb-3 pt-2">
             {!showNavLinks ? (
-              <div className="flex items-center gap-2 rounded-2xl border border-border/50 bg-muted/30 px-4 py-3">
-                <Loader2 className="size-5 animate-spin text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Loading…</span>
+              <div className={LOADING_MOBILE}>
+                <Loader2 className={LOADING_SPINNER} />
+                <span className={LOADING_TEXT}>Loading…</span>
               </div>
             ) : (
               <>
-                {navLinks.map((link) => (
-                  <Link key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)}>
-                    <Button
-                      variant="ghost"
-                      className={`w-full justify-start rounded-2xl gap-2 ${
-                        pathname === link.href || pathname.startsWith(link.href + "/")
-                          ? "bg-primary text-primary-foreground"
-                          : link.isUpgrade
-                            ? "text-amber-600"
-                            : ""
-                      }`}
-                    >
-                      {link.href === "/org" && <Building2 className="size-4" />}
-                      {link.isUpgrade && <Crown className="size-4" />}
-                      {link.label}
-                      {link.badge && (
-                        <Badge className="ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs">
-                          {link.badge}
-                        </Badge>
-                      )}
-                    </Button>
-                  </Link>
-                ))}
-                {/* Show Manager tab for:
-                    - Organisation accounts (always)
-                    - Individual accounts who are participants (has org memberships or org-linked experiments)
-                    - Users with manager role (team_manager or org_admin)
-                */}
-                {(userData?.accountType === "organisation" ||
-                  userData?.isParticipant ||
-                  userData?.hasManagerRole) && (
-                  <Link href="/org" onClick={() => setMobileMenuOpen(false)}>
-                    <Button
-                      variant="ghost"
-                      className={`w-full justify-start rounded-2xl gap-2 ${
-                        pathname === "/org" || pathname.startsWith("/org/")
-                          ? "bg-second text-white"
-                          : "text-second"
-                      }`}
-                    >
-                      <BarChart3 className="size-4" />
-                      Manager
-                    </Button>
-                  </Link>
+                <DashboardButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                <ExperimentsButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                {showJoinedExperiments && (
+                  <JoinedExperimentsButton
+                    pathname={pathname}
+                    variant="mobile"
+                    badge={pendingAssignments > 0 ? pendingAssignments : undefined}
+                    onClick={closeMobile}
+                  />
                 )}
-                {/* Super Admin: highest, after Manager */}
+                {showUpgrade && (
+                  <UpgradeButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                )}
+                {showOrganisations && (
+                  <OrganisationsButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                )}
+                {showManager && (
+                  <ManagerButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                )}
                 {userData?.isSuperAdmin && (
-                  <Link href="/super-admin" onClick={() => setMobileMenuOpen(false)}>
-                    <Button
-                      variant="ghost"
-                      className={`w-full justify-start rounded-2xl gap-2 ${
-                        pathname === "/super-admin" || pathname.startsWith("/super-admin/")
-                          ? "bg-violet-500 text-white"
-                          : "text-violet-600 dark:text-violet-400"
-                      }`}
-                    >
-                      <Shield className="size-4" />
-                      Super Admin
-                    </Button>
-                  </Link>
+                  <SuperAdminButton pathname={pathname} variant="mobile" onClick={closeMobile} />
                 )}
               </>
             )}
 
-            {/* Theme Toggle in Mobile Menu */}
             <div className="flex items-center gap-2 pt-2">
-              <Button
-                variant="ghost"
-                onClick={toggleTheme}
-                className="w-full justify-start rounded-2xl"
-              >
-                {theme === "dark" ? (
-                  <>
-                    <Sun className="mr-2 size-4" />
-                    Light Mode
-                  </>
-                ) : (
-                  <>
-                    <Moon className="mr-2 size-4" />
-                    Dark Mode
-                  </>
-                )}
-              </Button>
+              <ThemeToggleButton variant="mobile" />
             </div>
 
-            {/* Clerk UserButton/Sign In in Mobile Menu */}
             <div className="border-t border-border/40 pt-2">
               <SignedIn>
                 <div className="px-2 py-2">
@@ -363,16 +539,8 @@ export function NavigationBar() {
                 </div>
               </SignedIn>
               <SignedOut>
-                <Button variant="ghost" className="w-full justify-start rounded-2xl" asChild>
-                  <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
-                    Sign In
-                  </Link>
-                </Button>
-                <Button variant="ghost" className="w-full justify-start rounded-2xl" asChild>
-                  <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
-                    Sign Up
-                  </Link>
-                </Button>
+                <SignInButton variant="mobile" onClick={closeMobile} />
+                <SignUpButton variant="mobile" onClick={closeMobile} />
               </SignedOut>
             </div>
           </div>

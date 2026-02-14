@@ -280,13 +280,7 @@ export default function WaitlistPage() {
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(
-                    "group relative w-10 h-10 rounded-xl flex items-center justify-center",
-                    "backdrop-blur border transition-all duration-200 hover:scale-110",
-                    "text-blue-600 bg-blue-300/5 border-blue-500/50",
-                    "hover:border-blue-500/50 hover:bg-blue-500/10 hover:text-blue-600",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  )}
+                  className="group relative w-10 h-10 rounded-xl bg-card/60 backdrop-blur border border-border/50 flex items-center justify-center text-muted-foreground transition-all duration-200 hover:scale-110 hover:border-sky-blue/50 hover:bg-sky-blue/10 hover:text-sky-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-blue focus-visible:ring-offset-2"
                   aria-label="Facebook"
                 >
                   <Facebook className="w-4 h-4" />
@@ -295,29 +289,16 @@ export default function WaitlistPage() {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(
-                    "group relative w-10 h-10 rounded-xl flex items-center justify-center",
-                    "backdrop-blur border transition-all duration-200 hover:scale-110",
-                    "text-pink-600 bg-pink-400/5 border-pink-500/50",
-                    "hover:border-pink-500/50 hover:bg-pink-500/10 hover:text-pink-600",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
-                  )}
+                  className="group relative w-10 h-10 rounded-xl bg-card/60 backdrop-blur border border-border/50 flex items-center justify-center text-muted-foreground transition-all duration-200 hover:scale-110 hover:border-coral/50 hover:bg-coral/10 hover:text-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2"
                   aria-label="Instagram"
                 >
                   <Instagram className="w-4 h-4" />
                 </a>
-
                 <a
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(
-                    "group relative w-10 h-10 rounded-xl flex items-center justify-center",
-                    "backdrop-blur border transition-all duration-200 hover:scale-110",
-                    "text-blue-700 bg-blue-700/5 border-blue-700/50",
-                    "hover:border-blue-700/50 hover:bg-blue-700/10 hover:text-blue-700",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
-                  )}
+                  className="group relative w-10 h-10 rounded-xl bg-card/60 backdrop-blur border border-border/50 flex items-center justify-center text-muted-foreground transition-all duration-200 hover:scale-110 hover:border-slate-500/50 hover:bg-slate-500/10 hover:text-slate-600 dark:hover:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="w-4 h-4" />
