@@ -17,7 +17,7 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
-import { MainLogo, SuccessCheck } from "@/components/GeneralComponents";
+import { LogoWithSmallerText, SuccessCheck } from "@/components/GeneralComponents";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 
@@ -56,7 +56,7 @@ export default function WaitlistPage() {
     <div className="waitlist-background">
       <nav className="sticky top-0 z-40 border-b border-border/40 backdrop-blur-lg bg-gradient-peach/90">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between max-w-7xl">
-          <MainLogo variant="logo-with-text-smaller" href="/" />
+          <LogoWithSmallerText href="/" />
           <div className="flex items-center gap-3">
             <Button variant="ghost" asChild>
               <Link href="/sign-in">Sign In</Link>

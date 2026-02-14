@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import { Logo } from "@/components/GeneralComponents";
 
 /**
  * Sign-In Page using Clerk's built-in <SignIn /> component
@@ -30,14 +30,11 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo/Icon */}
+        {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center justify-center mb-4">
-            <div className="relative">
-              <Sparkles className="w-12 h-12 text-second animate-float" />
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse-glow" />
-            </div>
-          </Link>
+          <div className="flex justify-center mb-4 animate-float">
+            <Logo href="/" className="w-12 md:w-12" />
+          </div>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Welcome Back</h1>
           <p className="text-muted-foreground">Sign in to continue your self-exploration</p>
         </div>
