@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Moon, Sun, Menu, X, BarChart3, Building2, Crown, Loader2, Shield } from "lucide-react";
-import { LogoWithSmallerText } from "@/components/GeneralComponents";
+import { Logo } from "@/components/GeneralComponents/logo";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@/hooks/user-context";
+import { useSecondaryNavbarContentValue } from "@/contexts/SecondaryNavbarContentContext";
 
 // Shared class constants (active = bg primary, hover border second; inactive = border second, hover border primary; border-1)
 const BASE_DESKTOP = "rounded-3xl transition-all hover:scale-105 gap-2";
@@ -388,6 +390,7 @@ export function NavigationBar() {
   const pathname = usePathname();
   const { userData, loading: userLoading } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const secondaryContent = useSecondaryNavbarContentValue();
 
   const hideNavbar =
     pathname === "/" ||
@@ -414,13 +417,13 @@ export function NavigationBar() {
   const pendingAssignments = userData?.pendingAssignments ?? 0;
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-card backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <LogoWithSmallerText
+        <div className="flex h-16 items-center justify-between shrink-0">
+          <Logo
             href="/dashboard"
-            width={100}
-            height={23}
+            width={32}
+            height={32}
             className="transition-transform hover:scale-105"
           />
 
@@ -482,6 +485,17 @@ export function NavigationBar() {
           />
         </div>
       </div>
+
+      {secondaryContent && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="overflow-hidden border-t border-border/40 bg-card/80 backdrop-blur-sm [&>*]:!mb-0"
+        >
+          <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">{secondaryContent}</div>
+        </motion.div>
+      )}
 
       {mobileMenuOpen && (
         <div className="border-t border-border/40 bg-background/95 backdrop-blur-xl md:hidden">

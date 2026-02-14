@@ -1,5 +1,6 @@
 import { NavigationBar } from "@/components/Navigation/navigation-bar";
 import { UserProvider } from "@/hooks/user-context";
+import { SecondaryNavbarContentProvider } from "@/contexts/SecondaryNavbarContentContext";
 
 /**
  * Platform admin portal (Clerk). Placeholder layout.
@@ -8,8 +9,10 @@ import { UserProvider } from "@/hooks/user-context";
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <UserProvider>
-      <NavigationBar />
-      {children}
+      <SecondaryNavbarContentProvider>
+        <NavigationBar />
+        {children}
+      </SecondaryNavbarContentProvider>
     </UserProvider>
   );
 }

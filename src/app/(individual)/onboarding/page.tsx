@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { IndividualContainer } from "@/components/GeneralComponents/individual-container";
 import { HelpCircle, Lightbulb, Target, ArrowRight, Compass } from "lucide-react";
 
 export default function OnboardingPage() {
@@ -22,7 +23,7 @@ export default function OnboardingPage() {
       icon: Lightbulb,
       title: "I have something in mind",
       description: "Create a custom experiment from scratch with full flexibility",
-      href: "/create",
+      href: "/experiments/create",
       gradient: "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
       iconBg: "bg-amber-500",
     },
@@ -38,8 +39,8 @@ export default function OnboardingPage() {
   ];
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <IndividualContainer>
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-violet/20 mb-6">
@@ -124,6 +125,6 @@ export default function OnboardingPage() {
           </p>
         </div>
       </div>
-    </div>
+    </IndividualContainer>
   );
 }

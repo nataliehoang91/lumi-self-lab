@@ -15,6 +15,12 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         primaryLight: "bg-primary-light text-slate-900 hover:bg-primary-light/80",
         secondaryLight: "bg-second hover:bg-second/90 text-second-foreground  transition-all",
+        gradientPeach:
+          "bg-[linear-gradient(135deg,#FFB38C_0%,#FCA17E_100%)] text-white hover:opacity-90 transition-opacity",
+        gradientSecond:
+          "bg-[linear-gradient(135deg,#B8A4E8_0%,#9b7ddb_100%)] text-white hover:opacity-90 transition-opacity",
+        gradientPrimary:
+          "bg-[linear-gradient(135deg,oklch(0.86_0.1_35)_0%,oklch(0.68_0.14_35)_100%)] text-white hover:opacity-90 transition-opacity",
         ghost: "hover:bg-primary/10 hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },

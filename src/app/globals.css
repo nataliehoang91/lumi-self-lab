@@ -4,8 +4,8 @@
 
 :root {
   /* Light, soothing pastel palette */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
+  --card: var(--background);
+  --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
 
@@ -21,7 +21,7 @@
   /* 1. Primary: Orange/Peach (hue 45) */
   --primary: oklch(0.8 0.12 35) /* oklch(0.75 0.12 45) */;
   --primary-foreground: oklch(0.985 0 0);
-  --primary-light: oklch(0.85 0.1 34.7);
+  --primary-light: oklch(0.91 0.06 34.34);
   --primary-dark: #ff9073;
 
   /* 2. Second: Violet/Purple (hue 270) – our violet brand color */
@@ -33,7 +33,7 @@
   --secondary-foreground: oklch(0.21 0.01 270);
 
   /* 3. Tertiary: Amber-Yellow (muted, for highlights) */
-  --tertiary: #ffd07e;
+  --tertiary: #fbc464;
   --tertiary-foreground: oklch(0.22 0.03 80);
 
   /* 4. Coral: Red-pink-coral (hue 25) */
@@ -80,6 +80,13 @@
 
   /* Named gradient colors (for waitlist and other gradients) */
   --gradient-peach: rgb(255 247 237);
+  --gradient-peach-button: linear-gradient(135deg, #ffb38c 0%, #fca17e 100%);
+  --gradient-second-button: linear-gradient(135deg, #b8a4e8 0%, #9b7ddb 100%);
+  --gradient-primary-button: linear-gradient(
+    135deg,
+    oklch(0.86 0.1 35) 0%,
+    oklch(0.68 0.14 35) 100%
+  );
   --gradient-white: rgb(255 255 255);
   --gradient-violet-tint: rgb(245 243 255 / 0.3);
 }
@@ -87,8 +94,8 @@
 .dark {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
+  --card: var(--background);
+  --card-foreground: var(--foreground);
   --popover: oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.985 0 0);
 

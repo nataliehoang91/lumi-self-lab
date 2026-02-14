@@ -17,9 +17,10 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
-import { LogoWithSmallerText, SuccessCheck } from "@/components/GeneralComponents";
+import { LogoWithSmallerText } from "@/components/GeneralComponents/logo-with-smaller-text";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
+import { SuccessCheck } from "@/components/GeneralComponents/success-check";
 
 /**
  * Public waitlist page. Route: /waitlist (public portal).

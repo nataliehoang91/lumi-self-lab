@@ -1,17 +1,16 @@
-"use client";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
+import { ExperimentsLayoutClient } from "./ExperimentsLayoutClient";
 
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { Container } from "@/components/ui/container";
-import { GeneralErrorFallback } from "@/components/GeneralErrorFallback";
-import { ExperimentsSkeleton } from "@/components/ExperimentsSkeleton";
+/**
+ * Experiments layout: auth guard + ErrorBoundary + Suspense.
+ * Unauthenticated users redirect to waitlist.
+ */
+export default async function ExperimentsLayout({ children }: { children: React.ReactNode }) {
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/waitlist");
+  }
 
-export default function ExperimentsLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <Container maxWidth="7xl" className="min-h-screen mb-8 md:px-6 md:py-8">
-      <ErrorBoundary fallbackRender={(props) => <GeneralErrorFallback {...props} />}>
-        <Suspense fallback={<ExperimentsSkeleton />}>{children}</Suspense>
-      </ErrorBoundary>
-    </Container>
-  );
+  return <ExperimentsLayoutClient>{children}</ExperimentsLayoutClient>;
 }

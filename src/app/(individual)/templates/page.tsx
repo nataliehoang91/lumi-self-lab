@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { IndividualContainer } from "@/components/GeneralComponents/individual-container";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -246,9 +247,8 @@ export default function TemplatesPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="mb-8">
+    <IndividualContainer>
+      <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">Experiment Templates</h1>
           <p className="text-muted-foreground text-lg">
             Discover proven experiments to accelerate your personal growth
@@ -273,7 +273,7 @@ export default function TemplatesPage() {
             Filter
           </Button>
           <Button className="rounded-3xl" asChild>
-            <Link href="/create">
+            <Link href="/experiments/create">
               <Sparkles className="w-4 h-4 mr-2" />
               Create Custom
             </Link>
@@ -375,7 +375,6 @@ export default function TemplatesPage() {
             )}
           </>
         )}
-      </div>
-    </div>
+    </IndividualContainer>
   );
 }

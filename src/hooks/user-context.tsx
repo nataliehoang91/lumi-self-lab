@@ -108,9 +108,12 @@ function transformAPIUserToUserData(apiUser: APIUser): UserData {
   // User is a participant if they have org memberships OR org-linked experiments
   const isParticipant = apiUser.isParticipant ?? apiUser.organisations.length > 0;
 
+  const email = apiUser.email || "";
+  const displayName = email ? email.split("@")[0] : "there";
+
   return {
-    email: apiUser.email || "",
-    name: "", // TODO: Get from Clerk user object if needed
+    email,
+    name: displayName,
     accountType: apiUser.accountType,
     hasManagerRole,
     isOrgAdmin,

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { IndividualContainer } from "@/components/GeneralComponents/individual-container";
 import {
   Sparkles,
   Calendar,
@@ -87,8 +88,8 @@ export default function ExperimentPreviewPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <IndividualContainer>
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/20 to-violet/20 flex items-center justify-center">
@@ -213,6 +214,6 @@ export default function ExperimentPreviewPage() {
           </Button>
         </div>
       </div>
-    </div>
+    </IndividualContainer>
   );
 }

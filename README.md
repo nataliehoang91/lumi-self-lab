@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment
+
+- **`WAITLIST_ONLY`** — When set to `true` or `1` (e.g. in production), only the waitlist page and `/api/waitlist` are reachable; all other routes redirect to `/waitlist`. Leave unset or set to `false` for normal app access.
+
 ## Getting Started
 
 First, run the development server:

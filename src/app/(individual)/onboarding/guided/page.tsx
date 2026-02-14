@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { IndividualContainer } from "@/components/GeneralComponents/individual-container";
 import { Sparkles, ArrowRight, ArrowLeft, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -79,7 +80,7 @@ export default function GuidedOnboardingPage() {
 
   if (isGenerating) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <IndividualContainer className="flex items-center justify-center">
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-violet/20 mb-6 animate-pulse">
             <Sparkles className="w-10 h-10 text-primary animate-float" />
@@ -87,13 +88,13 @@ export default function GuidedOnboardingPage() {
           <h2 className="text-2xl font-medium text-foreground mb-2">Creating your experiment...</h2>
           <p className="text-muted-foreground">Our AI is designing something just for you</p>
         </div>
-      </div>
+      </IndividualContainer>
     );
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-2xl">
+    <IndividualContainer>
+      <div className="max-w-2xl mx-auto">
         {/* Progress bar */}
         <div className="mb-12">
           <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
@@ -185,6 +186,6 @@ export default function GuidedOnboardingPage() {
           </Button>
         </div>
       </div>
-    </div>
+    </IndividualContainer>
   );
 }

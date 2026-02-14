@@ -1,6 +1,18 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+// When WAITLIST_ONLY=true (e.g. production), only waitlist and its API are reachable; all other routes redirect to /waitlist.
+const WAITLIST_ONLY =
+  process.env.WAITLIST_ONLY === "true" || process.env.WAITLIST_ONLY === "1";
+
+function isWaitlistAllowedPath(pathname: string): boolean {
+  return (
+    pathname === "/waitlist" ||
+    pathname.startsWith("/waitlist/") ||
+    pathname === "/api/waitlist"
+  );
+}
+
 // Define public routes that don't require authentication
 // Reference: https://clerk.com/docs/nextjs/guides/development/custom-sign-in-or-up-page
 const isPublicRoute = createRouteMatcher([
@@ -16,6 +28,10 @@ const isPublicRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
   const pathname = req.nextUrl.pathname;
+
+  if (WAITLIST_ONLY && !isWaitlistAllowedPath(pathname)) {
+    return NextResponse.redirect(new URL("/waitlist", req.url));
+  }
 
   // Root: redirect without rendering MainPage to avoid Performance API / negative timestamp errors
   if (pathname === "/") {

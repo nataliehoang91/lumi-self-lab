@@ -1,4 +1,4 @@
-import { LogoWithSmallerText } from "@/components/GeneralComponents";
+import { LogoWithSmallerText } from "@/components/GeneralComponents/logo-with-smaller-text";
 
 export function WelcomeHeader() {
   return (

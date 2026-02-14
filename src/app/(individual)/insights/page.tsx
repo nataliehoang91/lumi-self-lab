@@ -1,5 +1,6 @@
 "use client";
 
+import { IndividualContainer } from "@/components/GeneralComponents/individual-container";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,9 +19,8 @@ import {
 
 export default function InsightsPage() {
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Header */}
+    <IndividualContainer>
+      {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-foreground mb-2">Your Insights</h1>
@@ -218,7 +218,6 @@ export default function InsightsPage() {
             ))}
           </div>
         </Card>
-      </div>
-    </div>
+    </IndividualContainer>
   );
 }

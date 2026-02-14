@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { getAuthenticatedUserId, canAccessOrgPortal } from "@/lib/permissions";
 import { NavigationBar } from "@/components/Navigation/navigation-bar";
 import { UserProvider } from "@/hooks/user-context";
+import { SecondaryNavbarContentProvider } from "@/contexts/SecondaryNavbarContentContext";
 
 /**
  * Org portal layout: guard (membership or super_admin) + Nav + UserProvider.
@@ -19,8 +20,10 @@ export default async function OrgLayout({ children }: { children: React.ReactNod
   }
   return (
     <UserProvider>
-      <NavigationBar />
-      {children}
+      <SecondaryNavbarContentProvider>
+        <NavigationBar />
+        {children}
+      </SecondaryNavbarContentProvider>
     </UserProvider>
   );
 }

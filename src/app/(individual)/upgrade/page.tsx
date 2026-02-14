@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { IndividualContainer } from "@/components/GeneralComponents/individual-container";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -84,8 +85,8 @@ export default function UpgradePage() {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <IndividualContainer>
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-sm font-medium mb-6">
@@ -219,6 +220,6 @@ export default function UpgradePage() {
           </p>
         </Card>
       </div>
-    </div>
+    </IndividualContainer>
   );
 }

@@ -14,7 +14,7 @@ export function DashboardStartNewCard() {
           </p>
         </div>
         <Button variant="secondaryLight" asChild>
-          <Link href="/create">
+          <Link href="/experiments/create">
             <Plus className="w-5 h-5" />
             Create
           </Link>

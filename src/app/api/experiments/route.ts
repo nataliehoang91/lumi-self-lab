@@ -57,6 +57,9 @@ export async function GET(request: Request) {
           orderBy: { checkInDate: "desc" },
           take: 1, // Get the most recent check-in
         },
+        _count: {
+          select: { checkIns: true },
+        },
       },
       orderBy: { updatedAt: "desc" },
     });

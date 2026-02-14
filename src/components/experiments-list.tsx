@@ -7,19 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
+import type { UIExperiment } from "@/lib/experiments-data";
 
 type ExperimentStatus = "all" | "active" | "draft" | "completed";
-
-interface UIExperiment {
-  id: string;
-  title: string;
-  status: string;
-  duration: number;
-  frequency: string;
-  daysCompleted: number;
-  startDate: string | null;
-  hypothesis: string;
-}
 
 interface ExperimentsListProps {
   experiments: UIExperiment[];
@@ -209,7 +199,7 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
         <Card className="p-12 text-center bg-card/80 backdrop-blur border-border/50">
           <p className="text-muted-foreground mb-4">No experiments found in this category</p>
           <Button asChild>
-            <Link href="/create">Create Your First Experiment</Link>
+            <Link href="/experiments/create">Create Your First Experiment</Link>
           </Button>
         </Card>
       )}
