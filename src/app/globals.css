@@ -33,7 +33,7 @@
   --secondary-foreground: oklch(0.21 0.01 270);
 
   /* 3. Tertiary: Amber-Yellow (muted, for highlights) */
-  --tertiary: oklch(0.78 0.12 80);
+  --tertiary: #ffd07e;
   --tertiary-foreground: oklch(0.22 0.03 80);
 
   /* 4. Coral: Red-pink-coral (hue 25) */
@@ -107,7 +107,7 @@
   --secondary-foreground: oklch(0.95 0.01 270);
 
   /* Tertiary: Amber-Yellow - slightly brighter for dark mode */
-  --tertiary: oklch(0.82 0.12 80);
+  --tertiary: #ffd07e;
   --tertiary-foreground: oklch(0.985 0 0);
 
   --muted: oklch(0.274 0.006 286.033);

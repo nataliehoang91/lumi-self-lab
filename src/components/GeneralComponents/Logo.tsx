@@ -28,11 +28,7 @@ export function Logo({
   const content = (
     <span
       className={cn("relative inline-block shrink-0", className)}
-      style={
-        hasExplicitSize
-          ? { width: size, height: "auto", aspectRatio: "auto" }
-          : undefined
-      }
+      style={hasExplicitSize ? { width: size, height: "auto", aspectRatio: "auto" } : undefined}
     >
       <Image
         src={SRC}
