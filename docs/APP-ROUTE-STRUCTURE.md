@@ -4,14 +4,14 @@ This document describes the current app directory structure and URL mapping.
 
 ## Route groups and URLs
 
-| Group | Purpose | Example URLs |
-|-------|--------|---------------|
-| **(auth)** | Sign-in, sign-up, forgot/reset password | `/sign-in`, `/sign-up`, `/forgot-password`, `/reset-password` |
-| **(public)** | Landing and waitlist (no auth) | `/`, `/waitlist` |
-| **(individual)** | Personal portal (dashboard, experiments, templates, etc.) | `/dashboard`, `/create`, `/experiments`, `/templates`, `/insights`, `/onboarding`, `/upgrade` |
-| **(org)** | Org portal (org switcher, org dashboard, member views, org-admin) | `/org`, `/org/[orgId]`, `/org/[orgId]/teams`, `/org/[orgId]/experiments`, `/org/[orgId]/templates`, `/org/[orgId]/insights`, `/org/[orgId]/admin`, `/org/[orgId]/admin/teams`, `/org/[orgId]/admin/experiments`, `/org/[orgId]/admin/members`, `/org/invites/[inviteId]` |
-| **(admin)** | Platform admin (Clerk). Placeholder. | `/admin`, `/admin/users`, `/admin/orgs`, `/admin/billing` |
-| **(invisible-admin)** | Internal / root admin (super-admin, no Clerk in layout). | `/super-admin`, `/super-admin/login`, `/super-admin/system` |
+| Group                 | Purpose                                                           | Example URLs                                                                                                                                                                                                                                                             |
+| --------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **(auth)**            | Sign-in, sign-up, forgot/reset password                           | `/sign-in`, `/sign-up`, `/forgot-password`, `/reset-password`                                                                                                                                                                                                            |
+| **(public)**          | Landing and waitlist (no auth)                                    | `/`, `/waitlist`                                                                                                                                                                                                                                                         |
+| **(individual)**      | Personal portal (dashboard, experiments, templates, etc.)         | `/dashboard`, `/create`, `/experiments`, `/templates`, `/insights`, `/onboarding`, `/upgrade`                                                                                                                                                                            |
+| **(org)**             | Org portal (org switcher, org dashboard, member views, org-admin) | `/org`, `/org/[orgId]`, `/org/[orgId]/teams`, `/org/[orgId]/experiments`, `/org/[orgId]/templates`, `/org/[orgId]/insights`, `/org/[orgId]/admin`, `/org/[orgId]/admin/teams`, `/org/[orgId]/admin/experiments`, `/org/[orgId]/admin/members`, `/org/invites/[inviteId]` |
+| **(admin)**           | Platform admin (Clerk). Placeholder.                              | `/admin`, `/admin/users`, `/admin/orgs`, `/admin/billing`                                                                                                                                                                                                                |
+| **(invisible-admin)** | Internal / root admin (super-admin, no Clerk in layout).          | `/super-admin`, `/super-admin/login`, `/super-admin/system`                                                                                                                                                                                                              |
 
 ## Directory layout
 

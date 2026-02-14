@@ -1,8 +1,5 @@
 import { redirect } from "next/navigation";
-import {
-  getAuthenticatedUserId,
-  canActAsOrgAdmin,
-} from "@/lib/permissions";
+import { getAuthenticatedUserId, canActAsOrgAdmin } from "@/lib/permissions";
 
 /**
  * Org-admin layout: only org_admin (or super_admin) may access /org/[orgId]/admin/*.

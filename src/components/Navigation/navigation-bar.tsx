@@ -76,10 +76,7 @@ export function NavigationBar() {
       links.push({
         href: "/org",
         label: "Joined Experiments",
-        badge:
-          userData.pendingAssignments > 0
-            ? userData.pendingAssignments
-            : undefined,
+        badge: userData.pendingAssignments > 0 ? userData.pendingAssignments : undefined,
       });
       // Don't show Upgrade for upgraded users or super_admin (full access)
       if (!userData.isUpgraded && !userData.isSuperAdmin) {
@@ -93,10 +90,7 @@ export function NavigationBar() {
       links.push({
         href: "/org",
         label: "Joined Experiments",
-        badge:
-          userData.pendingAssignments > 0
-            ? userData.pendingAssignments
-            : undefined,
+        badge: userData.pendingAssignments > 0 ? userData.pendingAssignments : undefined,
       });
     }
 
@@ -123,12 +117,10 @@ export function NavigationBar() {
             href="/create"
             className="flex items-center gap-2 transition-transform hover:scale-105"
           >
-            <div className="flex size-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 text-primary">
-              <Sparkles className="size-5 text-secondary" />
+            <div className="flex size-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-second/20 text-primary">
+              <Sparkles className="size-5 text-second" />
             </div>
-            <span className="text-lg font-semibold text-foreground">
-              Self-Lab
-            </span>
+            <span className="text-lg font-semibold text-foreground">Self-Lab</span>
           </Link>
 
           {/* Desktop Navigation - show skeleton until roles loaded */}
@@ -140,71 +132,67 @@ export function NavigationBar() {
               </div>
             ) : (
               <>
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                <Button
-                  variant="ghost"
-                  className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-                    pathname === link.href ||
-                    pathname.startsWith(link.href + "/")
-                      ? "bg-primary text-black hover:bg-secondary hover:text-white"
-                      : link.isUpgrade
-                      ? "border-2 border-amber-500/50 text-amber-600 hover:border-amber-500 hover:bg-amber-500 hover:text-white"
-                      : "border-2 border-primary/50 text-foreground hover:border-secondary hover:bg-secondary hover:text-white"
-                  }`}
-                >
-                  {link.href === "/org" && (
-                    <Building2 className="size-4" />
-                  )}
-                  {link.isUpgrade && <Crown className="size-4" />}
-                  {link.label}
-                  {link.badge && (
-                    <Badge className="ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs">
-                      {link.badge}
-                    </Badge>
-                  )}
-                </Button>
-              </Link>
-            ))}
-            {/* Show Manager tab for:
+                {navLinks.map((link) => (
+                  <Link key={link.href} href={link.href}>
+                    <Button
+                      variant="ghost"
+                      className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
+                        pathname === link.href || pathname.startsWith(link.href + "/")
+                          ? "bg-primary text-black hover:bg-second hover:text-white"
+                          : link.isUpgrade
+                            ? "border-2 border-amber-500/50 text-amber-600 hover:border-amber-500 hover:bg-amber-500 hover:text-white"
+                            : "border-2 border-primary/50 text-foreground hover:border-second hover:bg-second hover:text-white"
+                      }`}
+                    >
+                      {link.href === "/org" && <Building2 className="size-4" />}
+                      {link.isUpgrade && <Crown className="size-4" />}
+                      {link.label}
+                      {link.badge && (
+                        <Badge className="ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs">
+                          {link.badge}
+                        </Badge>
+                      )}
+                    </Button>
+                  </Link>
+                ))}
+                {/* Show Manager tab for:
                 - Organisation accounts (always)
                 - Individual accounts who are participants (has org memberships or org-linked experiments)
                 - Users with manager role (team_manager or org_admin)
             */}
-            {(userData?.accountType === "organisation" ||
-              userData?.isParticipant ||
-              userData?.hasManagerRole) && (
-              <Link href="/org">
-                <Button
-                  variant="ghost"
-                  className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-                    pathname === "/org" || pathname.startsWith("/org/")
-                      ? "bg-secondary text-white hover:bg-secondary/90"
-                      : "border-2 border-secondary/50 text-secondary hover:border-secondary hover:bg-secondary hover:text-white"
-                  }`}
-                >
-                  <BarChart3 className="size-4" />
-                  Manager
-                </Button>
-              </Link>
-            )}
-            {/* Super Admin: highest, after Manager */}
-            {userData?.isSuperAdmin && (
-              <Link href="/super-admin">
-                <Button
-                  variant="ghost"
-                  className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
-                    pathname === "/super-admin" ||
-                    pathname.startsWith("/super-admin/")
-                      ? "bg-violet-500 text-white hover:bg-violet-600"
-                      : "border-2 border-violet-500/50 text-violet-600 dark:text-violet-400 hover:border-violet-500 hover:bg-violet-500 hover:text-white"
-                  }`}
-                >
-                  <Shield className="size-4" />
-                  Super Admin
-                </Button>
-              </Link>
-            )}
+                {(userData?.accountType === "organisation" ||
+                  userData?.isParticipant ||
+                  userData?.hasManagerRole) && (
+                  <Link href="/org">
+                    <Button
+                      variant="ghost"
+                      className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
+                        pathname === "/org" || pathname.startsWith("/org/")
+                          ? "bg-second text-white hover:bg-second/90"
+                          : "border-2 border-second/50 text-second hover:border-second hover:bg-second hover:text-white"
+                      }`}
+                    >
+                      <BarChart3 className="size-4" />
+                      Manager
+                    </Button>
+                  </Link>
+                )}
+                {/* Super Admin: highest, after Manager */}
+                {userData?.isSuperAdmin && (
+                  <Link href="/super-admin">
+                    <Button
+                      variant="ghost"
+                      className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
+                        pathname === "/super-admin" || pathname.startsWith("/super-admin/")
+                          ? "bg-violet-500 text-white hover:bg-violet-600"
+                          : "border-2 border-violet-500/50 text-violet-600 dark:text-violet-400 hover:border-violet-500 hover:bg-violet-500 hover:text-white"
+                      }`}
+                    >
+                      <Shield className="size-4" />
+                      Super Admin
+                    </Button>
+                  </Link>
+                )}
               </>
             )}
           </div>
@@ -216,14 +204,10 @@ export function NavigationBar() {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="rounded-2xl transition-all hover:scale-105 hover:bg-secondary/10 hover:text-secondary"
+              className="rounded-2xl transition-all hover:scale-105 hover:bg-second/10 hover:text-second"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? (
-                <Sun className="size-5" />
-              ) : (
-                <Moon className="size-5" />
-              )}
+              {theme === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
             </Button>
 
             {/* Clerk UserButton for authenticated users */}
@@ -253,10 +237,7 @@ export function NavigationBar() {
                 >
                   <Link href="/sign-in">Sign In</Link>
                 </Button>
-                <Button
-                  className="rounded-2xl transition-all hover:scale-105"
-                  asChild
-                >
+                <Button className="rounded-2xl transition-all hover:scale-105" asChild>
                   <Link href="/sign-up">Sign Up</Link>
                 </Button>
               </div>
@@ -271,11 +252,7 @@ export function NavigationBar() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? (
-              <X className="size-5" />
-            ) : (
-              <Menu className="size-5" />
-            )}
+            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </Button>
         </div>
       </div>
@@ -292,25 +269,18 @@ export function NavigationBar() {
             ) : (
               <>
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
+                  <Link key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)}>
                     <Button
                       variant="ghost"
                       className={`w-full justify-start rounded-2xl gap-2 ${
-                        pathname === link.href ||
-                        pathname.startsWith(link.href + "/")
+                        pathname === link.href || pathname.startsWith(link.href + "/")
                           ? "bg-primary text-primary-foreground"
                           : link.isUpgrade
-                          ? "text-amber-600"
-                          : ""
+                            ? "text-amber-600"
+                            : ""
                       }`}
                     >
-                      {link.href === "/org" && (
-                        <Building2 className="size-4" />
-                      )}
+                      {link.href === "/org" && <Building2 className="size-4" />}
                       {link.isUpgrade && <Crown className="size-4" />}
                       {link.label}
                       {link.badge && (
@@ -334,8 +304,8 @@ export function NavigationBar() {
                       variant="ghost"
                       className={`w-full justify-start rounded-2xl gap-2 ${
                         pathname === "/org" || pathname.startsWith("/org/")
-                          ? "bg-secondary text-white"
-                          : "text-secondary"
+                          ? "bg-second text-white"
+                          : "text-second"
                       }`}
                     >
                       <BarChart3 className="size-4" />
@@ -349,8 +319,7 @@ export function NavigationBar() {
                     <Button
                       variant="ghost"
                       className={`w-full justify-start rounded-2xl gap-2 ${
-                        pathname === "/super-admin" ||
-                        pathname.startsWith("/super-admin/")
+                        pathname === "/super-admin" || pathname.startsWith("/super-admin/")
                           ? "bg-violet-500 text-white"
                           : "text-violet-600 dark:text-violet-400"
                       }`}
@@ -402,27 +371,13 @@ export function NavigationBar() {
                 </div>
               </SignedIn>
               <SignedOut>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start rounded-2xl"
-                  asChild
-                >
-                  <Link
-                    href="/sign-in"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
+                <Button variant="ghost" className="w-full justify-start rounded-2xl" asChild>
+                  <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
                     Sign In
                   </Link>
                 </Button>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start rounded-2xl"
-                  asChild
-                >
-                  <Link
-                    href="/sign-up"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
+                <Button variant="ghost" className="w-full justify-start rounded-2xl" asChild>
+                  <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
                     Sign Up
                   </Link>
                 </Button>

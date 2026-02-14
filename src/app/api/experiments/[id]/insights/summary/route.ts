@@ -84,10 +84,7 @@ const insightsSummaryResponseSchema = z.object({
 // GET /api/experiments/[id]/insights/summary
 // ---------------------------------------------------------------------------
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -260,9 +257,6 @@ export async function GET(
     return NextResponse.json(parsed.data);
   } catch (error) {
     console.error("Error fetching insights summary:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch insights summary" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch insights summary" }, { status: 500 });
   }
 }

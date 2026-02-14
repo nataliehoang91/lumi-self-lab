@@ -42,9 +42,7 @@ export const ForgotPasswordForm = ({
   return (
     <Card className={cn("w-full max-w-md rounded-lg shadow-lg", cardClassName)}>
       <CardHeader className={cn("text-center", cardHeaderClassName)}>
-        <CardTitle className="text-3xl font-bold mb-2">
-          Forgot Password?
-        </CardTitle>
+        <CardTitle className="text-3xl font-bold mb-2">Forgot Password?</CardTitle>
         <CardDescription className="text-muted-foreground">
           Enter your email to reset your password.
         </CardDescription>
@@ -57,7 +55,10 @@ export const ForgotPasswordForm = ({
           // TODO: Implement Clerk forgot password action
           // For now, return redirect to sent page
           const email = formData.get("email") as string;
-          return { redirect: `/forgot-password/sent?email=${encodeURIComponent(email)}`, refresh: true };
+          return {
+            redirect: `/forgot-password/sent?email=${encodeURIComponent(email)}`,
+            refresh: true,
+          };
         }}
       >
         <CardContent className="">
@@ -74,43 +75,40 @@ export const ForgotPasswordForm = ({
               />
             </InputControl>
             <ReserveLayout placeItems="start">
-              <FormMessage match="valueMissing">
-                Please enter your email address
-              </FormMessage>
-              <FormMessage match="typeMismatch">
-                Please enter a valid email address
-              </FormMessage>
+              <FormMessage match="valueMissing">Please enter your email address</FormMessage>
+              <FormMessage match="typeMismatch">Please enter a valid email address</FormMessage>
               <FormErrorMessage name="email" />
             </ReserveLayout>
           </FormField>
         </CardContent>
 
-          <CardFooter className="flex-col space-y-4">
-            <SubmitButton asChild>
-              <Button type="submit" className="w-full py-4">
-                <ReserveLayout>
-                  <SubmitMessage>
-                    <span className="text-md font-semibold">
-                      Send Reset Email
-                    </span>
-                  </SubmitMessage>
-                  <LoadingMessage>
-                    <LoadingIcon />
-                  </LoadingMessage>
-                </ReserveLayout>
-              </Button>
-            </SubmitButton>
+        <CardFooter className="flex-col space-y-4">
+          <SubmitButton asChild>
+            <Button type="submit" className="w-full py-4">
+              <ReserveLayout>
+                <SubmitMessage>
+                  <span className="text-md font-semibold">Send Reset Email</span>
+                </SubmitMessage>
+                <LoadingMessage>
+                  <LoadingIcon />
+                </LoadingMessage>
+              </ReserveLayout>
+            </Button>
+          </SubmitButton>
 
-            {/* Compact footer navigation */}
-            <div className="w-full space-y-3">
-              {/* Back to Sign In */}
-              <div className="text-center">
-                <Link href="/sign-in" className="text-sm underline font-medium text-primary hover:underline">
-                  Go back to Sign In
-                </Link>
-              </div>
+          {/* Compact footer navigation */}
+          <div className="w-full space-y-3">
+            {/* Back to Sign In */}
+            <div className="text-center">
+              <Link
+                href="/sign-in"
+                className="text-sm underline font-medium text-primary hover:underline"
+              >
+                Go back to Sign In
+              </Link>
             </div>
-          </CardFooter>
+          </div>
+        </CardFooter>
 
         <ReserveLayout>
           <FormErrorMessage name="general" />

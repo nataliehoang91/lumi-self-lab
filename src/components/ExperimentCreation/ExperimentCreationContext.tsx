@@ -14,7 +14,9 @@ interface ExperimentCreationContextType {
   clear: () => void;
 }
 
-const ExperimentCreationContext = createContext<ExperimentCreationContextType | undefined>(undefined);
+const ExperimentCreationContext = createContext<ExperimentCreationContextType | undefined>(
+  undefined
+);
 
 export function ExperimentCreationProvider({ children }: { children: ReactNode }) {
   const [orgId, setOrgId] = useState<string | null>(null);

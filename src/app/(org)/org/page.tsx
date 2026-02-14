@@ -172,9 +172,7 @@ export default function OrgsPage() {
   );
 
   // Page title and description based on user role
-  const pageTitle = userData?.isOrgAdmin
-    ? "Organizations"
-    : "Joined Experiments";
+  const pageTitle = userData?.isOrgAdmin ? "Organizations" : "Joined Experiments";
   const pageDescription = userData?.isOrgAdmin
     ? "Organizations you manage"
     : "Experiments assigned to you from organizations";
@@ -193,9 +191,7 @@ export default function OrgsPage() {
                   <Sparkles className="w-5 h-5 text-primary" />
                 )}
               </div>
-              <h1 className="text-3xl font-semibold text-foreground">
-                {pageTitle}
-              </h1>
+              <h1 className="text-3xl font-semibold text-foreground">{pageTitle}</h1>
             </div>
             <p className="text-muted-foreground">{pageDescription}</p>
           </div>
@@ -225,17 +221,11 @@ export default function OrgsPage() {
                           {getScopeBadge(assignment.scope)}
                         </div>
                         <p className="text-sm text-muted-foreground mb-2">
-                          From{" "}
-                          <span className="text-foreground">
-                            {assignment.orgName}
-                          </span>
+                          From <span className="text-foreground">{assignment.orgName}</span>
                           {assignment.teamName && (
                             <>
                               {" "}
-                              /{" "}
-                              <span className="text-foreground">
-                                {assignment.teamName}
-                              </span>
+                              / <span className="text-foreground">{assignment.teamName}</span>
                             </>
                           )}
                         </p>
@@ -277,12 +267,9 @@ export default function OrgsPage() {
                 <div className="flex items-start gap-2">
                   <Shield className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
                   <p className="text-xs text-muted-foreground">
-                    <span className="font-medium text-foreground">
-                      Your privacy is protected.
-                    </span>{" "}
-                    Accepting an experiment only shares aggregate scores with
-                    the organization. Your personal reflections and text entries
-                    remain private.
+                    <span className="font-medium text-foreground">Your privacy is protected.</span>{" "}
+                    Accepting an experiment only shares aggregate scores with the organization. Your
+                    personal reflections and text entries remain private.
                   </p>
                 </div>
               </Card>
@@ -321,48 +308,50 @@ export default function OrgsPage() {
               </Card>
             )}
 
-            {!orgsLoading && !orgsError && filteredOrgs.map((org, index) => {
-              const orgDetailHref = `/org/${org.id}`;
-              return (
-                <Link key={org.id} href={orgDetailHref}>
-                  <Card className="p-5 bg-card border-border/50 rounded-3xl hover:shadow-lg hover:shadow-primary/5 transition-all group cursor-pointer">
-                    <div className="flex items-center gap-5">
-                      <div
-                        className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${getLogoColor(index)} flex items-center justify-center text-white font-bold text-xl shrink-0`}
-                      >
-                        {org.name.charAt(0)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors truncate">
-                            {org.name}
-                          </h3>
-                          {getRoleBadge(org.role)}
+            {!orgsLoading &&
+              !orgsError &&
+              filteredOrgs.map((org, index) => {
+                const orgDetailHref = `/org/${org.id}`;
+                return (
+                  <Link key={org.id} href={orgDetailHref}>
+                    <Card className="p-5 bg-card border-border/50 rounded-3xl hover:shadow-lg hover:shadow-primary/5 transition-all group cursor-pointer">
+                      <div className="flex items-center gap-5">
+                        <div
+                          className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${getLogoColor(index)} flex items-center justify-center text-white font-bold text-xl shrink-0`}
+                        >
+                          {org.name.charAt(0)}
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
-                          {org.description ?? ""}
-                        </p>
-                        <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Users className="w-3.5 h-3.5" />
-                            {org.memberCount} members
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            {org.experimentsCount} experiments
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5" />
-                            Joined {formatJoinedDate(org.joinedAt)}
-                          </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors truncate">
+                              {org.name}
+                            </h3>
+                            {getRoleBadge(org.role)}
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
+                            {org.description ?? ""}
+                          </p>
+                          <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                            <span className="flex items-center gap-1">
+                              <Users className="w-3.5 h-3.5" />
+                              {org.memberCount} members
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Sparkles className="w-3.5 h-3.5" />
+                              {org.experimentsCount} experiments
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-3.5 h-3.5" />
+                              Joined {formatJoinedDate(org.joinedAt)}
+                            </span>
+                          </div>
                         </div>
+                        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
                       </div>
-                      <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
-                    </div>
-                  </Card>
-                </Link>
-              );
-            })}
+                    </Card>
+                  </Link>
+                );
+              })}
 
             {!orgsLoading && !orgsError && filteredOrgs.length === 0 && (
               <Card className="p-8 bg-card/50 border-border/50 rounded-3xl text-center">

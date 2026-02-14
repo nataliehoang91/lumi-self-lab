@@ -17,9 +17,7 @@ export default function AdminBillingPage() {
           </Link>
         </Button>
         <Card className="p-8 text-center">
-          <h2 className="text-xl font-semibold text-foreground mb-2">
-            Billing
-          </h2>
+          <h2 className="text-xl font-semibold text-foreground mb-2">Billing</h2>
           <p className="text-muted-foreground">Billing. Placeholder.</p>
         </Card>
       </div>

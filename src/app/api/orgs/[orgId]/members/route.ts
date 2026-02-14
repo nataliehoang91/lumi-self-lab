@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  getAuthenticatedUserId,
-  canAccessOrg,
-  canActAsOrgAdmin,
-} from "@/lib/permissions";
+import { getAuthenticatedUserId, canAccessOrg, canActAsOrgAdmin } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 
 const ROLES = ["member", "team_manager", "org_admin"] as const;
@@ -12,10 +8,7 @@ const ROLES = ["member", "team_manager", "org_admin"] as const;
  * GET /api/orgs/[orgId]/members — List organisation members (Phase 4.2).
  * Permission: canAccessOrg.
  */
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ orgId: string }> }
-) {
+export async function GET(_req: Request, { params }: { params: Promise<{ orgId: string }> }) {
   const userId = await getAuthenticatedUserId();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -59,10 +52,7 @@ export async function GET(
  * POST /api/orgs/[orgId]/members — Add member by email (Phase 4.2).
  * Permission: canActAsOrgAdmin.
  */
-export async function POST(
-  req: Request,
-  { params }: { params: Promise<{ orgId: string }> }
-) {
+export async function POST(req: Request, { params }: { params: Promise<{ orgId: string }> }) {
   const userId = await getAuthenticatedUserId();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -87,19 +77,12 @@ export async function POST(
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json(
-      { error: "Invalid JSON" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const email =
-    typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
   if (!email) {
-    return NextResponse.json(
-      { error: "email is required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "email is required" }, { status: 400 });
   }
 
   const roleInput =

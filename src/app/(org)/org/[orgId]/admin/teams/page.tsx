@@ -23,9 +23,7 @@ export default async function OrgAdminTeamsPage({
         </Button>
         <Card className="p-8 text-center">
           <Users className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-xl font-semibold text-foreground mb-2">
-            Manage teams
-          </h2>
+          <h2 className="text-xl font-semibold text-foreground mb-2">Manage teams</h2>
           <p className="text-muted-foreground">
             Team management for this organisation (admin). Deferred to a later phase.
           </p>

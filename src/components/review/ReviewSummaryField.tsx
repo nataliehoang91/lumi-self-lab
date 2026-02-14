@@ -24,9 +24,7 @@ export function ReviewSummaryField({ field }: { field: SummaryField }) {
       <h4 className="font-medium text-foreground">{field.label}</h4>
       <p className="text-muted-foreground text-sm capitalize">{field.type}</p>
       <div className="mt-2 text-sm text-foreground">
-        {field.type === "text" && (
-          <span>{field.summary.responseCount} response(s)</span>
-        )}
+        {field.type === "text" && <span>{field.summary.responseCount} response(s)</span>}
         {field.type === "number" && (
           <span>
             n={field.summary.count}; min={field.summary.min}, max={field.summary.max}, avg=

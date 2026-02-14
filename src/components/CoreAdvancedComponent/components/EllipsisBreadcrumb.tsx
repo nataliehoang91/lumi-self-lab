@@ -42,10 +42,7 @@ export function EllipsisBreadcrumb({
                     {item.label}
                   </BreadcrumbPage>
                 ) : (
-                  <BreadcrumbLink
-                    href={item.href}
-                    className="hover:opacity-80 transition-colors"
-                  >
+                  <BreadcrumbLink href={item.href} className="hover:opacity-80 transition-colors">
                     {item.label}
                   </BreadcrumbLink>
                 )}
@@ -115,14 +112,9 @@ export function EllipsisBreadcrumb({
         {/* Last item (current page) - visible on all screens */}
         <BreadcrumbItem>
           {lastItem?.isCurrentPage || !lastItem?.href ? (
-            <BreadcrumbPage className="font-bold text-foreground">
-              {lastItem?.label}
-            </BreadcrumbPage>
+            <BreadcrumbPage className="font-bold text-foreground">{lastItem?.label}</BreadcrumbPage>
           ) : (
-            <BreadcrumbLink
-              href={lastItem?.href}
-              className="hover:text-blue-800 transition-colors"
-            >
+            <BreadcrumbLink href={lastItem?.href} className="hover:text-blue-800 transition-colors">
               {lastItem?.label}
             </BreadcrumbLink>
           )}

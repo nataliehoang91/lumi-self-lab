@@ -31,9 +31,7 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   const filteredExperiments =
-    filter === "all"
-      ? experiments
-      : experiments.filter((exp) => exp.status === filter);
+    filter === "all" ? experiments : experiments.filter((exp) => exp.status === filter);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -100,39 +98,30 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
         <Button
           variant={filter === "all" ? "secondary" : "outline"}
           onClick={() => setFilter("all")}
-          className={`${
-            filter !== "all" ? "bg-transparent" : ""
-          } hover:border-secondary`}
+          className={`${filter !== "all" ? "bg-transparent" : ""} hover:border-second`}
         >
           All ({experiments.length})
         </Button>
         <Button
           variant={filter === "active" ? "secondary" : "outline"}
           onClick={() => setFilter("active")}
-          className={`${
-            filter !== "active" ? "bg-transparent" : ""
-          } hover:border-secondary`}
+          className={`${filter !== "active" ? "bg-transparent" : ""} hover:border-second`}
         >
           Active ({experiments.filter((e) => e.status === "active").length})
         </Button>
         <Button
           variant={filter === "draft" ? "secondary" : "outline"}
           onClick={() => setFilter("draft")}
-          className={`${
-            filter !== "draft" ? "bg-transparent" : ""
-          } hover:border-secondary`}
+          className={`${filter !== "draft" ? "bg-transparent" : ""} hover:border-second`}
         >
           Drafts ({experiments.filter((e) => e.status === "draft").length})
         </Button>
         <Button
           variant={filter === "completed" ? "secondary" : "outline"}
           onClick={() => setFilter("completed")}
-          className={`${
-            filter !== "completed" ? "bg-transparent" : ""
-          } hover:border-secondary`}
+          className={`${filter !== "completed" ? "bg-transparent" : ""} hover:border-second`}
         >
-          Completed (
-          {experiments.filter((e) => e.status === "completed").length})
+          Completed ({experiments.filter((e) => e.status === "completed").length})
         </Button>
       </div>
 
@@ -146,12 +135,9 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
                 <Badge className={`mb-3 ${getStatusColor(experiment.status)}`}>
-                  {experiment.status.charAt(0).toUpperCase() +
-                    experiment.status.slice(1)}
+                  {experiment.status.charAt(0).toUpperCase() + experiment.status.slice(1)}
                 </Badge>
-                <h3 className="text-xl font-semibold text-foreground mb-2">
-                  {experiment.title}
-                </h3>
+                <h3 className="text-xl font-semibold text-foreground mb-2">{experiment.title}</h3>
               </div>
             </div>
 
@@ -197,7 +183,7 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
             <div className="flex gap-2">
               <Button
                 variant="outline"
-                className="flex-1 bg-transparent hover:border-secondary"
+                className="flex-1 bg-transparent hover:border-second"
                 asChild
               >
                 <Link href={`/experiments/${experiment.id}`}>
@@ -221,9 +207,7 @@ export function ExperimentsList({ experiments }: ExperimentsListProps) {
 
       {filteredExperiments.length === 0 && (
         <Card className="p-12 text-center bg-card/80 backdrop-blur border-border/50">
-          <p className="text-muted-foreground mb-4">
-            No experiments found in this category
-          </p>
+          <p className="text-muted-foreground mb-4">No experiments found in this category</p>
           <Button asChild>
             <Link href="/create">Create Your First Experiment</Link>
           </Button>

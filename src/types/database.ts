@@ -1,9 +1,9 @@
 /**
  * Database Types
- * 
+ *
  * These types are generated from Prisma schema.
  * Import from @prisma/client for the actual types used in code.
- * 
+ *
  * This file serves as documentation/reference for the database structure.
  */
 

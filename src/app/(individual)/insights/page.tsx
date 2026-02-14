@@ -23,16 +23,14 @@ export default function InsightsPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-foreground mb-2">
-              Your Insights
-            </h1>
+            <h1 className="text-4xl font-bold text-foreground mb-2">Your Insights</h1>
             <p className="text-muted-foreground text-lg">
               Discover patterns and track your personal growth journey
             </p>
           </div>
           <Button
             variant="outline"
-            className="rounded-3xl bg-transparent hover:bg-secondary/10 hover:border-secondary"
+            className="rounded-3xl bg-transparent hover:bg-second/10 hover:border-second"
           >
             <Download className="w-4 h-4 mr-2" />
             Export Data
@@ -51,9 +49,7 @@ export default function InsightsPage() {
               </Badge>
             </div>
             <div className="text-3xl font-bold text-foreground mb-1">3</div>
-            <div className="text-sm text-muted-foreground">
-              Active Experiments
-            </div>
+            <div className="text-sm text-muted-foreground">Active Experiments</div>
           </Card>
 
           <Card className="p-6 bg-gradient-to-br from-blue-400/10 to-indigo-500/10 border-blue-500/20 rounded-3xl">
@@ -101,29 +97,20 @@ export default function InsightsPage() {
           <Card className="p-6 bg-card/80 backdrop-blur border-border/50 rounded-3xl">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="text-xl font-semibold text-foreground mb-1">
-                  Check-in Streak
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Your consistency over time
-                </p>
+                <h3 className="text-xl font-semibold text-foreground mb-1">Check-in Streak</h3>
+                <p className="text-sm text-muted-foreground">Your consistency over time</p>
               </div>
               <Calendar className="w-6 h-6 text-primary" />
             </div>
             <div className="h-64 flex items-end justify-between gap-2">
-              {[65, 80, 75, 90, 100, 85, 95, 88, 92, 78, 85, 90, 100, 95].map(
-                (height, i) => (
+              {[65, 80, 75, 90, 100, 85, 95, 88, 92, 78, 85, 90, 100, 95].map((height, i) => (
+                <div key={i} className="flex-1 flex flex-col items-center gap-2">
                   <div
-                    key={i}
-                    className="flex-1 flex flex-col items-center gap-2"
-                  >
-                    <div
-                      className="w-full bg-gradient-to-t from-primary to-secondary rounded-t-lg transition-all hover:opacity-80"
-                      style={{ height: `${height}%` }}
-                    />
-                  </div>
-                )
-              )}
+                    className="w-full bg-gradient-to-t from-primary to-second rounded-t-lg transition-all hover:opacity-80"
+                    style={{ height: `${height}%` }}
+                  />
+                </div>
+              ))}
             </div>
             <div className="flex justify-between mt-4 text-xs text-muted-foreground">
               <span>Week 1</span>
@@ -137,9 +124,7 @@ export default function InsightsPage() {
                 <h3 className="text-xl font-semibold text-foreground mb-1">
                   Experiment Categories
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  Distribution by focus area
-                </p>
+                <p className="text-sm text-muted-foreground">Distribution by focus area</p>
               </div>
               <BarChart3 className="w-6 h-6 text-primary" />
             </div>
@@ -178,13 +163,9 @@ export default function InsightsPage() {
                       >
                         <div className="text-white">{category.icon}</div>
                       </div>
-                      <span className="text-sm font-medium text-foreground">
-                        {category.label}
-                      </span>
+                      <span className="text-sm font-medium text-foreground">{category.label}</span>
                     </div>
-                    <span className="text-sm font-semibold text-foreground">
-                      {category.value}%
-                    </span>
+                    <span className="text-sm font-semibold text-foreground">{category.value}%</span>
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden">
                     <div
@@ -202,46 +183,37 @@ export default function InsightsPage() {
         <Card className="p-6 bg-card/80 backdrop-blur border-border/50 rounded-3xl">
           <div className="flex items-center gap-2 mb-6">
             <Award className="w-6 h-6 text-primary" />
-            <h3 className="text-xl font-semibold text-foreground">
-              Recent Discoveries
-            </h3>
+            <h3 className="text-xl font-semibold text-foreground">Recent Discoveries</h3>
           </div>
           <div className="space-y-4">
             {[
               {
                 experiment: "Morning Energy Patterns",
-                insight:
-                  "Peak productivity occurs 1-2 hours after waking, declining after lunch",
+                insight: "Peak productivity occurs 1-2 hours after waking, declining after lunch",
                 date: "2 days ago",
               },
               {
                 experiment: "Social Confidence Check",
-                insight:
-                  "Confidence increases significantly in smaller groups (2-3 people)",
+                insight: "Confidence increases significantly in smaller groups (2-3 people)",
                 date: "5 days ago",
               },
               {
                 experiment: "Decision Making Under Pressure",
-                insight:
-                  "Better decisions when taking 5-minute pause before responding",
+                insight: "Better decisions when taking 5-minute pause before responding",
                 date: "1 week ago",
               },
             ].map((discovery, i) => (
               <div
                 key={i}
-                className="p-4 rounded-2xl bg-gradient-to-r from-primary/5 to-secondary/5 border border-border/30"
+                className="p-4 rounded-2xl bg-gradient-to-r from-primary/5 to-second/5 border border-border/30"
               >
                 <div className="flex items-start justify-between mb-2">
-                  <h4 className="font-semibold text-foreground">
-                    {discovery.experiment}
-                  </h4>
+                  <h4 className="font-semibold text-foreground">{discovery.experiment}</h4>
                   <Badge variant="outline" className="rounded-2xl text-xs">
                     {discovery.date}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {discovery.insight}
-                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{discovery.insight}</p>
               </div>
             ))}
           </div>

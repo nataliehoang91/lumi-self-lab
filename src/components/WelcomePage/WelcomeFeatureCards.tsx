@@ -8,32 +8,26 @@ const features = [
     variant: "primary" as const,
     icon: Zap,
     title: "Design Experiments",
-    description:
-      "Create structured experiments to test your habits and behaviors.",
+    description: "Create structured experiments to test your habits and behaviors.",
   },
   {
     variant: "secondary" as const,
     icon: Moon,
     title: "Daily Reflections",
-    description:
-      "Check in each day and capture your observations and feelings.",
+    description: "Check in each day and capture your observations and feelings.",
   },
   {
     variant: "tertiary" as const,
     icon: Heart,
     title: "Find Patterns",
-    description:
-      "Discover meaningful insights about yourself through data.",
+    description: "Discover meaningful insights about yourself through data.",
   },
 ];
 
 const cardVariantClasses = {
-  primary:
-    "border-primary/20 hover:border-primary/30",
-  secondary:
-    "border-secondary/20 hover:border-secondary/30",
-  tertiary:
-    "border-tertiary/25 hover:border-tertiary/40",
+  primary: "border-primary/20 hover:border-primary/30",
+  secondary: "border-second/20 hover:border-second/30",
+  tertiary: "border-tertiary/25 hover:border-tertiary/40",
 };
 
 export function WelcomeFeatureCards() {
@@ -52,9 +46,7 @@ export function WelcomeFeatureCards() {
               <Icon strokeWidth={1.5} />
             </PrettyIcon>
             <h3 className="font-semibold mb-2 text-foreground">{title}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {description}
-            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
           </div>
         </Card>
       ))}

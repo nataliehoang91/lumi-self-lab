@@ -2,14 +2,7 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { useRouter } from "next/navigation";
-import {
-  createContext,
-  Fragment,
-  useContext,
-  useRef,
-  useTransition,
-  useLayoutEffect,
-} from "react";
+import { createContext, Fragment, useContext, useRef, useTransition, useLayoutEffect } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { createReducerContext } from "../utils/reducer-context";
 import { cn } from "@/lib/utils";
@@ -143,10 +136,7 @@ export function InteractiveForm<const FieldNames extends string>({
 
   if (!context.hasOuterBoundary) {
     return (
-      <FormStateProvider
-        formRef={tempRef}
-        restoreFocusRef={tempRestoreFocusRef}
-      >
+      <FormStateProvider formRef={tempRef} restoreFocusRef={tempRestoreFocusRef}>
         <InteractiveFormImpl action={action} {...props}>
           {children}
         </InteractiveFormImpl>
@@ -373,10 +363,7 @@ export function SubmitMessage({ children, className }: ComponentProps<"span">) {
   return <Visible className={className}>{children}</Visible>;
 }
 
-export function LoadingMessage({
-  children,
-  className,
-}: ComponentProps<"span">) {
+export function LoadingMessage({ children, className }: ComponentProps<"span">) {
   const isPending = useFormPending();
   if (!isPending) {
     return <Hidden className={className}>{children}</Hidden>;
@@ -390,11 +377,7 @@ export function FormBoundary({ children }: { children: ReactNode }) {
   const formRef = useRef<HTMLFormElement>(null);
   const restoreFocusRef = useRef<HTMLElement>(null);
   return (
-    <FormStateProvider
-      hasOuterBoundary
-      formRef={formRef}
-      restoreFocusRef={restoreFocusRef}
-    >
+    <FormStateProvider hasOuterBoundary formRef={formRef} restoreFocusRef={restoreFocusRef}>
       <FormBoundaryImpl>{children}</FormBoundaryImpl>
     </FormStateProvider>
   );
@@ -508,12 +491,6 @@ export function Success({ children }: ComponentProps<"span">) {
   return children;
 }
 
-export function HiddenFormField({
-  name,
-  value,
-}: {
-  name: string;
-  value?: string;
-}) {
+export function HiddenFormField({ name, value }: { name: string; value?: string }) {
   return <input type="hidden" name={name} value={value} />;
 }

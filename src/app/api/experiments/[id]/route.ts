@@ -1,5 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { getAuthenticatedUserId, requireExperimentOwner, experimentHasCheckIns } from "@/lib/permissions";
+import {
+  getAuthenticatedUserId,
+  requireExperimentOwner,
+  experimentHasCheckIns,
+} from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
@@ -7,10 +11,7 @@ import { NextResponse } from "next/server";
  * Personal only: get experiment by ID. Access only if current user owns it
  * (clerkUserId). No org/manager role grants access.
  */
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -46,10 +47,7 @@ export async function GET(
     return NextResponse.json(experiment);
   } catch (error) {
     console.error("Error fetching experiment:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch experiment" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch experiment" }, { status: 500 });
   }
 }
 
@@ -71,10 +69,7 @@ export async function GET(
  *   fields?: Array<{...}> (upsert logic)
  * }
  */
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -109,7 +104,8 @@ export async function PATCH(
         active: ["completed"],
         completed: [],
       };
-      const allowed = allowedTransitions[currentStatus]?.includes(newStatus) || newStatus === currentStatus;
+      const allowed =
+        allowedTransitions[currentStatus]?.includes(newStatus) || newStatus === currentStatus;
       if (!allowed) {
         return NextResponse.json(
           {
@@ -126,7 +122,9 @@ export async function PATCH(
         updateData.startedAt = body.startedAt ? new Date(body.startedAt as string) : new Date();
       }
       if (newStatus === "completed" && currentStatus === "active") {
-        updateData.completedAt = body.completedAt ? new Date(body.completedAt as string) : new Date();
+        updateData.completedAt = body.completedAt
+          ? new Date(body.completedAt as string)
+          : new Date();
       }
     }
     if (body.startedAt !== undefined && !("startedAt" in updateData)) {
@@ -148,10 +146,8 @@ export async function PATCH(
         );
       }
       // Delete fields that are not in the new list
-      const existingFieldIds = body.fields
-        .map((f: any) => f.id)
-        .filter(Boolean);
-      
+      const existingFieldIds = body.fields.map((f: any) => f.id).filter(Boolean);
+
       await prisma.experimentField.deleteMany({
         where: {
           experimentId: id,
@@ -205,10 +201,7 @@ export async function PATCH(
     return NextResponse.json(experiment);
   } catch (error) {
     console.error("Error updating experiment:", error);
-    return NextResponse.json(
-      { error: "Failed to update experiment" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update experiment" }, { status: 500 });
   }
 }
 
@@ -216,10 +209,7 @@ export async function PATCH(
  * DELETE /api/experiments/[id]
  * Personal only: delete experiment. Cascade deletes fields and check-ins.
  */
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -241,9 +231,6 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting experiment:", error);
-    return NextResponse.json(
-      { error: "Failed to delete experiment" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete experiment" }, { status: 500 });
   }
 }

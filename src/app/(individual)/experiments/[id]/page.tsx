@@ -87,19 +87,13 @@ export default async function ExperimentDetailPage({
         field: {
           id: response.field.id,
           label: response.field.label,
-          type: response.field.type as
-            | "text"
-            | "number"
-            | "select"
-            | "emoji"
-            | "yesno",
+          type: response.field.type as "text" | "number" | "select" | "emoji" | "yesno",
           required: response.field.required,
           order: response.field.order,
           textType: response.field.textType as "short" | "long" | undefined,
           minValue: response.field.minValue || undefined,
           maxValue: response.field.maxValue || undefined,
-          emojiCount:
-            (response.field.emojiCount as 3 | 5 | 7 | undefined) || undefined,
+          emojiCount: (response.field.emojiCount as 3 | 5 | 7 | undefined) || undefined,
           options: response.field.selectOptions || undefined,
         },
         responseText: response.responseText || undefined,

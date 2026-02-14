@@ -23,12 +23,8 @@ export default async function OrgExperimentsPage({
         </Button>
         <Card className="p-8 text-center">
           <Target className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-xl font-semibold text-foreground mb-2">
-            Org experiments
-          </h2>
-          <p className="text-muted-foreground">
-            Experiments for this organisation.
-          </p>
+          <h2 className="text-xl font-semibold text-foreground mb-2">Org experiments</h2>
+          <p className="text-muted-foreground">Experiments for this organisation.</p>
         </Card>
       </div>
     </div>

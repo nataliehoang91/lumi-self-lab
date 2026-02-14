@@ -20,13 +20,13 @@
 
 ### 2. Validation rules per field type
 
-| Type   | Value source     | Rules |
-|--------|------------------|--------|
-| **text**   | `responseText`   | Must be a string. If `required`, value must be present and non-empty (after trim). |
+| Type       | Value source     | Rules                                                                                                                                                |
+| ---------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **text**   | `responseText`   | Must be a string. If `required`, value must be present and non-empty (after trim).                                                                   |
 | **number** | `responseNumber` | Must be a number (reject NaN). If `minValue` is set, value ≥ minValue. If `maxValue` is set, value ≤ maxValue. If `required`, value must be present. |
-| **yesno**  | `responseBool`   | Must be a boolean. If `required`, value must be present. |
-| **emoji**  | `responseNumber` | Must be an integer in [1, emojiCount] (inclusive). `emojiCount` must be > 0. If `required`, value must be present. |
-| **select** | `selectedOption` | Must be a string that appears in `selectOptions`. If `required`, value must be present and non-empty. |
+| **yesno**  | `responseBool`   | Must be a boolean. If `required`, value must be present.                                                                                             |
+| **emoji**  | `responseNumber` | Must be an integer in [1, emojiCount] (inclusive). `emojiCount` must be > 0. If `required`, value must be present.                                   |
+| **select** | `selectedOption` | Must be a string that appears in `selectOptions`. If `required`, value must be present and non-empty.                                                |
 
 ### 3. POST /api/experiments/[id]/checkins
 

@@ -96,9 +96,7 @@ export default function ExperimentPreviewPage() {
           </div>
           <div>
             <p className="text-sm text-muted-foreground">AI Generated</p>
-            <h1 className="text-2xl font-semibold text-foreground">
-              Your Experiment Preview
-            </h1>
+            <h1 className="text-2xl font-semibold text-foreground">Your Experiment Preview</h1>
           </div>
         </div>
 
@@ -106,16 +104,12 @@ export default function ExperimentPreviewPage() {
         <div className="bg-card rounded-3xl p-8 shadow-xl shadow-black/5 border border-border/50 mb-6">
           {/* Title */}
           <div className="mb-6">
-            <label className="text-sm text-muted-foreground mb-2 block">
-              Experiment Title
-            </label>
+            <label className="text-sm text-muted-foreground mb-2 block">Experiment Title</label>
             {isEditing === "title" ? (
               <div className="flex gap-2">
                 <Input
                   value={experiment.title}
-                  onChange={(e) =>
-                    setExperiment({ ...experiment, title: e.target.value })
-                  }
+                  onChange={(e) => setExperiment({ ...experiment, title: e.target.value })}
                   className="text-2xl font-semibold rounded-xl"
                 />
                 <Button
@@ -128,9 +122,7 @@ export default function ExperimentPreviewPage() {
               </div>
             ) : (
               <div className="flex items-center gap-2 group">
-                <h2 className="text-2xl font-semibold text-foreground">
-                  {experiment.title}
-                </h2>
+                <h2 className="text-2xl font-semibold text-foreground">{experiment.title}</h2>
                 <button
                   onClick={() => setIsEditing("title")}
                   className="opacity-0 group-hover:opacity-100 p-1 hover:bg-muted rounded-lg transition-all"
@@ -143,17 +135,13 @@ export default function ExperimentPreviewPage() {
 
           {/* Why it matters */}
           <div className="mb-6 p-4 rounded-2xl bg-violet/5 border border-violet/20">
-            <label className="text-sm font-medium text-violet mb-2 block">
-              Why This Matters
-            </label>
+            <label className="text-sm font-medium text-violet mb-2 block">Why This Matters</label>
             <p className="text-foreground">{experiment.whyItMatters}</p>
           </div>
 
           {/* Hypothesis */}
           <div className="mb-6 p-4 rounded-2xl bg-primary/5 border border-primary/20">
-            <label className="text-sm font-medium text-primary mb-2 block">
-              Your Hypothesis
-            </label>
+            <label className="text-sm font-medium text-primary mb-2 block">Your Hypothesis</label>
             <p className="text-foreground">{experiment.hypothesis}</p>
           </div>
 
@@ -181,9 +169,7 @@ export default function ExperimentPreviewPage() {
 
           {/* Tracking fields */}
           <div>
-            <h3 className="text-lg font-medium text-foreground mb-4">
-              What You'll Track
-            </h3>
+            <h3 className="text-lg font-medium text-foreground mb-4">What You'll Track</h3>
             <div className="space-y-3">
               {experiment.fields.map((field, index) => {
                 const Icon = fieldTypeIcons[field.type] || Target;
@@ -196,12 +182,8 @@ export default function ExperimentPreviewPage() {
                       <Icon className="w-5 h-5 text-primary" />
                     </div>
                     <div className="flex-grow">
-                      <p className="font-medium text-foreground">
-                        {field.label}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {fieldTypeLabels[field.type]}
-                      </p>
+                      <p className="font-medium text-foreground">{field.label}</p>
+                      <p className="text-sm text-muted-foreground">{fieldTypeLabels[field.type]}</p>
                     </div>
                     <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-lg">
                       #{index + 1}

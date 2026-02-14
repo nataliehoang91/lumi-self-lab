@@ -300,11 +300,7 @@ export default function BasicGrid() {
         "use server";
       }}
     >
-      <GridListContainer
-        selectionMode="multiple"
-        name="selection"
-        initialValue={["1", "3"]}
-      >
+      <GridListContainer selectionMode="multiple" name="selection" initialValue={["1", "3"]}>
         <GridListTitle>Users</GridListTitle>
         <GridListCaption>Select users to perform bulk actions</GridListCaption>
         <GridListContent gridClassName="border rounded-lg">
@@ -439,17 +435,11 @@ import {
 } from "@/components/ui/grid-list";
 
 export default function SortableGrid() {
-  const [sortDirection, setSortDirection] = useState<
-    "ascending" | "descending" | "none"
-  >("none");
+  const [sortDirection, setSortDirection] = useState<"ascending" | "descending" | "none">("none");
 
   const handleSort = () => {
     setSortDirection((current) =>
-      current === "none"
-        ? "ascending"
-        : current === "ascending"
-          ? "descending"
-          : "none"
+      current === "none" ? "ascending" : current === "ascending" ? "descending" : "none"
     );
   };
 
@@ -458,11 +448,7 @@ export default function SortableGrid() {
       <GridListContent>
         <GridHeader>
           <GridListRow>
-            <GridListColumnHeader
-              sortable
-              sortDirection={sortDirection}
-              onSort={handleSort}
-            >
+            <GridListColumnHeader sortable sortDirection={sortDirection} onSort={handleSort}>
               Name
             </GridListColumnHeader>
           </GridListRow>

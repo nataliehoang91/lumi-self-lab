@@ -31,6 +31,7 @@ This document describes the read-only organisation APIs and the switch from mock
 **Permission:** Returns only orgs where the user has an `OrganisationMember` row (or super_admin is handled by existing helpers if we ever add “list all orgs” for admin). Current implementation: list is membership-based only.
 
 **Response (200):**
+
 ```json
 {
   "organisations": [
@@ -61,6 +62,7 @@ This document describes the read-only organisation APIs and the switch from mock
 **Permission:** `canAccessOrg(clerkUserId, orgId)`. Returns 404 if the org does not exist or the user is not a member (or not super_admin with access).
 
 **Response (200):**
+
 ```json
 {
   "id": "<org id>",
@@ -82,15 +84,15 @@ This document describes the read-only organisation APIs and the switch from mock
 
 ## 3. Which org pages use real data vs mock
 
-| Page | Data source | Status |
-|------|-------------|--------|
-| **/org** (org switcher) | `GET /api/orgs` | **Real.** Replaces mock list of orgs. Pending assignments section remains mock (not org core data). |
+| Page                             | Data source             | Status                                                                                                                                                                 |
+| -------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **/org** (org switcher)          | `GET /api/orgs`         | **Real.** Replaces mock list of orgs. Pending assignments section remains mock (not org core data).                                                                    |
 | **/org/[orgId]** (org dashboard) | `GET /api/orgs/[orgId]` | **Real.** Replaces mock `getOrgData(orgId)`. Header and stats (name, description, memberCount, totalTemplates, activeExperiments, avgCompletionRate) use API response. |
-| **/org/[orgId]/teams** | — | Placeholder (unchanged). |
-| **/org/[orgId]/experiments** | — | Placeholder (unchanged). |
-| **/org/[orgId]/templates** | — | Placeholder / mock (unchanged). |
-| **/org/[orgId]/insights** | — | Placeholder / mock (unchanged). |
-| **/org/[orgId]/admin*** | — | Placeholder (unchanged). |
+| **/org/[orgId]/teams**           | —                       | Placeholder (unchanged).                                                                                                                                               |
+| **/org/[orgId]/experiments**     | —                       | Placeholder (unchanged).                                                                                                                                               |
+| **/org/[orgId]/templates**       | —                       | Placeholder / mock (unchanged).                                                                                                                                        |
+| **/org/[orgId]/insights**        | —                       | Placeholder / mock (unchanged).                                                                                                                                        |
+| **/org/[orgId]/admin\***         | —                       | Placeholder (unchanged).                                                                                                                                               |
 
 ---
 
@@ -104,13 +106,13 @@ This document describes the read-only organisation APIs and the switch from mock
 
 ## 5. Files added or changed (Phase 3)
 
-| File | Change |
-|------|--------|
-| `src/app/api/orgs/route.ts` | **New.** GET /api/orgs — list orgs for current user. |
-| `src/app/api/orgs/[orgId]/route.ts` | **New.** GET /api/orgs/[orgId] — org detail for member. |
-| `src/app/(org)/org/page.tsx` | Replaced mock org list with fetch to GET /api/orgs; loading and error states. |
+| File                                 | Change                                                                                            |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `src/app/api/orgs/route.ts`          | **New.** GET /api/orgs — list orgs for current user.                                              |
+| `src/app/api/orgs/[orgId]/route.ts`  | **New.** GET /api/orgs/[orgId] — org detail for member.                                           |
+| `src/app/(org)/org/page.tsx`         | Replaced mock org list with fetch to GET /api/orgs; loading and error states.                     |
 | `src/app/(org)/org/[orgId]/page.tsx` | Replaced mock `getOrgData()` with server-side fetch to GET /api/orgs/[orgId]; 404 when not found. |
 
 ---
 
-*Phase 3 completed 2025-02-07. Read-only org core data only.*
+_Phase 3 completed 2025-02-07. Read-only org core data only._

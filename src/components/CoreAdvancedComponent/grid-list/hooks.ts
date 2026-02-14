@@ -94,9 +94,7 @@ export function useFocusFirstRow() {
     // Find the first non-disabled row
     const rows = container.querySelectorAll("[data-row-id]");
     for (const row of rows) {
-      const dataRow = dataRows.find(
-        (r) => r.rowId === row.getAttribute("data-row-id")
-      );
+      const dataRow = dataRows.find((r) => r.rowId === row.getAttribute("data-row-id"));
 
       if (!dataRow) {
         // if it is not a registered row, skip it
@@ -116,9 +114,7 @@ export function useFocusFirstRow() {
   };
 }
 
-export function useHandleSpacebar(
-  rowRef: React.RefObject<HTMLDivElement | null>
-) {
+export function useHandleSpacebar(rowRef: React.RefObject<HTMLDivElement | null>) {
   const { onCheckedChange, selected } = useContext(SelectionIndicatorContext);
 
   useEffect(() => {
@@ -257,8 +253,7 @@ export function useGridListKeyboardHandlers() {
     }
 
     // find the first tabbable element after the sentinel end
-    const firstTabbableElementAfterSentinelEnd =
-      allTabbableElements[lookupIndex];
+    const firstTabbableElementAfterSentinelEnd = allTabbableElements[lookupIndex];
 
     // if the grid is the last tabbable element, focus the first tabbable element
     if (!firstTabbableElementAfterSentinelEnd) {
@@ -267,13 +262,8 @@ export function useGridListKeyboardHandlers() {
     }
 
     // if the next tabbable element is a start sentinel, we need to focus on its last focused row or first row
-    if (
-      firstTabbableElementAfterSentinelEnd.hasAttribute(
-        "data-focus-scope-start"
-      )
-    ) {
-      const container =
-        firstTabbableElementAfterSentinelEnd.closest("[role='grid']");
+    if (firstTabbableElementAfterSentinelEnd.hasAttribute("data-focus-scope-start")) {
+      const container = firstTabbableElementAfterSentinelEnd.closest("[role='grid']");
       if (container && safelyFocusElement(container)) {
         return;
       }
@@ -310,8 +300,7 @@ export function useGridListKeyboardHandlers() {
     }
 
     // find the first tabbable element before the sentinel start
-    const lastTabbableElementBeforeSentinelStart =
-      allTabbableElements[lookupIndex];
+    const lastTabbableElementBeforeSentinelStart = allTabbableElements[lookupIndex];
 
     // if the grid is the first tabbable element, focus the last tabbable element
     if (!lastTabbableElementBeforeSentinelStart) {
@@ -320,13 +309,8 @@ export function useGridListKeyboardHandlers() {
     }
 
     // if the last tabbable element is an end sentinel, we need to focus on its container
-    if (
-      lastTabbableElementBeforeSentinelStart.hasAttribute(
-        "data-focus-scope-end"
-      )
-    ) {
-      const container =
-        lastTabbableElementBeforeSentinelStart.closest("[role='grid']");
+    if (lastTabbableElementBeforeSentinelStart.hasAttribute("data-focus-scope-end")) {
+      const container = lastTabbableElementBeforeSentinelStart.closest("[role='grid']");
 
       if (container && safelyFocusElement(container)) {
         return;
@@ -354,13 +338,9 @@ export function useGridListKeyboardHandlers() {
     if (!container) return;
 
     // find previous row using selector (exclude disabled rows)
-    const allRows = container.querySelectorAll(
-      "[data-row-id]:not([data-disabled='true'])"
-    );
+    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
 
-    const currentRowIndex = Array.from(allRows).findIndex(
-      (row) => row === currentRowElement
-    );
+    const currentRowIndex = Array.from(allRows).findIndex((row) => row === currentRowElement);
     if (currentRowIndex === -1) return;
 
     const targetRowIndex = currentRowIndex - 1;
@@ -400,12 +380,8 @@ export function useGridListKeyboardHandlers() {
     const container = containerRef?.current;
     if (!container) return;
 
-    const allRows = container.querySelectorAll(
-      "[data-row-id]:not([data-disabled='true'])"
-    );
-    const currentRowIndex = Array.from(allRows).findIndex(
-      (row) => row === currentRowElement
-    );
+    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
+    const currentRowIndex = Array.from(allRows).findIndex((row) => row === currentRowElement);
     if (currentRowIndex === -1) return;
 
     const targetRowIndex = currentRowIndex + 1;
@@ -457,9 +433,7 @@ export function useGridListKeyboardHandlers() {
       return;
     }
 
-    const currentTabbableIndex = allTabbableElements.indexOf(
-      activeElement as HTMLElement
-    );
+    const currentTabbableIndex = allTabbableElements.indexOf(activeElement as HTMLElement);
     if (currentTabbableIndex === -1) {
       // focus the first tabbable element
       allTabbableElements[0]?.focus();
@@ -509,9 +483,7 @@ export function useGridListKeyboardHandlers() {
       return;
     }
 
-    const currentTabbableIndex = allTabbableElements.indexOf(
-      activeElement as HTMLElement
-    );
+    const currentTabbableIndex = allTabbableElements.indexOf(activeElement as HTMLElement);
     if (currentTabbableIndex === -1) {
       // focus the last tabbable element
       allTabbableElements[allTabbableElements.length - 1]?.focus();
@@ -545,9 +517,7 @@ export function useGridListKeyboardHandlers() {
     if (!container) return;
 
     // Find the first non-disabled row
-    const allRows = container.querySelectorAll(
-      "[data-row-id]:not([data-disabled='true'])"
-    );
+    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
 
     if (allRows.length === 0) return;
 
@@ -569,9 +539,7 @@ export function useGridListKeyboardHandlers() {
     if (!container) return;
 
     // Find the last non-disabled row
-    const allRows = container.querySelectorAll(
-      "[data-row-id]:not([data-disabled='true'])"
-    );
+    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
 
     if (allRows.length === 0) return;
 
@@ -606,13 +574,9 @@ export function useGridListKeyboardHandlers() {
     const currentRowElement = activeElement.closest("[data-row-id]");
     if (!currentRowElement) return;
 
-    const allRows = container.querySelectorAll(
-      "[data-row-id]:not([data-disabled='true'])"
-    );
+    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
 
-    const currentRowIndex = Array.from(allRows).findIndex(
-      (row) => row === currentRowElement
-    );
+    const currentRowIndex = Array.from(allRows).findIndex((row) => row === currentRowElement);
     if (currentRowIndex === -1) return;
 
     // Use a reasonable page size (can be made configurable)
@@ -650,21 +614,14 @@ export function useGridListKeyboardHandlers() {
     const currentRowElement = activeElement.closest("[data-row-id]");
     if (!currentRowElement) return;
 
-    const allRows = container.querySelectorAll(
-      "[data-row-id]:not([data-disabled='true'])"
-    );
+    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
 
-    const currentRowIndex = Array.from(allRows).findIndex(
-      (row) => row === currentRowElement
-    );
+    const currentRowIndex = Array.from(allRows).findIndex((row) => row === currentRowElement);
     if (currentRowIndex === -1) return;
 
     // Use a reasonable page size (can be made configurable)
     const pageSize = 10;
-    const targetRowIndex = Math.min(
-      allRows.length - 1,
-      currentRowIndex + pageSize
-    );
+    const targetRowIndex = Math.min(allRows.length - 1, currentRowIndex + pageSize);
 
     const targetRow = allRows[targetRowIndex];
     const id = targetRow.getAttribute("data-row-id");

@@ -5,14 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  FlaskConical,
-  ArrowLeft,
-  Calendar,
-  Clock,
-  Target,
-  Book,
-} from "lucide-react";
+import { FlaskConical, ArrowLeft, Calendar, Clock, Target, Book } from "lucide-react";
 import { useState } from "react";
 
 // Mock data - in a real app, this would come from a database
@@ -66,7 +59,7 @@ export function ExperimentDetail() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-secondary/10 text-secondary border-secondary/20";
+        return "bg-second/10 text-second border-second/20";
       case "draft":
         return "bg-muted text-muted-foreground border-border";
       case "completed":
@@ -92,7 +85,7 @@ export function ExperimentDetail() {
             </Link>
           </Button>
           <Link href="/" className="inline-flex items-center gap-2">
-            <FlaskConical className="w-6 h-6 text-secondary" />
+            <FlaskConical className="w-6 h-6 text-second" />
             <span className="font-bold text-foreground">Self-Lab</span>
           </Link>
         </div>
@@ -100,12 +93,9 @@ export function ExperimentDetail() {
         {/* Experiment Header */}
         <div className="mb-8">
           <Badge className={`mb-3 ${getStatusColor(MOCK_EXPERIMENT.status)}`}>
-            {MOCK_EXPERIMENT.status.charAt(0).toUpperCase() +
-              MOCK_EXPERIMENT.status.slice(1)}
+            {MOCK_EXPERIMENT.status.charAt(0).toUpperCase() + MOCK_EXPERIMENT.status.slice(1)}
           </Badge>
-          <h1 className="text-4xl font-bold text-foreground mb-4">
-            {MOCK_EXPERIMENT.title}
-          </h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">{MOCK_EXPERIMENT.title}</h1>
 
           <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
             <div className="flex items-center gap-2">
@@ -118,9 +108,7 @@ export function ExperimentDetail() {
             </div>
             <div className="flex items-center gap-2">
               <Target className="w-4 h-4" />
-              <span className="capitalize">
-                {MOCK_EXPERIMENT.frequency} check-ins
-              </span>
+              <span className="capitalize">{MOCK_EXPERIMENT.frequency} check-ins</span>
             </div>
           </div>
 
@@ -130,12 +118,8 @@ export function ExperimentDetail() {
               <div className="flex justify-between text-sm mb-2">
                 <span className="text-muted-foreground">Progress</span>
                 <span className="font-medium text-foreground">
-                  {MOCK_EXPERIMENT.daysCompleted}/{MOCK_EXPERIMENT.duration}{" "}
-                  days (
-                  {getProgressPercentage(
-                    MOCK_EXPERIMENT.daysCompleted,
-                    MOCK_EXPERIMENT.duration
-                  )}
+                  {MOCK_EXPERIMENT.daysCompleted}/{MOCK_EXPERIMENT.duration} days (
+                  {getProgressPercentage(MOCK_EXPERIMENT.daysCompleted, MOCK_EXPERIMENT.duration)}
                   %)
                 </span>
               </div>
@@ -157,21 +141,13 @@ export function ExperimentDetail() {
         {/* Experiment Details */}
         <div className="space-y-6 mb-8">
           <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-            <h3 className="text-lg font-semibold text-foreground mb-2">
-              Why This Matters
-            </h3>
-            <p className="text-muted-foreground leading-relaxed">
-              {MOCK_EXPERIMENT.whyMatters}
-            </p>
+            <h3 className="text-lg font-semibold text-foreground mb-2">Why This Matters</h3>
+            <p className="text-muted-foreground leading-relaxed">{MOCK_EXPERIMENT.whyMatters}</p>
           </Card>
 
           <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-            <h3 className="text-lg font-semibold text-foreground mb-2">
-              My Hypothesis
-            </h3>
-            <p className="text-muted-foreground leading-relaxed">
-              {MOCK_EXPERIMENT.hypothesis}
-            </p>
+            <h3 className="text-lg font-semibold text-foreground mb-2">My Hypothesis</h3>
+            <p className="text-muted-foreground leading-relaxed">{MOCK_EXPERIMENT.hypothesis}</p>
           </Card>
 
           {MOCK_EXPERIMENT.faithLensEnabled && (
@@ -180,23 +156,17 @@ export function ExperimentDetail() {
                 <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
                   <Book className="w-4 h-4 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">
-                  Faith Lens
-                </h3>
+                <h3 className="text-lg font-semibold text-foreground">Faith Lens</h3>
               </div>
               <div className="space-y-3">
                 <div>
-                  <p className="text-sm font-medium text-foreground mb-1">
-                    Related Scriptures
-                  </p>
+                  <p className="text-sm font-medium text-foreground mb-1">Related Scriptures</p>
                   <p className="text-sm text-muted-foreground leading-relaxed italic">
                     {MOCK_EXPERIMENT.scriptures}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-foreground mb-1">
-                    Spiritual Reflection
-                  </p>
+                  <p className="text-sm font-medium text-foreground mb-1">Spiritual Reflection</p>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {MOCK_EXPERIMENT.spiritualReflection}
                   </p>
@@ -226,28 +196,17 @@ export function ExperimentDetail() {
 
         {/* Check-in History */}
         <div>
-          <h3 className="text-2xl font-bold text-foreground mb-4">
-            Check-in History
-          </h3>
+          <h3 className="text-2xl font-bold text-foreground mb-4">Check-in History</h3>
           <div className="space-y-4">
             {MOCK_EXPERIMENT.checkIns.map((checkIn, index) => (
-              <Card
-                key={index}
-                className="p-6 bg-card/80 backdrop-blur border-border/50"
-              >
+              <Card key={index} className="p-6 bg-card/80 backdrop-blur border-border/50">
                 <div className="flex justify-between items-start mb-3">
                   <div>
-                    <p className="font-semibold text-foreground">
-                      Day {checkIn.day}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {checkIn.date}
-                    </p>
+                    <p className="font-semibold text-foreground">Day {checkIn.day}</p>
+                    <p className="text-sm text-muted-foreground">{checkIn.date}</p>
                   </div>
                 </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  {checkIn.notes}
-                </p>
+                <p className="text-muted-foreground leading-relaxed">{checkIn.notes}</p>
               </Card>
             ))}
           </div>

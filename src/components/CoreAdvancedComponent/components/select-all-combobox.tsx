@@ -2,11 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { createReducerContext } from "../utils/reducer-context";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Command,
   CommandEmpty,
@@ -45,39 +41,38 @@ const defaultComboboxState: ComboboxState = {
   required: false,
 };
 
-const [ComboboxProvider, useComboboxState, useComboboxDispatch] =
-  createReducerContext(
-    (state: ComboboxState, action: ComboboxAction): ComboboxState => {
-      switch (action.type) {
-        case "select":
-          if (state.multiple) {
-            return {
-              ...state,
-              selected: [...state.selected, action.value],
-            };
-          }
+const [ComboboxProvider, useComboboxState, useComboboxDispatch] = createReducerContext(
+  (state: ComboboxState, action: ComboboxAction): ComboboxState => {
+    switch (action.type) {
+      case "select":
+        if (state.multiple) {
           return {
             ...state,
-            selected: [action.value],
-            open: false,
+            selected: [...state.selected, action.value],
           };
-        case "deselect":
-          return {
-            ...state,
-            selected: state.selected.filter((item) => item !== action.value),
-          };
-        case "set_open":
-          return {
-            ...state,
-            open: action.open,
-          };
+        }
+        return {
+          ...state,
+          selected: [action.value],
+          open: false,
+        };
+      case "deselect":
+        return {
+          ...state,
+          selected: state.selected.filter((item) => item !== action.value),
+        };
+      case "set_open":
+        return {
+          ...state,
+          open: action.open,
+        };
 
-        default:
-          return state;
-      }
-    },
-    defaultComboboxState
-  );
+      default:
+        return state;
+    }
+  },
+  defaultComboboxState
+);
 
 interface ComboboxProps extends ComponentPropsWithoutRef<"select"> {
   onValueChange?: (value: string | string[]) => void;
@@ -135,11 +130,7 @@ function SelectAllCombobox({
 
   const selectRef = useRef<HTMLSelectElement>(null);
 
-  const selected = value
-    ? toArray(value)
-    : defaultValue
-    ? toArray(defaultValue)
-    : [];
+  const selected = value ? toArray(value) : defaultValue ? toArray(defaultValue) : [];
 
   const onChangeEvent = useEffectEvent(() => {
     if (typeof onChange === "function" && selectRef.current) {
@@ -189,9 +180,9 @@ function SelectAllCombobox({
 
   const middleware = useCallback(
     (
-        dispatch: ReturnType<typeof useComboboxDispatch>,
-        getNextState: (action: ComboboxAction) => ComboboxState
-      ) =>
+      dispatch: ReturnType<typeof useComboboxDispatch>,
+      getNextState: (action: ComboboxAction) => ComboboxState
+    ) =>
       (action: ComboboxAction) => {
         dispatch(action);
         if (action.type === "select" || action.type === "deselect") {
@@ -303,9 +294,7 @@ function ComboboxContent({
 }: React.ComponentPropsWithoutRef<typeof PopoverContent>) {
   return (
     <PopoverContent className="w-[200px] p-0" {...props}>
-      <Command className={cn("max-h-[300px] overflow-y-auto p-1", className)}>
-        {children}
-      </Command>
+      <Command className={cn("max-h-[300px] overflow-y-auto p-1", className)}>{children}</Command>
     </PopoverContent>
   );
 }
@@ -333,10 +322,7 @@ function ComboboxOptions({
   ...props
 }: React.ComponentPropsWithoutRef<typeof CommandList>) {
   return (
-    <CommandList
-      className={cn("max-h-[300px] overflow-y-auto p-1", className)}
-      {...props}
-    >
+    <CommandList className={cn("max-h-[300px] overflow-y-auto p-1", className)} {...props}>
       {children}
     </CommandList>
   );
@@ -416,22 +402,13 @@ function ComboboxEmpty({
   ...props
 }: React.ComponentPropsWithoutRef<typeof CommandEmpty>) {
   return (
-    <CommandEmpty
-      className={cn("py-6 text-center text-sm", className)}
-      {...props}
-    >
+    <CommandEmpty className={cn("py-6 text-center text-sm", className)} {...props}>
       {children}
     </CommandEmpty>
   );
 }
 
-export function ComboboxValues({
-  placeholder,
-  locale,
-}: {
-  placeholder: string;
-  locale?: string;
-}) {
+export function ComboboxValues({ placeholder, locale }: { placeholder: string; locale?: string }) {
   const state = useComboboxState();
   if (state.selected.length === 0) {
     return placeholder;
@@ -445,22 +422,17 @@ export function ComboboxValues({
     <span className="truncate">
       {displayValues.map((value, index) => {
         // Truncate long values (max 15 characters)
-        const truncatedValue =
-          value.length > 15 ? value.substring(0, 15) + "..." : value;
+        const truncatedValue = value.length > 15 ? value.substring(0, 15) + "..." : value;
 
         return (
           <span key={index} className="font-semibold">
             {truncatedValue}
-            {index < displayValues.length - 1 && (
-              <span className="text-muted-foreground">, </span>
-            )}
+            {index < displayValues.length - 1 && <span className="text-muted-foreground">, </span>}
           </span>
         );
       })}
       {remainingCount > 0 && (
-        <span className="text-muted-foreground font-medium">
-          +{remainingCount} more
-        </span>
+        <span className="text-muted-foreground font-medium">+{remainingCount} more</span>
       )}
     </span>
   );

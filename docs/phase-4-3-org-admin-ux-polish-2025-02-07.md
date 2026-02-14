@@ -72,12 +72,12 @@ Improve usability, clarity, and safety of Organisation Admin flows:
 
 ## 5. Files touched
 
-| File | Change |
-|------|--------|
+| File                                                           | Change                                                                                                                                |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/app/(org)/org/[orgId]/admin/members/OrgMembersClient.tsx` | Current user + last-org-admin detection; badges; disabled role/remove; friendly error copy; single-member guidance; empty/error copy. |
-| `src/app/(individual)/upgrade/page.tsx` | Copy only: “Unlock team & organisation features,” “organisation workspaces,” “Add & manage members,” privacy blurb. |
-| `src/app/(org)/org/create/page.tsx` | Copy only: “You will have the organisation admin role.” |
+| `src/app/(individual)/upgrade/page.tsx`                        | Copy only: “Unlock team & organisation features,” “organisation workspaces,” “Add & manage members,” privacy blurb.                   |
+| `src/app/(org)/org/create/page.tsx`                            | Copy only: “You will have the organisation admin role.”                                                                               |
 
 ---
 
-*Phase 4.3 completed 2025-02-07. UX and copy only. No schema or API changes. Phase 5 not started.*
+_Phase 4.3 completed 2025-02-07. UX and copy only. No schema or API changes. Phase 5 not started._

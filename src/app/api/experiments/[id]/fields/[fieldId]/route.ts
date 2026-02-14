@@ -1,5 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { getAuthenticatedUserId, requireExperimentOwner, experimentHasCheckIns } from "@/lib/permissions";
+import {
+  getAuthenticatedUserId,
+  requireExperimentOwner,
+  experimentHasCheckIns,
+} from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
 /**
@@ -37,10 +41,7 @@ export async function GET(
     return NextResponse.json(field);
   } catch (error) {
     console.error("Error fetching field:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch field" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch field" }, { status: 500 });
   }
 }
 
@@ -108,10 +109,7 @@ export async function PATCH(
     return NextResponse.json(field);
   } catch (error) {
     console.error("Error updating field:", error);
-    return NextResponse.json(
-      { error: "Failed to update field" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update field" }, { status: 500 });
   }
 }
 
@@ -165,9 +163,6 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting field:", error);
-    return NextResponse.json(
-      { error: "Failed to delete field" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete field" }, { status: 500 });
   }
 }

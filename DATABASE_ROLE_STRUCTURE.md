@@ -7,6 +7,7 @@ This document explains how roles and permissions are stored in the database to m
 ## Database Schema
 
 ### User Model
+
 ```prisma
 model User {
   id              String   @id @default(cuid())
@@ -23,10 +24,12 @@ model User {
 ```
 
 **Account Types:**
+
 - `individual` - Default for all users
 - `organisation` - Upgraded account (can create orgs)
 
 ### OrganisationMember Model
+
 ```prisma
 model OrganisationMember {
   id              String   @id @default(cuid())
@@ -44,6 +47,7 @@ model OrganisationMember {
 ```
 
 **Roles in Organisation:**
+
 - `member` - Participate only, can join assigned experiments
 - `team_manager` - Can manage team experiments, assign participants (team only)
 - `org_admin` - Full access, can create org, assign team managers
@@ -51,6 +55,7 @@ model OrganisationMember {
 ## Permission Matrix Implementation
 
 ### 1. Individual Account
+
 ```typescript
 // User record
 {
@@ -69,6 +74,7 @@ model OrganisationMember {
 ```
 
 ### 2. Team Manager
+
 ```typescript
 // User record
 {
@@ -95,6 +101,7 @@ model OrganisationMember {
 ```
 
 ### 3. Org Admin
+
 ```typescript
 // User record
 {
@@ -122,28 +129,32 @@ model OrganisationMember {
 ## Permission Checks (Code Logic)
 
 ### Check if user can create org:
+
 ```typescript
 const canCreateOrg = user.accountType === "organisation";
 ```
 
 ### Check if user can manage team experiments:
+
 ```typescript
 const membership = await prisma.organisationMember.findFirst({
   where: {
     clerkUserId: userId,
     organisationId: orgId,
-    role: { in: ["team_manager", "org_admin"] }
-  }
+    role: { in: ["team_manager", "org_admin"] },
+  },
 });
 const canManageTeam = !!membership;
 ```
 
 ### Check if user can assign team managers:
+
 ```typescript
 const canAssignTeamManagers = membership?.role === "org_admin";
 ```
 
 ### Check if user can assign participants:
+
 ```typescript
 const canAssign = membership?.role === "team_manager" || membership?.role === "org_admin";
 const isRestrictedToTeam = membership?.role === "team_manager";
@@ -151,32 +162,36 @@ const isRestrictedToTeam = membership?.role === "team_manager";
 ```
 
 ### Check if user is participant:
+
 ```typescript
 // A user is a "participant" if they have assigned experiments
 // This is a state, not a role - check if user has experiments with organisationId set
-const isParticipant = await prisma.experiment.count({
-  where: {
-    clerkUserId: userId,
-    organisationId: { not: null }
-  }
-}) > 0;
+const isParticipant =
+  (await prisma.experiment.count({
+    where: {
+      clerkUserId: userId,
+      organisationId: { not: null },
+    },
+  })) > 0;
 ```
 
 ## Example Data Structure
 
 ### Individual (No Org)
+
 ```sql
 -- User
-INSERT INTO "User" (id, "clerkUserId", "accountType") 
+INSERT INTO "User" (id, "clerkUserId", "accountType")
 VALUES ('user_1', 'clerk_individual_1', 'individual');
 
 -- No OrganisationMember records
 ```
 
 ### Team Manager
+
 ```sql
 -- User
-INSERT INTO "User" (id, "clerkUserId", "accountType") 
+INSERT INTO "User" (id, "clerkUserId", "accountType")
 VALUES ('user_2', 'clerk_manager_1', 'individual');
 
 -- OrganisationMember
@@ -185,9 +200,10 @@ VALUES ('member_1', 'org_1', 'clerk_manager_1', 'team_manager', 'team_eng', 'Eng
 ```
 
 ### Org Admin
+
 ```sql
 -- User
-INSERT INTO "User" (id, "clerkUserId", "accountType", "upgradedAt") 
+INSERT INTO "User" (id, "clerkUserId", "accountType", "upgradedAt")
 VALUES ('user_3', 'clerk_admin_1', 'organisation', NOW());
 
 -- OrganisationMember

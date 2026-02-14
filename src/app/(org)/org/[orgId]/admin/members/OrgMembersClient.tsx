@@ -82,7 +82,7 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
 
   useEffect(() => {
     fetch("/api/users/identity")
-      .then((r) => r.ok ? r.json() : null)
+      .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (data?.clerkUserId) {
           setCurrentClerkUserId(data.clerkUserId);
@@ -238,11 +238,10 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
           </Link>
         </Button>
 
-        <h1 className="text-2xl font-semibold text-foreground mb-2">
-          Members
-        </h1>
+        <h1 className="text-2xl font-semibold text-foreground mb-2">Members</h1>
         <p className="text-muted-foreground mb-6">
-          Manage who has access to this organisation workspace. Add existing users or invite a teammate by email.
+          Manage who has access to this organisation workspace. Add existing users or invite a
+          teammate by email.
         </p>
 
         {/* Invite a teammate */}
@@ -252,7 +251,8 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
             Invite a teammate
           </h2>
           <p className="text-sm text-muted-foreground mb-4">
-            Send an invite by email. They can accept after signing in to join this organisation workspace.
+            Send an invite by email. They can accept after signing in to join this organisation
+            workspace.
           </p>
           <form onSubmit={handleInvite} className="flex flex-wrap items-end gap-4">
             <div className="flex-1 min-w-[200px]">
@@ -268,17 +268,18 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
             </div>
             <div className="w-[180px]">
               <Label htmlFor="invite-role">Role</Label>
-              <Select
-                value={inviteRole}
-                onValueChange={(v) => setInviteRole(v as Role)}
-              >
+              <Select value={inviteRole} onValueChange={(v) => setInviteRole(v as Role)}>
                 <SelectTrigger id="invite-role" className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {ROLES.map((r) => (
                     <SelectItem key={r} value={r}>
-                      {r === "org_admin" ? "Org admin" : r === "team_manager" ? "Team manager" : "Member"}
+                      {r === "org_admin"
+                        ? "Org admin"
+                        : r === "team_manager"
+                          ? "Team manager"
+                          : "Member"}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -295,13 +296,18 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
               )}
             </Button>
           </form>
-          {inviteError && (
-            <p className="text-sm text-destructive mt-2">{inviteError}</p>
-          )}
+          {inviteError && <p className="text-sm text-destructive mt-2">{inviteError}</p>}
           {lastInviteLink && (
             <p className="text-sm text-muted-foreground mt-2">
               Invite sent. Share this link with your teammate:{" "}
-              <a href={lastInviteLink} className="text-primary underline break-all" target="_blank" rel="noopener noreferrer">{lastInviteLink}</a>
+              <a
+                href={lastInviteLink}
+                className="text-primary underline break-all"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {lastInviteLink}
+              </a>
             </p>
           )}
 
@@ -326,7 +332,13 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                     {invites.map((i) => (
                       <tr key={i.id} className="border-b last:border-0">
                         <td className="p-2">{i.email}</td>
-                        <td className="p-2">{i.role === "org_admin" ? "Org admin" : i.role === "team_manager" ? "Team manager" : "Member"}</td>
+                        <td className="p-2">
+                          {i.role === "org_admin"
+                            ? "Org admin"
+                            : i.role === "team_manager"
+                              ? "Team manager"
+                              : "Member"}
+                        </td>
                         <td className="p-2 text-muted-foreground">{formatJoined(i.expiresAt)}</td>
                       </tr>
                     ))}
@@ -365,17 +377,18 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
             </div>
             <div className="w-[180px]">
               <Label htmlFor="add-role">Role</Label>
-              <Select
-                value={addRole}
-                onValueChange={(v) => setAddRole(v as Role)}
-              >
+              <Select value={addRole} onValueChange={(v) => setAddRole(v as Role)}>
                 <SelectTrigger id="add-role" className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {ROLES.map((r) => (
                     <SelectItem key={r} value={r}>
-                      {r === "org_admin" ? "Org admin" : r === "team_manager" ? "Team manager" : "Member"}
+                      {r === "org_admin"
+                        ? "Org admin"
+                        : r === "team_manager"
+                          ? "Team manager"
+                          : "Member"}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -392,9 +405,7 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
               )}
             </Button>
           </form>
-          {addError && (
-            <p className="text-sm text-destructive mt-2">{addError}</p>
-          )}
+          {addError && <p className="text-sm text-destructive mt-2">{addError}</p>}
         </Card>
 
         {/* Members table */}
@@ -427,7 +438,8 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                 </thead>
                 <tbody>
                   {members.map((m) => {
-                    const isCurrentUser = currentClerkUserId != null && m.clerkUserId === currentClerkUserId;
+                    const isCurrentUser =
+                      currentClerkUserId != null && m.clerkUserId === currentClerkUserId;
                     const isLastOrgAdmin = m.role === "org_admin" && orgAdminCount === 1;
                     const canChangeRole = !isLastOrgAdmin || isSuperAdmin;
                     const canRemove = !isLastOrgAdmin || isSuperAdmin;
@@ -438,13 +450,22 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                             <span>{m.email ?? "—"}</span>
                             <span className="flex flex-wrap gap-1">
                               {isCurrentUser && (
-                                <Badge variant="secondary" className="text-xs font-normal">You</Badge>
+                                <Badge variant="secondary" className="text-xs font-normal">
+                                  You
+                                </Badge>
                               )}
                               {m.role === "org_admin" && (
-                                <Badge variant="outline" className="text-xs font-normal">Org admin</Badge>
+                                <Badge variant="outline" className="text-xs font-normal">
+                                  Org admin
+                                </Badge>
                               )}
                               {isCurrentUser && isSuperAdmin && (
-                                <Badge variant="outline" className="text-xs font-normal text-violet-600 dark:text-violet-400 border-violet-500/50">Platform admin</Badge>
+                                <Badge
+                                  variant="outline"
+                                  className="text-xs font-normal text-violet-600 dark:text-violet-400 border-violet-500/50"
+                                >
+                                  Platform admin
+                                </Badge>
                               )}
                             </span>
                           </div>
@@ -461,7 +482,11 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                               <SelectContent>
                                 {ROLES.map((r) => (
                                   <SelectItem key={r} value={r}>
-                                    {r === "org_admin" ? "Org admin" : r === "team_manager" ? "Team manager" : "Member"}
+                                    {r === "org_admin"
+                                      ? "Org admin"
+                                      : r === "team_manager"
+                                        ? "Team manager"
+                                        : "Member"}
                                   </SelectItem>
                                 ))}
                               </SelectContent>
@@ -470,12 +495,12 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                             <span className="text-muted-foreground">Org admin</span>
                           )}
                           {isLastOrgAdmin && !isSuperAdmin && (
-                            <p className="text-xs text-muted-foreground mt-1">At least one organisation admin is required.</p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              At least one organisation admin is required.
+                            </p>
                           )}
                         </td>
-                        <td className="p-3 text-muted-foreground">
-                          {formatJoined(m.joinedAt)}
-                        </td>
+                        <td className="p-3 text-muted-foreground">{formatJoined(m.joinedAt)}</td>
                         <td className="p-3 text-right">
                           {canRemove ? (
                             <Button
@@ -489,7 +514,12 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                               <Trash2 className="size-4" />
                             </Button>
                           ) : (
-                            <span className="text-xs text-muted-foreground" title="At least one organisation admin is required">—</span>
+                            <span
+                              className="text-xs text-muted-foreground"
+                              title="At least one organisation admin is required"
+                            >
+                              —
+                            </span>
                           )}
                         </td>
                       </tr>

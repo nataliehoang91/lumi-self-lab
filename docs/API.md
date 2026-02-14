@@ -9,16 +9,16 @@ This document lists all API routes in the Lumi Self-Lab app. **Keep it updated**
 
 ## Overview
 
-| Area           | Base path              | Auth    | Notes                    |
-|----------------|------------------------|---------|---------------------------|
-| User           | `/api/users/*`         | identity: yes | Personal data only       |
-| Orgs           | `/api/orgs/*`          | yes     | List/detail, create, members, invites (Phase 5)        |
-| Org invites    | `/api/org-invites/*`   | GET: no, POST accept: yes | Token-based invite accept                             |
-| Experiments    | `/api/experiments/*`   | yes     | Owner-only (clerkUserId) |
-| Chat           | `/api/chat`            | yes     | Personal AI chat         |
-| Waitlist       | `/api/waitlist`        | no      | Public signup            |
-| Webhooks       | `/api/webhooks/clerk`  | no (sig)| Clerk events             |
-| Auth (legacy)  | `/api/auth/sign-in`    | no      | Placeholder              |
+| Area          | Base path             | Auth                      | Notes                                           |
+| ------------- | --------------------- | ------------------------- | ----------------------------------------------- |
+| User          | `/api/users/*`        | identity: yes             | Personal data only                              |
+| Orgs          | `/api/orgs/*`         | yes                       | List/detail, create, members, invites (Phase 5) |
+| Org invites   | `/api/org-invites/*`  | GET: no, POST accept: yes | Token-based invite accept                       |
+| Experiments   | `/api/experiments/*`  | yes                       | Owner-only (clerkUserId)                        |
+| Chat          | `/api/chat`           | yes                       | Personal AI chat                                |
+| Waitlist      | `/api/waitlist`       | no                        | Public signup                                   |
+| Webhooks      | `/api/webhooks/clerk` | no (sig)                  | Clerk events                                    |
+| Auth (legacy) | `/api/auth/sign-in`   | no                        | Placeholder                                     |
 
 ---
 
@@ -33,6 +33,7 @@ This document lists all API routes in the Lumi Self-Lab app. **Keep it updated**
 **Permission:** Personal only. No admin override to fetch another user.
 
 **Response (200):**
+
 ```json
 {
   "id": "<db user id>",
@@ -61,6 +62,7 @@ This document lists all API routes in the Lumi Self-Lab app. **Keep it updated**
 **Request body:** None.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -87,6 +89,7 @@ Phase 3: list and detail (read-only). Phase 4.1: create organisation (POST). See
 **Permission:** Returns only orgs where the user has an `OrganisationMember` row.
 
 **Response (200):**
+
 ```json
 {
   "organisations": [
@@ -117,6 +120,7 @@ Phase 3: list and detail (read-only). Phase 4.1: create organisation (POST). See
 **Permission:** User.accountType MUST be `"organisation"`. If not, 403 with message: "Upgrade required to create an organisation".
 
 **Request body:**
+
 ```json
 {
   "name": "<string, required>",
@@ -125,6 +129,7 @@ Phase 3: list and detail (read-only). Phase 4.1: create organisation (POST). See
 ```
 
 **Response (201):**
+
 ```json
 {
   "id": "<org id>",
@@ -149,6 +154,7 @@ Phase 3: list and detail (read-only). Phase 4.1: create organisation (POST). See
 **Permission:** `canAccessOrg(clerkUserId, orgId)`. Returns 404 if org does not exist or user is not a member.
 
 **Response (200):**
+
 ```json
 {
   "id": "<org id>",
@@ -175,6 +181,7 @@ Phase 3: list and detail (read-only). Phase 4.1: create organisation (POST). See
 **Permission:** `canAccessOrg(clerkUserId, orgId)`. 404 if org not found or no access.
 
 **Response (200):**
+
 ```json
 {
   "members": [
@@ -204,6 +211,7 @@ Email comes from User (join). No team data.
 **Permission:** `canActAsOrgAdmin(clerkUserId, orgId)`. 403 if not org_admin/super_admin.
 
 **Request body:**
+
 ```json
 {
   "email": "<string, required>",
@@ -326,6 +334,7 @@ All experiment routes enforce **ownership**: only the experiment owner (`clerkUs
 **Auth:** Required.
 
 **Query params:**
+
 - `status` (optional): `draft` \| `active` \| `completed`
 - `search` (optional): search in title, whyMatters, hypothesis
 
@@ -342,6 +351,7 @@ All experiment routes enforce **ownership**: only the experiment owner (`clerkUs
 **Auth:** Required.
 
 **Request body:**
+
 - `title` (string, required)
 - `whyMatters`, `hypothesis` (string, optional)
 - `durationDays` (number, required)
@@ -424,6 +434,7 @@ All experiment routes enforce **ownership**: only the experiment owner (`clerkUs
 **Auth:** Required.
 
 **Request body:**
+
 - `checkInDate` (string, ISO, required)
 - `notes`, `aiSummary` (optional)
 - `responses` (array): `[{ fieldId, responseText?, responseNumber?, responseBool?, selectedOption?, aiFeedback? }]`
@@ -567,6 +578,7 @@ All experiment routes enforce **ownership**: only the experiment owner (`clerkUs
 **Auth:** None (public path). Verification via `CLERK_WEBHOOK_SECRET` and Svix headers.
 
 **Events handled:**
+
 - `user.created` – create `User` with `clerkUserId`, `email`, `accountType: "individual"`.
 - `user.updated` – sync email.
 - `user.deleted` – delete user (cascade).

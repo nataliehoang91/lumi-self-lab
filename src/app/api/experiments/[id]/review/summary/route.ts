@@ -11,10 +11,7 @@ import { NextResponse } from "next/server";
 import { reviewSummaryResponseSchema } from "@/lib/review-summary-schema";
 import { computeReviewSummaryFields } from "@/lib/review-summary";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -65,9 +62,6 @@ export async function GET(
     return NextResponse.json(parsed.data);
   } catch (error) {
     console.error("Error fetching review summary:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch review summary" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch review summary" }, { status: 500 });
   }
 }

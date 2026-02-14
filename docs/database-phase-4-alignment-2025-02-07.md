@@ -7,48 +7,53 @@ This document validates the current Prisma schema against Phase 1–2–3 decisi
 ## 1. Current schema summary
 
 ### User
-| Field | Type | Notes |
-|-------|------|--------|
-| id | String (cuid) | Primary key |
-| clerkUserId | String (unique) | Clerk identity; only auth link |
-| email | String? | Synced from Clerk |
-| accountType | String | "individual" \| "organisation" (capability) |
-| role | String | "user" \| "super_admin" (global only) |
-| upgradedAt | DateTime? | |
-| createdAt, updatedAt | DateTime | |
-| **Relations** | experiments, organisationMemberships, createdOrganisations | |
+
+| Field                | Type                                                       | Notes                                       |
+| -------------------- | ---------------------------------------------------------- | ------------------------------------------- |
+| id                   | String (cuid)                                              | Primary key                                 |
+| clerkUserId          | String (unique)                                            | Clerk identity; only auth link              |
+| email                | String?                                                    | Synced from Clerk                           |
+| accountType          | String                                                     | "individual" \| "organisation" (capability) |
+| role                 | String                                                     | "user" \| "super_admin" (global only)       |
+| upgradedAt           | DateTime?                                                  |                                             |
+| createdAt, updatedAt | DateTime                                                   |                                             |
+| **Relations**        | experiments, organisationMemberships, createdOrganisations |                                             |
 
 ### Organisation
-| Field | Type | Notes |
-|-------|------|--------|
-| id | String (cuid) | Primary key |
-| name | String | |
-| description | String? | |
-| createdBy | String | clerkUserId of creator (user, not org) |
-| createdAt, updatedAt | DateTime | |
-| **Relations** | members, templates, experiments | No email, password, or Clerk. |
+
+| Field                | Type                            | Notes                                  |
+| -------------------- | ------------------------------- | -------------------------------------- |
+| id                   | String (cuid)                   | Primary key                            |
+| name                 | String                          |                                        |
+| description          | String?                         |                                        |
+| createdBy            | String                          | clerkUserId of creator (user, not org) |
+| createdAt, updatedAt | DateTime                        |                                        |
+| **Relations**        | members, templates, experiments | No email, password, or Clerk.          |
 
 ### OrganisationMember
-| Field | Type | Notes |
-|-------|------|--------|
-| id | String (cuid) | Primary key |
-| organisationId | String | FK → Organisation |
-| clerkUserId | String | FK → User |
-| role | String | "member" \| "team_manager" \| "org_admin" |
-| teamId, teamName | String? | Optional; no Team table |
-| joinedAt | DateTime | |
-| **Unique** | (organisationId, clerkUserId) | One membership per user per org |
+
+| Field            | Type                          | Notes                                     |
+| ---------------- | ----------------------------- | ----------------------------------------- |
+| id               | String (cuid)                 | Primary key                               |
+| organisationId   | String                        | FK → Organisation                         |
+| clerkUserId      | String                        | FK → User                                 |
+| role             | String                        | "member" \| "team_manager" \| "org_admin" |
+| teamId, teamName | String?                       | Optional; no Team table                   |
+| joinedAt         | DateTime                      |                                           |
+| **Unique**       | (organisationId, clerkUserId) | One membership per user per org           |
 
 ### Experiment
-| Field | Type | Notes |
-|-------|------|--------|
-| id | String (cuid) | Primary key |
-| clerkUserId | String | Owner (required) |
-| organisationId | String? | Optional link to org (context only) |
-| title, whyMatters, hypothesis, durationDays, frequency, status, … | | |
-| **Relations** | user?, organisation?, fields, checkIns | |
+
+| Field                                                             | Type                                   | Notes                               |
+| ----------------------------------------------------------------- | -------------------------------------- | ----------------------------------- |
+| id                                                                | String (cuid)                          | Primary key                         |
+| clerkUserId                                                       | String                                 | Owner (required)                    |
+| organisationId                                                    | String?                                | Optional link to org (context only) |
+| title, whyMatters, hypothesis, durationDays, frequency, status, … |                                        |                                     |
+| **Relations**                                                     | user?, organisation?, fields, checkIns |                                     |
 
 ### OrganisationTemplate / OrganisationTemplateField
+
 - **OrganisationTemplate:** organisationId, title, description, category, durationDays, frequency; relation to Organisation and OrganisationTemplateField.
 - **OrganisationTemplateField:** templateId, label, type, required, order, field config. No auth.
 
@@ -84,13 +89,13 @@ Out of scope for Phase 4 (no schema for these yet):
 
 ### 4.1 Per-model validation
 
-| Model | Matches Phase 1–2–3? | Org as identity? | Admin as account? | Misleading name but correct structure? |
-|-------|----------------------|-------------------|-------------------|----------------------------------------|
-| **User** | Yes. Single identity via clerkUserId. | No. accountType "organisation" is capability (can create orgs), not a second identity. | No. role "super_admin" is a role on User, not a separate account. | accountType "organisation" can sound like “org account”; meaning is “user with org capability.” |
-| **Organisation** | Yes. Workspace only; no auth fields. | No. No email, password, or Clerk. | N/A. | None. |
-| **OrganisationMember** | Yes. Links user to org with per-org role. | No. | No. org_admin / team_manager are roles on membership. | None. |
-| **Experiment** | Yes. clerkUserId owner; organisationId optional. | No. | N/A. | None. |
-| **OrganisationTemplate** | Yes. Org-scoped content. | No. | N/A. | None. |
+| Model                    | Matches Phase 1–2–3?                             | Org as identity?                                                                       | Admin as account?                                                 | Misleading name but correct structure?                                                          |
+| ------------------------ | ------------------------------------------------ | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **User**                 | Yes. Single identity via clerkUserId.            | No. accountType "organisation" is capability (can create orgs), not a second identity. | No. role "super_admin" is a role on User, not a separate account. | accountType "organisation" can sound like “org account”; meaning is “user with org capability.” |
+| **Organisation**         | Yes. Workspace only; no auth fields.             | No. No email, password, or Clerk.                                                      | N/A.                                                              | None.                                                                                           |
+| **OrganisationMember**   | Yes. Links user to org with per-org role.        | No.                                                                                    | No. org_admin / team_manager are roles on membership.             | None.                                                                                           |
+| **Experiment**           | Yes. clerkUserId owner; organisationId optional. | No.                                                                                    | N/A.                                                              | None.                                                                                           |
+| **OrganisationTemplate** | Yes. Org-scoped content.                         | No.                                                                                    | N/A.                                                              | None.                                                                                           |
 
 ### 4.2 Phase 4 capability check
 
@@ -115,4 +120,4 @@ The existing schema already supports creating organisations, adding/removing mem
 
 ---
 
-*Database Phase 4 alignment completed 2025-02-07. No schema changes. No APIs implemented. Proceed to Phase 4 implementation only after approval.*
+_Database Phase 4 alignment completed 2025-02-07. No schema changes. No APIs implemented. Proceed to Phase 4 implementation only after approval._

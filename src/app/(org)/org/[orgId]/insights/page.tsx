@@ -37,9 +37,7 @@ export default async function OrganisationInsightsPage({
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-semibold text-foreground mb-2">
-              Team Insights
-            </h1>
+            <h1 className="text-3xl font-semibold text-foreground mb-2">Team Insights</h1>
             <p className="text-muted-foreground">
               Aggregate insights from organisation-linked experiments
             </p>
@@ -57,11 +55,10 @@ export default async function OrganisationInsightsPage({
           <div className="flex items-start gap-3">
             <Shield className="w-5 h-5 text-violet shrink-0 mt-0.5" />
             <div>
-              <h3 className="font-semibold text-foreground mb-2">
-                Privacy Protected
-              </h3>
+              <h3 className="font-semibold text-foreground mb-2">Privacy Protected</h3>
               <p className="text-sm text-muted-foreground mb-2">
-                These insights are built from experiments linked to this organisation. They show patterns across the team, not individual journeys.
+                These insights are built from experiments linked to this organisation. They show
+                patterns across the team, not individual journeys.
               </p>
               <div className="text-sm text-muted-foreground space-y-1">
                 <p className="font-medium text-foreground">What you&apos;re seeing:</p>
@@ -111,10 +108,7 @@ export default async function OrganisationInsightsPage({
           </h2>
           <div className="space-y-3">
             {insights.topInsights.map((insight, index) => (
-              <div
-                key={index}
-                className="p-4 rounded-xl bg-muted/50 border border-border"
-              >
+              <div key={index} className="p-4 rounded-xl bg-muted/50 border border-border">
                 <p className="text-sm text-foreground">{insight}</p>
               </div>
             ))}
@@ -123,19 +117,12 @@ export default async function OrganisationInsightsPage({
 
         {/* Weekly Engagement */}
         <Card className="p-6">
-          <h2 className="text-xl font-semibold text-foreground mb-4">
-            Weekly Check-ins
-          </h2>
+          <h2 className="text-xl font-semibold text-foreground mb-4">Weekly Check-ins</h2>
           <div className="flex items-end justify-between gap-2 h-40">
             {insights.weeklyEngagement.map((day) => {
-              const maxCheckIns = Math.max(
-                ...insights.weeklyEngagement.map((d) => d.checkIns)
-              );
+              const maxCheckIns = Math.max(...insights.weeklyEngagement.map((d) => d.checkIns));
               return (
-                <div
-                  key={day.day}
-                  className="flex-1 flex flex-col items-center gap-2"
-                >
+                <div key={day.day} className="flex-1 flex flex-col items-center gap-2">
                   <div
                     className="w-full bg-linear-to-t from-primary to-violet rounded-t-lg transition-all"
                     style={{

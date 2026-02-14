@@ -31,7 +31,7 @@ export async function GET() {
             error: "Database connection error",
             details: "Unable to connect to database",
           },
-          { status: 500 },
+          { status: 500 }
         );
       }
     }
@@ -40,9 +40,8 @@ export async function GET() {
     const client = await clerkClient();
     const clerkUser = await client.users.getUser(userId);
     const email =
-      clerkUser.emailAddresses.find(
-        (e: { id: string }) => e.id === clerkUser.primaryEmailAddressId,
-      )?.emailAddress ?? null;
+      clerkUser.emailAddresses.find((e: { id: string }) => e.id === clerkUser.primaryEmailAddressId)
+        ?.emailAddress ?? null;
 
     // Get or create user
     let user = await prisma.user.findUnique({
@@ -109,10 +108,7 @@ export async function GET() {
     }
 
     if (!user) {
-      return NextResponse.json(
-        { error: "User not found after create" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "User not found after create" }, { status: 500 });
     }
 
     // Check if user is a participant (has org memberships OR has experiments linked to orgs)
@@ -127,9 +123,7 @@ export async function GET() {
     const role = (user as { role?: string }).role ?? "user";
     // Super admin: treat as upgraded for API (full access)
     const upgradedAt =
-      role === "super_admin"
-        ? user.upgradedAt ?? user.createdAt
-        : user.upgradedAt;
+      role === "super_admin" ? (user.upgradedAt ?? user.createdAt) : user.upgradedAt;
 
     return NextResponse.json({
       id: user.id,
@@ -151,13 +145,12 @@ export async function GET() {
     });
   } catch (error) {
     console.error("Error fetching user:", error);
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     const errorDetails = error instanceof Error ? error.stack : String(error);
     console.error("Error details:", errorDetails);
     return NextResponse.json(
       { error: "Failed to fetch user", details: errorMessage },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -1,6 +1,6 @@
 /**
  * Experiment Domain Types
- * 
+ *
  * UI-facing types and business logic types for experiments.
  * These may differ from database types for presentation purposes.
  */
@@ -27,7 +27,7 @@ export interface CustomField {
   type: FieldType;
   required: boolean;
   order: number;
-  
+
   // Type-specific options
   options?: string[]; // For select type
   minValue?: number; // For number type

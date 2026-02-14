@@ -6,10 +6,7 @@ import { prisma } from "@/lib/prisma";
  * POST /api/org-invites/[token]/accept — Accept invite (Phase 5).
  * Auth required. Invite email must match signed-in user email.
  */
-export async function POST(
-  _req: Request,
-  { params }: { params: Promise<{ token: string }> }
-) {
+export async function POST(_req: Request, { params }: { params: Promise<{ token: string }> }) {
   const userId = await getAuthenticatedUserId();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -23,25 +20,16 @@ export async function POST(
   });
 
   if (!invite) {
-    return NextResponse.json(
-      { error: "Invalid or expired invite" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "Invalid or expired invite" }, { status: 404 });
   }
 
   if (invite.acceptedAt) {
-    return NextResponse.json(
-      { error: "This invite has already been accepted" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "This invite has already been accepted" }, { status: 404 });
   }
 
   const now = new Date();
   if (invite.expiresAt < now) {
-    return NextResponse.json(
-      { error: "This invite has expired" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "This invite has expired" }, { status: 404 });
   }
 
   const user = await prisma.user.findUnique({

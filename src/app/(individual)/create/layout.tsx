@@ -17,15 +17,9 @@ import { GeneralErrorFallback } from "@/components/GeneralErrorFallback";
  * Note: Resizable panels need full viewport height, so we use h-screen
  * instead of Container which constrains width/height.
  */
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ErrorBoundary
-      fallbackRender={(props) => <GeneralErrorFallback {...props} />}
-    >
+    <ErrorBoundary fallbackRender={(props) => <GeneralErrorFallback {...props} />}>
       <Suspense
         fallback={
           <div className="h-[calc(100vh-4rem)] flex items-center justify-center">

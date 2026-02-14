@@ -106,9 +106,7 @@ export function ExperimentFormPanel() {
     } catch (error) {
       console.error("Error creating experiment:", error);
       alert(
-        error instanceof Error
-          ? error.message
-          : "Failed to create experiment. Please try again."
+        error instanceof Error ? error.message : "Failed to create experiment. Please try again."
       );
     } finally {
       setIsSubmitting(false);
@@ -122,12 +120,8 @@ export function ExperimentFormPanel() {
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                New Experiment
-              </h2>
-              <p className="text-sm text-muted-foreground mt-1">
-                Design your reflection
-              </p>
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground">New Experiment</h2>
+              <p className="text-sm text-muted-foreground mt-1">Design your reflection</p>
             </div>
             <div className="flex items-center gap-2">
               <Button
@@ -182,10 +176,7 @@ export function ExperimentFormPanel() {
 
               <div className="space-y-4">
                 <div>
-                  <Label
-                    htmlFor="title"
-                    className="text-sm font-medium mb-2 block"
-                  >
+                  <Label htmlFor="title" className="text-sm font-medium mb-2 block">
                     Experiment Title
                   </Label>
                   <Input
@@ -198,10 +189,7 @@ export function ExperimentFormPanel() {
                 </div>
 
                 <div>
-                  <Label
-                    htmlFor="why"
-                    className="text-sm font-medium mb-2 block"
-                  >
+                  <Label htmlFor="why" className="text-sm font-medium mb-2 block">
                     Why This Matters (Context)
                   </Label>
                   <Textarea
@@ -214,10 +202,7 @@ export function ExperimentFormPanel() {
                 </div>
 
                 <div>
-                  <Label
-                    htmlFor="hypothesis"
-                    className="text-sm font-medium mb-2 block"
-                  >
+                  <Label htmlFor="hypothesis" className="text-sm font-medium mb-2 block">
                     Your Hypothesis
                   </Label>
                   <Textarea
@@ -244,10 +229,7 @@ export function ExperimentFormPanel() {
                 <div className="space-y-5">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label
-                        htmlFor="duration"
-                        className="text-sm font-medium mb-2 block"
-                      >
+                      <Label htmlFor="duration" className="text-sm font-medium mb-2 block">
                         Duration (days)
                       </Label>
                       <Input
@@ -262,24 +244,16 @@ export function ExperimentFormPanel() {
                     </div>
 
                     <div>
-                      <Label
-                        htmlFor="frequency"
-                        className="text-sm font-medium mb-2 block"
-                      >
+                      <Label htmlFor="frequency" className="text-sm font-medium mb-2 block">
                         Check-in Frequency
                       </Label>
                       <Select value={frequency} onValueChange={setFrequency}>
-                        <SelectTrigger
-                          id="frequency"
-                          className="rounded-2xl border-border/50"
-                        >
+                        <SelectTrigger id="frequency" className="rounded-2xl border-border/50">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="daily">Daily</SelectItem>
-                          <SelectItem value="every-2-days">
-                            Every 2 Days
-                          </SelectItem>
+                          <SelectItem value="every-2-days">Every 2 Days</SelectItem>
                           <SelectItem value="weekly">Weekly</SelectItem>
                         </SelectContent>
                       </Select>
@@ -295,52 +269,36 @@ export function ExperimentFormPanel() {
                     <Pencil className="w-4 h-4 text-primary" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-base font-semibold">
-                      What Will You Track?
-                    </h3>
+                    <h3 className="text-base font-semibold">What Will You Track?</h3>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      Add multiple fields to record different observations each
-                      day
+                      Add multiple fields to record different observations each day
                     </p>
                   </div>
                 </div>
 
-                <CustomFieldBuilder
-                  fields={customFields}
-                  onChange={setCustomFields}
-                />
+                <CustomFieldBuilder fields={customFields} onChange={setCustomFields} />
               </Card>
             </div>
 
             {/* Faith Lens Card */}
-            <Card className="p-5 md:p-6 bg-gradient-to-br from-secondary/10 to-accent/10 backdrop-blur-sm border-secondary/20 rounded-3xl shadow-sm">
+            <Card className="p-5 md:p-6 bg-gradient-to-br from-second/10 to-accent/10 backdrop-blur-sm border-second/20 rounded-3xl shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-secondary/20 flex items-center justify-center">
-                    <BookOpen className="w-5 h-5 text-secondary" />
+                  <div className="w-10 h-10 rounded-2xl bg-second/20 flex items-center justify-center">
+                    <BookOpen className="w-5 h-5 text-second" />
                   </div>
                   <div>
-                    <h3 className="text-base font-semibold text-foreground">
-                      Faith Lens
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      Optional spiritual reflection
-                    </p>
+                    <h3 className="text-base font-semibold text-foreground">Faith Lens</h3>
+                    <p className="text-xs text-muted-foreground">Optional spiritual reflection</p>
                   </div>
                 </div>
-                <Switch
-                  checked={faithLensEnabled}
-                  onCheckedChange={setFaithLensEnabled}
-                />
+                <Switch checked={faithLensEnabled} onCheckedChange={setFaithLensEnabled} />
               </div>
 
               {faithLensEnabled && (
                 <div className="space-y-4 pt-3 border-t border-border/20">
                   <div>
-                    <Label
-                      htmlFor="scriptures"
-                      className="text-sm font-medium mb-2 block"
-                    >
+                    <Label htmlFor="scriptures" className="text-sm font-medium mb-2 block">
                       Relevant Scriptures or Spiritual Reflections
                     </Label>
                     <Textarea
@@ -383,9 +341,7 @@ export function ExperimentFormPanel() {
                   <div key={field.id} className="p-3 rounded-xl bg-muted/50">
                     <Label className="text-xs mb-2 block">
                       {field.label}
-                      {field.required && (
-                        <span className="text-primary ml-1">*</span>
-                      )}
+                      {field.required && <span className="text-primary ml-1">*</span>}
                     </Label>
                     {field.type === "text" &&
                       (field.textType === "long" ? (
@@ -405,9 +361,7 @@ export function ExperimentFormPanel() {
                       <div className="space-y-2">
                         <Input
                           type="number"
-                          placeholder={`${field.minValue || 0} - ${
-                            field.maxValue || 10
-                          }`}
+                          placeholder={`${field.minValue || 0} - ${field.maxValue || 10}`}
                           className="rounded-lg"
                           disabled
                         />
@@ -449,18 +403,16 @@ export function ExperimentFormPanel() {
                             </button>
                           ))}
                         {field.emojiCount === 7 &&
-                          ["😫", "😔", "😕", "😐", "😊", "😄", "🤩"].map(
-                            (emoji) => (
-                              <button
-                                key={emoji}
-                                type="button"
-                                className="w-10 h-10 rounded-xl hover:bg-primary/10 transition-colors"
-                                disabled
-                              >
-                                {emoji}
-                              </button>
-                            )
-                          )}
+                          ["😫", "😔", "😕", "😐", "😊", "😄", "🤩"].map((emoji) => (
+                            <button
+                              key={emoji}
+                              type="button"
+                              className="w-10 h-10 rounded-xl hover:bg-primary/10 transition-colors"
+                              disabled
+                            >
+                              {emoji}
+                            </button>
+                          ))}
                       </div>
                     )}
                     {field.type === "yesno" && (

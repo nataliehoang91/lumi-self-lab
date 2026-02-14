@@ -32,11 +32,7 @@ export function CreationMethodSelector({
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <Button
-          variant="ghost"
-          onClick={onBack}
-          className="mb-6"
-        >
+        <Button variant="ghost" onClick={onBack} className="mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
@@ -45,9 +41,7 @@ export function CreationMethodSelector({
           <h1 className="text-3xl font-semibold text-foreground mb-2">
             How do you want to create it?
           </h1>
-          <p className="text-muted-foreground">
-            Choose a method that works best for you
-          </p>
+          <p className="text-muted-foreground">Choose a method that works best for you</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-4">
@@ -90,8 +84,8 @@ export function CreationMethodSelector({
             className="p-6 cursor-pointer hover:border-primary transition-all"
             onClick={() => onSelect("manual")}
           >
-            <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-4">
-              <PenTool className="w-6 h-6 text-secondary" />
+            <div className="w-12 h-12 rounded-xl bg-second/10 flex items-center justify-center mb-4">
+              <PenTool className="w-6 h-6 text-second" />
             </div>
             <h3 className="font-semibold text-foreground mb-2">Manual</h3>
             <p className="text-sm text-muted-foreground">

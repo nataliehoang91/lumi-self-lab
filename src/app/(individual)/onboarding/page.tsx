@@ -2,13 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  HelpCircle,
-  Lightbulb,
-  Target,
-  ArrowRight,
-  Compass,
-} from "lucide-react";
+import { HelpCircle, Lightbulb, Target, ArrowRight, Compass } from "lucide-react";
 
 export default function OnboardingPage() {
   const [hoveredOption, setHoveredOption] = useState<string | null>(null);
@@ -18,22 +12,18 @@ export default function OnboardingPage() {
       id: "dont-know",
       icon: HelpCircle,
       title: "I'm not sure what to track",
-      description:
-        "Let me guide you with a few questions to discover what matters most",
+      description: "Let me guide you with a few questions to discover what matters most",
       href: "/onboarding/guided",
-      gradient:
-        "from-violet-100 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/20",
+      gradient: "from-violet-100 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/20",
       iconBg: "bg-violet-500",
     },
     {
       id: "have-idea",
       icon: Lightbulb,
       title: "I have something in mind",
-      description:
-        "Create a custom experiment from scratch with full flexibility",
+      description: "Create a custom experiment from scratch with full flexibility",
       href: "/create",
-      gradient:
-        "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
+      gradient: "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
       iconBg: "bg-amber-500",
     },
     {
@@ -42,8 +32,7 @@ export default function OnboardingPage() {
       title: "Show me templates",
       description: "Browse proven experiments from your organisation's library",
       href: "/templates",
-      gradient:
-        "from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20",
+      gradient: "from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20",
       iconBg: "bg-sky-500",
     },
   ];
@@ -60,8 +49,8 @@ export default function OnboardingPage() {
             What would you like to explore?
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Self-experiments help you understand yourself better. There's no
-            right or wrong way to start.
+            Self-experiments help you understand yourself better. There's no right or wrong way to
+            start.
           </p>
         </div>
 
@@ -108,9 +97,7 @@ export default function OnboardingPage() {
                       <h3 className="text-xl md:text-2xl font-medium text-foreground mb-2">
                         {option.title}
                       </h3>
-                      <p className="text-muted-foreground">
-                        {option.description}
-                      </p>
+                      <p className="text-muted-foreground">{option.description}</p>
                     </div>
 
                     <div
@@ -118,11 +105,7 @@ export default function OnboardingPage() {
                       flex-shrink-0 w-10 h-10 rounded-full bg-white/50 dark:bg-white/10
                       flex items-center justify-center
                       transition-all duration-300
-                      ${
-                        isHovered
-                          ? "bg-primary text-primary-foreground translate-x-1"
-                          : ""
-                      }
+                      ${isHovered ? "bg-primary text-primary-foreground translate-x-1" : ""}
                     `}
                     >
                       <ArrowRight className="w-5 h-5" />

@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CheckInReminderBanner } from "@/components/Experiment/CheckInReminderBanner";
+import { CheckInTimeline } from "@/components/Experiment/CheckInTimeline";
+import { CheckInDatePicker } from "@/components/Experiment/CheckInDatePicker";
+import { getTodayUTC } from "@/lib/date-utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -35,11 +38,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CheckInForm } from "@/components/CheckInForm";
-import type {
-  UIExperimentDetail,
-  CustomField,
-  ExperimentStatus,
-} from "@/types";
+import type { UIExperimentDetail, CustomField, ExperimentStatus } from "@/types";
 
 /**
  * Get emoji based on rank (1-based) and emoji count
@@ -72,15 +71,11 @@ const formatFieldResponse = (response: {
 }): string => {
   if (response.responseText) return response.responseText;
   if (response.selectedOption) return response.selectedOption;
-  if (response.responseBool !== undefined)
-    return response.responseBool ? "Yes" : "No";
+  if (response.responseBool !== undefined) return response.responseBool ? "Yes" : "No";
   if (response.responseNumber !== undefined) {
     // Check if it's an emoji field
     if (response.field.type === "emoji" && response.field.emojiCount) {
-      return getEmojiForRank(
-        response.responseNumber,
-        response.field.emojiCount
-      );
+      return getEmojiForRank(response.responseNumber, response.field.emojiCount);
     }
     // Otherwise it's a number
     return String(response.responseNumber);
@@ -99,14 +94,13 @@ type ReminderState = {
   snoozedUntil?: string | null;
 };
 
-export function ExperimentDetailClient({
-  experiment,
-}: ExperimentDetailClientProps) {
+export function ExperimentDetailClient({ experiment }: ExperimentDetailClientProps) {
   const router = useRouter();
   const [isCheckInDialogOpen, setIsCheckInDialogOpen] = useState(false);
   const [isPreviewDialogOpen, setIsPreviewDialogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [reminder, setReminder] = useState<ReminderState | null>(null);
+  const [selectedDate, setSelectedDate] = useState(() => getTodayUTC());
 
   useEffect(() => {
     let cancelled = false;
@@ -274,8 +268,8 @@ export function ExperimentDetailClient({
           field.emojiCount === 3
             ? ["😔", "😐", "😊"]
             : field.emojiCount === 5
-            ? ["😔", "😕", "😐", "😊", "😄"]
-            : ["😫", "😔", "😕", "😐", "😊", "😄", "🤩"];
+              ? ["😔", "😕", "😐", "😊", "😄"]
+              : ["😫", "😔", "😕", "😐", "😊", "😄", "🤩"];
         return (
           <div className="space-y-2">
             <div className="flex gap-2 justify-center">
@@ -341,7 +335,7 @@ export function ExperimentDetailClient({
             </Link>
           </Button>
           <Link href="/" className="inline-flex items-center gap-2">
-            <FlaskConical className="w-6 h-6 text-secondary" />
+            <FlaskConical className="w-6 h-6 text-second" />
             <span className="font-bold text-foreground">Self-Lab</span>
           </Link>
         </div>
@@ -350,8 +344,7 @@ export function ExperimentDetailClient({
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-3">
             <Badge className={getStatusColor(experiment.status)}>
-              {experiment.status.charAt(0).toUpperCase() +
-                experiment.status.slice(1)}
+              {experiment.status.charAt(0).toUpperCase() + experiment.status.slice(1)}
             </Badge>
             {/* Org Badge - Mock: replace with real data */}
             {false && ( // TODO: Replace with experiment.orgId check
@@ -376,9 +369,7 @@ export function ExperimentDetailClient({
               </SelectContent>
             </Select>
           </div>
-          <h1 className="text-4xl font-bold text-foreground mb-4">
-            {experiment.title}
-          </h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">{experiment.title}</h1>
 
           <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
             {experiment.startDate && (
@@ -393,9 +384,7 @@ export function ExperimentDetailClient({
             </div>
             <div className="flex items-center gap-2">
               <Target className="w-4 h-4" />
-              <span className="capitalize">
-                {experiment.frequency} check-ins
-              </span>
+              <span className="capitalize">{experiment.frequency} check-ins</span>
             </div>
           </div>
 
@@ -406,10 +395,7 @@ export function ExperimentDetailClient({
                 <span className="text-muted-foreground">Progress</span>
                 <span className="font-medium text-foreground">
                   {experiment.daysCompleted}/{experiment.duration} days (
-                  {getProgressPercentage(
-                    experiment.daysCompleted,
-                    experiment.duration
-                  )}
+                  {getProgressPercentage(experiment.daysCompleted, experiment.duration)}
                   %)
                 </span>
               </div>
@@ -444,7 +430,10 @@ export function ExperimentDetailClient({
                 experiment.startDate &&
                 experiment.fields.length > 0 && (
                   <Button
-                    onClick={() => setIsCheckInDialogOpen(true)}
+                    onClick={() => {
+                      setSelectedDate(getTodayUTC());
+                      setIsCheckInDialogOpen(true);
+                    }}
                     size="sm"
                     className="bg-amber-600 hover:bg-amber-700 text-white"
                   >
@@ -459,23 +448,15 @@ export function ExperimentDetailClient({
         <div className="space-y-6 mb-8">
           {experiment.whyMatters && (
             <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-              <h3 className="text-lg font-semibold text-foreground mb-2">
-                Why This Matters
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {experiment.whyMatters}
-              </p>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Why This Matters</h3>
+              <p className="text-muted-foreground leading-relaxed">{experiment.whyMatters}</p>
             </Card>
           )}
 
           {experiment.hypothesis && (
             <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-              <h3 className="text-lg font-semibold text-foreground mb-2">
-                My Hypothesis
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {experiment.hypothesis}
-              </p>
+              <h3 className="text-lg font-semibold text-foreground mb-2">My Hypothesis</h3>
+              <p className="text-muted-foreground leading-relaxed">{experiment.hypothesis}</p>
             </Card>
           )}
 
@@ -485,14 +466,10 @@ export function ExperimentDetailClient({
                 <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
                   <Book className="w-4 h-4 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">
-                  Faith Lens
-                </h3>
+                <h3 className="text-lg font-semibold text-foreground">Faith Lens</h3>
               </div>
               <div>
-                <p className="text-sm font-medium text-foreground mb-1">
-                  Related Scriptures
-                </p>
+                <p className="text-sm font-medium text-foreground mb-1">Related Scriptures</p>
                 <p className="text-sm text-muted-foreground leading-relaxed italic">
                   {experiment.scriptureNotes}
                 </p>
@@ -517,9 +494,7 @@ export function ExperimentDetailClient({
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-foreground">Organisation</h3>
               <Button variant="outline" size="sm" asChild>
-                <Link href={`/experiments/${experiment.id}/org-linking`}>
-                  Manage
-                </Link>
+                <Link href={`/experiments/${experiment.id}/org-linking`}>Manage</Link>
               </Button>
             </div>
             <div className="text-sm text-muted-foreground">
@@ -576,13 +551,52 @@ export function ExperimentDetailClient({
           {experiment.status === "active" &&
             experiment.startDate &&
             experiment.fields.length > 0 && (
-              <Button
-                onClick={() => setIsCheckInDialogOpen(true)}
-                className="w-full py-6 rounded-3xl bg-linear-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <Plus className="w-5 h-5 mr-2" />
-                Check-in
-              </Button>
+              <>
+                <Button
+                  onClick={() => {
+                    setSelectedDate(getTodayUTC());
+                    setIsCheckInDialogOpen(true);
+                  }}
+                  className="w-full py-6 rounded-3xl bg-linear-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <Plus className="w-5 h-5 mr-2" />
+                  Check-in
+                </Button>
+
+                {/* Phase C.2: Check-in by date */}
+                <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
+                  <h3 className="font-semibold text-foreground mb-3">Check-in by date</h3>
+                  <div className="flex flex-col sm:flex-row gap-6">
+                    <div className="flex-1 min-w-0">
+                      <CheckInDatePicker
+                        selectedDate={selectedDate}
+                        onChange={(date) => {
+                          setSelectedDate(date);
+                          setIsCheckInDialogOpen(true);
+                        }}
+                      />
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Pick any date to add or edit. Click a date below to view or edit a past
+                        check-in.
+                      </p>
+                    </div>
+                    {experiment.checkIns.length > 0 && (
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground mb-2">
+                          Past check-ins (click to edit)
+                        </p>
+                        <CheckInTimeline
+                          checkIns={experiment.checkIns}
+                          onSelectDate={(date) => {
+                            setSelectedDate(date);
+                            setIsCheckInDialogOpen(true);
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </Card>
+              </>
             )}
 
           {/* Completed: Show Results button */}
@@ -600,33 +614,47 @@ export function ExperimentDetailClient({
           )}
         </div>
 
-        {/* Check-In Dialog */}
-        <Dialog
-          open={isCheckInDialogOpen}
-          onOpenChange={setIsCheckInDialogOpen}
-        >
+        {/* Check-In Dialog (Phase C.2: any date, create or edit) */}
+        <Dialog open={isCheckInDialogOpen} onOpenChange={setIsCheckInDialogOpen}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl">
             <DialogHeader>
-              <DialogTitle>Add Check-in</DialogTitle>
-              <DialogDescription>
-                Fill in your responses for today&apos;s check-in
-              </DialogDescription>
+              <DialogTitle>
+                {experiment.checkIns.some((c) => c.checkInDate === selectedDate)
+                  ? "Edit check-in"
+                  : "Add check-in"}
+              </DialogTitle>
+              <DialogDescription>Fill in your responses for this date</DialogDescription>
             </DialogHeader>
+            <div className="mb-4">
+              <CheckInDatePicker
+                selectedDate={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+              />
+            </div>
+            {/* Phase C.3: Already checked in today warning (soft) */}
+            {getTodayUTC() === selectedDate &&
+              experiment.checkIns.some((c) => c.checkInDate === selectedDate) && (
+                <div className="mb-4 rounded-xl bg-amber-500/10 border border-amber-500/30 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+                  You&apos;ve already checked in today. Updating will overwrite today&apos;s entry.
+                </div>
+              )}
             <CheckInForm
               experimentId={experiment.id}
               fields={experiment.fields}
               onSuccess={handleCheckInSuccess}
               hideCard={true}
               hideTitle={true}
+              selectedDate={selectedDate}
+              initialCheckIn={
+                experiment.checkIns.find((c) => c.checkInDate === selectedDate) ?? null
+              }
+              hideDateInput={true}
             />
           </DialogContent>
         </Dialog>
 
         {/* Preview Experiment Template Dialog */}
-        <Dialog
-          open={isPreviewDialogOpen}
-          onOpenChange={setIsPreviewDialogOpen}
-        >
+        <Dialog open={isPreviewDialogOpen} onOpenChange={setIsPreviewDialogOpen}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
@@ -639,15 +667,10 @@ export function ExperimentDetailClient({
             </DialogHeader>
             <div className="space-y-4 mt-4">
               {experiment.fields.map((field) => (
-                <div
-                  key={field.id}
-                  className="p-4 rounded-xl bg-muted/30 border border-border/30"
-                >
+                <div key={field.id} className="p-4 rounded-xl bg-muted/30 border border-border/30">
                   <label className="text-sm font-medium text-foreground mb-2 block">
                     {field.label}
-                    {field.required && (
-                      <span className="text-primary ml-1">*</span>
-                    )}
+                    {field.required && <span className="text-primary ml-1">*</span>}
                   </label>
                   {renderFieldPreview(field)}
                 </div>
@@ -659,32 +682,22 @@ export function ExperimentDetailClient({
         {/* Check-in History */}
         {experiment.checkIns.length > 0 && (
           <div>
-            <h3 className="text-2xl font-bold text-foreground mb-4">
-              Check-in History
-            </h3>
+            <h3 className="text-2xl font-bold text-foreground mb-4">Check-in History</h3>
             <div className="space-y-4">
               {experiment.checkIns.map((checkIn) => {
                 const dayNumber = getDayNumber(checkIn.checkInDate);
 
                 return (
-                  <Card
-                    key={checkIn.id}
-                    className="p-6 bg-card/80 backdrop-blur border-border/50"
-                  >
+                  <Card key={checkIn.id} className="p-6 bg-card/80 backdrop-blur border-border/50">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <p className="font-semibold text-foreground">
-                          Day {dayNumber}
-                        </p>
+                        <p className="font-semibold text-foreground">Day {dayNumber}</p>
                         <p className="text-sm text-muted-foreground">
-                          {new Date(checkIn.checkInDate).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )}
+                          {new Date(checkIn.checkInDate).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
                         </p>
                       </div>
                     </div>
@@ -713,9 +726,7 @@ export function ExperimentDetailClient({
                     {/* Notes */}
                     {checkIn.notes && (
                       <div className="pt-3 border-t border-border/50">
-                        <p className="text-sm font-medium text-foreground mb-1">
-                          Notes
-                        </p>
+                        <p className="text-sm font-medium text-foreground mb-1">Notes</p>
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           {checkIn.notes}
                         </p>

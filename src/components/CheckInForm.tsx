@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -19,15 +19,22 @@ import {
   RadioGroupCustom as RadioGroup,
   RadioGroupItemCustom as RadioGroupItem,
 } from "@/components/ui/radio-group-custom";
-import type { CustomField, CreateFieldResponseRequest } from "@/types";
+import type { CustomField, CreateFieldResponseRequest, UICheckIn } from "@/types";
+import { getTodayUTC } from "@/lib/date-utils";
 import { Calendar } from "lucide-react";
 
 interface CheckInFormProps {
   experimentId: string;
   fields: CustomField[];
   onSuccess?: () => void;
-  hideCard?: boolean; // Option to hide the Card wrapper (useful in dialogs)
-  hideTitle?: boolean; // Option to hide the title (useful in dialogs)
+  hideCard?: boolean;
+  hideTitle?: boolean;
+  /** Phase C.2: When set, form uses this date and prefills from initialCheckIn if provided. */
+  selectedDate?: string;
+  /** Phase C.2: Existing check-in for selectedDate; prefills notes and responses. */
+  initialCheckIn?: UICheckIn | null;
+  /** When true, hide the date input (date controlled by parent e.g. CheckInDatePicker). */
+  hideDateInput?: boolean;
 }
 
 /**
@@ -50,28 +57,42 @@ export function CheckInForm({
   onSuccess,
   hideCard = false,
   hideTitle = false,
+  selectedDate: selectedDateProp,
+  initialCheckIn,
+  hideDateInput = false,
 }: CheckInFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // State for check-in date (defaults to today)
-  const today = new Date().toISOString().split("T")[0];
-  const [checkInDate, setCheckInDate] = useState(today);
+  const today = getTodayUTC();
+  const [checkInDate, setCheckInDate] = useState(selectedDateProp ?? today);
   const [notes, setNotes] = useState("");
+  const [responses, setResponses] = useState<Record<string, string | number | boolean>>({});
 
-  // State for field responses: { fieldId: responseValue }
-  const [responses, setResponses] = useState<
-    Record<string, string | number | boolean>
-  >({});
+  // Phase C.2: Sync date and prefill when selectedDate / initialCheckIn change
+  useEffect(() => {
+    setCheckInDate(selectedDateProp ?? getTodayUTC());
+    if (initialCheckIn) {
+      setNotes(initialCheckIn.notes ?? "");
+      const next: Record<string, string | number | boolean> = {};
+      for (const r of initialCheckIn.responses) {
+        if (r.responseText !== undefined) next[r.fieldId] = r.responseText;
+        else if (r.responseNumber !== undefined) next[r.fieldId] = r.responseNumber;
+        else if (r.responseBool !== undefined) next[r.fieldId] = r.responseBool;
+        else if (r.selectedOption !== undefined) next[r.fieldId] = r.selectedOption;
+      }
+      setResponses(next);
+    } else {
+      setNotes("");
+      setResponses({});
+    }
+  }, [selectedDateProp, initialCheckIn]);
 
   /**
    * Handle response change for different field types
    */
-  const handleResponseChange = (
-    fieldId: string,
-    value: string | number | boolean
-  ) => {
+  const handleResponseChange = (fieldId: string, value: string | number | boolean) => {
     setResponses((prev) => ({ ...prev, [fieldId]: value }));
   };
 
@@ -83,16 +104,63 @@ export function CheckInForm({
   };
 
   /**
-   * Validate required fields
+   * Phase C.3: Per-field validation error (required, text non-empty, number min/max). Null if valid.
+   */
+  const getFieldError = (field: CustomField): string | null => {
+    const value = responses[field.id];
+    if (field.required) {
+      if (value === undefined || value === null) return "Required";
+      if (field.type === "text") {
+        const s = String(value).trim();
+        if (s === "") return "Required";
+      }
+      if (field.type === "number" && typeof value === "number") {
+        const min = field.minValue ?? 0;
+        const max = field.maxValue ?? 10;
+        if (value < min || value > max) return `Must be between ${min} and ${max}`;
+      }
+      if (field.type === "emoji" && typeof value === "number") {
+        const max = field.emojiCount ?? 5;
+        if (value < 1 || value > max) return `Choose 1–${max}`;
+      }
+    }
+    if (field.type === "text" && value !== undefined && value !== null && value !== "") {
+      if (String(value).trim() === "") return "Required";
+    }
+    if (field.type === "number" && value !== undefined && value !== null && value !== "") {
+      const n = Number(value);
+      const min = field.minValue ?? 0;
+      const max = field.maxValue ?? 10;
+      if (Number.isNaN(n) || n < min || n > max) return `Must be between ${min} and ${max}`;
+    }
+    return null;
+  };
+
+  const fieldErrors = Object.fromEntries(fields.map((f) => [f.id, getFieldError(f)])) as Record<
+    string,
+    string | null
+  >;
+  const isFormValid = fields.every((f) => !fieldErrors[f.id]);
+
+  const totalRequiredFields = fields.filter((f) => f.required).length;
+  const filledRequiredFields = fields.filter((f) => f.required && !getFieldError(f)).length;
+
+  const hasStructuredData = fields.some((f) => {
+    if (f.type === "text") return false;
+    const v = responses[f.id];
+    return v !== undefined && v !== null && v !== "";
+  });
+  const showNotesNudge = hasStructuredData && !notes.trim();
+
+  /**
+   * Validate required fields (for submit guard)
    */
   const validateForm = (): boolean => {
     for (const field of fields) {
-      if (field.required) {
-        const value = responses[field.id];
-        if (value === undefined || value === null || value === "") {
-          setError(`Please fill in "${field.label}" (required)`);
-          return false;
-        }
+      const err = getFieldError(field);
+      if (err) {
+        setError(`${field.label}: ${err}`);
+        return false;
       }
     }
     return true;
@@ -148,20 +216,17 @@ export function CheckInForm({
     try {
       const apiResponses = transformResponsesToAPI();
 
-      const response = await fetch(
-        `/api/experiments/${experimentId}/checkins`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            checkInDate,
-            notes: notes || null,
-            responses: apiResponses,
-          }),
-        }
-      );
+      const response = await fetch(`/api/experiments/${experimentId}/checkins`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          checkInDate,
+          notes: notes || null,
+          responses: apiResponses,
+        }),
+      });
 
       if (!response.ok) {
         const error = await response.json();
@@ -171,7 +236,7 @@ export function CheckInForm({
       // Success - reset form and refresh
       setResponses({});
       setNotes("");
-      setCheckInDate(today);
+      setCheckInDate(selectedDateProp ?? today);
 
       if (onSuccess) {
         onSuccess();
@@ -180,9 +245,7 @@ export function CheckInForm({
       }
     } catch (err) {
       console.error("Error creating check-in:", err);
-      setError(
-        err instanceof Error ? err.message : "Failed to create check-in"
-      );
+      setError(err instanceof Error ? err.message : "Failed to create check-in");
     } finally {
       setIsSubmitting(false);
     }
@@ -190,187 +253,181 @@ export function CheckInForm({
 
   const formContent = (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Date Selection */}
-      <div>
-        <Label htmlFor="checkInDate" className="text-sm font-medium mb-2 block">
-          Date
-        </Label>
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-muted-foreground" />
-          <Input
-            id="checkInDate"
-            type="date"
-            value={checkInDate}
-            onChange={(e) => setCheckInDate(e.target.value)}
-            className="rounded-2xl border-border/50 max-w-xs"
-            required
-          />
+      {/* Phase C.3: Check-in completeness */}
+      {totalRequiredFields > 0 && (
+        <p className="text-sm text-muted-foreground">
+          Check-in completeness: {filledRequiredFields} / {totalRequiredFields}
+        </p>
+      )}
+
+      {/* Date Selection (hidden when date is controlled by parent e.g. dialog with CheckInDatePicker) */}
+      {!hideDateInput && (
+        <div>
+          <Label htmlFor="checkInDate" className="text-sm font-medium mb-2 block">
+            Date
+          </Label>
+          <div className="flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-muted-foreground" />
+            <Input
+              id="checkInDate"
+              type="date"
+              value={checkInDate}
+              onChange={(e) => setCheckInDate(e.target.value)}
+              className="rounded-2xl border-border/50 max-w-xs"
+              required
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Field Responses */}
       <div className="space-y-5">
-        {fields.map((field) => (
-          <div key={field.id} className="space-y-2">
-            <Label
-              htmlFor={`field-${field.id}`}
-              className="text-sm font-medium"
-            >
-              {field.label}
-              {field.required && <span className="text-primary ml-1">*</span>}
-            </Label>
+        {fields.map((field) => {
+          const fieldError = fieldErrors[field.id];
+          return (
+            <div key={field.id} className="space-y-2">
+              <Label htmlFor={`field-${field.id}`} className="text-sm font-medium">
+                {field.label}
+                {field.required && <span className="text-primary ml-1">*</span>}
+              </Label>
 
-            {/* Text Field */}
-            {field.type === "text" &&
-              (field.textType === "long" ? (
-                <Textarea
-                  id={`field-${field.id}`}
-                  value={(getResponseValue(field.id) as string) || ""}
-                  onChange={(e) =>
-                    handleResponseChange(field.id, e.target.value)
-                  }
-                  placeholder="Type your response..."
-                  className="rounded-2xl border-border/50 min-h-24 resize-none"
-                  required={field.required}
-                />
-              ) : (
-                <Input
-                  id={`field-${field.id}`}
-                  type="text"
-                  value={(getResponseValue(field.id) as string) || ""}
-                  onChange={(e) =>
-                    handleResponseChange(field.id, e.target.value)
-                  }
-                  placeholder="Type your response..."
-                  className="rounded-2xl border-border/50"
-                  required={field.required}
-                />
-              ))}
-
-            {/* Number Field */}
-            {field.type === "number" && (
-              <div className="space-y-2">
-                <div className="flex items-center gap-4">
-                  <Slider
-                    value={[
-                      getResponseValue(field.id)
-                        ? Number(getResponseValue(field.id))
-                        : field.minValue || 0,
-                    ]}
-                    onValueChange={(values) =>
-                      handleResponseChange(field.id, values[0])
-                    }
-                    min={field.minValue || 0}
-                    max={field.maxValue || 10}
-                    step={1}
-                    className="flex-1"
+              {/* Text Field */}
+              {field.type === "text" &&
+                (field.textType === "long" ? (
+                  <Textarea
+                    id={`field-${field.id}`}
+                    value={(getResponseValue(field.id) as string) || ""}
+                    onChange={(e) => handleResponseChange(field.id, e.target.value)}
+                    placeholder="Type your response..."
+                    className="rounded-2xl border-border/50 min-h-24 resize-none"
+                    required={field.required}
                   />
-                  <span className="text-sm font-medium text-foreground min-w-12 text-center">
-                    {getResponseValue(field.id)
-                      ? getResponseValue(field.id)
-                      : field.minValue || 0}
-                  </span>
-                </div>
-                <div className="flex justify-between text-xs text-muted-foreground px-1">
-                  <span>{field.minValue || 0}</span>
-                  <span>{field.maxValue || 10}</span>
-                </div>
-              </div>
-            )}
+                ) : (
+                  <Input
+                    id={`field-${field.id}`}
+                    type="text"
+                    value={(getResponseValue(field.id) as string) || ""}
+                    onChange={(e) => handleResponseChange(field.id, e.target.value)}
+                    placeholder="Type your response..."
+                    className="rounded-2xl border-border/50"
+                    required={field.required}
+                  />
+                ))}
 
-            {/* Emoji Field */}
-            {field.type === "emoji" && field.emojiCount && (
-              <div className="space-y-2">
-                <div className="flex gap-2 justify-center">
-                  {getEmojis(field.emojiCount).map((emoji, index) => {
-                    const rank = index + 1; // 1-based ranking
-                    const isSelected = getResponseValue(field.id) === rank;
-
-                    return (
-                      <button
-                        key={index}
-                        type="button"
-                        onClick={() => handleResponseChange(field.id, rank)}
-                        className={`w-12 h-12 rounded-2xl text-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
-                          isSelected
-                            ? "bg-primary/20 border-2 border-primary scale-110"
-                            : "bg-muted/50 border-2 border-transparent hover:bg-muted"
-                        }`}
-                      >
-                        {emoji}
-                      </button>
-                    );
-                  })}
+              {/* Number Field */}
+              {field.type === "number" && (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-4">
+                    <Slider
+                      value={[
+                        getResponseValue(field.id)
+                          ? Number(getResponseValue(field.id))
+                          : field.minValue || 0,
+                      ]}
+                      onValueChange={(values) => handleResponseChange(field.id, values[0])}
+                      min={field.minValue || 0}
+                      max={field.maxValue || 10}
+                      step={1}
+                      className="flex-1"
+                    />
+                    <span className="text-sm font-medium text-foreground min-w-12 text-center">
+                      {getResponseValue(field.id)
+                        ? getResponseValue(field.id)
+                        : field.minValue || 0}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-xs text-muted-foreground px-1">
+                    <span>{field.minValue || 0}</span>
+                    <span>{field.maxValue || 10}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between text-xs text-muted-foreground px-1">
-                  <span>Low</span>
-                  <span>High</span>
-                </div>
-              </div>
-            )}
+              )}
 
-            {/* Select Field */}
-            {field.type === "select" && field.options && (
-              <Select
-                value={(getResponseValue(field.id) as string) || ""}
-                onValueChange={(value) => handleResponseChange(field.id, value)}
-                required={field.required}
-              >
-                <SelectTrigger
-                  id={`field-${field.id}`}
-                  className="rounded-2xl border-border/50"
+              {/* Emoji Field */}
+              {field.type === "emoji" && field.emojiCount && (
+                <div className="space-y-2">
+                  <div className="flex gap-2 justify-center">
+                    {getEmojis(field.emojiCount).map((emoji, index) => {
+                      const rank = index + 1; // 1-based ranking
+                      const isSelected = getResponseValue(field.id) === rank;
+
+                      return (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => handleResponseChange(field.id, rank)}
+                          className={`w-12 h-12 rounded-2xl text-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
+                            isSelected
+                              ? "bg-primary/20 border-2 border-primary scale-110"
+                              : "bg-muted/50 border-2 border-transparent hover:bg-muted"
+                          }`}
+                        >
+                          {emoji}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="flex justify-between text-xs text-muted-foreground px-1">
+                    <span>Low</span>
+                    <span>High</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Select Field */}
+              {field.type === "select" && field.options && (
+                <Select
+                  value={(getResponseValue(field.id) as string) || ""}
+                  onValueChange={(value) => handleResponseChange(field.id, value)}
+                  required={field.required}
                 >
-                  <SelectValue placeholder="Select an option..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {field.options.map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
+                  <SelectTrigger id={`field-${field.id}`} className="rounded-2xl border-border/50">
+                    <SelectValue placeholder="Select an option..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {field.options.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
 
-            {/* Yes/No Field */}
-            {field.type === "yesno" && (
-              <RadioGroup
-                value={
-                  getResponseValue(field.id) === undefined
-                    ? undefined
-                    : (getResponseValue(field.id) as boolean)
-                    ? "yes"
-                    : "no"
-                }
-                onValueChange={(value) =>
-                  handleResponseChange(field.id, value === "yes")
-                }
-                required={field.required}
-              >
-                <div className="flex gap-4">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="yes" id={`${field.id}-yes`} />
-                    <Label
-                      htmlFor={`${field.id}-yes`}
-                      className="font-normal cursor-pointer"
-                    >
-                      Yes
-                    </Label>
+              {/* Yes/No Field */}
+              {field.type === "yesno" && (
+                <RadioGroup
+                  value={
+                    getResponseValue(field.id) === undefined
+                      ? undefined
+                      : (getResponseValue(field.id) as boolean)
+                        ? "yes"
+                        : "no"
+                  }
+                  onValueChange={(value) => handleResponseChange(field.id, value === "yes")}
+                  required={field.required}
+                >
+                  <div className="flex gap-4">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="yes" id={`${field.id}-yes`} />
+                      <Label htmlFor={`${field.id}-yes`} className="font-normal cursor-pointer">
+                        Yes
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="no" id={`${field.id}-no`} />
+                      <Label htmlFor={`${field.id}-no`} className="font-normal cursor-pointer">
+                        No
+                      </Label>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="no" id={`${field.id}-no`} />
-                    <Label
-                      htmlFor={`${field.id}-no`}
-                      className="font-normal cursor-pointer"
-                    >
-                      No
-                    </Label>
-                  </div>
-                </div>
-              </RadioGroup>
-            )}
-          </div>
-        ))}
+                </RadioGroup>
+              )}
+
+              {fieldError && <p className="text-xs text-destructive">{fieldError}</p>}
+            </div>
+          );
+        })}
       </div>
 
       {/* Additional Notes */}
@@ -385,6 +442,12 @@ export function CheckInForm({
           placeholder="Any additional thoughts or observations..."
           className="rounded-2xl border-border/50 min-h-24 resize-none"
         />
+        {/* Phase C.3: Optional notes nudge */}
+        {showNotesNudge && (
+          <p className="text-xs text-muted-foreground mt-1.5">
+            Adding a short note can help you reflect later.
+          </p>
+        )}
       </div>
 
       {/* Error Message */}
@@ -398,7 +461,7 @@ export function CheckInForm({
       <div className="flex gap-2">
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={!isFormValid || isSubmitting}
           className="flex-1 rounded-2xl"
         >
           {isSubmitting ? (
@@ -417,11 +480,7 @@ export function CheckInForm({
   if (hideCard) {
     return (
       <div>
-        {!hideTitle && (
-          <h3 className="text-lg font-semibold text-foreground mb-4">
-            Add Check-in
-          </h3>
-        )}
+        {!hideTitle && <h3 className="text-lg font-semibold text-foreground mb-4">Add Check-in</h3>}
         {formContent}
       </div>
     );
@@ -429,11 +488,7 @@ export function CheckInForm({
 
   return (
     <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-      {!hideTitle && (
-        <h3 className="text-lg font-semibold text-foreground mb-4">
-          Add Check-in
-        </h3>
-      )}
+      {!hideTitle && <h3 className="text-lg font-semibold text-foreground mb-4">Add Check-in</h3>}
       {formContent}
     </Card>
   );

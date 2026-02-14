@@ -47,7 +47,7 @@ export function ManagerTabButton({ pathname }: ManagerTabButtonProps) {
         variant="ghost"
         className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
           pathname === "/org"
-            ? "bg-primary text-black hover:bg-secondary hover:text-white"
+            ? "bg-primary text-black hover:bg-second hover:text-white"
             : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet/10 hover:text-violet"
         }`}
       >

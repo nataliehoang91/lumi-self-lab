@@ -8,18 +8,18 @@ This document describes the routing refactor that nests org-admin under the org 
 
 The app already had a single org portal under `(org)/org/`. There was **no** standalone org-admin portal; manager-style content lived under `/org/[orgId]` as member-facing pages (teams, experiments, templates, insights). This refactor **adds** the admin subtree and guards; it does not remove or rename existing member-facing routes.
 
-| Previous state | Current state |
-|----------------|---------------|
-| `/org` | `/org` (unchanged) |
+| Previous state                    | Current state                                                                    |
+| --------------------------------- | -------------------------------------------------------------------------------- |
+| `/org`                            | `/org` (unchanged)                                                               |
 | `/org/[orgId]` (no per-org guard) | `/org/[orgId]` — **layout guard:** user must belong to this org (`canAccessOrg`) |
-| `/org/[orgId]/teams` | `/org/[orgId]/teams` (unchanged; member view) |
-| `/org/[orgId]/experiments` | `/org/[orgId]/experiments` (unchanged; member view) |
-| `/org/[orgId]/templates` | `/org/[orgId]/templates` (unchanged; member view) |
-| `/org/[orgId]/insights` | `/org/[orgId]/insights` (unchanged; member view) |
-| *(no admin under org)* | `/org/[orgId]/admin` — **new** (org-admin hub) |
-| *(none)* | `/org/[orgId]/admin/teams` — **new** (placeholder) |
-| *(none)* | `/org/[orgId]/admin/experiments` — **new** (placeholder) |
-| *(none)* | `/org/[orgId]/admin/members` — **new** (placeholder) |
+| `/org/[orgId]/teams`              | `/org/[orgId]/teams` (unchanged; member view)                                    |
+| `/org/[orgId]/experiments`        | `/org/[orgId]/experiments` (unchanged; member view)                              |
+| `/org/[orgId]/templates`          | `/org/[orgId]/templates` (unchanged; member view)                                |
+| `/org/[orgId]/insights`           | `/org/[orgId]/insights` (unchanged; member view)                                 |
+| _(no admin under org)_            | `/org/[orgId]/admin` — **new** (org-admin hub)                                   |
+| _(none)_                          | `/org/[orgId]/admin/teams` — **new** (placeholder)                               |
+| _(none)_                          | `/org/[orgId]/admin/experiments` — **new** (placeholder)                         |
+| _(none)_                          | `/org/[orgId]/admin/members` — **new** (placeholder)                             |
 
 **Note:** Routes like `/manager/*`, `/organisations/*`, and `/joined-experiments/*` from the Phase 1 doc were already refactored in this codebase to the `(org)/org/*` structure; this phase does not touch those names.
 
@@ -35,11 +35,11 @@ The app already had a single org portal under `(org)/org/`. There was **no** sta
 
 ## 3. Which layouts enforce which guards
 
-| Layout | Path | Guard | Redirect if denied |
-|--------|------|--------|---------------------|
-| `(org)/layout.tsx` | All `/org/*` and `/org/invites/*` | Authenticated + `canAccessOrgPortal(userId)` | `/waitlist` (no auth), `/dashboard` (no org access) |
-| `(org)/org/[orgId]/layout.tsx` | All `/org/[orgId]/*` | `canAccessOrg(userId, orgId)` | `/waitlist` (no auth), `/org` (not member of this org) |
-| `(org)/org/[orgId]/admin/layout.tsx` | All `/org/[orgId]/admin/*` | `canActAsOrgAdmin(userId, orgId)` | `/waitlist` (no auth), `/org/[orgId]` (not org_admin for this org) |
+| Layout                               | Path                              | Guard                                        | Redirect if denied                                                 |
+| ------------------------------------ | --------------------------------- | -------------------------------------------- | ------------------------------------------------------------------ |
+| `(org)/layout.tsx`                   | All `/org/*` and `/org/invites/*` | Authenticated + `canAccessOrgPortal(userId)` | `/waitlist` (no auth), `/dashboard` (no org access)                |
+| `(org)/org/[orgId]/layout.tsx`       | All `/org/[orgId]/*`              | `canAccessOrg(userId, orgId)`                | `/waitlist` (no auth), `/org` (not member of this org)             |
+| `(org)/org/[orgId]/admin/layout.tsx` | All `/org/[orgId]/admin/*`        | `canActAsOrgAdmin(userId, orgId)`            | `/waitlist` (no auth), `/org/[orgId]` (not org_admin for this org) |
 
 - **Org members** (any role) can access `/org/[orgId]`, `/org/[orgId]/teams`, `/org/[orgId]/experiments`, `/org/[orgId]/templates`, `/org/[orgId]/insights` as long as they belong to that org.
 - **Only org_admin (or super_admin)** can access `/org/[orgId]/admin`, `/org/[orgId]/admin/teams`, `/org/[orgId]/admin/experiments`, `/org/[orgId]/admin/members`.
@@ -58,17 +58,17 @@ The app already had a single org portal under `(org)/org/`. There was **no** sta
 
 ## 5. Files added or changed (this refactor)
 
-| File | Change |
-|------|--------|
-| `src/app/(org)/org/[orgId]/layout.tsx` | **New.** Server layout: redirect if not authenticated or not member of this org (`canAccessOrg`). |
-| `src/app/(org)/org/[orgId]/admin/layout.tsx` | **New.** Server layout: redirect if not authenticated or not org_admin for this org (`canActAsOrgAdmin`). |
-| `src/app/(org)/org/[orgId]/admin/page.tsx` | **New.** Org-admin hub with links to teams, experiments, members. |
-| `src/app/(org)/org/[orgId]/admin/teams/page.tsx` | **New.** Placeholder: “Manage teams”. |
-| `src/app/(org)/org/[orgId]/admin/experiments/page.tsx` | **New.** Placeholder: “Manage experiments”. |
-| `src/app/(org)/org/[orgId]/admin/members/page.tsx` | **New.** Placeholder: “Manage members”. |
+| File                                                   | Change                                                                                                    |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| `src/app/(org)/org/[orgId]/layout.tsx`                 | **New.** Server layout: redirect if not authenticated or not member of this org (`canAccessOrg`).         |
+| `src/app/(org)/org/[orgId]/admin/layout.tsx`           | **New.** Server layout: redirect if not authenticated or not org_admin for this org (`canActAsOrgAdmin`). |
+| `src/app/(org)/org/[orgId]/admin/page.tsx`             | **New.** Org-admin hub with links to teams, experiments, members.                                         |
+| `src/app/(org)/org/[orgId]/admin/teams/page.tsx`       | **New.** Placeholder: “Manage teams”.                                                                     |
+| `src/app/(org)/org/[orgId]/admin/experiments/page.tsx` | **New.** Placeholder: “Manage experiments”.                                                               |
+| `src/app/(org)/org/[orgId]/admin/members/page.tsx`     | **New.** Placeholder: “Manage members”.                                                                   |
 
 No existing pages or UI were removed. No API or database behaviour was changed. Org `[orgId]` and `[orgId]/admin` pages are **server components** (async, `await params`); no `"use client"` unless a page needs client interactivity.
 
 ---
 
-*Routing refactor completed 2025-02-07. Routing, layouts, and guards only.*
+_Routing refactor completed 2025-02-07. Routing, layouts, and guards only._

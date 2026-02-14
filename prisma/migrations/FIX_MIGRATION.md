@@ -1,14 +1,17 @@
 # Fix Migration - Handle Existing Data
 
 ## Problem
+
 Migration failed because existing experiments have `clerkUserId` values that don't exist in the `User` table yet.
 
 ## Solution
 
 ### Option 1: Make Relation Optional (Already Done)
+
 The `Experiment.user` relation is now optional (`User?`), so the migration should work. User records will be created automatically when needed via `/api/users/identity`.
 
 ### Option 2: Create User Records First (Optional)
+
 If you want to create User records for all existing experiments, you can run this after migration:
 
 ```typescript
@@ -47,11 +50,13 @@ createUsersForExperiments()
 ## Next Steps
 
 1. Try migration again:
+
 ```bash
 npx prisma migrate dev --name add_user_and_organisation_models
 ```
 
 2. If it still fails, you may need to resolve the failed migration first:
+
 ```bash
 npx prisma migrate resolve --applied 20260117095614_add_user_and_organisation_models
 ```

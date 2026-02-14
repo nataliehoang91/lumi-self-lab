@@ -12,13 +12,14 @@ We're using **Clerk hooks** (`useSignIn`, `useSignUp`) with our **InteractiveFor
 - ✅ Better integration with our validation and error handling
 
 **Example:**
+
 ```tsx
 import { useSignIn } from "@clerk/nextjs";
 import { InteractiveForm, SubmitButton, FormField } from "@/components/CoreAdvancedComponent";
 
 export default function SignInPage() {
   const { signIn, setActive } = useSignIn();
-  
+
   const handleSignIn = async (formData: FormData) => {
     const result = await signIn.create({
       identifier: formData.get("email"),
@@ -40,6 +41,7 @@ export default function SignInPage() {
 Clerk provides `<SignIn />`, `<SignUp />`, and `<UserButton />` components that can be customized with the `appearance` prop.
 
 **Example with Custom Styling:**
+
 ```tsx
 import { SignIn } from "@clerk/nextjs";
 
@@ -81,17 +83,18 @@ export default function SignInPage() {
 
 **When to Use Each Approach:**
 
-| Custom Forms (Current) | Clerk Built-in Components |
-|----------------------|-------------------------|
-| ✅ Full design control | ⚠️ Limited customization |
-| ✅ Use your form components | ⚠️ Must use Clerk's structure |
-| ✅ Better TypeScript support | ⚠️ Less type safety |
-| ⚠️ More code to maintain | ✅ Quick setup |
-| ✅ Consistent with app patterns | ⚠️ May not match app design |
+| Custom Forms (Current)          | Clerk Built-in Components     |
+| ------------------------------- | ----------------------------- |
+| ✅ Full design control          | ⚠️ Limited customization      |
+| ✅ Use your form components     | ⚠️ Must use Clerk's structure |
+| ✅ Better TypeScript support    | ⚠️ Less type safety           |
+| ⚠️ More code to maintain        | ✅ Quick setup                |
+| ✅ Consistent with app patterns | ⚠️ May not match app design   |
 
 ## Current Implementation
 
 All auth pages (`/sign-in`, `/sign-up`, `/forgot-password`) use:
+
 - Clerk hooks (`useSignIn`, `useSignUp`) for authentication logic
 - `InteractiveForm` from `@/components/CoreAdvancedComponent` for form handling
 - Custom UI components matching the app's design system

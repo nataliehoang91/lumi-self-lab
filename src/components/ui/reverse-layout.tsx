@@ -49,29 +49,16 @@ export function ReserveLayout({
   );
 }
 
-export function Hidden({
-  children,
-  className,
-  ...spanProps
-}: ComponentProps<"span">) {
+export function Hidden({ children, className, ...spanProps }: ComponentProps<"span">) {
   const isReserveLayout = useContext(ReserveLayoutContext);
   return isReserveLayout ? (
-    <span
-      {...spanProps}
-      className={cn(className, "invisible")}
-      aria-hidden
-      tabIndex={-1}
-    >
+    <span {...spanProps} className={cn(className, "invisible")} aria-hidden tabIndex={-1}>
       {children}
     </span>
   ) : null;
 }
 
-export function Visible({
-  children,
-  className,
-  ...spanProps
-}: ComponentProps<"span">) {
+export function Visible({ children, className, ...spanProps }: ComponentProps<"span">) {
   const isReserveLayout = useContext(ReserveLayoutContext);
   return isReserveLayout ? (
     <span {...spanProps} className={cn(className, "visible")}>

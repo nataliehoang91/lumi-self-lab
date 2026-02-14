@@ -23,13 +23,13 @@ This document records the final decisions for authentication and identity in Lum
 
 ## 3. Sign-in and sign-up UX (final decisions)
 
-| Decision | Implementation |
-|----------|----------------|
-| **Single sign-in flow** | There is only one sign-in page: **/sign-in**. No separate “sign in as organization” or “org sign-in” page. |
+| Decision                               | Implementation                                                                                                                                                                                                                                                                                      |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Single sign-in flow**                | There is only one sign-in page: **/sign-in**. No separate “sign in as organization” or “org sign-in” page.                                                                                                                                                                                          |
 | **No organization chooser at sign-in** | The Clerk organization chooser must **not** appear on /sign-in. Organization selection never happens during sign-in. If Clerk Organizations are enabled in the Clerk Dashboard, ensure “Allow Personal Accounts” is on and/or that the “choose organization” session task is not forced at sign-in. |
-| **Redirect after sign-in** | After successful sign-in, users are **always** redirected to **/dashboard** (personal default). This is set via `forceRedirectUrl` and `fallbackRedirectUrl` on the `<SignIn />` component. |
-| **Redirect after sign-up** | After sign-up, users are redirected to **/dashboard** as well (`forceRedirectUrl` / `fallbackRedirectUrl` on `<SignUp />`). Same identity; personal default. |
-| **Sign-up intent** | Sign-up may offer options such as “Personal use” and “For my team / organization.” Both create the **same** user account. “For my team” may later create an organization and assign the user `org_admin`; it does not change how they sign in. |
+| **Redirect after sign-in**             | After successful sign-in, users are **always** redirected to **/dashboard** (personal default). This is set via `forceRedirectUrl` and `fallbackRedirectUrl` on the `<SignIn />` component.                                                                                                         |
+| **Redirect after sign-up**             | After sign-up, users are redirected to **/dashboard** as well (`forceRedirectUrl` / `fallbackRedirectUrl` on `<SignUp />`). Same identity; personal default.                                                                                                                                        |
+| **Sign-up intent**                     | Sign-up may offer options such as “Personal use” and “For my team / organization.” Both create the **same** user account. “For my team” may later create an organization and assign the user `org_admin`; it does not change how they sign in.                                                      |
 
 ---
 
@@ -52,12 +52,12 @@ This document records the final decisions for authentication and identity in Lum
 
 ## 6. Implementation summary
 
-| Location | Behavior |
-|----------|----------|
-| **/sign-in** | Single sign-in page. `forceRedirectUrl="/dashboard"`, `fallbackRedirectUrl="/dashboard"`. No org selection. |
-| **/sign-up** | Single sign-up page. Post–sign-up redirect to `/dashboard`. Same user account regardless of intent. |
-| **Middleware (proxy.ts)** | Does not redirect authenticated users to /org. Only enforces “authenticated vs not” and public-route list. |
-| **LoginForm / sign-in-form / AlreadyLoginRedirect** | Default redirect is `/dashboard` (not /create or /org). |
+| Location                                            | Behavior                                                                                                    |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **/sign-in**                                        | Single sign-in page. `forceRedirectUrl="/dashboard"`, `fallbackRedirectUrl="/dashboard"`. No org selection. |
+| **/sign-up**                                        | Single sign-up page. Post–sign-up redirect to `/dashboard`. Same user account regardless of intent.         |
+| **Middleware (proxy.ts)**                           | Does not redirect authenticated users to /org. Only enforces “authenticated vs not” and public-route list.  |
+| **LoginForm / sign-in-form / AlreadyLoginRedirect** | Default redirect is `/dashboard` (not /create or /org).                                                     |
 
 ---
 
@@ -65,7 +65,7 @@ This document records the final decisions for authentication and identity in Lum
 
 **What you might see:** After entering email/password on `/sign-in`, Clerk shows a “Welcome Back” screen that asks for **Logo** and **Name** (placeholder “My Organization”) with a **Continue** button. The user is already signed in (e.g. “Signed in as …@gmail.com”) but cannot proceed without filling organization details.
 
-**Cause:** This is **Clerk’s Organizations** feature. When Organizations are enabled in the Clerk Dashboard and **“Allow personal accounts”** is **off** (the default for many apps), Clerk inserts a **required** “create organization” step after sign-in. That step runs *before* our `forceRedirectUrl="/dashboard"`, so users never reach the app until they create an org in Clerk.
+**Cause:** This is **Clerk’s Organizations** feature. When Organizations are enabled in the Clerk Dashboard and **“Allow personal accounts”** is **off** (the default for many apps), Clerk inserts a **required** “create organization” step after sign-in. That step runs _before_ our `forceRedirectUrl="/dashboard"`, so users never reach the app until they create an org in Clerk.
 
 **Fix (Clerk Dashboard, not code):**
 
@@ -80,4 +80,4 @@ With this on, users can use a **personal account** and are not forced to create 
 
 ---
 
-*Auth & identity consolidation completed 2025-02-07. No new auth flows; clarification and alignment only.*
+_Auth & identity consolidation completed 2025-02-07. No new auth flows; clarification and alignment only._

@@ -25,7 +25,7 @@ Remind users to check in when an experiment is **active** and they have not yet 
 
 **Auth:** Caller must send either:
 
-- `Authorization: Bearer <CRON_SECRET>`, or  
+- `Authorization: Bearer <CRON_SECRET>`, or
 - `x-cron-secret: <CRON_SECRET>`
 
 If `CRON_SECRET` is not set or the request does not match, the route returns **401**.
@@ -54,11 +54,11 @@ If `CRON_SECRET` is not set or the request does not match, the route returns **4
 
 ## Environment
 
-| Variable | Purpose |
-|----------|--------|
-| `CRON_SECRET` | Required. Secret used to authorize cron requests (Bearer or `x-cron-secret`). |
-| `RESEND_API_KEY` | Required for sending. Resend API key. |
-| `RESEND_FROM_EMAIL` | Optional. From address (default uses Resend onboarding domain). |
+| Variable                           | Purpose                                                                                              |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `CRON_SECRET`                      | Required. Secret used to authorize cron requests (Bearer or `x-cron-secret`).                        |
+| `RESEND_API_KEY`                   | Required for sending. Resend API key.                                                                |
+| `RESEND_FROM_EMAIL`                | Optional. From address (default uses Resend onboarding domain).                                      |
 | `APP_URL` or `NEXT_PUBLIC_APP_URL` | Optional. Base URL for CTA link (e.g. `https://app.example.com`). Fallback: `http://localhost:3005`. |
 
 ---
@@ -76,11 +76,11 @@ Adjust the cron expression in `vercel.json` if you want a different time.
 
 ## Files
 
-| File | Purpose |
-|------|--------|
-| `src/lib/checkin-reminder-email.ts` | Resend client; `sendCheckInReminderEmail()` — one email per experiment. |
-| `src/app/api/cron/checkin-reminders/route.ts` | GET handler: find eligible experiments, send reminders, return count. |
-| `vercel.json` | Cron schedule for the reminder job. |
+| File                                          | Purpose                                                                 |
+| --------------------------------------------- | ----------------------------------------------------------------------- |
+| `src/lib/checkin-reminder-email.ts`           | Resend client; `sendCheckInReminderEmail()` — one email per experiment. |
+| `src/app/api/cron/checkin-reminders/route.ts` | GET handler: find eligible experiments, send reminders, return count.   |
+| `vercel.json`                                 | Cron schedule for the reminder job.                                     |
 
 ---
 

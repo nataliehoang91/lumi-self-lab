@@ -13,6 +13,7 @@ Look for these logs in your terminal where `npm run dev` is running:
 ```
 
 **If you don't see these logs:**
+
 - Webhook isn't reaching your server
 - Check ngrok is running
 - Check webhook URL in Clerk Dashboard
@@ -20,6 +21,7 @@ Look for these logs in your terminal where `npm run dev` is running:
 ### Step 2: Check for Errors
 
 Look for error messages in terminal:
+
 - `❌ Database error creating user:` - Database issue
 - `Error verifying webhook:` - Webhook secret mismatch
 - `Missing CLERK_WEBHOOK_SECRET` - Environment variable not set
@@ -48,6 +50,7 @@ In Clerk Dashboard → Webhooks → Your Endpoint → **"Logs"** tab:
    - **Request**: Check if webhook was sent correctly
 
 **If status is "Failed" (red):**
+
 - Click on the failed webhook
 - Check the error message
 - Common issues:
@@ -75,6 +78,7 @@ CLERK_WEBHOOK_SECRET=whsec_xxxxx
 ```
 
 **Verify in terminal:**
+
 ```bash
 # Check if variables are loaded (don't commit this!)
 cat .env.local | grep CLERK_WEBHOOK_SECRET
@@ -97,10 +101,12 @@ curl -X GET http://localhost:3005/api/users/identity
 ### Issue 1: Webhook Not Received
 
 **Symptoms:**
+
 - No logs in terminal
 - Clerk shows webhook as "Failed"
 
 **Solutions:**
+
 1. Check ngrok is running: `ngrok http 3005`
 2. Verify webhook URL in Clerk: Should be `https://YOUR_NGROK_URL/api/webhooks/clerk`
 3. Restart dev server: `npm run dev`
@@ -108,10 +114,12 @@ curl -X GET http://localhost:3005/api/users/identity
 ### Issue 2: Webhook Verification Failed
 
 **Symptoms:**
+
 - Terminal shows: `Error verifying webhook`
 - Clerk shows webhook as "Failed"
 
 **Solutions:**
+
 1. Check `CLERK_WEBHOOK_SECRET` matches Clerk Dashboard
 2. Restart dev server after changing `.env.local`
 3. Make sure secret starts with `whsec_`
@@ -119,10 +127,12 @@ curl -X GET http://localhost:3005/api/users/identity
 ### Issue 3: Database Error
 
 **Symptoms:**
+
 - Terminal shows: `❌ Database error creating user:`
 - Webhook received but user not created
 
 **Solutions:**
+
 1. Check `DATABASE_URL` is correct in `.env.local`
 2. Test database connection: `npx prisma studio`
 3. Check Prisma client is generated: `npx prisma generate`
@@ -131,10 +141,12 @@ curl -X GET http://localhost:3005/api/users/identity
 ### Issue 4: User Already Exists
 
 **Symptoms:**
+
 - Terminal shows: `ℹ️  User already exists: user_xxxxx`
 - User not in database (confusing!)
 
 **Solutions:**
+
 1. User might have been created via `/api/users/identity` first
 2. Check if user exists: `npx prisma studio` → User table
 3. If empty, webhook might have failed silently before

@@ -9,25 +9,20 @@ import { Textarea } from "@/components/ui/textarea";
 const guidedQuestions = [
   {
     id: 1,
-    question:
-      "What's something about yourself you've been curious about lately?",
-    placeholder:
-      "e.g., Why do I feel more creative at night? What triggers my stress?",
+    question: "What's something about yourself you've been curious about lately?",
+    placeholder: "e.g., Why do I feel more creative at night? What triggers my stress?",
     hint: "There's no wrong answer. Just share what's on your mind.",
   },
   {
     id: 2,
-    question:
-      "Is there a pattern in your life you'd like to understand better?",
-    placeholder:
-      "e.g., My energy levels throughout the day, my mood after meetings...",
+    question: "Is there a pattern in your life you'd like to understand better?",
+    placeholder: "e.g., My energy levels throughout the day, my mood after meetings...",
     hint: "Patterns help us see what's usually invisible.",
   },
   {
     id: 3,
     question: "What do you hope to learn or change through this experiment?",
-    placeholder:
-      "e.g., I want to find out if morning exercise improves my focus...",
+    placeholder: "e.g., I want to find out if morning exercise improves my focus...",
     hint: "Your hypothesis doesn't need to be perfect.",
   },
   {
@@ -89,12 +84,8 @@ export default function GuidedOnboardingPage() {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-violet/20 mb-6 animate-pulse">
             <Sparkles className="w-10 h-10 text-primary animate-float" />
           </div>
-          <h2 className="text-2xl font-medium text-foreground mb-2">
-            Creating your experiment...
-          </h2>
-          <p className="text-muted-foreground">
-            Our AI is designing something just for you
-          </p>
+          <h2 className="text-2xl font-medium text-foreground mb-2">Creating your experiment...</h2>
+          <p className="text-muted-foreground">Our AI is designing something just for you</p>
         </div>
       </div>
     );
@@ -154,8 +145,8 @@ export default function GuidedOnboardingPage() {
                     index === currentQuestion
                       ? "bg-primary w-8"
                       : answers[index].trim()
-                      ? "bg-violet"
-                      : "bg-muted-foreground/30"
+                        ? "bg-violet"
+                        : "bg-muted-foreground/30"
                   }
                 `}
               />

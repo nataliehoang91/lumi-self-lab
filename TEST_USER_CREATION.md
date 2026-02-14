@@ -27,6 +27,7 @@ Test that when a user signs up in Clerk, they are automatically added to your `U
 4. Click **"Create"**
 
 5. **Check Your Terminal:**
+
    ```
    📥 Webhook received: user.created
    ✅ User created: user_xxxxx
@@ -45,11 +46,13 @@ Test that when a user signs up in Clerk, they are automatically added to your `U
 ### Method 2: Sign Up via Your App
 
 1. **Start your app:**
+
    ```bash
    npm run dev
    ```
 
 2. **Start ngrok:**
+
    ```bash
    ngrok http 3005
    ```
@@ -76,6 +79,7 @@ Test that when a user signs up in Clerk, they are automatically added to your `U
 4. Click **"Send Test Event"**
 
 5. **Check Terminal:**
+
    ```
    📥 Webhook received: user.created
    ✅ User created: user_test_xxxxx
@@ -104,6 +108,7 @@ After creating a user, verify:
 ### Webhook Not Received
 
 1. **Check ngrok is running:**
+
    ```bash
    # Should show active tunnel
    ngrok http 3005
@@ -114,6 +119,7 @@ After creating a user, verify:
    - Make sure it's HTTPS (not HTTP)
 
 3. **Check webhook secret:**
+
    ```bash
    # In .env.local
    CLERK_WEBHOOK_SECRET=whsec_xxxxx
@@ -130,12 +136,14 @@ After creating a user, verify:
    - Check if webhook verification failed
 
 2. **Check database connection:**
+
    ```bash
    npx prisma studio
    # Should open without errors
    ```
 
 3. **Check Prisma client:**
+
    ```bash
    npx prisma generate
    ```
@@ -147,6 +155,7 @@ After creating a user, verify:
 ### User Already Exists Error
 
 If you see "User already exists":
+
 - This is normal if user was created via `/api/users/identity` first
 - Webhook will skip creation if user exists
 - This prevents duplicate users
@@ -194,6 +203,7 @@ After successful webhook, `User` table should have:
 ## 💡 Pro Tips
 
 1. **Use Prisma Studio for quick checks:**
+
    ```bash
    npx prisma studio
    # Opens at http://localhost:5555

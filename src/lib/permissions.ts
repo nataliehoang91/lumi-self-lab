@@ -33,9 +33,7 @@ export async function getAuthenticatedUserId(): Promise<string | null> {
  * Personal: true if the caller is authenticated. Use for APIs that only
  * expose the current user's own data (e.g. GET /api/users/identity). No role check.
  */
-export async function canAccessPersonalData(
-  clerkUserId: string | null
-): Promise<boolean> {
+export async function canAccessPersonalData(clerkUserId: string | null): Promise<boolean> {
   return !!clerkUserId;
 }
 
@@ -91,9 +89,7 @@ export async function experimentHasCheckIns(experimentId: string): Promise<boole
  * Returns true if the user has global super_admin role. Use for admin-only
  * API routes and the super-admin portal. Caller must return 403 when false.
  */
-export async function requireSuperAdmin(
-  clerkUserId: string
-): Promise<boolean> {
+export async function requireSuperAdmin(clerkUserId: string): Promise<boolean> {
   const user = await prisma.user.findUnique({
     where: { clerkUserId },
     select: { role: true },
@@ -123,10 +119,7 @@ export async function getOrgMembership(
  * Org: true if the user may access this org (view org context, member list, etc.).
  * Requires: member of org (any role) OR super_admin. Use for org-scoped read APIs.
  */
-export async function canAccessOrg(
-  clerkUserId: string,
-  orgId: string
-): Promise<boolean> {
+export async function canAccessOrg(clerkUserId: string, orgId: string): Promise<boolean> {
   if (await requireSuperAdmin(clerkUserId)) return true;
   const membership = await getOrgMembership(clerkUserId, orgId);
   return !!membership;
@@ -137,10 +130,7 @@ export async function canAccessOrg(
  * Requires: OrganisationMember.role in [team_manager, org_admin] OR super_admin.
  * team_manager is scoped by teamId when that is enforced in future phases.
  */
-export async function canManageOrg(
-  clerkUserId: string,
-  orgId: string
-): Promise<boolean> {
+export async function canManageOrg(clerkUserId: string, orgId: string): Promise<boolean> {
   if (await requireSuperAdmin(clerkUserId)) return true;
   const membership = await getOrgMembership(clerkUserId, orgId);
   if (!membership) return false;
@@ -162,10 +152,7 @@ export async function canViewAggregateInsights(
  * Org: true if the user may access org-admin routes (e.g. /org/[orgId]/admin/*).
  * Requires: OrganisationMember.role === "org_admin" OR super_admin. Stricter than canManageOrg.
  */
-export async function canActAsOrgAdmin(
-  clerkUserId: string,
-  orgId: string
-): Promise<boolean> {
+export async function canActAsOrgAdmin(clerkUserId: string, orgId: string): Promise<boolean> {
   if (await requireSuperAdmin(clerkUserId)) return true;
   const membership = await getOrgMembership(clerkUserId, orgId);
   return membership?.role === "org_admin";
@@ -175,9 +162,7 @@ export async function canActAsOrgAdmin(
  * Returns the DB user with role. Use when you need User.role or
  * User.accountType for permission checks.
  */
-export async function getDbUser(
-  clerkUserId: string
-): Promise<(User & { role: string }) | null> {
+export async function getDbUser(clerkUserId: string): Promise<(User & { role: string }) | null> {
   const user = await prisma.user.findUnique({
     where: { clerkUserId },
   });
@@ -193,9 +178,7 @@ export async function getDbUser(
  * Access: super_admin OR at least one org membership OR accountType "organisation"
  * (so upgraded users can reach /org/create before they have any org).
  */
-export async function canAccessOrgPortal(
-  clerkUserId: string
-): Promise<boolean> {
+export async function canAccessOrgPortal(clerkUserId: string): Promise<boolean> {
   const user = await prisma.user.findUnique({
     where: { clerkUserId },
     select: {

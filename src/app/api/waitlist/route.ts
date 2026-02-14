@@ -13,10 +13,7 @@ export async function POST(request: Request) {
     const email = typeof body?.email === "string" ? body.email.trim() : null;
 
     if (!email) {
-      return NextResponse.json(
-        { error: "Email is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
     const client = await clerkClient();
@@ -29,9 +26,6 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Waitlist API error:", error);
     const message = error instanceof Error ? error.message : "Failed to join waitlist";
-    return NextResponse.json(
-      { error: message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

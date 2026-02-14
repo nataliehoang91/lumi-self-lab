@@ -20,9 +20,7 @@ function getOrigin(request: Request): string {
   try {
     return new URL(request.url).origin;
   } catch {
-    return process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3005";
+    return process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3005";
   }
 }
 
@@ -32,10 +30,7 @@ function getOrigin(request: Request): string {
  * Fetches summary + trends for the experiment (same ownership as 2A.1/2A.2),
  * sends them to OpenAI, returns ephemeral reflection text. No persistence.
  */
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -50,10 +45,7 @@ export async function POST(
     }
 
     if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
-        { error: "AI reflection is not configured" },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: "AI reflection is not configured" }, { status: 503 });
     }
 
     const origin = getOrigin(request);
@@ -75,10 +67,7 @@ export async function POST(
       if (summaryRes.status === 404) {
         return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
       }
-      return NextResponse.json(
-        { error: "Failed to load insights summary" },
-        { status: 502 }
-      );
+      return NextResponse.json({ error: "Failed to load insights summary" }, { status: 502 });
     }
 
     if (!trendsRes.ok) {
@@ -88,10 +77,7 @@ export async function POST(
       if (trendsRes.status === 404) {
         return NextResponse.json({ error: "Experiment not found" }, { status: 404 });
       }
-      return NextResponse.json(
-        { error: "Failed to load insights trends" },
-        { status: 502 }
-      );
+      return NextResponse.json({ error: "Failed to load insights trends" }, { status: 502 });
     }
 
     const summary = await summaryRes.json();
@@ -133,31 +119,20 @@ Write a short reflection for the user based on these insights.`;
     if (!openaiRes.ok) {
       const errText = await openaiRes.text();
       console.error("OpenAI reflection error:", openaiRes.status, errText);
-      return NextResponse.json(
-        { error: "Failed to generate reflection" },
-        { status: 502 }
-      );
+      return NextResponse.json({ error: "Failed to generate reflection" }, { status: 502 });
     }
 
     const data = await openaiRes.json();
-    const content =
-      data.choices?.[0]?.message?.content?.trim() ??
-      "";
+    const content = data.choices?.[0]?.message?.content?.trim() ?? "";
 
     const parsed = reflectionResponseSchema.safeParse({ reflection: content });
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: "Invalid reflection response" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Invalid reflection response" }, { status: 500 });
     }
 
     return NextResponse.json(parsed.data);
   } catch (error) {
     console.error("Error generating reflection:", error);
-    return NextResponse.json(
-      { error: "Failed to generate reflection" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to generate reflection" }, { status: 500 });
   }
 }

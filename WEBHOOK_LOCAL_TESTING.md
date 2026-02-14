@@ -5,11 +5,13 @@
 ### 1. Install ngrok
 
 **Option A: Via npm (recommended)**
+
 ```bash
 npm install -g ngrok
 ```
 
 **Option B: Via Homebrew (macOS)**
+
 ```bash
 brew install ngrok
 ```
@@ -40,6 +42,7 @@ ngrok http 3005
 ```
 
 You'll see output like:
+
 ```
 Forwarding   https://abc123.ngrok-free.app -> http://localhost:3005
 ```
@@ -65,6 +68,7 @@ Forwarding   https://abc123.ngrok-free.app -> http://localhost:3005
 ### 6. Test the Webhook
 
 **Option A: Use Clerk's Test Webhook**
+
 1. In Clerk Dashboard → Webhooks → Your Endpoint
 2. Click **"Test Webhook"**
 3. Select an event (e.g., `user.deleted`)
@@ -72,6 +76,7 @@ Forwarding   https://abc123.ngrok-free.app -> http://localhost:3005
 5. Check your terminal/logs to see if webhook was received
 
 **Option B: Delete a Test User**
+
 1. Create a test user in Clerk
 2. Note their `clerkUserId`
 3. Delete the user in Clerk Dashboard
@@ -80,14 +85,17 @@ Forwarding   https://abc123.ngrok-free.app -> http://localhost:3005
 ### 7. View Webhook Logs
 
 **In Clerk Dashboard:**
+
 - Go to Webhooks → Your Endpoint → **"Logs"** tab
 - See all webhook requests (successful and failed)
 
 **In Your Terminal:**
+
 - Check your Next.js dev server logs
 - Look for webhook processing messages
 
 **In ngrok Dashboard:**
+
 - Go to [ngrok Dashboard → Inspection](http://localhost:4040)
 - See all HTTP requests including webhook payloads
 
@@ -117,6 +125,7 @@ Should return error (expected - webhook needs POST with proper headers)
 ### Check Webhook Verification
 
 If webhook fails verification, check:
+
 1. `CLERK_WEBHOOK_SECRET` matches Clerk Dashboard
 2. `svix` package is installed: `npm install svix`
 3. Webhook headers are being received correctly

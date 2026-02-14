@@ -22,10 +22,7 @@ export const PasswordField = () => {
     <FormField name="password">
       <div className="flex items-center justify-between">
         <FormLabel>Password</FormLabel>
-        <Link
-          href="/forgot-password"
-          className="text-sm text-primary hover:underline"
-        >
+        <Link href="/forgot-password" className="text-sm text-primary hover:underline">
           Forgot Password?
         </Link>
       </div>
@@ -45,20 +42,14 @@ export const PasswordField = () => {
                 aria-label="Show password"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </Button>
             }
           />
         </InputControl>
       </div>
       <ReserveLayout placeItems="start">
-        <FormMessage match="valueMissing">
-          Please enter your password
-        </FormMessage>
+        <FormMessage match="valueMissing">Please enter your password</FormMessage>
         <FormErrorMessage name="password" match="tooShort">
           Password must be at least 8 characters long
         </FormErrorMessage>

@@ -24,14 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
-import {
-  Lock,
-  Unlock,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  Info,
-} from "lucide-react";
+import { Lock, Unlock, ChevronDown, ChevronLeft, ChevronRight, Info } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -106,9 +99,7 @@ export interface ColumnConfig {
 
 // Custom hook for debounced column width measurements
 function useColumnWidths() {
-  const [columnWidths, setColumnWidths] = useState<Map<string, number>>(
-    new Map()
-  );
+  const [columnWidths, setColumnWidths] = useState<Map<string, number>>(new Map());
   const [isMeasuring, setIsMeasuring] = useState(false);
   const columnRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const measureTimeoutRef = useRef<NodeJS.Timeout>();
@@ -195,10 +186,7 @@ type FreezeGridAction =
 // REDUCER
 // ============================================
 
-function freezeGridReducer(
-  state: FreezeGridState,
-  action: FreezeGridAction
-): FreezeGridState {
+function freezeGridReducer(state: FreezeGridState, action: FreezeGridAction): FreezeGridState {
   switch (action.type) {
     case "FREEZE_COLUMN": {
       if (state.frozenColumns.length >= state.maxFrozenColumns) {
@@ -232,9 +220,7 @@ function freezeGridReducer(
         return state;
       }
 
-      const newFrozenColumns = state.frozenColumns.filter(
-        (id) => id !== action.columnId
-      );
+      const newFrozenColumns = state.frozenColumns.filter((id) => id !== action.columnId);
 
       // Reorder: frozen columns first
       const frozen: string[] = [];
@@ -308,9 +294,7 @@ function freezeGridReducer(
           return state;
         }
 
-        const newFrozenColumns = state.frozenColumns.filter(
-          (id) => id !== columnId
-        );
+        const newFrozenColumns = state.frozenColumns.filter((id) => id !== columnId);
 
         const frozen: string[] = [];
         const unfrozen: string[] = [];
@@ -480,13 +464,8 @@ export function FreezableGridProvider({
     }
   }, [currentMaxFrozen, state.maxFrozenColumns]);
 
-  const {
-    measureColumn,
-    getColumnWidth,
-    columnWidths,
-    isMeasuring,
-    remeasureAll,
-  } = useColumnWidths();
+  const { measureColumn, getColumnWidth, columnWidths, isMeasuring, remeasureAll } =
+    useColumnWidths();
 
   // Track sort changes via URL params
   const searchParams = useSearchParams();
@@ -496,8 +475,7 @@ export function FreezableGridProvider({
   // Preserve scroll position during layout updates
   const preserveScrollPosition = useCallback(() => {
     const scrollContainer =
-      document.querySelector(".freezable-grid-container") ||
-      document.documentElement;
+      document.querySelector(".freezable-grid-container") || document.documentElement;
     const scrollLeft = scrollContainer.scrollLeft;
     const scrollTop = scrollContainer.scrollTop;
     return () => {
@@ -525,13 +503,7 @@ export function FreezableGridProvider({
     }, 50);
 
     return () => clearTimeout(timer);
-  }, [
-    currentSort,
-    currentOrder,
-    remeasureAll,
-    preserveScrollPosition,
-    state.frozenColumns.length,
-  ]);
+  }, [currentSort, currentOrder, remeasureAll, preserveScrollPosition, state.frozenColumns.length]);
 
   const toggleFreeze = useCallback(
     (columnId: string) => {
@@ -568,9 +540,7 @@ export function FreezableGridProvider({
   );
 
   const getOrderedColumns = useCallback(() => {
-    return state.columnOrder
-      .map((id) => getColumnConfig(id))
-      .filter(Boolean) as ColumnConfig[];
+    return state.columnOrder.map((id) => getColumnConfig(id)).filter(Boolean) as ColumnConfig[];
   }, [state.columnOrder, getColumnConfig]);
 
   const generateGridTemplate = useCallback(() => {
@@ -675,11 +645,7 @@ export function FreezableGridProvider({
     ]
   );
 
-  return (
-    <FreezeGridContext.Provider value={contextValue}>
-      {children}
-    </FreezeGridContext.Provider>
-  );
+  return <FreezeGridContext.Provider value={contextValue}>{children}</FreezeGridContext.Provider>;
 }
 
 // ============================================
@@ -754,10 +720,7 @@ export function FreezableGridHeader({
 
   return (
     <div
-      className={cn(
-        "grid col-span-full grid-cols-subgrid sticky z-40",
-        className
-      )}
+      className={cn("grid col-span-full grid-cols-subgrid sticky z-40", className)}
       style={{ top: topOffset }}
       role="rowgroup"
       {...props}
@@ -813,11 +776,7 @@ export function FreezableGridHeaderRow({
   }, [children, context]);
 
   return (
-    <div
-      className={cn("grid col-span-full grid-cols-subgrid", className)}
-      role="row"
-      {...props}
-    >
+    <div className={cn("grid col-span-full grid-cols-subgrid", className)} role="row" {...props}>
       {processedChildren}
     </div>
   );
@@ -832,10 +791,7 @@ export function FreezableGridBody({
   className?: string;
 }) {
   return (
-    <div
-      className={cn("grid col-span-full grid-cols-subgrid", className)}
-      role="rowgroup"
-    >
+    <div className={cn("grid col-span-full grid-cols-subgrid", className)} role="rowgroup">
       {children}
     </div>
   );
@@ -870,9 +826,7 @@ export function FreezableGridRow({
     });
 
     // Return in the correct order
-    return context.state.columnOrder
-      .map((columnId) => childMap.get(columnId))
-      .filter(Boolean);
+    return context.state.columnOrder.map((columnId) => childMap.get(columnId)).filter(Boolean);
   }, [children, context]);
 
   return (
@@ -914,8 +868,7 @@ export const GridListRow = function GridListRow({
     document.activeElement?.getAttribute("data-row-id") === rowId;
 
   // Check if row is selected
-  const isRowSelected =
-    selectionMode !== "none" && selectedRows.has(actualRowId);
+  const isRowSelected = selectionMode !== "none" && selectedRows.has(actualRowId);
 
   // Enhanced children processing for frozen columns
   const processedChildren = useMemo(() => {
@@ -986,9 +939,7 @@ export const GridListRow = function GridListRow({
     </RowInner>
   );
 
-  const contextWrappedElem = (
-    <RowContext value={rowContextValue}>{rowElem}</RowContext>
-  );
+  const contextWrappedElem = <RowContext value={rowContextValue}>{rowElem}</RowContext>;
 
   const selectionCtxValue = useMemo(() => {
     return {
@@ -1084,15 +1035,10 @@ export function FreezableGridColumnHeader({
 
       // Defer measurement to next frame to avoid blocking the current render
       requestAnimationFrame(() => {
-        if (
-          headerRef.current &&
-          measureColumn &&
-          headerRef.current === currentElement
-        ) {
+        if (headerRef.current && measureColumn && headerRef.current === currentElement) {
           // Preserve scroll position before measurement
           const scrollContainer =
-            document.querySelector(".freezable-grid-container") ||
-            document.documentElement;
+            document.querySelector(".freezable-grid-container") || document.documentElement;
           const scrollLeft = scrollContainer.scrollLeft;
           const scrollTop = scrollContainer.scrollTop;
 
@@ -1132,8 +1078,7 @@ export function FreezableGridColumnHeader({
     }
 
     // Calculate cumulative width for position using measured widths
-    let leftOffset =
-      columnIndex === 0 || columnIndex === 1 ? 0 : -(columnIndex - 1);
+    let leftOffset = columnIndex === 0 || columnIndex === 1 ? 0 : -(columnIndex - 1);
     for (let i = 0; i < columnIndex; i++) {
       const col = frozenColumns[i];
       if (col) {
@@ -1200,9 +1145,7 @@ export function FreezableGridColumnHeader({
       style={stickyStyles}
       role="columnheader"
     >
-      <div
-        className={cn(headerContentFlexDirection || "flex items-center gap-3")}
-      >
+      <div className={cn(headerContentFlexDirection || "flex items-center gap-3")}>
         <div
           className={cn(
             "flex items-center gap-3 justify-center",
@@ -1249,9 +1192,7 @@ export function FreezableGridColumnHeader({
                 className="h-4 w-4 p-0 hover:bg-white/20 transition-colors ml-4"
                 onClick={(e) => e.stopPropagation()}
               >
-                <ChevronDown
-                  className={cn("h-3 w-3 text-white", iconClassNames)}
-                />
+                <ChevronDown className={cn("h-3 w-3 text-white", iconClassNames)} />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -1275,11 +1216,7 @@ export function FreezableGridColumnHeader({
                   )}
                 </DropdownMenuItem>
               )}
-              {sortable && (
-                <DropdownMenuItem onClick={onSort}>
-                  Sort Column
-                </DropdownMenuItem>
-              )}
+              {sortable && <DropdownMenuItem onClick={onSort}>Sort Column</DropdownMenuItem>}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -1323,23 +1260,17 @@ export function FreezableGridCell({
     const currentElement = cellRef.current;
     const elementChanged = lastElementRef.current !== currentElement;
     const shouldMeasure =
-      (isFrozen || !hasBeenMeasured.current) &&
-      (!hasBeenMeasured.current || elementChanged);
+      (isFrozen || !hasBeenMeasured.current) && (!hasBeenMeasured.current || elementChanged);
 
     if (shouldMeasure) {
       lastElementRef.current = currentElement;
 
       // Defer measurement to next frame to avoid blocking the current render
       requestAnimationFrame(() => {
-        if (
-          cellRef.current &&
-          measureColumn &&
-          cellRef.current === currentElement
-        ) {
+        if (cellRef.current && measureColumn && cellRef.current === currentElement) {
           // Preserve scroll position before measurement
           const scrollContainer =
-            document.querySelector(".freezable-grid-container") ||
-            document.documentElement;
+            document.querySelector(".freezable-grid-container") || document.documentElement;
           const scrollLeft = scrollContainer.scrollLeft;
           const scrollTop = scrollContainer.scrollTop;
 
@@ -1390,13 +1321,7 @@ export function FreezableGridCell({
       left: `${leftOffset}px`,
       zIndex: 35,
     };
-  }, [
-    isFrozen,
-    columnId,
-    context?.state.frozenColumns,
-    context?.columnWidths,
-    context,
-  ]);
+  }, [isFrozen, columnId, context?.state.frozenColumns, context?.columnWidths, context]);
 
   // Detect if this is the last frozen column to draw a right separator
   // Always call hooks, even if context is null
@@ -1412,11 +1337,7 @@ export function FreezableGridCell({
 
   // Early return AFTER all hooks are called
   if (!context) {
-    return (
-      <div className={cn("px-3 py-1 flex items-center", className)}>
-        {children}
-      </div>
-    );
+    return <div className={cn("px-3 py-1 flex items-center", className)}>{children}</div>;
   }
 
   const finalFrozenCellClassName = cn(
@@ -1441,13 +1362,7 @@ export function FreezableGridCell({
         return <span className="whitespace-nowrap">{children}</span>;
       } else {
         // For non-frozen cells, use TruncatedText
-        return (
-          <TruncatedText
-            text={children}
-            maxLength={maxTextLength}
-            className=""
-          />
-        );
+        return <TruncatedText text={children} maxLength={maxTextLength} className="" />;
       }
     } else {
       // For React components, render as-is
@@ -1488,8 +1403,7 @@ export function FrozenColumnsIndicator() {
         <Lock className="h-4 w-4 flex-shrink-0" />
         <div className="flex items-center gap-2">
           <span suppressHydrationWarning>
-            {context.state.frozenColumns.length} of {context.currentMaxFrozen}{" "}
-            columns frozen
+            {context.state.frozenColumns.length} of {context.currentMaxFrozen} columns frozen
           </span>
           <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
             <TooltipProvider>
@@ -1507,9 +1421,7 @@ export function FrozenColumnsIndicator() {
       </div>
 
       <div className="flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400">
-        <span>
-          💡 Tip: Freeze important columns to keep them visible while scrolling
-        </span>
+        <span>💡 Tip: Freeze important columns to keep them visible while scrolling</span>
       </div>
     </div>
   );

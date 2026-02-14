@@ -1,12 +1,12 @@
 /**
  * Example Authentication Component using InteractiveForm
- * 
+ *
  * This component demonstrates how to use InteractiveForm with Clerk authentication
- * 
+ *
  * Usage:
  * ```tsx
  * import { SignInForm } from "@/components/Authentication/sign-in-form";
- * 
+ *
  * export default function SignInPage() {
  *   return <SignInForm />;
  * }
@@ -15,8 +15,18 @@
 
 "use client";
 
-import { InteractiveForm, SubmitButton, SubmitMessage, LoadingMessage, FormErrorMessage } from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
-import { FormField, InputControl, FormMessage } from "@/components/CoreAdvancedComponent/components/form";
+import {
+  InteractiveForm,
+  SubmitButton,
+  SubmitMessage,
+  LoadingMessage,
+  FormErrorMessage,
+} from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
+import {
+  FormField,
+  InputControl,
+  FormMessage,
+} from "@/components/CoreAdvancedComponent/components/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -31,7 +41,9 @@ export function SignInForm() {
   const { isLoaded, signIn, setActive } = useSignIn();
   const [error, setError] = useState<string | null>(null);
 
-  const handleSignIn = async (formData: FormData): Promise<{ redirect?: string; error?: string; refresh?: boolean }> => {
+  const handleSignIn = async (
+    formData: FormData
+  ): Promise<{ redirect?: string; error?: string; refresh?: boolean }> => {
     if (!isLoaded) return { error: "Please wait..." };
     setError(null);
 
@@ -62,10 +74,7 @@ export function SignInForm() {
   };
 
   return (
-    <InteractiveForm<SignInFields>
-      fields={["email", "password"]}
-      action={handleSignIn}
-    >
+    <InteractiveForm<SignInFields> fields={["email", "password"]} action={handleSignIn}>
       <div className="space-y-6">
         {error && (
           <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">

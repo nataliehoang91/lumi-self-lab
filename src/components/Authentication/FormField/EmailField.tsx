@@ -25,15 +25,9 @@ export const EmailField = () => {
         />
       </InputControl>
       <ReserveLayout placeItems="start">
-        <FormMessage match="valueMissing">
-          Please enter your email address
-        </FormMessage>
-        <FormMessage match="typeMismatch">
-          Please enter a valid email address
-        </FormMessage>
-        <FormErrorMessage name="email">
-          This email does not exist. Please sign up.
-        </FormErrorMessage>
+        <FormMessage match="valueMissing">Please enter your email address</FormMessage>
+        <FormMessage match="typeMismatch">Please enter a valid email address</FormMessage>
+        <FormErrorMessage name="email">This email does not exist. Please sign up.</FormErrorMessage>
       </ReserveLayout>
     </FormField>
   );

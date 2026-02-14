@@ -37,7 +37,11 @@ import { TaskResetPassword } from "@clerk/nextjs";
 export default function ResetPasswordPage() {
   return (
     <TaskResetPassword
-      appearance={{ /* custom styling */ }}
+      appearance={
+        {
+          /* custom styling */
+        }
+      }
       redirectUrlComplete="/sign-in"
     />
   );
@@ -79,6 +83,7 @@ The `<Waitlist />` component renders a form that allows users to join for early 
 ### Important Notes
 
 > ⚠️ **WARNING**: Before using the `<Waitlist />` component, you must:
+>
 > 1. Enable Waitlist mode in Clerk Dashboard
 > 2. Provide the `waitlistUrl` prop in ClerkProvider or SignIn component
 
@@ -98,7 +103,11 @@ import { Waitlist } from "@clerk/nextjs";
 export default function WaitlistPage() {
   return (
     <Waitlist
-      appearance={{ /* custom styling */ }}
+      appearance={
+        {
+          /* custom styling */
+        }
+      }
       signInUrl="/sign-in"
       afterJoinWaitlistUrl="/"
     />

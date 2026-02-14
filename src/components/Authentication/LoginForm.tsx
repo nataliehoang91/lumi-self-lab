@@ -22,7 +22,7 @@ import {
 } from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
 import { ReserveLayout } from "@/components/ui/reverse-layout";
 
-// TODO: Update to use Clerk authentication  
+// TODO: Update to use Clerk authentication
 // This LoginForm component is kept for reference but should be updated to use Clerk hooks
 
 import { LoadingIcon } from "@/components/CoreAdvancedComponent/components/LoadingIcon";
@@ -42,10 +42,7 @@ export const LoginForm = ({
 }) => {
   return (
     <Card
-      className={cn(
-        "w-full max-w-lg sm:min-w-md  md:min-w-lg rounded-lg shadow-lg",
-        cardClassName
-      )}
+      className={cn("w-full max-w-lg sm:min-w-md  md:min-w-lg rounded-lg shadow-lg", cardClassName)}
     >
       <CardHeader className={cn("text-center", cardHeaderClassName)}>
         <CardTitle className="text-3xl font-bold mb-2">Welcome Back</CardTitle>
@@ -69,37 +66,32 @@ export const LoginForm = ({
         }}
         className="contents"
       >
-          <CardContent className="space-y-4">
-            <EmailField />
-            <PasswordField />
-          </CardContent>
-          <CardFooter>
-            <SubmitButton asChild>
-              <Button type="submit" className="w-full py-4">
-                <ReserveLayout>
-                  <SubmitMessage>
-                    <span className="text-md font-semibold">Log In</span>
-                  </SubmitMessage>
-                  <LoadingMessage>
-                    <LoadingIcon />
-                  </LoadingMessage>
-                </ReserveLayout>
-              </Button>
-            </SubmitButton>
-          </CardFooter>
-          <ReserveLayout>
-            <FormErrorMessage name="general">
-              Invalid email or password
-            </FormErrorMessage>
-          </ReserveLayout>
-        </InteractiveForm>
+        <CardContent className="space-y-4">
+          <EmailField />
+          <PasswordField />
+        </CardContent>
+        <CardFooter>
+          <SubmitButton asChild>
+            <Button type="submit" className="w-full py-4">
+              <ReserveLayout>
+                <SubmitMessage>
+                  <span className="text-md font-semibold">Log In</span>
+                </SubmitMessage>
+                <LoadingMessage>
+                  <LoadingIcon />
+                </LoadingMessage>
+              </ReserveLayout>
+            </Button>
+          </SubmitButton>
+        </CardFooter>
+        <ReserveLayout>
+          <FormErrorMessage name="general">Invalid email or password</FormErrorMessage>
+        </ReserveLayout>
+      </InteractiveForm>
       <div className="block">
         <p className="text-balance text-center text-sm text-muted-foreground px-4">
           By Logging In, <br /> You Accept Self-Lab&apos;s
-          <Link
-            href="/terms"
-            className="text-primary hover:underline"
-          >
+          <Link href="/terms" className="text-primary hover:underline">
             {" "}
             Terms & Conditions{" "}
           </Link>
@@ -108,10 +100,7 @@ export const LoginForm = ({
         <div className="my-4" />
         <p className="text-balance text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link
-            href="/sign-up"
-            className="text-primary hover:underline"
-          >
+          <Link href="/sign-up" className="text-primary hover:underline">
             Sign up here
           </Link>
         </p>

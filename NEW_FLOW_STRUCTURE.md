@@ -21,6 +21,7 @@ Three roles with different permissions:
 ### 3. Permissions
 
 **Members (participate only):**
+
 - Can participate in experiments (check-ins only)
 - Can view templates (read-only)
 - Can view aggregate insights (read-only)
@@ -28,6 +29,7 @@ Three roles with different permissions:
 - **Cannot** manage experiments
 
 **Team Managers (manage team experiments):**
+
 - Everything Members can do
 - **Can** manage team experiments (create, edit, delete)
 - **Can** view team aggregate insights
@@ -35,6 +37,7 @@ Three roles with different permissions:
 - **Cannot** create organisation templates
 
 **Org Admins (manage org & teams):**
+
 - Everything Team Managers can do
 - **Can** manage organisation settings
 - **Can** create organisation templates
@@ -56,12 +59,14 @@ Three roles with different permissions:
 ### 6. UI Separation (Never Mix)
 
 **Org Participation UI** (`/organisations/*`):
+
 - Read-only views (browse templates, view insights)
 - No create/edit/delete actions
 - Member mindset
 - Accessible by all users who are members
 
 **Manager Control UI** (`/manager/*`):
+
 - Full access (create templates, manage experiments)
 - Admin/Manager mindset (org_admin or team_manager roles)
 - Separate from participation UI
@@ -74,12 +79,14 @@ Three roles with different permissions:
 ### Current State vs. New Flow
 
 **Current Implementation:**
+
 - Routes use `/organizations` (US spelling)
 - Two account types: individual, organisation
 - Two modes: Membership (`/organizations/*`), Management (`/manager/*`)
 - Roles: member, manager (implied by accountType)
 
 **New Flow Requirements:**
+
 - Routes should use `/organisations` (UK spelling, consistent with Prisma schema)
 - Three contexts: Personal, Org, Team
 - Three roles: member, team_manager, org_admin
@@ -113,21 +120,25 @@ Three roles with different permissions:
 ## 🔄 Migration Path
 
 ### Phase 1: Naming Consistency
+
 - Change route paths: `/organizations` → `/organisations`
 - Update all references in code
 - Update documentation
 
 ### Phase 2: Role System
+
 - Add roles to database schema
 - Update permission checks
 - Update UI to show/hide based on roles
 
 ### Phase 3: Team Support
+
 - Add Team model
 - Update experiment scoping
 - Update UI to show team context
 
 ### Phase 4: UI Refinement
+
 - Ensure clear separation between participation and management UI
 - Update all pages to follow new flow structure
 
@@ -157,6 +168,7 @@ model User {
 ```
 
 **Account Types:**
+
 - `individual` - Default (all users start here)
 - `organisation` - Upgraded account (can create orgs via `/upgrade`)
 
@@ -177,37 +189,41 @@ model OrganisationMember {
 ```
 
 **Roles in Organisation:**
+
 - `member` - Participate only (read-only access)
 - `team_manager` - Manage team experiments (assigned by org_admin)
 - `org_admin` - Full access (can create org, assign team managers)
 
 ### Permission Matrix
 
-| Action | Individual | Team Manager | Org Admin |
-|--------|-----------|--------------|-----------|
-| Personal experiment | ✅ | ✅ | ✅ |
-| Join assigned experiment | ✅ | ✅ | ✅ |
-| Create team experiment | ❌ | ✅ | ✅ |
-| Assign participants | ❌ | ✅ (team only) | ✅ (any team) |
-| View aggregate result | ❌ | ✅ (team) | ✅ (org-wide) |
-| Create org | ❌ | ❌ | ✅ |
-| Assign team managers | ❌ | ❌ | ✅ |
+| Action                   | Individual | Team Manager   | Org Admin     |
+| ------------------------ | ---------- | -------------- | ------------- |
+| Personal experiment      | ✅         | ✅             | ✅            |
+| Join assigned experiment | ✅         | ✅             | ✅            |
+| Create team experiment   | ❌         | ✅             | ✅            |
+| Assign participants      | ❌         | ✅ (team only) | ✅ (any team) |
+| View aggregate result    | ❌         | ✅ (team)      | ✅ (org-wide) |
+| Create org               | ❌         | ❌             | ✅            |
+| Assign team managers     | ❌         | ❌             | ✅            |
 
 ### Permission Logic
 
 **Individual:**
+
 - `accountType = "individual"`
 - No `OrganisationMember` records OR `role = "member"`
 - `hasManagerRole = false`
 - `isOrgAdmin = false`
 
 **Team Manager:**
+
 - `accountType = "individual"` OR `"organisation"`
 - `OrganisationMember.role = "team_manager"` (in at least one org)
 - `hasManagerRole = true`
 - `isOrgAdmin = false`
 
 **Org Admin:**
+
 - `accountType = "organisation"` OR `OrganisationMember.role = "org_admin"` (in at least one org)
 - `hasManagerRole = true`
 - `isOrgAdmin = true`
@@ -223,14 +239,17 @@ const { scenario, setScenario, userData, loading, error, refreshUser } = useUser
 ```
 
 **Behavior:**
+
 - If `scenario` is set (from localStorage) → uses mock data from `SCENARIO_DATA`
 - If `scenario` is `null` → fetches real data from `/api/users/identity` and transforms it
 
 **Data Transformation:**
+
 - API returns: `accountType`, `organisations` array with `role`
 - Transforms to: `hasManagerRole`, `isOrgAdmin`, `isParticipant`, `orgs`, `teams`
 
 **Test Scenarios:**
+
 - Use `setScenario("individual" | "team-manager" | "org-admin")` to switch mock data
 - Use `setScenario(null)` to switch back to real API data
 

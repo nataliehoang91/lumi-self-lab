@@ -7,10 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -31,8 +28,7 @@ export async function GET(
     const now = new Date();
     const paused = reminder?.pausedAt != null;
     const snoozedUntil = reminder?.snoozedUntil?.toISOString() ?? null;
-    const snoozed =
-      reminder?.snoozedUntil != null && now < reminder.snoozedUntil;
+    const snoozed = reminder?.snoozedUntil != null && now < reminder.snoozedUntil;
 
     return NextResponse.json({
       paused,
@@ -42,9 +38,6 @@ export async function GET(
     });
   } catch (error) {
     console.error("Error fetching reminder state:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch reminder state" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch reminder state" }, { status: 500 });
   }
 }

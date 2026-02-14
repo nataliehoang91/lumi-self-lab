@@ -9,9 +9,9 @@
 
 Before implementing Phase A (Review & Results), this document:
 
-1. Confirms **which tables** are read for the review flow  
-2. Notes **which routes already exist** that touch the same data  
-3. Confirms that **existing schema is sufficient** for read-only review (summary, trends, reflection)  
+1. Confirms **which tables** are read for the review flow
+2. Notes **which routes already exist** that touch the same data
+3. Confirms that **existing schema is sufficient** for read-only review (summary, trends, reflection)
 4. States explicitly: **No schema changes required**
 
 ---
@@ -20,12 +20,12 @@ Before implementing Phase A (Review & Results), this document:
 
 Phase A is **read-only** on the database. The following tables are used as-is.
 
-| Table | Role in review | Key columns used |
-|-------|----------------|------------------|
-| **Experiment** | Metadata and ownership | id, clerkUserId, title, hypothesis, whyMatters, status, startedAt, completedAt |
-| **ExperimentField** | Field definitions (type, label, order) | id, experimentId, label, type, order, minValue, maxValue, emojiCount, selectOptions, textType |
-| **ExperimentCheckIn** | One row per UTC day per experiment | id, experimentId, checkInDate, notes; ordered by checkInDate for time series |
-| **ExperimentFieldResponse** | One value per field per check-in | checkInId, fieldId, responseText, responseNumber, responseBool, selectedOption |
+| Table                       | Role in review                         | Key columns used                                                                              |
+| --------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Experiment**              | Metadata and ownership                 | id, clerkUserId, title, hypothesis, whyMatters, status, startedAt, completedAt                |
+| **ExperimentField**         | Field definitions (type, label, order) | id, experimentId, label, type, order, minValue, maxValue, emojiCount, selectOptions, textType |
+| **ExperimentCheckIn**       | One row per UTC day per experiment     | id, experimentId, checkInDate, notes; ordered by checkInDate for time series                  |
+| **ExperimentFieldResponse** | One value per field per check-in       | checkInId, fieldId, responseText, responseNumber, responseBool, selectedOption                |
 
 **Relations:** Experiment → fields (1:n), Experiment → checkIns (1:n), ExperimentCheckIn → responses (1:n), ExperimentFieldResponse → field (n:1). Each response links one check-in and one field.
 
@@ -56,25 +56,25 @@ Phase A is **read-only** on the database. The following tables are used as-is.
 ### ExperimentFieldResponse
 
 - **One row per field per check-in**; value columns depend on `field.type`:
-  - text → responseText  
-  - number → responseNumber  
-  - yesno → responseBool  
-  - emoji → responseNumber (1..emojiCount)  
-  - select → selectedOption  
+  - text → responseText
+  - number → responseNumber
+  - yesno → responseBool
+  - emoji → responseNumber (1..emojiCount)
+  - select → selectedOption
 - All values are stored; no precomputed aggregates. Review APIs will compute summaries and trends at read time.
 
 ---
 
 ## 3. Existing Routes (Relevant to Review)
 
-| Route | Purpose | Relevant to review |
-|-------|---------|--------------------|
-| **GET /api/experiments/[id]** | Load experiment with fields, checkIns, responses | Same include graph can be used for review summary/trends (fields order asc, checkIns order by checkInDate asc). |
-| **GET /api/experiments/[id]/checkins** | List check-ins (with responses) | Alternative read path; a single “experiment + fields + checkIns + responses” query in a dedicated review route is sufficient. |
-| **GET /api/experiments/[id]/fields** | List fields only | No check-in data; not sufficient alone for summary/trends. |
-| **GET /api/experiments/[id]/insights/summary** | Computed per-field summary (Phase 2A.1) | Same semantics as planned A.1 review/summary; different path. |
-| **GET /api/experiments/[id]/insights/trends** | Per-field trends (Phase 2A.2) | Same semantics as planned A.2 review/trends; different path. |
-| **POST /api/experiments/[id]/insights/reflection** | Ephemeral AI reflection (Phase 2A.3) | Same semantics as planned A.3 review/reflection; different path. |
+| Route                                              | Purpose                                          | Relevant to review                                                                                                            |
+| -------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| **GET /api/experiments/[id]**                      | Load experiment with fields, checkIns, responses | Same include graph can be used for review summary/trends (fields order asc, checkIns order by checkInDate asc).               |
+| **GET /api/experiments/[id]/checkins**             | List check-ins (with responses)                  | Alternative read path; a single “experiment + fields + checkIns + responses” query in a dedicated review route is sufficient. |
+| **GET /api/experiments/[id]/fields**               | List fields only                                 | No check-in data; not sufficient alone for summary/trends.                                                                    |
+| **GET /api/experiments/[id]/insights/summary**     | Computed per-field summary (Phase 2A.1)          | Same semantics as planned A.1 review/summary; different path.                                                                 |
+| **GET /api/experiments/[id]/insights/trends**      | Per-field trends (Phase 2A.2)                    | Same semantics as planned A.2 review/trends; different path.                                                                  |
+| **POST /api/experiments/[id]/insights/reflection** | Ephemeral AI reflection (Phase 2A.3)             | Same semantics as planned A.3 review/reflection; different path.                                                              |
 
 Phase A will implement the **review** namespace (`/api/experiments/[id]/review/summary`, `review/trends`, `review/reflection`) with the same ownership and data rules; existing **insights** routes are noted for consistency but are out of scope for this audit.
 
@@ -119,8 +119,8 @@ Phase A will implement the **review** namespace (`/api/experiments/[id]/review/s
 
 ## 6. Next Steps
 
-- **Step A.1:** Implement GET `/api/experiments/[id]/review/summary`, Zod schema, and `docs/phase-A1-review-summary.md`.  
-- **Step A.2:** Implement GET `/api/experiments/[id]/review/trends`, Zod schema, and `docs/phase-A2-review-trends.md`.  
+- **Step A.1:** Implement GET `/api/experiments/[id]/review/summary`, Zod schema, and `docs/phase-A1-review-summary.md`.
+- **Step A.2:** Implement GET `/api/experiments/[id]/review/trends`, Zod schema, and `docs/phase-A2-review-trends.md`.
 - **Step A.3:** Implement POST `/api/experiments/[id]/review/reflection`, Zod response schema, and `docs/phase-A3-review-reflection.md`.
 
 **STOP after writing this doc.** Proceed to Step A.1 only when instructed.

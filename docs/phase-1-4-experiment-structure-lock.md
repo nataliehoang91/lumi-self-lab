@@ -45,7 +45,7 @@ If an experiment has **at least one check-in**, its **field definitions** are tr
 
 - **Experiment metadata** (PATCH experiment): title, whyMatters, hypothesis, durationDays, frequency, faithEnabled, scriptureNotes, status (via existing lifecycle rules), startedAt/completedAt as set by lifecycle.
 - **Reading** fields and check-ins: GET experiment, GET fields, GET check-ins unchanged.
-- **Creating/updating/deleting check-ins**: Unchanged; only field *definitions* are locked.
+- **Creating/updating/deleting check-ins**: Unchanged; only field _definitions_ are locked.
 
 ---
 

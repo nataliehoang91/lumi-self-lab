@@ -8,9 +8,7 @@ interface AlreadyLoggedInRedirectProps {
   callbackUrl?: string;
 }
 
-export const AlreadyLoggedInRedirect = ({
-  callbackUrl,
-}: AlreadyLoggedInRedirectProps) => {
+export const AlreadyLoggedInRedirect = ({ callbackUrl }: AlreadyLoggedInRedirectProps) => {
   const [count, setCount] = useState(3);
   const router = useRouter();
 
@@ -21,9 +19,7 @@ export const AlreadyLoggedInRedirect = ({
     const timeout = setTimeout(() => {
       router.refresh();
       // Use callbackUrl if provided, otherwise personal default. No org at sign-in.
-      const redirectUrl = callbackUrl
-        ? decodeURIComponent(callbackUrl)
-        : "/dashboard";
+      const redirectUrl = callbackUrl ? decodeURIComponent(callbackUrl) : "/dashboard";
       router.replace(redirectUrl);
     }, 3000);
     return () => {

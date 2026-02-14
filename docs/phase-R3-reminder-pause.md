@@ -14,12 +14,12 @@ Let users **pause** and **resume** daily check-in email reminders per experiment
 
 **New model: `ExperimentReminder`**
 
-| Column       | Type      | Notes                          |
-|-------------|-----------|--------------------------------|
-| experimentId | String   | PK, FK → Experiment.id, CASCADE |
+| Column       | Type      | Notes                              |
+| ------------ | --------- | ---------------------------------- |
+| experimentId | String    | PK, FK → Experiment.id, CASCADE    |
 | pausedAt     | DateTime? | Set when paused; null when resumed |
-| createdAt    | DateTime  | @default(now())                |
-| updatedAt    | DateTime  | Required                       |
+| createdAt    | DateTime  | @default(now())                    |
+| updatedAt    | DateTime  | Required                           |
 
 - One row per experiment (experimentId is PK).
 - When an experiment is deleted, its reminder row is deleted (onDelete: Cascade).

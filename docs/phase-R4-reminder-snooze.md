@@ -17,8 +17,8 @@ Add **temporary snooze** for daily check-in reminders. Snooze applies to the in-
 
 **Extend `ExperimentReminder`:**
 
-| Column       | Type      | Notes |
-|-------------|-----------|--------|
+| Column       | Type      | Notes                                                                                                                      |
+| ------------ | --------- | -------------------------------------------------------------------------------------------------------------------------- |
 | snoozedUntil | DateTime? | When set, reminders (banner + email) are suppressed until this time. After this time, reminder is effectively not snoozed. |
 
 **Migration:** `prisma/migrations/20260129130000_add_reminder_snoozed_until/migration.sql`
@@ -70,15 +70,15 @@ GET /reminder returns `snoozed` and `snoozedUntil`; the experiment detail client
 
 ## Files
 
-| File | Change |
-|------|--------|
-| `prisma/schema.prisma` | Add `snoozedUntil DateTime?` to `ExperimentReminder`. |
-| `prisma/migrations/20260129130000_add_reminder_snoozed_until/migration.sql` | Add column. |
-| `src/app/api/experiments/[id]/reminder/route.ts` | GET returns `snoozed`, `snoozedUntil`. |
-| `src/app/api/experiments/[id]/reminder/snooze/route.ts` | **New.** POST snooze with `until`. |
-| `src/app/api/cron/checkin-reminders/route.ts` | Skip when snoozed. |
-| `src/components/Experiment/CheckInReminderBanner.tsx` | Hide when snoozed. |
-| `src/app/(individual)/experiments/[id]/ExperimentDetailClient.tsx` | Pass `snoozed` / `snoozedUntil` from GET reminder. |
+| File                                                                        | Change                                                |
+| --------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `prisma/schema.prisma`                                                      | Add `snoozedUntil DateTime?` to `ExperimentReminder`. |
+| `prisma/migrations/20260129130000_add_reminder_snoozed_until/migration.sql` | Add column.                                           |
+| `src/app/api/experiments/[id]/reminder/route.ts`                            | GET returns `snoozed`, `snoozedUntil`.                |
+| `src/app/api/experiments/[id]/reminder/snooze/route.ts`                     | **New.** POST snooze with `until`.                    |
+| `src/app/api/cron/checkin-reminders/route.ts`                               | Skip when snoozed.                                    |
+| `src/components/Experiment/CheckInReminderBanner.tsx`                       | Hide when snoozed.                                    |
+| `src/app/(individual)/experiments/[id]/ExperimentDetailClient.tsx`          | Pass `snoozed` / `snoozedUntil` from GET reminder.    |
 
 ---
 

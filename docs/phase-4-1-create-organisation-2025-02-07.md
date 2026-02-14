@@ -54,11 +54,11 @@ Nothing else: no member management, no invites, no teams, no analytics.
 
 ## 4. Permissions enforced
 
-| Check | Where | Effect |
-|-------|--------|--------|
-| Authenticated | POST /api/orgs | 401 if no Clerk user |
-| User.accountType === "organisation" | POST /api/orgs | 403 “Upgrade required to create an organisation” if not |
-| canAccessOrgPortal | (org) layout | Allows accountType "organisation" users with zero orgs to access /org and /org/create |
+| Check                               | Where          | Effect                                                                                |
+| ----------------------------------- | -------------- | ------------------------------------------------------------------------------------- |
+| Authenticated                       | POST /api/orgs | 401 if no Clerk user                                                                  |
+| User.accountType === "organisation" | POST /api/orgs | 403 “Upgrade required to create an organisation” if not                               |
+| canAccessOrgPortal                  | (org) layout   | Allows accountType "organisation" users with zero orgs to access /org and /org/create |
 
 ---
 
@@ -72,13 +72,13 @@ Nothing else: no member management, no invites, no teams, no analytics.
 
 ## 6. Files touched
 
-| File | Change |
-|------|--------|
-| `src/app/api/orgs/route.ts` | Added POST handler (create org + member in transaction). |
-| `src/lib/permissions.ts` | canAccessOrgPortal: allow accountType "organisation" so upgraded users can access /org and /org/create with zero orgs. |
-| `src/app/(org)/org/create/page.tsx` | **New.** Form to create organisation; POST /api/orgs → redirect to /org/[orgId]. |
-| `src/app/(org)/org/page.tsx` | “Create organisation” button (when accountType === "organisation") linking to /org/create. |
+| File                                | Change                                                                                                                 |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `src/app/api/orgs/route.ts`         | Added POST handler (create org + member in transaction).                                                               |
+| `src/lib/permissions.ts`            | canAccessOrgPortal: allow accountType "organisation" so upgraded users can access /org and /org/create with zero orgs. |
+| `src/app/(org)/org/create/page.tsx` | **New.** Form to create organisation; POST /api/orgs → redirect to /org/[orgId].                                       |
+| `src/app/(org)/org/page.tsx`        | “Create organisation” button (when accountType === "organisation") linking to /org/create.                             |
 
 ---
 
-*Phase 4.1 completed 2025-02-07. No schema changes. No Phase 4.2 (members management) in this release.*
+_Phase 4.1 completed 2025-02-07. No schema changes. No Phase 4.2 (members management) in this release._

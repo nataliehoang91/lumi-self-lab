@@ -70,11 +70,7 @@ export function OrgLinkToggle({
             Linked to {linkedOrg?.name || "Organisation"}
           </span>
         </div>
-        <Button
-          variant="outline"
-          onClick={handleUnlink}
-          className="w-full"
-        >
+        <Button variant="outline" onClick={handleUnlink} className="w-full">
           <Home className="w-4 h-4 mr-2" />
           Make Personal
         </Button>
@@ -86,13 +82,10 @@ export function OrgLinkToggle({
     <>
       <div className="p-4 rounded-xl bg-muted/50 border border-border">
         <p className="text-sm text-muted-foreground mb-3">
-          You can link this experiment to an organisation later if you want to contribute to team insights. Your personal data will always stay private.
+          You can link this experiment to an organisation later if you want to contribute to team
+          insights. Your personal data will always stay private.
         </p>
-        <Button
-          variant="outline"
-          onClick={handleLinkClick}
-          className="w-full"
-        >
+        <Button variant="outline" onClick={handleLinkClick} className="w-full">
           <Building2 className="w-4 h-4 mr-2" />
           Link to Organisation
         </Button>

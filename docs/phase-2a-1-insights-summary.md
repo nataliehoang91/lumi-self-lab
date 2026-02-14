@@ -6,11 +6,11 @@
 
 ## Tables used (read-only)
 
-| Table | Usage |
-|-------|--------|
-| **Experiment** | Loaded by id + clerkUserId (ownership). |
-| **ExperimentField** | Loaded via experiment include; ordered by `order` asc. |
-| **ExperimentCheckIn** | Loaded via experiment include; ordered by `checkInDate` asc. |
+| Table                       | Usage                                                        |
+| --------------------------- | ------------------------------------------------------------ |
+| **Experiment**              | Loaded by id + clerkUserId (ownership).                      |
+| **ExperimentField**         | Loaded via experiment include; ordered by `order` asc.       |
+| **ExperimentCheckIn**       | Loaded via experiment include; ordered by `checkInDate` asc. |
 | **ExperimentFieldResponse** | Loaded via checkIns include; each response includes `field`. |
 
 **No Prisma schema changes.** No migrations. No new tables or columns.
@@ -34,13 +34,13 @@
 
 ## Per-field summary by type
 
-| type | summary shape |
-|------|----------------|
-| **text** | `{ responseCount: number }` |
-| **number** | `{ count, min, max, avg: number }` |
-| **yesno** | `{ count, yesCount, noCount: number; yesPercentage: number }` |
-| **emoji** | `{ count, avgScore: number; distribution: Record<string, number> }` (key = value 1..emojiCount) |
-| **select** | `{ count: number; optionCounts: Record<string, number> }` |
+| type       | summary shape                                                                                   |
+| ---------- | ----------------------------------------------------------------------------------------------- |
+| **text**   | `{ responseCount: number }`                                                                     |
+| **number** | `{ count, min, max, avg: number }`                                                              |
+| **yesno**  | `{ count, yesCount, noCount: number; yesPercentage: number }`                                   |
+| **emoji**  | `{ count, avgScore: number; distribution: Record<string, number> }` (key = value 1..emojiCount) |
+| **select** | `{ count: number; optionCounts: Record<string, number> }`                                       |
 
 Fields with no responses: number/emoji get count 0 and min/max/avg 0 or avgScore 0; yesno get count 0, yesPercentage 0; text/select get count 0 or responseCount 0.
 

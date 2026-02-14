@@ -72,10 +72,7 @@ export async function GET(request: Request) {
     return NextResponse.json(sortedExperiments);
   } catch (error) {
     console.error("Error fetching experiments:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch experiments" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch experiments" }, { status: 500 });
   }
 }
 
@@ -128,10 +125,7 @@ export async function POST(request: Request) {
     }
 
     if (!frequency || typeof frequency !== "string") {
-      return NextResponse.json(
-        { error: "frequency is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "frequency is required" }, { status: 400 });
     }
 
     // Ensure User record exists (auto-create if doesn't exist)
@@ -195,9 +189,6 @@ export async function POST(request: Request) {
     return NextResponse.json(experiment, { status: 201 });
   } catch (error) {
     console.error("Error creating experiment:", error);
-    return NextResponse.json(
-      { error: "Failed to create experiment" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to create experiment" }, { status: 500 });
   }
 }

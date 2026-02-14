@@ -12,11 +12,11 @@ This phase adds a **POST** endpoint that takes an experiment’s **insights summ
 
 ## Tables / data used
 
-| Source | Usage |
-|--------|--------|
-| **Experiment** | requireExperimentOwner(experimentId, userId) for ownership and experiment title. |
+| Source          | Usage                                                                              |
+| --------------- | ---------------------------------------------------------------------------------- |
+| **Experiment**  | requireExperimentOwner(experimentId, userId) for ownership and experiment title.   |
 | **Summary API** | GET `/api/experiments/[id]/insights/summary` called internally (cookie forwarded). |
-| **Trends API** | GET `/api/experiments/[id]/insights/trends` called internally (cookie forwarded). |
+| **Trends API**  | GET `/api/experiments/[id]/insights/trends` called internally (cookie forwarded).  |
 
 **No writes.** No new tables. No schema changes. Reflection text is **not** persisted anywhere.
 
@@ -45,7 +45,7 @@ This phase adds a **POST** endpoint that takes an experiment’s **insights summ
 
 ```ts
 {
-  reflection: string   // 2–4 short paragraphs, not stored
+  reflection: string; // 2–4 short paragraphs, not stored
 }
 ```
 

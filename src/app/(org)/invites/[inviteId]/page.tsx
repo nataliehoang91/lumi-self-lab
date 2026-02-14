@@ -70,29 +70,21 @@ export default function InvitationDetailPage({
 
         <Card className="p-8">
           <div className="mb-6">
-            <Badge className="mb-4 bg-violet/10 text-violet">
-              Experiment Invitation
-            </Badge>
+            <Badge className="mb-4 bg-violet/10 text-violet">Experiment Invitation</Badge>
             <h1 className="text-3xl font-semibold text-foreground mb-2">
               {invitation.experimentTitle}
             </h1>
-            <p className="text-muted-foreground">
-              From: {invitation.orgName}
-            </p>
+            <p className="text-muted-foreground">From: {invitation.orgName}</p>
           </div>
 
           <div className="space-y-6 mb-8">
             <div>
-              <h3 className="font-semibold text-foreground mb-2">
-                Invited by
-              </h3>
+              <h3 className="font-semibold text-foreground mb-2">Invited by</h3>
               <p className="text-muted-foreground">{invitation.invitedBy}</p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-foreground mb-2">
-                Description
-              </h3>
+              <h3 className="font-semibold text-foreground mb-2">Description</h3>
               <p className="text-muted-foreground">{invitation.description}</p>
             </div>
 
@@ -100,11 +92,11 @@ export default function InvitationDetailPage({
               <div className="flex items-start gap-3">
                 <Shield className="w-5 h-5 text-violet flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-semibold text-foreground mb-2">
-                    You&apos;re in control
-                  </h4>
+                  <h4 className="font-semibold text-foreground mb-2">You&apos;re in control</h4>
                   <p className="text-sm text-muted-foreground mb-2">
-                    {invitation.orgName} suggested this experiment because they think it might be valuable for the team. But this is your experiment, and you&apos;re in complete control.
+                    {invitation.orgName} suggested this experiment because they think it might be
+                    valuable for the team. But this is your experiment, and you&apos;re in complete
+                    control.
                   </p>
                   <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
                     <li>Accept and link it to the organisation (share aggregate insights)</li>
@@ -117,25 +109,14 @@ export default function InvitationDetailPage({
           </div>
 
           <div className="flex gap-3">
-            <Button
-              variant="outline"
-              onClick={handleDecline}
-              className="flex-1"
-            >
+            <Button variant="outline" onClick={handleDecline} className="flex-1">
               <XCircle className="w-4 h-4 mr-2" />
               Decline
             </Button>
-            <Button
-              onClick={() => handleAccept("personal")}
-              variant="outline"
-              className="flex-1"
-            >
+            <Button onClick={() => handleAccept("personal")} variant="outline" className="flex-1">
               Accept as Personal
             </Button>
-            <Button
-              onClick={() => handleAccept("link")}
-              className="flex-1"
-            >
+            <Button onClick={() => handleAccept("link")} className="flex-1">
               <CheckCircle2 className="w-4 h-4 mr-2" />
               Accept & Link
             </Button>

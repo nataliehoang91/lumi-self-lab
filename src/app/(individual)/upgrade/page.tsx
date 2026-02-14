@@ -99,8 +99,9 @@ export default function UpgradePage() {
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Take your self-reflection practice to the team level. Create organisation workspaces, design experiment templates,
-            and gain aggregate insights while respecting everyone&apos;s privacy.
+            Take your self-reflection practice to the team level. Create organisation workspaces,
+            design experiment templates, and gain aggregate insights while respecting
+            everyone&apos;s privacy.
           </p>
         </div>
 
@@ -136,7 +137,7 @@ export default function UpgradePage() {
           {/* Manager Plan */}
           <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/30 rounded-3xl relative overflow-hidden">
             <div className="absolute top-4 right-4">
-              <Badge className="bg-secondary text-secondary-foreground rounded-full">Recommended</Badge>
+              <Badge className="bg-second text-second-foreground rounded-full">Recommended</Badge>
             </div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-400 flex items-center justify-center">
@@ -197,8 +198,8 @@ export default function UpgradePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((feature, i) => (
               <Card key={i} className="p-5 bg-card border-border/50 rounded-2xl">
-                <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center mb-3">
-                  <feature.icon className="w-5 h-5 text-secondary" />
+                <div className="w-10 h-10 rounded-xl bg-second/10 flex items-center justify-center mb-3">
+                  <feature.icon className="w-5 h-5 text-second" />
                 </div>
                 <h3 className="font-medium text-foreground mb-1">{feature.title}</h3>
                 <p className="text-sm text-muted-foreground">{feature.description}</p>
@@ -212,8 +213,9 @@ export default function UpgradePage() {
           <Shield className="w-12 h-12 mx-auto text-sky-500 dark:text-sky-400 mb-4" />
           <h3 className="text-lg font-semibold text-foreground mb-2">Privacy is Non-Negotiable</h3>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Even with team & organisation features, you&apos;ll only see aggregate data. Individual responses, personal reflections,
-            and text entries are never shared with organisation admins or other members. Trust is the foundation of Self-Lab.
+            Even with team & organisation features, you&apos;ll only see aggregate data. Individual
+            responses, personal reflections, and text entries are never shared with organisation
+            admins or other members. Trust is the foundation of Self-Lab.
           </p>
         </Card>
       </div>

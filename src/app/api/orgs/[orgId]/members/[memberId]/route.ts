@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  getAuthenticatedUserId,
-  canActAsOrgAdmin,
-  requireSuperAdmin,
-} from "@/lib/permissions";
+import { getAuthenticatedUserId, canActAsOrgAdmin, requireSuperAdmin } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 
 const ROLES = ["member", "team_manager", "org_admin"] as const;
@@ -75,10 +71,7 @@ export async function PATCH(
   const isSuperAdmin = await requireSuperAdmin(userId);
   if (member.role === "org_admin" && adminCount <= 1 && role !== "org_admin") {
     if (!isSuperAdmin) {
-      return NextResponse.json(
-        { error: "Cannot demote the last org admin" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Cannot demote the last org admin" }, { status: 400 });
     }
   }
 
@@ -129,10 +122,7 @@ export async function DELETE(
   const isSuperAdmin = await requireSuperAdmin(userId);
   if (member.role === "org_admin" && adminCount <= 1) {
     if (!isSuperAdmin) {
-      return NextResponse.json(
-        { error: "Cannot remove the last org admin" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Cannot remove the last org admin" }, { status: 400 });
     }
   }
 

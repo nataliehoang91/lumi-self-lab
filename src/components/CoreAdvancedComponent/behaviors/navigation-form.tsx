@@ -3,19 +3,12 @@
 import type { ComponentProps } from "react";
 import { useRouter } from "next/navigation";
 import { Slot } from "@radix-ui/react-slot";
-import {
-  createContext,
-  useContext,
-  useRef,
-  useTransition,
-  useEffect,
-} from "react";
+import { createContext, useContext, useRef, useTransition, useEffect } from "react";
 import { Hidden, Visible } from "@/components/ui/reverse-layout";
 import { composeRefs } from "../utils/compose-ref";
 import { cn } from "@/lib/utils";
 
-const FormRefContext =
-  createContext<React.RefObject<HTMLFormElement | null> | null>(null);
+const FormRefContext = createContext<React.RefObject<HTMLFormElement | null> | null>(null);
 const FormActionContext = createContext<string | null>(null);
 
 const IsLoadingContext = createContext<boolean>(false);
@@ -117,16 +110,11 @@ export function NavigationButton({
   const [isLoading, startTransition] = useTransition();
   const combinedLoading = isFormLoading || isLoading;
 
-  const pendingClickEventRef =
-    useRef<React.MouseEvent<HTMLButtonElement> | null>(null);
+  const pendingClickEventRef = useRef<React.MouseEvent<HTMLButtonElement> | null>(null);
 
   // Run extraOnClick when loading completes
   useEffect(() => {
-    if (
-      !combinedLoading &&
-      pendingClickEventRef.current &&
-      typeof extraOnClick === "function"
-    ) {
+    if (!combinedLoading && pendingClickEventRef.current && typeof extraOnClick === "function") {
       const event = pendingClickEventRef.current;
       pendingClickEventRef.current = null;
       extraOnClick(event);
@@ -184,11 +172,7 @@ export function NavigationButton({
   );
 }
 
-export function NavigationSubmitMessage({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function NavigationSubmitMessage({ children }: { children: React.ReactNode }) {
   const isLoading = useContext(IsLoadingContext);
 
   if (isLoading) {
@@ -198,11 +182,7 @@ export function NavigationSubmitMessage({
   return <Visible>{children}</Visible>;
 }
 
-export function NavigationLoadingMessage({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function NavigationLoadingMessage({ children }: { children: React.ReactNode }) {
   const isLoading = useContext(IsLoadingContext);
   if (isLoading) {
     return <Visible>{children}</Visible>;

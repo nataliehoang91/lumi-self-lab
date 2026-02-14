@@ -7,6 +7,7 @@ Clerk supports multiple social login providers including Google, Facebook, GitHu
 ## Supported Providers
 
 Clerk supports 30+ social providers including:
+
 - **Google** (`oauth_google`)
 - **Facebook** (`oauth_facebook`)
 - **GitHub** (`oauth_github`)
@@ -28,10 +29,12 @@ Clerk supports 30+ social providers including:
 6. Click **Add connection**
 
 **For Development:**
+
 - Clerk provides pre-configured shared OAuth credentials
 - No additional setup needed for testing
 
 **For Production:**
+
 - You'll need to configure custom OAuth credentials
 - Get Client ID and Client Secret from the provider
 - Add them in Clerk Dashboard under the provider settings
@@ -47,7 +50,9 @@ export default function SignInPage() {
   const { isLoaded, signIn } = useSignIn();
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
 
-  const handleSocialSignIn = async (strategy: "oauth_google" | "oauth_facebook" | "oauth_github") => {
+  const handleSocialSignIn = async (
+    strategy: "oauth_google" | "oauth_facebook" | "oauth_github"
+  ) => {
     if (!isLoaded || !signIn) return;
     setSocialLoading(strategy);
 
@@ -65,17 +70,14 @@ export default function SignInPage() {
     }
   };
 
-  return (
-    <Button onClick={() => handleSocialSignIn("oauth_google")}>
-      Continue with Google
-    </Button>
-  );
+  return <Button onClick={() => handleSocialSignIn("oauth_google")}>Continue with Google</Button>;
 }
 ```
 
 ### 3. Current Implementation
 
 Our sign-in and sign-up pages already include:
+
 - ✅ Google login button
 - ✅ Facebook login button
 - ✅ GitHub login button
@@ -86,6 +88,7 @@ Our sign-in and sign-up pages already include:
 ## Account Linking
 
 Clerk automatically links accounts when:
+
 - User signs in with social provider (e.g., Google)
 - The email matches an existing account created with email/password
 - The accounts are automatically merged
@@ -110,10 +113,7 @@ To add more providers (e.g., Apple, Microsoft):
 Social buttons can be styled using Tailwind classes in the `className` prop:
 
 ```tsx
-<Button
-  onClick={() => handleSocialSignIn("oauth_google")}
-  className="custom-google-button-classes"
->
+<Button onClick={() => handleSocialSignIn("oauth_google")} className="custom-google-button-classes">
   Continue with Google
 </Button>
 ```
@@ -140,12 +140,14 @@ Social buttons can be styled using Tailwind classes in the `className` prop:
 ## Troubleshooting
 
 **Social login not working?**
+
 1. Check if provider is enabled in Clerk Dashboard
 2. Verify OAuth credentials are configured (for production)
 3. Check browser console for errors
 4. Ensure redirect URLs are correct
 
 **Provider not in list?**
+
 - Use custom OAuth provider option in Clerk Dashboard
 - Configure with OpenID Connect (OIDC) settings
 

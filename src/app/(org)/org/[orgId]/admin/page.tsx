@@ -7,11 +7,7 @@ import { Settings, Users, Target, Building2 } from "lucide-react";
  * Org admin hub. Route: /org/[orgId]/admin
  * Only org_admin (or super_admin) can access; enforced by admin/layout.tsx.
  */
-export default async function OrgAdminPage({
-  params,
-}: {
-  params: Promise<{ orgId: string }>;
-}) {
+export default async function OrgAdminPage({ params }: { params: Promise<{ orgId: string }> }) {
   const { orgId } = await params;
   return (
     <div className="min-h-screen">
@@ -22,9 +18,7 @@ export default async function OrgAdminPage({
             Back to org
           </Link>
         </Button>
-        <h1 className="text-2xl font-semibold text-foreground mb-2">
-          Org admin
-        </h1>
+        <h1 className="text-2xl font-semibold text-foreground mb-2">Org admin</h1>
         <p className="text-muted-foreground mb-8">
           Manage teams, experiments, and members for this organisation.
         </p>

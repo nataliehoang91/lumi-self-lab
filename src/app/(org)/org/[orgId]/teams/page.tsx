@@ -6,11 +6,7 @@ import { Users, ArrowLeft } from "lucide-react";
 /**
  * Org portal: teams under an org. Route: /org/[orgId]/teams
  */
-export default async function OrgTeamsPage({
-  params,
-}: {
-  params: Promise<{ orgId: string }>;
-}) {
+export default async function OrgTeamsPage({ params }: { params: Promise<{ orgId: string }> }) {
   const { orgId } = await params;
   return (
     <div className="min-h-screen">

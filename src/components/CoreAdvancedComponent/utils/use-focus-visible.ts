@@ -138,15 +138,9 @@ function getSnapshot() {
   return modality;
 }
 
-export function useFocusVisible(
-  props: FocusVisibleProps = {}
-): FocusVisibleResult {
+export function useFocusVisible(props: FocusVisibleProps = {}): FocusVisibleResult {
   const { isTextInput = false, autoFocus = false } = props;
-  const currentModality = useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    () => "pointer"
-  );
+  const currentModality = useSyncExternalStore(subscribe, getSnapshot, () => "pointer");
 
   // Update global text input context if this component is a text input (module-level state for focus handling)
   if (isTextInput) {

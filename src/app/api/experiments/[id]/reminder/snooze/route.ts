@@ -7,10 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
 import { NextResponse } from "next/server";
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -27,14 +24,10 @@ export async function POST(
     try {
       body = await request.json();
     } catch {
-      return NextResponse.json(
-        { error: "Invalid JSON body" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
-    const untilRaw =
-      typeof body.until === "string" ? body.until.trim() : "";
+    const untilRaw = typeof body.until === "string" ? body.until.trim() : "";
     if (!untilRaw) {
       return NextResponse.json(
         { error: "until is required (ISO date or datetime)" },
@@ -63,9 +56,6 @@ export async function POST(
     });
   } catch (error) {
     console.error("Error snoozing reminders:", error);
-    return NextResponse.json(
-      { error: "Failed to snooze reminders" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to snooze reminders" }, { status: 500 });
   }
 }

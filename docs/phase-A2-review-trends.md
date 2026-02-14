@@ -6,12 +6,12 @@
 
 ## Tables used (read-only)
 
-| Table | Usage |
-|-------|--------|
-| **Experiment** | Loaded by id + clerkUserId (ownership). |
-| **ExperimentField** | Loaded via experiment include; ordered by `order` asc. |
-| **ExperimentCheckIn** | Loaded via experiment include; ordered by `checkInDate` asc (UTC). |
-| **ExperimentFieldResponse** | Loaded via checkIns include; each response includes `field`. |
+| Table                       | Usage                                                              |
+| --------------------------- | ------------------------------------------------------------------ |
+| **Experiment**              | Loaded by id + clerkUserId (ownership).                            |
+| **ExperimentField**         | Loaded via experiment include; ordered by `order` asc.             |
+| **ExperimentCheckIn**       | Loaded via experiment include; ordered by `checkInDate` asc (UTC). |
+| **ExperimentFieldResponse** | Loaded via checkIns include; each response includes `field`.       |
 
 **No Prisma schema changes.** No migrations. No new tables or columns.
 
@@ -34,13 +34,13 @@
 
 ## Per-field trend by type
 
-| type | trend shape | logic |
-|------|-------------|--------|
-| **text** | `{ countOverTime: Array<{ date: string, count: number }> }` | One entry per check-in date; count = non-empty responseText for that date. Count may be 0. |
-| **number** | `{ direction: "increasing" \| "decreasing" \| "flat" }` | responseNumber in time order. Compare avg of first 25% vs last 25%. If (last − first) / range > 5% → increasing; < −5% → decreasing; else flat. |
-| **emoji** | `{ moodTrend: "up" \| "down" \| "flat" }` | Same as number (responseNumber 1..emojiCount); map increasing→up, decreasing→down, flat→flat. |
-| **yesno** | `{ yesRateTrend: "up" \| "down" \| "flat" }` | Yes-rate over time. Compare yes-rate in first 25% vs last 25%. If diff > 5% → up/down; else flat. |
-| **select** | `{ dominantOverTime?: string[] }` | One entry per check-in date: selectedOption for that date, or "" if no response. |
+| type       | trend shape                                                 | logic                                                                                                                                           |
+| ---------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **text**   | `{ countOverTime: Array<{ date: string, count: number }> }` | One entry per check-in date; count = non-empty responseText for that date. Count may be 0.                                                      |
+| **number** | `{ direction: "increasing" \| "decreasing" \| "flat" }`     | responseNumber in time order. Compare avg of first 25% vs last 25%. If (last − first) / range > 5% → increasing; < −5% → decreasing; else flat. |
+| **emoji**  | `{ moodTrend: "up" \| "down" \| "flat" }`                   | Same as number (responseNumber 1..emojiCount); map increasing→up, decreasing→down, flat→flat.                                                   |
+| **yesno**  | `{ yesRateTrend: "up" \| "down" \| "flat" }`                | Yes-rate over time. Compare yes-rate in first 25% vs last 25%. If diff > 5% → up/down; else flat.                                               |
+| **select** | `{ dominantOverTime?: string[] }`                           | One entry per check-in date: selectedOption for that date, or "" if no response.                                                                |
 
 **Unknown field type:** Treated as text (countOverTime, non-empty responseText count per date).
 

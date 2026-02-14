@@ -81,17 +81,14 @@ export default function CustomSignInPage() {
 
           {/* Submit button with your styling */}
           <SignIn.Action submit asChild>
-            <Button
-              type="submit"
-              className="w-full py-6 rounded-2xl shadow-lg hover:shadow-xl"
-            >
+            <Button type="submit" className="w-full py-6 rounded-2xl shadow-lg hover:shadow-xl">
               Sign In
             </Button>
           </SignIn.Action>
 
           {/* Error messages */}
           <SignIn.Error />
-          
+
           {/* Social login buttons (if enabled) */}
           <SignIn.SocialProvider name="google" asChild>
             <Button variant="outline" className="w-full">
@@ -108,6 +105,7 @@ export default function CustomSignInPage() {
 ### Available Clerk Elements Components
 
 For **Sign In:**
+
 - `<SignIn.Root>` - Root container
 - `<SignIn.Step>` - Step container (start, password, verification, etc.)
 - `<SignIn.Field>` - Form field wrapper
@@ -120,6 +118,7 @@ For **Sign In:**
 - `<SignIn.Link>` - Navigation links
 
 For **Sign Up:**
+
 - Similar structure with `<SignUp.*>` components
 
 **Note:** Clerk Elements is currently in **beta** and supports Next.js App Router.
@@ -220,6 +219,7 @@ const session = await clerkClient.sessions.create({
 ### Current Implementation Status
 
 ✅ **What we have:**
+
 - Custom forms with InteractiveForm
 - Clerk hooks (`useSignIn`, `useSignUp`)
 - Full design control with Tailwind CSS
@@ -228,6 +228,7 @@ const session = await clerkClient.sessions.create({
 - Social login integration
 
 ⚠️ **What might be missing:**
+
 - Email verification flow (handled automatically by Clerk, but may need custom UI)
 - Complete password reset flow (we have the initial request, but reset form uses TaskResetPassword)
 - Multi-factor authentication (if needed)
@@ -256,6 +257,7 @@ For **full design control with minimal code**, I recommend:
 ### From Current Implementation to Clerk Elements
 
 1. Install Clerk Elements:
+
    ```bash
    npm install @clerk/elements
    ```

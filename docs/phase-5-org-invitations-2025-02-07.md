@@ -14,14 +14,14 @@ This document records scope, decisions, and implementation for Phase 5. Invitati
 
 ## 2. Decisions & scope
 
-| Decision | Choice |
-|----------|--------|
-| Identity | User is the only identity (Clerk). One email = one user. |
-| Org | Organisation is context/workspace. No org auth. |
-| Invite storage | New table `OrganisationInvite` only. No Clerk linkage. |
-| Token | Unique string, one-time use. 7-day expiry. |
-| Accept | POST /api/org-invites/[token]/accept; invite.email must match signed-in user email. |
-| Revoke | Optional DELETE invite; can defer. (In scope: list pending, create invite, accept.) |
+| Decision       | Choice                                                                              |
+| -------------- | ----------------------------------------------------------------------------------- |
+| Identity       | User is the only identity (Clerk). One email = one user.                            |
+| Org            | Organisation is context/workspace. No org auth.                                     |
+| Invite storage | New table `OrganisationInvite` only. No Clerk linkage.                              |
+| Token          | Unique string, one-time use. 7-day expiry.                                          |
+| Accept         | POST /api/org-invites/[token]/accept; invite.email must match signed-in user email. |
+| Revoke         | Optional DELETE invite; can defer. (In scope: list pending, create invite, accept.) |
 
 ---
 
@@ -43,11 +43,11 @@ This document records scope, decisions, and implementation for Phase 5. Invitati
 
 ## 4. Step 5.2 — API
 
-| Method | Endpoint | Permission | Purpose |
-|--------|----------|------------|---------|
-| POST | /api/orgs/[orgId]/invites | canActAsOrgAdmin | Create invite (email + role, 7-day expiry). 409 if already member or active invite. |
-| GET | /api/orgs/[orgId]/invites | canActAsOrgAdmin | List pending (not accepted, not expired). |
-| POST | /api/org-invites/[token]/accept | auth required | Accept invite: email match, create OrganisationMember, set acceptedAt. 404 invalid/expired; 403 email mismatch; 409 already member. |
+| Method | Endpoint                        | Permission       | Purpose                                                                                                                             |
+| ------ | ------------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | /api/orgs/[orgId]/invites       | canActAsOrgAdmin | Create invite (email + role, 7-day expiry). 409 if already member or active invite.                                                 |
+| GET    | /api/orgs/[orgId]/invites       | canActAsOrgAdmin | List pending (not accepted, not expired).                                                                                           |
+| POST   | /api/org-invites/[token]/accept | auth required    | Accept invite: email match, create OrganisationMember, set acceptedAt. 404 invalid/expired; 403 email mismatch; 409 already member. |
 
 ---
 
@@ -88,19 +88,19 @@ This document records scope, decisions, and implementation for Phase 5. Invitati
 
 ## 9. Files touched
 
-| File | Change |
-|------|--------|
-| prisma/schema.prisma | Add OrganisationInvite model + relation on Organisation. |
-| prisma/migrations/20250207120000_add_organisation_invite/migration.sql | Migration for OrganisationInvite table. |
-| src/app/api/orgs/[orgId]/invites/route.ts | **New.** POST create invite, GET list pending. |
-| src/app/api/org-invites/[token]/route.ts | **New.** GET invite details (no auth). |
-| src/app/api/org-invites/[token]/accept/route.ts | **New.** POST accept (auth; email match; create member + set acceptedAt). |
-| src/app/(org)/org/[orgId]/admin/members/OrgMembersClient.tsx | Invite-a-teammate form, pending invites table, show invite link after send. |
-| src/app/(org)/org/invites/[token]/page.tsx | **New.** Accept page: sign-in redirect, org name + role, CTA, clear errors. |
-| src/proxy.ts | /org/invites/* unauthenticated → redirect to sign-in?redirect_url=…; set x-pathname header. |
-| src/app/(org)/layout.tsx | Allow /org/invites/* for any authenticated user (skip canAccessOrgPortal). |
-| src/app/(auth)/sign-in/[[...sign-in]]/page.tsx | Use redirect_url query for post–sign-in redirect. |
-| docs/API.md | Document Phase 5 endpoints. |
+| File                                                                   | Change                                                                                       |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| prisma/schema.prisma                                                   | Add OrganisationInvite model + relation on Organisation.                                     |
+| prisma/migrations/20250207120000_add_organisation_invite/migration.sql | Migration for OrganisationInvite table.                                                      |
+| src/app/api/orgs/[orgId]/invites/route.ts                              | **New.** POST create invite, GET list pending.                                               |
+| src/app/api/org-invites/[token]/route.ts                               | **New.** GET invite details (no auth).                                                       |
+| src/app/api/org-invites/[token]/accept/route.ts                        | **New.** POST accept (auth; email match; create member + set acceptedAt).                    |
+| src/app/(org)/org/[orgId]/admin/members/OrgMembersClient.tsx           | Invite-a-teammate form, pending invites table, show invite link after send.                  |
+| src/app/(org)/org/invites/[token]/page.tsx                             | **New.** Accept page: sign-in redirect, org name + role, CTA, clear errors.                  |
+| src/proxy.ts                                                           | /org/invites/\* unauthenticated → redirect to sign-in?redirect_url=…; set x-pathname header. |
+| src/app/(org)/layout.tsx                                               | Allow /org/invites/\* for any authenticated user (skip canAccessOrgPortal).                  |
+| src/app/(auth)/sign-in/[[...sign-in]]/page.tsx                         | Use redirect_url query for post–sign-in redirect.                                            |
+| docs/API.md                                                            | Document Phase 5 endpoints.                                                                  |
 
 ---
 
@@ -114,4 +114,4 @@ This document records scope, decisions, and implementation for Phase 5. Invitati
 
 ---
 
-*Phase 5 completed 2025-02-07.*
+_Phase 5 completed 2025-02-07._

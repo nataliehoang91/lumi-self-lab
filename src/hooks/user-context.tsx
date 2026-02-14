@@ -81,9 +81,7 @@ function transformAPIUserToUserData(apiUser: APIUser): UserData {
   // Check if user has manager role (team_manager or org_admin) (or super_admin)
   const hasManagerRole =
     isSuperAdmin ||
-    apiUser.organisations.some(
-      (org) => org.role === "team_manager" || org.role === "org_admin",
-    );
+    apiUser.organisations.some((org) => org.role === "team_manager" || org.role === "org_admin");
 
   // Upgraded: has upgradedAt OR super_admin (auto full access)
   const isUpgraded = !!apiUser.upgradedAt || isSuperAdmin;
@@ -108,8 +106,7 @@ function transformAPIUserToUserData(apiUser: APIUser): UserData {
     }));
 
   // User is a participant if they have org memberships OR org-linked experiments
-  const isParticipant =
-    apiUser.isParticipant ?? apiUser.organisations.length > 0;
+  const isParticipant = apiUser.isParticipant ?? apiUser.organisations.length > 0;
 
   return {
     email: apiUser.email || "",
@@ -147,11 +144,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
-        const message =
-          (data?.error ?? data?.details) || "Failed to fetch user";
-        throw new Error(
-          typeof message === "string" ? message : "Failed to fetch user",
-        );
+        const message = (data?.error ?? data?.details) || "Failed to fetch user";
+        throw new Error(typeof message === "string" ? message : "Failed to fetch user");
       }
       setApiUser(data);
     } catch (err) {
@@ -192,7 +186,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (userData) {
       const isSuperAdmin = userData.isSuperAdmin;
-      console.log("[UserContext] super_admin:", isSuperAdmin, "| email:", userData.email, "| role from API:", apiUser?.role);
+      console.log(
+        "[UserContext] super_admin:",
+        isSuperAdmin,
+        "| email:",
+        userData.email,
+        "| role from API:",
+        apiUser?.role
+      );
     }
   }, [userData, apiUser?.role]);
 

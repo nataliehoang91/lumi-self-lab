@@ -30,21 +30,16 @@ export default function SignUpPage() {
       <div className="w-full max-w-md">
         {/* Logo/Icon */}
         <div className="text-center mb-8">
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center mb-4"
-          >
+          <Link href="/" className="inline-flex items-center justify-center mb-4">
             <div className="relative">
-              <Sparkles className="w-12 h-12 text-secondary animate-float" />
+              <Sparkles className="w-12 h-12 text-second animate-float" />
               <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse-glow" />
             </div>
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
             Begin Your Journey
           </h1>
-          <p className="text-muted-foreground">
-            Create an account to start exploring
-          </p>
+          <p className="text-muted-foreground">Create an account to start exploring</p>
         </div>
 
         {/* Clerk Sign-Up Component with Custom Styling */}

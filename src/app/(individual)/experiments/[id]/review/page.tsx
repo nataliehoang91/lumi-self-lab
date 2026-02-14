@@ -12,29 +12,19 @@ async function fetchReviewResult(
   cookie: string,
   baseUrl: string
 ): Promise<ReviewResultResponse | null> {
-  const res = await fetch(
-    `${baseUrl}/api/experiments/${experimentId}/review/result`,
-    {
-      headers: { cookie },
-      cache: "no-store",
-    }
-  );
+  const res = await fetch(`${baseUrl}/api/experiments/${experimentId}/review/result`, {
+    headers: { cookie },
+    cache: "no-store",
+  });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error("Failed to fetch review result");
   return res.json() as Promise<ReviewResultResponse>;
 }
 
-export default async function ReviewPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ReviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const headersList = await headers();
-  const host =
-    headersList.get("host") ??
-    headersList.get("x-forwarded-host") ??
-    "localhost:3005";
+  const host = headersList.get("host") ?? headersList.get("x-forwarded-host") ?? "localhost:3005";
   const proto = headersList.get("x-forwarded-proto") ?? "http";
   const baseUrl = `${proto}://${host}`;
   const cookie = headersList.get("cookie") ?? "";
@@ -86,9 +76,7 @@ export default async function ReviewPage({
           {summary.fields.length === 0 ? (
             <p className="text-sm text-muted-foreground">No fields.</p>
           ) : (
-            summary.fields.map((field) => (
-              <ReviewSummaryField key={field.fieldId} field={field} />
-            ))
+            summary.fields.map((field) => <ReviewSummaryField key={field.fieldId} field={field} />)
           )}
         </div>
       </section>
@@ -100,9 +88,7 @@ export default async function ReviewPage({
           {trends.fields.length === 0 ? (
             <p className="text-sm text-muted-foreground">No trends.</p>
           ) : (
-            trends.fields.map((field) => (
-              <ReviewTrendField key={field.fieldId} field={field} />
-            ))
+            trends.fields.map((field) => <ReviewTrendField key={field.fieldId} field={field} />)
           )}
         </div>
       </section>

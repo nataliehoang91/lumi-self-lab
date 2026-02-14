@@ -3,12 +3,14 @@
 ## Your Requirements
 
 ### 1. Individual Account
+
 - ✅ Can create personal experiments
 - ✅ Can join experiments if assigned (shows "Joined Experiments" in navbar)
 - ❌ Cannot create orgs
 - ❌ Cannot manage team experiments
 
 ### 2. Individual Account (Team Manager)
+
 - ✅ Can create personal experiments
 - ✅ Can manage team experiments (if assigned by org admin)
 - ✅ Can create experiments for team
@@ -18,6 +20,7 @@
 - ❌ Cannot authorize other team managers
 
 ### 3. Org Account-Admin
+
 - ✅ Can create orgs (1 for now, multiple in future)
 - ✅ Has same access as team manager
 - ✅ Can authorize people to manage team experiments
@@ -33,11 +36,13 @@
 3. **Org Admin** - Can create orgs, authorize team managers, full access
 
 **Pros:**
+
 - Simpler mental model
 - Clear hierarchy: Individual → Team Manager → Org Admin
 - Less complexity in UI
 
 **Cons:**
+
 - "Individual" who gets assigned experiments vs. "Individual" who doesn't - same role, different state
 - Need to check `isParticipant` flag to show "Joined Experiments" link
 
@@ -49,11 +54,13 @@
 4. **Org Admin** - Can create orgs, authorize team managers, full access
 
 **Pros:**
+
 - More explicit distinction between "no org" vs "in org as member"
 - Clearer permission model
 - Easier to understand who can do what
 
 **Cons:**
+
 - More scenarios to maintain
 - "Individual" and "Member" are similar (both can't manage, both can participate)
 
@@ -66,13 +73,14 @@
    - **Role in Org**: member, team_manager, org_admin
 
 2. **Simpler Logic:**
+
    ```
    Individual Account:
      - Can have personal experiments
      - Can join experiments if assigned (isParticipant = true)
      - Can become team_manager if authorized by org admin
      - Cannot create orgs
-   
+
    Org Account:
      - Everything Individual can do
      - Can create orgs
@@ -88,6 +96,7 @@
 ## Proposed Structure
 
 ### Scenario 1: Individual (No Org Involvement)
+
 ```typescript
 {
   accountType: "individual",
@@ -100,6 +109,7 @@
 ```
 
 ### Scenario 2: Individual (Team Manager)
+
 ```typescript
 {
   accountType: "individual",
@@ -117,6 +127,7 @@
 ```
 
 ### Scenario 3: Org Admin
+
 ```typescript
 {
   accountType: "organisation",
@@ -131,6 +142,7 @@
 ```
 
 ### Scenario 4: Individual (Member/Participant) - Optional
+
 ```typescript
 {
   accountType: "individual",

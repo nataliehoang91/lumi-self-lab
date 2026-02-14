@@ -37,8 +37,7 @@ const TEMPLATES: TemplateSeed[] = [
   {
     key: "daily_energy",
     title: "Daily Energy Tracking",
-    description:
-      "Track your daily energy levels to understand patterns and optimise your routine.",
+    description: "Track your daily energy levels to understand patterns and optimise your routine.",
     durationDays: 14,
     frequency: "daily",
     categories: ["Wellness & Health"],
@@ -202,7 +201,13 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.3,
     usageCount: 900,
     fields: [
-      { label: "Estimated screen hours", type: "number", required: true, minValue: 0, maxValue: 16 },
+      {
+        label: "Estimated screen hours",
+        type: "number",
+        required: true,
+        minValue: 0,
+        maxValue: 16,
+      },
       { label: "How did it feel?", type: "emoji", required: true, emojiCount: 5 },
       {
         label: "Main use",
@@ -284,7 +289,12 @@ const TEMPLATES: TemplateSeed[] = [
     fields: [
       { label: "What did you learn?", type: "text", required: true, textType: "short" },
       { label: "Confidence level", type: "number", required: true, minValue: 1, maxValue: 10 },
-      { label: "Topic", type: "select", required: false, selectOptions: ["Work", "Language", "Tech", "Other"] },
+      {
+        label: "Topic",
+        type: "select",
+        required: false,
+        selectOptions: ["Work", "Language", "Tech", "Other"],
+      },
     ],
   },
   {
@@ -341,7 +351,13 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.5,
     usageCount: 700,
     fields: [
-      { label: "Creativity level today", type: "number", required: true, minValue: 1, maxValue: 10 },
+      {
+        label: "Creativity level today",
+        type: "number",
+        required: true,
+        minValue: 1,
+        maxValue: 10,
+      },
       { label: "In flow?", type: "yesno", required: false },
       { label: "What helped or blocked?", type: "text", required: false, textType: "long" },
     ],

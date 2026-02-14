@@ -30,19 +30,19 @@
 
 **Allowed transitions:**
 
-| From    | To        | Notes |
-|---------|-----------|--------|
-| draft   | active    | Allowed. `startedAt` is set to `body.startedAt` or `new Date()` when transitioning. |
-| active  | completed | Allowed. `completedAt` is set to `body.completedAt` or `new Date()` when transitioning. |
-| draft   | draft     | No-op (allowed). |
-| active  | active    | No-op (allowed). |
-| completed | completed | No-op (allowed). |
+| From      | To        | Notes                                                                                   |
+| --------- | --------- | --------------------------------------------------------------------------------------- |
+| draft     | active    | Allowed. `startedAt` is set to `body.startedAt` or `new Date()` when transitioning.     |
+| active    | completed | Allowed. `completedAt` is set to `body.completedAt` or `new Date()` when transitioning. |
+| draft     | draft     | No-op (allowed).                                                                        |
+| active    | active    | No-op (allowed).                                                                        |
+| completed | completed | No-op (allowed).                                                                        |
 
 **Disallowed transitions (400):**
 
-- completed → active  
-- completed → draft  
-- active → draft  
+- completed → active
+- completed → draft
+- active → draft
 
 Response body:
 

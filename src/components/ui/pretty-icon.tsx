@@ -21,11 +21,10 @@ const variantClasses: Record<PrettyIconVariant, string> = {
   primary:
     "bg-primary/25 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-primary",
   secondary:
-    "bg-secondary/25 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-secondary",
+    "bg-second/25 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-second",
   tertiary:
     "bg-tertiary/30 flex items-center justify-center [&>svg]:shrink-0 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-tertiary",
-  logo:
-    "bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center ring-1 ring-primary/30 [&>svg]:shrink-0 [&>svg]:w-10 [&>svg]:h-10 md:[&>svg]:w-12 md:[&>svg]:h-12 [&>svg]:text-primary",
+  logo: "bg-gradient-to-br from-primary/20 to-second/20 flex items-center justify-center ring-1 ring-primary/30 [&>svg]:shrink-0 [&>svg]:w-10 [&>svg]:h-10 md:[&>svg]:w-12 md:[&>svg]:h-12 [&>svg]:text-primary",
 };
 
 /**
@@ -39,14 +38,6 @@ export function PrettyIcon({
   className,
 }: PrettyIconProps) {
   return (
-    <div
-      className={cn(
-        sizeClasses[size],
-        variantClasses[variant],
-        className
-      )}
-    >
-      {children}
-    </div>
+    <div className={cn(sizeClasses[size], variantClasses[variant], className)}>{children}</div>
   );
 }

@@ -1,16 +1,9 @@
 "use client";
 
 import { Slot } from "@radix-ui/react-slot";
-import {
-  createContext,
-  startTransition,
-  useContext,
-  useRef,
-  type ComponentProps,
-} from "react";
+import { createContext, startTransition, useContext, useRef, type ComponentProps } from "react";
 
-const FormRefContext =
-  createContext<React.RefObject<HTMLFormElement | null> | null>(null);
+const FormRefContext = createContext<React.RefObject<HTMLFormElement | null> | null>(null);
 
 export function AutoSubmitForm({
   children,
@@ -69,8 +62,7 @@ export function AutoSubmitField({
   }
 
   const props = {
-    [triggerPropName]:
-      debounceMs > 0 ? debounce(onChange, debounceMs) : onChange,
+    [triggerPropName]: debounceMs > 0 ? debounce(onChange, debounceMs) : onChange,
   };
 
   return <Slot {...props}>{children}</Slot>;

@@ -29,7 +29,7 @@ export default function CreateExperimentPage() {
     const org = searchParams.get("org");
     const template = searchParams.get("template");
     const assigned = searchParams.get("assigned");
-    
+
     if (org) setOrgId(org);
     if (template) setTemplateId(template);
     if (assigned) setAssignedInviteId(assigned);
@@ -58,7 +58,8 @@ export default function CreateExperimentPage() {
                   Creating experiment linked to {orgName}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Your personal reflections will stay private. Only aggregate insights will be shared.
+                  Your personal reflections will stay private. Only aggregate insights will be
+                  shared.
                 </p>
               </div>
               <Button
@@ -82,11 +83,10 @@ export default function CreateExperimentPage() {
             <div className="flex items-center gap-3">
               <Home className="w-5 h-5 text-muted-foreground" />
               <div>
-                <p className="text-sm font-medium text-foreground">
-                  Creating personal experiment
-                </p>
+                <p className="text-sm font-medium text-foreground">Creating personal experiment</p>
                 <p className="text-xs text-muted-foreground">
-                  This experiment is completely private. You can link it to an organisation later if you want.
+                  This experiment is completely private. You can link it to an organisation later if
+                  you want.
                 </p>
               </div>
             </div>

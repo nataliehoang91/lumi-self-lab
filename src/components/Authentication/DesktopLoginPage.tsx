@@ -6,8 +6,6 @@ interface DesktopLoginPageProps {
   callbackUrl?: string;
 }
 
-export default function DesktopLoginPage({
-  callbackUrl,
-}: DesktopLoginPageProps) {
+export default function DesktopLoginPage({ callbackUrl }: DesktopLoginPageProps) {
   return <LoginForm callbackUrl={callbackUrl} />;
 }

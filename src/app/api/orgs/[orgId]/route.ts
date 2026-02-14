@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  getAuthenticatedUserId,
-  canAccessOrg,
-  getOrgMembership,
-} from "@/lib/permissions";
+import { getAuthenticatedUserId, canAccessOrg, getOrgMembership } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 
 /**
@@ -11,10 +7,7 @@ import { prisma } from "@/lib/prisma";
  * Returns 404 if org does not exist or user is not a member.
  * See docs/phase-3-org-core-readonly-2025-02-07.md.
  */
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ orgId: string }> }
-) {
+export async function GET(_req: Request, { params }: { params: Promise<{ orgId: string }> }) {
   const userId = await getAuthenticatedUserId();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

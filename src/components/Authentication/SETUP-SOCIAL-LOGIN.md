@@ -38,6 +38,7 @@
 ## Step 2: Provider-Specific Setup (Production Only)
 
 ### Google OAuth Setup:
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select existing
 3. Enable Google+ API
@@ -46,6 +47,7 @@
 6. Copy Client ID and Client Secret to Clerk Dashboard
 
 ### Facebook OAuth Setup:
+
 1. Go to [Meta Developers](https://developers.facebook.com/)
 2. Create a new app
 3. Add Facebook Login product
@@ -54,6 +56,7 @@
 6. Copy credentials to Clerk Dashboard
 
 ### GitHub OAuth Setup:
+
 1. Go to GitHub Settings → Developer settings → OAuth Apps
 2. Create new OAuth App
 3. Set Authorization callback URL: `https://your-domain.clerk.accounts.dev/v1/oauth_callback`
@@ -62,6 +65,7 @@
 ## Step 3: Code is Already Set Up! ✅
 
 Our sign-in and sign-up pages already include:
+
 - ✅ Google login button
 - ✅ Facebook login button
 - ✅ GitHub login button
@@ -74,11 +78,13 @@ Our sign-in and sign-up pages already include:
 ## Current Implementation
 
 **Sign-In Page (`/sign-in`):**
+
 - Social login buttons at the top
 - Email/password form below
 - Uses `signIn.authenticateWithRedirect()` for OAuth flow
 
 **Sign-Up Page (`/sign-up`):**
+
 - Social login buttons at the top
 - Email/password form below
 - Uses `signUp.authenticateWithRedirect()` for OAuth flow
@@ -103,14 +109,17 @@ Our sign-in and sign-up pages already include:
 ## Troubleshooting
 
 **"Provider not found" error:**
+
 - Make sure the provider is enabled in Clerk Dashboard
 - Check that you're using the correct strategy name (e.g., `oauth_google`)
 
 **"Redirect URL not authorized" error:**
+
 - For production, check that redirect URLs are configured correctly
 - Clerk automatically adds the correct redirect URL when you use `authenticateWithRedirect`
 
 **Social login button not working:**
+
 - Check browser console for errors
 - Verify Clerk environment variables are set
 - Ensure provider is enabled in Clerk Dashboard

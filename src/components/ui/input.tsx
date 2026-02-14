@@ -31,9 +31,7 @@ function Input({
       />
       {leftElement && (
         <div className="absolute left-3 top-1/2 -translate-y-1/2">
-          <span className="flex items-center justify-center">
-            {leftElement}
-          </span>
+          <span className="flex items-center justify-center">{leftElement}</span>
         </div>
       )}
       {rightElement && (

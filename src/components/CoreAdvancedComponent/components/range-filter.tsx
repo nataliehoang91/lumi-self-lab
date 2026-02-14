@@ -76,10 +76,7 @@ export function RangeFilter({
   };
 
   // Validate range and auto-correct if needed
-  const validateRange = (
-    newMin: RangeOption | null,
-    newMax: RangeOption | null
-  ) => {
+  const validateRange = (newMin: RangeOption | null, newMax: RangeOption | null) => {
     if (!newMin || !newMax) {
       setIsValidRange(true);
       setValidationMessage("");
@@ -109,9 +106,7 @@ export function RangeFilter({
 
   // Handle min value change
   const handleMinChange = (value: string) => {
-    const selectedOption = minOptions.find(
-      (opt) => opt.value.toString() === value
-    );
+    const selectedOption = minOptions.find((opt) => opt.value.toString() === value);
     onMinChange(selectedOption || null);
 
     // Clear max value if it's now invalid
@@ -131,9 +126,7 @@ export function RangeFilter({
 
   // Handle max value change
   const handleMaxChange = (value: string) => {
-    const selectedOption = maxOptions.find(
-      (opt) => opt.value.toString() === value
-    );
+    const selectedOption = maxOptions.find((opt) => opt.value.toString() === value);
     onMaxChange(selectedOption || null);
 
     // Clear min value if it's now invalid
@@ -206,10 +199,7 @@ export function RangeFilter({
       <div className="grid grid-cols-2 gap-2">
         {/* Min Select */}
         <div className="space-y-1">
-          <Label
-            htmlFor={`min-${title}`}
-            className="text-xs text-muted-foreground"
-          >
+          <Label htmlFor={`min-${title}`} className="text-xs text-muted-foreground">
             Min:
           </Label>
           <Select
@@ -222,15 +212,10 @@ export function RangeFilter({
             </SelectTrigger>
             <SelectContent>
               {filteredMinOptions.length === 0 ? (
-                <div className="px-3 py-2 text-sm text-muted-foreground">
-                  No options available
-                </div>
+                <div className="px-3 py-2 text-sm text-muted-foreground">No options available</div>
               ) : (
                 filteredMinOptions.map((option) => (
-                  <SelectItem
-                    key={option.value}
-                    value={option.value.toString()}
-                  >
+                  <SelectItem key={option.value} value={option.value.toString()}>
                     {option.label}
                   </SelectItem>
                 ))
@@ -241,10 +226,7 @@ export function RangeFilter({
 
         {/* Max Select */}
         <div className="space-y-1">
-          <Label
-            htmlFor={`max-${title}`}
-            className="text-xs text-muted-foreground"
-          >
+          <Label htmlFor={`max-${title}`} className="text-xs text-muted-foreground">
             Max:
           </Label>
           <Select
@@ -257,15 +239,10 @@ export function RangeFilter({
             </SelectTrigger>
             <SelectContent>
               {filteredMaxOptions.length === 0 ? (
-                <div className="px-3 py-2 text-sm text-muted-foreground">
-                  No options available
-                </div>
+                <div className="px-3 py-2 text-sm text-muted-foreground">No options available</div>
               ) : (
                 filteredMaxOptions.map((option) => (
-                  <SelectItem
-                    key={option.value}
-                    value={option.value.toString()}
-                  >
+                  <SelectItem key={option.value} value={option.value.toString()}>
                     {option.label}
                   </SelectItem>
                 ))

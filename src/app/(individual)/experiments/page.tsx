@@ -48,9 +48,7 @@ export default async function ExperimentsPage() {
     const daysCompleted = exp._count.checkIns;
 
     // Format startDate
-    const startDate = exp.startedAt
-      ? new Date(exp.startedAt).toISOString().split("T")[0]
-      : null;
+    const startDate = exp.startedAt ? new Date(exp.startedAt).toISOString().split("T")[0] : null;
 
     return {
       id: exp.id,
@@ -71,7 +69,7 @@ export default async function ExperimentsPage() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Link href="/" className="inline-flex items-center gap-2">
-              <FlaskConical className="w-8 h-8 text-secondary" />
+              <FlaskConical className="w-8 h-8 text-second" />
               <h1 className="text-3xl font-bold text-foreground">Self-Lab</h1>
             </Link>
           </div>
@@ -85,9 +83,7 @@ export default async function ExperimentsPage() {
 
         {/* Page Title */}
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-foreground mb-2">
-            Your Experiments
-          </h2>
+          <h2 className="text-4xl font-bold text-foreground mb-2">Your Experiments</h2>
           <p className="text-muted-foreground text-lg">
             Track your journey of self-discovery and personal insights
           </p>

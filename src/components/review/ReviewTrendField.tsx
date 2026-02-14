@@ -49,23 +49,13 @@ export function ReviewTrendField({ field }: { field: TrendField }) {
             {field.trend.countOverTime.map((d) => `${d.date}:${d.count}`).join(", ")}
           </span>
         )}
-        {field.type === "number" && (
-          <span>Direction: {field.trend.direction}</span>
-        )}
-        {field.type === "emoji" && (
-          <span>Mood trend: {field.trend.moodTrend}</span>
-        )}
-        {field.type === "yesno" && (
-          <span>Yes-rate trend: {field.trend.yesRateTrend}</span>
-        )}
+        {field.type === "number" && <span>Direction: {field.trend.direction}</span>}
+        {field.type === "emoji" && <span>Mood trend: {field.trend.moodTrend}</span>}
+        {field.type === "yesno" && <span>Yes-rate trend: {field.trend.yesRateTrend}</span>}
         {field.type === "select" && field.trend.dominantOverTime && (
-          <span>
-            Over time: {field.trend.dominantOverTime.join(" → ")}
-          </span>
+          <span>Over time: {field.trend.dominantOverTime.join(" → ")}</span>
         )}
-        {field.type === "select" && !field.trend.dominantOverTime?.length && (
-          <span>—</span>
-        )}
+        {field.type === "select" && !field.trend.dominantOverTime?.length && <span>—</span>}
       </div>
     </div>
   );

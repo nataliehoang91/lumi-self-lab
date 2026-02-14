@@ -72,11 +72,10 @@ export default function CreateOrganisationPage() {
               <Building2 className="w-5 h-5 text-violet" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-foreground">
-                Create an organisation
-              </h1>
+              <h1 className="text-xl font-semibold text-foreground">Create an organisation</h1>
               <p className="text-sm text-muted-foreground">
-                An organisation is a workspace for your team. You will have the organisation admin role.
+                An organisation is a workspace for your team. You will have the organisation admin
+                role.
               </p>
             </div>
           </div>
@@ -105,9 +104,7 @@ export default function CreateOrganisationPage() {
                 maxLength={500}
               />
             </div>
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
             <div className="flex gap-3 pt-2">
               <Button type="submit" disabled={submitting}>
                 {submitting ? "Creating…" : "Create organisation"}

@@ -13,21 +13,8 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Plus,
-  X,
-  List,
-  Smile,
-  CheckCircle2,
-  MessageSquare,
-  Activity,
-  Pencil,
-} from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Plus, X, List, Smile, CheckCircle2, MessageSquare, Activity, Pencil } from "lucide-react";
 
 export type FieldType = "text" | "number" | "select" | "emoji" | "yesno";
 
@@ -48,10 +35,7 @@ interface CustomFieldBuilderProps {
   onChange: (fields: CustomField[]) => void;
 }
 
-export function CustomFieldBuilder({
-  fields,
-  onChange,
-}: CustomFieldBuilderProps) {
+export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps) {
   const [isSelectingType, setIsSelectingType] = useState(false);
   const [isConfiguringField, setIsConfiguringField] = useState(false);
   const [editingFieldId, setEditingFieldId] = useState<string | null>(null);
@@ -211,9 +195,7 @@ export function CustomFieldBuilder({
                     <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                       {getFieldIcon(field.type)}
                     </div>
-                    <p className="text-sm font-medium truncate">
-                      {field.label}
-                    </p>
+                    <p className="text-sm font-medium truncate">{field.label}</p>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <span>{getFieldTypeName(field.type)}</span>
@@ -229,23 +211,18 @@ export function CustomFieldBuilder({
                         <span>{field.options.length} options</span>
                       </>
                     )}
-                    {field.minValue !== undefined &&
-                      field.maxValue !== undefined && (
-                        <>
-                          <span>•</span>
-                          <span>
-                            {field.minValue} to {field.maxValue}
-                          </span>
-                        </>
-                      )}
-                    {field.textType && (
+                    {field.minValue !== undefined && field.maxValue !== undefined && (
                       <>
                         <span>•</span>
                         <span>
-                          {field.textType === "short"
-                            ? "Short text"
-                            : "Long text"}
+                          {field.minValue} to {field.maxValue}
                         </span>
+                      </>
+                    )}
+                    {field.textType && (
+                      <>
+                        <span>•</span>
+                        <span>{field.textType === "short" ? "Short text" : "Long text"}</span>
                       </>
                     )}
                     {field.emojiCount && (
@@ -267,9 +244,7 @@ export function CustomFieldBuilder({
                   </Button>
                   <Switch
                     checked={field.required}
-                    onCheckedChange={(checked) =>
-                      updateRequired(field.id, checked)
-                    }
+                    onCheckedChange={(checked) => updateRequired(field.id, checked)}
                     className="scale-75"
                   />
                   <Button
@@ -291,8 +266,7 @@ export function CustomFieldBuilder({
       {isConfiguringField && (
         <Card className="p-5 rounded-2xl border-2 border-primary/50 bg-gradient-to-br from-primary/5 to-violet/5">
           <h4 className="font-semibold mb-4">
-            {editingFieldId ? "Edit" : "Configure"}{" "}
-            {getFieldTypeName(newField.type as FieldType)}
+            {editingFieldId ? "Edit" : "Configure"} {getFieldTypeName(newField.type as FieldType)}
           </h4>
 
           <div className="space-y-4">
@@ -304,9 +278,7 @@ export function CustomFieldBuilder({
                 <Input
                   id="field-label"
                   value={newField.label}
-                  onChange={(e) =>
-                    setNewField({ ...newField, label: e.target.value })
-                  }
+                  onChange={(e) => setNewField({ ...newField, label: e.target.value })}
                   placeholder="e.g., How focused did I feel today?"
                   className="rounded-xl"
                   autoFocus
@@ -414,12 +386,8 @@ export function CustomFieldBuilder({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="short">
-                      Short text (single line)
-                    </SelectItem>
-                    <SelectItem value="long">
-                      Long text (multiple lines)
-                    </SelectItem>
+                    <SelectItem value="short">Short text (single line)</SelectItem>
+                    <SelectItem value="long">Long text (multiple lines)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -437,9 +405,7 @@ export function CustomFieldBuilder({
                   placeholder="Option 1, Option 2, Option 3"
                   className="rounded-xl"
                 />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Separate options with commas
-                </p>
+                <p className="text-xs text-muted-foreground mt-1">Separate options with commas</p>
               </div>
             )}
 
@@ -447,9 +413,7 @@ export function CustomFieldBuilder({
               <Switch
                 id="field-required"
                 checked={newField.required}
-                onCheckedChange={(checked) =>
-                  setNewField({ ...newField, required: checked })
-                }
+                onCheckedChange={(checked) => setNewField({ ...newField, required: checked })}
               />
               <Label htmlFor="field-required" className="text-sm">
                 Required field
@@ -504,9 +468,7 @@ export function CustomFieldBuilder({
                     </div>
                     <div>
                       <p className="font-medium text-sm">Emoji Scale</p>
-                      <p className="text-xs text-muted-foreground">
-                        Track feelings
-                      </p>
+                      <p className="text-xs text-muted-foreground">Track feelings</p>
                     </div>
                   </div>
                 </button>
@@ -538,9 +500,7 @@ export function CustomFieldBuilder({
                     </div>
                     <div>
                       <p className="font-medium text-sm">Text Journal</p>
-                      <p className="text-xs text-muted-foreground">
-                        Free writing
-                      </p>
+                      <p className="text-xs text-muted-foreground">Free writing</p>
                     </div>
                   </div>
                 </button>
@@ -556,9 +516,7 @@ export function CustomFieldBuilder({
                     </div>
                     <div>
                       <p className="font-medium text-sm">Yes/No</p>
-                      <p className="text-xs text-muted-foreground">
-                        Simple check
-                      </p>
+                      <p className="text-xs text-muted-foreground">Simple check</p>
                     </div>
                   </div>
                 </button>

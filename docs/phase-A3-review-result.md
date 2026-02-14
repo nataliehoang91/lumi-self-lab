@@ -12,12 +12,12 @@ Single API that aggregates **experiment metadata**, **review summary**, and **re
 
 ## Tables used (read-only)
 
-| Table | Usage |
-|-------|--------|
-| **Experiment** | Loaded by id + clerkUserId (ownership); metadata (id, title, hypothesis, whyMatters, status, startedAt, completedAt, durationDays). |
-| **ExperimentField** | Via experiment include; order asc. |
-| **ExperimentCheckIn** | Via experiment include; checkInDate asc (for stats and trends). |
-| **ExperimentFieldResponse** | Via checkIns include; for summary and trends. |
+| Table                       | Usage                                                                                                                               |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Experiment**              | Loaded by id + clerkUserId (ownership); metadata (id, title, hypothesis, whyMatters, status, startedAt, completedAt, durationDays). |
+| **ExperimentField**         | Via experiment include; order asc.                                                                                                  |
+| **ExperimentCheckIn**       | Via experiment include; checkInDate asc (for stats and trends).                                                                     |
+| **ExperimentFieldResponse** | Via checkIns include; for summary and trends.                                                                                       |
 
 **No Prisma schema changes.** No migrations. No writes.
 

@@ -21,11 +21,11 @@ Creating an experiment with `status: "active"` blurs this distinction and can im
 
 ## Difference between defining and running
 
-| Step        | Meaning                    | Backend behavior                                  |
-|------------|----------------------------|---------------------------------------------------|
-| **Create** | Define the experiment      | Always `status: "draft"`, `startedAt: null`, `completedAt: null`. |
-| **Start**  | Begin data collection      | PATCH with `status: "active"` (from draft only). Sets `startedAt`. |
-| **Complete** | End data collection     | PATCH with `status: "completed"` (from active only). Sets `completedAt`. |
+| Step         | Meaning               | Backend behavior                                                         |
+| ------------ | --------------------- | ------------------------------------------------------------------------ |
+| **Create**   | Define the experiment | Always `status: "draft"`, `startedAt: null`, `completedAt: null`.        |
+| **Start**    | Begin data collection | PATCH with `status: "active"` (from draft only). Sets `startedAt`.       |
+| **Complete** | End data collection   | PATCH with `status: "completed"` (from active only). Sets `completedAt`. |
 
 Check-ins are only allowed when the experiment is **active** and **started** (Phase 1 lifecycle). So no check-ins can be recorded until the user has started the experiment.
 

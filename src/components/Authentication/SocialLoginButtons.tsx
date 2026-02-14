@@ -1,13 +1,13 @@
 /**
  * Social Login Buttons Component
- * 
+ *
  * Reusable component for social login buttons (Google, Facebook, GitHub, etc.)
  * Uses Clerk's authenticateWithRedirect for OAuth flow
- * 
+ *
  * Usage:
  * ```tsx
  * import { SocialLoginButtons } from "@/components/Authentication/SocialLoginButtons";
- * 
+ *
  * <SocialLoginButtons
  *   mode="sign-in" // or "sign-up"
  *   isLoaded={isLoaded}

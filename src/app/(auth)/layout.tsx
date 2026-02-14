@@ -14,11 +14,7 @@ import { cookies } from "next/headers";
  * - /sign-in/[[...sign-in]]
  * - /sign-up/[[...sign-up]]
  */
-export default async function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   // Runtime signal: disables prerendering for this route tree
   // cookies() is called only as a signal - we await it but don't use the result
   await cookies();

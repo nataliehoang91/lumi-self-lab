@@ -28,21 +28,14 @@ export async function POST(req: Request) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json(
-      { error: "Invalid JSON" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
   const name = typeof body.name === "string" ? body.name.trim() : "";
   if (!name) {
-    return NextResponse.json(
-      { error: "name is required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "name is required" }, { status: 400 });
   }
-  const description =
-    typeof body.description === "string" ? body.description.trim() || null : null;
+  const description = typeof body.description === "string" ? body.description.trim() || null : null;
 
   try {
     const result = await prisma.$transaction(async (tx) => {
@@ -74,10 +67,7 @@ export async function POST(req: Request) {
     );
   } catch (err) {
     console.error("POST /api/orgs error:", err);
-    return NextResponse.json(
-      { error: "Failed to create organisation" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to create organisation" }, { status: 500 });
   }
 }
 

@@ -47,10 +47,7 @@ export async function GET(
     return NextResponse.json(checkIn);
   } catch (error) {
     console.error("Error fetching check-in:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch check-in" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch check-in" }, { status: 500 });
   }
 }
 
@@ -135,10 +132,8 @@ export async function PATCH(
       }
 
       // Delete responses that are not in the new list
-      const existingResponseIds = body.responses
-        .map((r: any) => r.id)
-        .filter(Boolean);
-      
+      const existingResponseIds = body.responses.map((r: any) => r.id).filter(Boolean);
+
       await prisma.experimentFieldResponse.deleteMany({
         where: {
           checkInId,
@@ -191,10 +186,7 @@ export async function PATCH(
     return NextResponse.json(checkIn);
   } catch (error) {
     console.error("Error updating check-in:", error);
-    return NextResponse.json(
-      { error: "Failed to update check-in" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update check-in" }, { status: 500 });
   }
 }
 
@@ -238,9 +230,6 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting check-in:", error);
-    return NextResponse.json(
-      { error: "Failed to delete check-in" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete check-in" }, { status: 500 });
   }
 }

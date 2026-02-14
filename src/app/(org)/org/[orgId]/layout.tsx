@@ -1,8 +1,5 @@
 import { redirect } from "next/navigation";
-import {
-  getAuthenticatedUserId,
-  canAccessOrg,
-} from "@/lib/permissions";
+import { getAuthenticatedUserId, canAccessOrg } from "@/lib/permissions";
 
 /**
  * Org-scoped layout: user must belong to this org (any role) or be super_admin.

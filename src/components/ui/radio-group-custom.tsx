@@ -49,10 +49,7 @@ function RadioGroupItemCustom({
         className="relative flex items-center justify-center"
       >
         <div
-          className={cn(
-            "size-1.5 rounded-full bg-primary dark:bg-od-bright-teal",
-            circleClassName
-          )}
+          className={cn("size-1.5 rounded-full bg-primary dark:bg-od-bright-teal", circleClassName)}
         />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>

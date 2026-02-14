@@ -1,9 +1,9 @@
 /**
  * Types Index
- * 
+ *
  * Central export point for all types in the application.
  * Import types from here: import type { Experiment, UIExperiment } from "@/types";
- * 
+ *
  * Note: We use Prisma for database operations and basic search (contains queries).
  * Typesense is NOT needed - Prisma search is sufficient for this use case.
  */

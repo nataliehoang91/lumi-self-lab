@@ -35,14 +35,14 @@ Templates remain **system-owned** and **read-only**. No user-created or editable
 
 **Extend `ExperimentTemplate`** (add columns only; no new models):
 
-| Column      | Type     | Notes                    |
-|-------------|----------|--------------------------|
-| categories  | String[] | @default([])             |
-| tags        | String[] | @default([])             |
-| featured    | Boolean  | @default(false)          |
-| difficulty  | String?  | "Easy" \| "Medium" \| "Hard" |
-| rating      | Float?   | Display-only             |
-| usageCount  | Int?     | Display-only             |
+| Column     | Type     | Notes                        |
+| ---------- | -------- | ---------------------------- |
+| categories | String[] | @default([])                 |
+| tags       | String[] | @default([])                 |
+| featured   | Boolean  | @default(false)              |
+| difficulty | String?  | "Easy" \| "Medium" \| "Hard" |
+| rating     | Float?   | Display-only                 |
+| usageCount | Int?     | Display-only                 |
 
 No relation to User or Organisation. `ExperimentTemplateField` unchanged.
 
@@ -96,12 +96,12 @@ No relation to User or Organisation. `ExperimentTemplateField` unchanged.
 
 ## Files
 
-| File | Purpose |
-|------|--------|
-| `prisma/schema.prisma` | New columns on ExperimentTemplate. |
-| `prisma/migrations/20260201100000_add_template_metadata/migration.sql` | Add metadata columns. |
-| `prisma/seed/experiment-templates.ts` | Seed 5 templates with full metadata. |
-| `src/app/api/experiment-templates/route.ts` | GET orderBy featured desc, createdAt desc; response includes metadata. |
+| File                                                                   | Purpose                                                                |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `prisma/schema.prisma`                                                 | New columns on ExperimentTemplate.                                     |
+| `prisma/migrations/20260201100000_add_template_metadata/migration.sql` | Add metadata columns.                                                  |
+| `prisma/seed/experiment-templates.ts`                                  | Seed 5 templates with full metadata.                                   |
+| `src/app/api/experiment-templates/route.ts`                            | GET orderBy featured desc, createdAt desc; response includes metadata. |
 
 ---
 

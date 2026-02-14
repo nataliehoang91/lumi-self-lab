@@ -11,7 +11,7 @@ import Link from "next/link";
 // Mock template data - replace with API call
 function getTemplate(templateId: string | null) {
   if (!templateId) return null;
-  
+
   const templates: Record<string, any> = {
     t1: {
       id: "t1",
@@ -28,7 +28,7 @@ function getTemplate(templateId: string | null) {
       ],
     },
   };
-  
+
   return templates[templateId] || null;
 }
 
@@ -43,7 +43,7 @@ export default function FromTemplatePage() {
     const template = searchParams.get("template");
     const org = searchParams.get("org");
     const assigned = searchParams.get("assigned");
-    
+
     if (template) setTemplateId(template);
     if (org) setOrgId(org);
     if (assigned) setAssignedInviteId(assigned);
@@ -58,9 +58,7 @@ export default function FromTemplatePage() {
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <Card className="p-12 text-center">
             <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">
-              Template not found
-            </h3>
+            <h3 className="text-lg font-semibold text-foreground mb-2">Template not found</h3>
             <Button asChild>
               <Link href="/templates">Browse Templates</Link>
             </Button>
@@ -75,7 +73,7 @@ export default function FromTemplatePage() {
     if (templateId) params.set("template", templateId);
     if (orgId) params.set("org", orgId);
     if (assignedInviteId) params.set("assigned", assignedInviteId);
-    
+
     router.push(`/experiments/new/create?${params.toString()}`);
   };
 
@@ -99,7 +97,8 @@ export default function FromTemplatePage() {
                   Starting from {orgName} template
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  This experiment will be linked to {orgName} for aggregate insights. Your personal data stays private.
+                  This experiment will be linked to {orgName} for aggregate insights. Your personal
+                  data stays private.
                 </p>
               </div>
               <Button
@@ -122,12 +121,8 @@ export default function FromTemplatePage() {
         {/* Template Preview */}
         <Card className="p-8">
           <div className="mb-6">
-            <Badge className="mb-4 bg-violet/10 text-violet">
-              {template.category}
-            </Badge>
-            <h1 className="text-3xl font-semibold text-foreground mb-2">
-              {template.title}
-            </h1>
+            <Badge className="mb-4 bg-violet/10 text-violet">{template.category}</Badge>
+            <h1 className="text-3xl font-semibold text-foreground mb-2">{template.title}</h1>
             <p className="text-muted-foreground">{template.description}</p>
           </div>
 
@@ -144,19 +139,12 @@ export default function FromTemplatePage() {
             </div>
 
             <div>
-              <h3 className="font-semibold text-foreground mb-4">
-                Tracking Fields
-              </h3>
+              <h3 className="font-semibold text-foreground mb-4">Tracking Fields</h3>
               <div className="space-y-3">
                 {template.fields.map((field: any, index: number) => (
-                  <div
-                    key={index}
-                    className="p-4 rounded-xl bg-muted/50 border border-border"
-                  >
+                  <div key={index} className="p-4 rounded-xl bg-muted/50 border border-border">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-sm font-medium text-foreground">
-                        {field.label}
-                      </span>
+                      <span className="text-sm font-medium text-foreground">{field.label}</span>
                       <Badge variant="outline" className="text-xs">
                         {field.type}
                       </Badge>

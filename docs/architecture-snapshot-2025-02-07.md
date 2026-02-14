@@ -10,7 +10,7 @@ This document is a **point-in-time snapshot** of the Lumi Self-Lab codebase. It 
 
 **Current route structure (as of this refactor):** See `docs/APP-ROUTE-STRUCTURE.md` for the authoritative list. Routes use groups `(individual)`, `(org)`, `(admin)`, `(invisible-admin)`; org portal is `/org` and `/org/[orgId]/*` with `/org/[orgId]/admin/*` for org-admin. User identity: `GET /api/users/identity`.
 
-The following subsection describes portal *categories*; path prefixes may differ from the current app directory (e.g. no `(protected)`; personal is `(individual)`, org is `(org)`). For current URLs and layout paths see `docs/APP-ROUTE-STRUCTURE.md`. There is no separate “portal” routing; visibility is controlled by nav links and page-level checks.
+The following subsection describes portal _categories_; path prefixes may differ from the current app directory (e.g. no `(protected)`; personal is `(individual)`, org is `(org)`). For current URLs and layout paths see `docs/APP-ROUTE-STRUCTURE.md`. There is no separate “portal” routing; visibility is controlled by nav links and page-level checks.
 
 ### Personal / Individual
 
@@ -61,9 +61,9 @@ The following subsection describes portal *categories*; path prefixes may differ
 ### Internal User Model (Prisma)
 
 - **User:** `id`, `clerkUserId` (unique), `email`, `accountType` (`"individual"` \| `"organisation"`), `role` (`"user"` \| `"super_admin"`), `upgradedAt`, timestamps. Relations: `experiments`, `organisationMemberships`, `createdOrganisations`.
-- **Roles/flags in code:**  
-  - **Global:** `User.role` — `user` (default) or `super_admin` (full access; `upgradedAt` treated as set in API).  
-  - **Per-org:** `OrganisationMember.role` — `member`, `team_manager`, `org_admin`.  
+- **Roles/flags in code:**
+  - **Global:** `User.role` — `user` (default) or `super_admin` (full access; `upgradedAt` treated as set in API).
+  - **Per-org:** `OrganisationMember.role` — `member`, `team_manager`, `org_admin`.
   - **Account type:** `User.accountType` — `individual` (default) or `organisation` (can create orgs; used for nav and “Organisations” link).
 
 ---
@@ -83,9 +83,9 @@ The following subsection describes portal *categories*; path prefixes may differ
 ### Experiment Scoping
 
 - **Experiment model:** `clerkUserId` (owner), optional `organisationId`. Experiments are **always user-owned**; linking to an org is optional.
-- **APIs:**  
-  - `GET/POST /api/experiments` — Filter/create by `clerkUserId` only; **organisationId is not set or read** in the experiments API.  
-  - `GET/PATCH/DELETE /api/experiments/[id]` — Ownership enforced by `clerkUserId` only; no org or membership check.  
+- **APIs:**
+  - `GET/POST /api/experiments` — Filter/create by `clerkUserId` only; **organisationId is not set or read** in the experiments API.
+  - `GET/PATCH/DELETE /api/experiments/[id]` — Ownership enforced by `clerkUserId` only; no org or membership check.
   - Check-ins and fields APIs also gate by experiment ownership via `clerkUserId`.
 - **UI:** Org-linking page exists (`experiments/[id]/org-linking`) but link/unlink are TODOs (no `/api/experiments/[id]/link` or `unlink`). Creation flow does not set `organisationId` in the API.
 
@@ -157,4 +157,4 @@ These are stated as **current decisions** reflected or implied by the codebase a
 
 ---
 
-*Snapshot generated 2025-02-07. No code changes were made.*
+_Snapshot generated 2025-02-07. No code changes were made._

@@ -58,14 +58,10 @@ export default function RootLayout({
       waitlistUrl="/waitlist"
     >
       <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
-        >
+        <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
           <Suspense
             fallback={
-              <div className="min-h-screen flex items-center justify-center">
-                Loading...
-              </div>
+              <div className="min-h-screen flex items-center justify-center">Loading...</div>
             }
           >
             <ThemeProvider

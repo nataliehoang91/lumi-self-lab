@@ -3,30 +3,52 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Light, soothing pastel palette - peach/orange primary, violet secondary */
+  /* Light, soothing pastel palette */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
 
-  /* Primary color: Orange/Peach (hue 45) - used for main buttons, links, and primary actions */
-  --primary: oklch(0.75 0.12 45); /* Orange/Peach */
+  /* ═══ Main theme colors (5) ═══
+   * 1. Primary    – Orange/Peach    – oklch(0.75 0.12 45)   ≈ #e89b6c  rgb(232 155 108)
+   * 2. Second     – Violet/Purple  – oklch(0.7 0.15 270)   ≈ #9b7ddb  rgb(155 125 219)
+   * Secondary    – Neutral gray (Tailwind default) – for secondary buttons, badges
+   * 3. Tertiary   – Amber-Yellow   – oklch(0.78 0.12 80)  (muted highlight)
+   * 4. Coral      – Red-pink-coral – oklch(0.72 0.14 25)   ≈ #e07d6a  rgb(224 125 106)
+   * 5. Sky Blue – Soft blue, balances warm palette – oklch(0.70 0.10 235) (secondary UI, badges)
+   */
+
+  /* 1. Primary: Orange/Peach (hue 45) */
+  --primary: oklch(0.75 0.12 45);
   --primary-foreground: oklch(0.985 0 0);
 
-  /* Secondary color: Violet/Purple (hue 270) - used for secondary buttons, badges, icons, hover states */
-  --secondary: oklch(0.7 0.15 270); /* Violet/Purple */
-  --secondary-foreground: oklch(0.985 0 0);
+  /* 2. Second: Violet/Purple (hue 270) – our violet brand color */
+  --second: oklch(0.7 0.15 270);
+  --second-foreground: oklch(0.985 0 0);
 
-  /* Tertiary color: Amber/Gold (hue 85) - third brand color, replaces teal */
-  --tertiary: oklch(0.82 0.18 85); /* Amber/Gold */
-  --tertiary-foreground: oklch(0.22 0.04 85);
+  /* Secondary: Neutral gray (Tailwind default) – for secondary UI, buttons, badges */
+  --secondary: oklch(0.965 0.005 270);
+  --secondary-foreground: oklch(0.21 0.01 270);
+
+  /* 3. Tertiary: Amber-Yellow (muted, for highlights) */
+  --tertiary: oklch(0.78 0.12 80);
+  --tertiary-foreground: oklch(0.22 0.03 80);
+
+  /* 4. Coral: Red-pink-coral (hue 25) */
+  --coral: oklch(0.72 0.14 25);
+  --coral-foreground: oklch(0.985 0 0);
+
+  /* 5. Sky Blue: soft blue, balances warm palette (hue 235) */
+  --sky-blue: oklch(0.70 0.10 235);
+  --sky-blue-foreground: oklch(0.985 0 0);
 
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
 
-  /* Accent color: Orange/Yellow (hue 45) - used for accents and highlights */
-  --accent: oklch(0.8 0.1 45); /* Orange/Yellow */
+  /* Accent: Orange/Yellow (hue 45) – accents and highlights (distinct from primary) */
+  --accent: oklch(0.8 0.1 45);
   --accent-foreground: oklch(0.21 0.006 285.885);
+
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.99 0.005 50);
   --border: oklch(0.92 0.004 286.32);
@@ -49,6 +71,15 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
+
+  /* Success: lively sage green (for success states, checkmarks, completion) */
+  --success: oklch(0.50 0.14 145);
+  --success-muted: oklch(0.90 0.07 145);
+
+  /* Named gradient colors (for waitlist and other gradients) */
+  --gradient-peach: rgb(255 247 237);
+  --gradient-white: rgb(255 255 255);
+  --gradient-violet-tint: rgb(245 243 255 / 0.3);
 }
 
 .dark {
@@ -63,13 +94,17 @@
   --primary: oklch(0.8 0.14 45); /* Darker Orange/Peach */
   --primary-foreground: oklch(0.141 0.005 285.823);
 
-  /* Secondary color: Darker Violet/Purple (hue 270) - brighter for dark mode visibility */
-  --secondary: oklch(0.75 0.15 270); /* Darker Violet/Purple */
-  --secondary-foreground: oklch(0.985 0 0);
+  /* Second: Violet - brighter for dark mode */
+  --second: oklch(0.75 0.15 270);
+  --second-foreground: oklch(0.985 0 0);
 
-  /* Tertiary: Amber/Gold - brighter for dark mode */
-  --tertiary: oklch(0.88 0.18 85);
-  --tertiary-foreground: oklch(0.2 0.04 85);
+  /* Secondary: Neutral gray for dark mode */
+  --secondary: oklch(0.22 0.01 270);
+  --secondary-foreground: oklch(0.95 0.01 270);
+
+  /* Tertiary: Amber-Yellow - slightly brighter for dark mode */
+  --tertiary: oklch(0.82 0.12 80);
+  --tertiary-foreground: oklch(0.985 0 0);
 
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
@@ -77,6 +112,19 @@
   /* Accent color: Darker Orange/Yellow (hue 45) - brighter for dark mode visibility */
   --accent: oklch(0.85 0.1 45); /* Darker Orange/Yellow */
   --accent-foreground: oklch(0.141 0.005 285.823);
+
+  /* Coral: Red-pink-coral - brighter for dark mode */
+  --coral: oklch(0.78 0.15 25);
+  --coral-foreground: oklch(0.141 0.005 285.823);
+
+  /* Sky Blue - slightly brighter for dark mode */
+  --sky-blue: oklch(0.72 0.10 235);
+  --sky-blue-foreground: oklch(0.985 0 0);
+
+  /* Success - slightly brighter for dark mode */
+  --success: oklch(0.55 0.14 145);
+  --success-muted: oklch(0.25 0.06 145);
+
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.95 0.01 50);
   --border: oklch(1 0 0 / 10%);
@@ -111,6 +159,8 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-second: var(--second);
+  --color-second-foreground: var(--second-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-tertiary: var(--tertiary);
@@ -119,6 +169,12 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-coral: var(--coral);
+  --color-coral-foreground: var(--coral-foreground);
+  --color-sky-blue: var(--sky-blue);
+  --color-sky-blue-foreground: var(--sky-blue-foreground);
+  --color-success: var(--success);
+  --color-success-muted: var(--success-muted);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -137,6 +193,9 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-gradient-peach: var(--gradient-peach);
+  --color-gradient-white: var(--gradient-white);
+  --color-gradient-violet-tint: var(--gradient-violet-tint);
 
   /* Border radius */
   --radius-sm: calc(var(--radius) - 6px);
@@ -220,6 +279,8 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-second: var(--second);
+  --color-second-foreground: var(--second-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-tertiary: var(--tertiary);
@@ -228,6 +289,12 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-coral: var(--coral);
+  --color-coral-foreground: var(--coral-foreground);
+  --color-sky-blue: var(--sky-blue);
+  --color-sky-blue-foreground: var(--sky-blue-foreground);
+  --color-success: var(--success);
+  --color-success-muted: var(--success-muted);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -245,6 +312,9 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-gradient-peach: var(--gradient-peach);
+  --color-gradient-white: var(--gradient-white);
+  --color-gradient-violet-tint: var(--gradient-violet-tint);
 }
 
 @layer base {
@@ -254,6 +324,15 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Waitlist page: gradient background (orange → white → violet) */
+.waitlist-background {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, var(--gradient-peach), var(--gradient-white), var(--gradient-violet-tint));
+}
+.dark .waitlist-background {
+  background: linear-gradient(to bottom right, var(--background), var(--background), rgb(46 16 101 / 0.2));
 }
 
 /* Clerk: ensure "Continue with Google" (social button) label is visible in dark mode */

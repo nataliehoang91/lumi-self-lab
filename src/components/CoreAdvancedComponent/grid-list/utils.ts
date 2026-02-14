@@ -105,10 +105,7 @@ function isElementTabbable(element: HTMLElement): boolean {
 }
 
 // Performance cache for tabbable elements
-const tabbableCache = new WeakMap<
-  Element,
-  { elements: HTMLElement[]; timestamp: number }
->();
+const tabbableCache = new WeakMap<Element, { elements: HTMLElement[]; timestamp: number }>();
 const CACHE_DURATION = 1000; // 1 second cache
 
 // Lightweight version for performance-critical scenarios
@@ -130,9 +127,7 @@ export function getTabbableElementsLight(container: Element): HTMLElement[] {
     "[data-focus-sentinel]",
   ].join(",");
 
-  const elements = Array.from(
-    container.querySelectorAll(selectors)
-  ) as HTMLElement[];
+  const elements = Array.from(container.querySelectorAll(selectors)) as HTMLElement[];
 
   // Quick visibility filter
   return elements.filter((el) => {
@@ -145,10 +140,7 @@ export function getTabbableElementsLight(container: Element): HTMLElement[] {
 }
 
 // Heavy but comprehensive version with optimizations
-export function getTabbableElements(
-  container: Element,
-  useCache = true
-): HTMLElement[] {
+export function getTabbableElements(container: Element, useCache = true): HTMLElement[] {
   // Check cache first
   if (useCache) {
     const cached = tabbableCache.get(container);
@@ -207,9 +199,7 @@ export function getTabbableElements(
     if (bTabIndex > 0) return 1;
 
     // Elements with tabindex 0 or default tab order, sorted by document order
-    return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING
-      ? -1
-      : 1;
+    return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
   });
 
   // Cache the result

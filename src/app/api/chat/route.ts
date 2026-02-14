@@ -1,6 +1,6 @@
 import { getAuthenticatedUserId } from "@/lib/permissions";
 
-export const maxDuration = 30
+export const maxDuration = 30;
 
 /**
  * Personal action: AI chat for the authenticated user only. No role or org checks.
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const { messages } = await req.json()
+  const { messages } = await req.json();
 
   const systemMessage = {
     role: "system",
@@ -30,7 +30,7 @@ Guidelines:
 - Help users identify patterns and insights
 
 You're here to guide reflection, not to provide answers or diagnose.`,
-  }
+  };
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -44,38 +44,38 @@ You're here to guide reflection, not to provide answers or diagnose.`,
         messages: [systemMessage, ...messages],
         stream: true,
       }),
-    })
+    });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.statusText}`)
+      throw new Error(`OpenAI API error: ${response.statusText}`);
     }
 
-    const encoder = new TextEncoder()
-    const decoder = new TextDecoder()
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
 
     const stream = new ReadableStream({
       async start(controller) {
-        const reader = response.body?.getReader()
-        if (!reader) return
+        const reader = response.body?.getReader();
+        if (!reader) return;
 
         try {
           while (true) {
-            const { done, value } = await reader.read()
-            if (done) break
+            const { done, value } = await reader.read();
+            if (done) break;
 
-            const chunk = decoder.decode(value)
-            const lines = chunk.split("\n").filter((line) => line.trim() !== "")
+            const chunk = decoder.decode(value);
+            const lines = chunk.split("\n").filter((line) => line.trim() !== "");
 
             for (const line of lines) {
               if (line.startsWith("data: ")) {
-                const data = line.slice(6)
-                if (data === "[DONE]") continue
+                const data = line.slice(6);
+                if (data === "[DONE]") continue;
 
                 try {
-                  const parsed = JSON.parse(data)
-                  const content = parsed.choices[0]?.delta?.content
+                  const parsed = JSON.parse(data);
+                  const content = parsed.choices[0]?.delta?.content;
                   if (content) {
-                    controller.enqueue(encoder.encode(`0:${JSON.stringify(content)}\n`))
+                    controller.enqueue(encoder.encode(`0:${JSON.stringify(content)}\n`));
                   }
                 } catch (e) {
                   // Ignore parsing errors
@@ -84,21 +84,21 @@ You're here to guide reflection, not to provide answers or diagnose.`,
             }
           }
         } finally {
-          controller.close()
+          controller.close();
         }
       },
-    })
+    });
 
     return new Response(stream, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
       },
-    })
+    });
   } catch (error) {
-    console.error("[v0] Chat API error:", error)
+    console.error("[v0] Chat API error:", error);
     return new Response(JSON.stringify({ error: "Failed to process request" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
-    })
+    });
   }
 }

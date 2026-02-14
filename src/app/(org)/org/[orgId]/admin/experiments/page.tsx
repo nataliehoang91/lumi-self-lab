@@ -23,9 +23,7 @@ export default async function OrgAdminExperimentsPage({
         </Button>
         <Card className="p-8 text-center">
           <Target className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-xl font-semibold text-foreground mb-2">
-            Manage experiments
-          </h2>
+          <h2 className="text-xl font-semibold text-foreground mb-2">Manage experiments</h2>
           <p className="text-muted-foreground">
             Experiment management for this organisation (admin). Deferred to a later phase.
           </p>

@@ -13,8 +13,7 @@ export function WelcomeHeader() {
         Understand Yourself
       </h1>
       <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
-        Run personal experiments to discover your patterns, habits, and deeper
-        insights.
+        Run personal experiments to discover your patterns, habits, and deeper insights.
       </p>
     </header>
   );

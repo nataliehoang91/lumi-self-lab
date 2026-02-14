@@ -21,11 +21,7 @@ function roleLabel(role: string): string {
   return "member";
 }
 
-export default function OrgInviteAcceptPage({
-  params,
-}: {
-  params: Promise<{ token: string }>;
-}) {
+export default function OrgInviteAcceptPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = use(params);
   const router = useRouter();
   const [details, setDetails] = useState<InviteDetails | null>(null);
@@ -37,7 +33,10 @@ export default function OrgInviteAcceptPage({
   useEffect(() => {
     fetch(`/api/org-invites/${token}`)
       .then((res) => {
-        if (!res.ok) return res.json().then((d) => { throw new Error(d.error ?? "Invalid invite"); });
+        if (!res.ok)
+          return res.json().then((d) => {
+            throw new Error(d.error ?? "Invalid invite");
+          });
         return res.json();
       })
       .then((data) => {
@@ -66,7 +65,9 @@ export default function OrgInviteAcceptPage({
         if (res.status === 404 && (msg.includes("expired") || msg.includes("Invalid"))) {
           setAcceptError("This invite has expired.");
         } else if (res.status === 403 && msg.includes("different email")) {
-          setAcceptError("This invite was sent to a different email address. Sign in with that account to accept.");
+          setAcceptError(
+            "This invite was sent to a different email address. Sign in with that account to accept."
+          );
         } else if (res.status === 409 && msg.includes("already a member")) {
           setAcceptError("You are already a member of this organisation.");
         } else {
@@ -114,22 +115,21 @@ export default function OrgInviteAcceptPage({
             <Building2 className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-foreground">Join an organisation workspace</h1>
-            <p className="text-sm text-muted-foreground">You're joining {details.organisationName} as a {roleLabel(details.role)}.</p>
+            <h1 className="text-xl font-semibold text-foreground">
+              Join an organisation workspace
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              You're joining {details.organisationName} as a {roleLabel(details.role)}.
+            </p>
           </div>
         </div>
         <p className="text-sm text-muted-foreground mb-6">
-          This adds you to the organisation workspace. You are not creating a new account—you're joining with your existing sign-in.
+          This adds you to the organisation workspace. You are not creating a new account—you're
+          joining with your existing sign-in.
         </p>
-        {acceptError && (
-          <p className="text-sm text-destructive mb-4">{acceptError}</p>
-        )}
+        {acceptError && <p className="text-sm text-destructive mb-4">{acceptError}</p>}
         <div className="flex gap-3">
-          <Button
-            onClick={handleAccept}
-            disabled={submitting}
-            className="flex-1 gap-2"
-          >
+          <Button onClick={handleAccept} disabled={submitting} className="flex-1 gap-2">
             {submitting ? (
               <>
                 <Loader2 className="size-4 animate-spin" />

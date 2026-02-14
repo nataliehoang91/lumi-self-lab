@@ -12,9 +12,9 @@ import { CreationMethodSelector } from "@/components/ExperimentCreation/Creation
 export default function NewExperimentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selectedLocation, setSelectedLocation] = useState<
-    "personal" | "organisation" | null
-  >(null);
+  const [selectedLocation, setSelectedLocation] = useState<"personal" | "organisation" | null>(
+    null
+  );
   const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);
   const [showPrivacyReminder, setShowPrivacyReminder] = useState(false);
   const [showMethodSelector, setShowMethodSelector] = useState(false);
@@ -59,9 +59,7 @@ export default function NewExperimentPage() {
     setShowMethodSelector(true);
   };
 
-  const handleMethodSelected = (
-    method: "ai-guided" | "template" | "manual"
-  ) => {
+  const handleMethodSelected = (method: "ai-guided" | "template" | "manual") => {
     const params = new URLSearchParams();
 
     if (selectedLocation === "organisation" && selectedOrgId) {
@@ -111,12 +109,8 @@ export default function NewExperimentPage() {
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-foreground mb-2">
-            Create New Experiment
-          </h1>
-          <p className="text-muted-foreground">
-            Start your self-reflection journey
-          </p>
+          <h1 className="text-3xl font-semibold text-foreground mb-2">Create New Experiment</h1>
+          <p className="text-muted-foreground">Start your self-reflection journey</p>
         </div>
 
         <Card className="p-8">
@@ -141,13 +135,11 @@ export default function NewExperimentPage() {
                   <span className="text-xs text-primary">Recommended</span>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mb-2">
-                Just for me, completely private
-              </p>
+              <p className="text-sm text-muted-foreground mb-2">Just for me, completely private</p>
               <p className="text-xs text-muted-foreground">
-                This experiment is yours alone. Your check-ins, reflections, and
-                insights are completely private. You can always link it to an
-                organisation later if you change your mind.
+                This experiment is yours alone. Your check-ins, reflections, and insights are
+                completely private. You can always link it to an organisation later if you change
+                your mind.
               </p>
             </button>
 
@@ -163,27 +155,22 @@ export default function NewExperimentPage() {
               >
                 <div className="flex items-center gap-3 mb-3">
                   <Building2 className="w-6 h-6 text-violet" />
-                  <h3 className="font-semibold text-foreground">
-                    With an organisation
-                  </h3>
+                  <h3 className="font-semibold text-foreground">With an organisation</h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-2">
                   Share aggregate insights (Your reflections stay private)
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Link this experiment to an organisation to contribute to team
-                  insights. Your personal reflections and text responses remain
-                  private. Only aggregate patterns (like average mood scores)
-                  are shared.
+                  Link this experiment to an organisation to contribute to team insights. Your
+                  personal reflections and text responses remain private. Only aggregate patterns
+                  (like average mood scores) are shared.
                 </p>
               </button>
             ) : (
               <div className="p-6 rounded-2xl border-2 border-border/50 bg-muted/30">
                 <div className="flex items-center gap-3 mb-3">
                   <Building2 className="w-6 h-6 text-muted-foreground" />
-                  <h3 className="font-semibold text-muted-foreground">
-                    With an organisation
-                  </h3>
+                  <h3 className="font-semibold text-muted-foreground">With an organisation</h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
                   Join an organisation to enable team insights

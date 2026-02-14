@@ -79,8 +79,7 @@ export async function POST() {
     });
   } catch (error) {
     console.error("Error upgrading user:", error);
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     const errorDetails = error instanceof Error ? error.stack : String(error);
     console.error("Error details:", errorDetails);
     return NextResponse.json(

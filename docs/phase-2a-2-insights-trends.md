@@ -6,12 +6,12 @@
 
 ## Tables used (read-only)
 
-| Table | Usage |
-|-------|--------|
-| **Experiment** | Loaded by id + clerkUserId (ownership). |
-| **ExperimentField** | Loaded via experiment include; ordered by `order` asc. |
-| **ExperimentCheckIn** | Loaded via experiment include; ordered by `checkInDate` asc (UTC). |
-| **ExperimentFieldResponse** | Loaded via checkIns include; each response includes `field`. |
+| Table                       | Usage                                                              |
+| --------------------------- | ------------------------------------------------------------------ |
+| **Experiment**              | Loaded by id + clerkUserId (ownership).                            |
+| **ExperimentField**         | Loaded via experiment include; ordered by `order` asc.             |
+| **ExperimentCheckIn**       | Loaded via experiment include; ordered by `checkInDate` asc (UTC). |
+| **ExperimentFieldResponse** | Loaded via checkIns include; each response includes `field`.       |
 
 **No Prisma schema changes.** No migrations. No new tables or columns.
 
@@ -34,13 +34,13 @@
 
 ## Per-field trend by type
 
-| type | trend shape | description |
-|------|-------------|-------------|
-| **text** | `{ countOverTime: Array<{ date: string, count: number }> }` | One entry per check-in date; count of non-empty text responses for that field on that date. |
-| **number** | `{ direction: "increasing" \| "decreasing" \| "flat" }` | Compare average of first 25% of values vs last 25% (by check-in order). Normalized diff &gt; 5% of range → increasing; &lt; −5% → decreasing; else flat. |
-| **emoji** | `{ moodTrend: "up" \| "down" \| "flat" }` | Same logic as number on `responseNumber` (1..emojiCount); mapped to up / down / flat. |
-| **yesno** | `{ yesRateTrend: "up" \| "down" \| "flat" }` | Yes-rate over time: compare yes-rate in first 25% of responses vs last 25%; threshold 5% for flat. |
-| **select** | `{ dominantOverTime?: string[] }` | Optional: one entry per check-in date (same order as check-ins); value is `selectedOption` for that day or `""` if none. |
+| type       | trend shape                                                 | description                                                                                                                                              |
+| ---------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **text**   | `{ countOverTime: Array<{ date: string, count: number }> }` | One entry per check-in date; count of non-empty text responses for that field on that date.                                                              |
+| **number** | `{ direction: "increasing" \| "decreasing" \| "flat" }`     | Compare average of first 25% of values vs last 25% (by check-in order). Normalized diff &gt; 5% of range → increasing; &lt; −5% → decreasing; else flat. |
+| **emoji**  | `{ moodTrend: "up" \| "down" \| "flat" }`                   | Same logic as number on `responseNumber` (1..emojiCount); mapped to up / down / flat.                                                                    |
+| **yesno**  | `{ yesRateTrend: "up" \| "down" \| "flat" }`                | Yes-rate over time: compare yes-rate in first 25% of responses vs last 25%; threshold 5% for flat.                                                       |
+| **select** | `{ dominantOverTime?: string[] }`                           | Optional: one entry per check-in date (same order as check-ins); value is `selectedOption` for that day or `""` if none.                                 |
 
 Unknown field types are treated as **text** (countOverTime only).
 

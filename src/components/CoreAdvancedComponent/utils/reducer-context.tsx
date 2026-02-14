@@ -28,16 +28,13 @@ export function createReducerContext<Action, State>(
       getNextState: (action: Action) => State
     ) => Dispatch<Action>;
   }) {
-    const [state, dispatch] = useReducer(
-      reducer,
-      initialState,
-      (defaultState) => ({ ...defaultState, ...values })
-    );
+    const [state, dispatch] = useReducer(reducer, initialState, (defaultState) => ({
+      ...defaultState,
+      ...values,
+    }));
 
     const wrapped = useMemo(() => {
-      return middleware
-        ? middleware(dispatch, (action) => reducer(state, action))
-        : dispatch;
+      return middleware ? middleware(dispatch, (action) => reducer(state, action)) : dispatch;
     }, [middleware, state, reducer]);
 
     return (

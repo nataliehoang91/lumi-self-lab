@@ -94,10 +94,7 @@ export async function POST(request: Request) {
       });
     }
 
-    return NextResponse.json(
-      { error: "Verification failed" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Verification failed" }, { status: 400 });
   } catch (error: any) {
     return NextResponse.json(
       { error: error.errors?.[0]?.message || "Verification failed" },
@@ -248,10 +245,7 @@ export async function POST(request: Request) {
       });
     }
 
-    return NextResponse.json(
-      { error: "Reset failed" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Reset failed" }, { status: 400 });
   } catch (error: any) {
     return NextResponse.json(
       { error: error.errors?.[0]?.message || "Reset failed" },
@@ -333,17 +327,11 @@ export default function SignUpPage() {
 
   if (verificationRequired) {
     return (
-      <InteractiveForm action={handleVerifyEmail}>
-        {/* Verification code input */}
-      </InteractiveForm>
+      <InteractiveForm action={handleVerifyEmail}>{/* Verification code input */}</InteractiveForm>
     );
   }
 
-  return (
-    <InteractiveForm action={handleSignUp}>
-      {/* Email and password inputs */}
-    </InteractiveForm>
-  );
+  return <InteractiveForm action={handleSignUp}>{/* Email and password inputs */}</InteractiveForm>;
 }
 ```
 
@@ -390,11 +378,7 @@ export default function SignInPage() {
     return { error: "Sign in failed" };
   };
 
-  return (
-    <InteractiveForm action={handleSignIn}>
-      {/* Email and password inputs */}
-    </InteractiveForm>
-  );
+  return <InteractiveForm action={handleSignIn}>{/* Email and password inputs */}</InteractiveForm>;
 }
 ```
 
@@ -428,14 +412,14 @@ export default function SignInPage() {
 
 ## Comparison: Hooks vs Backend API
 
-| Feature | Hooks (Current) | Backend API |
-|---------|----------------|-------------|
-| Code Complexity | ⭐ Simple | ⭐⭐⭐ Complex |
-| Control | ⭐⭐ Medium | ⭐⭐⭐ Full |
-| Server-Side Logic | ❌ No | ✅ Yes |
-| Custom Business Logic | ⚠️ Limited | ✅ Full |
-| Maintenance | ⭐⭐ Easy | ⭐⭐⭐ Harder |
-| Recommended For | Most apps | Enterprise/complex apps |
+| Feature               | Hooks (Current) | Backend API             |
+| --------------------- | --------------- | ----------------------- |
+| Code Complexity       | ⭐ Simple       | ⭐⭐⭐ Complex          |
+| Control               | ⭐⭐ Medium     | ⭐⭐⭐ Full             |
+| Server-Side Logic     | ❌ No           | ✅ Yes                  |
+| Custom Business Logic | ⚠️ Limited      | ✅ Full                 |
+| Maintenance           | ⭐⭐ Easy       | ⭐⭐⭐ Harder           |
+| Recommended For       | Most apps       | Enterprise/complex apps |
 
 ## Recommendation
 

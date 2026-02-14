@@ -45,8 +45,7 @@ const MOCK_EXPERIMENTS = [
     frequency: "daily" as const,
     daysCompleted: 3,
     startDate: "2026-01-08",
-    hypothesis:
-      "I feel more confident in one-on-one conversations than group settings",
+    hypothesis: "I feel more confident in one-on-one conversations than group settings",
     whyMatters:
       "I want to understand what makes me feel confident in social situations so I can build stronger connections.",
     faithLensEnabled: false,
@@ -61,14 +60,12 @@ const MOCK_EXPERIMENTS = [
       {
         date: "2026-01-09",
         day: 2,
-        notes:
-          "Team meeting today - noticed I was quieter in the group setting.",
+        notes: "Team meeting today - noticed I was quieter in the group setting.",
       },
       {
         date: "2026-01-08",
         day: 1,
-        notes:
-          "Starting this experiment to track my social confidence patterns.",
+        notes: "Starting this experiment to track my social confidence patterns.",
       },
     ],
   },
@@ -80,10 +77,8 @@ const MOCK_EXPERIMENTS = [
     frequency: "daily" as const,
     daysCompleted: 0,
     startDate: "",
-    hypothesis:
-      "I keep my commitments most of the time, but struggle with spontaneous promises",
-    whyMatters:
-      "I want to build trust with others and understand my patterns around commitment.",
+    hypothesis: "I keep my commitments most of the time, but struggle with spontaneous promises",
+    whyMatters: "I want to build trust with others and understand my patterns around commitment.",
     faithLensEnabled: false,
     scriptures: "",
     spiritualReflection: "",
@@ -97,20 +92,17 @@ const MOCK_EXPERIMENTS = [
     frequency: "daily" as const,
     daysCompleted: 14,
     startDate: "2025-12-20",
-    hypothesis:
-      "I make better decisions when I take time to reflect rather than rushing",
+    hypothesis: "I make better decisions when I take time to reflect rather than rushing",
     whyMatters:
       "Understanding my decision-making process will help me make choices I feel good about long-term.",
     faithLensEnabled: true,
     scriptures: "James 1:5 - If any of you lacks wisdom, you should ask God",
-    spiritualReflection:
-      "I want to seek God's wisdom in my decision-making process.",
+    spiritualReflection: "I want to seek God's wisdom in my decision-making process.",
     checkIns: [
       {
         date: "2026-01-03",
         day: 14,
-        notes:
-          "Final day - confirmed that slowing down leads to better choices for me.",
+        notes: "Final day - confirmed that slowing down leads to better choices for me.",
       },
     ],
   },
@@ -118,9 +110,7 @@ const MOCK_EXPERIMENTS = [
 
 export type Experiment = (typeof MOCK_EXPERIMENTS)[0];
 
-export async function getExperimentById(
-  id: string
-): Promise<Experiment | null> {
+export async function getExperimentById(id: string): Promise<Experiment | null> {
   // Simulate async database call
   await new Promise((resolve) => setTimeout(resolve, 100));
 

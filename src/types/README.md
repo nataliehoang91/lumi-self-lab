@@ -18,11 +18,7 @@ src/types/
 
 ```typescript
 // ✅ GOOD: Import from central index
-import type { 
-  Experiment, 
-  UIExperiment, 
-  CreateExperimentRequest 
-} from "@/types";
+import type { Experiment, UIExperiment, CreateExperimentRequest } from "@/types";
 
 // ❌ BAD: Import from individual files (works, but not preferred)
 import type { Experiment } from "@/types/database";
@@ -49,10 +45,10 @@ import type { Experiment, ExperimentWithRelations } from "@/types";
 Business logic and UI-facing types. These may transform database types for presentation.
 
 ```typescript
-import type { 
-  UIExperiment,      // Transformed for UI display
-  CustomField,       // Form field configuration
-  CreateExperimentRequest  // API request body
+import type {
+  UIExperiment, // Transformed for UI display
+  CustomField, // Form field configuration
+  CreateExperimentRequest, // API request body
 } from "@/types";
 
 // Use these when:
@@ -60,7 +56,6 @@ import type {
 // - API request/response bodies
 // - Business logic transformations
 ```
-
 
 ## 🔄 Type Transformations
 
@@ -87,27 +82,30 @@ const formData: CreateExperimentRequest = {
   title: experimentTitle,
   durationDays: Number(duration),
   frequency: frequency as ExperimentFrequency,
-  fields: customFields.map(f => ({ ...f, id: undefined })), // Remove id for creation
+  fields: customFields.map((f) => ({ ...f, id: undefined })), // Remove id for creation
 };
 ```
 
 ## 🎯 Type Safety Best Practices
 
 1. **Use Prisma Types for Database Operations**
+
    ```typescript
    const experiment: Experiment = await prisma.experiment.findUnique(...);
    ```
 
 2. **Use Domain Types for UI/API**
+
    ```typescript
    const uiExperiment: UIExperiment = transformToUI(experiment);
    ```
 
 3. **Avoid `any` - Use `unknown` if type is truly unknown**
+
    ```typescript
    // ❌ BAD
    const data: any = await response.json();
-   
+
    // ✅ GOOD
    const data: unknown = await response.json();
    const validated: CreateExperimentRequest = validateCreateRequest(data);
@@ -125,11 +123,13 @@ const formData: CreateExperimentRequest = {
 ## 🔍 Search Functionality
 
 We use **Prisma's built-in search** (no Typesense needed):
+
 - Basic `contains` queries for text search
 - Client-side filtering for status
 - Sufficient for personal experiment tracking
 
 See `src/app/api/experiments/route.ts` for search implementation:
+
 ```typescript
 if (searchTerm) {
   where.OR = [
@@ -174,11 +174,13 @@ Currently, we rely on **TypeScript types + Prisma validation** for type safety.
 ## 🚀 Migration from Old Types
 
 If you have types scattered across components:
+
 1. Move shared types to appropriate files in `src/types/`
 2. Update imports to use `@/types`
 3. Remove duplicate type definitions
 
 Example migration:
+
 ```typescript
 // Before (in component file)
 interface CustomField { ... }

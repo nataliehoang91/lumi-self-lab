@@ -30,10 +30,7 @@ function hasCheckInToday(checkIns: Array<{ checkInDate: string }>, todayStr: str
   return checkIns.some((c) => c.checkInDate === todayStr);
 }
 
-function shouldShowBanner(
-  experiment: ExperimentWithCheckIns,
-  reminder: ReminderState
-): boolean {
+function shouldShowBanner(experiment: ExperimentWithCheckIns, reminder: ReminderState): boolean {
   if (experiment.status !== "active") return false;
   if (!experiment.startDate) return false;
   const todayStr = getTodayUTCDateString();

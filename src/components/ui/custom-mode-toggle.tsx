@@ -62,9 +62,7 @@ export function CustomModeToggle<T extends string>({
   inactiveTextClassName,
 }: CustomModeToggleProps<T>) {
   // Use controlled mode if value is provided, otherwise use uncontrolled with defaultMode
-  const [internalMode, setInternalMode] = useState(
-    defaultMode || modes[0]?.value
-  );
+  const [internalMode, setInternalMode] = useState(defaultMode || modes[0]?.value);
   const activeMode = value !== undefined ? value : internalMode;
   const activeIndex = modes.findIndex((m) => m.value === activeMode);
 
@@ -117,14 +115,10 @@ export function CustomModeToggle<T extends string>({
             sizeClass.button,
             roundedClass, // Apply rounded style to buttons
             activeMode === mode.value
-              ? cn(
-                  "text-primary-foreground",
-                  activeTextClassName || "text-primary-foreground"
-                )
+              ? cn("text-primary-foreground", activeTextClassName || "text-primary-foreground")
               : cn(
                   "text-muted-foreground hover:text-foreground",
-                  inactiveTextClassName ||
-                    "text-muted-foreground hover:text-foreground"
+                  inactiveTextClassName || "text-muted-foreground hover:text-foreground"
                 )
           )}
         >

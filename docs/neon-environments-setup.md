@@ -2,11 +2,11 @@
 
 You have three databases:
 
-| Environment | Neon project / branch | Use for |
-|-------------|------------------------|--------|
-| **Production** | `selfwithin-db` (main) | Live app (Vercel production) |
-| **Preview** | `selfwithin-db-preview` (main) | Vercel preview deployments (PRs, etc.) |
-| **Local** | `selfwithin-db-preview` → branch **development** | Your machine (`npm run dev`) |
+| Environment    | Neon project / branch                            | Use for                                |
+| -------------- | ------------------------------------------------ | -------------------------------------- |
+| **Production** | `selfwithin-db` (main)                           | Live app (Vercel production)           |
+| **Preview**    | `selfwithin-db-preview` (main)                   | Vercel preview deployments (PRs, etc.) |
+| **Local**      | `selfwithin-db-preview` → branch **development** | Your machine (`npm run dev`)           |
 
 ## Same DB structure in all three
 
@@ -21,11 +21,11 @@ All three use the **same migration files** in `prisma/migrations/`. You run **th
 
 Same migrations, same structure. Run deploy **once per database** (point `DATABASE_URL` at that DB when you run):
 
-| Target | Command |
-|--------|--------|
-| **Local (development branch)** | `DATABASE_URL` in `.env.local` = dev branch URL, then `npm run db:migrate` (or `npx prisma migrate deploy`) |
-| **Preview (selfwithin-db-preview main)** | `DATABASE_URL="<preview-main-url>" npm run db:migrate` (or set in `.env.local` temporarily and run) |
-| **Production (selfwithin-db)** | `DATABASE_URL="<production-url>" npm run db:migrate` (or set in `.env.local` temporarily and run) |
+| Target                                   | Command                                                                                                     |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Local (development branch)**           | `DATABASE_URL` in `.env.local` = dev branch URL, then `npm run db:migrate` (or `npx prisma migrate deploy`) |
+| **Preview (selfwithin-db-preview main)** | `DATABASE_URL="<preview-main-url>" npm run db:migrate` (or set in `.env.local` temporarily and run)         |
+| **Production (selfwithin-db)**           | `DATABASE_URL="<production-url>" npm run db:migrate` (or set in `.env.local` temporarily and run)           |
 
 Prisma reads `prisma/migrations/` and applies any migrations that are not yet in that database’s `_prisma_migrations` table. So production, preview, and development all end up with the same schema.
 
@@ -107,13 +107,17 @@ Each database needs migrations applied once.
 
 1. **Preview DB (selfwithin-db-preview main)**  
    Temporarily set in `.env.local`:
+
    ```env
    DATABASE_URL="<preview-main-connection-string>"
    ```
+
    Then:
+
    ```bash
    npx prisma migrate deploy
    ```
+
    Switch `.env.local` back to the **development** branch URL when done.
 
 2. **Production DB (selfwithin-db)**  
@@ -135,10 +139,10 @@ If your build runs `prisma migrate deploy` (e.g. in `package.json` `postbuild`),
 
 ## Summary
 
-| Where | DATABASE_URL points to | When migrations run |
-|-------|------------------------|----------------------|
-| Your laptop (`.env.local`) | **development** branch in selfwithin-db-preview | `npx prisma migrate deploy` after you point to dev branch |
-| Vercel Production | **selfwithin-db** | Once: run `migrate deploy` with prod URL, or on first prod deploy |
-| Vercel Preview | **selfwithin-db-preview** main | Once: run `migrate deploy` with preview URL, or on first preview deploy |
+| Where                      | DATABASE_URL points to                          | When migrations run                                                     |
+| -------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
+| Your laptop (`.env.local`) | **development** branch in selfwithin-db-preview | `npx prisma migrate deploy` after you point to dev branch               |
+| Vercel Production          | **selfwithin-db**                               | Once: run `migrate deploy` with prod URL, or on first prod deploy       |
+| Vercel Preview             | **selfwithin-db-preview** main                  | Once: run `migrate deploy` with preview URL, or on first preview deploy |
 
 After this, local uses the development branch, preview uses selfwithin-db-preview (main), and production uses selfwithin-db.

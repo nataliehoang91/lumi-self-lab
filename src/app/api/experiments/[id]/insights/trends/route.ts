@@ -21,10 +21,8 @@ function numericDirection(values: number[]): "increasing" | "decreasing" | "flat
   const n = values.length;
   const firstQuarterSize = Math.max(1, Math.floor(n * 0.25));
   const lastQuarterSize = Math.max(1, Math.floor(n * 0.25));
-  const firstAvg =
-    values.slice(0, firstQuarterSize).reduce((a, b) => a + b, 0) / firstQuarterSize;
-  const lastAvg =
-    values.slice(-lastQuarterSize).reduce((a, b) => a + b, 0) / lastQuarterSize;
+  const firstAvg = values.slice(0, firstQuarterSize).reduce((a, b) => a + b, 0) / firstQuarterSize;
+  const lastAvg = values.slice(-lastQuarterSize).reduce((a, b) => a + b, 0) / lastQuarterSize;
   const range = Math.max(...values) - Math.min(...values) || 1;
   const normalizedDiff = (lastAvg - firstAvg) / range;
   if (normalizedDiff > TREND_FLAT_THRESHOLD) return "increasing";
@@ -85,10 +83,7 @@ const insightsTrendsResponseSchema = z.object({
 // GET /api/experiments/[id]/insights/trends
 // ---------------------------------------------------------------------------
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -121,9 +116,7 @@ export async function GET(
 
     // checkIns are ordered by checkInDate asc (UTC-normalized)
     const checkInsOrdered = experiment.checkIns;
-    const dateStrings = checkInsOrdered.map((c) =>
-      c.checkInDate.toISOString().split("T")[0]
-    );
+    const dateStrings = checkInsOrdered.map((c) => c.checkInDate.toISOString().split("T")[0]);
 
     const fields: z.infer<typeof fieldTrendItemSchema>[] = [];
 
@@ -209,8 +202,7 @@ export async function GET(
           const lastQuarterSize = Math.max(1, Math.floor(n * 0.25));
           const firstRate =
             bools.slice(0, firstQuarterSize).filter(Boolean).length / firstQuarterSize;
-          const lastRate =
-            bools.slice(-lastQuarterSize).filter(Boolean).length / lastQuarterSize;
+          const lastRate = bools.slice(-lastQuarterSize).filter(Boolean).length / lastQuarterSize;
           const diff = lastRate - firstRate;
           const yesRateTrend: "up" | "down" | "flat" =
             diff > TREND_FLAT_THRESHOLD ? "up" : diff < -TREND_FLAT_THRESHOLD ? "down" : "flat";
@@ -269,9 +261,6 @@ export async function GET(
     return NextResponse.json(parsed.data);
   } catch (error) {
     console.error("Error fetching insights trends:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch insights trends" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch insights trends" }, { status: 500 });
   }
 }

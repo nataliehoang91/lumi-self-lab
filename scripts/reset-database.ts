@@ -1,9 +1,9 @@
 /**
  * Database Reset Script
- * 
+ *
  * This script truncates all tables but keeps the table structure.
  * Use this to reset all data while keeping the schema intact.
- * 
+ *
  * Usage:
  *   npx tsx scripts/reset-database.ts
  *   OR
@@ -75,8 +75,7 @@ async function resetDatabase() {
 }
 
 // Run the reset
-resetDatabase()
-  .catch((error) => {
-    console.error("Fatal error:", error);
-    process.exit(1);
-  });
+resetDatabase().catch((error) => {
+  console.error("Fatal error:", error);
+  process.exit(1);
+});

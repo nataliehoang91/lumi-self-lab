@@ -16,13 +16,7 @@ import {
 } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
-import {
-  Sparkles,
-  Send,
-  BookOpen,
-  ChevronLeft,
-  MessageCircle,
-} from "lucide-react";
+import { Sparkles, Send, BookOpen, ChevronLeft, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
 const SUGGESTED_PROMPTS = [
@@ -115,11 +109,7 @@ export function DashboardClient() {
               if (parsed) {
                 assistantMessage += parsed;
                 setMessages((prev) =>
-                  prev.map((m) =>
-                    m.id === assistantId
-                      ? { ...m, content: assistantMessage }
-                      : m
-                  )
+                  prev.map((m) => (m.id === assistantId ? { ...m, content: assistantMessage } : m))
                 );
               }
             } catch (e) {
@@ -167,10 +157,8 @@ export function DashboardClient() {
           <div className="p-5 border-b border-sidebar-border/50">
             <div className="flex items-center justify-between">
               <Link href="/" className="inline-flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-secondary" />
-                <h1 className="text-lg font-bold text-sidebar-foreground">
-                  Self-Lab
-                </h1>
+                <Sparkles className="w-5 h-5 text-second" />
+                <h1 className="text-lg font-bold text-sidebar-foreground">Self-Lab</h1>
               </Link>
               <Button
                 variant="ghost"
@@ -181,15 +169,11 @@ export function DashboardClient() {
                 <ChevronLeft className="w-5 h-5" />
               </Button>
             </div>
-            <p className="text-xs text-sidebar-foreground/60 mt-1">
-              AI Assistant
-            </p>
+            <p className="text-xs text-sidebar-foreground/60 mt-1">AI Assistant</p>
           </div>
 
           <div className="p-4 border-b border-sidebar-border/50">
-            <p className="text-xs font-medium text-sidebar-foreground/50 mb-3">
-              TRY ASKING
-            </p>
+            <p className="text-xs font-medium text-sidebar-foreground/50 mb-3">TRY ASKING</p>
             <div className="space-y-2">
               {SUGGESTED_PROMPTS.map((prompt, index) => (
                 <button
@@ -209,9 +193,7 @@ export function DashboardClient() {
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${
-                    message.role === "user" ? "justify-end" : "justify-start"
-                  }`}
+                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
                     className={`max-w-[85%] rounded-3xl p-4 shadow-sm ${
@@ -222,10 +204,8 @@ export function DashboardClient() {
                   >
                     {message.role === "assistant" && (
                       <div className="flex items-center gap-2 mb-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-secondary" />
-                        <span className="text-xs font-medium text-secondary">
-                          AI
-                        </span>
+                        <Sparkles className="w-3.5 h-3.5 text-second" />
+                        <span className="text-xs font-medium text-second">AI</span>
                       </div>
                     )}
                     <p className="text-sm leading-relaxed">{message.content}</p>
@@ -247,10 +227,7 @@ export function DashboardClient() {
           </ScrollArea>
 
           {/* Chat Input */}
-          <form
-            onSubmit={handleSubmit}
-            className="p-4 border-t border-sidebar-border/50"
-          >
+          <form onSubmit={handleSubmit} className="p-4 border-t border-sidebar-border/50">
             <div className="flex gap-2">
               <Input
                 value={input}
@@ -272,20 +249,12 @@ export function DashboardClient() {
         </aside>
 
         {/* Main Content - Experiment Form */}
-        <main
-          className={`${
-            showChat ? "hidden" : "flex"
-          } md:flex flex-1 flex-col overflow-auto`}
-        >
+        <main className={`${showChat ? "hidden" : "flex"} md:flex flex-1 flex-col overflow-auto`}>
           <div className="container mx-auto px-4 md:px-8 py-6 md:py-8 max-w-2xl">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                  New Experiment
-                </h2>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Design your reflection
-                </p>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground">New Experiment</h2>
+                <p className="text-sm text-muted-foreground mt-1">Design your reflection</p>
               </div>
               <Button
                 variant="outline"
@@ -301,10 +270,7 @@ export function DashboardClient() {
               <Card className="p-5 md:p-6 bg-card/95 backdrop-blur-sm border-border/50 rounded-3xl shadow-sm">
                 <div className="space-y-4">
                   <div>
-                    <Label
-                      htmlFor="title"
-                      className="text-sm font-medium mb-2 block"
-                    >
+                    <Label htmlFor="title" className="text-sm font-medium mb-2 block">
                       Experiment Title
                     </Label>
                     <Input
@@ -317,10 +283,7 @@ export function DashboardClient() {
                   </div>
 
                   <div>
-                    <Label
-                      htmlFor="why"
-                      className="text-sm font-medium mb-2 block"
-                    >
+                    <Label htmlFor="why" className="text-sm font-medium mb-2 block">
                       Why This Matters
                     </Label>
                     <Textarea
@@ -333,10 +296,7 @@ export function DashboardClient() {
                   </div>
 
                   <div>
-                    <Label
-                      htmlFor="hypothesis"
-                      className="text-sm font-medium mb-2 block"
-                    >
+                    <Label htmlFor="hypothesis" className="text-sm font-medium mb-2 block">
                       Your Hypothesis
                     </Label>
                     <Textarea
@@ -353,10 +313,7 @@ export function DashboardClient() {
               <Card className="p-5 md:p-6 bg-card/95 backdrop-blur-sm border-border/50 rounded-3xl shadow-sm">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label
-                      htmlFor="duration"
-                      className="text-sm font-medium mb-2 block"
-                    >
+                    <Label htmlFor="duration" className="text-sm font-medium mb-2 block">
                       Duration (days)
                     </Label>
                     <Input
@@ -371,24 +328,16 @@ export function DashboardClient() {
                   </div>
 
                   <div>
-                    <Label
-                      htmlFor="frequency"
-                      className="text-sm font-medium mb-2 block"
-                    >
+                    <Label htmlFor="frequency" className="text-sm font-medium mb-2 block">
                       Check-in
                     </Label>
                     <Select value={frequency} onValueChange={setFrequency}>
-                      <SelectTrigger
-                        id="frequency"
-                        className="rounded-2xl border-border/50"
-                      >
+                      <SelectTrigger id="frequency" className="rounded-2xl border-border/50">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="daily">Daily</SelectItem>
-                        <SelectItem value="every-2-days">
-                          Every 2 Days
-                        </SelectItem>
+                        <SelectItem value="every-2-days">Every 2 Days</SelectItem>
                         <SelectItem value="weekly">Weekly</SelectItem>
                       </SelectContent>
                     </Select>
@@ -396,38 +345,27 @@ export function DashboardClient() {
                 </div>
               </Card>
 
-              <Card className="p-5 md:p-6 bg-gradient-to-br from-secondary/10 to-accent/10 backdrop-blur-sm border-secondary/20 rounded-3xl shadow-sm">
+              <Card className="p-5 md:p-6 bg-gradient-to-br from-second/10 to-accent/10 backdrop-blur-sm border-second/20 rounded-3xl shadow-sm">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-secondary/20 flex items-center justify-center">
-                      <BookOpen className="w-5 h-5 text-secondary" />
+                    <div className="w-10 h-10 rounded-2xl bg-second/20 flex items-center justify-center">
+                      <BookOpen className="w-5 h-5 text-second" />
                     </div>
                     <div>
-                      <h3 className="text-base font-semibold text-foreground">
-                        Faith Lens
-                      </h3>
-                      <p className="text-xs text-muted-foreground">
-                        Optional spiritual reflection
-                      </p>
+                      <h3 className="text-base font-semibold text-foreground">Faith Lens</h3>
+                      <p className="text-xs text-muted-foreground">Optional spiritual reflection</p>
                     </div>
                   </div>
-                  <Switch
-                    checked={faithLensEnabled}
-                    onCheckedChange={setFaithLensEnabled}
-                  />
+                  <Switch checked={faithLensEnabled} onCheckedChange={setFaithLensEnabled} />
                 </div>
 
                 {faithLensEnabled && (
-                  <div className="space-y-4 pt-3 border-t border-secondary/10">
+                  <div className="space-y-4 pt-3 border-t border-second/10">
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Use Biblical wisdom as a guide if you wish. This is
-                      optional and personal.
+                      Use Biblical wisdom as a guide if you wish. This is optional and personal.
                     </p>
                     <div>
-                      <Label
-                        htmlFor="scriptures"
-                        className="text-sm font-medium mb-2 block"
-                      >
+                      <Label htmlFor="scriptures" className="text-sm font-medium mb-2 block">
                         Scripture Reference
                       </Label>
                       <Textarea

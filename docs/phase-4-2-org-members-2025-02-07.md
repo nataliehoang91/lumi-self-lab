@@ -19,23 +19,23 @@ Organisations become real for multi-user use while staying simple and safe.
 
 ## 2. APIs added
 
-| Method | Endpoint | Permission | Brief |
-|--------|----------|------------|--------|
-| GET | `/api/orgs/[orgId]/members` | canAccessOrg | List members (id, clerkUserId, email, role, joinedAt). Email from User. |
-| POST | `/api/orgs/[orgId]/members` | canActAsOrgAdmin | Add member by email + optional role (default member). 400 if user not found; 409 if already member. |
-| PATCH | `/api/orgs/[orgId]/members/[memberId]` | canActAsOrgAdmin | Update role. Cannot demote last org_admin (super_admin bypasses). |
-| DELETE | `/api/orgs/[orgId]/members/[memberId]` | canActAsOrgAdmin | Remove member. Cannot remove last org_admin (super_admin bypasses). |
+| Method | Endpoint                               | Permission       | Brief                                                                                               |
+| ------ | -------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------- |
+| GET    | `/api/orgs/[orgId]/members`            | canAccessOrg     | List members (id, clerkUserId, email, role, joinedAt). Email from User.                             |
+| POST   | `/api/orgs/[orgId]/members`            | canActAsOrgAdmin | Add member by email + optional role (default member). 400 if user not found; 409 if already member. |
+| PATCH  | `/api/orgs/[orgId]/members/[memberId]` | canActAsOrgAdmin | Update role. Cannot demote last org_admin (super_admin bypasses).                                   |
+| DELETE | `/api/orgs/[orgId]/members/[memberId]` | canActAsOrgAdmin | Remove member. Cannot remove last org_admin (super_admin bypasses).                                 |
 
 ---
 
 ## 3. Permissions enforced
 
-| Check | Where | Effect |
-|-------|--------|--------|
-| Authenticated | All four endpoints | 401 if no Clerk user |
-| canAccessOrg(clerkUserId, orgId) | GET members | 404 if not member / org missing |
+| Check                                | Where                         | Effect                              |
+| ------------------------------------ | ----------------------------- | ----------------------------------- |
+| Authenticated                        | All four endpoints            | 401 if no Clerk user                |
+| canAccessOrg(clerkUserId, orgId)     | GET members                   | 404 if not member / org missing     |
 | canActAsOrgAdmin(clerkUserId, orgId) | POST / PATCH / DELETE members | 403 if not org_admin or super_admin |
-| Last org_admin | PATCH (demote) / DELETE | 400 unless caller is super_admin |
+| Last org_admin                       | PATCH (demote) / DELETE       | 400 unless caller is super_admin    |
 
 ---
 
@@ -68,13 +68,13 @@ Organisations become real for multi-user use while staying simple and safe.
 
 ## 7. Files touched
 
-| File | Change |
-|------|--------|
-| `src/app/api/orgs/[orgId]/members/route.ts` | **New.** GET (list), POST (add by email). |
-| `src/app/api/orgs/[orgId]/members/[memberId]/route.ts` | **New.** PATCH (role), DELETE (remove). |
-| `src/app/(org)/org/[orgId]/admin/members/page.tsx` | Implemented with OrgMembersClient (table + add form). |
+| File                                                           | Change                                                         |
+| -------------------------------------------------------------- | -------------------------------------------------------------- |
+| `src/app/api/orgs/[orgId]/members/route.ts`                    | **New.** GET (list), POST (add by email).                      |
+| `src/app/api/orgs/[orgId]/members/[memberId]/route.ts`         | **New.** PATCH (role), DELETE (remove).                        |
+| `src/app/(org)/org/[orgId]/admin/members/page.tsx`             | Implemented with OrgMembersClient (table + add form).          |
 | `src/app/(org)/org/[orgId]/admin/members/OrgMembersClient.tsx` | **New.** Client UI for members list, add, role change, remove. |
 
 ---
 
-*Phase 4.2 completed 2025-02-07. No Prisma schema changes. No Phase 4.3 or invites in this release.*
+_Phase 4.2 completed 2025-02-07. No Prisma schema changes. No Phase 4.3 or invites in this release._

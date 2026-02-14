@@ -6,14 +6,14 @@ If you want **complete control** over your authentication design and CSS styling
 
 ## Option Comparison
 
-| Feature | Current (Styled Components) | Clerk Elements (Unstyled) ⭐ | Custom Hooks | Backend API |
-|---------|---------------------------|---------------------------|--------------|-------------|
-| **Design Control** | ⭐⭐ Limited (via appearance) | ⭐⭐⭐ Full | ⭐⭐⭐ Full | ⭐⭐⭐ Full |
-| **CSS Styling** | ⚠️ Must use Clerk's structure | ✅ Your own CSS | ✅ Your own CSS | ✅ Your own CSS |
-| **Code Complexity** | ⭐ Simple | ⭐⭐ Medium | ⭐⭐ Medium | ⭐⭐⭐ Complex |
-| **Maintenance** | ⭐ Easy | ⭐⭐ Medium | ⭐⭐ Medium | ⭐⭐⭐ Hard |
-| **Installation** | ✅ Built-in | ⚠️ `npm install @clerk/elements` | ✅ Built-in | ✅ Built-in |
-| **Status** | ✅ Stable | ⚠️ Beta | ✅ Stable | ✅ Stable |
+| Feature             | Current (Styled Components)   | Clerk Elements (Unstyled) ⭐     | Custom Hooks    | Backend API     |
+| ------------------- | ----------------------------- | -------------------------------- | --------------- | --------------- |
+| **Design Control**  | ⭐⭐ Limited (via appearance) | ⭐⭐⭐ Full                      | ⭐⭐⭐ Full     | ⭐⭐⭐ Full     |
+| **CSS Styling**     | ⚠️ Must use Clerk's structure | ✅ Your own CSS                  | ✅ Your own CSS | ✅ Your own CSS |
+| **Code Complexity** | ⭐ Simple                     | ⭐⭐ Medium                      | ⭐⭐ Medium     | ⭐⭐⭐ Complex  |
+| **Maintenance**     | ⭐ Easy                       | ⭐⭐ Medium                      | ⭐⭐ Medium     | ⭐⭐⭐ Hard     |
+| **Installation**    | ✅ Built-in                   | ⚠️ `npm install @clerk/elements` | ✅ Built-in     | ✅ Built-in     |
+| **Status**          | ✅ Stable                     | ⚠️ Beta                          | ✅ Stable       | ✅ Stable       |
 
 ## Option 1: Clerk Elements (Unstyled Components) ⭐ RECOMMENDED
 
@@ -201,6 +201,7 @@ export async function POST(request: Request) {
 ### Required Methods
 
 **For Sign-Up:**
+
 1. ✅ Create user with email address
 2. ✅ Prepare email verification
 3. ✅ Attempt email verification
@@ -208,6 +209,7 @@ export async function POST(request: Request) {
 5. ✅ Handle resend verification code
 
 **For Sign-In:**
+
 1. ✅ Create sign-in attempt
 2. ✅ Attempt password authentication
 3. ✅ Create session
@@ -215,6 +217,7 @@ export async function POST(request: Request) {
 5. ✅ Handle password reset
 
 **For Password Reset:**
+
 1. ✅ Create password reset request
 2. ✅ Attempt reset with code
 3. ✅ Create session after reset
@@ -246,6 +249,7 @@ export async function POST(request: Request) {
 **I recommend: Option 1 - Clerk Elements** ⭐
 
 **Why:**
+
 - ✅ **Unstyled** - Complete design control, no default CSS
 - ✅ **Simple** - Less code than Backend API approach
 - ✅ **Automatic** - Clerk handles all logic automatically
@@ -257,6 +261,7 @@ export async function POST(request: Request) {
 **From Current Implementation to Clerk Elements:**
 
 1. Install Clerk Elements:
+
    ```bash
    npm install @clerk/elements
    ```

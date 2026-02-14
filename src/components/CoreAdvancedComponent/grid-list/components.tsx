@@ -16,11 +16,7 @@ import {
 import type { FormEventHandler, HTMLAttributes } from "react";
 import useEffectEvent from "../hooks/use-effect-event";
 import { Checkbox } from "@/components/ui/checkbox";
-import type {
-  GridListContentProps,
-  SelectionAction,
-  SelectionState,
-} from "./types";
+import type { GridListContentProps, SelectionAction, SelectionState } from "./types";
 import type {
   GridListRootProps,
   GridListRowProps,
@@ -77,8 +73,7 @@ export function GridListContainer({
   const onValueChangeEvent = useEffectEvent((rows: Set<string>) => {
     if (typeof onValueChange === "function") {
       const selectedArray = Array.from(rows);
-      const valueToEmit =
-        selectionMode === "multiple" ? selectedArray : selectedArray[0] || "";
+      const valueToEmit = selectionMode === "multiple" ? selectedArray : selectedArray[0] || "";
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onValueChange(valueToEmit as any);
@@ -92,8 +87,7 @@ export function GridListContainer({
       return new Set<string>();
     }
 
-    const actualInitialValue =
-      typeof value !== "undefined" ? value : initialValue;
+    const actualInitialValue = typeof value !== "undefined" ? value : initialValue;
 
     if (!actualInitialValue || selectionMode === "none") {
       return new Set<string>();
@@ -159,9 +153,7 @@ export function GridListContainer({
   );
 
   const optionalControlled = isControlled ? (
-    <ControlledValueContext value={reactiveValue}>
-      {containerInner}
-    </ControlledValueContext>
+    <ControlledValueContext value={reactiveValue}>{containerInner}</ControlledValueContext>
   ) : (
     containerInner
   );
@@ -201,12 +193,7 @@ export function GridListContent({
 
   return (
     <GridContentContext.Provider value={{ startRef, endRef, containerRef }}>
-      <div
-        className={cn(
-          "max-w-full overflow-x-auto",
-          scrollableContainerClassName
-        )}
-      >
+      <div className={cn("max-w-full overflow-x-auto", scrollableContainerClassName)}>
         <GridListContentInner {...divProps} className={cn(gridClassName)}>
           <FocusSentinel ref={startRef} />
           {children}
@@ -217,11 +204,7 @@ export function GridListContent({
   );
 }
 
-export function FocusSentinel({
-  ref,
-}: {
-  ref: React.RefObject<HTMLButtonElement | null>;
-}) {
+export function FocusSentinel({ ref }: { ref: React.RefObject<HTMLButtonElement | null> }) {
   const { lastFocusedRowId } = useGridListState();
   const focusRow = useFocusRow();
   const focusFirstRow = useFocusFirstRow();
@@ -273,9 +256,7 @@ export function GridListContentInner({
   useEffect(() => {
     if (!lastFocusedRowId || !containerRef?.current) return;
 
-    const rowElement = containerRef.current.querySelector(
-      `[data-row-id="${lastFocusedRowId}"]`
-    );
+    const rowElement = containerRef.current.querySelector(`[data-row-id="${lastFocusedRowId}"]`);
     if (!rowElement) {
       // If the focused row no longer exists, clear the focus
       dispatch({
@@ -291,20 +272,13 @@ export function GridListContentInner({
 
   // Combine manual ARIA props with registered label/caption IDs
   const combinedLabelledBy =
-    [
-      ...(divProps["aria-labelledby"]
-        ? divProps["aria-labelledby"].split(/\s+/)
-        : []),
-      ...labelIds,
-    ]
+    [...(divProps["aria-labelledby"] ? divProps["aria-labelledby"].split(/\s+/) : []), ...labelIds]
       .filter(Boolean)
       .join(" ") || undefined;
 
   const combinedDescribedBy =
     [
-      ...(divProps["aria-describedby"]
-        ? divProps["aria-describedby"].split(/\s+/)
-        : []),
+      ...(divProps["aria-describedby"] ? divProps["aria-describedby"].split(/\s+/) : []),
       ...captionIds,
     ]
       .filter(Boolean)
@@ -344,11 +318,7 @@ export function GridListContentInner({
   );
 }
 
-function HiddenSelectionInput({
-  onInvalid,
-}: {
-  onInvalid?: FormEventHandler<HTMLSelectElement>;
-}) {
+function HiddenSelectionInput({ onInvalid }: { onInvalid?: FormEventHandler<HTMLSelectElement> }) {
   const { selectionMode } = useSelectionState();
   const { name, required, lastFocusedRowId } = useGridListState();
   const selectedRows = useSelectedRows();
@@ -427,8 +397,7 @@ export const GridHeader = memo(function GridHeader({
   ).length;
 
   const isEmpty = selectedSelectableRowsCount === 0;
-  const isAllSelected =
-    !isEmpty && selectedSelectableRowsCount === selectableRows.length;
+  const isAllSelected = !isEmpty && selectedSelectableRowsCount === selectableRows.length;
 
   const isIndeterminate = !isEmpty && !isAllSelected;
 
@@ -465,10 +434,7 @@ export function GridBody({
   };
   return (
     <GridListBodyContext value={true}>
-      <div
-        className={cn("grid col-span-full grid-cols-subgrid", className)}
-        {...bodyProps}
-      >
+      <div className={cn("grid col-span-full grid-cols-subgrid", className)} {...bodyProps}>
         {children}
       </div>
     </GridListBodyContext>
@@ -485,23 +451,14 @@ export function GridFooter({
     role: "rowgroup",
   };
   return (
-    <footer
-      className={cn("grid col-span-full grid-cols-subgrid", className)}
-      {...footerProps}
-    >
+    <footer className={cn("grid col-span-full grid-cols-subgrid", className)} {...footerProps}>
       {children}
     </footer>
   );
 }
 
 // Dev-mode warning component
-function DevModeWarning({
-  componentName,
-  issue,
-}: {
-  componentName: string;
-  issue: string;
-}) {
+function DevModeWarning({ componentName, issue }: { componentName: string; issue: string }) {
   if (process.env.NODE_ENV !== "development") {
     return null;
   }
@@ -655,8 +612,7 @@ export const GridListRow = function GridListRow({
     document.activeElement?.getAttribute("data-row-id") === rowId;
 
   // Check if row is selected
-  const isRowSelected =
-    selectionMode !== "none" && selectedRows.has(actualRowId);
+  const isRowSelected = selectionMode !== "none" && selectedRows.has(actualRowId);
 
   const rowProps: React.HTMLAttributes<HTMLDivElement> & {
     "data-row-id": string;
@@ -701,9 +657,7 @@ export const GridListRow = function GridListRow({
     </RowInner>
   );
 
-  const contextWrappedElem = (
-    <RowContext value={rowContextValue}>{rowElem}</RowContext>
-  );
+  const contextWrappedElem = <RowContext value={rowContextValue}>{rowElem}</RowContext>;
 
   const selectionCtxValue = useMemo(() => {
     return {
@@ -790,16 +744,11 @@ export function GridListItemIndicatorRoot({
   const rowContext = useContext(RowContext);
 
   if (!rowContext) {
-    throw new Error(
-      "GridListItemIndicatorRoot must be used within a GridListRow"
-    );
+    throw new Error("GridListItemIndicatorRoot must be used within a GridListRow");
   }
   const { selected, onCheckedChange } = useContext(SelectionIndicatorContext);
 
-  const labelText =
-    selected === "indeterminate" || selected === true
-      ? deselectLabel
-      : selectLabel;
+  const labelText = selected === "indeterminate" || selected === true ? deselectLabel : selectLabel;
 
   const btnProps = {
     ...buttonProps,
@@ -810,22 +759,13 @@ export function GridListItemIndicatorRoot({
 
   if (!children) {
     // render default checkbox
-    return (
-      <Checkbox
-        checked={selected}
-        onCheckedChange={onCheckedChange}
-        {...btnProps}
-      />
-    );
+    return <Checkbox checked={selected} onCheckedChange={onCheckedChange} {...btnProps} />;
   }
 
   return (
     <button
       type="button"
-      className={cn(
-        "cursor-pointer border-none bg-transparent p-0 m-0",
-        className
-      )}
+      className={cn("cursor-pointer border-none bg-transparent p-0 m-0", className)}
       onClick={(event) => {
         onCheckedChange(selected === "indeterminate" ? false : !selected);
         buttonProps.onClick?.(event);
@@ -860,27 +800,15 @@ function IndicatorState({
   return <>{children}</>;
 }
 
-export function GridListItemSelectedIndicator({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function GridListItemSelectedIndicator({ children }: { children: React.ReactNode }) {
   return <IndicatorState when="selected">{children}</IndicatorState>;
 }
 
-export function GridListItemUnselectedIndicator({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function GridListItemUnselectedIndicator({ children }: { children: React.ReactNode }) {
   return <IndicatorState when="unselected">{children}</IndicatorState>;
 }
 
-export function GridListItemIndeterminateIndicator({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function GridListItemIndeterminateIndicator({ children }: { children: React.ReactNode }) {
   return <IndicatorState when="indeterminate">{children}</IndicatorState>;
 }
 
@@ -996,12 +924,7 @@ export function GridListRowHeader({
   return <div {...headerProps}>{children}</div>;
 }
 
-export function GridListCell({
-  children,
-  className,
-  asChild,
-  ...divProps
-}: GridListCellProps) {
+export function GridListCell({ children, className, asChild, ...divProps }: GridListCellProps) {
   const cellProps: React.HTMLAttributes<HTMLDivElement> = {
     ...divProps,
     className,
@@ -1029,13 +952,7 @@ export function GridCurrentSelectedRowsFormField({ name }: { name: string }) {
   const { selectedRows } = useSelectionState();
 
   return (
-    <select
-      name={name}
-      hidden
-      multiple
-      value={Array.from(selectedRows)}
-      onChange={() => {}}
-    >
+    <select name={name} hidden multiple value={Array.from(selectedRows)} onChange={() => {}}>
       {Array.from(selectedRows).map((rowId) => (
         <option key={rowId} value={rowId}>
           {rowId}

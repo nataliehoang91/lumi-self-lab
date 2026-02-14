@@ -9,6 +9,7 @@ npx tsx scripts/reset-database.ts
 ```
 
 This will:
+
 - Delete all data from all tables
 - Keep table structure intact
 - Show table counts after reset (should all be 0)
@@ -26,6 +27,7 @@ psql $DATABASE_URL -f scripts/reset-database.sql
 ### What Gets Reset
 
 All data is deleted from:
+
 - `User`
 - `Organisation`
 - `OrganisationMember`
@@ -72,6 +74,7 @@ CLERK_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxx
 For local testing, use `ngrok` to expose your local server. See **`WEBHOOK_LOCAL_TESTING.md`** for detailed instructions.
 
 **Quick Setup:**
+
 ```bash
 # Install ngrok
 npm install -g ngrok
@@ -91,11 +94,13 @@ ngrok http 3005
 ### 5. How It Works
 
 When a user is deleted in Clerk:
+
 1. Clerk sends webhook to `/api/webhooks/clerk`
 2. Webhook is verified using `CLERK_WEBHOOK_SECRET`
 3. User record is deleted from database (cascade handles related records)
 
 **Cascade Behavior:**
+
 - Deleting `User` automatically deletes:
   - `OrganisationMember` (via `onDelete: Cascade`)
   - `Experiment` (via `onDelete: Cascade`)

@@ -25,6 +25,7 @@ Complete documentation covering flows, pages, routes, codebase structure, and al
 **Self-Lab** is a personal reflection and self-discovery application where users create "experiments" to track patterns in their thoughts, emotions, and behaviors over time. Users design custom tracking fields (text, numbers, emojis, yes/no, dropdowns) and log daily "check-ins" with responses.
 
 **Key Features:**
+
 - Personal experiments with custom fields
 - Daily check-ins with tracked responses
 - Organisation templates and team insights (for upgraded accounts)
@@ -36,23 +37,28 @@ Complete documentation covering flows, pages, routes, codebase structure, and al
 ## 🛠️ Tech Stack
 
 ### Core Framework
+
 - **Next.js 16.1.1** - React framework with App Router (server components)
 - **React 19.2.3** - UI library
 - **TypeScript** - Type safety
 
 ### Authentication
+
 - **Clerk** - Complete authentication solution (sign-in, sign-up, password reset, waitlist)
 
 ### Database & ORM
+
 - **PostgreSQL** - Relational database (via Neon or similar)
 - **Prisma 6.0** - Type-safe ORM for database access
 
 ### Styling
+
 - **Tailwind CSS 4.1.18** - Utility-first CSS framework
 - **shadcn/ui** - Reusable component library (Radix UI primitives)
 - **next-themes** - Dark mode support
 
 ### Additional Libraries
+
 - **react-resizable-panels** - Resizable panel layouts (dashboard)
 - **react-error-boundary** - Error handling
 - **lucide-react** - Icon library
@@ -123,6 +129,7 @@ lumi-self-lab/
 ## 🛣️ Route Structure & Pages
 
 ### Public Routes
+
 - `/` - Landing page
 - `/sign-in` - Sign in page (Clerk)
 - `/sign-up` - Sign up page (Clerk)
@@ -133,6 +140,7 @@ lumi-self-lab/
 ### Protected Routes (Require Authentication)
 
 #### Personal Routes
+
 - `/dashboard` - Main dashboard (AI chat + experiment form)
 - `/experiments` - Experiments list (with filters)
 - `/experiments/new` - **Unified entry point** for experiment creation
@@ -143,6 +151,7 @@ lumi-self-lab/
 - `/insights` - Personal insights dashboard
 
 #### Organisation Routes (All Users)
+
 - `/organisations` - List organisations user belongs to (as member)
 - `/organisations/[orgId]` - Organisation dashboard (member view, read-only)
 - `/organisations/[orgId]/templates` - Browse org templates (read-only)
@@ -150,14 +159,17 @@ lumi-self-lab/
 - `/organisations/invites/[inviteId]` - Accept/decline invitation
 
 #### Organisation Management Routes (Organisation Accounts Only)
+
 - `/manager` - Manager dashboard (full access)
 - `/manager/templates` - List organisation templates (full access)
 - `/manager/templates/create` - Create organisation template (full access)
 
 #### Account Management
+
 - `/upgrade` - Upgrade to organisation account
 
 ### Route Grouping
+
 - `(auth)` - Authentication routes (no navbar)
 - `(protected)` - Protected routes (with navbar)
 
@@ -170,15 +182,18 @@ lumi-self-lab/
 **Entry Point:** `/experiments/new`
 
 **Decision Point:** "Where does this experiment live?"
+
 - **Personal** (default, recommended)
 - **Organisation** (optional, requires org membership)
 
 **Creation Methods:**
+
 1. **AI-Guided** - Answer questions, AI generates experiment
 2. **From Template** - Choose template, pre-fill form
 3. **Manual** - Build from scratch
 
 **Flow:**
+
 ```
 /experiments/new
   → Select "Personal" or "Organisation"
@@ -194,6 +209,7 @@ lumi-self-lab/
 **Entry:** `/experiments/[id]` → Click "Check In"
 
 **Process:**
+
 ```
 View experiment detail
   → Click "Check In" button
@@ -207,6 +223,7 @@ View experiment detail
 **Entry:** Navbar "Upgrade" button (for individual accounts)
 
 **Flow:**
+
 ```
 Individual Account
   → Click "Upgrade" in navbar
@@ -223,6 +240,7 @@ Individual Account
 **Entry:** Navbar "Manager" tab (organisation accounts only)
 
 **Template Creation:**
+
 ```
 /manager
   → Click "Create Template"
@@ -234,6 +252,7 @@ Individual Account
 ```
 
 **View Insights:**
+
 ```
 /manager
   → Team Insights tab (default)
@@ -246,6 +265,7 @@ Individual Account
 **Entry:** Navbar "Organizations" tab (all users)
 
 **Browse Templates:**
+
 ```
 /organizations
   → Click organisation
@@ -259,6 +279,7 @@ Individual Account
 ```
 
 **View Insights:**
+
 ```
 /organizations/[orgId]
   → Click "Team Insights"
@@ -272,6 +293,7 @@ Individual Account
 **Entry:** `/experiments/[id]` (experiment detail page)
 
 **Link to Organisation:**
+
 ```
 View experiment detail
   → Click "Link to Organisation"
@@ -288,6 +310,7 @@ View experiment detail
 ### Core Models
 
 #### User
+
 ```prisma
 model User {
   id              String   @id @default(cuid())
@@ -304,6 +327,7 @@ model User {
 ```
 
 #### Experiment
+
 ```prisma
 model Experiment {
   id              String   @id @default(cuid())
@@ -336,6 +360,7 @@ model Experiment {
 ```
 
 #### ExperimentField
+
 ```prisma
 model ExperimentField {
   id            String   @id @default(cuid())
@@ -359,6 +384,7 @@ model ExperimentField {
 ```
 
 #### ExperimentCheckIn
+
 ```prisma
 model ExperimentCheckIn {
   id            String   @id @default(cuid())
@@ -375,6 +401,7 @@ model ExperimentCheckIn {
 ```
 
 #### ExperimentFieldResponse
+
 ```prisma
 model ExperimentFieldResponse {
   id            String   @id @default(cuid())
@@ -396,6 +423,7 @@ model ExperimentFieldResponse {
 ### Organisation Models
 
 #### Organisation
+
 ```prisma
 model Organisation {
   id              String   @id @default(cuid())
@@ -413,6 +441,7 @@ model Organisation {
 ```
 
 #### OrganisationMember
+
 ```prisma
 model OrganisationMember {
   id              String   @id @default(cuid())
@@ -432,6 +461,7 @@ model OrganisationMember {
 **Clerk** handles all authentication: sign-in, sign-up, password reset, user management.
 
 ### Middleware Protection (`src/proxy.ts`)
+
 ```typescript
 // Protects all routes except public ones
 const isPublicRoute = createRouteMatcher(["/sign-in", "/sign-up", "/", ...]);
@@ -441,6 +471,7 @@ if (!isPublicRoute(req)) {
 ```
 
 ### Getting Current User
+
 ```typescript
 // Server Components/API Routes
 const { userId } = await auth();
@@ -457,41 +488,50 @@ const { user } = useUser();
 ### Experiments API
 
 #### `GET /api/experiments`
+
 - Returns all experiments for current user
 - Query params: `?status=active&search=keyword`
 - Includes fields and latest check-in
 
 #### `POST /api/experiments`
+
 - Creates new experiment with nested fields
 - Auto-creates User record if missing
 - Body: `{ title, durationDays, frequency, fields: [...] }`
 
 #### `GET /api/experiments/[id]`
+
 - Get single experiment with all fields and check-ins
 
 #### `PATCH /api/experiments/[id]`
+
 - Update experiment (supports nested field updates)
 
 #### `DELETE /api/experiments/[id]`
+
 - Delete experiment (cascade deletes related data)
 
 ### Check-ins API
 
 #### `POST /api/experiments/[id]/checkins`
+
 - Create new check-in with responses
 - Body: `{ checkInDate, notes, responses: [{ fieldId, responseNumber, ... }] }`
 
 ### User API
 
 #### `GET /api/users/identity`
+
 - Get current user info (accountType, organisations)
 - Auto-creates User record if missing (defaults to "individual")
 
 #### `POST /api/users/upgrade`
+
 - Upgrade account to "organisation"
 - Updates accountType and upgradedAt
 
 ### Security Pattern
+
 ```typescript
 // Every API route follows this pattern:
 const { userId } = await auth();
@@ -499,7 +539,7 @@ if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 }
 
 // Verify ownership
 const experiment = await prisma.experiment.findFirst({
-  where: { id, clerkUserId: userId }
+  where: { id, clerkUserId: userId },
 });
 if (!experiment) return NextResponse.json({ error: "Not found" }, { status: 404 });
 ```
@@ -511,11 +551,13 @@ if (!experiment) return NextResponse.json({ error: "Not found" }, { status: 404 
 ### Key Components
 
 #### Navigation (`src/components/Navigation/`)
+
 - `NavigationBar` - Main navigation with conditional Manager tab (`navigation-bar.tsx`)
 - `ManagerTabButton` - Desktop Manager/Upgrade button
 - `ManagerTabButtonMobile` - Mobile Manager/Upgrade button
 
 #### Experiment Creation
+
 - `ExperimentCreationDetails` - Main experiment form
 - `CustomFieldBuilder` - Build custom tracking fields
 - `CreationMethodSelector` - Choose creation method
@@ -523,19 +565,23 @@ if (!experiment) return NextResponse.json({ error: "Not found" }, { status: 404 
 - `PrivacyReminderDialog` - Privacy reminder for org linking
 
 #### Experiment Detail
+
 - `ExperimentDetail` - Experiment detail view
 - `CheckInForm` - Daily check-in form with dynamic fields
 
 #### AI Chat
+
 - `AiChatPanel` - AI chat assistant panel
 
 #### Organisation
+
 - `ManagerTemplatesContent` - Organisation templates list (management)
 - `PrivacyReminderDialog` - Privacy notice component
 
 ### Component Patterns
 
 #### Server Components (Data Fetching)
+
 ```typescript
 export default async function Page() {
   const { userId } = await auth();
@@ -547,6 +593,7 @@ export default async function Page() {
 ```
 
 #### Client Components (Interactivity)
+
 ```typescript
 "use client";
 export function ClientComponent({ data }: Props) {
@@ -580,6 +627,7 @@ Three roles with different permissions:
 #### 3. Permissions
 
 **Members (participate only):**
+
 - Can participate in experiments (check-ins only)
 - Can view templates (read-only)
 - Can view aggregate insights (read-only)
@@ -587,6 +635,7 @@ Three roles with different permissions:
 - **Cannot** manage experiments
 
 **Team Managers (manage team experiments):**
+
 - Everything Members can do
 - **Can** manage team experiments (create, edit, delete)
 - **Can** view team aggregate insights
@@ -594,6 +643,7 @@ Three roles with different permissions:
 - **Cannot** create organisation templates
 
 **Org Admins (manage org & teams):**
+
 - Everything Team Managers can do
 - **Can** manage organisation settings
 - **Can** create organisation templates
@@ -615,12 +665,14 @@ Three roles with different permissions:
 #### 6. UI Separation (Never Mix)
 
 **Org Participation UI** (`/organisations/*`):
+
 - Read-only views (browse templates, view insights)
 - No create/edit/delete actions
 - Member mindset
 - Accessible by all users who are members
 
 **Manager Control UI** (`/manager/*`):
+
 - Full access (create templates, manage experiments)
 - Admin/Manager mindset (org_admin or team_manager roles)
 - Separate from participation UI
@@ -654,6 +706,7 @@ Three roles with different permissions:
 ### Organisation Flows
 
 #### Membership Flow (All Users - member role)
+
 ```
 /organisations
   → List organisations user belongs to (as member)
@@ -665,6 +718,7 @@ Three roles with different permissions:
 ```
 
 #### Management Flow (team_manager or org_admin roles)
+
 ```
 /manager
   → Manager dashboard (full access)
@@ -675,6 +729,7 @@ Three roles with different permissions:
 ```
 
 #### Template Usage Flow
+
 ```
 /organisations/[orgId]/templates
   → Browse templates (read-only)
@@ -719,11 +774,13 @@ Three roles with different permissions:
 ## 🏗️ Architecture Patterns
 
 ### 1. Next.js App Router (Server Components)
+
 - **Server Components**: Fetch data directly from database using `async/await`
 - **Client Components**: Only used for interactivity (forms, state, event handlers)
 - **No useEffect for data fetching**: Data is fetched on server before rendering
 
 ### 2. Prisma Singleton Pattern
+
 ```typescript
 // src/lib/prisma.ts
 const globalForPrisma = globalThis as unknown as {
@@ -734,15 +791,17 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient();
 ```
 
 ### 3. Multi-tenancy Pattern
+
 ```typescript
 // Always filter by clerkUserId
 const { userId } = await auth();
 const data = await prisma.model.findMany({
-  where: { clerkUserId: userId }
+  where: { clerkUserId: userId },
 });
 ```
 
 ### 4. Error Boundaries
+
 ```typescript
 <ErrorBoundary fallbackRender={GeneralErrorFallback}>
   <Suspense fallback={<LoadingSkeleton />}>
@@ -752,12 +811,13 @@ const data = await prisma.model.findMany({
 ```
 
 ### 5. Type-Safe Data Transformation
+
 ```typescript
 // Database format → UI format
-const uiData = dbData.map(item => ({
+const uiData = dbData.map((item) => ({
   id: item.id,
   title: item.title,
-  duration: item.durationDays,  // Transform field names
+  duration: item.durationDays, // Transform field names
 }));
 ```
 
@@ -766,6 +826,7 @@ const uiData = dbData.map(item => ({
 ## 🎯 Key Features
 
 ### Experiment Features
+
 - Custom field builder (text, number, select, emoji, yes/no)
 - Daily check-ins with tracked responses
 - Status management (draft, active, completed)
@@ -773,12 +834,14 @@ const uiData = dbData.map(item => ({
 - Faith lens (optional scripture notes)
 
 ### Organisation Features
+
 - Organisation templates (for organisation accounts)
 - Aggregate insights (privacy-protected)
 - Organisation membership
 - Template usage from organisations
 
 ### AI Features
+
 - AI chat assistant for self-reflection guidance
 - AI-generated experiment suggestions (future)
 - AI insights from aggregate data (future)
@@ -788,17 +851,21 @@ const uiData = dbData.map(item => ({
 ## 🔧 Configuration Files
 
 ### `next.config.ts`
+
 - `cacheComponents: false` - Disabled for Clerk compatibility
 
 ### `proxy.ts` (Middleware)
+
 - Route protection
 - Public route definition
 
 ### `prisma/schema.prisma`
+
 - Database schema
 - Relations and indexes
 
 ### `globals.css`
+
 - Tailwind CSS configuration
 - Custom color variables (orange/peach primary, violet secondary)
 - Dark mode styles
@@ -820,9 +887,11 @@ const uiData = dbData.map(item => ({
 ## 🚀 Development
 
 ### Database Migrations
+
 See `MIGRATION_GUIDE.md` for database migration instructions.
 
 ### Running the App
+
 ```bash
 npm run dev        # Development server
 npm run build      # Production build

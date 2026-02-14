@@ -8,7 +8,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Shield, CheckCircle2, XCircle } from "lucide-react";
 
 interface Organisation {
@@ -48,9 +54,7 @@ export function PrivacyReminderDialog({
             <Shield className="w-5 h-5 text-primary" />
             Privacy Protected
           </DialogTitle>
-          <DialogDescription>
-            Before you link this experiment to an organisation
-          </DialogDescription>
+          <DialogDescription>Before you link this experiment to an organisation</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -105,17 +109,14 @@ export function PrivacyReminderDialog({
           {/* Privacy Note */}
           <div className="p-4 rounded-xl bg-muted/50 border border-border">
             <p className="text-sm text-muted-foreground">
-              Think of it like a weather report: useful patterns emerge, but no one knows if it rained on your specific street.
+              Think of it like a weather report: useful patterns emerge, but no one knows if it
+              rained on your specific street.
             </p>
           </div>
 
           {/* Actions */}
           <div className="flex gap-3">
-            <Button
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              className="flex-1"
-            >
+            <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
               Cancel
             </Button>
             <Button

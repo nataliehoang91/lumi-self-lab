@@ -42,17 +42,13 @@ export function GeneralErrorFallback({
     ) {
       return {
         title: "Connection Error",
-        description:
-          "Unable to load data. Please check your internet connection and try again.",
+        description: "Unable to load data. Please check your internet connection and try again.",
         color: "text-gray-600 dark:text-gray-400",
         bgColor: "bg-gray-100 dark:bg-gray-900/20",
       };
     }
 
-    if (
-      error.message?.includes("404") ||
-      error.message?.includes("not found")
-    ) {
+    if (error.message?.includes("404") || error.message?.includes("not found")) {
       return {
         title: "Data Not Found",
         description: "The requested data could not be found.",
@@ -61,10 +57,7 @@ export function GeneralErrorFallback({
       };
     }
 
-    if (
-      error.message?.includes("401") ||
-      error.message?.includes("unauthorized")
-    ) {
+    if (error.message?.includes("401") || error.message?.includes("unauthorized")) {
       return {
         title: "Authentication Required",
         description: "You need to log in to access this data.",
@@ -134,11 +127,7 @@ export function GeneralErrorFallback({
           </Button>
 
           {showHomeButton && (
-            <Button
-              variant="outline"
-              onClick={() => router.push(homeUrl)}
-              className="flex-1"
-            >
+            <Button variant="outline" onClick={() => router.push(homeUrl)} className="flex-1">
               <Home className="mr-2 h-4 w-4" />
               Go to Dashboard
             </Button>

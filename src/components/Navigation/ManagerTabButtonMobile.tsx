@@ -46,7 +46,7 @@ export function ManagerTabButtonMobile({ pathname, onClose }: ManagerTabButtonMo
         variant="ghost"
         className={`w-full justify-start rounded-2xl gap-2 ${
           pathname === "/org"
-            ? "bg-primary text-black hover:bg-secondary hover:text-white"
+            ? "bg-primary text-black hover:bg-second hover:text-white"
             : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet hover:text-white"
         }`}
       >

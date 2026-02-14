@@ -8,17 +8,17 @@ This document is a **checkpoint** before Phase 4. It verifies that the current P
 
 ### Tables and key fields
 
-| Model | Key fields | Purpose |
-|-------|------------|--------|
-| **User** | `id`, `clerkUserId` (unique), `email`, `accountType`, `role`, `upgradedAt` | Single identity; linked to Clerk via `clerkUserId`. `accountType`: "individual" \| "organisation". `role`: "user" \| "super_admin". |
-| **Organisation** | `id`, `name`, `description`, `createdBy` (clerkUserId) | Workspace/context. No email, password, or auth fields. Creator is a user. |
-| **OrganisationMember** | `organisationId`, `clerkUserId`, `role`, `teamId?`, `teamName?`, `joinedAt` | Many-to-many: user belongs to org with a role. `role`: "member" \| "team_manager" \| "org_admin". Unique on `(organisationId, clerkUserId)`. |
-| **OrganisationTemplate** | `organisationId`, `title`, `description`, `category`, `durationDays`, `frequency` | Org-scoped template (no auth). |
-| **OrganisationTemplateField** | `templateId`, `label`, `type`, `required`, `order`, … | Fields for a template. |
-| **Experiment** | `id`, `clerkUserId`, `title`, … , `organisationId?` | User-owned; optional link to org. Owner is always `clerkUserId`. |
-| **ExperimentField** | `experimentId`, `label`, `type`, … | Field definitions for an experiment. |
-| **ExperimentCheckIn** | `experimentId`, `clerkUserId`, `checkInDate`, … | One check-in per day per experiment. |
-| **ExperimentFieldResponse** | `checkInId`, `fieldId`, response values | Responses per field per check-in. |
+| Model                         | Key fields                                                                        | Purpose                                                                                                                                      |
+| ----------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User**                      | `id`, `clerkUserId` (unique), `email`, `accountType`, `role`, `upgradedAt`        | Single identity; linked to Clerk via `clerkUserId`. `accountType`: "individual" \| "organisation". `role`: "user" \| "super_admin".          |
+| **Organisation**              | `id`, `name`, `description`, `createdBy` (clerkUserId)                            | Workspace/context. No email, password, or auth fields. Creator is a user.                                                                    |
+| **OrganisationMember**        | `organisationId`, `clerkUserId`, `role`, `teamId?`, `teamName?`, `joinedAt`       | Many-to-many: user belongs to org with a role. `role`: "member" \| "team_manager" \| "org_admin". Unique on `(organisationId, clerkUserId)`. |
+| **OrganisationTemplate**      | `organisationId`, `title`, `description`, `category`, `durationDays`, `frequency` | Org-scoped template (no auth).                                                                                                               |
+| **OrganisationTemplateField** | `templateId`, `label`, `type`, `required`, `order`, …                             | Fields for a template.                                                                                                                       |
+| **Experiment**                | `id`, `clerkUserId`, `title`, … , `organisationId?`                               | User-owned; optional link to org. Owner is always `clerkUserId`.                                                                             |
+| **ExperimentField**           | `experimentId`, `label`, `type`, …                                                | Field definitions for an experiment.                                                                                                         |
+| **ExperimentCheckIn**         | `experimentId`, `clerkUserId`, `checkInDate`, …                                   | One check-in per day per experiment.                                                                                                         |
+| **ExperimentFieldResponse**   | `checkInId`, `fieldId`, response values                                           | Responses per field per check-in.                                                                                                            |
 
 ### Role and type conventions (in comments only; no Prisma enums)
 
@@ -30,14 +30,14 @@ This document is a **checkpoint** before Phase 4. It verifies that the current P
 
 ## 2. How the schema maps to the current auth + org model
 
-| Decision | Schema support |
-|----------|----------------|
-| **One email = one user; auth is personal only** | `User` is the only table with identity linkage: `clerkUserId` (Clerk). No `Organisation.clerkUserId` as “org login”; no org email/password. |
-| **Org is context, not identity** | `Organisation` has `name`, `description`, `createdBy`. No auth fields. Membership is via `OrganisationMember` (user + org + role). |
-| **Org roles are per-organisation** | `OrganisationMember.role` is per (organisationId, clerkUserId). One user can be org_admin in one org and member in another. |
-| **Experiments are user-owned, optionally linked to org** | `Experiment.clerkUserId` is the owner; `Experiment.organisationId` is optional. Ownership is never transferred to org. |
-| **Global admin vs org admin** | `User.role` = "super_admin" is global; `OrganisationMember.role` = "org_admin" is per-org. No overlap in tables. |
-| **Creator of an org is a user** | `Organisation.createdBy` stores `clerkUserId`; relation to `User` via `creator`. |
+| Decision                                                 | Schema support                                                                                                                              |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **One email = one user; auth is personal only**          | `User` is the only table with identity linkage: `clerkUserId` (Clerk). No `Organisation.clerkUserId` as “org login”; no org email/password. |
+| **Org is context, not identity**                         | `Organisation` has `name`, `description`, `createdBy`. No auth fields. Membership is via `OrganisationMember` (user + org + role).          |
+| **Org roles are per-organisation**                       | `OrganisationMember.role` is per (organisationId, clerkUserId). One user can be org_admin in one org and member in another.                 |
+| **Experiments are user-owned, optionally linked to org** | `Experiment.clerkUserId` is the owner; `Experiment.organisationId` is optional. Ownership is never transferred to org.                      |
+| **Global admin vs org admin**                            | `User.role` = "super_admin" is global; `OrganisationMember.role` = "org_admin" is per-org. No overlap in tables.                            |
+| **Creator of an org is a user**                          | `Organisation.createdBy` stores `clerkUserId`; relation to `User` via `creator`.                                                            |
 
 ---
 
@@ -91,4 +91,4 @@ This document only records how the current database aligns with the auth and org
 
 ---
 
-*Database alignment snapshot completed 2025-02-07. Checkpoint only.*
+_Database alignment snapshot completed 2025-02-07. Checkpoint only._

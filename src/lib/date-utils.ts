@@ -19,3 +19,16 @@ export function toStartOfDayUTC(input: string | Date): Date {
 export function startOfNextDayUTC(startOfDay: Date): Date {
   return new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
 }
+
+/** Format a Date as YYYY-MM-DD (UTC). Use for check-in date comparison and display. */
+export function formatDateToYYYYMMDD(d: Date): string {
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+/** Today's date in UTC as YYYY-MM-DD. */
+export function getTodayUTC(): string {
+  return formatDateToYYYYMMDD(new Date());
+}

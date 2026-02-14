@@ -70,11 +70,22 @@ function validateOneResponse(
   switch (field.type) {
     case "text": {
       const value = response?.responseText;
-      if (field.required && (value === undefined || value === null || String(value).trim() === "")) {
-        return { error: "Invalid field response", fieldId: field.id, reason: "Required text field is empty." };
+      if (
+        field.required &&
+        (value === undefined || value === null || String(value).trim() === "")
+      ) {
+        return {
+          error: "Invalid field response",
+          fieldId: field.id,
+          reason: "Required text field is empty.",
+        };
       }
       if (value !== undefined && value !== null && typeof value !== "string") {
-        return { error: "Invalid field response", fieldId: field.id, reason: "Text field must be a string." };
+        return {
+          error: "Invalid field response",
+          fieldId: field.id,
+          reason: "Text field must be a string.",
+        };
       }
       return null;
     }
@@ -82,18 +93,34 @@ function validateOneResponse(
     case "number": {
       const value = response?.responseNumber;
       if (field.required && (value === undefined || value === null)) {
-        return { error: "Invalid field response", fieldId: field.id, reason: "Required number field is missing." };
+        return {
+          error: "Invalid field response",
+          fieldId: field.id,
+          reason: "Required number field is missing.",
+        };
       }
       if (value !== undefined && value !== null) {
         const n = Number(value);
         if (Number.isNaN(n)) {
-          return { error: "Invalid field response", fieldId: field.id, reason: "Number field must be a valid number." };
+          return {
+            error: "Invalid field response",
+            fieldId: field.id,
+            reason: "Number field must be a valid number.",
+          };
         }
         if (field.minValue != null && n < field.minValue) {
-          return { error: "Invalid field response", fieldId: field.id, reason: `Value must be at least ${field.minValue}.` };
+          return {
+            error: "Invalid field response",
+            fieldId: field.id,
+            reason: `Value must be at least ${field.minValue}.`,
+          };
         }
         if (field.maxValue != null && n > field.maxValue) {
-          return { error: "Invalid field response", fieldId: field.id, reason: `Value must be at most ${field.maxValue}.` };
+          return {
+            error: "Invalid field response",
+            fieldId: field.id,
+            reason: `Value must be at most ${field.maxValue}.`,
+          };
         }
       }
       return null;
@@ -102,10 +129,18 @@ function validateOneResponse(
     case "yesno": {
       const value = response?.responseBool;
       if (field.required && (value === undefined || value === null)) {
-        return { error: "Invalid field response", fieldId: field.id, reason: "Required yes/no field is missing." };
+        return {
+          error: "Invalid field response",
+          fieldId: field.id,
+          reason: "Required yes/no field is missing.",
+        };
       }
       if (value !== undefined && value !== null && typeof value !== "boolean") {
-        return { error: "Invalid field response", fieldId: field.id, reason: "Yes/no field must be true or false." };
+        return {
+          error: "Invalid field response",
+          fieldId: field.id,
+          reason: "Yes/no field must be true or false.",
+        };
       }
       return null;
     }
@@ -113,16 +148,28 @@ function validateOneResponse(
     case "emoji": {
       const value = response?.responseNumber;
       if (field.required && (value === undefined || value === null)) {
-        return { error: "Invalid field response", fieldId: field.id, reason: "Required emoji field is missing." };
+        return {
+          error: "Invalid field response",
+          fieldId: field.id,
+          reason: "Required emoji field is missing.",
+        };
       }
       const count = field.emojiCount ?? 0;
       if (count <= 0) {
-        return { error: "Invalid field response", fieldId: field.id, reason: "Emoji field has invalid configuration." };
+        return {
+          error: "Invalid field response",
+          fieldId: field.id,
+          reason: "Emoji field has invalid configuration.",
+        };
       }
       if (value !== undefined && value !== null) {
         const n = Number(value);
         if (!Number.isInteger(n) || n < 1 || n > count) {
-          return { error: "Invalid field response", fieldId: field.id, reason: `Value must be between 1 and ${count}.` };
+          return {
+            error: "Invalid field response",
+            fieldId: field.id,
+            reason: `Value must be between 1 and ${count}.`,
+          };
         }
       }
       return null;
@@ -130,19 +177,34 @@ function validateOneResponse(
 
     case "select": {
       const value = response?.selectedOption;
-      if (field.required && (value === undefined || value === null || String(value).trim() === "")) {
-        return { error: "Invalid field response", fieldId: field.id, reason: "Required select field is missing." };
+      if (
+        field.required &&
+        (value === undefined || value === null || String(value).trim() === "")
+      ) {
+        return {
+          error: "Invalid field response",
+          fieldId: field.id,
+          reason: "Required select field is missing.",
+        };
       }
       if (value !== undefined && value !== null && String(value).trim() !== "") {
         const options = field.selectOptions ?? [];
         if (!options.includes(value)) {
-          return { error: "Invalid field response", fieldId: field.id, reason: "Selected option is not allowed." };
+          return {
+            error: "Invalid field response",
+            fieldId: field.id,
+            reason: "Selected option is not allowed.",
+          };
         }
       }
       return null;
     }
 
     default:
-      return { error: "Invalid field response", fieldId: field.id, reason: `Unknown field type: ${field.type}.` };
+      return {
+        error: "Invalid field response",
+        fieldId: field.id,
+        reason: `Unknown field type: ${field.type}.`,
+      };
   }
 }

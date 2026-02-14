@@ -29,11 +29,36 @@ const selectSummarySchema = z.object({
 });
 
 export const fieldSummaryItemSchema = z.discriminatedUnion("type", [
-  z.object({ fieldId: z.string(), label: z.string(), type: z.literal("text"), summary: textSummarySchema }),
-  z.object({ fieldId: z.string(), label: z.string(), type: z.literal("number"), summary: numberSummarySchema }),
-  z.object({ fieldId: z.string(), label: z.string(), type: z.literal("yesno"), summary: yesnoSummarySchema }),
-  z.object({ fieldId: z.string(), label: z.string(), type: z.literal("emoji"), summary: emojiSummarySchema }),
-  z.object({ fieldId: z.string(), label: z.string(), type: z.literal("select"), summary: selectSummarySchema }),
+  z.object({
+    fieldId: z.string(),
+    label: z.string(),
+    type: z.literal("text"),
+    summary: textSummarySchema,
+  }),
+  z.object({
+    fieldId: z.string(),
+    label: z.string(),
+    type: z.literal("number"),
+    summary: numberSummarySchema,
+  }),
+  z.object({
+    fieldId: z.string(),
+    label: z.string(),
+    type: z.literal("yesno"),
+    summary: yesnoSummarySchema,
+  }),
+  z.object({
+    fieldId: z.string(),
+    label: z.string(),
+    type: z.literal("emoji"),
+    summary: emojiSummarySchema,
+  }),
+  z.object({
+    fieldId: z.string(),
+    label: z.string(),
+    type: z.literal("select"),
+    summary: selectSummarySchema,
+  }),
 ]);
 
 export const reviewSummaryResponseSchema = z.object({

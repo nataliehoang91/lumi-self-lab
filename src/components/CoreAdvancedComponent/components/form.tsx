@@ -12,10 +12,7 @@ import { useFormStatus } from "react-dom";
 import { createReducerContext } from "../utils/reducer-context";
 
 interface FormContext {
-  fields: Record<
-    string,
-    { validity: Partial<ValidityState>; userInteracted: boolean }
-  >;
+  fields: Record<string, { validity: Partial<ValidityState>; userInteracted: boolean }>;
   resetCounter: number;
 }
 
@@ -59,63 +56,62 @@ function validityStateToPlainObject(validity: Partial<ValidityState>) {
   return obj;
 }
 
-const [FormContextProvider, useFormContext, useFormDispatch] =
-  createReducerContext(
-    (state: FormContext, action: FormContextAction): FormContext => {
-      switch (action.type) {
-        case "set_field_validity":
-          return {
-            ...state,
-            fields: {
-              ...state.fields,
-              [action.fieldName]: {
-                validity: validityStateToPlainObject(action.validity),
-                userInteracted: true,
-              },
-            },
-          };
-        case "reset_field_validity": {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { [action.fieldName]: _, ...remainingFields } = state.fields;
-          return {
-            ...state,
-            fields: {
-              ...remainingFields,
-              [action.fieldName]: {
-                validity: { valid: true },
-                userInteracted: false,
-              },
-            },
-          };
-        }
-        case "reset_all_validity":
-          return {
-            ...state,
-            fields: {},
-            resetCounter: state.resetCounter + 1,
-          };
-        case "set_all_fields_interacted": {
-          const updatedFields = { ...state.fields };
-
-          // Set all fields as interacted
-          for (const fieldName of Object.keys(updatedFields)) {
-            updatedFields[fieldName] = {
-              ...updatedFields[fieldName],
+const [FormContextProvider, useFormContext, useFormDispatch] = createReducerContext(
+  (state: FormContext, action: FormContextAction): FormContext => {
+    switch (action.type) {
+      case "set_field_validity":
+        return {
+          ...state,
+          fields: {
+            ...state.fields,
+            [action.fieldName]: {
+              validity: validityStateToPlainObject(action.validity),
               userInteracted: true,
-            };
-          }
+            },
+          },
+        };
+      case "reset_field_validity": {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [action.fieldName]: _, ...remainingFields } = state.fields;
+        return {
+          ...state,
+          fields: {
+            ...remainingFields,
+            [action.fieldName]: {
+              validity: { valid: true },
+              userInteracted: false,
+            },
+          },
+        };
+      }
+      case "reset_all_validity":
+        return {
+          ...state,
+          fields: {},
+          resetCounter: state.resetCounter + 1,
+        };
+      case "set_all_fields_interacted": {
+        const updatedFields = { ...state.fields };
 
-          return {
-            ...state,
-            fields: updatedFields,
+        // Set all fields as interacted
+        for (const fieldName of Object.keys(updatedFields)) {
+          updatedFields[fieldName] = {
+            ...updatedFields[fieldName],
+            userInteracted: true,
           };
         }
-        default:
-          return state;
+
+        return {
+          ...state,
+          fields: updatedFields,
+        };
       }
-    },
-    defaultContext
-  );
+      default:
+        return state;
+    }
+  },
+  defaultContext
+);
 
 function useFormFieldValidationState(fieldName: string) {
   const context = useFormContext();
@@ -270,12 +266,7 @@ function CustomFormImpl({ children, ...props }: ComponentProps<"form">) {
   const { dataAttributes, ariaAttributes } = useFormAttributes();
 
   return (
-    <Slot
-      {...props}
-      {...dataAttributes}
-      {...ariaAttributes}
-      onReset={resetForm}
-    >
+    <Slot {...props} {...dataAttributes} {...ariaAttributes} onReset={resetForm}>
       {children}
     </Slot>
   );
@@ -286,12 +277,7 @@ function FormImpl({ children, ...props }: ComponentProps<"form">) {
   const { dataAttributes, ariaAttributes } = useFormAttributes();
 
   return (
-    <form
-      {...props}
-      {...dataAttributes}
-      {...ariaAttributes}
-      onReset={resetForm}
-    >
+    <form {...props} {...dataAttributes} {...ariaAttributes} onReset={resetForm}>
       {children}
     </form>
   );
@@ -321,38 +307,32 @@ const defaultFormFieldContext: FormFieldContext = {
   messageIds: [],
 };
 
-const [FormFieldProvider, useFormFieldState, useFormFieldDispatch] =
-  createReducerContext(
-    (state: FormFieldContext, action: FormFieldAction): FormFieldContext => {
-      if (action.type === "add_message") {
-        return {
-          ...state,
-          messageIds: [...state.messageIds, action.payload],
-        };
-      }
+const [FormFieldProvider, useFormFieldState, useFormFieldDispatch] = createReducerContext(
+  (state: FormFieldContext, action: FormFieldAction): FormFieldContext => {
+    if (action.type === "add_message") {
+      return {
+        ...state,
+        messageIds: [...state.messageIds, action.payload],
+      };
+    }
 
-      if (action.type === "remove_message") {
-        return {
-          ...state,
-          messageIds: state.messageIds.filter((id) => id !== action.payload),
-        };
-      }
+    if (action.type === "remove_message") {
+      return {
+        ...state,
+        messageIds: state.messageIds.filter((id) => id !== action.payload),
+      };
+    }
 
-      return state;
-    },
-    defaultFormFieldContext
-  );
+    return state;
+  },
+  defaultFormFieldContext
+);
 
 interface FormFieldProps extends ComponentProps<"div"> {
   name: string;
 }
 
-export function FormField({
-  name,
-  children,
-  className,
-  ...props
-}: FormFieldProps) {
+export function FormField({ name, children, className, ...props }: FormFieldProps) {
   const id = useId();
 
   const formFieldProps: ComponentProps<"div"> = {
@@ -404,11 +384,7 @@ interface FormControlDataAttributes {
   "data-user-valid"?: boolean;
 }
 
-export function InputControl({
-  children,
-  asChild,
-  ...props
-}: FormControlProps) {
+export function InputControl({ children, asChild, ...props }: FormControlProps) {
   const fieldContext = useFormFieldState();
   const formContext = useFormContext();
   const updateValidity = useUpdateValidity(fieldContext.name);
@@ -508,12 +484,7 @@ interface FormMessageProps extends ComponentProps<"span"> {
   match: keyof ValidityState;
 }
 
-export function FormMessage({
-  children,
-  match,
-  className,
-  ...props
-}: FormMessageProps) {
+export function FormMessage({ children, match, className, ...props }: FormMessageProps) {
   const isInvalid = match !== "valid";
   const context = useFormFieldState();
   const validityState = useFormFieldValidationState(context.name);
@@ -584,10 +555,7 @@ export function FormSubmit({ children, asChild, ...props }: FormSubmitProps) {
   return <button {...buttonProps}>{children}</button>;
 }
 
-export function FormSubmitMessage({
-  children,
-  ...props
-}: ComponentProps<"span">) {
+export function FormSubmitMessage({ children, ...props }: ComponentProps<"span">) {
   const { pending } = useFormStatus();
 
   if (pending) {
@@ -605,10 +573,7 @@ export function FormSubmitMessage({
   );
 }
 
-export function FormPendingMessage({
-  children,
-  ...props
-}: ComponentProps<"span">) {
+export function FormPendingMessage({ children, ...props }: ComponentProps<"span">) {
   const { pending } = useFormStatus();
 
   if (!pending) {
@@ -630,30 +595,22 @@ function isHTMLElement(element: unknown): element is HTMLElement {
   return element instanceof HTMLElement;
 }
 
-function isFormControl(
-  element: HTMLElement
-): element is HTMLElement & { validity: ValidityState } {
+function isFormControl(element: HTMLElement): element is HTMLElement & { validity: ValidityState } {
   return "validity" in element;
 }
 
 function isInvalid(control: HTMLElement) {
   return (
     isFormControl(control) &&
-    (control.validity.valid === false ||
-      control.getAttribute("aria-invalid") === "true")
+    (control.validity.valid === false || control.getAttribute("aria-invalid") === "true")
   );
 }
 
 function isVisible(control: HTMLElement) {
-  return (
-    control.offsetParent !== null &&
-    control.getAttribute("aria-hidden") !== "true"
-  );
+  return control.offsetParent !== null && control.getAttribute("aria-hidden") !== "true";
 }
 
-function getFirstInvalidControl(
-  form: HTMLFormElement
-): HTMLElement | undefined {
+function getFirstInvalidControl(form: HTMLFormElement): HTMLElement | undefined {
   const elements = form.elements;
 
   if (!elements || elements.length === 0) {
@@ -691,12 +648,6 @@ export function FormControlItem({
   );
 }
 
-export function HiddenFormField({
-  name,
-  value,
-}: {
-  name: string;
-  value?: string;
-}) {
+export function HiddenFormField({ name, value }: { name: string; value?: string }) {
   return <input type="hidden" name={name} value={value} />;
 }

@@ -8,8 +8,7 @@ import { cn } from "@/lib/utils";
 // @ts-nocheck
 
 export const Debugger = memo(function Debugger() {
-  const { isFocusWithinContainer, lastFocusedRowId, cycleRowFocus } =
-    useGridListState();
+  const { isFocusWithinContainer, lastFocusedRowId, cycleRowFocus } = useGridListState();
   const { selectionMode } = useSelectionState();
   const selectedRows = useSelectedRows();
 
@@ -17,7 +16,6 @@ export const Debugger = memo(function Debugger() {
     <GridListRow disabled>
       <dl
         className="text-sm bg-muted/50 p-1 rounded-md text-muted-foreground flex flex-row gap-8 col-span-full"
-         
         // eslint-disable-next-line jsx-a11y/use-semantic-elements
         role="gridcell"
         tabIndex={-1}
@@ -26,27 +24,15 @@ export const Debugger = memo(function Debugger() {
         <h3 className="text-sm font-bold tracking-tight">debugger</h3>
         <BooleanValue label="cycleRowFocus" value={cycleRowFocus} />
         <TextValue label="lastFocusedRowId" value={lastFocusedRowId} />
-        <BooleanValue
-          label="isFocusWithinContainer"
-          value={isFocusWithinContainer}
-        />
+        <BooleanValue label="isFocusWithinContainer" value={isFocusWithinContainer} />
         <TextValue label="selectionMode" value={selectionMode} />
-        <TextValue
-          label="selectedRows"
-          value={Array.from(selectedRows).join(", ") || "none"}
-        />
+        <TextValue label="selectedRows" value={Array.from(selectedRows).join(", ") || "none"} />
       </dl>
     </GridListRow>
   );
 });
 
-function TextValue({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | null | undefined;
-}) {
+function TextValue({ label, value }: { label: string; value: string | null | undefined }) {
   if (value == null) {
     return (
       <div className="flex flex-row gap-2 bg-muted items-center">

@@ -24,10 +24,7 @@ export async function GET(request: Request) {
   }
 
   const todayStart = toStartOfDayUTC(new Date());
-  const baseUrl =
-    process.env.APP_URL ??
-    process.env.NEXT_PUBLIC_APP_URL ??
-    "http://localhost:3005";
+  const baseUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3005";
 
   try {
     const activeExperiments = await prisma.experiment.findMany({
@@ -56,11 +53,7 @@ export async function GET(request: Request) {
     const now = new Date();
     const needsReminder = activeExperiments.filter((exp) => {
       if (exp.reminder?.pausedAt != null) return false;
-      if (
-        exp.reminder?.snoozedUntil != null &&
-        now < exp.reminder.snoozedUntil
-      )
-        return false;
+      if (exp.reminder?.snoozedUntil != null && now < exp.reminder.snoozedUntil) return false;
       const latest = exp.checkIns[0];
       if (!latest) return true;
       return latest.checkInDate < todayStart;
@@ -93,9 +86,6 @@ export async function GET(request: Request) {
     });
   } catch (err) {
     console.error("Check-in reminders cron error:", err);
-    return NextResponse.json(
-      { error: "Failed to run check-in reminders" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to run check-in reminders" }, { status: 500 });
   }
 }

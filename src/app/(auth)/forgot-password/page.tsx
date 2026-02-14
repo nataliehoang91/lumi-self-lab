@@ -1,7 +1,16 @@
 "use client";
 
-import { InteractiveForm, SubmitButton, SubmitMessage, LoadingMessage } from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
-import { FormField, InputControl, FormMessage } from "@/components/CoreAdvancedComponent/components/form";
+import {
+  InteractiveForm,
+  SubmitButton,
+  SubmitMessage,
+  LoadingMessage,
+} from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
+import {
+  FormField,
+  InputControl,
+  FormMessage,
+} from "@/components/CoreAdvancedComponent/components/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -19,7 +28,9 @@ export default function ForgotPasswordPage() {
   const { isLoaded } = useSignIn();
   const [error, setError] = useState<string | null>(null);
 
-  const handleForgotPassword = async (formData: FormData): Promise<{ redirect?: string; error?: string; refresh?: boolean }> => {
+  const handleForgotPassword = async (
+    formData: FormData
+  ): Promise<{ redirect?: string; error?: string; refresh?: boolean }> => {
     if (!isLoaded) return { error: "Please wait..." };
     setError(null);
 
@@ -34,12 +45,16 @@ export default function ForgotPasswordPage() {
       // Note: Clerk's reset_password_email_code strategy requires additional setup
       // For now, we'll use a simpler approach - redirect to sent page
       // In production, you'd implement Clerk's full password reset flow
-      
+
       // Redirect to sent page with email parameter
       router.push(`/forgot-password/sent?email=${encodeURIComponent(email)}`);
-      return { redirect: `/forgot-password/sent?email=${encodeURIComponent(email)}`, refresh: true };
+      return {
+        redirect: `/forgot-password/sent?email=${encodeURIComponent(email)}`,
+        refresh: true,
+      };
     } catch (err: any) {
-      const errorMessage = err.errors?.[0]?.message || "Failed to send reset email. Please try again.";
+      const errorMessage =
+        err.errors?.[0]?.message || "Failed to send reset email. Please try again.";
       setError(errorMessage);
       return { error: errorMessage };
     }
@@ -52,7 +67,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center justify-center mb-4">
             <div className="relative">
-              <Sparkles className="w-12 h-12 text-secondary animate-float" />
+              <Sparkles className="w-12 h-12 text-second animate-float" />
               <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse-glow" />
             </div>
           </Link>
@@ -68,10 +83,7 @@ export default function ForgotPasswordPage() {
             </div>
           )}
 
-          <InteractiveForm<ForgotPasswordFields>
-            fields={["email"]}
-            action={handleForgotPassword}
-          >
+          <InteractiveForm<ForgotPasswordFields> fields={["email"]} action={handleForgotPassword}>
             <div className="space-y-6">
               <FormField name="email">
                 <Label htmlFor="email" className="text-sm font-medium">
@@ -91,7 +103,8 @@ export default function ForgotPasswordPage() {
                 <FormMessage match="valueMissing">Email is required</FormMessage>
                 <FormMessage match="typeMismatch">Please enter a valid email</FormMessage>
                 <p className="text-xs text-muted-foreground mt-2">
-                  Enter the email associated with your account and we'll send you a link to reset your password.
+                  Enter the email associated with your account and we'll send you a link to reset
+                  your password.
                 </p>
               </FormField>
 
@@ -132,7 +145,10 @@ export default function ForgotPasswordPage() {
 
         {/* Back to Home */}
         <div className="mt-6 text-center">
-          <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            href="/"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
             Back to Home
           </Link>
         </div>

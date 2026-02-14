@@ -89,11 +89,7 @@ export function AiChatPanel() {
               if (parsed) {
                 assistantMessage += parsed;
                 setMessages((prev) =>
-                  prev.map((m) =>
-                    m.id === assistantId
-                      ? { ...m, content: assistantMessage }
-                      : m
-                  )
+                  prev.map((m) => (m.id === assistantId ? { ...m, content: assistantMessage } : m))
                 );
               }
             } catch (e) {
@@ -127,10 +123,8 @@ export function AiChatPanel() {
       <div className="p-5 border-b border-sidebar-border/50">
         <div className="flex items-center justify-between">
           <Link href="/" className="inline-flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-secondary" />
-            <h1 className="text-lg font-bold text-sidebar-foreground">
-              Self-Lab
-            </h1>
+            <Sparkles className="w-5 h-5 text-second" />
+            <h1 className="text-lg font-bold text-sidebar-foreground">Self-Lab</h1>
           </Link>
         </div>
         <p className="text-xs text-sidebar-foreground/60 mt-1">AI Assistant</p>
@@ -138,9 +132,7 @@ export function AiChatPanel() {
 
       {/* Suggested Prompts */}
       <div className="p-4 border-b border-sidebar-border/50">
-        <p className="text-xs font-medium text-sidebar-foreground/50 mb-3">
-          TRY ASKING
-        </p>
+        <p className="text-xs font-medium text-sidebar-foreground/50 mb-3">TRY ASKING</p>
         <div className="space-y-2">
           {SUGGESTED_PROMPTS.map((prompt, index) => (
             <button
@@ -160,9 +152,7 @@ export function AiChatPanel() {
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${
-                message.role === "user" ? "justify-end" : "justify-start"
-              }`}
+              className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
                 className={`max-w-[85%] rounded-3xl p-4 shadow-sm ${
@@ -173,10 +163,8 @@ export function AiChatPanel() {
               >
                 {message.role === "assistant" && (
                   <div className="flex items-center gap-2 mb-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-secondary" />
-                    <span className="text-xs font-medium text-secondary">
-                      AI
-                    </span>
+                    <Sparkles className="w-3.5 h-3.5 text-second" />
+                    <span className="text-xs font-medium text-second">AI</span>
                   </div>
                 )}
                 <p className="text-sm leading-relaxed">{message.content}</p>

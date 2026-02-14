@@ -8,12 +8,12 @@ This document describes the portal access model and server-side guards added in 
 
 All routes under `/(protected)/` require an authenticated user (enforced in middleware). Within that, routes are grouped into four portal categories:
 
-| Portal | Paths | Purpose |
-|--------|--------|--------|
-| **Personal** | `/create`, `/dashboard`, `/experiments/*`, `/insights`, `/onboarding/*`, `/templates`, `/upgrade`, `/(protected)/page.tsx`, `/test-scenarios` | App for the signed-in user: experiments, dashboard, templates, upgrade. |
-| **Org** | `/org`, `/org/[orgId]/*`, `/org/invites/[inviteId]` | Org portal: org switcher, org dashboard, member views (teams, experiments, templates, insights), org-admin (`/org/[orgId]/admin/*`). |
-| **Admin (super-admin)** | `/super-admin` | Global app admin (non-Clerk); DB role only. |
-| **Admin (Clerk)** | *(none)* | No Clerk-based admin portal in this app. |
+| Portal                  | Paths                                                                                                                                         | Purpose                                                                                                                              |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Personal**            | `/create`, `/dashboard`, `/experiments/*`, `/insights`, `/onboarding/*`, `/templates`, `/upgrade`, `/(protected)/page.tsx`, `/test-scenarios` | App for the signed-in user: experiments, dashboard, templates, upgrade.                                                              |
+| **Org**                 | `/org`, `/org/[orgId]/*`, `/org/invites/[inviteId]`                                                                                           | Org portal: org switcher, org dashboard, member views (teams, experiments, templates, insights), org-admin (`/org/[orgId]/admin/*`). |
+| **Admin (super-admin)** | `/super-admin`                                                                                                                                | Global app admin (non-Clerk); DB role only.                                                                                          |
+| **Admin (Clerk)**       | _(none)_                                                                                                                                      | No Clerk-based admin portal in this app.                                                                                             |
 
 There is no separate “Admin portal” besides the super-admin portal; access to super-admin is determined only by the database role `User.role === "super_admin"`, not by Clerk.
 
@@ -81,12 +81,12 @@ There is no separate “Admin portal” besides the super-admin portal; access t
 
 ## 5. Files added or changed (Phase 1)
 
-| File | Change |
-|------|--------|
-| `src/lib/permissions.ts` | Added `canAccessOrgPortal(clerkUserId)` for org-portal access. |
-| `src/app/(invisible-admin)/super-admin/layout.tsx` | Server layout: redirect if not authenticated or not `super_admin`. |
-| `src/app/(org)/layout.tsx` | Server layout: redirect if not authenticated or cannot access org portal (`canAccessOrgPortal`). Per-org and org-admin guards are in `(org)/org/[orgId]/layout.tsx` and `(org)/org/[orgId]/admin/layout.tsx` (added in later phase). |
+| File                                               | Change                                                                                                                                                                                                                               |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/lib/permissions.ts`                           | Added `canAccessOrgPortal(clerkUserId)` for org-portal access.                                                                                                                                                                       |
+| `src/app/(invisible-admin)/super-admin/layout.tsx` | Server layout: redirect if not authenticated or not `super_admin`.                                                                                                                                                                   |
+| `src/app/(org)/layout.tsx`                         | Server layout: redirect if not authenticated or cannot access org portal (`canAccessOrgPortal`). Per-org and org-admin guards are in `(org)/org/[orgId]/layout.tsx` and `(org)/org/[orgId]/admin/layout.tsx` (added in later phase). |
 
 ---
 
-*Phase 1 completed 2025-02-07. No new features; access control and routing safety only.*
+_Phase 1 completed 2025-02-07. No new features; access control and routing safety only._

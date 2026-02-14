@@ -7,6 +7,7 @@ The migration `add_user_and_organisation_models` has been successfully applied.
 ## Schema Overview
 
 ### New Models:
+
 - `User` - User accounts with `accountType` (individual | organisation)
 - `Organisation` - Organisation records
 - `OrganisationMember` - Organisation memberships
@@ -14,11 +15,13 @@ The migration `add_user_and_organisation_models` has been successfully applied.
 - `OrganisationTemplateField` - Template field definitions
 
 ### Updated Models:
+
 - `Experiment` - Added `organisationId` (optional) and relation to `User`
 
 ## Running Migrations
 
 ### Create New Migration:
+
 ```bash
 # Generate Prisma client
 npx prisma generate
@@ -28,6 +31,7 @@ npx prisma migrate dev --name your_migration_name
 ```
 
 ### Reset Database (WARNING: Deletes All Data):
+
 ```bash
 npx prisma migrate reset
 ```
@@ -70,6 +74,7 @@ migrateUsers()
 ```
 
 Run with:
+
 ```bash
 npx tsx scripts/migrate-users.ts
 ```
@@ -111,15 +116,18 @@ await prisma.user.upsert({
 ## Troubleshooting
 
 ### Error: "User not found"
+
 - Make sure User record exists (auto-created by `/api/users/identity`)
 - Check clerkUserId matches
 
 ### Manager tab not showing
+
 - Check user.accountType === "organisation" in database
 - Check `/api/users/identity` returns correct accountType
 - Clear browser cache
 
 ### Migration fails
+
 - Check database connection
 - Check for existing data conflicts
 - May need to reset database (WARNING: deletes all data)
@@ -129,6 +137,7 @@ await prisma.user.upsert({
 ## Files Created/Updated
 
 ### New Files:
+
 - `src/app/api/users/identity/route.ts`
 - `src/app/api/users/upgrade/route.ts`
 - `src/app/(protected)/upgrade/page.tsx`
@@ -137,6 +146,7 @@ await prisma.user.upsert({
 - `src/components/Navigation/ManagerTabButtonMobile.tsx`
 
 ### Updated Files:
+
 - `prisma/schema.prisma` - Added User, Organisation models
 - `src/components/Navigation/navigation-bar.tsx` - Conditional Manager tab
 

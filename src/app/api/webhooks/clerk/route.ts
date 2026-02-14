@@ -9,10 +9,7 @@ const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 export async function POST(request: Request) {
   if (!WEBHOOK_SECRET) {
     console.error("Missing CLERK_WEBHOOK_SECRET environment variable");
-    return NextResponse.json(
-      { error: "Webhook secret not configured" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Webhook secret not configured" }, { status: 500 });
   }
 
   // Get the headers (Next.js 15+ returns a Promise)
@@ -23,10 +20,7 @@ export async function POST(request: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return NextResponse.json(
-      { error: "Error occurred -- no svix headers" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Error occurred -- no svix headers" }, { status: 400 });
   }
 
   // Get the body
@@ -74,10 +68,7 @@ export async function POST(request: Request) {
       }
 
       if (!clerkUserId) {
-        return NextResponse.json(
-          { error: "Missing user ID in webhook payload" },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "Missing user ID in webhook payload" }, { status: 400 });
       }
 
       await prisma.user.upsert({
@@ -100,10 +91,7 @@ export async function POST(request: Request) {
     if (eventType === "user.deleted") {
       const clerkUserId = evt.data.id;
       if (!clerkUserId) {
-        return NextResponse.json(
-          { error: "Missing user ID in webhook payload" },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "Missing user ID in webhook payload" }, { status: 400 });
       }
       // TODO: prefer soft delete when User.deletedAt exists; for now hard-delete
       await prisma.user.deleteMany({
@@ -118,15 +106,11 @@ export async function POST(request: Request) {
     if (eventType === "user.updated") {
       const clerkUserId = evt.data.id;
       const email =
-        evt.data.email_addresses?.find(
-          (e) => e.id === evt.data.primary_email_address_id
-        )?.email_address ?? null;
+        evt.data.email_addresses?.find((e) => e.id === evt.data.primary_email_address_id)
+          ?.email_address ?? null;
 
       if (!clerkUserId) {
-        return NextResponse.json(
-          { error: "Missing user ID in webhook payload" },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "Missing user ID in webhook payload" }, { status: 400 });
       }
 
       const user = await prisma.user.findUnique({

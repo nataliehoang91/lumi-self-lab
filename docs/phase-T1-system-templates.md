@@ -28,32 +28,32 @@ Inject **exactly 5 system-defined** experiment templates. Users can create exper
 
 ### ExperimentTemplate
 
-| Column       | Type     | Notes        |
-|-------------|----------|--------------|
-| id          | String   | @id @default(cuid()) |
-| key         | String   | @unique      |
-| title       | String   |              |
-| description | String?  |              |
-| durationDays| Int?     |              |
-| frequency   | String?  |              |
-| createdAt   | DateTime |              |
-| updatedAt   | DateTime |              |
+| Column       | Type     | Notes                |
+| ------------ | -------- | -------------------- |
+| id           | String   | @id @default(cuid()) |
+| key          | String   | @unique              |
+| title        | String   |                      |
+| description  | String?  |                      |
+| durationDays | Int?     |                      |
+| frequency    | String?  |                      |
+| createdAt    | DateTime |                      |
+| updatedAt    | DateTime |                      |
 
 ### ExperimentTemplateField
 
-| Column        | Type    | Notes |
-|---------------|---------|--------|
-| id            | String  | @id @default(cuid()) |
-| templateId    | String  | FK → ExperimentTemplate.id, CASCADE |
-| label         | String  |       |
-| type          | String  | text \| number \| select \| emoji \| yesno |
-| required      | Boolean | @default(false) |
-| order         | Int     |       |
-| textType      | String? |       |
-| minValue      | Int?    |       |
-| maxValue      | Int?    |       |
-| emojiCount    | Int?    |       |
-| selectOptions | String[]|       |
+| Column        | Type     | Notes                                      |
+| ------------- | -------- | ------------------------------------------ |
+| id            | String   | @id @default(cuid())                       |
+| templateId    | String   | FK → ExperimentTemplate.id, CASCADE        |
+| label         | String   |                                            |
+| type          | String   | text \| number \| select \| emoji \| yesno |
+| required      | Boolean  | @default(false)                            |
+| order         | Int      |                                            |
+| textType      | String?  |                                            |
+| minValue      | Int?     |                                            |
+| maxValue      | Int?     |                                            |
+| emojiCount    | Int?     |                                            |
+| selectOptions | String[] |                                            |
 
 Field types and constraints match **ExperimentField** (Phase 1.2). No new validation logic.
 
@@ -107,14 +107,14 @@ Field types and constraints match **ExperimentField** (Phase 1.2). No new valida
 
 ## Files
 
-| File | Purpose |
-|------|--------|
-| `prisma/schema.prisma` | ExperimentTemplate, ExperimentTemplateField models. |
-| `prisma/migrations/20260129140000_add_experiment_templates/migration.sql` | Create tables. |
-| `prisma/seed/experiment-templates.ts` | Seed the 5 templates (idempotent). |
-| `prisma/seed.ts` | Seed entry; runs `seedExperimentTemplates`. |
-| `src/app/api/experiment-templates/route.ts` | GET all templates. |
-| `src/app/api/experiment-templates/[templateId]/create/route.ts` | POST create experiment from template. |
+| File                                                                      | Purpose                                             |
+| ------------------------------------------------------------------------- | --------------------------------------------------- |
+| `prisma/schema.prisma`                                                    | ExperimentTemplate, ExperimentTemplateField models. |
+| `prisma/migrations/20260129140000_add_experiment_templates/migration.sql` | Create tables.                                      |
+| `prisma/seed/experiment-templates.ts`                                     | Seed the 5 templates (idempotent).                  |
+| `prisma/seed.ts`                                                          | Seed entry; runs `seedExperimentTemplates`.         |
+| `src/app/api/experiment-templates/route.ts`                               | GET all templates.                                  |
+| `src/app/api/experiment-templates/[templateId]/create/route.ts`           | POST create experiment from template.               |
 
 ---
 
