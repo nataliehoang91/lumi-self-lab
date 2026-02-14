@@ -39,7 +39,7 @@
   --coral-foreground: oklch(0.985 0 0);
 
   /* 5. Sky Blue: soft blue, balances warm palette (hue 235) */
-  --sky-blue: oklch(0.70 0.10 235);
+  --sky-blue: oklch(0.7 0.1 235);
   --sky-blue-foreground: oklch(0.985 0 0);
 
   --muted: oklch(0.967 0.001 286.375);
@@ -73,8 +73,8 @@
   --foreground: oklch(0.141 0.005 285.823);
 
   /* Success: lively sage green (for success states, checkmarks, completion) */
-  --success: oklch(0.50 0.14 145);
-  --success-muted: oklch(0.90 0.07 145);
+  --success: oklch(0.5 0.14 145);
+  --success-muted: oklch(0.9 0.07 145);
 
   /* Named gradient colors (for waitlist and other gradients) */
   --gradient-peach: rgb(255 247 237);
@@ -118,7 +118,7 @@
   --coral-foreground: oklch(0.141 0.005 285.823);
 
   /* Sky Blue - slightly brighter for dark mode */
-  --sky-blue: oklch(0.72 0.10 235);
+  --sky-blue: oklch(0.72 0.1 235);
   --sky-blue-foreground: oklch(0.985 0 0);
 
   /* Success - slightly brighter for dark mode */
@@ -428,7 +428,9 @@
 
 /* Theme toggle: full transition in CSS so rotate runs on refresh and on click */
 .theme-toggle-icon {
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out;
 }
 .theme-toggle-sun.theme-toggle-visible {
   transform: rotate(0deg) scale(1);
@@ -513,19 +515,39 @@
 /* Welcome page: gradient background (orange → white → violet) */
 .welcome-page-background {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, var(--gradient-peach), var(--gradient-white), var(--gradient-violet-tint));
+  background: linear-gradient(
+    to bottom right,
+    var(--gradient-peach),
+    var(--gradient-white),
+    var(--gradient-violet-tint)
+  );
 }
 .dark .welcome-page-background {
-  background: linear-gradient(to bottom right, var(--background), var(--background), rgb(46 16 101 / 0.2));
+  background: linear-gradient(
+    to bottom right,
+    var(--background),
+    var(--background),
+    rgb(46 16 101 / 0.2)
+  );
 }
 
 /* Waitlist page: gradient background (orange → white → violet) */
 .waitlist-background {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, var(--gradient-peach), var(--gradient-white), var(--gradient-violet-tint));
+  background: linear-gradient(
+    to bottom right,
+    var(--gradient-peach),
+    var(--gradient-white),
+    var(--gradient-violet-tint)
+  );
 }
 .dark .waitlist-background {
-  background: linear-gradient(to bottom right, var(--background), var(--background), rgb(46 16 101 / 0.2));
+  background: linear-gradient(
+    to bottom right,
+    var(--background),
+    var(--background),
+    rgb(46 16 101 / 0.2)
+  );
 }
 
 /* Clerk: ensure "Continue with Google" (social button) label is visible in dark mode */
@@ -534,4 +556,36 @@
 }
 .dark [class*="socialButtonsBlockButton"] * {
   color: inherit;
+}
+
+/* Theme toggle animations */
+.theme-toggle-icon {
+  transition:
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    scale 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle-sun.theme-toggle-visible {
+  transform: rotate(0deg);
+  opacity: 1;
+  scale: 1;
+}
+
+.theme-toggle-sun.theme-toggle-hidden {
+  transform: rotate(180deg);
+  opacity: 0;
+  scale: 0;
+}
+
+.theme-toggle-moon.theme-toggle-visible {
+  transform: rotate(0deg);
+  opacity: 1;
+  scale: 1;
+}
+
+.theme-toggle-moon.theme-toggle-hidden {
+  transform: rotate(-180deg);
+  opacity: 0;
+  scale: 0;
 }
