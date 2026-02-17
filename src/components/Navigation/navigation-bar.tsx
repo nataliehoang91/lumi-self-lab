@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Moon, Sun, Menu, X, BarChart3, Building2, Crown, Loader2, Shield } from "lucide-react";
-import { Logo } from "@/components/GeneralComponents/logo";
+import { Logo } from "@/components/GeneralComponents/Logo";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";

@@ -17,6 +17,7 @@ import { useNavbarHeaderContent } from "@/contexts/NavbarHeaderContentContext";
 export function SetNavbarHeader({ children }: { children: React.ReactNode }) {
   const setContent = useNavbarHeaderContent();
   const childrenRef = useRef(children);
+  // eslint-disable-next-line react-hooks/refs
   childrenRef.current = children;
 
   useEffect(() => {

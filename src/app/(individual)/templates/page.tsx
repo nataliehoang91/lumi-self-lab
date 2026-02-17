@@ -249,132 +249,132 @@ export default function TemplatesPage() {
   return (
     <IndividualContainer>
       <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Experiment Templates</h1>
-          <p className="text-muted-foreground text-lg">
-            Discover proven experiments to accelerate your personal growth
-          </p>
-        </div>
+        <h1 className="text-4xl font-bold text-foreground mb-2">Experiment Templates</h1>
+        <p className="text-muted-foreground text-lg">
+          Discover proven experiments to accelerate your personal growth
+        </p>
+      </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <Input
-              placeholder="Search templates..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 rounded-3xl border-border/50 bg-background/50"
-            />
-          </div>
+      <div className="flex flex-col sm:flex-row gap-4 mb-8">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Input
+            placeholder="Search templates..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 rounded-3xl border-border/50 bg-background/50"
+          />
+        </div>
+        <Button
+          variant="outline"
+          className="rounded-3xl border-border/50 bg-background/50 hover:bg-second/10 hover:text-second hover:border-second"
+        >
+          <Filter className="w-4 h-4 mr-2" />
+          Filter
+        </Button>
+        <Button className="rounded-3xl" asChild>
+          <Link href="/experiments/create">
+            <Sparkles className="w-4 h-4 mr-2" />
+            Create Custom
+          </Link>
+        </Button>
+      </div>
+
+      <div className="flex gap-2 mb-12 overflow-x-auto pb-2">
+        {categoryCounts.map((category) => (
           <Button
-            variant="outline"
-            className="rounded-3xl border-border/50 bg-background/50 hover:bg-second/10 hover:text-second hover:border-second"
+            key={category.id}
+            variant={selectedCategory === category.id ? "default" : "outline"}
+            onClick={() => setSelectedCategory(category.id)}
+            className={`rounded-3xl whitespace-nowrap transition-all hover:scale-105 ${
+              selectedCategory !== category.id
+                ? "bg-transparent hover:bg-second/10 hover:text-second hover:border-second"
+                : ""
+            }`}
           >
-            <Filter className="w-4 h-4 mr-2" />
-            Filter
+            {category.label}
+            <Badge variant="second" className="ml-2 rounded-full">
+              {category.count}
+            </Badge>
           </Button>
-          <Button className="rounded-3xl" asChild>
-            <Link href="/experiments/create">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Create Custom
-            </Link>
-          </Button>
-        </div>
+        ))}
+      </div>
 
-        <div className="flex gap-2 mb-12 overflow-x-auto pb-2">
-          {categoryCounts.map((category) => (
-            <Button
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`rounded-3xl whitespace-nowrap transition-all hover:scale-105 ${
-                selectedCategory !== category.id
-                  ? "bg-transparent hover:bg-second/10 hover:text-second hover:border-second"
-                  : ""
-              }`}
-            >
-              {category.label}
-              <Badge variant="second" className="ml-2 rounded-full">
-                {category.count}
-              </Badge>
-            </Button>
+      {fetchError && (
+        <div className="mb-6 rounded-xl bg-destructive/10 border border-destructive/20 px-4 py-3 text-sm text-destructive">
+          {fetchError}
+        </div>
+      )}
+
+      {loading && (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <CardSkeleton key={i} />
           ))}
         </div>
+      )}
 
-        {fetchError && (
-          <div className="mb-6 rounded-xl bg-destructive/10 border border-destructive/20 px-4 py-3 text-sm text-destructive">
-            {fetchError}
+      {!loading && !fetchError && filteredTemplates.length === 0 && (
+        <div className="text-center py-16">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-muted/50 flex items-center justify-center">
+            <Search className="w-8 h-8 text-muted-foreground" />
           </div>
-        )}
+          <h3 className="text-lg font-medium text-foreground mb-2">No templates found</h3>
+          <p className="text-muted-foreground">
+            {templates.length === 0
+              ? "Templates will appear here once available."
+              : "Try adjusting your search or category."}
+          </p>
+        </div>
+      )}
 
-        {loading && (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <CardSkeleton key={i} />
-            ))}
-          </div>
-        )}
-
-        {!loading && !fetchError && filteredTemplates.length === 0 && (
-          <div className="text-center py-16">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-muted/50 flex items-center justify-center">
-              <Search className="w-8 h-8 text-muted-foreground" />
+      {!loading && filteredTemplates.length > 0 && (
+        <>
+          {featuredTemplates.length > 0 && (
+            <div className="mb-12">
+              <div className="flex items-center gap-2 mb-6">
+                <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
+                <h2 className="text-2xl font-bold text-foreground">Featured Templates</h2>
+              </div>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {featuredTemplates.map((template, index) => (
+                  <TemplateCard
+                    key={template.id}
+                    template={template}
+                    index={index}
+                    creatingId={creatingId}
+                    onUseTemplate={handleUseTemplate}
+                    variant="default"
+                  />
+                ))}
+              </div>
             </div>
-            <h3 className="text-lg font-medium text-foreground mb-2">No templates found</h3>
-            <p className="text-muted-foreground">
-              {templates.length === 0
-                ? "Templates will appear here once available."
-                : "Try adjusting your search or category."}
-            </p>
-          </div>
-        )}
+          )}
 
-        {!loading && filteredTemplates.length > 0 && (
-          <>
-            {featuredTemplates.length > 0 && (
-              <div className="mb-12">
-                <div className="flex items-center gap-2 mb-6">
-                  <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
-                  <h2 className="text-2xl font-bold text-foreground">Featured Templates</h2>
-                </div>
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {featuredTemplates.map((template, index) => (
-                    <TemplateCard
-                      key={template.id}
-                      template={template}
-                      index={index}
-                      creatingId={creatingId}
-                      onUseTemplate={handleUseTemplate}
-                      variant="default"
-                    />
-                  ))}
-                </div>
+          {otherTemplates.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-bold text-foreground mb-6">
+                All Templates
+                <span className="text-muted-foreground text-lg ml-2">
+                  ({otherTemplates.length} more)
+                </span>
+              </h2>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {otherTemplates.map((template, index) => (
+                  <TemplateCard
+                    key={template.id}
+                    template={template}
+                    index={featuredTemplates.length + index}
+                    creatingId={creatingId}
+                    onUseTemplate={handleUseTemplate}
+                    variant="outline"
+                  />
+                ))}
               </div>
-            )}
-
-            {otherTemplates.length > 0 && (
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-6">
-                  All Templates
-                  <span className="text-muted-foreground text-lg ml-2">
-                    ({otherTemplates.length} more)
-                  </span>
-                </h2>
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {otherTemplates.map((template, index) => (
-                    <TemplateCard
-                      key={template.id}
-                      template={template}
-                      index={featuredTemplates.length + index}
-                      creatingId={creatingId}
-                      onUseTemplate={handleUseTemplate}
-                      variant="outline"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </>
-        )}
+            </div>
+          )}
+        </>
+      )}
     </IndividualContainer>
   );
 }

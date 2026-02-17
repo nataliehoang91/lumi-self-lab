@@ -1,26 +1,8 @@
 /**
- * Types Index
- *
- * Central export point for all types in the application.
- * Import types from here: import type { Experiment, UIExperiment } from "@/types";
- *
- * Note: We use Prisma for database operations and basic search (contains queries).
- * Typesense is NOT needed - Prisma search is sufficient for this use case.
+ * Shared types used across the app.
  */
 
-// Database types (Prisma-generated)
-export type {
-  Experiment,
-  ExperimentField,
-  ExperimentCheckIn,
-  ExperimentFieldResponse,
-  ExperimentWithRelations,
-  ExperimentFieldWithRelations,
-  ExperimentCheckInWithRelations,
-  ExperimentFieldResponseWithRelations,
-} from "./database";
-
-// Domain types (experiments)
+// Re-export experiment and database types so existing "@/types" imports keep working
 export type {
   ExperimentStatus,
   ExperimentFrequency,
@@ -30,13 +12,42 @@ export type {
   CustomField,
   UIExperiment,
   UIExperimentDetail,
-  UICheckIn,
-  UIFieldResponse,
   CreateExperimentRequest,
-  UpdateExperimentRequest,
-  CreateFieldRequest,
-  CreateCheckInRequest,
   CreateFieldResponseRequest,
+  UICheckIn,
   ExperimentFilterStatus,
   ExperimentFilters,
 } from "./experiments";
+export type {
+  Experiment,
+  ExperimentField,
+  ExperimentCheckIn,
+  ExperimentFieldResponse,
+  ExperimentWithRelations,
+  ExperimentFieldWithRelations,
+} from "./database";
+
+// ---------------------------------------------------------------------------
+// Error handling (for catch blocks, API errors)
+// ---------------------------------------------------------------------------
+
+/**
+ * Error shape commonly returned by APIs (e.g. Clerk, form validation):
+ * optional `errors` array with objects that have an optional `message`.
+ */
+export type ErrorWithErrors = {
+  errors?: Array<{ message?: string }>;
+};
+
+/**
+ * Get a user-facing error message from an unknown catch value.
+ * Use in catch blocks instead of typing `err: any` or repeating the same cast.
+ *
+ * @param err - The caught value (unknown)
+ * @param fallback - Message to return when no message is found
+ * @returns The first error message, or the fallback
+ */
+export function getErrorMessage(err: unknown, fallback: string): string {
+  const withErrors = err as ErrorWithErrors;
+  return withErrors?.errors?.[0]?.message ?? fallback;
+}

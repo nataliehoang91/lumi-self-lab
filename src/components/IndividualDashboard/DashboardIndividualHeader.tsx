@@ -13,7 +13,8 @@ export function DashboardIndividualHeader({ displayName, personalStats }: Props)
       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
         <span className="flex items-center gap-2">
           <Target className="w-4 h-4 text-second shrink-0" />
-          <span className="font-bold text-foreground">{personalStats.activeExperiments}</span> active
+          <span className="font-bold text-foreground">{personalStats.activeExperiments}</span>{" "}
+          active
         </span>
         <span className="flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-success shrink-0" />

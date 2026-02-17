@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { useSignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import { Sparkles, ArrowLeft } from "lucide-react";
+import { getErrorMessage } from "@/types";
 
 type ForgotPasswordFields = "email";
 
@@ -52,9 +53,8 @@ export default function ForgotPasswordPage() {
         redirect: `/forgot-password/sent?email=${encodeURIComponent(email)}`,
         refresh: true,
       };
-    } catch (err: any) {
-      const errorMessage =
-        err.errors?.[0]?.message || "Failed to send reset email. Please try again.";
+    } catch (err: unknown) {
+      const errorMessage = getErrorMessage(err, "Failed to send reset email. Please try again.");
       setError(errorMessage);
       return { error: errorMessage };
     }
@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
             </div>
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Reset Password</h1>
-          <p className="text-muted-foreground">We'll send you a reset link</p>
+          <p className="text-muted-foreground">We&apos;ll send you a reset link</p>
         </div>
 
         {/* Forgot Password Card */}
@@ -97,14 +97,14 @@ export default function ForgotPasswordPage() {
                     required
                     placeholder="you@example.com"
                     autoComplete="email"
-                    className="h-12 rounded-2xl bg-background/50 !border !border-foreground/25 focus:!border-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all"
+                    className="h-12 rounded-2xl bg-background/50 border! border-foreground/25! focus:border-primary! focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all"
                   />
                 </InputControl>
                 <FormMessage match="valueMissing">Email is required</FormMessage>
                 <FormMessage match="typeMismatch">Please enter a valid email</FormMessage>
                 <p className="text-xs text-muted-foreground mt-2">
-                  Enter the email associated with your account and we'll send you a link to reset
-                  your password.
+                  Enter the email associated with your account and we&apos;ll send you a link to
+                  reset your password.
                 </p>
               </FormField>
 

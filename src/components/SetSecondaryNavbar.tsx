@@ -15,6 +15,7 @@ import { useSecondaryNavbarContent } from "@/contexts/SecondaryNavbarContentCont
 export function SetSecondaryNavbar({ children }: { children: React.ReactNode }) {
   const setContent = useSecondaryNavbarContent();
   const childrenRef = useRef(children);
+  // eslint-disable-next-line react-hooks/refs
   childrenRef.current = children;
 
   useEffect(() => {

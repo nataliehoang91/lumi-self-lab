@@ -1,19 +1,8 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Target,
-  AlertCircle,
-  CheckCircle2,
-  Building2,
-  Calendar,
-  ArrowRight,
-} from "lucide-react";
-import type {
-  PersonalStats,
-  PendingAssignment,
-  DashboardUserData,
-} from "@/lib/dashboard-data";
+import { Target, AlertCircle, CheckCircle2, Building2, Calendar, ArrowRight } from "lucide-react";
+import type { PersonalStats, PendingAssignment, DashboardUserData } from "@/lib/dashboard-data";
 
 type Props = {
   displayName: string;
@@ -31,12 +20,10 @@ export function DashboardParticipantView({
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h1 className="text-2xl font-medium text-foreground mb-2">
-          Welcome back, {displayName}
-        </h1>
+        <h1 className="text-2xl font-medium text-foreground mb-2">Welcome back, {displayName}</h1>
         <p className="text-muted-foreground text-sm">
-          {personalStats.activeExperiments} personal experiments ·{" "}
-          {userData.pendingAssignments} pending from organizations
+          {personalStats.activeExperiments} personal experiments · {userData.pendingAssignments}{" "}
+          pending from organizations
         </p>
       </div>
 
@@ -60,9 +47,7 @@ export function DashboardParticipantView({
               <AlertCircle className="w-5 h-5 text-orange-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">
-                {userData.pendingAssignments}
-              </p>
+              <p className="text-2xl font-bold text-foreground">{userData.pendingAssignments}</p>
               <p className="text-xs text-muted-foreground">Pending</p>
             </div>
           </div>
@@ -73,9 +58,7 @@ export function DashboardParticipantView({
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">
-                {personalStats.totalCompleted}
-              </p>
+              <p className="text-2xl font-bold text-foreground">{personalStats.totalCompleted}</p>
               <p className="text-xs text-muted-foreground">Completed</p>
             </div>
           </div>

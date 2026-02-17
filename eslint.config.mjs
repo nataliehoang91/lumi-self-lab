@@ -1,3 +1,10 @@
+/**
+ * ESLint config (Next.js).
+ *
+ * Note: `npm run lint:fix` only auto-fixes rules that have fixers. Many of our
+ * reported issues (e.g. @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect,
+ * react-hooks/refs) have no automatic fix and require manual code changes.
+ */
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";

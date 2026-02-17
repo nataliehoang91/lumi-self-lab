@@ -50,7 +50,7 @@ export default function OnboardingPage() {
             What would you like to explore?
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Self-experiments help you understand yourself better. There's no right or wrong way to
+            Self-experiments help you understand yourself better. There&apos;s no right or wrong way to
             start.
           </p>
         </div>

@@ -2,14 +2,11 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 // When WAITLIST_ONLY=true (e.g. production), only waitlist and its API are reachable; all other routes redirect to /waitlist.
-const WAITLIST_ONLY =
-  process.env.WAITLIST_ONLY === "true" || process.env.WAITLIST_ONLY === "1";
+const WAITLIST_ONLY = process.env.WAITLIST_ONLY === "true" || process.env.WAITLIST_ONLY === "1";
 
 function isWaitlistAllowedPath(pathname: string): boolean {
   return (
-    pathname === "/waitlist" ||
-    pathname.startsWith("/waitlist/") ||
-    pathname === "/api/waitlist"
+    pathname === "/waitlist" || pathname.startsWith("/waitlist/") || pathname === "/api/waitlist"
   );
 }
 

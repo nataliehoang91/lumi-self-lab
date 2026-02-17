@@ -33,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { getErrorMessage } from "@/types";
 
 type SignInFields = "email" | "password";
 
@@ -66,8 +67,8 @@ export function SignInForm() {
       } else {
         return { error: "Sign in incomplete. Please try again." };
       }
-    } catch (err: any) {
-      const errorMessage = err.errors?.[0]?.message || "Sign in failed. Please try again.";
+    } catch (err: unknown) {
+      const errorMessage = getErrorMessage(err, "Sign in failed. Please try again.");
       setError(errorMessage);
       return { error: errorMessage };
     }

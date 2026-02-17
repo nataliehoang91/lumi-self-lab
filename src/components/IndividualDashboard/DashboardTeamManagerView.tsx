@@ -1,19 +1,8 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Target,
-  Users,
-  Sparkles,
-  TrendingUp,
-  BarChart3,
-  AlertCircle,
-} from "lucide-react";
-import type {
-  PersonalStats,
-  TeamStats,
-  DashboardUserData,
-} from "@/lib/dashboard-data";
+import { Target, Users, Sparkles, TrendingUp, BarChart3, AlertCircle } from "lucide-react";
+import type { PersonalStats, TeamStats, DashboardUserData } from "@/lib/dashboard-data";
 
 type Props = {
   displayName: string;
@@ -33,9 +22,7 @@ export function DashboardTeamManagerView({
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h1 className="text-2xl font-medium text-foreground mb-2">
-          Welcome back, {displayName}
-        </h1>
+        <h1 className="text-2xl font-medium text-foreground mb-2">Welcome back, {displayName}</h1>
         <p className="text-muted-foreground text-sm">
           Managing {teamStats.teamName} · {teamStats.memberCount} members
         </p>
@@ -72,9 +59,7 @@ export function DashboardTeamManagerView({
               <Sparkles className="w-5 h-5 text-second" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">
-                {teamStats.activeExperiments}
-              </p>
+              <p className="text-2xl font-bold text-foreground">{teamStats.activeExperiments}</p>
               <p className="text-xs text-muted-foreground">Team Experiments</p>
             </div>
           </div>
@@ -98,9 +83,7 @@ export function DashboardTeamManagerView({
           <div className="space-y-4">
             <div className="pt-4">
               <p className="text-sm text-muted-foreground mb-2">Top Performer</p>
-              <p className="text-lg font-semibold text-foreground">
-                {teamStats.topPerformer}
-              </p>
+              <p className="text-lg font-semibold text-foreground">{teamStats.topPerformer}</p>
             </div>
             <Button variant="outline" className="w-full rounded-2xl gap-2 bg-transparent" asChild>
               <Link href={orgHref}>

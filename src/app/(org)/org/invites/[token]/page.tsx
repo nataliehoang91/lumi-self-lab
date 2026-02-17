@@ -119,13 +119,12 @@ export default function OrgInviteAcceptPage({ params }: { params: Promise<{ toke
               Join an organisation workspace
             </h1>
             <p className="text-sm text-muted-foreground">
-              You're joining {details.organisationName} as a {roleLabel(details.role)}.
+              You&apos;re joining {details.organisationName} as a {roleLabel(details.role)}.
             </p>
           </div>
         </div>
         <p className="text-sm text-muted-foreground mb-6">
-          This adds you to the organisation workspace. You are not creating a new account—you're
-          joining with your existing sign-in.
+          This adds you to the organisation workspace. You are not creating a new account—you&apos;re joining with your existing sign-in.
         </p>
         {acceptError && <p className="text-sm text-destructive mb-4">{acceptError}</p>}
         <div className="flex gap-3">

@@ -11,17 +11,11 @@ type Props = {
   userData: DashboardUserData;
 };
 
-export function DashboardOrgAdminView({
-  displayName,
-  orgStats,
-  userData,
-}: Props) {
+export function DashboardOrgAdminView({ displayName, orgStats, userData }: Props) {
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h1 className="text-2xl font-medium text-foreground mb-2">
-          Welcome back, {displayName}
-        </h1>
+        <h1 className="text-2xl font-medium text-foreground mb-2">Welcome back, {displayName}</h1>
         <p className="text-muted-foreground text-sm">
           Managing {orgStats.totalOrgs} organizations · {orgStats.totalMembers} members
         </p>
@@ -56,9 +50,7 @@ export function DashboardOrgAdminView({
               <Sparkles className="w-5 h-5 text-emerald-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">
-                {orgStats.totalExperiments}
-              </p>
+              <p className="text-2xl font-bold text-foreground">{orgStats.totalExperiments}</p>
               <p className="text-xs text-muted-foreground">Active Experiments</p>
             </div>
           </div>
@@ -69,9 +61,7 @@ export function DashboardOrgAdminView({
               <TrendingUp className="w-5 h-5 text-orange-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">
-                {orgStats.avgOrgCompletion}%
-              </p>
+              <p className="text-2xl font-bold text-foreground">{orgStats.avgOrgCompletion}%</p>
               <p className="text-xs text-muted-foreground">Avg Completion</p>
             </div>
           </div>
@@ -102,11 +92,7 @@ export function DashboardOrgAdminView({
                   </Badge>
                 </div>
                 <Button variant="ghost" size="sm" className="rounded-xl" asChild>
-                  <Link
-                    href={
-                      org.role === "org_admin" ? `/org/${org.id}/admin` : `/org/${org.id}`
-                    }
-                  >
+                  <Link href={org.role === "org_admin" ? `/org/${org.id}/admin` : `/org/${org.id}`}>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>

@@ -170,7 +170,7 @@ export default function ExperimentPreviewPage() {
 
           {/* Tracking fields */}
           <div>
-            <h3 className="text-lg font-medium text-foreground mb-4">What You'll Track</h3>
+            <h3 className="text-lg font-medium text-foreground mb-4">What You&apos;ll Track</h3>
             <div className="space-y-3">
               {experiment.fields.map((field, index) => {
                 const Icon = fieldTypeIcons[field.type] || Target;
