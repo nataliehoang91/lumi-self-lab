@@ -2,7 +2,7 @@
 
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
-import { Logo } from "@/components/GeneralComponents";
+import { Logo } from "@/components/GeneralComponents/logo";
 
 /**
  * Sign-Up Page using Clerk's built-in <SignUp /> component

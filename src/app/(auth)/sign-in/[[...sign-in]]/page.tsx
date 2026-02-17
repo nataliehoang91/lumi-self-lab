@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
-import { Logo } from "@/components/GeneralComponents";
+import { Logo } from "@/components/GeneralComponents/logo";
 
 /**
  * Sign-In Page using Clerk's built-in <SignIn /> component

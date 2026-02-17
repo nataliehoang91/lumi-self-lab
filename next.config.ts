@@ -7,7 +7,13 @@ const nextConfig: NextConfig = {
   // are not compatible with cacheComponents prerendering in Next.js 16
   // See: https://nextjs.org/docs/messages/blocking-route
   // TODO: Re-enable when Clerk/Next.js provides better compatibility
-  cacheComponents: false,
+  cacheComponents: true,
+
+  experimental: {
+    // Disable server component HMR cache so edits to Server Components
+    // trigger an immediate reload instead of stale cached RSC payload
+    serverComponentsHmrCache: false,
+  },
 };
 
 export default nextConfig;
