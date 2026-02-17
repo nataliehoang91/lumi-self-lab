@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Logo } from "@/components/GeneralComponents/Logo";
 
 /**
@@ -24,7 +25,7 @@ import { Logo } from "@/components/GeneralComponents/Logo";
  * Users always sign in as an individual; after sign-in we redirect to /dashboard (personal default).
  * Organization context is entered only via /org routes. See docs/auth-identity-decision-2025-02-07.md.
  */
-export default function SignInPage() {
+function SignInContent() {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect_url") ?? "/dashboard";
   return (
@@ -121,5 +122,27 @@ export default function SignInPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function SignInFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-md text-center">
+        <div className="flex justify-center mb-4 animate-float">
+          <Logo href="/" className="w-12 md:w-12" />
+        </div>
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto my-8" />
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<SignInFallback />}>
+      <SignInContent />
+    </Suspense>
   );
 }

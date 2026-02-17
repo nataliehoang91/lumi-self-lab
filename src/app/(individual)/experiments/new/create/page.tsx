@@ -1,7 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { ExperimentFormPanel } from "@/components/MainExperimentCreation/ExperimentCreationDetails";
 import { Card } from "@/components/ui/card";
 import { Building2, Home, ArrowLeft } from "lucide-react";
@@ -20,23 +19,16 @@ function getOrgName(orgId: string | null) {
 
 export default function CreateExperimentPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const [orgId, setOrgId] = useState<string | null>(null);
-  const [templateId, setTemplateId] = useState<string | null>(null);
-  const [assignedInviteId, setAssignedInviteId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const org = searchParams.get("org");
-    const template = searchParams.get("template");
-    const assigned = searchParams.get("assigned");
-
-    if (org) setOrgId(org);
-    if (template) setTemplateId(template);
-    if (assigned) setAssignedInviteId(assigned);
-  }, [searchParams]);
+  // Derive from URL during render instead of syncing in an effect
+  const orgId = searchParams.get("org");
+  const templateId = searchParams.get("template");
 
   const orgName = getOrgName(orgId);
   const isOrgLinked = !!orgId;
+
+  const makePersonalHref =
+    "/experiments/new/create" + (templateId ? `?template=${encodeURIComponent(templateId)}` : "");
 
   return (
     <div className="min-h-screen">
@@ -62,17 +54,11 @@ export default function CreateExperimentPage() {
                   shared.
                 </p>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setOrgId(null);
-                  router.push("/experiments/new/create?template=" + (templateId || ""));
-                }}
-                className="ml-auto"
-              >
-                <Home className="w-4 h-4 mr-2" />
-                Make Personal
+              <Button variant="ghost" size="sm" asChild className="ml-auto">
+                <Link href={makePersonalHref}>
+                  <Home className="w-4 h-4 mr-2" />
+                  Make Personal
+                </Link>
               </Button>
             </div>
           </Card>
