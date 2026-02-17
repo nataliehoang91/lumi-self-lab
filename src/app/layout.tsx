@@ -47,22 +47,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      // Configure custom routes for session tasks
-      // Reference: https://clerk.com/docs/nextjs/reference/components/authentication/task-reset-password
-      taskUrls={{
-        "reset-password": "/reset-password",
-      }}
-      // Configure waitlist URL for waitlist functionality
-      // Reference: https://clerk.com/docs/nextjs/reference/components/authentication/waitlist
-      waitlistUrl="/waitlist"
-    >
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
-          <Suspense
-            fallback={
-              <div className="min-h-screen flex items-center justify-center">Loading...</div>
-            }
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+        <Suspense
+          fallback={
+            <div className="min-h-screen flex items-center justify-center">Loading...</div>
+          }
+        >
+          <ClerkProvider
+            taskUrls={{ "reset-password": "/reset-password" }}
+            waitlistUrl="/waitlist"
           >
             <ThemeProvider
               attribute="class"
@@ -72,10 +66,10 @@ export default function RootLayout({
             >
               {children}
             </ThemeProvider>
-          </Suspense>
-          <Analytics />
-        </body>
-      </html>
-    </ClerkProvider>
+          </ClerkProvider>
+        </Suspense>
+        <Analytics />
+      </body>
+    </html>
   );
 }

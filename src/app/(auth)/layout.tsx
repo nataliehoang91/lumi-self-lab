@@ -1,11 +1,21 @@
+import { Suspense } from "react";
+
 /**
  * Auth Layout - Clerk sign-in / sign-up routes
  *
- * Force dynamic so these routes are not prerendered (request-time data;
- * avoids "Uncached data outside Suspense" when cacheComponents is enabled).
+ * Wraps children in Suspense so request-time data (Clerk, useSearchParams)
+ * is inside a boundary and prerender works with cacheComponents: true.
  */
-export const dynamic = "force-dynamic";
-
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      {children}
+    </Suspense>
+  );
 }
