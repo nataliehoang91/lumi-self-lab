@@ -21,7 +21,11 @@
     "prepare": "prisma generate && npm run typecheck",
     "db:migrate": "prisma migrate deploy",
     "db:generate": "prisma generate",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "db:seed-bible-content": "npx tsx prisma/seed/download-kjv-into-verse-content.ts",
+    "db:seed-bible-content-vi": "npx tsx prisma/seed/download-vietnamese-into-verse-content.ts",
+    "db:seed-bible-content-niv": "npx tsx prisma/seed/download-niv-into-verse-content.ts",
+    "db:seed-bible-content-zh": "npx tsx prisma/seed/download-chinese-into-verse-content.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

@@ -329,22 +329,73 @@ model ExperimentFieldResponse {
 // BIBLE FLASH CARDS (standalone, no auth)
 ////////////////////////////////////////////////////////////
 
-model FlashVerse {
-  id             String   @id @default(uuid())
-  book           String
+// Fixed list of 66 books (EN/VI names + chapter count). Seeded once.
+model BibleBook {
+  id           String   @id @default(cuid())
+  nameEn       String   // e.g. "John", "1 Corinthians"
+  nameVi       String   // e.g. "Giăng", "1 Cô-rinh-tô"
+  nameZh       String?  // e.g. "約翰福音", "創世記" (CUV)
+  order        Int      // 1–66 (canonical order)
+  chapterCount Int      // 1–150 (for chapter dropdown)
+
+  chapters     BibleChapter[]
+  verses       FlashVerse[]
+  verseContent BibleVerseContent[]
+
+  @@unique([order])
+  @@index([order])
+}
+
+// Verse count per chapter (KJV standard). Admin selects chapter then verse from this.
+model BibleChapter {
+  id          String   @id @default(cuid())
+  bookId      String
+  book        BibleBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapterNumber Int     // 1-based
+  verseCount  Int      // e.g. Genesis 1 = 31
+
+  @@unique([bookId, chapterNumber])
+  @@index([bookId])
+}
+
+// Pre-stored content by reference. When admin selects book/chapter/verse, content loads from here; they click Save to add to FlashVerse.
+model BibleVerseContent {
+  id             String   @id @default(cuid())
+  bookId         String
+  book           BibleBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
   chapter        Int
   verse          Int
-  titleEn        String?  // e.g. "John 3:16"
-  titleVi        String?  // e.g. "Giăng 3:16"
   contentVIE1923 String?  // Vietnamese traditional
-  contentKJV     String?  // English KJV
-  contentNIV     String?  // English NIV
+  contentKJV     String?
+  contentNIV     String?
+  contentZH      String?  // Chinese (CUV)
+
+  @@unique([bookId, chapter, verse])
+  @@index([bookId])
+}
+
+model FlashVerse {
+  id             String    @id @default(uuid())
+  bookId         String?   // optional: link to BibleBook (new verses use this)
+  book           String    // denormalized for display / legacy
+  chapter        Int
+  verse          Int
+  titleEn        String?   // e.g. "John 3:16"
+  titleVi        String?   // e.g. "Giăng 3:16"
+  titleZh        String?   // e.g. "約翰福音 3:16"
+  contentVIE1923 String?   // Vietnamese traditional
+  contentKJV     String?   // English KJV
+  contentNIV     String?   // English NIV
+  contentZH      String?   // Chinese (CUV)
   // Legacy single-version (for backward compat)
   content        String?
   version        String?
-  language       String?  @default("en")
-  createdAt      DateTime @default(now())
+  language       String?   @default("en")
+  createdAt      DateTime  @default(now())
 
+  bibleBook      BibleBook? @relation(fields: [bookId], references: [id], onDelete: SetNull)
+
+  @@index([bookId])
   @@index([book, chapter, verse])
   @@index([version])
 }

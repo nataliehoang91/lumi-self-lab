@@ -1,12 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function POST(request: NextRequest) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const isAdmin = _request.cookies.get("is_admin")?.value === "true";
+  if (!isAdmin) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await params;
+  try {
+    const verse = await prisma.flashVerse.findUnique({
+      where: { id },
+      include: { bibleBook: true },
+    });
+    if (!verse) {
+      return NextResponse.json({ error: "Verse not found." }, { status: 404 });
+    }
+    return NextResponse.json(verse);
+  } catch (e) {
+    console.error("verse get", e);
+    return NextResponse.json(
+      { error: "Failed to fetch verse." },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const isAdmin = request.cookies.get("is_admin")?.value === "true";
   if (!isAdmin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { id } = await params;
   try {
     const body = await request.json();
     const {
@@ -69,7 +101,8 @@ export async function POST(request: NextRequest) {
 
     const contentFallback = trimNIV || trimKJV || trimVI || trimZH;
 
-    await prisma.flashVerse.create({
+    await prisma.flashVerse.update({
+      where: { id },
       data: {
         bookId: bibleBook.id,
         book: bibleBook.nameEn,
@@ -88,9 +121,33 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (e) {
-    console.error("add-verse", e);
+    console.error("verse update", e);
     return NextResponse.json(
-      { error: "Failed to save verse." },
+      { error: "Failed to update verse." },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const isAdmin = _request.cookies.get("is_admin")?.value === "true";
+  if (!isAdmin) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await params;
+  try {
+    await prisma.flashVerse.delete({
+      where: { id },
+    });
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error("verse delete", e);
+    return NextResponse.json(
+      { error: "Failed to delete verse." },
       { status: 500 }
     );
   }

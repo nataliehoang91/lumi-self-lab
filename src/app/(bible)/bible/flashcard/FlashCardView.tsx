@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import { useVisibleCount } from "./useVisibleCount";
 import { SingleFlashCard } from "./SingleFlashCard";
 
-export type Language = "EN" | "VI";
+export type Language = "EN" | "VI" | "ZH";
 export type FontSize = "small" | "medium" | "large";
 
 export interface Verse {
@@ -32,7 +32,9 @@ export interface Verse {
   contentVIE1923?: string | null;
   contentKJV?: string | null;
   contentNIV?: string | null;
+  contentZH?: string | null;
   content?: string | null;
+  titleZh?: string | null;
   version?: string | null;
   language?: string | null;
   createdAt: string;
@@ -54,6 +56,13 @@ const UI_STRINGS = {
     useArrowKeys: "Sử dụng phím mũi tên",
     keyboardHint: "← → để điều hướng • Space để lật thẻ",
     useArrowKeysVertical: "↑ ↓ để điều hướng • Space để lật thẻ",
+  },
+  ZH: {
+    clickToReveal: "點擊顯示經文",
+    verseOf: (current: number, total: number) => `第 ${current} 節 / 共 ${total} 節`,
+    useArrowKeys: "使用方向鍵",
+    keyboardHint: "← → 導航 • 空格翻面",
+    useArrowKeysVertical: "↑ ↓ 導航 • 空格翻面",
   },
 };
 
@@ -217,7 +226,7 @@ export function FlashCardView() {
           </div>
 
           <div className="flex items-center gap-1.5 shrink-0">
-            {/* EN/VI toggle */}
+            {/* EN / VI / ZH toggle */}
             <div className="flex items-center gap-0.5 rounded-lg border bg-muted/50 p-0.5">
               <Button
                 variant={globalLanguage === "EN" ? "default" : "ghost"}
@@ -234,6 +243,14 @@ export function FlashCardView() {
                 className="h-8 px-2.5 text-xs sm:text-sm"
               >
                 VI
+              </Button>
+              <Button
+                variant={globalLanguage === "ZH" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setGlobalLanguage("ZH")}
+                className="h-8 px-2.5 text-xs sm:text-sm"
+              >
+                中
               </Button>
             </div>
 

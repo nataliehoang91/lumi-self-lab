@@ -28,6 +28,9 @@ function getDisplayContent(verse: Verse, cardLanguage: Language, enVersion: EnVe
   if (cardLanguage === "VI") {
     return verse.contentVIE1923?.trim() || verse.content?.trim() || "";
   }
+  if (cardLanguage === "ZH") {
+    return verse.contentZH?.trim() || verse.content?.trim() || "";
+  }
   if (enVersion === "KJV") {
     return verse.contentKJV?.trim() || verse.content?.trim() || "";
   }
@@ -37,6 +40,7 @@ function getDisplayContent(verse: Verse, cardLanguage: Language, enVersion: EnVe
 function getDisplayTitle(verse: Verse, cardLanguage: Language): string {
   const ref = `${verse.chapter}:${verse.verse}`;
   if (cardLanguage === "VI" && verse.titleVi?.trim()) return `${verse.titleVi.trim()} ${ref}`;
+  if (cardLanguage === "ZH" && verse.titleZh?.trim()) return `${verse.titleZh.trim()} ${ref}`;
   if (cardLanguage === "EN" && verse.titleEn?.trim()) return `${verse.titleEn.trim()} ${ref}`;
   return `${verse.book} ${ref}`;
 }
@@ -76,7 +80,7 @@ export function SingleFlashCard({
           style={{ backfaceVisibility: "hidden" }}
         >
           <Badge variant="outline" className="text-xs">
-            {cardLanguage === "VI" ? "VI" : "EN"}
+            {cardLanguage === "VI" ? "VI" : cardLanguage === "ZH" ? "中" : "EN"}
           </Badge>
           <h2 className="text-xl sm:text-2xl font-bold text-foreground text-center mt-2">
             {displayTitle}
@@ -120,6 +124,18 @@ export function SingleFlashCard({
                 title="Tiếng Việt (this card only)"
               >
                 VI
+              </Button>
+              <Button
+                variant={cardLanguage === "ZH" ? "default" : "ghost"}
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCardLanguageChange("ZH");
+                }}
+                className="h-6 px-1.5 text-xs"
+                title="中文 (this card only)"
+              >
+                中
               </Button>
             </div>
 
