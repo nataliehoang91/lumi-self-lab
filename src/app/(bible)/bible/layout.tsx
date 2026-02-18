@@ -5,7 +5,7 @@ export default function BibleSectionLayout({ children }: { children: React.React
   return (
     <BibleAppProvider>
       <BibleNavBar />
-      <main className=" min-h-screen">{children}</main>
+      <main className=" pt-14 min-h-screen">{children}</main>
     </BibleAppProvider>
   );
 }
