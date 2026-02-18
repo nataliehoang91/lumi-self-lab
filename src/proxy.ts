@@ -21,10 +21,25 @@ const isPublicRoute = createRouteMatcher([
   "/welcome", // Welcome page (sign in / get started)
   "/api/waitlist", // Waitlist signup (unauthenticated)
   "/api/webhooks(.*)", // Clerk webhooks (no auth; verified by signature)
+  // Bible flash cards app (standalone, cookie-based admin only)
+  "/bible(.*)",
+  "/api/bible(.*)",
+  "/api/flash",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
   const pathname = req.nextUrl.pathname;
+
+  // Bible app: /bible/admin (not login) requires is_admin cookie
+  if (pathname === "/bible/admin" || pathname.startsWith("/bible/admin/")) {
+    if (pathname !== "/bible/admin/login") {
+      const isAdmin = req.cookies.get("is_admin")?.value === "true";
+      if (!isAdmin) {
+        return NextResponse.redirect(new URL("/bible/admin/login", req.url));
+      }
+    }
+    return NextResponse.next();
+  }
 
   if (WAITLIST_ONLY && !isWaitlistAllowedPath(pathname)) {
     return NextResponse.redirect(new URL("/waitlist", req.url));

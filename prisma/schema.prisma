@@ -324,3 +324,22 @@ model ExperimentFieldResponse {
   @@index([checkInId])
   @@index([fieldId])
 }
+
+////////////////////////////////////////////////////////////
+// BIBLE FLASH CARDS (standalone, no auth)
+////////////////////////////////////////////////////////////
+
+model FlashVerse {
+  id        String   @id @default(uuid())
+  book      String
+  chapter   Int
+  verse     Int
+  content   String
+  version   String   // KJV | NIV | VIE1923 (en: KJV, NIV; vi: VIE1923)
+  language  String   @default("en") // en | vi
+  createdAt DateTime @default(now())
+
+  @@index([book, chapter, verse])
+  @@index([version])
+  @@index([language])
+}
