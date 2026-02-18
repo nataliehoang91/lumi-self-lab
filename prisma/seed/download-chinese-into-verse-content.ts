@@ -4,7 +4,7 @@
  * Requires: BibleBook seeded (KJV/VI recommended first), network access.
  * Source: https://github.com/thiagobodruk/bible (zh_cuv.json), same structure as en_kjv.
  */
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const ZH_JSON_URL =
   "https://raw.githubusercontent.com/thiagobodruk/bible/master/json/zh_cuv.json";
@@ -36,7 +36,7 @@ async function main() {
     const zh = zhBooks[bookIndex];
     if (!book || !zh?.chapters) continue;
 
-    const ops: Promise<unknown>[] = [];
+    const ops: Prisma.PrismaPromise<unknown>[] = [];
     for (let ch = 0; ch < zh.chapters.length; ch++) {
       const verses = zh.chapters[ch];
       if (!Array.isArray(verses)) continue;

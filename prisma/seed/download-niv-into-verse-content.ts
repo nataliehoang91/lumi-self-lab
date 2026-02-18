@@ -4,7 +4,7 @@
  * Requires: BibleBook seeded, network access. Run after KJV so rows exist (or creates new).
  * Source: https://github.com/aruljohn/Bible-niv (MIT) – one JSON file per book.
  */
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const NIV_BASE = "https://raw.githubusercontent.com/aruljohn/Bible-niv/main";
 const BOOKS_JSON = `${NIV_BASE}/Books.json`;
@@ -48,7 +48,7 @@ async function main() {
     const niv = (await res.json()) as NIVBook;
     if (!niv?.chapters) continue;
 
-    const ops: Promise<unknown>[] = [];
+    const ops: Prisma.PrismaPromise<unknown>[] = [];
     for (let ch = 0; ch < niv.chapters.length; ch++) {
       const cap = niv.chapters[ch];
       if (!cap?.verses) continue;

@@ -3,7 +3,7 @@
  * Run: npx tsx prisma/seed/download-kjv-into-verse-content.ts
  * Requires: migrations applied, BibleBook + BibleChapter seeded, network access.
  */
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const KJV_JSON_URL =
   "https://raw.githubusercontent.com/thiagobodruk/bible/master/json/en_kjv.json";
@@ -35,7 +35,7 @@ async function main() {
     const kjv = kjvBooks[bookIndex];
     if (!book || !kjv?.chapters) continue;
 
-    const ops: Promise<unknown>[] = [];
+    const ops: Prisma.PrismaPromise<unknown>[] = [];
     for (let ch = 0; ch < kjv.chapters.length; ch++) {
       const verses = kjv.chapters[ch];
       if (!Array.isArray(verses)) continue;

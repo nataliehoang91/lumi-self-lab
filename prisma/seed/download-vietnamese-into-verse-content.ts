@@ -4,7 +4,7 @@
  * Requires: KJV already seeded (or run after), network access.
  * Source: https://github.com/thiagobodruk/bible (vi_vietnamese.json), same structure as en_kjv.
  */
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const VI_JSON_URL =
   "https://raw.githubusercontent.com/thiagobodruk/bible/master/json/vi_vietnamese.json";
@@ -36,7 +36,7 @@ async function main() {
     const vi = viBooks[bookIndex];
     if (!book || !vi?.chapters) continue;
 
-    const ops: Promise<unknown>[] = [];
+    const ops: Prisma.PrismaPromise<unknown>[] = [];
     for (let ch = 0; ch < vi.chapters.length; ch++) {
       const verses = vi.chapters[ch];
       if (!Array.isArray(verses)) continue;

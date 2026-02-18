@@ -5,8 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Volume2 } from "lucide-react";
-import type { Language } from "./FlashCardView";
-import type { Verse } from "./FlashCardView";
+
+// Local copy of flashcard types so this component doesn't depend on app routes.
+export type Language = "EN" | "VI" | "ZH";
+
+export interface Verse {
+  id: string;
+  book: string;
+  chapter: number;
+  verse: number;
+  titleEn?: string | null;
+  titleVi?: string | null;
+  contentVIE1923?: string | null;
+  contentKJV?: string | null;
+  contentNIV?: string | null;
+  contentZH?: string | null;
+  content?: string | null;
+  titleZh?: string | null;
+  version?: string | null;
+  language?: string | null;
+  createdAt: string;
+}
 
 type EnVersion = "KJV" | "NIV";
 
