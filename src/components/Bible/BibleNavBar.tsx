@@ -99,7 +99,7 @@ export function BibleNavBar() {
               variant={fontSize === "small" ? "skyBlue" : "ghost"}
               size="sm"
               onClick={() => setFontSize("small")}
-              className="h-8 px-2 text-sm hover:bg-sky-blue/20"
+              className="h-8 px-3 text-sm hover:bg-sky-blue/20"
               title="Smaller text"
               aria-label="Font size small"
             >
@@ -109,7 +109,7 @@ export function BibleNavBar() {
               variant={fontSize === "medium" ? "skyBlue" : "ghost"}
               size="sm"
               onClick={() => setFontSize("medium")}
-              className="h-8 px-2 text-sm hover:bg-sky-blue/20"
+              className="h-8 px-3 text-sm hover:bg-sky-blue/20"
               title="Medium text"
               aria-label="Font size medium"
             >
@@ -119,7 +119,7 @@ export function BibleNavBar() {
               variant={fontSize === "large" ? "skyBlue" : "ghost"}
               size="sm"
               onClick={() => setFontSize("large")}
-              className="h-8 px-2 text-sm hover:bg-sky-blue/20"
+              className="h-8 px-3 text-sm hover:bg-sky-blue/20"
               title="Larger text"
               aria-label="Font size large"
             >

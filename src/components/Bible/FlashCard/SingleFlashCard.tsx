@@ -14,6 +14,26 @@ type UIStrings = {
   clickToReveal: string;
 };
 
+function normalizeQuotes(text: string): string {
+  return text.replace(/`/g, "'");
+}
+
+function speakText(text: string, lang: Language) {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+
+  const trimmed = text.trim();
+  if (!trimmed) return;
+
+  const utterance = new SpeechSynthesisUtterance(trimmed);
+
+  if (lang === "VI") utterance.lang = "vi-VN";
+  else if (lang === "ZH") utterance.lang = "zh-CN";
+  else utterance.lang = "en-US";
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
+
 interface SingleFlashCardProps {
   verse: Verse;
   isFlipped: boolean;
@@ -26,15 +46,19 @@ interface SingleFlashCardProps {
 
 function getDisplayContent(verse: Verse, cardLanguage: Language, enVersion: EnVersion): string {
   if (cardLanguage === "VI") {
-    return verse.contentVIE1923?.trim() || verse.content?.trim() || "";
+    const raw = verse.contentVIE1923?.trim() || verse.content?.trim() || "";
+    return normalizeQuotes(raw);
   }
   if (cardLanguage === "ZH") {
-    return verse.contentZH?.trim() || verse.content?.trim() || "";
+    const raw = verse.contentZH?.trim() || verse.content?.trim() || "";
+    return normalizeQuotes(raw);
   }
   if (enVersion === "KJV") {
-    return verse.contentKJV?.trim() || verse.content?.trim() || "";
+    const raw = verse.contentKJV?.trim() || verse.content?.trim() || "";
+    return normalizeQuotes(raw);
   }
-  return verse.contentNIV?.trim() || verse.content?.trim() || "";
+  const raw = verse.contentNIV?.trim() || verse.content?.trim() || "";
+  return normalizeQuotes(raw);
 }
 
 function getDisplayTitle(verse: Verse, cardLanguage: Language): string {
@@ -171,10 +195,12 @@ export function SingleFlashCard({
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 opacity-50 cursor-not-allowed"
-              title="Text-to-Speech (Coming Soon)"
-              disabled
-              onClick={(e) => e.stopPropagation()}
+              className="h-7 w-7"
+              title="Read verse"
+              onClick={(e) => {
+                e.stopPropagation();
+                speakText(displayContent || displayTitle, cardLanguage);
+              }}
             >
               <Volume2 className="h-3.5 w-3.5" />
             </Button>
