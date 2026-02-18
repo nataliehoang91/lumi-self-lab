@@ -26,7 +26,7 @@ export function AdminLoginForm() {
         setError((data as { error?: string }).error ?? "Login failed");
         return;
       }
-      router.push("/bible/admin");
+      router.push("/bible/admin/flashcard/list");
       router.refresh();
     } catch {
       setError("Something went wrong");

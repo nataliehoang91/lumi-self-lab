@@ -15,6 +15,8 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         primaryLight: "bg-primary-light text-slate-900 hover:bg-primary-light/80",
         secondaryLight: "bg-second hover:bg-second/90 text-second-foreground  transition-all",
+        coral: "bg-coral text-coral-foreground hover:bg-coral/90",
+        skyBlue: "bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue/90",
         gradientPeach:
           "bg-[linear-gradient(135deg,#FFB38C_0%,#FCA17E_100%)] text-white hover:opacity-90 transition-opacity",
         gradientSecond:

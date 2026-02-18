@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const verses = await prisma.flashVerse.findMany({
       orderBy: { createdAt: "desc" },
-      take: 20,
+      take: 500,
     });
     return NextResponse.json(verses);
   } catch (e) {

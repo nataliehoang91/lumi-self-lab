@@ -9,15 +9,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const {
-      bookId,
-      chapter,
-      verse,
-      contentVIE1923,
-      contentKJV,
-      contentNIV,
-      contentZH,
-    } = body as {
+    const { bookId, chapter, verse, contentVIE1923, contentKJV, contentNIV, contentZH } = body as {
       bookId?: string;
       chapter?: number;
       verse?: number;
@@ -35,10 +27,7 @@ export async function POST(request: NextRequest) {
       typeof verse !== "number" ||
       verse < 1
     ) {
-      return NextResponse.json(
-        { error: "Invalid book, chapter, or verse." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid book, chapter, or verse." }, { status: 400 });
     }
 
     const bibleBook = await prisma.bibleBook.findUnique({
@@ -89,9 +78,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("add-verse", e);
-    return NextResponse.json(
-      { error: "Failed to save verse." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to save verse." }, { status: 500 });
   }
 }

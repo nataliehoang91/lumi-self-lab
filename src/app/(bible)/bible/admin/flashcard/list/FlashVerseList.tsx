@@ -84,7 +84,7 @@ export function FlashVerseList() {
   if (verses.length === 0) {
     return (
       <div className="p-8 text-center text-stone-500">
-        No verses yet. <Link href="/bible/admin" className="text-stone-700 underline">Add one</Link>.
+        No verses yet. <Link href="/bible/admin/add" className="text-stone-700 underline">Add one</Link>.
       </div>
     );
   }

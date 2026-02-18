@@ -39,7 +39,6 @@ function getDisplayContent(verse: Verse, cardLanguage: Language, enVersion: EnVe
 
 function getDisplayTitle(verse: Verse, cardLanguage: Language): string {
   const ref = `${verse.chapter}:${verse.verse}`;
-  // Titles from DB already include "Book chapter:verse" – use as-is to avoid double ref (e.g. "Revelation 19:11 19:11").
   if (cardLanguage === "VI" && verse.titleVi?.trim()) return verse.titleVi.trim();
   if (cardLanguage === "ZH" && verse.titleZh?.trim()) return verse.titleZh.trim();
   if (cardLanguage === "EN" && verse.titleEn?.trim()) return verse.titleEn.trim();

@@ -1,23 +1,20 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
-  Moon,
-  Sun,
   ChevronLeft,
   ChevronRight,
   ChevronUp,
   ChevronDown,
-  Shuffle,
-  LayoutList,
-  LayoutGrid,
+  ArrowUp,
 } from "lucide-react";
-import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useVisibleCount } from "./useVisibleCount";
+import { useBibleApp } from "@/components/Bible/BibleAppContext";
+import { useVisibleCount, useHorizontalVisibleCount } from "./useVisibleCount";
 import { SingleFlashCard } from "./SingleFlashCard";
+
+const ALL_BATCH_SIZE = 50;
 
 export type Language = "EN" | "VI" | "ZH";
 export type FontSize = "small" | "medium" | "large";
@@ -40,8 +37,6 @@ export interface Verse {
   createdAt: string;
 }
 
-type LayoutMode = "vertical" | "horizontal";
-
 const UI_STRINGS = {
   EN: {
     clickToReveal: "Click to reveal verse",
@@ -49,6 +44,9 @@ const UI_STRINGS = {
     useArrowKeys: "Use arrow keys",
     keyboardHint: "← → to navigate • Space to flip",
     useArrowKeysVertical: "↑ ↓ to navigate • Space to flip",
+    showing: (from: number, to: number, total: number) => `Showing ${from}–${to} of ${total}`,
+    loadMore: "Load more",
+    backToTop: "Back to top",
   },
   VI: {
     clickToReveal: "Nhấp để xem câu kinh thánh",
@@ -56,6 +54,9 @@ const UI_STRINGS = {
     useArrowKeys: "Sử dụng phím mũi tên",
     keyboardHint: "← → để điều hướng • Space để lật thẻ",
     useArrowKeysVertical: "↑ ↓ để điều hướng • Space để lật thẻ",
+    showing: (from: number, to: number, total: number) => `Hiển thị ${from}–${to} / ${total}`,
+    loadMore: "Xem thêm",
+    backToTop: "Về đầu trang",
   },
   ZH: {
     clickToReveal: "點擊顯示經文",
@@ -63,25 +64,37 @@ const UI_STRINGS = {
     useArrowKeys: "使用方向鍵",
     keyboardHint: "← → 導航 • 空格翻面",
     useArrowKeysVertical: "↑ ↓ 導航 • 空格翻面",
+    showing: (from: number, to: number, total: number) => `顯示 ${from}–${to} / 共 ${total}`,
+    loadMore: "載入更多",
+    backToTop: "回到頂部",
   },
 };
 
 export function FlashCardView() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { globalLanguage, fontSize, layoutMode, registerShuffle } = useBibleApp();
   const [verses, setVerses] = useState<Verse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [globalLanguage, setGlobalLanguage] = useState<Language>("EN");
   /** Per-card language (card id -> EN | VI). Unset cards use globalLanguage. */
   const [cardLanguageById, setCardLanguageById] = useState<Record<string, Language>>({});
-  const [fontSize, setFontSize] = useState<FontSize>("medium");
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>("vertical");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set());
   const [isAnimating, setIsAnimating] = useState(false);
+  /** In "all" mode: how many verses to show (50, 100, …). */
+  const [allDisplayCount, setAllDisplayCount] = useState(ALL_BATCH_SIZE);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const scrollAnchorRef = useRef<HTMLDivElement>(null);
 
-  const visibleCount = useVisibleCount();
+  const verticalVisibleCount = useVisibleCount();
+  const horizontalVisibleCount = useHorizontalVisibleCount();
+  /** Horizontal: at least 4 clear in middle; vertical: 1→2→3→5. */
+  const visibleCount =
+    layoutMode === "horizontal"
+      ? Math.max(4, horizontalVisibleCount)
+      : layoutMode === "vertical"
+        ? verticalVisibleCount
+        : 1;
   const maxIndex = Math.max(0, verses.length - visibleCount);
   const visibleVerses = verses.slice(currentIndex, currentIndex + visibleCount);
 
@@ -103,6 +116,21 @@ export function FlashCardView() {
   useEffect(() => {
     setCurrentIndex((i) => Math.min(i, maxIndex));
   }, [maxIndex, visibleCount]);
+
+  /** When switching to "all" mode, cap display count. */
+  useEffect(() => {
+    if (layoutMode === "all") {
+      setAllDisplayCount((c) => Math.min(c, Math.max(ALL_BATCH_SIZE, verses.length)));
+    }
+  }, [layoutMode, verses.length]);
+
+  /** Scroll listener for Back to top in "all" mode. */
+  useEffect(() => {
+    if (layoutMode !== "all") return;
+    const onScroll = () => setShowBackToTop(window.scrollY > 400);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [layoutMode]);
 
   const toggleFlip = useCallback((verseId: string) => {
     if (!isAnimating) {
@@ -145,6 +173,10 @@ export function FlashCardView() {
     }
   }, [isAnimating, verses.length, visibleCount]);
 
+  useEffect(() => {
+    return registerShuffle(handleShuffle);
+  }, [registerShuffle, handleShuffle]);
+
   const goToIndex = useCallback(
     (idx: number) => {
       if (!isAnimating && idx >= 0 && idx <= maxIndex) {
@@ -159,6 +191,7 @@ export function FlashCardView() {
   );
 
   useEffect(() => {
+    if (layoutMode === "all") return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (layoutMode === "horizontal") {
         if (e.key === "ArrowLeft") handlePrevious();
@@ -209,140 +242,70 @@ export function FlashCardView() {
   /** UI strings use global language (navbar); per-card language only affects that card's labels. */
   const t = UI_STRINGS[globalLanguage];
   const isVertical = layoutMode === "vertical";
+  const isAll = layoutMode === "all";
 
   const fontSizeClass =
     fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-base";
 
-  return (
-    <div className={cn("w-full max-w-6xl mx-auto flex flex-col min-h-0", fontSizeClass)}>
-      {/* Navbar: title, EN/VI, layout, font size, shuffle, theme, Admin */}
-      <nav className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm shadow-sm shrink-0">
-        <div className="container mx-auto px-4 h-14 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <span className="text-xl">✝</span>
-            </div>
-            <h1 className="text-lg font-semibold truncate">Scripture Memory</h1>
-          </div>
+  const allVerses = verses.slice(0, allDisplayCount);
+  const hasMoreAll = verses.length > allDisplayCount;
+  const loadMore = () => setAllDisplayCount((c) => Math.min(c + ALL_BATCH_SIZE, verses.length));
+  const scrollToTop = () => scrollAnchorRef.current?.scrollIntoView({ behavior: "smooth" }) ?? window.scrollTo({ top: 0, behavior: "smooth" });
 
-          <div className="flex items-center gap-1.5 shrink-0">
-            {/* EN / VI / ZH toggle */}
-            <div className="flex items-center gap-0.5 rounded-lg border bg-muted/50 p-0.5">
-              <Button
-                variant={globalLanguage === "EN" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setGlobalLanguage("EN")}
-                className="h-8 px-2.5 text-xs sm:text-sm"
-              >
-                EN
-              </Button>
-              <Button
-                variant={globalLanguage === "VI" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setGlobalLanguage("VI")}
-                className="h-8 px-2.5 text-xs sm:text-sm"
-              >
-                VI
-              </Button>
-              <Button
-                variant={globalLanguage === "ZH" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setGlobalLanguage("ZH")}
-                className="h-8 px-2.5 text-xs sm:text-sm"
-              >
-                中
-              </Button>
-            </div>
-
-            {/* Vertical / Horizontal layout toggle */}
-            <div className="flex items-center gap-0.5 rounded-lg border bg-muted/50 p-0.5">
-              <Button
-                variant={layoutMode === "vertical" ? "default" : "ghost"}
-                size="icon"
-                onClick={() => setLayoutMode("vertical")}
-                className="h-8 w-8"
-                title="Vertical"
-                aria-label="Vertical layout"
-              >
-                <LayoutList className="h-4 w-4" />
-              </Button>
-              <Button
-                variant={layoutMode === "horizontal" ? "default" : "ghost"}
-                size="icon"
-                onClick={() => setLayoutMode("horizontal")}
-                className="h-8 w-8"
-                title="Horizontal"
-                aria-label="Horizontal layout"
-              >
-                <LayoutGrid className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Font size (whole Bible app) */}
-            <div className="flex items-center gap-0.5 rounded-lg border bg-muted/50 p-0.5">
-              <Button
-                variant={fontSize === "small" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setFontSize("small")}
-                className="h-8 px-2 text-xs"
-                title="Smaller text"
-                aria-label="Font size small"
-              >
-                A-
-              </Button>
-              <Button
-                variant={fontSize === "medium" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setFontSize("medium")}
-                className="h-8 px-2 text-xs"
-                title="Medium text"
-                aria-label="Font size medium"
-              >
-                A
-              </Button>
-              <Button
-                variant={fontSize === "large" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setFontSize("large")}
-                className="h-8 px-2 text-xs"
-                title="Larger text"
-                aria-label="Font size large"
-              >
-                A+
-              </Button>
-            </div>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleShuffle}
-              className="h-8 w-8"
-              title="Shuffle"
-            >
-              <Shuffle className="h-4 w-4" />
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="h-8 w-8"
-            >
-              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
-
-            <Link
-              href="/bible/admin"
-              className="rounded-lg border border-input bg-background px-2.5 py-1.5 text-xs sm:text-sm font-medium hover:bg-primary/10"
-            >
-              Admin
-            </Link>
-          </div>
+  if (isAll) {
+    return (
+      <div className={cn("w-full flex flex-col items-center min-h-0 px-4 sm:px-6 max-w-6xl mx-auto", fontSizeClass)} ref={scrollAnchorRef}>
+        {/* Pagination info */}
+        <div className="w-full text-center py-3 shrink-0">
+          <p className="text-sm text-muted-foreground">
+            {t.showing(1, allVerses.length, verses.length)}
+          </p>
         </div>
-      </nav>
 
+        {/* Grid: 4 → 3 → 2 → 1 by screen size */}
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 py-4">
+          {allVerses.map((verse) => (
+            <SingleFlashCard
+              key={verse.id}
+              verse={verse}
+              isFlipped={flippedIds.has(verse.id)}
+              onFlip={() => toggleFlip(verse.id)}
+              cardLanguage={cardLanguageById[verse.id] ?? globalLanguage}
+              onCardLanguageChange={(lang) => setLanguageForCard(verse.id, lang)}
+              t={{ clickToReveal: UI_STRINGS[cardLanguageById[verse.id] ?? globalLanguage].clickToReveal }}
+              horizontal={false}
+            />
+          ))}
+        </div>
+
+        {/* Load more + Back to top */}
+        <div className="w-full flex flex-col items-center gap-4 py-6 pb-8">
+          {hasMoreAll && (
+            <Button variant="outline" onClick={loadMore} className="min-w-[140px]">
+              {t.loadMore}
+            </Button>
+          )}
+          {showBackToTop && (
+            <Button variant="ghost" size="sm" onClick={scrollToTop} className="gap-2">
+              <ArrowUp className="h-4 w-4" />
+              {t.backToTop}
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={cn(
+        "w-full flex flex-col items-center px-4 sm:px-6 max-w-6xl mx-auto",
+        "min-h-[calc(100vh-3.5rem)]",
+        fontSizeClass
+      )}
+    >
       {/* Progress */}
-      <div className="text-center py-3 shrink-0">
+      <div className="w-full text-center py-3 shrink-0">
         <p className="text-sm text-muted-foreground">
           {visibleCount > 1
           ? `${currentIndex + 1}–${Math.min(currentIndex + visibleCount, verses.length)} of ${verses.length}`
@@ -363,11 +326,16 @@ export function FlashCardView() {
         </div>
       </div>
 
-      {/* Cards + navigation */}
-      <div className="flex-1 flex flex-col items-center justify-center px-2 sm:px-4 py-4 min-h-0">
-        <div className={cn("flex items-center gap-4 w-full max-w-full", isVertical ? "flex-col" : "flex-row justify-center")}>
-          {/* Previous */}
+      {/* Cards + navigation — flex-1 + justify-center to center block vertically */}
+      <div className="w-full flex-1 flex flex-col items-center justify-center px-2 sm:px-4 py-4 min-h-0">
+        <div
+          className={cn(
+            "flex items-center gap-4 max-w-full",
+            isVertical ? "flex-col w-full" : "flex-row justify-center w-full"
+          )}
+        >
           <Button
+            type="button"
             variant="outline"
             size="icon"
             onClick={handlePrevious}
@@ -381,11 +349,12 @@ export function FlashCardView() {
             {isVertical ? <ChevronUp className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
           </Button>
 
-          {/* Card strip */}
           <div
             className={cn(
-              "flex gap-3 sm:gap-4 overflow-hidden min-h-0",
-              isVertical ? "flex-col flex-1 w-full max-w-md overflow-y-auto" : "flex-row flex-1 justify-center overflow-x-auto"
+              "flex gap-3 sm:gap-4 min-h-0",
+              isVertical
+                ? "flex-col flex-1 w-full max-w-md overflow-y-auto"
+                : "flex-row justify-center overflow-x-auto shrink-0 min-w-0"
             )}
           >
             {visibleVerses.map((verse) => (
@@ -396,16 +365,14 @@ export function FlashCardView() {
                 onFlip={() => toggleFlip(verse.id)}
                 cardLanguage={cardLanguageById[verse.id] ?? globalLanguage}
                 onCardLanguageChange={(lang) => setLanguageForCard(verse.id, lang)}
-                fontSize={fontSize}
-                setFontSize={setFontSize}
                 t={{ clickToReveal: UI_STRINGS[cardLanguageById[verse.id] ?? globalLanguage].clickToReveal }}
                 horizontal={!isVertical}
               />
             ))}
           </div>
 
-          {/* Next */}
           <Button
+            type="button"
             variant="outline"
             size="icon"
             onClick={handleNext}

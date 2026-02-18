@@ -11,7 +11,7 @@ export default function AdminFlashcardListPage() {
           </h1>
           <div className="flex gap-2">
             <Link
-              href="/bible/admin"
+              href="/bible/admin/add"
               className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 hover:bg-stone-50"
             >
               Add verse
