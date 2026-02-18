@@ -19,10 +19,11 @@ export function AdminLoginForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
+        credentials: "include",
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(data.error ?? "Login failed");
+        setError((data as { error?: string }).error ?? "Login failed");
         return;
       }
       router.push("/bible/admin");

@@ -330,16 +330,21 @@ model ExperimentFieldResponse {
 ////////////////////////////////////////////////////////////
 
 model FlashVerse {
-  id        String   @id @default(uuid())
-  book      String
-  chapter   Int
-  verse     Int
-  content   String
-  version   String   // KJV | NIV | VIE1923 (en: KJV, NIV; vi: VIE1923)
-  language  String   @default("en") // en | vi
-  createdAt DateTime @default(now())
+  id             String   @id @default(uuid())
+  book           String
+  chapter        Int
+  verse          Int
+  titleEn        String?  // e.g. "John 3:16"
+  titleVi        String?  // e.g. "Giăng 3:16"
+  contentVIE1923 String?  // Vietnamese traditional
+  contentKJV     String?  // English KJV
+  contentNIV     String?  // English NIV
+  // Legacy single-version (for backward compat)
+  content        String?
+  version        String?
+  language       String?  @default("en")
+  createdAt      DateTime @default(now())
 
   @@index([book, chapter, verse])
   @@index([version])
-  @@index([language])
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "123456";
+const ADMIN_PASSWORD = "H0@ngAnh117";
 const COOKIE_NAME = "is_admin";
 
 export async function POST(request: NextRequest) {
