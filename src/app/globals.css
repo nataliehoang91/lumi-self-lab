@@ -78,6 +78,12 @@
   --success: oklch(0.5 0.14 145);
   --success-muted: oklch(0.9 0.07 145);
 
+  /* Sage green tones – #8a958a / oklch(0.66 0.02 145.89) */
+  --sage: oklch(0.67 0.06 145.63);
+  --sage-foreground: oklch(0.99 0 0);
+  --sage-muted: oklch(0.88 0.015 146);
+  --sage-dark: oklch(0.52 0.02 146);
+
   /* Named gradient colors (for waitlist and other gradients) */
   --gradient-peach: rgb(255 247 237);
   --gradient-peach-button: linear-gradient(135deg, #ffb38c 0%, #fca17e 100%);
@@ -85,6 +91,11 @@
   --gradient-primary-button: linear-gradient(135deg, #ffb399 0%, #ff9073 100%);
   --gradient-white: rgb(255 255 255);
   --gradient-violet-tint: rgb(245 243 255 / 0.3);
+}
+
+/* Vietnamese verse text – Be Vietnam Pro (loaded in root layout) */
+.font-vietnamese {
+  font-family: var(--font-vietnamese), var(--font-geist-sans), ui-sans-serif, sans-serif;
 }
 
 .dark {
@@ -131,6 +142,12 @@
   /* Success - slightly brighter for dark mode */
   --success: oklch(0.55 0.14 145);
   --success-muted: oklch(0.25 0.06 145);
+
+  /* Sage green tones – dark mode (same hue, slightly brighter for visibility) */
+  --sage: oklch(0.68 0.025 145.89);
+  --sage-foreground: oklch(0.99 0 0);
+  --sage-muted: oklch(0.32 0.02 146);
+  --sage-dark: oklch(0.48 0.02 146);
 
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.95 0.01 50);
@@ -184,6 +201,10 @@
   --color-sky-blue-foreground: var(--sky-blue-foreground);
   --color-success: var(--success);
   --color-success-muted: var(--success-muted);
+  --color-sage: var(--sage);
+  --color-sage-foreground: var(--sage-foreground);
+  --color-sage-muted: var(--sage-muted);
+  --color-sage-dark: var(--sage-dark);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -492,6 +513,10 @@
   --color-sky-blue-foreground: var(--sky-blue-foreground);
   --color-success: var(--success);
   --color-success-muted: var(--success-muted);
+  --color-sage: var(--sage);
+  --color-sage-foreground: var(--sage-foreground);
+  --color-sage-muted: var(--sage-muted);
+  --color-sage-dark: var(--sage-dark);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);

@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
+import { getBibleIntl } from "@/lib/bible-intl";
 import { useVisibleCount, useHorizontalVisibleCount } from "./useVisibleCount";
 import { SingleFlashCard } from "./SingleFlashCard";
 
@@ -37,42 +38,10 @@ export interface Verse {
   createdAt: string;
 }
 
-const UI_STRINGS = {
-  EN: {
-    clickToReveal: "Click to reveal verse",
-    verseOf: (current: number, total: number) => `Verse ${current} of ${total}`,
-    useArrowKeys: "Use arrow keys",
-    keyboardHint: "← → to navigate • Space to flip",
-    useArrowKeysVertical: "↑ ↓ to navigate • Space to flip",
-    showing: (from: number, to: number, total: number) => `Showing ${from}–${to} of ${total}`,
-    loadMore: "Load more",
-    backToTop: "Back to top",
-  },
-  VI: {
-    clickToReveal: "Nhấp để xem câu kinh thánh",
-    verseOf: (current: number, total: number) => `Câu ${current} / ${total}`,
-    useArrowKeys: "Sử dụng phím mũi tên",
-    keyboardHint: "← → để điều hướng • Space để lật thẻ",
-    useArrowKeysVertical: "↑ ↓ để điều hướng • Space để lật thẻ",
-    showing: (from: number, to: number, total: number) => `Hiển thị ${from}–${to} / ${total}`,
-    loadMore: "Xem thêm",
-    backToTop: "Về đầu trang",
-  },
-  ZH: {
-    clickToReveal: "點擊顯示經文",
-    verseOf: (current: number, total: number) => `第 ${current} 節 / 共 ${total} 節`,
-    useArrowKeys: "使用方向鍵",
-    keyboardHint: "← → 導航 • 空格翻面",
-    useArrowKeysVertical: "↑ ↓ 導航 • 空格翻面",
-    showing: (from: number, to: number, total: number) => `顯示 ${from}–${to} / 共 ${total}`,
-    loadMore: "載入更多",
-    backToTop: "回到頂部",
-  },
-};
-
 export function FlashCardView() {
   const [mounted, setMounted] = useState(false);
   const { globalLanguage, fontSize, layoutMode, registerShuffle } = useBibleApp();
+  const intl = getBibleIntl(globalLanguage);
   const [verses, setVerses] = useState<Verse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -88,10 +57,10 @@ export function FlashCardView() {
 
   const verticalVisibleCount = useVisibleCount();
   const horizontalVisibleCount = useHorizontalVisibleCount();
-  /** Horizontal: at least 4 clear in middle; vertical: 1→2→3→5. */
+  /** Horizontal: 1 on mobile, then 2→3→4 by breakpoint; vertical: 1→2→3→5. */
   const visibleCount =
     layoutMode === "horizontal"
-      ? Math.max(4, horizontalVisibleCount)
+      ? horizontalVisibleCount
       : layoutMode === "vertical"
         ? verticalVisibleCount
         : 1;
@@ -226,21 +195,19 @@ export function FlashCardView() {
         className="rounded-xl bg-amber-50 p-4 text-amber-800 dark:bg-amber-950/30 dark:text-amber-200"
         role="alert"
       >
-        {error}
+        {intl.t("couldNotLoad")}
       </p>
     );
   }
 
   if (verses.length === 0) {
     return (
-      <div className="rounded-xl bg-card border p-8 text-center text-muted-foreground shadow-lg">
-        No verses yet. Add some in Admin.
+      <div className="rounded-xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 p-8 text-center text-muted-foreground shadow-lg">
+        {intl.t("noVerses")}
       </div>
     );
   }
 
-  /** UI strings use global language (navbar); per-card language only affects that card's labels. */
-  const t = UI_STRINGS[globalLanguage];
   const isVertical = layoutMode === "vertical";
   const isAll = layoutMode === "all";
 
@@ -258,7 +225,7 @@ export function FlashCardView() {
         {/* Pagination info */}
         <div className="w-full text-center py-3 shrink-0">
           <p className="text-sm text-muted-foreground">
-            {t.showing(1, allVerses.length, verses.length)}
+            {intl.t("showing", { from: 1, to: allVerses.length, total: verses.length })}
           </p>
         </div>
 
@@ -272,7 +239,7 @@ export function FlashCardView() {
               onFlip={() => toggleFlip(verse.id)}
               cardLanguage={cardLanguageById[verse.id] ?? globalLanguage}
               onCardLanguageChange={(lang) => setLanguageForCard(verse.id, lang)}
-              t={{ clickToReveal: UI_STRINGS[cardLanguageById[verse.id] ?? globalLanguage].clickToReveal }}
+              t={{ clickToReveal: getBibleIntl(cardLanguageById[verse.id] ?? globalLanguage).t("clickToReveal") }}
               horizontal={false}
             />
           ))}
@@ -282,13 +249,13 @@ export function FlashCardView() {
         <div className="w-full flex flex-col items-center gap-4 py-6 pb-8">
           {hasMoreAll && (
             <Button variant="outline" onClick={loadMore} className="min-w-[140px]">
-              {t.loadMore}
+              {intl.t("loadMore")}
             </Button>
           )}
           {showBackToTop && (
             <Button variant="ghost" size="sm" onClick={scrollToTop} className="gap-2">
               <ArrowUp className="h-4 w-4" />
-              {t.backToTop}
+              {intl.t("backToTop")}
             </Button>
           )}
         </div>
@@ -308,8 +275,8 @@ export function FlashCardView() {
       <div className="w-full text-center py-3 shrink-0">
         <p className="text-sm text-muted-foreground">
           {visibleCount > 1
-          ? `${currentIndex + 1}–${Math.min(currentIndex + visibleCount, verses.length)} of ${verses.length}`
-          : t.verseOf(currentIndex + 1, verses.length)}
+            ? `${currentIndex + 1}–${Math.min(currentIndex + visibleCount, verses.length)} of ${verses.length}`
+            : intl.t("verseOf", { current: currentIndex + 1, total: verses.length })}
         </p>
         <div className="flex justify-center gap-1 sm:gap-1.5 mt-2 flex-wrap">
           {Array.from({ length: Math.max(1, maxIndex + 1) }).map((_, idx) => (
@@ -365,7 +332,7 @@ export function FlashCardView() {
                 onFlip={() => toggleFlip(verse.id)}
                 cardLanguage={cardLanguageById[verse.id] ?? globalLanguage}
                 onCardLanguageChange={(lang) => setLanguageForCard(verse.id, lang)}
-                t={{ clickToReveal: UI_STRINGS[cardLanguageById[verse.id] ?? globalLanguage].clickToReveal }}
+                t={{ clickToReveal: getBibleIntl(cardLanguageById[verse.id] ?? globalLanguage).t("clickToReveal") }}
                 horizontal={!isVertical}
               />
             ))}
@@ -385,9 +352,9 @@ export function FlashCardView() {
         </div>
 
         <p className="text-xs text-muted-foreground mt-4 text-center">
-          {isVertical ? t.useArrowKeysVertical : t.useArrowKeys}
+          {isVertical ? intl.t("useArrowKeysVertical") : intl.t("useArrowKeys")}
         </p>
-        <p className="text-xs text-muted-foreground text-center">{t.keyboardHint}</p>
+        <p className="text-xs text-muted-foreground text-center">{intl.t("keyboardHint")}</p>
       </div>
     </div>
   );

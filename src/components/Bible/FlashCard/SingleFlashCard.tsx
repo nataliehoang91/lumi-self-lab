@@ -5,27 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Volume2 } from "lucide-react";
-
-// Local copy of flashcard types so this component doesn't depend on app routes.
-export type Language = "EN" | "VI" | "ZH";
-
-export interface Verse {
-  id: string;
-  book: string;
-  chapter: number;
-  verse: number;
-  titleEn?: string | null;
-  titleVi?: string | null;
-  contentVIE1923?: string | null;
-  contentKJV?: string | null;
-  contentNIV?: string | null;
-  contentZH?: string | null;
-  content?: string | null;
-  titleZh?: string | null;
-  version?: string | null;
-  language?: string | null;
-  createdAt: string;
-}
+import type { Language, Verse } from "./FlashCardView";
 
 type EnVersion = "KJV" | "NIV";
 
@@ -119,7 +99,7 @@ export function SingleFlashCard({
       >
         {/* Front */}
         <div
-          className="absolute inset-0 rounded-2xl bg-card border shadow-lg p-4 flex flex-col items-center justify-center"
+          className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ backfaceVisibility: "hidden" }}
         >
           <Badge variant="outline" className="text-xs">
@@ -133,11 +113,16 @@ export function SingleFlashCard({
 
         {/* Back */}
         <div
-          className="absolute inset-0 rounded-2xl bg-card border shadow-lg p-4 flex flex-col"
+          className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-4 flex flex-col"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <div className="flex-1 flex items-center justify-center min-h-0">
-            <p className="font-serif leading-relaxed text-center text-pretty line-clamp-6 [font-size:inherit]">
+            <p
+              className={cn(
+                "leading-relaxed text-center text-pretty line-clamp-6 [font-size:inherit]",
+                cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
+              )}
+            >
               {displayContent || "—"}
             </p>
           </div>
@@ -182,11 +167,11 @@ export function SingleFlashCard({
               </Button>
             </div>
 
-            {/* When EN: KJV | NIV toggle (this card only) */}
+            {/* When EN: KJV | NIV toggle (this card only) — KJV = sage, NIV = sky blue */}
             {cardLanguage === "EN" && (
               <div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">
                 <Button
-                  variant={enVersion === "KJV" ? "default" : "ghost"}
+                  variant={enVersion === "KJV" ? "sage" : "ghost"}
                   size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -203,7 +188,11 @@ export function SingleFlashCard({
                     e.stopPropagation();
                     setEnVersion("NIV");
                   }}
-                  className="h-6 px-1.5 text-xs"
+                  className={cn(
+                    "h-6 px-1.5 text-xs",
+                    enVersion === "NIV" &&
+                      "bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue/90 border-0"
+                  )}
                 >
                   NIV
                 </Button>

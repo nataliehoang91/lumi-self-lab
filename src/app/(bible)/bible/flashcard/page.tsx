@@ -1,4 +1,4 @@
-import { FlashCardView } from "./FlashCardView";
+import { FlashCardView } from "@/components/Bible/FlashCard/FlashCardView";
 
 export default function FlashcardPage() {
   return (
