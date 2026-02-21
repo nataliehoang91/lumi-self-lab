@@ -43,6 +43,39 @@ interface ChapterContent {
   verses: VerseRow[];
 }
 
+/** Book name in the language of the given version (for panel headers and per-panel dropdowns). */
+function getBookDisplayName(book: BibleBook | null, version: VersionId): string {
+  if (!book) return "";
+  if (version === "vi") return book.nameVi;
+  if (version === "zh") return book.nameZh ?? book.nameEn;
+  return book.nameEn; // kjv, niv
+}
+
+/** Book label for the sub-nav selection when one or two versions are chosen (vi-niv → vi/en, kjv-niv → en, vi-zh → vi (zh)). */
+function getBookLabelForSelection(
+  book: BibleBook,
+  left: VersionId | null,
+  right: VersionId | null
+): string {
+  const onlyLeft = left !== null && right === null;
+  const onlyRight = left === null && right !== null;
+  if (onlyLeft) return getBookDisplayName(book, left);
+  if (onlyRight) return getBookDisplayName(book, right);
+  if (left === null || right === null) return book.nameEn;
+
+  const isEn = (v: VersionId) => v === "kjv" || v === "niv";
+  const leftEn = isEn(left);
+  const rightEn = isEn(right);
+  if (leftEn && rightEn) return book.nameEn;
+  if (left === "vi" && right === "zh") return `${book.nameVi} (${book.nameZh ?? book.nameEn})`;
+  if (left === "zh" && right === "vi") return `${book.nameVi} (${book.nameZh ?? book.nameEn})`;
+  if ((left === "vi" && rightEn) || (right === "vi" && leftEn))
+    return `${book.nameVi} / ${book.nameEn}`;
+  if ((left === "zh" && rightEn) || (right === "zh" && leftEn))
+    return book.nameZh ? `${book.nameEn} (${book.nameZh})` : book.nameEn;
+  return book.nameEn;
+}
+
 export default function BibleReadPage() {
   const [books, setBooks] = useState<BibleBook[]>([]);
   const [syncMode, setSyncMode] = useState(true);
@@ -64,6 +97,8 @@ export default function BibleReadPage() {
   const [hoveredVerse, setHoveredVerse] = useState<number | null>(null);
   const [panelWidth, setPanelWidth] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [subNavBookOpen, setSubNavBookOpen] = useState(false);
+  const [subNavChapterOpen, setSubNavChapterOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/bible/books")
@@ -81,24 +116,40 @@ export default function BibleReadPage() {
   }, []);
 
   const handleVersionChipClick = (transId: VersionId) => {
+    const isLeft = leftVersion === transId;
+    const isRight = rightVersion === transId;
+    if (isLeft) {
+      setLeftVersion(rightVersion);
+      setRightVersion(null);
+      return;
+    }
+    if (isRight) {
+      setRightVersion(null);
+      return;
+    }
     if (leftVersion === null && rightVersion === null) {
       setLeftVersion(transId);
       return;
     }
     if (rightVersion === null) {
-      if (transId === leftVersion) return;
       setRightVersion(transId);
       return;
     }
-    if (transId === leftVersion) return;
-    if (transId === rightVersion) return;
     setRightVersion(transId);
   };
 
   const chipSelectedStyle = (transId: VersionId) => {
-    const base = "text-sm font-medium transition-all shrink-0 ";
-    const unselected = "bg-card text-muted-foreground hover:bg-accent border border-border ";
-    if (leftVersion !== transId && rightVersion !== transId) return base + unselected;
+    const base = "px-3 py-1.5 rounded-lg text-sm font-medium transition-all shrink-0 ";
+    const isSelected = leftVersion === transId || rightVersion === transId;
+    if (!isSelected) {
+      const unselectedHover: Record<VersionId, string> = {
+        vi: "bg-card text-muted-foreground border border-border hover:bg-coral/20 hover:border-coral/50 hover:text-coral-foreground ",
+        kjv: "bg-card text-muted-foreground border border-border hover:bg-sage/20 hover:border-sage/50 hover:text-sage-foreground ",
+        niv: "bg-card text-muted-foreground border border-border hover:bg-sky-blue/20 hover:border-sky-blue/50 hover:text-sky-blue-foreground ",
+        zh: "bg-card text-muted-foreground border border-border hover:bg-second/20 hover:border-second/50 hover:text-second-foreground ",
+      };
+      return base + unselectedHover[transId];
+    }
     switch (transId) {
       case "vi":
         return base + "bg-coral text-coral-foreground shadow-sm ";
@@ -113,17 +164,14 @@ export default function BibleReadPage() {
     }
   };
 
-  const fetchChapter = useCallback(
-    async (bookId: string, chapter: number, lang: VersionId) => {
-      const apiLang = lang === "vi" ? "vie" : lang;
-      const res = await fetch(
-        `/api/bible/read?bookId=${encodeURIComponent(bookId)}&chapter=${chapter}&lang=${apiLang}`
-      );
-      if (!res.ok) return null;
-      return res.json() as Promise<ChapterContent>;
-    },
-    []
-  );
+  const fetchChapter = useCallback(async (bookId: string, chapter: number, lang: VersionId) => {
+    const apiLang = lang === "vi" ? "vie" : lang;
+    const res = await fetch(
+      `/api/bible/read?bookId=${encodeURIComponent(bookId)}&chapter=${chapter}&lang=${apiLang}`
+    );
+    if (!res.ok) return null;
+    return res.json() as Promise<ChapterContent>;
+  }, []);
 
   const { setReadFocusMode } = useReadFocus();
 
@@ -220,7 +268,7 @@ export default function BibleReadPage() {
                       <button
                         key={trans.id}
                         onClick={() => handleVersionChipClick(trans.id)}
-                        className={`px-3 py-1.5 rounded-lg ${chipSelectedStyle(trans.id)}`}
+                        className={chipSelectedStyle(trans.id)}
                       >
                         {trans.name}
                       </button>
@@ -240,6 +288,100 @@ export default function BibleReadPage() {
                 </>
               )}
             </div>
+            {/* When synced, show book + chapter in sub-nav so user can change location from one place */}
+            {!focusMode &&
+              syncMode &&
+              (leftVersion !== null || rightVersion !== null) &&
+              leftBook && (
+                <div className="flex items-center gap-2 flex-wrap shrink-0">
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSubNavChapterOpen(false);
+                        setSubNavBookOpen(!subNavBookOpen);
+                      }}
+                      className="px-3 py-1.5 rounded-lg text-sm font-medium bg-card border border-border text-foreground hover:bg-accent transition-all flex items-center gap-1.5"
+                    >
+                      {getBookLabelForSelection(leftBook, leftVersion, rightVersion)}
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+                    {subNavBookOpen && (
+                      <>
+                        <div
+                          className="fixed inset-0 z-10"
+                          onClick={() => setSubNavBookOpen(false)}
+                          aria-hidden
+                        />
+                        <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-48 min-w-48">
+                          {books.map((b) => (
+                            <button
+                              key={b.id}
+                              type="button"
+                              onClick={() => {
+                                handleLeftBookChange(b);
+                                setSubNavBookOpen(false);
+                              }}
+                              className={`w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all ${
+                                b.id === leftBook.id
+                                  ? "bg-primary/10 text-primary font-medium"
+                                  : "text-foreground"
+                              }`}
+                            >
+                              {getBookLabelForSelection(b, leftVersion, rightVersion)}
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSubNavBookOpen(false);
+                        setSubNavChapterOpen(!subNavChapterOpen);
+                      }}
+                      className="px-3 py-1.5 rounded-lg text-sm font-medium bg-card border border-border text-foreground hover:bg-accent transition-all flex items-center gap-1.5"
+                    >
+                      Chapter {leftChapter}
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+                    {subNavChapterOpen && (
+                      <>
+                        <div
+                          className="fixed inset-0 z-10"
+                          onClick={() => setSubNavChapterOpen(false)}
+                          aria-hidden
+                        />
+                        <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-40 p-2">
+                          <div className="grid grid-cols-5 gap-1">
+                            {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map(
+                              (ch) => (
+                                <button
+                                  key={ch}
+                                  type="button"
+                                  onClick={() => {
+                                    handleLeftChapterChange(ch);
+                                    setSubNavChapterOpen(false);
+                                  }}
+                                  className={`flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] rounded-full text-sm hover:bg-accent transition-all ${
+                                    ch === leftChapter
+                                      ? "bg-primary text-primary-foreground font-medium"
+                                      : "text-foreground"
+                                  }`}
+                                >
+                                  {ch}
+                                </button>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
             <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               {!focusMode && rightVersion !== null && (
                 <button
@@ -262,11 +404,7 @@ export default function BibleReadPage() {
                 }`}
                 title={focusMode ? "Exit focus (minimize)" : "Focus mode (expand)"}
               >
-                {focusMode ? (
-                  <Minimize2 className="w-4 h-4" />
-                ) : (
-                  <Maximize2 className="w-4 h-4" />
-                )}
+                {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
               </button>
             </div>
           </div>
@@ -274,8 +412,7 @@ export default function BibleReadPage() {
       </header>
 
       <main className={`transition-all duration-300 ${focusMode ? "py-8" : "py-6"}`}>
-        <div className={`mx-auto ${focusMode ? "max-w-3xl px-6" : "max-w-7xl px-4 sm:px-6"}`}>
-
+        <div className={`mx-auto ${focusMode ? "max-w-6xl px-6" : "max-w-7xl px-4 sm:px-6"}`}>
           <div className="flex gap-0 relative">
             <div
               className="transition-all duration-300 min-w-0"
@@ -367,7 +504,9 @@ function ReadingPanel({
 }: ReadingPanelProps) {
   const [showBookMenu, setShowBookMenu] = useState(false);
   const [showChapterMenu, setShowChapterMenu] = useState(false);
-  const versionName = version ? TRANSLATIONS.find((t) => t.id === version)?.fullName ?? version.toUpperCase() : "";
+  const versionName = version
+    ? (TRANSLATIONS.find((t) => t.id === version)?.fullName ?? version.toUpperCase())
+    : "";
   const maxChapters = book?.chapterCount ?? 50;
   const isKJV = version === "kjv";
 
@@ -396,7 +535,7 @@ function ReadingPanel({
                 onClick={() => setShowBookMenu(!showBookMenu)}
                 className="px-4 py-2 bg-card border border-border rounded-lg text-foreground font-medium hover:bg-accent transition-all flex items-center gap-2"
               >
-                {book?.nameEn ?? "Book"}
+                {getBookDisplayName(book, version) || "Book"}
                 <ChevronDown className="w-4 h-4" />
               </button>
               {showBookMenu && (
@@ -411,10 +550,12 @@ function ReadingPanel({
                           setShowBookMenu(false);
                         }}
                         className={`w-full text-left px-4 py-2 hover:bg-accent transition-all ${
-                          b.id === book?.id ? "bg-primary/10 text-primary font-medium" : "text-foreground"
+                          b.id === book?.id
+                            ? "bg-primary/10 text-primary font-medium"
+                            : "text-foreground"
                         }`}
                       >
-                        {b.nameEn}
+                        {getBookDisplayName(b, version)}
                       </button>
                     ))}
                   </div>
@@ -433,7 +574,7 @@ function ReadingPanel({
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setShowChapterMenu(false)} />
                   <div className="absolute top-full mt-2 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-40">
-                    <div className="grid grid-cols-5 gap-1 p-2">
+                    <div className="grid grid-cols-5 gap-2 p-2">
                       {Array.from({ length: maxChapters }, (_, i) => i + 1).map((ch) => (
                         <button
                           key={ch}
@@ -441,8 +582,10 @@ function ReadingPanel({
                             onChapterChange(ch);
                             setShowChapterMenu(false);
                           }}
-                          className={`px-2 py-1.5 rounded hover:bg-accent transition-all text-sm ${
-                            ch === chapter ? "bg-primary text-primary-foreground font-medium" : "text-foreground"
+                          className={`flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] rounded-full hover:bg-accent transition-all text-sm ${
+                            ch === chapter
+                              ? "bg-primary text-primary-foreground font-medium"
+                              : "text-foreground"
                           }`}
                         >
                           {ch}
@@ -463,7 +606,7 @@ function ReadingPanel({
             {versionName}
           </div>
           <div className="text-2xl font-serif text-foreground">
-            {book?.nameEn ?? ""} {chapter}
+            {getBookDisplayName(book, version)} {chapter}
           </div>
         </div>
       )}
