@@ -202,23 +202,39 @@ async function main() {
       where: {
         bookId_chapter_verse: { bookId, chapter, verse: verseNum },
       },
-      select: { [col]: true } as { contentVIE1923: string | null } | { contentKJV: string | null },
+      select: { contentVIE1923: true, contentKJV: true },
     });
-    const current = existing ? (existing as Record<string, string | null>)[col] : null;
+    const current =
+      lang === "vie" ? (existing?.contentVIE1923 ?? null) : (existing?.contentKJV ?? null);
     if (!override && current != null && current.trim() !== "") continue;
 
-    await prisma.bibleVerseContent.upsert({
-      where: {
-        bookId_chapter_verse: { bookId, chapter, verse: verseNum },
-      },
-      create: {
-        bookId,
-        chapter,
-        verse: verseNum,
-        ...(lang === "vie" ? { contentVIE1923: text } : { contentKJV: text }),
-      },
-      update: lang === "vie" ? { contentVIE1923: text } : { contentKJV: text },
-    });
+    if (lang === "vie") {
+      await prisma.bibleVerseContent.upsert({
+        where: {
+          bookId_chapter_verse: { bookId, chapter, verse: verseNum },
+        },
+        create: {
+          bookId,
+          chapter,
+          verse: verseNum,
+          contentVIE1923: text,
+        },
+        update: { contentVIE1923: text },
+      });
+    } else {
+      await prisma.bibleVerseContent.upsert({
+        where: {
+          bookId_chapter_verse: { bookId, chapter, verse: verseNum },
+        },
+        create: {
+          bookId,
+          chapter,
+          verse: verseNum,
+          contentKJV: text,
+        },
+        update: { contentKJV: text },
+      });
+    }
     updated++;
     console.log(`  verse ${verseNum}: ${override ? "overwritten" : "filled"}`);
   }

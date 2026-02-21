@@ -44,8 +44,8 @@ export function BibleNavBar() {
             size="sm"
             className={`h-8 px-4 text-xs font-medium rounded-xl transition-all border ${
               isFlashcard
-                ? "bg-bible-nav text-bible-nav-foreground border-bible-nav shadow-sm hover:bg-bible-nav/90"
-                : "border-bible-nav bg-transparent text-muted-foreground hover:bg-bible-nav/10 hover:text-foreground"
+                ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
+                : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
             }`}
             asChild
           >
@@ -56,8 +56,8 @@ export function BibleNavBar() {
             size="sm"
             className={`h-8 px-4 text-xs font-medium rounded-xl transition-all border ${
               isRead
-                ? "bg-bible-nav text-bible-nav-foreground border-bible-nav shadow-sm hover:bg-bible-nav/90"
-                : "border-bible-nav bg-transparent text-muted-foreground hover:bg-bible-nav/10 hover:text-foreground"
+                ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
+                : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
             }`}
             asChild
           >
@@ -129,29 +129,41 @@ export function BibleNavBar() {
             </Button>
           </div>
 
-          {/* 2. Language (coral — same as previous grid) */}
-          <div className="hidden md:flex items-center rounded-lg border border-coral/30 bg-coral/10 p-0.5">
+          {/* 2. Language – mint-forest green */}
+          <div className="hidden md:flex items-center rounded-xl border border-bible-lang/40 bg-bible-lang/10 p-0.5">
             <Button
-              variant={globalLanguage === "EN" ? "coral" : "ghost"}
+              variant="ghost"
               size="sm"
               onClick={() => setGlobalLanguage("EN")}
-              className="h-8 px-2.5 text-sm hover:bg-coral/20"
+              className={`h-8 px-2.5 text-sm rounded-lg transition-all ${
+                globalLanguage === "EN"
+                  ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
+                  : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
+              }`}
             >
               EN
             </Button>
             <Button
-              variant={globalLanguage === "VI" ? "coral" : "ghost"}
+              variant="ghost"
               size="sm"
               onClick={() => setGlobalLanguage("VI")}
-              className="h-8 px-2.5 text-sm hover:bg-coral/20"
+              className={`h-8 px-2.5 text-sm rounded-lg transition-all ${
+                globalLanguage === "VI"
+                  ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
+                  : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
+              }`}
             >
               VI
             </Button>
             <Button
-              variant={globalLanguage === "ZH" ? "coral" : "ghost"}
+              variant="ghost"
               size="sm"
               onClick={() => setGlobalLanguage("ZH")}
-              className="h-8 px-2.5 text-sm hover:bg-coral/20"
+              className={`h-8 px-2.5 text-sm rounded-lg transition-all ${
+                globalLanguage === "ZH"
+                  ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
+                  : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
+              }`}
             >
               中
             </Button>
@@ -160,9 +172,9 @@ export function BibleNavBar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="coral"
+                  variant="ghost"
                   size="sm"
-                  className="h-8 gap-1 px-2.5 text-sm"
+                  className="h-8 gap-1 px-2.5 text-sm bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90 rounded-xl border-2 border-bible-lang"
                   aria-label="Language"
                 >
                   <span>{globalLanguage === "ZH" ? "中" : globalLanguage}</span>

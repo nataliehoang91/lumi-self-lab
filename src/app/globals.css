@@ -85,9 +85,13 @@
   --sage-muted: oklch(0.88 0.015 146);
   --sage-dark: oklch(0.52 0.02 146);
 
-  /* Bible navigation (Flashcard / Read selected and border) */
-  --bible-nav: #e5484d;
+  /* Bible navigation (Flashcard / Read – salmon/coral from nav reference) */
+  --bible-nav: #ec686c;
   --bible-nav-foreground: oklch(0.99 0 0);
+
+  /* Bible language selector – mint-forest green (not sage) */
+  --bible-lang: #3d8b6e;
+  --bible-lang-foreground: oklch(0.99 0 0);
 
   /* Named gradient colors (for waitlist and other gradients) */
   --gradient-peach: rgb(255 247 237);
@@ -156,8 +160,12 @@
   --sage-dark: oklch(0.48 0.02 146);
 
   /* Bible navigation */
-  --bible-nav: #e5484d;
+  --bible-nav: #ec686c;
   --bible-nav-foreground: oklch(0.99 0 0);
+
+  /* Bible language – mint-forest green */
+  --bible-lang: #4a9b78;
+  --bible-lang-foreground: oklch(0.99 0 0);
 
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.95 0.01 50);
@@ -218,6 +226,8 @@
   --color-sage-dark: var(--sage-dark);
   --color-bible-nav: var(--bible-nav);
   --color-bible-nav-foreground: var(--bible-nav-foreground);
+  --color-bible-lang: var(--bible-lang);
+  --color-bible-lang-foreground: var(--bible-lang-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -532,6 +542,8 @@
   --color-sage-dark: var(--sage-dark);
   --color-bible-nav: var(--bible-nav);
   --color-bible-nav-foreground: var(--bible-nav-foreground);
+  --color-bible-lang: var(--bible-lang);
+  --color-bible-lang-foreground: var(--bible-lang-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
