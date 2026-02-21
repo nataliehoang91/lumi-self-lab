@@ -15,6 +15,7 @@ import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCa
 import { useReadFocus } from "@/components/Bible/ReadFocusContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
+import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 
 const TRANSLATIONS = [
@@ -162,7 +163,7 @@ export default function BibleReadPage() {
         vi: "bg-card text-muted-foreground border border-border hover:bg-coral/20 hover:border-coral/50 hover:text-coral-foreground ",
         kjv: "bg-card text-muted-foreground border border-border hover:bg-sage/20 hover:border-sage/50 hover:text-sage-foreground ",
         niv: "bg-card text-muted-foreground border border-border hover:bg-sky-blue/20 hover:border-sky-blue/50 hover:text-sky-blue-foreground ",
-        zh: "bg-card text-muted-foreground border border-border hover:bg-second/20 hover:border-second/50 hover:text-second-foreground ",
+        zh: "bg-card text-muted-foreground border border-border hover:bg-tertiary/20 hover:border-tertiary/50 hover:text-tertiary-foreground ",
       };
       return base + unselectedHover[transId];
     }
@@ -174,7 +175,7 @@ export default function BibleReadPage() {
       case "niv":
         return base + "bg-sky-blue text-sky-blue-foreground shadow-sm ";
       case "zh":
-        return base + "bg-second-dark text-second-foreground shadow-sm ";
+        return base + "bg-tertiary dark:bg-yellow-600 text-sky-blue-foreground shadow-sm ";
       default:
         return base + "bg-primary text-primary-foreground shadow-sm ";
     }
@@ -309,7 +310,10 @@ export default function BibleReadPage() {
     <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Sub-navbar: version, sync, focus/minimize - always visible so user can minimize after expand */}
       <header
-        className={`sticky z-40 bg-background/95 border-b border-border transition-all duration-300 ${focusMode ? "top-0" : "top-14"}`}
+        className={cn(
+          "sticky z-40 bg-background/95 border-b border-border transition-all duration-300",
+          focusMode ? "top-0" : "top-14"
+        )}
       >
         <Container className="mx-auto px-4 sm:px-6 py-3">
           <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -355,11 +359,12 @@ export default function BibleReadPage() {
                         key={filter}
                         type="button"
                         onClick={() => setTestamentFilterAndAdjustBook(filter)}
-                        className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-all h-full ${
+                        className={cn(
+                          "rounded-lg px-3 py-1.5 text-sm font-medium transition-all h-full",
                           testamentFilter === filter
                             ? "bg-second-dark text-second-foreground"
                             : "text-muted-foreground hover:bg-second/20 hover:text-foreground"
-                        }`}
+                        )}
                       >
                         {filter === "ot" ? t("readOldTestament") : t("readNewTestament")}
                       </button>
@@ -398,11 +403,12 @@ export default function BibleReadPage() {
                                 handleLeftBookChange(b);
                                 setSubNavBookOpen(false);
                               }}
-                              className={`w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all ${
+                              className={cn(
+                                "w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all",
                                 b.id === leftBook.id
                                   ? "bg-primary/10 text-primary font-medium"
                                   : "text-foreground"
-                              }`}
+                              )}
                             >
                               {getBookLabelForSelection(b, leftVersion, rightVersion)}
                             </button>
@@ -441,11 +447,12 @@ export default function BibleReadPage() {
                                     handleLeftChapterChange(ch);
                                     setSubNavChapterOpen(false);
                                   }}
-                                  className={`flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] rounded-full text-sm hover:bg-accent transition-all ${
+                                  className={cn(
+                                    "flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] rounded-full text-sm hover:bg-accent transition-all",
                                     ch === leftChapter
                                       ? "bg-primary text-primary-foreground font-medium"
                                       : "text-foreground"
-                                  }`}
+                                  )}
                                 >
                                   {ch}
                                 </button>
@@ -462,22 +469,24 @@ export default function BibleReadPage() {
               {!focusMode && rightVersion !== null && (
                 <button
                   onClick={() => setSyncMode(!syncMode)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                  className={cn(
+                    "px-3 py-1.5 rounded-lg text-sm font-medium transition-all",
                     syncMode
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted text-muted-foreground hover:bg-accent"
-                  }`}
+                  )}
                 >
                   {syncMode ? t("readSynced") : t("readIndependent")}
                 </button>
               )}
               <button
                 onClick={() => setFocusMode(!focusMode)}
-                className={`p-2 rounded-lg transition-all ${
+                className={cn(
+                  "p-2 rounded-lg transition-all",
                   focusMode
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted text-muted-foreground hover:bg-accent"
-                }`}
+                )}
                 title={focusMode ? t("readExitFocus") : t("readFocusMode")}
               >
                 {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -487,8 +496,8 @@ export default function BibleReadPage() {
         </Container>
       </header>
 
-      <main className={`transition-all duration-300 ${focusMode ? "py-8" : "py-6"}`}>
-        <div className={`mx-auto ${focusMode ? "max-w-6xl px-6" : "max-w-7xl px-4 sm:px-6"}`}>
+      <main className={cn("transition-all duration-300", focusMode ? "py-8" : "py-6")}>
+        <div className={cn("mx-auto", focusMode ? "max-w-6xl px-6" : "max-w-7xl px-4 sm:px-6")}>
           <div className="flex gap-0 relative">
             <div
               className="transition-all duration-300 min-w-0"
@@ -507,6 +516,7 @@ export default function BibleReadPage() {
                 onVerseHover={setHoveredVerse}
                 focusMode={focusMode}
                 showControls={!syncMode || rightVersion === null}
+                showBookChapterSelectors={rightVersion !== null && !syncMode}
                 fontSize={fontSize}
                 t={t}
                 testamentFilter={syncMode ? testamentFilter : leftTestamentFilter}
@@ -543,6 +553,7 @@ export default function BibleReadPage() {
                   onVerseHover={setHoveredVerse}
                   focusMode={focusMode}
                   showControls={!syncMode}
+                  showBookChapterSelectors={!syncMode}
                   fontSize={fontSize}
                   t={t}
                   testamentFilter={syncMode ? testamentFilter : rightTestamentFilter}
@@ -572,6 +583,8 @@ interface ReadingPanelProps {
   onVerseHover: (verse: number | null) => void;
   focusMode: boolean;
   showControls: boolean;
+  /** When false (e.g. only one version), panel does not show book/chapter dropdowns; header has them. */
+  showBookChapterSelectors: boolean;
   fontSize: FontSize;
   t: (key: string, params?: Record<string, number | string>) => string;
   testamentFilter: TestamentFilter;
@@ -591,6 +604,7 @@ function ReadingPanel({
   onVerseHover,
   focusMode,
   showControls,
+  showBookChapterSelectors,
   fontSize,
   t,
   testamentFilter,
@@ -626,7 +640,7 @@ function ReadingPanel({
 
   return (
     <div className="px-4 sm:px-6 md:px-8">
-      {!focusMode && showControls && (
+      {!focusMode && showControls && showBookChapterSelectors && (
         <div className="mb-6 space-y-4">
           <div className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
             {versionName}
@@ -638,11 +652,12 @@ function ReadingPanel({
                   key={filter}
                   type="button"
                   onClick={() => onTestamentFilterChange(filter)}
-                  className={`rounded-lg px-3 py-2 text-sm font-medium transition-all h-full ${
+                  className={cn(
+                    "rounded-lg px-3 py-2 text-sm font-medium transition-all h-full",
                     testamentFilter === filter
                       ? "bg-second-dark text-second-foreground"
                       : "text-muted-foreground hover:bg-second/20 hover:text-foreground"
-                  }`}
+                  )}
                 >
                   {filter === "ot" ? t("readOldTestament") : t("readNewTestament")}
                 </button>
@@ -672,11 +687,12 @@ function ReadingPanel({
                           onBookChange(b);
                           setShowBookMenu(false);
                         }}
-                        className={`w-full text-left px-4 py-2 hover:bg-accent transition-all ${
+                        className={cn(
+                          "w-full text-left px-4 py-2 hover:bg-accent transition-all",
                           b.id === book?.id
                             ? "bg-primary/10 text-primary font-medium"
                             : "text-foreground"
-                        }`}
+                        )}
                       >
                         {getBookDisplayName(b, version)}
                       </button>
@@ -705,11 +721,12 @@ function ReadingPanel({
                             onChapterChange(ch);
                             setShowChapterMenu(false);
                           }}
-                          className={`flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] rounded-full hover:bg-accent transition-all text-sm ${
+                          className={cn(
+                            "flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] rounded-full hover:bg-accent transition-all text-sm",
                             ch === chapter
                               ? "bg-primary text-primary-foreground font-medium"
                               : "text-foreground"
-                          }`}
+                          )}
                         >
                           {ch}
                         </button>
@@ -723,19 +740,24 @@ function ReadingPanel({
         </div>
       )}
 
-      {!focusMode && !showControls && (
+      {!focusMode && (!showControls || !showBookChapterSelectors) && (
         <div className="mb-6">
           <div className="text-xs font-medium text-muted-foreground tracking-wide uppercase mb-2">
             {versionName}
           </div>
-          <div className="text-2xl font-serif text-foreground">
+          <div
+            className={cn(
+              "text-2xl text-foreground",
+              version === "vi" ? "font-vietnamese" : "font-bible-english"
+            )}
+          >
             {getBookDisplayName(book, version)} {chapter}
           </div>
         </div>
       )}
 
       <div
-        className={`space-y-6 leading-relaxed ${focusMode ? fontSizeClassFocus : fontSizeClass}`}
+        className={cn("space-y-6 leading-relaxed", focusMode ? fontSizeClassFocus : fontSizeClass)}
       >
         {loading ? (
           <div className="flex items-center justify-center py-16">
@@ -761,14 +783,19 @@ function ReadingPanel({
               >
                 <div className="flex gap-4">
                   <span
-                    className={`${focusMode ? "text-base" : "text-sm"} text-muted-foreground font-medium shrink-0 transition-all ${
-                      hoveredVerse === verse.number ? "text-primary" : ""
-                    }`}
+                    className={cn(
+                      focusMode ? "text-base" : "text-sm",
+                      "text-muted-foreground font-medium shrink-0 transition-all",
+                      hoveredVerse === verse.number && "text-primary"
+                    )}
                   >
                     {verse.number}
                   </span>
                   <p
-                    className={`font-serif text-foreground text-pretty [font-size:inherit] ${version === "vi" ? "font-vietnamese" : ""}`}
+                    className={cn(
+                      "text-foreground text-pretty [font-size:inherit]",
+                      version === "vi" ? "font-vietnamese" : "font-bible-english"
+                    )}
                   >
                     {parsed && parsed.notes.length > 0 ? (
                       <>

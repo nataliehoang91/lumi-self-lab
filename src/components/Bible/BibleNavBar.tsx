@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 import { useBibleApp } from "./BibleAppContext";
 import { useReadFocus } from "./ReadFocusContext";
 import { getBibleIntl } from "@/lib/bible-intl";
@@ -27,11 +28,12 @@ export function BibleNavBar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm shadow-sm transition-all duration-300 ${
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm shadow-sm transition-all duration-300",
         readFocusMode
           ? "opacity-0 pointer-events-none h-0 overflow-hidden border-transparent"
           : "opacity-100"
-      }`}
+      )}
     >
       <Container className="relative w-full h-14 flex items-center justify-between gap-2 px-4 sm:px-6 py-3">
         <div className="flex items-center gap-6 min-w-0">
@@ -42,11 +44,12 @@ export function BibleNavBar() {
           <Button
             variant="ghost"
             size="sm"
-            className={`h-8 px-4 text-xs font-medium rounded-xl transition-all border ${
+            className={cn(
+              "h-8 px-4 text-xs font-medium rounded-xl transition-all border",
               isFlashcard
                 ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
                 : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
-            }`}
+            )}
             asChild
           >
             <Link href="/bible/flashcard">Flashcard</Link>
@@ -54,11 +57,12 @@ export function BibleNavBar() {
           <Button
             variant="ghost"
             size="sm"
-            className={`h-8 px-4 text-xs font-medium rounded-xl transition-all border ${
+            className={cn(
+              "h-8 px-4 text-xs font-medium rounded-xl transition-all border",
               isRead
                 ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
                 : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
-            }`}
+            )}
             asChild
           >
             <Link href="/bible/read">Read</Link>
@@ -135,11 +139,12 @@ export function BibleNavBar() {
               variant="ghost"
               size="sm"
               onClick={() => setGlobalLanguage("EN")}
-              className={`h-8 px-2.5 text-sm rounded-lg transition-all ${
+              className={cn(
+                "h-8 px-2.5 text-sm rounded-lg transition-all",
                 globalLanguage === "EN"
                   ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
                   : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
-              }`}
+              )}
             >
               EN
             </Button>
@@ -147,11 +152,12 @@ export function BibleNavBar() {
               variant="ghost"
               size="sm"
               onClick={() => setGlobalLanguage("VI")}
-              className={`h-8 px-2.5 text-sm rounded-lg transition-all ${
+              className={cn(
+                "h-8 px-2.5 text-sm rounded-lg transition-all",
                 globalLanguage === "VI"
                   ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
                   : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
-              }`}
+              )}
             >
               VI
             </Button>
@@ -159,11 +165,12 @@ export function BibleNavBar() {
               variant="ghost"
               size="sm"
               onClick={() => setGlobalLanguage("ZH")}
-              className={`h-8 px-2.5 text-sm rounded-lg transition-all ${
+              className={cn(
+                "h-8 px-2.5 text-sm rounded-lg transition-all",
                 globalLanguage === "ZH"
                   ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
                   : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
-              }`}
+              )}
             >
               中
             </Button>

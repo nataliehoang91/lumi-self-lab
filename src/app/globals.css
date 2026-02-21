@@ -35,7 +35,7 @@
 
   /* 3. Tertiary: Amber-Yellow (muted, for highlights) */
   --tertiary: #fbc464;
-  --tertiary-foreground: oklch(0.22 0.03 80);
+  --tertiary-foreground: oklch(0.32 0.08 65);
 
   /* 4. Coral: Red-pink-coral (hue 25) */
   --coral: oklch(0.72 0.14 25);
@@ -107,6 +107,11 @@
   font-family: var(--font-vietnamese), var(--font-geist-sans), ui-sans-serif, sans-serif;
 }
 
+/* English / non-Vietnamese verse text – Source Serif 4 (larger x-height, balances with Be Vietnam Pro) */
+.font-bible-english {
+  font-family: var(--font-bible-serif), ui-serif, Georgia, serif;
+}
+
 .dark {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
@@ -132,7 +137,7 @@
 
   /* Tertiary: Amber-Yellow - slightly brighter for dark mode */
   --tertiary: #ffd07e;
-  --tertiary-foreground: oklch(0.985 0 0);
+  --tertiary-foreground: oklch(0.22 0.04 75);
 
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
