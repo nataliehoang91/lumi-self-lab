@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
 import { useReadFocus } from "@/components/Bible/ReadFocusContext";
+import { useBibleApp } from "@/components/Bible/BibleAppContext";
+import { getBibleIntl } from "@/lib/bible-intl";
 
 const TRANSLATIONS = [
   { id: "vi", name: "VI", fullName: "Vietnamese Bible" },
@@ -23,6 +25,9 @@ const TRANSLATIONS = [
 
 type VersionId = (typeof TRANSLATIONS)[number]["id"];
 
+const OT_ORDER_MAX = 39; // order 1–39 = Old Testament, 40–66 = New Testament
+type TestamentFilter = "all" | "ot" | "nt";
+
 interface BibleBook {
   id: string;
   nameEn: string;
@@ -30,6 +35,13 @@ interface BibleBook {
   nameZh: string | null;
   order: number;
   chapterCount: number;
+}
+
+function getOtBooks(books: BibleBook[]) {
+  return books.filter((b) => b.order <= OT_ORDER_MAX);
+}
+function getNtBooks(books: BibleBook[]) {
+  return books.filter((b) => b.order > OT_ORDER_MAX);
 }
 
 interface VerseRow {
@@ -99,6 +111,9 @@ export default function BibleReadPage() {
   const [isDragging, setIsDragging] = useState(false);
   const [subNavBookOpen, setSubNavBookOpen] = useState(false);
   const [subNavChapterOpen, setSubNavChapterOpen] = useState(false);
+  const [testamentFilter, setTestamentFilter] = useState<TestamentFilter>("all");
+  const [leftTestamentFilter, setLeftTestamentFilter] = useState<TestamentFilter>("all");
+  const [rightTestamentFilter, setRightTestamentFilter] = useState<TestamentFilter>("all");
 
   useEffect(() => {
     fetch("/api/bible/books")
@@ -174,6 +189,9 @@ export default function BibleReadPage() {
   }, []);
 
   const { setReadFocusMode } = useReadFocus();
+  const { globalLanguage, fontSize } = useBibleApp();
+  const intl = getBibleIntl(globalLanguage);
+  const t = intl.t.bind(intl);
 
   useEffect(() => {
     setReadFocusMode(focusMode);
@@ -233,6 +251,46 @@ export default function BibleReadPage() {
     if (syncMode) setRightChapter(1);
   };
 
+  const otBooks = getOtBooks(books);
+  const ntBooks = getNtBooks(books);
+  const filteredBooks =
+    testamentFilter === "ot" ? otBooks : testamentFilter === "nt" ? ntBooks : books;
+
+  const setTestamentFilterAndAdjustBook = (filter: TestamentFilter) => {
+    setTestamentFilter(filter);
+    const list = filter === "ot" ? otBooks : filter === "nt" ? ntBooks : books;
+    if (list.length === 0) return;
+    const currentInList = leftBook && list.some((b) => b.id === leftBook.id);
+    if (!currentInList) {
+      setLeftBook(list[0]);
+      if (syncMode) setRightBook(list[0]);
+      setLeftChapter(1);
+      if (syncMode) setRightChapter(1);
+    }
+  };
+
+  const setLeftTestamentFilterAndAdjust = (filter: TestamentFilter) => {
+    setLeftTestamentFilter(filter);
+    const list = filter === "ot" ? otBooks : filter === "nt" ? ntBooks : books;
+    if (list.length === 0) return;
+    const currentInList = leftBook && list.some((b) => b.id === leftBook.id);
+    if (!currentInList) {
+      setLeftBook(list[0]);
+      setLeftChapter(1);
+    }
+  };
+
+  const setRightTestamentFilterAndAdjust = (filter: TestamentFilter) => {
+    setRightTestamentFilter(filter);
+    const list = filter === "ot" ? otBooks : filter === "nt" ? ntBooks : books;
+    if (list.length === 0) return;
+    const currentInList = rightBook && list.some((b) => b.id === rightBook.id);
+    if (!currentInList) {
+      setRightBook(list[0]);
+      setRightChapter(1);
+    }
+  };
+
   const handleLeftChapterChange = (chapter: number) => {
     setLeftChapter(chapter);
     if (syncMode) setRightChapter(chapter);
@@ -257,11 +315,11 @@ export default function BibleReadPage() {
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-3 min-w-0">
               <BookOpen className="w-5 h-5 text-primary shrink-0" />
-              <h1 className="text-lg font-medium text-foreground shrink-0">Read</h1>
+              <h1 className="text-lg font-medium text-foreground shrink-0">{t("readPageTitle")}</h1>
               {!focusMode && (
                 <>
                   <span className="text-sm text-muted-foreground font-medium shrink-0 hidden sm:inline">
-                    Compare:
+                    {t("readCompare")}
                   </span>
                   <div className="flex items-center gap-1.5 flex-wrap">
                     {TRANSLATIONS.map((trans) => (
@@ -281,7 +339,7 @@ export default function BibleReadPage() {
                         }}
                         className="px-2 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-all shrink-0"
                       >
-                        Clear all
+                        {t("readClearAll")}
                       </button>
                     )}
                   </div>
@@ -294,6 +352,26 @@ export default function BibleReadPage() {
               (leftVersion !== null || rightVersion !== null) &&
               leftBook && (
                 <div className="flex items-center gap-2 flex-wrap shrink-0">
+                  <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-0.5">
+                    {(["all", "ot", "nt"] as const).map((filter) => (
+                      <button
+                        key={filter}
+                        type="button"
+                        onClick={() => setTestamentFilterAndAdjustBook(filter)}
+                        className={`rounded-md px-2 py-1 text-xs font-medium transition-all ${
+                          testamentFilter === filter
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                        }`}
+                      >
+                        {filter === "all"
+                          ? t("readAll")
+                          : filter === "ot"
+                            ? t("readOldTestament")
+                            : t("readNewTestament")}
+                      </button>
+                    ))}
+                  </div>
                   <div className="relative">
                     <button
                       type="button"
@@ -314,23 +392,68 @@ export default function BibleReadPage() {
                           aria-hidden
                         />
                         <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-48 min-w-48">
-                          {books.map((b) => (
-                            <button
-                              key={b.id}
-                              type="button"
-                              onClick={() => {
-                                handleLeftBookChange(b);
-                                setSubNavBookOpen(false);
-                              }}
-                              className={`w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all ${
-                                b.id === leftBook.id
-                                  ? "bg-primary/10 text-primary font-medium"
-                                  : "text-foreground"
-                              }`}
-                            >
-                              {getBookLabelForSelection(b, leftVersion, rightVersion)}
-                            </button>
-                          ))}
+                          {testamentFilter === "all" ? (
+                            <>
+                              <div className="sticky top-0 bg-muted/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                {t("readOldTestament")}
+                              </div>
+                              {otBooks.map((b) => (
+                                <button
+                                  key={b.id}
+                                  type="button"
+                                  onClick={() => {
+                                    handleLeftBookChange(b);
+                                    setSubNavBookOpen(false);
+                                  }}
+                                  className={`w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all ${
+                                    b.id === leftBook.id
+                                      ? "bg-primary/10 text-primary font-medium"
+                                      : "text-foreground"
+                                  }`}
+                                >
+                                  {getBookLabelForSelection(b, leftVersion, rightVersion)}
+                                </button>
+                              ))}
+                              <div className="sticky top-0 bg-muted/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                {t("readNewTestament")}
+                              </div>
+                              {ntBooks.map((b) => (
+                                <button
+                                  key={b.id}
+                                  type="button"
+                                  onClick={() => {
+                                    handleLeftBookChange(b);
+                                    setSubNavBookOpen(false);
+                                  }}
+                                  className={`w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all ${
+                                    b.id === leftBook.id
+                                      ? "bg-primary/10 text-primary font-medium"
+                                      : "text-foreground"
+                                  }`}
+                                >
+                                  {getBookLabelForSelection(b, leftVersion, rightVersion)}
+                                </button>
+                              ))}
+                            </>
+                          ) : (
+                            filteredBooks.map((b) => (
+                              <button
+                                key={b.id}
+                                type="button"
+                                onClick={() => {
+                                  handleLeftBookChange(b);
+                                  setSubNavBookOpen(false);
+                                }}
+                                className={`w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all ${
+                                  b.id === leftBook.id
+                                    ? "bg-primary/10 text-primary font-medium"
+                                    : "text-foreground"
+                                }`}
+                              >
+                                {getBookLabelForSelection(b, leftVersion, rightVersion)}
+                              </button>
+                            ))
+                          )}
                         </div>
                       </>
                     )}
@@ -344,7 +467,7 @@ export default function BibleReadPage() {
                       }}
                       className="px-3 py-1.5 rounded-lg text-sm font-medium bg-card border border-border text-foreground hover:bg-accent transition-all flex items-center gap-1.5"
                     >
-                      Chapter {leftChapter}
+                      {t("readChapterN", { n: leftChapter })}
                       <ChevronDown className="w-4 h-4" />
                     </button>
                     {subNavChapterOpen && (
@@ -392,7 +515,7 @@ export default function BibleReadPage() {
                       : "bg-muted text-muted-foreground hover:bg-accent"
                   }`}
                 >
-                  {syncMode ? "Synced" : "Independent"}
+                  {syncMode ? t("readSynced") : t("readIndependent")}
                 </button>
               )}
               <button
@@ -402,7 +525,7 @@ export default function BibleReadPage() {
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted text-muted-foreground hover:bg-accent"
                 }`}
-                title={focusMode ? "Exit focus (minimize)" : "Focus mode (expand)"}
+                title={focusMode ? t("readExitFocus") : t("readFocusMode")}
               >
                 {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
               </button>
@@ -431,6 +554,12 @@ export default function BibleReadPage() {
                 onVerseHover={setHoveredVerse}
                 focusMode={focusMode}
                 showControls={!syncMode || rightVersion === null}
+                fontSize={fontSize}
+                t={t}
+                testamentFilter={syncMode ? testamentFilter : leftTestamentFilter}
+                onTestamentFilterChange={
+                  !syncMode ? setLeftTestamentFilterAndAdjust : undefined
+                }
               />
             </div>
 
@@ -463,6 +592,12 @@ export default function BibleReadPage() {
                   onVerseHover={setHoveredVerse}
                   focusMode={focusMode}
                   showControls={!syncMode}
+                  fontSize={fontSize}
+                  t={t}
+                  testamentFilter={syncMode ? testamentFilter : rightTestamentFilter}
+                  onTestamentFilterChange={
+                    !syncMode ? setRightTestamentFilterAndAdjust : undefined
+                  }
                 />
               </div>
             )}
@@ -472,6 +607,8 @@ export default function BibleReadPage() {
     </div>
   );
 }
+
+type FontSize = "small" | "medium" | "large";
 
 interface ReadingPanelProps {
   version: VersionId | null;
@@ -486,6 +623,10 @@ interface ReadingPanelProps {
   onVerseHover: (verse: number | null) => void;
   focusMode: boolean;
   showControls: boolean;
+  fontSize: FontSize;
+  t: (key: string, params?: Record<string, number | string>) => string;
+  testamentFilter: TestamentFilter;
+  onTestamentFilterChange?: (filter: TestamentFilter) => void;
 }
 
 function ReadingPanel({
@@ -501,22 +642,35 @@ function ReadingPanel({
   onVerseHover,
   focusMode,
   showControls,
+  fontSize,
+  t,
+  testamentFilter,
+  onTestamentFilterChange,
 }: ReadingPanelProps) {
   const [showBookMenu, setShowBookMenu] = useState(false);
   const [showChapterMenu, setShowChapterMenu] = useState(false);
   const versionName = version
-    ? (TRANSLATIONS.find((t) => t.id === version)?.fullName ?? version.toUpperCase())
+    ? (TRANSLATIONS.find((tr) => tr.id === version)?.fullName ?? version.toUpperCase())
     : "";
   const maxChapters = book?.chapterCount ?? 50;
   const isKJV = version === "kjv";
+  const fontSizeClass =
+    fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-base";
+  const fontSizeClassFocus =
+    fontSize === "small" ? "text-base" : fontSize === "large" ? "text-xl" : "text-lg";
+
+  const panelOtBooks = getOtBooks(books);
+  const panelNtBooks = getNtBooks(books);
+  const panelFilteredBooks =
+    testamentFilter === "ot" ? panelOtBooks : testamentFilter === "nt" ? panelNtBooks : books;
 
   if (version === null) {
     return (
       <div className="px-4 sm:px-6 md:px-8 flex items-center justify-center min-h-[40vh]">
         <div className="text-center text-muted-foreground">
           <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
-          <p className="font-medium">Select a translation above</p>
-          <p className="text-sm mt-2">Choose one or two versions to compare.</p>
+          <p className="font-medium">{t("readSelectTranslation")}</p>
+          <p className="text-sm mt-2">{t("readChooseVersions")}</p>
         </div>
       </div>
     );
@@ -529,35 +683,100 @@ function ReadingPanel({
           <div className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
             {versionName}
           </div>
+          {onTestamentFilterChange && (
+            <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-0.5 w-fit">
+              {(["all", "ot", "nt"] as const).map((filter) => (
+                <button
+                  key={filter}
+                  type="button"
+                  onClick={() => onTestamentFilterChange(filter)}
+                  className={`rounded-md px-2 py-1 text-xs font-medium transition-all ${
+                    testamentFilter === filter
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                  }`}
+                >
+                  {filter === "all"
+                    ? t("readAll")
+                    : filter === "ot"
+                      ? t("readOldTestament")
+                      : t("readNewTestament")}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="flex items-center gap-2 flex-wrap">
             <div className="relative">
               <button
                 onClick={() => setShowBookMenu(!showBookMenu)}
                 className="px-4 py-2 bg-card border border-border rounded-lg text-foreground font-medium hover:bg-accent transition-all flex items-center gap-2"
               >
-                {getBookDisplayName(book, version) || "Book"}
+                {getBookDisplayName(book, version) || t("readBook")}
                 <ChevronDown className="w-4 h-4" />
               </button>
               {showBookMenu && (
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setShowBookMenu(false)} />
                   <div className="absolute top-full mt-2 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-48">
-                    {books.map((b) => (
-                      <button
-                        key={b.id}
-                        onClick={() => {
-                          onBookChange(b);
-                          setShowBookMenu(false);
-                        }}
-                        className={`w-full text-left px-4 py-2 hover:bg-accent transition-all ${
-                          b.id === book?.id
-                            ? "bg-primary/10 text-primary font-medium"
-                            : "text-foreground"
-                        }`}
-                      >
-                        {getBookDisplayName(b, version)}
-                      </button>
-                    ))}
+                    {testamentFilter === "all" ? (
+                      <>
+                        <div className="sticky top-0 bg-muted/80 px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                          {t("readOldTestament")}
+                        </div>
+                        {panelOtBooks.map((b) => (
+                          <button
+                            key={b.id}
+                            onClick={() => {
+                              onBookChange(b);
+                              setShowBookMenu(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 hover:bg-accent transition-all ${
+                              b.id === book?.id
+                                ? "bg-primary/10 text-primary font-medium"
+                                : "text-foreground"
+                            }`}
+                          >
+                            {getBookDisplayName(b, version)}
+                          </button>
+                        ))}
+                        <div className="sticky top-0 bg-muted/80 px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                          {t("readNewTestament")}
+                        </div>
+                        {panelNtBooks.map((b) => (
+                          <button
+                            key={b.id}
+                            onClick={() => {
+                              onBookChange(b);
+                              setShowBookMenu(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 hover:bg-accent transition-all ${
+                              b.id === book?.id
+                                ? "bg-primary/10 text-primary font-medium"
+                                : "text-foreground"
+                            }`}
+                          >
+                            {getBookDisplayName(b, version)}
+                          </button>
+                        ))}
+                      </>
+                    ) : (
+                      panelFilteredBooks.map((b) => (
+                        <button
+                          key={b.id}
+                          onClick={() => {
+                            onBookChange(b);
+                            setShowBookMenu(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 hover:bg-accent transition-all ${
+                            b.id === book?.id
+                              ? "bg-primary/10 text-primary font-medium"
+                              : "text-foreground"
+                          }`}
+                        >
+                          {getBookDisplayName(b, version)}
+                        </button>
+                      ))
+                    )}
                   </div>
                 </>
               )}
@@ -567,7 +786,7 @@ function ReadingPanel({
                 onClick={() => setShowChapterMenu(!showChapterMenu)}
                 className="px-4 py-2 bg-card border border-border rounded-lg text-foreground font-medium hover:bg-accent transition-all flex items-center gap-2"
               >
-                Chapter {chapter}
+                {t("readChapterN", { n: chapter })}
                 <ChevronDown className="w-4 h-4" />
               </button>
               {showChapterMenu && (
@@ -612,7 +831,7 @@ function ReadingPanel({
       )}
 
       <div
-        className={`space-y-6 ${focusMode ? "text-xl leading-relaxed" : "text-base leading-relaxed"}`}
+        className={`space-y-6 leading-relaxed ${focusMode ? fontSizeClassFocus : fontSizeClass}`}
       >
         {loading ? (
           <div className="flex items-center justify-center py-16">
@@ -621,8 +840,8 @@ function ReadingPanel({
         ) : !content || content.verses.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
             <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p>No content available for this chapter.</p>
-            <p className="text-sm mt-2">Select another book or chapter.</p>
+            <p>{t("readNoContent")}</p>
+            <p className="text-sm mt-2">{t("readSelectAnother")}</p>
           </div>
         ) : (
           content.verses.map((verse) => {
@@ -645,7 +864,7 @@ function ReadingPanel({
                     {verse.number}
                   </span>
                   <p
-                    className={`font-serif text-foreground text-pretty ${focusMode ? "text-xl" : "text-base"} ${version === "vi" ? "font-vietnamese" : ""}`}
+                    className={`font-serif text-foreground text-pretty [font-size:inherit] ${version === "vi" ? "font-vietnamese" : ""}`}
                   >
                     {parsed && parsed.notes.length > 0 ? (
                       <>
@@ -672,7 +891,7 @@ function ReadingPanel({
                   <div className="absolute -right-2 top-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       className="p-1.5 bg-card border border-border rounded hover:bg-accent transition-all"
-                      title="Copy verse"
+                      title={t("readCopyVerse")}
                       onClick={(e) => {
                         e.stopPropagation();
                         void navigator.clipboard.writeText(text);
@@ -682,13 +901,13 @@ function ReadingPanel({
                     </button>
                     <button
                       className="p-1.5 bg-card border border-border rounded hover:bg-accent transition-all"
-                      title="Bookmark"
+                      title={t("readBookmark")}
                     >
                       <Bookmark className="w-3.5 h-3.5 text-muted-foreground" />
                     </button>
                     <button
                       className="p-1.5 bg-card border border-border rounded hover:bg-accent transition-all"
-                      title="Add note"
+                      title={t("readAddNote")}
                     >
                       <StickyNote className="w-3.5 h-3.5 text-muted-foreground" />
                     </button>
