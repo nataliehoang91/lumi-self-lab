@@ -1,12 +1,16 @@
 import { Suspense } from "react";
 import { BibleAppProvider } from "@/components/Bible/BibleAppContext";
+import { ReadFocusProvider } from "@/components/Bible/ReadFocusContext";
 import { BibleNavBar } from "@/components/Bible/BibleNavBar";
+import { BibleMainWithPadding } from "./BibleMainWithPadding";
 
 function BibleShell({ children }: { children: React.ReactNode }) {
   return (
     <BibleAppProvider>
-      <BibleNavBar />
-      <main className="pt-14 min-h-screen">{children}</main>
+      <ReadFocusProvider>
+        <BibleNavBar />
+        <BibleMainWithPadding>{children}</BibleMainWithPadding>
+      </ReadFocusProvider>
     </BibleAppProvider>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Moon, Sun, LayoutGrid, ChevronDown, Check } from "lucide-react";
-import { useTheme } from "next-themes";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { LayoutGrid, ChevronDown, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,23 +11,48 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useBibleApp } from "./BibleAppContext";
+import { useReadFocus } from "./ReadFocusContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { Container } from "../ui/container";
-import { cn } from "@/lib/utils";
 import { BibleLogo } from "./BibleLogo";
 import { ThemeToggleButtonBibleApp } from "./theme-toggle-in-bible-app";
 
 export function BibleNavBar() {
-  const { theme, setTheme } = useTheme();
+  const pathname = usePathname();
+  const { readFocusMode } = useReadFocus();
   const { globalLanguage, setGlobalLanguage, fontSize, setFontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
+  const isRead = pathname?.includes("/bible/read");
+  const isFlashcard = pathname?.includes("/bible/flashcard");
 
   return (
-    <nav className=" fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm shadow-sm">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm shadow-sm transition-all duration-300 ${
+        readFocusMode ? "opacity-0 pointer-events-none h-0 overflow-hidden border-transparent" : "opacity-100"
+      }`}
+    >
       <Container className=" w-full h-14 flex items-center justify-between gap-2 px-4 sm:px-6 py-3">
         <div className="flex items-center gap-3 min-w-0">
           <BibleLogo />
           <h1 className="sm:visible invisible text-lg font-semibold truncate">Scripture Memory</h1>
+          <div className="hidden sm:flex items-center gap-0.5 rounded-lg border border-border bg-muted/30 p-0.5">
+            <Button
+              variant={isFlashcard ? "default" : "ghost"}
+              size="sm"
+              className="h-7 px-3 text-xs"
+              asChild
+            >
+              <Link href="/bible/flashcard">Flashcard</Link>
+            </Button>
+            <Button
+              variant={isRead ? "default" : "ghost"}
+              size="sm"
+              className="h-7 px-3 text-xs"
+              asChild
+            >
+              <Link href="/bible/read">Read</Link>
+            </Button>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
