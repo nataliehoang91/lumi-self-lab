@@ -41,7 +41,7 @@ export default async function FlashcardPage({
   const slice = isAll ? ids.slice(0, visibleCount) : ids.slice(index, index + visibleCount);
 
   return (
-    <div className="min-h-screen pt-14 flex flex-col w-full">
+    <div className="min-h-screen  flex flex-col w-full">
       <div className="w-full flex flex-col flex-1">
         <FlashCardShell
           ids={ids}

@@ -26,7 +26,7 @@
 
   /* 2. Second: Violet/Purple (hue 270) – our violet brand color */
   --second: oklch(0.7 0.15 270);
-  --second-dark: oklch(0.59 0.12 269.1);
+  --second-dark: oklch(0.67 0.14 270.05);
   --second-foreground: oklch(0.985 0 0);
 
   /* Secondary: Neutral gray (Tailwind default) – for secondary UI, buttons, badges */
@@ -123,7 +123,7 @@
 
   /* Second: Violet - brighter for dark mode */
   --second: oklch(0.75 0.15 270);
-  --second-dark: oklch(0.59 0.12 269.1);
+  --second-dark: oklch(0.67 0.14 270.05);
   --second-foreground: oklch(0.985 0 0);
 
   /* Secondary: Neutral gray for dark mode */
@@ -521,6 +521,7 @@
   --color-primary-light: var(--primary-light);
   --color-primary-dark: var(--primary-dark);
   --color-second: var(--second);
+  --color-second-dark: var(--second-dark);
   --color-second-foreground: var(--second-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);

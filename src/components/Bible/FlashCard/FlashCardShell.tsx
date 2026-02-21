@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { getBibleIntl } from "@/lib/bible-intl";
 import type { Language, FontSize, LayoutMode } from "@/components/Bible/BibleAppContext";
 import { buildFlashcardSearchParams } from "@/app/(bible)/bible/flashcard/params";
+import { Container } from "@/components/ui/container";
 
 const ALL_BATCH_SIZE = 50;
 
@@ -94,10 +95,10 @@ export function FlashCardShell({
   const fontSizeClass =
     fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-base";
 
-  const collectionSelector =
+  const collectionSelectorInline =
     collections.length > 0 ? (
-      <div className="w-full flex flex-wrap items-center justify-center gap-3 py-3 shrink-0">
-        <label htmlFor="collection-select" className="text-sm font-medium text-muted-foreground">
+      <div className="flex items-center gap-2 flex-wrap min-w-0">
+        <label htmlFor="collection-select" className="text-sm font-medium text-muted-foreground shrink-0">
           {intl.t("collection")}
         </label>
         <Select
@@ -107,8 +108,8 @@ export function FlashCardShell({
           <SelectTrigger
             id="collection-select"
             className={cn(
-              "w-[200px] sm:w-[220px] rounded-xl border border-border bg-background",
-              "text-foreground shadow-sm hover:bg-muted/50",
+              "w-[180px] sm:w-[200px] rounded-lg border border-border bg-card",
+              "px-3 py-1.5 h-9 text-sm font-medium text-foreground hover:bg-second/10 transition-all",
               "focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
             )}
             aria-label={intl.t("selectCollection")}
@@ -139,104 +140,116 @@ export function FlashCardShell({
       </div>
     ) : null;
 
+  const header = (
+    <header className="sticky z-40 top-14 bg-background/95 border-b border-border transition-all duration-300">
+      <Container className="mx-auto px-4 sm:px-6 py-3">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-3 min-w-0">
+            {collectionSelectorInline}
+          </div>
+          {total > 0 && (
+            <p className="text-sm text-muted-foreground shrink-0">
+              {isAll
+                ? intl.t("showing", { from: 1, to: visibleCount, total })
+                : intl.t("verseOf", { current: index + 1, total })}
+            </p>
+          )}
+        </div>
+      </Container>
+    </header>
+  );
+
   if (total === 0) {
     return (
-      <div
-        className={cn(
-          "w-full flex flex-col items-center px-4 sm:px-6 max-w-6xl mx-auto min-h-[calc(100vh-3.5rem)]",
-          fontSizeClass
-        )}
-      >
-        {collectionSelector}
-        <div className="w-full flex-1 flex flex-col items-center justify-center py-8 px-4">
-          <div className="rounded-xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 p-8 shadow-lg w-full max-w-md flex items-center justify-center">
-            <p className="text-center text-muted-foreground">{intl.t("noVerses")}</p>
+      <>
+        {header}
+        <div
+          className={cn(
+            "w-full flex flex-col items-center px-4 sm:px-6 max-w-6xl mx-auto min-h-[calc(100vh-3.5rem)]",
+            fontSizeClass
+          )}
+        >
+          <div className="w-full flex-1 flex flex-col items-center justify-center py-8 px-4">
+            <div className="rounded-xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 p-8 shadow-lg w-full max-w-md flex items-center justify-center">
+              <p className="text-center text-muted-foreground">{intl.t("noVerses")}</p>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
   if (isAll) {
     return (
-      <div
-        className={cn(
-          "w-full min-w-0 flex flex-col items-center min-h-0 px-3 sm:px-6 max-w-7xl mx-auto overflow-x-hidden",
-          fontSizeClass
-        )}
-      >
-        {collectionSelector}
-        <div className="w-full text-center py-3 shrink-0">
-          <p className="text-sm text-muted-foreground">
-            {intl.t("showing", {
-              from: 1,
-              to: visibleCount,
-              total: total,
-            })}
-          </p>
-        </div>
-        <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 py-4">
-          {children}
-        </div>
-        <div className="w-full flex flex-col items-center gap-4 py-6 pb-8">
-          {hasMoreAll && (
-            <Button
-              variant="outline"
-              className="min-w-[140px]"
-              onClick={() =>
-                pushParams({
-                  limit: Math.min(total, (currentLimit ?? ALL_BATCH_SIZE) + ALL_BATCH_SIZE),
-                })
-              }
-            >
-              {intl.t("loadMore")}
-            </Button>
+      <>
+        {header}
+        <div
+          className={cn(
+            "w-full min-w-0 flex flex-col items-center min-h-0 px-3 sm:px-6 max-w-7xl mx-auto overflow-x-hidden",
+            fontSizeClass
           )}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="gap-2"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            <ArrowUp className="h-4 w-4" />
-            {intl.t("backToTop")}
-          </Button>
+        >
+          <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 py-4">
+            {children}
+          </div>
+          <div className="w-full flex flex-col items-center gap-4 py-6 pb-8">
+            {hasMoreAll && (
+              <Button
+                variant="outline"
+                className="min-w-[140px]"
+                onClick={() =>
+                  pushParams({
+                    limit: Math.min(total, (currentLimit ?? ALL_BATCH_SIZE) + ALL_BATCH_SIZE),
+                  })
+                }
+              >
+                {intl.t("loadMore")}
+              </Button>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-2"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <ArrowUp className="h-4 w-4" />
+              {intl.t("backToTop")}
+            </Button>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div
-      className={cn(
-        "w-full flex flex-col items-center px-4 sm:px-6 max-w-6xl mx-auto",
-        "min-h-[calc(100vh-3.5rem)]",
-        fontSizeClass
-      )}
-    >
-      {collectionSelector}
-      <div className="w-full text-center py-3 shrink-0">
-        <p className="text-sm text-muted-foreground">
-          {intl.t("verseOf", { current: index + 1, total: total })}
-        </p>
-        <div className="flex justify-center gap-1 sm:gap-1.5 mt-2 flex-wrap">
-          {Array.from({ length: Math.max(1, maxIndex + 1) }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => pushParams({ index: idx })}
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                idx === index
-                  ? "w-6 sm:w-8 bg-primary"
-                  : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              )}
-              aria-label={`Go to verse set ${idx + 1}`}
-            />
-          ))}
+    <>
+      {header}
+      <div
+        className={cn(
+          "w-full flex flex-col items-center px-4 sm:px-6 max-w-6xl mx-auto",
+          "min-h-[calc(100vh-3.5rem)]",
+          fontSizeClass
+        )}
+      >
+        <div className="w-full text-center py-3 shrink-0">
+          <div className="flex justify-center gap-1 sm:gap-1.5 flex-wrap">
+            {Array.from({ length: Math.max(1, maxIndex + 1) }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => pushParams({ index: idx })}
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300",
+                  idx === index
+                    ? "w-6 sm:w-8 bg-primary"
+                    : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                )}
+                aria-label={`Go to verse set ${idx + 1}`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="w-full flex-1 flex flex-col items-center justify-center px-2 sm:px-4 py-4 min-h-[min(60vh,400px)]">
+        <div className="w-full flex-1 flex flex-col items-center justify-center px-2 sm:px-4 py-4 min-h-[min(60vh,400px)]">
         <div
           className={cn(
             "flex items-center justify-center gap-4 max-w-full flex-1 min-h-0",
@@ -304,7 +317,8 @@ export function FlashCardShell({
           {isVertical ? intl.t("useArrowKeysVertical") : intl.t("useArrowKeys")}
         </p>
         <p className="text-xs text-muted-foreground text-center">{intl.t("keyboardHint")}</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
