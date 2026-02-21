@@ -3,101 +3,41 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 import { Volume2 } from "lucide-react";
-import type { Language, Verse } from "./FlashCardView";
+import { cn } from "@/lib/utils";
+import {
+  type FlashCardCommonProps,
+  type EnVersion,
+  getDisplayContent,
+  getDisplayTitle,
+  speakText,
+} from "./flashCardShared";
 
-type EnVersion = "KJV" | "NIV";
-
-type UIStrings = {
-  clickToReveal: string;
-};
-
-function normalizeQuotes(text: string): string {
-  return text.replace(/`/g, "'");
-}
-
-function speakText(text: string, lang: Language) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-
-  const trimmed = text.trim();
-  if (!trimmed) return;
-
-  const utterance = new SpeechSynthesisUtterance(trimmed);
-
-  if (lang === "VI") utterance.lang = "vi-VN";
-  else if (lang === "ZH") utterance.lang = "zh-CN";
-  else utterance.lang = "en-US";
-
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utterance);
-}
-
-interface SingleFlashCardProps {
-  verse: Verse;
-  isFlipped: boolean;
-  onFlip: () => void;
-  cardLanguage: Language;
-  onCardLanguageChange: (lang: Language) => void;
-  t: UIStrings;
-  horizontal?: boolean;
-}
-
-function getDisplayContent(verse: Verse, cardLanguage: Language, enVersion: EnVersion): string {
-  if (cardLanguage === "VI") {
-    const raw = verse.contentVIE1923?.trim() || verse.content?.trim() || "";
-    return normalizeQuotes(raw);
-  }
-  if (cardLanguage === "ZH") {
-    const raw = verse.contentZH?.trim() || verse.content?.trim() || "";
-    return normalizeQuotes(raw);
-  }
-  if (enVersion === "KJV") {
-    const raw = verse.contentKJV?.trim() || verse.content?.trim() || "";
-    return normalizeQuotes(raw);
-  }
-  const raw = verse.contentNIV?.trim() || verse.content?.trim() || "";
-  return normalizeQuotes(raw);
-}
-
-function getDisplayTitle(verse: Verse, cardLanguage: Language): string {
-  const ref = `${verse.chapter}:${verse.verse}`;
-  if (cardLanguage === "VI" && verse.titleVi?.trim()) return verse.titleVi.trim();
-  if (cardLanguage === "ZH" && verse.titleZh?.trim()) return verse.titleZh.trim();
-  if (cardLanguage === "EN" && verse.titleEn?.trim()) return verse.titleEn.trim();
-  return `${verse.book} ${ref}`;
-}
-
-export function SingleFlashCard({
+export function FlashCardHorizontal({
   verse,
   isFlipped,
   onFlip,
   cardLanguage,
   onCardLanguageChange,
   t,
-  horizontal = false,
-}: SingleFlashCardProps) {
+}: FlashCardCommonProps) {
   const [enVersion, setEnVersion] = useState<EnVersion>("NIV");
   const displayContent = getDisplayContent(verse, cardLanguage, enVersion);
   const displayTitle = getDisplayTitle(verse, cardLanguage);
 
   return (
     <div
-      className={cn(
-        "shrink-0 w-full min-w-0 cursor-pointer",
-        horizontal && "w-[260px] sm:w-[280px] min-w-[260px] sm:min-w-[280px]"
-      )}
+      className="w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg shrink-0 cursor-pointer"
       style={{ perspective: "1000px" }}
       onClick={onFlip}
     >
       <div
-        className="relative w-full h-[240px] sm:h-[260px] transition-transform duration-500"
+        className="relative w-full aspect-4/3 max-h-[280px] transition-transform duration-500"
         style={{
           transformStyle: "preserve-3d",
           transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
       >
-        {/* Front */}
         <div
           className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ backfaceVisibility: "hidden" }}
@@ -105,29 +45,27 @@ export function SingleFlashCard({
           <Badge variant="outline" className="text-xs">
             {cardLanguage === "VI" ? "VI" : cardLanguage === "ZH" ? "中" : "EN"}
           </Badge>
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground text-center mt-2">
+          <h2 className="text-lg sm:text-xl font-bold text-foreground text-center mt-2 px-1">
             {displayTitle}
           </h2>
           <p className="text-xs text-muted-foreground mt-1">{t.clickToReveal}</p>
         </div>
 
-        {/* Back */}
         <div
           className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-4 flex flex-col"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          <div className="flex-1 flex items-center justify-center min-h-0">
+          <div className="flex-1 flex items-center justify-center min-h-0 overflow-auto">
             <p
               className={cn(
-                "leading-relaxed text-center text-pretty line-clamp-6 [font-size:inherit]",
+                "leading-relaxed text-center text-pretty line-clamp-4 text-sm [font-size:inherit]",
                 cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
               )}
             >
               {displayContent || "—"}
             </p>
           </div>
-          <div className="flex items-center justify-between pt-3 border-t gap-1 flex-wrap">
-            {/* Card language (this card only) */}
+          <div className="flex items-center justify-between pt-2 border-t gap-1 flex-wrap shrink-0">
             <div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">
               <Button
                 variant={cardLanguage === "EN" ? "default" : "ghost"}
@@ -166,8 +104,6 @@ export function SingleFlashCard({
                 中
               </Button>
             </div>
-
-            {/* When EN: KJV | NIV toggle (this card only) — KJV = sage, NIV = sky blue */}
             {cardLanguage === "EN" && (
               <div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">
                 <Button
@@ -198,8 +134,6 @@ export function SingleFlashCard({
                 </Button>
               </div>
             )}
-
-            {/* Sound (inside card) */}
             <Button
               variant="ghost"
               size="icon"

@@ -1,19 +1,13 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronUp,
-  ChevronDown,
-  ArrowUp,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { useVisibleCount, useHorizontalVisibleCount } from "./useVisibleCount";
-import { SingleFlashCard } from "./SingleFlashCard";
+import { LazyFlashCard } from "./LazyFlashCard";
 
 const ALL_BATCH_SIZE = 50;
 
@@ -38,13 +32,14 @@ export interface Verse {
   createdAt: string;
 }
 
-export function FlashCardView() {
+export interface FlashCardViewProps {
+  ids: string[];
+}
+
+export function FlashCardView({ ids }: FlashCardViewProps) {
   const [mounted, setMounted] = useState(false);
   const { globalLanguage, fontSize, layoutMode, registerShuffle } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
-  const [verses, setVerses] = useState<Verse[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   /** Per-card language (card id -> EN | VI). Unset cards use globalLanguage. */
   const [cardLanguageById, setCardLanguageById] = useState<Record<string, Language>>({});
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -64,22 +59,11 @@ export function FlashCardView() {
       : layoutMode === "vertical"
         ? verticalVisibleCount
         : 1;
-  const maxIndex = Math.max(0, verses.length - visibleCount);
-  const visibleVerses = verses.slice(currentIndex, currentIndex + visibleCount);
+  const maxIndex = Math.max(0, ids.length - visibleCount);
+  const visibleIds = ids.slice(currentIndex, currentIndex + visibleCount);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    fetch("/api/flash", { credentials: "include" })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load verses");
-        return res.json();
-      })
-      .then(setVerses)
-      .catch(() => setError("Could not load verses."))
-      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -89,9 +73,9 @@ export function FlashCardView() {
   /** When switching to "all" mode, cap display count. */
   useEffect(() => {
     if (layoutMode === "all") {
-      setAllDisplayCount((c) => Math.min(c, Math.max(ALL_BATCH_SIZE, verses.length)));
+      setAllDisplayCount((c) => Math.min(c, Math.max(ALL_BATCH_SIZE, ids.length)));
     }
-  }, [layoutMode, verses.length]);
+  }, [layoutMode, ids.length]);
 
   /** Scroll listener for Back to top in "all" mode. */
   useEffect(() => {
@@ -101,16 +85,19 @@ export function FlashCardView() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [layoutMode]);
 
-  const toggleFlip = useCallback((verseId: string) => {
-    if (!isAnimating) {
-      setFlippedIds((prev) => {
-        const next = new Set(prev);
-        if (next.has(verseId)) next.delete(verseId);
-        else next.add(verseId);
-        return next;
-      });
-    }
-  }, [isAnimating]);
+  const toggleFlip = useCallback(
+    (verseId: string) => {
+      if (!isAnimating) {
+        setFlippedIds((prev) => {
+          const next = new Set(prev);
+          if (next.has(verseId)) next.delete(verseId);
+          else next.add(verseId);
+          return next;
+        });
+      }
+    },
+    [isAnimating]
+  );
 
   const handleNext = useCallback(() => {
     if (!isAnimating && currentIndex < maxIndex) {
@@ -133,14 +120,14 @@ export function FlashCardView() {
   }, [isAnimating, currentIndex]);
 
   const handleShuffle = useCallback(() => {
-    if (!isAnimating && verses.length > 0) {
+    if (!isAnimating && ids.length > 0) {
       setIsAnimating(true);
       setTimeout(() => {
-        setCurrentIndex(Math.floor(Math.random() * Math.max(1, verses.length - visibleCount + 1)));
+        setCurrentIndex(Math.floor(Math.random() * Math.max(1, ids.length - visibleCount + 1)));
         setIsAnimating(false);
       }, 300);
     }
-  }, [isAnimating, verses.length, visibleCount]);
+  }, [isAnimating, ids.length, visibleCount]);
 
   useEffect(() => {
     return registerShuffle(handleShuffle);
@@ -181,26 +168,7 @@ export function FlashCardView() {
 
   if (!mounted) return null;
 
-  if (loading) {
-    return (
-      <div className="flex min-h-[320px] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <p
-        className="rounded-xl bg-amber-50 p-4 text-amber-800 dark:bg-amber-950/30 dark:text-amber-200"
-        role="alert"
-      >
-        {intl.t("couldNotLoad")}
-      </p>
-    );
-  }
-
-  if (verses.length === 0) {
+  if (ids.length === 0) {
     return (
       <div className="rounded-xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 p-8 text-center text-muted-foreground shadow-lg">
         {intl.t("noVerses")}
@@ -214,32 +182,44 @@ export function FlashCardView() {
   const fontSizeClass =
     fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-base";
 
-  const allVerses = verses.slice(0, allDisplayCount);
-  const hasMoreAll = verses.length > allDisplayCount;
-  const loadMore = () => setAllDisplayCount((c) => Math.min(c + ALL_BATCH_SIZE, verses.length));
-  const scrollToTop = () => scrollAnchorRef.current?.scrollIntoView({ behavior: "smooth" }) ?? window.scrollTo({ top: 0, behavior: "smooth" });
+  const allIds = ids.slice(0, allDisplayCount);
+  const hasMoreAll = ids.length > allDisplayCount;
+  const loadMore = () => setAllDisplayCount((c) => Math.min(c + ALL_BATCH_SIZE, ids.length));
+  const scrollToTop = () =>
+    scrollAnchorRef.current?.scrollIntoView({ behavior: "smooth" }) ??
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
   if (isAll) {
     return (
-      <div className={cn("w-full flex flex-col items-center min-h-0 px-4 sm:px-6 max-w-6xl mx-auto", fontSizeClass)} ref={scrollAnchorRef}>
+      <div
+        className={cn(
+          "w-full flex flex-col items-center min-h-0 px-4 sm:px-6 max-w-6xl mx-auto",
+          fontSizeClass
+        )}
+        ref={scrollAnchorRef}
+      >
         {/* Pagination info */}
         <div className="w-full text-center py-3 shrink-0">
           <p className="text-sm text-muted-foreground">
-            {intl.t("showing", { from: 1, to: allVerses.length, total: verses.length })}
+            {intl.t("showing", { from: 1, to: allIds.length, total: ids.length })}
           </p>
         </div>
 
         {/* Grid: 4 → 3 → 2 → 1 by screen size */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 py-4">
-          {allVerses.map((verse) => (
-            <SingleFlashCard
-              key={verse.id}
-              verse={verse}
-              isFlipped={flippedIds.has(verse.id)}
-              onFlip={() => toggleFlip(verse.id)}
-              cardLanguage={cardLanguageById[verse.id] ?? globalLanguage}
-              onCardLanguageChange={(lang) => setLanguageForCard(verse.id, lang)}
-              t={{ clickToReveal: getBibleIntl(cardLanguageById[verse.id] ?? globalLanguage).t("clickToReveal") }}
+          {allIds.map((verseId) => (
+            <LazyFlashCard
+              key={verseId}
+              verseId={verseId}
+              isFlipped={flippedIds.has(verseId)}
+              onFlip={() => toggleFlip(verseId)}
+              cardLanguage={cardLanguageById[verseId] ?? globalLanguage}
+              onCardLanguageChange={(lang) => setLanguageForCard(verseId, lang)}
+              t={{
+                clickToReveal: getBibleIntl(cardLanguageById[verseId] ?? globalLanguage).t(
+                  "clickToReveal"
+                ),
+              }}
               horizontal={false}
             />
           ))}
@@ -275,8 +255,8 @@ export function FlashCardView() {
       <div className="w-full text-center py-3 shrink-0">
         <p className="text-sm text-muted-foreground">
           {visibleCount > 1
-            ? `${currentIndex + 1}–${Math.min(currentIndex + visibleCount, verses.length)} of ${verses.length}`
-            : intl.t("verseOf", { current: currentIndex + 1, total: verses.length })}
+            ? `${currentIndex + 1}–${Math.min(currentIndex + visibleCount, ids.length)} of ${ids.length}`
+            : intl.t("verseOf", { current: currentIndex + 1, total: ids.length })}
         </p>
         <div className="flex justify-center gap-1 sm:gap-1.5 mt-2 flex-wrap">
           {Array.from({ length: Math.max(1, maxIndex + 1) }).map((_, idx) => (
@@ -285,7 +265,9 @@ export function FlashCardView() {
               onClick={() => goToIndex(idx)}
               className={cn(
                 "h-1.5 rounded-full transition-all duration-300",
-                idx === currentIndex ? "w-6 sm:w-8 bg-primary" : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                idx === currentIndex
+                  ? "w-6 sm:w-8 bg-primary"
+                  : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
               )}
               aria-label={`Go to verse set ${idx + 1}`}
             />
@@ -324,15 +306,19 @@ export function FlashCardView() {
                 : "flex-row justify-center overflow-x-auto shrink-0 min-w-0"
             )}
           >
-            {visibleVerses.map((verse) => (
-              <SingleFlashCard
-                key={verse.id}
-                verse={verse}
-                isFlipped={flippedIds.has(verse.id)}
-                onFlip={() => toggleFlip(verse.id)}
-                cardLanguage={cardLanguageById[verse.id] ?? globalLanguage}
-                onCardLanguageChange={(lang) => setLanguageForCard(verse.id, lang)}
-                t={{ clickToReveal: getBibleIntl(cardLanguageById[verse.id] ?? globalLanguage).t("clickToReveal") }}
+            {visibleIds.map((verseId) => (
+              <LazyFlashCard
+                key={verseId}
+                verseId={verseId}
+                isFlipped={flippedIds.has(verseId)}
+                onFlip={() => toggleFlip(verseId)}
+                cardLanguage={cardLanguageById[verseId] ?? globalLanguage}
+                onCardLanguageChange={(lang) => setLanguageForCard(verseId, lang)}
+                t={{
+                  clickToReveal: getBibleIntl(cardLanguageById[verseId] ?? globalLanguage).t(
+                    "clickToReveal"
+                  ),
+                }}
                 horizontal={!isVertical}
               />
             ))}
@@ -347,7 +333,11 @@ export function FlashCardView() {
             className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full"
             aria-label={isVertical ? "Next (down)" : "Next (right)"}
           >
-            {isVertical ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+            {isVertical ? (
+              <ChevronDown className="h-5 w-5" />
+            ) : (
+              <ChevronRight className="h-5 w-5" />
+            )}
           </Button>
         </div>
 

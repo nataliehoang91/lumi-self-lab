@@ -14,7 +14,11 @@ export async function GET(
   try {
     const verse = await prisma.flashVerse.findUnique({
       where: { id },
-      include: { bibleBook: true },
+      include: {
+        bibleBook: true,
+        flashCardSet: { select: { id: true, name: true } },
+        flashCardCollection: { select: { id: true, name: true } },
+      },
     });
     if (!verse) {
       return NextResponse.json({ error: "Verse not found." }, { status: 404 });
@@ -49,6 +53,7 @@ export async function PUT(
       contentKJV,
       contentNIV,
       contentZH,
+      flashCardSetId,
     } = body as {
       bookId?: string;
       chapter?: number;
@@ -57,6 +62,7 @@ export async function PUT(
       contentKJV?: string;
       contentNIV?: string;
       contentZH?: string;
+      flashCardSetId?: string | null;
     };
 
     if (
@@ -99,11 +105,25 @@ export async function PUT(
       );
     }
 
+    const setId =
+      flashCardSetId === null || flashCardSetId === ""
+        ? null
+        : typeof flashCardSetId === "string" && flashCardSetId.trim()
+          ? flashCardSetId.trim()
+          : undefined;
+    if (setId !== undefined && setId !== null) {
+      const setExists = await prisma.flashCardSet.findUnique({ where: { id: setId } });
+      if (!setExists) {
+        return NextResponse.json({ error: "Invalid flash card set." }, { status: 400 });
+      }
+    }
+
     const contentFallback = trimNIV || trimKJV || trimVI || trimZH;
 
     await prisma.flashVerse.update({
       where: { id },
       data: {
+        ...(setId !== undefined && { flashCardSetId: setId }),
         bookId: bibleBook.id,
         book: bibleBook.nameEn,
         chapter,

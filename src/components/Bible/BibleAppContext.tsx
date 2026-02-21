@@ -9,12 +9,16 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 export type Language = "EN" | "VI" | "ZH";
 export type FontSize = "small" | "medium" | "large";
 export type LayoutMode = "vertical" | "horizontal" | "all";
 
 const BIBLE_PREFS_KEY = "bible-app-prefs";
+const LANGS: Language[] = ["EN", "VI", "ZH"];
+const FONTS: FontSize[] = ["small", "medium", "large"];
+const LAYOUTS: LayoutMode[] = ["vertical", "horizontal", "all"];
 
 function readStoredPrefs(): { language: Language; fontSize: FontSize } {
   if (typeof window === "undefined")
@@ -24,9 +28,9 @@ function readStoredPrefs(): { language: Language; fontSize: FontSize } {
     if (!raw) return { language: "EN", fontSize: "medium" };
     const parsed = JSON.parse(raw) as Record<string, string>;
     const language =
-      parsed.language === "VI" || parsed.language === "ZH" ? parsed.language : "EN";
+      LANGS.includes(parsed.language as Language) ? (parsed.language as Language) : "EN";
     const fontSize =
-      parsed.fontSize === "small" || parsed.fontSize === "large" ? parsed.fontSize : "medium";
+      FONTS.includes(parsed.fontSize as FontSize) ? (parsed.fontSize as FontSize) : "medium";
     return { language, fontSize };
   } catch {
     return { language: "EN", fontSize: "medium" };
@@ -59,26 +63,77 @@ type BibleAppContextValue = {
 const BibleAppContext = createContext<BibleAppContextValue | null>(null);
 
 export function BibleAppProvider({ children }: { children: ReactNode }) {
-  const [globalLanguage, setGlobalLanguage] = useState<Language>("EN");
-  const [fontSize, setFontSize] = useState<FontSize>("medium");
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>("vertical");
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [globalLanguage, setGlobalLanguageState] = useState<Language>("EN");
+  const [fontSize, setFontSizeState] = useState<FontSize>("medium");
+  const [layoutMode, setLayoutModeState] = useState<LayoutMode>("all");
   const shuffleRef = useRef<(() => void) | null>(null);
   const hasLoadedFromStorage = useRef(false);
 
-  // Load persisted prefs after mount (avoids hydration mismatch).
-  useEffect(() => {
-    const { language, fontSize: size } = readStoredPrefs();
-    setGlobalLanguage(language);
-    setFontSize(size);
-    hasLoadedFromStorage.current = true;
-  }, []);
+  const isFlashcardPage = pathname?.includes("/flashcard") ?? false;
 
-  // Persist when user changes language or font size (only after we've loaded from storage).
+  // Sync state from URL when on flashcard page; otherwise from localStorage.
   useEffect(() => {
-    if (hasLoadedFromStorage.current) {
+    if (isFlashcardPage && searchParams) {
+      const lang = searchParams.get("lang");
+      const font = searchParams.get("font");
+      const layout = searchParams.get("layout");
+      if (lang && LANGS.includes(lang as Language)) setGlobalLanguageState(lang as Language);
+      if (font && FONTS.includes(font as FontSize)) setFontSizeState(font as FontSize);
+      if (layout && LAYOUTS.includes(layout as LayoutMode)) setLayoutModeState(layout as LayoutMode);
+    } else {
+      const { language, fontSize: size } = readStoredPrefs();
+      setGlobalLanguageState(language);
+      setFontSizeState(size);
+    }
+    hasLoadedFromStorage.current = true;
+  }, [isFlashcardPage, searchParams]);
+
+  // Persist to localStorage when not on flashcard (and after initial load).
+  useEffect(() => {
+    if (hasLoadedFromStorage.current && !isFlashcardPage) {
       writeStoredPrefs(globalLanguage, fontSize);
     }
-  }, [globalLanguage, fontSize]);
+  }, [globalLanguage, fontSize, isFlashcardPage]);
+
+  const setGlobalLanguage = useCallback(
+    (lang: Language) => {
+      setGlobalLanguageState(lang);
+      if (isFlashcardPage && pathname) {
+        const next = new URLSearchParams(searchParams?.toString() ?? "");
+        next.set("lang", lang);
+        router.push(`${pathname}?${next.toString()}`);
+      }
+    },
+    [isFlashcardPage, pathname, router, searchParams]
+  );
+
+  const setFontSize = useCallback(
+    (size: FontSize) => {
+      setFontSizeState(size);
+      if (isFlashcardPage && pathname) {
+        const next = new URLSearchParams(searchParams?.toString() ?? "");
+        next.set("font", size);
+        router.push(`${pathname}?${next.toString()}`);
+      }
+    },
+    [isFlashcardPage, pathname, router, searchParams]
+  );
+
+  const setLayoutMode = useCallback(
+    (mode: LayoutMode) => {
+      setLayoutModeState(mode);
+      if (isFlashcardPage && pathname) {
+        const next = new URLSearchParams(searchParams?.toString() ?? "");
+        next.set("layout", mode);
+        if (mode === "all") next.set("index", "0");
+        router.push(`${pathname}?${next.toString()}`);
+      }
+    },
+    [isFlashcardPage, pathname, router, searchParams]
+  );
 
   const registerShuffle = useCallback((fn: () => void) => {
     shuffleRef.current = fn;

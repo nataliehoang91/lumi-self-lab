@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { bookId, chapter, verse, contentVIE1923, contentKJV, contentNIV, contentZH } = body as {
+    const { bookId, chapter, verse, contentVIE1923, contentKJV, contentNIV, contentZH, flashCardSetId } = body as {
       bookId?: string;
       chapter?: number;
       verse?: number;
@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       contentKJV?: string;
       contentNIV?: string;
       contentZH?: string;
+      flashCardSetId?: string;
     };
 
     if (
@@ -56,10 +57,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (typeof flashCardSetId === "string" && flashCardSetId.trim()) {
+      const setExists = await prisma.flashCardSet.findUnique({
+        where: { id: flashCardSetId.trim() },
+      });
+      if (!setExists) {
+        return NextResponse.json({ error: "Invalid flash card set." }, { status: 400 });
+      }
+    }
+
     const contentFallback = trimNIV || trimKJV || trimVI || trimZH;
 
     await prisma.flashVerse.create({
       data: {
+        flashCardSetId: typeof flashCardSetId === "string" && flashCardSetId.trim() ? flashCardSetId.trim() : null,
         bookId: bibleBook.id,
         book: bibleBook.nameEn,
         chapter,

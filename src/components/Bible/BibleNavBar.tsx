@@ -22,6 +22,7 @@ import { useBibleApp } from "./BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { Container } from "../ui/container";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export function BibleNavBar() {
   const [mounted, setMounted] = useState(false);
@@ -39,9 +40,12 @@ export function BibleNavBar() {
     <nav className=" fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm shadow-sm">
       <Container className=" w-full h-14 flex items-center justify-between gap-2 px-4 sm:px-6 py-3">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="size-10 rounded-lg bg-linear-to-br from-amber-100 via-orange-300 to-yellow-300 dark:from-amber-200/90 dark:via-orange-400 dark:to-yellow-400 text-stone-800 dark:text-stone-900 flex items-center justify-center shrink-0">
+          <Link
+            href="/bible"
+            className="size-10 rounded-lg bg-linear-to-br from-primary-light via-coral to-yellow-200 text-stone-800 flex items-center justify-center shrink-0"
+          >
             <span className="text-4xl">✝</span>
-          </div>
+          </Link>
           <h1 className="sm:visible invisible text-lg font-semibold truncate">Scripture Memory</h1>
         </div>
 

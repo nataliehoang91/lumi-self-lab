@@ -15,10 +15,7 @@ const LOCALE_MAP: Record<BibleLanguage, BibleLocale> = {
 };
 
 /** Message bundles by locale. Use {param} for interpolation. */
-const MESSAGES: Record<
-  BibleLocale,
-  Record<string, string>
-> = {
+const MESSAGES: Record<BibleLocale, Record<string, string>> = {
   en: {
     clickToReveal: "Click to reveal verse",
     verseOf: "Verse {current} of {total}",
@@ -28,7 +25,7 @@ const MESSAGES: Record<
     showing: "Showing {from}–{to} of {total}",
     loadMore: "Load more",
     backToTop: "Back to top",
-    noVerses: "No verses yet. Add some in Admin.",
+    noVerses: "No verses yet.",
     couldNotLoad: "Could not load verses.",
     navAppTitle: "Scripture Memory",
     navLayoutVertical: "Vertical",
@@ -47,7 +44,7 @@ const MESSAGES: Record<
     showing: "Hiển thị {from}–{to} / {total}",
     loadMore: "Xem thêm",
     backToTop: "Về đầu trang",
-    noVerses: "Chưa có câu nào. Thêm trong Admin.",
+    noVerses: "Chưa có câu nào.",
     couldNotLoad: "Không tải được danh sách câu.",
     navAppTitle: "Ghi nhớ Kinh thánh",
     navLayoutVertical: "Dọc",
@@ -66,7 +63,7 @@ const MESSAGES: Record<
     showing: "顯示 {from}–{to} / 共 {total}",
     loadMore: "載入更多",
     backToTop: "回到頂部",
-    noVerses: "尚無經文。請在管理員中新增。",
+    noVerses: "尚無經文。",
     couldNotLoad: "無法載入經文。",
     navAppTitle: "經文記憶",
     navLayoutVertical: "垂直",
@@ -78,10 +75,7 @@ const MESSAGES: Record<
   },
 };
 
-function interpolate(
-  message: string,
-  params?: Record<string, number | string>
-): string {
+function interpolate(message: string, params?: Record<string, number | string>): string {
   if (!params) return message;
   return message.replace(/\{(\w+)\}/g, (_, key) =>
     params[key] != null ? String(params[key]) : `{${key}}`

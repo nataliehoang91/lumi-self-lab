@@ -16,6 +16,8 @@ type Verse = {
   contentZH?: string | null;
   content: string | null;
   createdAt: string;
+  flashCardSet?: { id: string; name: string } | null;
+  flashCardCollection?: { id: string; name: string } | null;
 };
 
 function snippet(text: string | null, max = 40): string {
@@ -94,6 +96,8 @@ export function FlashVerseList() {
       <table className="w-full text-left text-sm">
         <thead>
           <tr className="border-b border-stone-200 bg-stone-50">
+            <th className="p-3 font-medium text-stone-700">Set</th>
+            <th className="p-3 font-medium text-stone-700">Collection</th>
             <th className="p-3 font-medium text-stone-700">Book (EN)</th>
             <th className="p-3 font-medium text-stone-700">Book (VI)</th>
             <th className="p-3 font-medium text-stone-700">Ch</th>
@@ -105,6 +109,8 @@ export function FlashVerseList() {
         <tbody>
           {verses.map((v) => (
             <tr key={v.id} className="border-b border-stone-100 hover:bg-stone-50/50">
+              <td className="p-3 text-stone-700">{v.flashCardSet?.name ?? "—"}</td>
+              <td className="p-3 text-stone-700">{v.flashCardCollection?.name ?? "—"}</td>
               <td className="p-3 text-stone-800">{v.titleEn || v.book}</td>
               <td className="p-3 text-stone-800">{v.titleVi || "—"}</td>
               <td className="p-3 text-stone-700">{v.chapter}</td>

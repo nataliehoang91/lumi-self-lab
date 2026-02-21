@@ -6,9 +6,7 @@ export default function AdminFlashcardListPage() {
     <div className="min-h-screen bg-stone-100 p-4 md:p-8">
       <div className="mx-auto max-w-4xl">
         <div className="mb-6 flex items-center justify-between flex-wrap gap-2">
-          <h1 className="text-2xl font-semibold text-stone-800">
-            Flash verses
-          </h1>
+          <h1 className="text-2xl font-semibold text-stone-800">Flash verses</h1>
           <div className="flex gap-2">
             <Link
               href="/bible/admin/add"

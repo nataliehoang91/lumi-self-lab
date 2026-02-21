@@ -374,27 +374,56 @@ model BibleVerseContent {
   @@index([bookId])
 }
 
+// Fixed sets (categories) for grouping flash cards. No create-form for now.
+model FlashCardSet {
+  id        String   @id @default(cuid())
+  name      String   // e.g. "Favorites", "Memorizing"
+  sortOrder Int      @default(0) // display order in admin
+
+  verses FlashVerse[]
+
+  @@index([sortOrder])
+}
+
+// User-facing collections (e.g. "February 2026", "Collection 1"). User picks one to view those verses.
+model FlashCardCollection {
+  id        String   @id @default(cuid())
+  name      String   // e.g. "February 2026", "Collection 1"
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  verses FlashVerse[]
+
+  @@index([sortOrder])
+}
+
 model FlashVerse {
-  id             String    @id @default(uuid())
-  bookId         String?   // optional: link to BibleBook (new verses use this)
-  book           String    // denormalized for display / legacy
-  chapter        Int
-  verse          Int
-  titleEn        String?   // e.g. "John 3:16"
-  titleVi        String?   // e.g. "Giăng 3:16"
-  titleZh        String?   // e.g. "約翰福音 3:16"
-  contentVIE1923 String?   // Vietnamese traditional
-  contentKJV     String?   // English KJV
-  contentNIV     String?   // English NIV
-  contentZH      String?   // Chinese (CUV)
+  id                 String               @id @default(uuid())
+  flashCardSetId     String?              // which set this card belongs to (admin categorization)
+  collectionId       String?              // which collection (user views by collection)
+  bookId             String?              // optional: link to BibleBook (new verses use this)
+  book               String               // denormalized for display / legacy
+  chapter            Int
+  verse              Int
+  titleEn            String?              // e.g. "John 3:16"
+  titleVi            String?              // e.g. "Giăng 3:16"
+  titleZh            String?              // e.g. "約翰福音 3:16"
+  contentVIE1923     String?              // Vietnamese traditional
+  contentKJV         String?              // English KJV
+  contentNIV         String?              // English NIV
+  contentZH          String?              // Chinese (CUV)
   // Legacy single-version (for backward compat)
-  content        String?
-  version        String?
-  language       String?   @default("en")
-  createdAt      DateTime  @default(now())
+  content            String?
+  version            String?
+  language           String?              @default("en")
+  createdAt          DateTime             @default(now())
 
-  bibleBook      BibleBook? @relation(fields: [bookId], references: [id], onDelete: SetNull)
+  flashCardSet       FlashCardSet?        @relation(fields: [flashCardSetId], references: [id], onDelete: SetNull)
+  flashCardCollection FlashCardCollection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  bibleBook          BibleBook?           @relation(fields: [bookId], references: [id], onDelete: SetNull)
 
+  @@index([flashCardSetId])
+  @@index([collectionId])
   @@index([bookId])
   @@index([book, chapter, verse])
   @@index([version])
