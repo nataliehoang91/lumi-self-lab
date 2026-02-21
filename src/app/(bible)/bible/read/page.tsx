@@ -320,38 +320,20 @@ export default function BibleReadPage() {
             <div className="flex items-center gap-3 min-w-0">
               <BookOpen className="w-5 h-5 text-primary shrink-0" />
               <h1 className="text-sm font-medium text-foreground shrink-0">{t("readVersion")}</h1>
-              {!focusMode && (
-                <>
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    {TRANSLATIONS.map((trans) => (
-                      <button
-                        key={trans.id}
-                        onClick={() => handleVersionChipClick(trans.id)}
-                        className={chipSelectedStyle(trans.id)}
-                      >
-                        {trans.name}
-                      </button>
-                    ))}
-                    {/* {(leftVersion !== null || rightVersion !== null) && (
-                      <button
-                        onClick={() => {
-                          setLeftVersion(null);
-                          setRightVersion(null);
-                        }}
-                        className="px-2 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-all shrink-0"
-                      >
-                        {t("readClearAll")}
-                      </button>
-                    )} */}
-                  </div>
-                </>
-              )}
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {TRANSLATIONS.map((trans) => (
+                  <button
+                    key={trans.id}
+                    onClick={() => handleVersionChipClick(trans.id)}
+                    className={chipSelectedStyle(trans.id)}
+                  >
+                    {trans.name}
+                  </button>
+                ))}
+              </div>
             </div>
-            {/* When synced, show book + chapter in sub-nav so user can change location from one place */}
-            {!focusMode &&
-              syncMode &&
-              (leftVersion !== null || rightVersion !== null) &&
-              leftBook && (
+            {/* Testament + book + chapter: show when at least one version chosen (in both normal and focus mode) */}
+            {(leftVersion !== null || rightVersion !== null) && leftBook && (
                 <div className="flex items-center gap-2 flex-wrap shrink-0">
                   <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-0.5 h-[2.25rem] box-border">
                     {(["ot", "nt"] as const).map((filter) => (
@@ -793,8 +775,10 @@ function ReadingPanel({
                   </span>
                   <p
                     className={cn(
-                      "text-foreground text-pretty [font-size:inherit]",
-                      version === "vi" ? "font-vietnamese" : "font-bible-english"
+                      "text-foreground text-pretty",
+                      version === "vi"
+                        ? "font-vietnamese [font-size:inherit]"
+                        : "font-bible-english [font-size:1.1em]"
                     )}
                   >
                     {parsed && parsed.notes.length > 0 ? (
