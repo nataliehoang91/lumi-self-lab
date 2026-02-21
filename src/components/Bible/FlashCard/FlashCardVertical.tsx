@@ -10,6 +10,8 @@ import {
   type EnVersion,
   getDisplayContent,
   getDisplayTitle,
+  hasKJVNotes,
+  parseKJVNotes,
   speakText,
 } from "./flashCardShared";
 
@@ -25,6 +27,9 @@ export function FlashCardVertical({
   const [enVersion, setEnVersion] = useState<EnVersion>("NIV");
   const displayContent = getDisplayContent(verse, cardLanguage, enVersion);
   const displayTitle = getDisplayTitle(verse, cardLanguage);
+  const showKJVNotes =
+    cardLanguage === "EN" && enVersion === "KJV" && hasKJVNotes(displayContent ?? "");
+  const kjvParsed = showKJVNotes && displayContent ? parseKJVNotes(displayContent) : null;
 
   return (
     <div
@@ -59,15 +64,49 @@ export function FlashCardVertical({
           className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-5 flex flex-col"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          <div className="flex-1 flex items-center justify-center min-h-0 overflow-auto">
-            <p
-              className={cn(
-                "leading-relaxed text-center text-pretty line-clamp-6 [font-size:inherit]",
-                cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
+          <div className="flex-1 flex flex-col min-h-0 overflow-auto">
+            <div className="flex-1 flex items-center justify-center">
+              {kjvParsed && kjvParsed.notes.length > 0 ? (
+                <p
+                  className={cn(
+                    "leading-relaxed text-center text-pretty [font-size:inherit]",
+                    cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
+                  )}
+                >
+                  {kjvParsed.parts.map((p, i) =>
+                    typeof p === "number" ? (
+                      <sup
+                        key={i}
+                        className="align-super text-[0.7em] font-medium text-muted-foreground"
+                        title={kjvParsed!.notes[p - 1]}
+                      >
+                        {p}
+                      </sup>
+                    ) : (
+                      <span key={i}>{p}</span>
+                    )
+                  )}
+                </p>
+              ) : (
+                <p
+                  className={cn(
+                    "leading-relaxed text-center text-pretty line-clamp-6 [font-size:inherit]",
+                    cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
+                  )}
+                >
+                  {displayContent || "—"}
+                </p>
               )}
-            >
-              {displayContent || "—"}
-            </p>
+            </div>
+            {kjvParsed && kjvParsed.notes.length > 0 && (
+              <div className="mt-2 pt-2 border-t border-border/60 text-left text-xs text-muted-foreground shrink-0 space-y-0.5 max-h-[30%] overflow-auto">
+                {kjvParsed.notes.map((note, i) => (
+                  <div key={i}>
+                    <span className="font-medium text-foreground/80">{i + 1}.</span> {note}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="flex items-center justify-between pt-3 border-t gap-1 flex-wrap shrink-0">
             <div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">

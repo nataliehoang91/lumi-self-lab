@@ -79,6 +79,37 @@ export function getDisplayTitle(verse: VerseLike, cardLanguage: Language): strin
   return `${verse.book} ${ref}`;
 }
 
+/**
+ * KJV uses {supplied word} or {marginal note: Gr. ...}. Parse into parts and footnotes.
+ * Returns { parts: (string | number)[], notes: string[] } so we can render "text ¹ more ²" with notes at bottom.
+ */
+export function parseKJVNotes(text: string): { parts: (string | number)[]; notes: string[] } {
+  const notes: string[] = [];
+  const parts: (string | number)[] = [];
+  const re = /\{([^}]*)\}/g;
+  let lastEnd = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    parts.push(text.slice(lastEnd, m.index));
+    const inner = m[1].trim();
+    const num = notes.length + 1;
+    const noteText = inner.includes(":")
+      ? inner.replace(/^[^:]+:\s*/, "").trim()
+      : inner
+        ? `${inner}`
+        : "";
+    notes.push(noteText || `Note ${num}`);
+    parts.push(num);
+    lastEnd = m.index + m[0].length;
+  }
+  if (lastEnd < text.length) parts.push(text.slice(lastEnd));
+  return { parts: parts.filter((p) => p !== ""), notes };
+}
+
+export function hasKJVNotes(text: string): boolean {
+  return typeof text === "string" && text.includes("{") && text.includes("}");
+}
+
 export interface FlashCardCommonProps {
   verse: VerseLike;
   isFlipped: boolean;
