@@ -1,36 +1,49 @@
 "use client";
 
 import * as React from "react";
-import {
-  ThemeProvider as NextThemesProvider,
-  type ThemeProviderProps,
-  useTheme as useNextTheme,
-} from "next-themes";
+import { ThemeProvider as NextThemesProvider, type ThemeProviderProps } from "next-themes";
+
+const ThemeContext = React.createContext<{
+  theme: string;
+  toggleTheme: () => void;
+}>({
+  theme: "light",
+  toggleTheme: () => {},
+});
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
-}
-
-// Custom hook that matches the user's expected API
-export function useTheme() {
-  const { theme, setTheme, resolvedTheme } = useNextTheme();
   const [mounted, setMounted] = React.useState(false);
+  const [theme, setTheme] = React.useState("light");
 
   React.useEffect(() => {
     setMounted(true);
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.documentElement.classList.toggle("dark", savedTheme === "dark");
   }, []);
 
   const toggleTheme = React.useCallback(() => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  }, [theme, setTheme]);
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+  }, [theme]);
 
-  // Before mount: use "light" so SSR/hydration matches (no flash). Same toggleTheme
-  // so the toggle doesn't remount when we flip to real theme — keeps CSS transition.
-  const resolved = resolvedTheme || theme || "light";
-  const themeForDisplay = mounted ? resolved : "light";
+  if (!mounted) {
+    return <>{children}</>;
+  }
 
-  return {
-    theme: themeForDisplay,
-    toggleTheme,
-  };
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <NextThemesProvider {...props}>{children}</NextThemesProvider>
+    </ThemeContext.Provider>
+  );
+}
+
+export function useTheme() {
+  const context = React.useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within ThemeProvider");
+  }
+  return context;
 }

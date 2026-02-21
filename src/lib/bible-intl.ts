@@ -34,6 +34,9 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     navFontSmall: "Smaller text",
     navFontMedium: "Medium text",
     navFontLarge: "Larger text",
+    collection: "Collection",
+    allVerses: "All verses",
+    selectCollection: "Select collection",
   },
   vi: {
     clickToReveal: "Nhấp để xem câu kinh thánh",
@@ -53,6 +56,9 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     navFontSmall: "Chữ nhỏ",
     navFontMedium: "Chữ vừa",
     navFontLarge: "Chữ lớn",
+    collection: "Bộ sưu tập",
+    allVerses: "Tất cả câu",
+    selectCollection: "Chọn bộ sưu tập",
   },
   zh: {
     clickToReveal: "點擊顯示經文",
@@ -72,6 +78,9 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     navFontSmall: "較小字體",
     navFontMedium: "中等字體",
     navFontLarge: "較大字體",
+    collection: "收藏",
+    allVerses: "全部經文",
+    selectCollection: "選擇收藏",
   },
 };
 

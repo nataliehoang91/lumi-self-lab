@@ -39,7 +39,6 @@ export default async function FlashcardPage({
   const isAll = layout === "all";
   const visibleCount = isAll ? Math.min(limit, ids.length) : 1;
   const slice = isAll ? ids.slice(0, visibleCount) : ids.slice(index, index + visibleCount);
-  const horizontal = layout === "horizontal";
 
   return (
     <div className="min-h-screen pt-14 flex flex-col w-full">
@@ -56,11 +55,11 @@ export default async function FlashcardPage({
         >
           {slice.map((verseId: string) => (
             <div key={verseId} className={isAll ? "min-w-0" : undefined}>
-              <Suspense fallback={<CardSkeleton horizontal={horizontal && !isAll} />}>
+              <Suspense fallback={<CardSkeleton horizontal={false} />}>
                 <CardWithData
                   verseId={verseId}
                   lang={lang}
-                  horizontal={horizontal && !isAll}
+                  horizontal={false}
                   fontSize={font}
                   flexible={isAll}
                 />

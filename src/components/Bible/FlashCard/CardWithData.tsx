@@ -1,5 +1,5 @@
 import { getVerseById } from "@/app/(bible)/bible/flashcard/getVerseById";
-import { CardSlot } from "./CardSlot";
+import { CardWithDataClient } from "./CardWithDataClient";
 import type { Language } from "./FlashCardView";
 
 interface CardWithDataProps {
@@ -11,6 +11,7 @@ interface CardWithDataProps {
   flexible?: boolean;
 }
 
+/** Fetches verse on server; client fallback fetches via API when server data is missing (e.g. mobile/PWA). */
 export async function CardWithData({
   verseId,
   lang,
@@ -19,23 +20,11 @@ export async function CardWithData({
   flexible = false,
 }: CardWithDataProps) {
   const verse = await getVerseById(verseId);
-  if (!verse) {
-    return (
-      <div
-        className={
-          horizontal
-            ? "flex w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg aspect-4/3 max-h-[280px] items-center justify-center rounded-2xl border border-border bg-muted/30 text-sm text-muted-foreground"
-            : "flex w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg h-[280px] sm:h-[320px] items-center justify-center rounded-2xl border border-border bg-muted/30 text-sm text-muted-foreground"
-        }
-      >
-        Not found
-      </div>
-    );
-  }
   return (
-    <CardSlot
-      verse={verse}
-      globalLanguage={lang}
+    <CardWithDataClient
+      verseId={verseId}
+      initialVerse={verse}
+      lang={lang}
       horizontal={horizontal}
       fontSize={fontSize}
       flexible={flexible}

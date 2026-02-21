@@ -97,17 +97,12 @@ export function FlashCardShell({
   const collectionSelector =
     collections.length > 0 ? (
       <div className="w-full flex flex-wrap items-center justify-center gap-3 py-3 shrink-0">
-        <label
-          htmlFor="collection-select"
-          className="text-sm font-medium text-muted-foreground"
-        >
-          Collection
+        <label htmlFor="collection-select" className="text-sm font-medium text-muted-foreground">
+          {intl.t("collection")}
         </label>
         <Select
           value={collectionId || "__all__"}
-          onValueChange={(v) =>
-            pushParams({ collection: v === "__all__" ? "" : v, index: 0 })
-          }
+          onValueChange={(v) => pushParams({ collection: v === "__all__" ? "" : v, index: 0 })}
         >
           <SelectTrigger
             id="collection-select"
@@ -116,9 +111,9 @@ export function FlashCardShell({
               "text-foreground shadow-sm hover:bg-muted/50",
               "focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
             )}
-            aria-label="Select collection"
+            aria-label={intl.t("selectCollection")}
           >
-            <SelectValue placeholder="All verses" />
+            <SelectValue placeholder={intl.t("allVerses")} />
           </SelectTrigger>
           <SelectContent
             className="rounded-xl border border-border bg-popover text-popover-foreground"
@@ -128,7 +123,7 @@ export function FlashCardShell({
               value="__all__"
               className="focus:bg-muted focus:text-muted-foreground rounded-lg"
             >
-              All verses
+              {intl.t("allVerses")}
             </SelectItem>
             {collections.map((c) => (
               <SelectItem
@@ -166,7 +161,7 @@ export function FlashCardShell({
     return (
       <div
         className={cn(
-          "w-full min-w-0 flex flex-col items-center min-h-0 px-3 sm:px-6 max-w-6xl mx-auto overflow-x-hidden",
+          "w-full min-w-0 flex flex-col items-center min-h-0 px-3 sm:px-6 max-w-7xl mx-auto overflow-x-hidden",
           fontSizeClass
         )}
       >
@@ -265,14 +260,14 @@ export function FlashCardShell({
 
           <div
             className={cn(
-              "flex gap-3 sm:gap-4 min-h-0 flex-1 items-center justify-center",
+              "flex gap-3 sm:gap-4 min-h-0 flex-1 items-center justify-center min-w-0",
               isVertical
-                ? "flex-col w-full overflow-y-auto"
-                : "flex-row overflow-x-auto shrink-0 min-w-0"
+                ? "flex-col w-full self-stretch overflow-y-auto"
+                : "flex-row overflow-x-auto overflow-y-hidden shrink-0"
             )}
           >
             {isVertical ? (
-              <div className="w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg flex flex-col items-center">
+              <div className="w-full min-w-0 max-w-lg self-stretch flex flex-col items-center justify-center px-1">
                 {children}
               </div>
             ) : (
@@ -280,7 +275,7 @@ export function FlashCardShell({
                 {Array.from({ length: React.Children.count(children) }).map((_, i) => (
                   <div
                     key={i}
-                    className="shrink-0 w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg flex items-center justify-center"
+                    className="shrink-0 w-[min(100%,320px)] sm:w-[min(100%,28rem)] max-w-lg flex items-center justify-center basis-[min(100%,320px)] sm:basis-md"
                   >
                     {React.Children.toArray(children)[i]}
                   </div>

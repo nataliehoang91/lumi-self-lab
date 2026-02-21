@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Moon, Sun, Menu, X, BarChart3, Building2, Crown, Loader2, Shield } from "lucide-react";
+import { Menu, X, BarChart3, Building2, Crown, Loader2, Shield } from "lucide-react";
 import { Logo } from "@/components/GeneralComponents/Logo";
+import { ThemeToggle } from "@/components/GeneralComponents/ThemeToggle";
 import { cn } from "@/lib/utils";
-import { useTheme } from "@/components/theme-provider";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@/hooks/user-context";
 import { useSecondaryNavbarContentValue } from "@/contexts/SecondaryNavbarContentContext";
@@ -247,69 +247,6 @@ function SuperAdminButton({
   );
 }
 
-function ThemeToggleButton({ variant }: { variant: "desktop" | "mobile" }) {
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
-  const [displayDark, setDisplayDark] = useState(isDark);
-
-  useEffect(() => {
-    setDisplayDark(isDark);
-  }, [isDark]);
-
-  const handleClick = () => {
-    setDisplayDark((prev) => !prev);
-    toggleTheme();
-  };
-
-  const buttonContent = (
-    <>
-      <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
-        <Sun
-          className={cn(
-            "theme-toggle-icon theme-toggle-sun absolute inset-0 !h-5 !w-5 text-tertiary",
-            displayDark ? "theme-toggle-hidden" : "theme-toggle-visible"
-          )}
-        />
-        <Moon
-          className={cn(
-            "theme-toggle-icon theme-toggle-moon absolute inset-0 !h-5 !w-5 text-sky-blue",
-            displayDark ? "theme-toggle-visible" : "theme-toggle-hidden"
-          )}
-        />
-      </div>
-      <span className="sr-only">Toggle theme</span>
-    </>
-  );
-
-  if (variant === "desktop") {
-    return (
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handleClick}
-        className="relative flex w-10 h-10 shrink-0 items-center justify-center gap-0 rounded-2xl bg-card/60 backdrop-blur border border-border/50 hover:bg-card hover:scale-105 transition-all duration-300 group overflow-hidden [&_svg]:!size-5"
-        aria-label="Toggle theme"
-      >
-        {buttonContent}
-      </Button>
-    );
-  }
-
-  return (
-    <Button
-      variant="ghost"
-      onClick={handleClick}
-      className={cn(
-        "relative flex w-10 h-10 shrink-0 items-center justify-center gap-0 rounded-2xl bg-card/60 backdrop-blur border border-border/50 hover:bg-card hover:scale-105 transition-all duration-300 overflow-hidden [&_svg]:!size-5",
-        "w-full justify-start"
-      )}
-      aria-label="Toggle theme"
-    >
-      {buttonContent}
-    </Button>
-  );
-}
-
 function SignInButton({
   onClick,
   variant = "desktop",
@@ -455,7 +392,7 @@ export function NavigationBar() {
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
-            <ThemeToggleButton variant="desktop" />
+            <ThemeToggle variant="desktop" />
             <SignedIn>
               <UserButton
                 appearance={{
@@ -533,7 +470,7 @@ export function NavigationBar() {
             )}
 
             <div className="flex items-center gap-2 pt-2">
-              <ThemeToggleButton variant="mobile" />
+              <ThemeToggle variant="mobile" />
             </div>
 
             <div className="border-t border-border/40 pt-2">

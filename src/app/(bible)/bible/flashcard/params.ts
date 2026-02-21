@@ -1,14 +1,12 @@
 import type { Language, FontSize, LayoutMode } from "@/components/Bible/BibleAppContext";
 
-const LAYOUTS = ["vertical", "horizontal", "all"] as const;
 const FONTS = ["small", "medium", "large"] as const;
 const LANGS = ["EN", "VI", "ZH"] as const;
 
 export function parseSearchParams(searchParams: Record<string, string | undefined>) {
   const index = Math.max(0, parseInt(searchParams.index ?? "0", 10) || 0);
-  const layout = LAYOUTS.includes((searchParams.layout as LayoutMode) ?? "all")
-    ? (searchParams.layout as LayoutMode)
-    : "all";
+  /** Layout is always grid (layout selection removed from navbar). */
+  const layout: LayoutMode = "all";
   const font = FONTS.includes((searchParams.font as FontSize) ?? "medium")
     ? (searchParams.font as FontSize)
     : "medium";
