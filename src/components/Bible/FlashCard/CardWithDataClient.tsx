@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { CardSlot } from "./CardSlot";
 import { CardSkeleton } from "./CardSkeleton";
 import type { Language } from "./FlashCardView";
@@ -15,7 +16,7 @@ interface CardWithDataClientProps {
   flexible?: boolean;
 }
 
-/** Renders card from initialVerse when present; otherwise fetches verse by id from API (fixes empty cards on mobile/PWA). */
+/** Renders card from initialVerse when present; otherwise fetches verse by id from API. Uses navbar global language so cards follow the main language control. */
 export function CardWithDataClient({
   verseId,
   initialVerse,
@@ -24,6 +25,8 @@ export function CardWithDataClient({
   fontSize = "medium",
   flexible = false,
 }: CardWithDataClientProps) {
+  const { globalLanguage } = useBibleApp();
+  const effectiveLang = globalLanguage ?? lang;
   const [verse, setVerse] = useState<VerseData | null>(initialVerse);
   const [loading, setLoading] = useState(!initialVerse);
   const [error, setError] = useState(false);
@@ -81,7 +84,7 @@ export function CardWithDataClient({
   return (
     <CardSlot
       verse={verse}
-      globalLanguage={lang}
+      globalLanguage={effectiveLang}
       horizontal={horizontal}
       fontSize={fontSize}
       flexible={flexible}

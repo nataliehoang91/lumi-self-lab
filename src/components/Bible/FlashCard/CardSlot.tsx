@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { FlashCardVertical } from "./FlashCardVertical";
 import { FlashCardHorizontal } from "./FlashCardHorizontal";
 import { cn } from "@/lib/utils";
@@ -24,9 +24,16 @@ export function CardSlot({
   flexible = false,
 }: CardSlotProps) {
   const [isFlipped, setIsFlipped] = useState(false);
-  const [cardLanguage, setCardLanguage] = useState<Language>(globalLanguage);
-  const intl = getBibleIntl(cardLanguage);
+  const [userCardLanguage, setUserCardLanguage] = useState<Language | null>(null);
+  const intl = getBibleIntl(userCardLanguage ?? globalLanguage);
   const t = { clickToReveal: intl.t("clickToReveal") };
+
+  // Navbar language applies to card unless user chose a language on this card
+  const cardLanguage = userCardLanguage ?? globalLanguage;
+
+  const setCardLanguage = useCallback((lang: Language) => {
+    setUserCardLanguage(lang);
+  }, []);
 
   const common = {
     verse,

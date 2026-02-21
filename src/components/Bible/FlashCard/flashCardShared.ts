@@ -40,6 +40,13 @@ export function speakText(text: string, lang: Language): void {
   window.speechSynthesis.speak(utterance);
 }
 
+/** Capitalize first letter for Vietnamese display (e.g. "anh" → "Anh"). */
+function capitalizeFirstLetterVi(text: string): string {
+  const trimmed = text.trim();
+  if (!trimmed) return text;
+  return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+}
+
 export function getDisplayContent(
   verse: VerseLike,
   cardLanguage: Language,
@@ -47,7 +54,7 @@ export function getDisplayContent(
 ): string {
   if (cardLanguage === "VI") {
     const raw = verse.contentVIE1923?.trim() || verse.content?.trim() || "";
-    return normalizeQuotes(raw);
+    return capitalizeFirstLetterVi(normalizeQuotes(raw));
   }
   if (cardLanguage === "ZH") {
     const raw = verse.contentZH?.trim() || verse.content?.trim() || "";

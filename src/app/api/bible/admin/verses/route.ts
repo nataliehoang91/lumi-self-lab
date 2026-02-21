@@ -9,7 +9,10 @@ export async function GET(request: NextRequest) {
 
   try {
     const verses = await prisma.flashVerse.findMany({
-      orderBy: [{ book: "asc" }, { chapter: "asc" }, { verse: "asc" }],
+      orderBy: [
+        { flashCardCollection: { name: "asc" } },
+        { createdAt: "desc" },
+      ],
       include: {
         flashCardSet: { select: { id: true, name: true } },
         flashCardCollection: { select: { id: true, name: true } },
