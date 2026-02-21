@@ -20,6 +20,7 @@ export function FlashCardVertical({
   cardLanguage,
   onCardLanguageChange,
   t,
+  flexible = false,
 }: FlashCardCommonProps) {
   const [enVersion, setEnVersion] = useState<EnVersion>("NIV");
   const displayContent = getDisplayContent(verse, cardLanguage, enVersion);
@@ -27,28 +28,31 @@ export function FlashCardVertical({
 
   return (
     <div
-      className="w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg shrink-0 cursor-pointer"
+      className={cn(
+        "w-full min-w-0 max-w-full shrink-0 cursor-pointer",
+        !flexible && "sm:min-w-md sm:max-w-lg"
+      )}
       style={{ perspective: "1000px" }}
       onClick={onFlip}
     >
       <div
-        className="relative w-full h-[280px] sm:h-[320px] transition-transform duration-500"
+        className="relative w-full h-[280px] sm:h-[320px] min-h-[200px] transition-transform duration-500"
         style={{
           transformStyle: "preserve-3d",
           transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
       >
         <div
-          className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-5 flex flex-col items-center justify-center"
+          className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-4 sm:p-5 flex flex-col items-center justify-center min-w-0 overflow-hidden"
           style={{ backfaceVisibility: "hidden" }}
         >
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-xs shrink-0">
             {cardLanguage === "VI" ? "VI" : cardLanguage === "ZH" ? "中" : "EN"}
           </Badge>
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground text-center mt-3 px-2">
+          <h2 className="text-base sm:text-xl md:text-2xl font-bold text-foreground text-center mt-2 sm:mt-3 px-2 min-w-0 break-words">
             {displayTitle}
           </h2>
-          <p className="text-xs text-muted-foreground mt-2">{t.clickToReveal}</p>
+          <p className="text-xs text-muted-foreground mt-1 sm:mt-2 shrink-0">{t.clickToReveal}</p>
         </div>
 
         <div

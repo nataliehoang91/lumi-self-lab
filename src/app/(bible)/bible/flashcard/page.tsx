@@ -55,17 +55,17 @@ export default async function FlashcardPage({
           displayCount={isAll ? visibleCount : undefined}
         >
           {slice.map((verseId: string) => (
-            <Suspense
-              key={verseId}
-              fallback={<CardSkeleton horizontal={horizontal && !isAll} />}
-            >
-              <CardWithData
-                verseId={verseId}
-                lang={lang}
-                horizontal={horizontal && !isAll}
-                fontSize={font}
-              />
-            </Suspense>
+            <div key={verseId} className={isAll ? "min-w-0" : undefined}>
+              <Suspense fallback={<CardSkeleton horizontal={horizontal && !isAll} />}>
+                <CardWithData
+                  verseId={verseId}
+                  lang={lang}
+                  horizontal={horizontal && !isAll}
+                  fontSize={font}
+                  flexible={isAll}
+                />
+              </Suspense>
+            </div>
           ))}
         </FlashCardShell>
       </div>

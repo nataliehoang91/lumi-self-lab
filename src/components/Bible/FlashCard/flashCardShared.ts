@@ -75,4 +75,6 @@ export interface FlashCardCommonProps {
   cardLanguage: Language;
   onCardLanguageChange: (lang: Language) => void;
   t: UIStrings;
+  /** When true, card fits container (e.g. grid cell) with no min width. */
+  flexible?: boolean;
 }

@@ -180,7 +180,7 @@ export function FlashCardShell({
             })}
           </p>
         </div>
-        <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 py-4">
+        <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 py-4">
           {children}
         </div>
         <div className="w-full flex flex-col items-center gap-4 py-6 pb-8">

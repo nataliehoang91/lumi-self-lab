@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FlashCardVertical } from "./FlashCardVertical";
 import { FlashCardHorizontal } from "./FlashCardHorizontal";
+import { cn } from "@/lib/utils";
 import { getBibleIntl } from "@/lib/bible-intl";
 import type { Language } from "./FlashCardView";
 import type { VerseData } from "@/app/(bible)/bible/flashcard/getVerseById";
@@ -12,6 +13,7 @@ interface CardSlotProps {
   globalLanguage: Language;
   horizontal?: boolean;
   fontSize?: "small" | "medium" | "large";
+  flexible?: boolean;
 }
 
 export function CardSlot({
@@ -19,6 +21,7 @@ export function CardSlot({
   globalLanguage,
   horizontal = false,
   fontSize = "medium",
+  flexible = false,
 }: CardSlotProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [cardLanguage, setCardLanguage] = useState<Language>(globalLanguage);
@@ -32,13 +35,14 @@ export function CardSlot({
     cardLanguage,
     onCardLanguageChange: setCardLanguage,
     t,
+    flexible,
   };
 
   const fontSizeClass =
     fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-base";
 
   return (
-    <div className={fontSizeClass}>
+    <div className={cn(fontSizeClass, flexible && "min-w-0")}>
       {horizontal ? (
         <FlashCardHorizontal {...common} />
       ) : (
