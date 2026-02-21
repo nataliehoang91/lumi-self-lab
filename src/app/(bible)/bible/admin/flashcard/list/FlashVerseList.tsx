@@ -8,6 +8,7 @@ type Verse = {
   book: string;
   chapter: number;
   verse: number;
+  verseEnd?: number | null;
   titleEn: string | null;
   titleVi: string | null;
   contentVIE1923: string | null;
@@ -101,7 +102,7 @@ export function FlashVerseList() {
             <th className="p-3 font-medium text-stone-700">Book (EN)</th>
             <th className="p-3 font-medium text-stone-700">Book (VI)</th>
             <th className="p-3 font-medium text-stone-700">Ch</th>
-            <th className="p-3 font-medium text-stone-700">Vs</th>
+            <th className="p-3 font-medium text-stone-700">Verse(s)</th>
             <th className="p-3 font-medium text-stone-700 max-w-[200px]">Snippet</th>
             <th className="p-3 font-medium text-stone-700 text-right">Actions</th>
           </tr>
@@ -114,7 +115,11 @@ export function FlashVerseList() {
               <td className="p-3 text-stone-800">{v.titleEn || v.book}</td>
               <td className="p-3 text-stone-800">{v.titleVi || "—"}</td>
               <td className="p-3 text-stone-700">{v.chapter}</td>
-              <td className="p-3 text-stone-700">{v.verse}</td>
+              <td className="p-3 text-stone-700">
+                {v.verseEnd != null && v.verseEnd > v.verse
+                  ? `${v.verse}-${v.verseEnd}`
+                  : v.verse}
+              </td>
               <td className="p-3 text-stone-600 max-w-[200px] truncate" title={v.content || ""}>
                 {snippet(v.contentNIV || v.contentKJV || v.contentVIE1923 || v.contentZH || v.content)}
               </td>

@@ -20,8 +20,13 @@ export async function addVerse(formData: FormData): Promise<AddVerseResult> {
   const collectionId = (formData.get("collectionId") as string)?.trim() || null;
   const chapterRaw = formData.get("chapter");
   const verseRaw = formData.get("verse");
+  const verseEndRaw = formData.get("verseEnd");
   const chapter = chapterRaw != null ? Number(chapterRaw) : NaN;
   const verse = verseRaw != null ? Number(verseRaw) : NaN;
+  const verseEnd =
+    verseEndRaw != null && String(verseEndRaw).trim() !== ""
+      ? Number(verseEndRaw)
+      : null;
 
   if (!bookId) {
     return { errors: { general: ["book_required"] } };
@@ -34,6 +39,12 @@ export async function addVerse(formData: FormData): Promise<AddVerseResult> {
   }
   if (!Number.isFinite(verse) || verse < 1) {
     return { errors: { general: ["invalid_verse"] } };
+  }
+  if (
+    verseEnd != null &&
+    (!Number.isFinite(verseEnd) || verseEnd < verse || verseEnd > verse + 50)
+  ) {
+    return { errors: { general: ["invalid_verse_end"] } };
   }
 
   const bibleBook = await prisma.bibleBook.findUnique({
@@ -81,6 +92,10 @@ export async function addVerse(formData: FormData): Promise<AddVerseResult> {
   }
 
   const contentFallback = trimNIV || trimKJV || trimVI || trimZH;
+  const verseRef =
+    verseEnd != null && verseEnd > verse
+      ? `${chapter}:${verse}-${verseEnd}`
+      : `${chapter}:${verse}`;
 
   try {
     await prisma.flashVerse.create({
@@ -91,9 +106,10 @@ export async function addVerse(formData: FormData): Promise<AddVerseResult> {
         book: bibleBook.nameEn,
         chapter,
         verse,
-        titleEn: `${bibleBook.nameEn} ${chapter}:${verse}`,
-        titleVi: `${bibleBook.nameVi} ${chapter}:${verse}`,
-        titleZh: bibleBook.nameZh ? `${bibleBook.nameZh} ${chapter}:${verse}` : null,
+        verseEnd: verseEnd != null && verseEnd > verse ? verseEnd : null,
+        titleEn: `${bibleBook.nameEn} ${verseRef}`,
+        titleVi: `${bibleBook.nameVi} ${verseRef}`,
+        titleZh: bibleBook.nameZh ? `${bibleBook.nameZh} ${verseRef}` : null,
         contentVIE1923: trimVI || null,
         contentKJV: trimKJV || null,
         contentNIV: trimNIV || null,

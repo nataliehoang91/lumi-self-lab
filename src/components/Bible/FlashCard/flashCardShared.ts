@@ -13,6 +13,7 @@ export interface VerseLike {
   book: string;
   chapter: number;
   verse: number;
+  verseEnd?: number | null;
   titleEn?: string | null;
   titleVi?: string | null;
   titleZh?: string | null;
@@ -61,7 +62,10 @@ export function getDisplayContent(
 }
 
 export function getDisplayTitle(verse: VerseLike, cardLanguage: Language): string {
-  const ref = `${verse.chapter}:${verse.verse}`;
+  const ref =
+    verse.verseEnd != null && verse.verseEnd > verse.verse
+      ? `${verse.chapter}:${verse.verse}-${verse.verseEnd}`
+      : `${verse.chapter}:${verse.verse}`;
   if (cardLanguage === "VI" && verse.titleVi?.trim()) return verse.titleVi.trim();
   if (cardLanguage === "ZH" && verse.titleZh?.trim()) return verse.titleZh.trim();
   if (cardLanguage === "EN" && verse.titleEn?.trim()) return verse.titleEn.trim();

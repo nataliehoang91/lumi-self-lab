@@ -404,8 +404,9 @@ model FlashVerse {
   bookId             String?              // optional: link to BibleBook (new verses use this)
   book               String               // denormalized for display / legacy
   chapter            Int
-  verse              Int
-  titleEn            String?              // e.g. "John 3:16"
+  verse              Int                  // start verse (e.g. 21 for 21-22)
+  verseEnd            Int?                // optional end verse for range (e.g. 22 → card shows 1:21-22)
+  titleEn            String?              // e.g. "John 3:16" or "Luke 1:21-22"
   titleVi            String?              // e.g. "Giăng 3:16"
   titleZh            String?              // e.g. "約翰福音 3:16"
   contentVIE1923     String?              // Vietnamese traditional

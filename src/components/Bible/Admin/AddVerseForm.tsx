@@ -50,6 +50,7 @@ export function AddVerseForm() {
   const [bookId, setBookId] = useState("");
   const [chapter, setChapter] = useState("");
   const [verse, setVerse] = useState("");
+  const [verseEnd, setVerseEnd] = useState("");
   const [content, setContent] = useState<VerseContent>(null);
   const [booksLoading, setBooksLoading] = useState(true);
   const [setsLoading, setSetsLoading] = useState(true);
@@ -84,6 +85,7 @@ export function AddVerseForm() {
         setChapters([]);
         setChapter("");
         setVerse("");
+        setVerseEnd("");
         setContent(null);
       }, 0);
       return () => clearTimeout(tid);
@@ -92,6 +94,7 @@ export function AddVerseForm() {
       setChaptersLoading(true);
       setChapter("");
       setVerse("");
+      setVerseEnd("");
       setContent(null);
       fetch(`/api/bible/admin/books/${bookId}/chapters`, { credentials: "include" })
         .then((res) => (res.ok ? res.json() : []))
@@ -107,14 +110,21 @@ export function AddVerseForm() {
       return;
     }
     setContentLoading(true);
-    fetch(
-      `/api/bible/admin/verse-content?bookId=${encodeURIComponent(bookId)}&chapter=${encodeURIComponent(chapter)}&verse=${encodeURIComponent(verse)}`,
-      { credentials: "include" }
-    )
+    const verseEndNum = verseEnd ? parseInt(verseEnd, 10) : null;
+    const useRange =
+      verseEndNum != null &&
+      !Number.isNaN(verseEndNum) &&
+      verseEndNum >= parseInt(verse, 10);
+    const url = new URL("/api/bible/admin/verse-content", window.location.origin);
+    url.searchParams.set("bookId", bookId);
+    url.searchParams.set("chapter", chapter);
+    url.searchParams.set("verse", verse);
+    if (useRange) url.searchParams.set("verseEnd", String(verseEndNum));
+    fetch(url.toString(), { credentials: "include" })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => setContent(data))
       .finally(() => setContentLoading(false));
-  }, [bookId, chapter, verse]);
+  }, [bookId, chapter, verse, verseEnd]);
 
   useEffect(() => {
     if (!bookId || !chapter || !verse) {
@@ -123,15 +133,24 @@ export function AddVerseForm() {
     }
     const tid = setTimeout(() => fetchContent(), 0);
     return () => clearTimeout(tid);
-  }, [bookId, chapter, verse, fetchContent]);
+  }, [bookId, chapter, verse, verseEnd, fetchContent]);
 
   const selectedChapterRow = chapters.find((c) => String(c.chapterNumber) === chapter);
   const verseCount = selectedChapterRow?.verseCount ?? 0;
   const verseOptions = Array.from({ length: verseCount }, (_, i) => i + 1);
+  const verseNum = parseInt(verse, 10);
+  const verseEndNum = verseEnd ? parseInt(verseEnd, 10) : null;
+  const validRange =
+    !verseEnd ||
+    (verseEndNum != null &&
+      !Number.isNaN(verseEndNum) &&
+      verseEndNum >= verseNum &&
+      verseEndNum - verseNum <= 50);
   const hasContent =
     content &&
     (content.contentVIE1923 || content.contentKJV || content.contentNIV || content.contentZH);
-  const canSubmit = !!bookId && !!chapter && !!verse && !!hasContent;
+  const canSubmit =
+    !!bookId && !!chapter && !!verse && !!hasContent && validRange;
 
   return (
     <Form asChild className="contents">
@@ -165,6 +184,9 @@ export function AddVerseForm() {
         </FormErrorMessage>
         <FormErrorMessage name="general" match="invalid_verse">
           Invalid verse.
+        </FormErrorMessage>
+        <FormErrorMessage name="general" match="invalid_verse_end">
+          Verse end must be ≥ verse and at most 50 verses.
         </FormErrorMessage>
         <FormErrorMessage name="general" match="book_not_found">
           Book not found.
@@ -261,7 +283,10 @@ export function AddVerseForm() {
             <select
               name="verse"
               value={verse}
-              onChange={(e) => setVerse(e.target.value)}
+              onChange={(e) => {
+                setVerse(e.target.value);
+                setVerseEnd("");
+              }}
               required
               disabled={!verseCount}
               className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
@@ -274,9 +299,33 @@ export function AddVerseForm() {
               ))}
             </select>
           </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-stone-700">
+              Verse end (optional)
+            </label>
+            <select
+              name="verseEnd"
+              value={verseEnd}
+              onChange={(e) => setVerseEnd(e.target.value)}
+              disabled={!verseCount || !verse}
+              className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+            >
+              <option value="">Single verse</option>
+              {verseOptions
+                .filter((n) => !verse || n >= parseInt(verse, 10))
+                .map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+            </select>
+            <p className="mt-0.5 text-xs text-stone-500">
+              e.g. 21 + end 22 → Luke 1:21-22 (one card, two verses)
+            </p>
+          </div>
         </div>
 
-        {/* Hidden fields: submit content from pre-loaded verse (when user picks book/chapter/verse) */}
+        {/* Hidden fields: submit content from pre-loaded verse (verseEnd submitted by select) */}
         {content && (
           <>
             <HiddenFormField

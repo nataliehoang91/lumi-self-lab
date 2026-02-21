@@ -28,8 +28,13 @@ export async function updateVerse(
     collectionIdRaw === null || collectionIdRaw === "" ? null : (collectionIdRaw as string)?.trim();
   const chapterRaw = formData.get("chapter");
   const verseRaw = formData.get("verse");
+  const verseEndRaw = formData.get("verseEnd");
   const chapter = chapterRaw != null ? Number(chapterRaw) : NaN;
   const verse = verseRaw != null ? Number(verseRaw) : NaN;
+  const verseEnd =
+    verseEndRaw != null && String(verseEndRaw).trim() !== ""
+      ? Number(verseEndRaw)
+      : null;
 
   if (!bookId) {
     return { errors: { general: ["book_required"] } };
@@ -39,6 +44,12 @@ export async function updateVerse(
   }
   if (!Number.isFinite(verse) || verse < 1) {
     return { errors: { general: ["invalid_verse"] } };
+  }
+  if (
+    verseEnd != null &&
+    (!Number.isFinite(verseEnd) || verseEnd < verse || verseEnd > verse + 50)
+  ) {
+    return { errors: { general: ["invalid_verse_end"] } };
   }
 
   const bibleBook = await prisma.bibleBook.findUnique({
@@ -88,6 +99,10 @@ export async function updateVerse(
   }
 
   const contentFallback = trimNIV || trimKJV || trimVI || trimZH;
+  const verseRef =
+    verseEnd != null && verseEnd > verse
+      ? `${chapter}:${verse}-${verseEnd}`
+      : `${chapter}:${verse}`;
 
   try {
     await prisma.flashVerse.update({
@@ -99,9 +114,10 @@ export async function updateVerse(
         book: bibleBook.nameEn,
         chapter,
         verse,
-        titleEn: `${bibleBook.nameEn} ${chapter}:${verse}`,
-        titleVi: `${bibleBook.nameVi} ${chapter}:${verse}`,
-        titleZh: bibleBook.nameZh ? `${bibleBook.nameZh} ${chapter}:${verse}` : null,
+        verseEnd: verseEnd != null && verseEnd > verse ? verseEnd : null,
+        titleEn: `${bibleBook.nameEn} ${verseRef}`,
+        titleVi: `${bibleBook.nameVi} ${verseRef}`,
+        titleZh: bibleBook.nameZh ? `${bibleBook.nameZh} ${verseRef}` : null,
         contentVIE1923: trimVI || null,
         contentKJV: trimKJV || null,
         contentNIV: trimNIV || null,

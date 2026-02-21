@@ -5,6 +5,7 @@ export type VerseData = {
   book: string;
   chapter: number;
   verse: number;
+  verseEnd: number | null;
   titleEn: string | null;
   titleVi: string | null;
   titleZh: string | null;
@@ -26,6 +27,7 @@ export async function getVerseById(id: string): Promise<VerseData | null> {
     book: row.book,
     chapter: row.chapter,
     verse: row.verse,
+    verseEnd: row.verseEnd,
     titleEn: row.titleEn,
     titleVi: row.titleVi,
     titleZh: row.titleZh,

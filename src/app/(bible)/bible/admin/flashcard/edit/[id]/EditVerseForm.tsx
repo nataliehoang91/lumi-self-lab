@@ -33,6 +33,7 @@ type VerseResponse = {
   flashCardCollection?: { id: string; name: string } | null;
   chapter: number;
   verse: number;
+  verseEnd?: number | null;
   contentVIE1923?: string | null;
   contentKJV?: string | null;
   contentNIV?: string | null;
@@ -45,6 +46,7 @@ type EditVerseFields =
   | "bookId"
   | "chapter"
   | "verse"
+  | "verseEnd"
   | "contentVIE1923"
   | "contentKJV"
   | "contentNIV"
@@ -67,6 +69,7 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
   const [collectionId, setCollectionId] = useState("");
   const [chapter, setChapter] = useState("");
   const [verse, setVerse] = useState("");
+  const [verseEnd, setVerseEnd] = useState("");
   const [contentVIE1923, setContentVIE1923] = useState("");
   const [contentKJV, setContentKJV] = useState("");
   const [contentNIV, setContentNIV] = useState("");
@@ -121,6 +124,7 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
         setCollectionId(v.collectionId ?? "");
         setChapter(String(v.chapter));
         setVerse(String(v.verse));
+        setVerseEnd(v.verseEnd != null && v.verseEnd > v.verse ? String(v.verseEnd) : "");
         setContentVIE1923(v.contentVIE1923 ?? "");
         setContentKJV(v.contentKJV ?? "");
         setContentNIV(v.contentNIV ?? "");
@@ -185,6 +189,9 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
         </FormErrorMessage>
         <FormErrorMessage name="general" match="invalid_verse">
           Invalid verse.
+        </FormErrorMessage>
+        <FormErrorMessage name="general" match="invalid_verse_end">
+          Verse end must be ≥ verse and at most 50 verses.
         </FormErrorMessage>
         <FormErrorMessage name="general" match="book_not_found">
           Book not found.
@@ -287,7 +294,10 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
             <select
               name="verse"
               value={verse}
-              onChange={(e) => setVerse(e.target.value)}
+              onChange={(e) => {
+                setVerse(e.target.value);
+                setVerseEnd("");
+              }}
               required
               disabled={!verseCount}
               className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
@@ -298,6 +308,27 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
                   {n}
                 </option>
               ))}
+            </select>
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-stone-700">
+              Verse end (optional)
+            </label>
+            <select
+              name="verseEnd"
+              value={verseEnd}
+              onChange={(e) => setVerseEnd(e.target.value)}
+              disabled={!verseCount || !verse}
+              className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+            >
+              <option value="">Single verse</option>
+              {verseOptions
+                .filter((n) => !verse || n >= parseInt(verse, 10))
+                .map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
             </select>
           </div>
         </div>
