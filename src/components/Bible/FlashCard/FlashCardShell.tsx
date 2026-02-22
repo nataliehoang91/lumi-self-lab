@@ -103,8 +103,8 @@ export function FlashCardShell({
           {intl.t("collection")}
         </label>
         <Select
-          value={collectionId || "__all__"}
-          onValueChange={(v) => pushParams({ collection: v === "__all__" ? "" : v, index: 0 })}
+          value={collectionId || (collections[0]?.id ?? "")}
+          onValueChange={(v) => pushParams({ collection: v, index: 0 })}
         >
           <SelectTrigger
             id="collection-select"
@@ -115,18 +115,12 @@ export function FlashCardShell({
             )}
             aria-label={intl.t("selectCollection")}
           >
-            <SelectValue placeholder={intl.t("allVerses")} />
+            <SelectValue placeholder={intl.t("selectCollection")} />
           </SelectTrigger>
           <SelectContent
             className="rounded-xl border border-border bg-popover text-popover-foreground"
             sideOffset={4}
           >
-            <SelectItem
-              value="__all__"
-              className="focus:bg-muted focus:text-muted-foreground rounded-lg"
-            >
-              {intl.t("allVerses")}
-            </SelectItem>
             {collections.map((c) => (
               <SelectItem
                 key={c.id}

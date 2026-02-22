@@ -31,10 +31,9 @@ export default async function FlashcardPage({
 }) {
   const params = await searchParams;
   const { index, layout, font, lang, limit, collection } = parseSearchParams(params);
-  const [ids, collections] = await Promise.all([
-    getFlashcardIds(collection || undefined),
-    getCollections(),
-  ]);
+  const collections = await getCollections();
+  const effectiveCollection = collection?.trim() || collections[0]?.id;
+  const ids = await getFlashcardIds(effectiveCollection || undefined);
 
   const isAll = layout === "all";
   const visibleCount = isAll ? Math.min(limit, ids.length) : 1;
@@ -50,7 +49,7 @@ export default async function FlashcardPage({
           fontSize={font}
           lang={lang}
           collections={collections}
-          collectionId={collection || undefined}
+          collectionId={effectiveCollection || undefined}
           displayCount={isAll ? visibleCount : undefined}
         >
           {slice.map((verseId: string) => (
