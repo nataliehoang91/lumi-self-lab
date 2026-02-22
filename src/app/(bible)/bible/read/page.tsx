@@ -520,7 +520,7 @@ export default function BibleReadPage() {
                     {leftVersion !== null && (
                       <span
                         className={cn(
-                          "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium shadow-sm",
+                          "inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium shadow-sm",
                           leftVersion === "vi" && "bg-coral text-coral-foreground",
                           leftVersion === "kjv" && "bg-sage text-sage-foreground",
                           leftVersion === "niv" && "bg-sky-blue text-sky-blue-foreground",
@@ -533,7 +533,7 @@ export default function BibleReadPage() {
                     {rightVersion !== null && (
                       <span
                         className={cn(
-                          "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium shadow-sm",
+                          "inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium shadow-sm",
                           rightVersion === "vi" && "bg-coral text-coral-foreground",
                           rightVersion === "kjv" && "bg-sage text-sage-foreground",
                           rightVersion === "niv" && "bg-sky-blue text-sky-blue-foreground",

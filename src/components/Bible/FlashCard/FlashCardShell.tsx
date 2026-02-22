@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ArrowUp } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ArrowUp, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -98,7 +98,8 @@ export function FlashCardShell({
   const collectionSelectorInline =
     collections.length > 0 ? (
       <div className="flex items-center gap-2 flex-wrap min-w-0">
-        <label htmlFor="collection-select" className="text-sm font-medium text-muted-foreground shrink-0">
+        <label htmlFor="collection-select" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground shrink-0">
+          <Layers className="w-5 h-5 text-primary shrink-0" />
           {intl.t("collection")}
         </label>
         <Select

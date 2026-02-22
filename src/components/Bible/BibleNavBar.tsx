@@ -70,33 +70,35 @@ export function BibleNavBar() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-          {/* 1. Square menu: navigate to Flashcard / Read */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 min-h-8 w-8 min-w-8 rounded-lg border border-primary-dark bg-primary-dark text-primary-foreground shadow-sm hover:opacity-90 hover:bg-primary-dark"
-                aria-label="Navigate to Flashcard or Read"
-              >
-                <SquareMenu className="h-4 w-4 shrink-0" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <Link href="/bible/read" className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4" />
-                  Read
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/bible/flashcard" className="flex items-center gap-2">
-                  <Layers className="h-4 w-4" />
-                  Flashcard
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* 1. Square menu: navigate to Flashcard / Read (mobile only; center Read/Flashcard show from sm) */}
+          <div className="sm:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 min-h-8 w-8 min-w-8 rounded-lg border border-primary-dark bg-primary-dark text-primary-foreground shadow-sm hover:opacity-90 hover:bg-primary-dark"
+                  aria-label="Navigate to Flashcard or Read"
+                >
+                  <SquareMenu className="h-4 w-4 shrink-0" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/bible/read" className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4" />
+                    Read
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/bible/flashcard" className="flex items-center gap-2">
+                    <Layers className="h-4 w-4" />
+                    Flashcard
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
           {/* 2. Font size */}
           <div className="md:hidden">
@@ -105,7 +107,7 @@ export function BibleNavBar() {
                 <Button
                   variant="skyBlue"
                   size="sm"
-                  className="h-8 gap-1 px-2.5 text-sm"
+                  className="h-8 gap-1 px-2.5 text-sm rounded-md"
                   aria-label={intl.t("navFontMedium")}
                 >
                   <span>{fontSize === "small" ? "A-" : fontSize === "large" ? "A+" : "A"}</span>
@@ -209,7 +211,7 @@ export function BibleNavBar() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 gap-1 px-2.5 text-sm bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90 rounded-xl border-2 border-bible-lang"
+                  className="h-8 gap-1 px-2.5 text-sm rounded-md bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90 border-2 border-bible-lang"
                   aria-label="Language"
                 >
                   <span>{globalLanguage === "ZH" ? "中" : globalLanguage}</span>
