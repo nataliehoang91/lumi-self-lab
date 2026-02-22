@@ -6,7 +6,7 @@ import { FlashCardHorizontal } from "./FlashCardHorizontal";
 import { cn } from "@/lib/utils";
 import { getBibleIntl } from "@/lib/bible-intl";
 import type { Language } from "./FlashCardView";
-import type { VerseData } from "@/app/(bible)/bible/flashcard/getVerseById";
+import type { VerseData } from "@/app/actions/bible/getVerseById";
 
 interface CardSlotProps {
   verse: VerseData;

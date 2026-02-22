@@ -5,7 +5,7 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { CardSlot } from "./CardSlot";
 import { CardSkeleton } from "./CardSkeleton";
 import type { Language } from "./FlashCardView";
-import type { VerseData } from "@/app/(bible)/bible/flashcard/getVerseById";
+import type { VerseData } from "@/app/actions/bible/getVerseById";
 
 interface CardWithDataClientProps {
   verseId: string;

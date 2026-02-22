@@ -1,4 +1,4 @@
-import { getVerseById } from "@/app/(bible)/bible/flashcard/getVerseById";
+import { getVerseById } from "@/app/actions/bible/getVerseById";
 import { CardWithDataClient } from "./CardWithDataClient";
 import type { Language } from "./FlashCardView";
 
