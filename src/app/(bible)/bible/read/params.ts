@@ -45,10 +45,8 @@ export function buildReadSearchParams(params: {
   sync?: boolean;
 }): string {
   const sp = new URLSearchParams();
-  if (params.version1 != null && params.version1 !== "")
-    sp.set("version1", params.version1);
-  if (params.version2 != null && params.version2 !== "")
-    sp.set("version2", params.version2);
+  if (params.version1 != null) sp.set("version1", params.version1);
+  if (params.version2 != null) sp.set("version2", params.version2);
   if (params.sync !== undefined) sp.set("sync", String(params.sync));
   return sp.toString();
 }
