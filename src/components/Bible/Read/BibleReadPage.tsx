@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import {
   BookOpen,
   Maximize2,
@@ -12,6 +13,12 @@ import {
   GripVertical,
   Check,
 } from "lucide-react";
+import {
+  parseReadSearchParams,
+  buildReadSearchParams,
+  defaultVersionFromLanguage,
+  type ReadSearchParams,
+} from "@/app/(bible)/bible/read/params";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -99,12 +106,26 @@ function getBookLabelForSelection(
 }
 
 export function BibleReadPage() {
+  const { globalLanguage, fontSize } = useBibleApp();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const initialParsedRef = useRef<ReadSearchParams | null>(null);
+  function getInitialParsed(): ReadSearchParams {
+    if (initialParsedRef.current === null) {
+      const raw = Object.fromEntries(searchParams.entries());
+      initialParsedRef.current = parseReadSearchParams(raw, globalLanguage);
+    }
+    return initialParsedRef.current;
+  }
+
   const [books, setBooks] = useState<BibleBook[]>([]);
-  const [syncMode, setSyncMode] = useState(true);
+  const [syncMode, setSyncMode] = useState(() => getInitialParsed().sync);
   const [focusMode, setFocusMode] = useState(false);
 
-  const [leftVersion, setLeftVersion] = useState<VersionId | null>(null);
-  const [rightVersion, setRightVersion] = useState<VersionId | null>(null);
+  const [leftVersion, setLeftVersion] = useState<VersionId | null>(() => getInitialParsed().version1);
+  const [rightVersion, setRightVersion] = useState<VersionId | null>(() => getInitialParsed().version2);
 
   const [leftBook, setLeftBook] = useState<BibleBook | null>(null);
   const [leftChapter, setLeftChapter] = useState(1);
@@ -199,9 +220,53 @@ export function BibleReadPage() {
   }, []);
 
   const { setReadFocusMode } = useReadFocus();
-  const { globalLanguage, fontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
+
+  const initialUrlSynced = useRef(false);
+  const initFromUrlRunOnce = useRef(false);
+
+  // When URL changes (e.g. back/forward), sync state from URL and clean invalid version2
+  useEffect(() => {
+    const raw = Object.fromEntries(searchParams.entries());
+    const parsed = parseReadSearchParams(raw, globalLanguage);
+    const qs = buildReadSearchParams({
+      version1: parsed.version1,
+      version2: parsed.version2,
+      sync: parsed.sync,
+    });
+    const currentSearch = typeof window !== "undefined" ? window.location.search : "";
+    const desiredSearch = qs ? `?${qs}` : "";
+    if (currentSearch !== desiredSearch) {
+      router.replace(qs ? `${pathname}?${qs}` : pathname);
+    }
+    if (!initFromUrlRunOnce.current) {
+      initFromUrlRunOnce.current = true;
+      initialUrlSynced.current = true;
+      return;
+    }
+    setLeftVersion(parsed.version1);
+    setRightVersion(parsed.version2);
+    setSyncMode(parsed.sync);
+    initialUrlSynced.current = true;
+  }, [searchParams, pathname, globalLanguage, router]);
+
+  // Keep URL in sync when user changes version or sync (skip first run so we don't overwrite URL before hydration)
+  useEffect(() => {
+    if (!initialUrlSynced.current) return;
+    const v1 = leftVersion ?? defaultVersionFromLanguage(globalLanguage);
+    const qs = buildReadSearchParams({
+      version1: v1,
+      version2: rightVersion,
+      sync: syncMode,
+    });
+    const nextUrl = qs ? `${pathname}?${qs}` : pathname;
+    const currentSearch = typeof window !== "undefined" ? window.location.search : "";
+    const desiredSearch = qs ? `?${qs}` : "";
+    if (currentSearch !== desiredSearch) {
+      router.replace(nextUrl);
+    }
+  }, [leftVersion, rightVersion, syncMode, pathname, globalLanguage, router]);
 
   useEffect(() => {
     setReadFocusMode(focusMode);
