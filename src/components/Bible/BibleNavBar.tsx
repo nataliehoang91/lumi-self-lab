@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, ChevronDown, Check } from "lucide-react";
+import { ChevronDown, Check, SquareMenu, BookOpen, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -70,7 +70,35 @@ export function BibleNavBar() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-          {/* 1. Font size */}
+          {/* 1. Square menu: navigate to Flashcard / Read */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 min-h-8 w-8 min-w-8 rounded-lg border border-primary-dark bg-primary-dark text-primary-foreground shadow-sm hover:opacity-90 hover:bg-primary-dark"
+                aria-label="Navigate to Flashcard or Read"
+              >
+                <SquareMenu className="h-4 w-4 shrink-0" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href="/bible/read" className="flex items-center gap-2">
+                  <BookOpen className="h-4 w-4" />
+                  Read
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/bible/flashcard" className="flex items-center gap-2">
+                  <Layers className="h-4 w-4" />
+                  Flashcard
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* 2. Font size */}
           <div className="md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -133,7 +161,7 @@ export function BibleNavBar() {
             </Button>
           </div>
 
-          {/* 2. Language – mint-forest green */}
+          {/* 3. Language – mint-forest green */}
           <div className="hidden md:flex items-center rounded-xl border border-bible-lang/40 bg-bible-lang/10 p-0.5">
             <Button
               variant="ghost"
@@ -217,15 +245,6 @@ export function BibleNavBar() {
             </DropdownMenu>
           </div>
 
-          {/* 3. Grid (layout) — second color; light: tint, dark: solid fill */}
-          <div
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-second/30 bg-second/10 text-second dark:bg-second-dark dark:border-second-dark dark:text-second-foreground"
-            title={intl.t("navLayoutShowAll")}
-            aria-hidden
-          >
-            <LayoutGrid className="h-4 w-4" />
-          </div>
-
           {/* 4. Theme */}
           <ThemeToggleButtonBibleApp variant="desktop" />
         </div>
@@ -233,3 +252,4 @@ export function BibleNavBar() {
     </nav>
   );
 }
+

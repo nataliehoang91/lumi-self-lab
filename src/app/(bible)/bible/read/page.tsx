@@ -10,7 +10,14 @@ import {
   Bookmark,
   StickyNote,
   GripVertical,
+  Check,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
 import { useReadFocus } from "@/components/Bible/ReadFocusContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
@@ -20,8 +27,8 @@ import { Container } from "@/components/ui/container";
 
 const TRANSLATIONS = [
   { id: "vi", name: "VI", fullName: "Vietnamese Bible" },
-  { id: "kjv", name: "KJV", fullName: "King James Version" },
   { id: "niv", name: "NIV", fullName: "New International Version" },
+  { id: "kjv", name: "KJV", fullName: "King James Version" },
   { id: "zh", name: "中文", fullName: "Chinese Union Version" },
 ] as const;
 
@@ -316,7 +323,8 @@ export default function BibleReadPage() {
         )}
       >
         <Container className="mx-auto px-4 sm:px-6 py-3">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
+          {/* Desktop layout: version chips + testament/book/chapter inline */}
+          <div className="hidden md:flex items-center justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-3 min-w-0">
               <BookOpen className="w-5 h-5 text-primary shrink-0" />
               <h1 className="text-sm font-medium text-foreground shrink-0">{t("readVersion")}</h1>
@@ -332,7 +340,6 @@ export default function BibleReadPage() {
                 ))}
               </div>
             </div>
-            {/* Testament + book + chapter: show when at least one version chosen (in both normal and focus mode) */}
             {(leftVersion !== null || rightVersion !== null) && leftBook && (
                 <div className="flex items-center gap-2 flex-wrap shrink-0">
                   <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-0.5 h-[2.25rem] box-border">
@@ -342,10 +349,10 @@ export default function BibleReadPage() {
                         type="button"
                         onClick={() => setTestamentFilterAndAdjustBook(filter)}
                         className={cn(
-                          "rounded-lg px-3 py-1.5 text-sm font-medium transition-all h-full",
+                          "rounded-lg px-3 py-1.5 text-sm font-medium transition-all h-full border",
                           testamentFilter === filter
-                            ? "bg-second-dark text-second-foreground"
-                            : "text-muted-foreground hover:bg-second/20 hover:text-foreground"
+                            ? "bg-second/5 border-second text-foreground"
+                            : "border-transparent text-muted-foreground hover:bg-second/20 hover:text-foreground"
                         )}
                       >
                         {filter === "ot" ? t("readOldTestament") : t("readNewTestament")}
@@ -359,7 +366,7 @@ export default function BibleReadPage() {
                         setSubNavChapterOpen(false);
                         setSubNavBookOpen(!subNavBookOpen);
                       }}
-                      className="px-3 py-1.5 rounded-lg text-sm font-medium bg-card border border-border text-foreground hover:bg-second/10 transition-all flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg text-sm font-medium border border-sage bg-sage/10 text-foreground hover:bg-sage/20 transition-all flex items-center gap-1.5"
                     >
                       {getBookLabelForSelection(leftBook, leftVersion, rightVersion)}
                       <ChevronDown className="w-4 h-4" />
@@ -388,7 +395,7 @@ export default function BibleReadPage() {
                               className={cn(
                                 "w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all",
                                 b.id === leftBook.id
-                                  ? "bg-primary/10 text-primary font-medium"
+                                  ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
                                   : "text-foreground"
                               )}
                             >
@@ -406,7 +413,7 @@ export default function BibleReadPage() {
                         setSubNavBookOpen(false);
                         setSubNavChapterOpen(!subNavChapterOpen);
                       }}
-                      className="px-3 py-1.5 rounded-lg text-sm font-medium bg-card border border-border text-foreground hover:bg-second/10 transition-all flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg text-sm font-medium border border-primary bg-primary/5 text-foreground hover:bg-primary/10 transition-all flex items-center gap-1.5 dark:border-primary dark:bg-primary/5"
                     >
                       {t("readChapterN", { n: leftChapter })}
                       <ChevronDown className="w-4 h-4" />
@@ -418,7 +425,7 @@ export default function BibleReadPage() {
                           onClick={() => setSubNavChapterOpen(false)}
                           aria-hidden
                         />
-                        <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-40 p-2">
+                        <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))] p-2">
                           <div className="grid grid-cols-5 gap-1">
                             {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map(
                               (ch) => (
@@ -430,7 +437,7 @@ export default function BibleReadPage() {
                                     setSubNavChapterOpen(false);
                                   }}
                                   className={cn(
-                                    "flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] rounded-full text-sm hover:bg-accent transition-all",
+                                    "flex items-center justify-center min-w-9 min-h-9 rounded-md text-sm hover:bg-accent transition-all",
                                     ch === leftChapter
                                       ? "bg-primary text-primary-foreground font-medium"
                                       : "text-foreground"
@@ -474,6 +481,227 @@ export default function BibleReadPage() {
                 {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
               </button>
             </div>
+          </div>
+
+          {/* Mobile layout: version dropdown + testament/book/chapter stacked */}
+          <div className="flex md:hidden flex-col gap-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <div className="flex items-center gap-2 min-w-0">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className="flex items-center gap-1.5 rounded-md border border-border bg-card text-foreground hover:bg-muted/50 px-3 py-2 text-sm font-medium min-h-9 transition-all"
+                      aria-label={t("readVersion")}
+                    >
+                      <span className="truncate">{t("readVersion")}</span>
+                      <ChevronDown className="h-4 w-4 shrink-0" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="min-w-[140px] rounded-md">
+                    {TRANSLATIONS.map((trans) => (
+                      <DropdownMenuItem
+                        key={trans.id}
+                        onClick={() => handleVersionChipClick(trans.id)}
+                        className="gap-2"
+                      >
+                        {leftVersion === trans.id || rightVersion === trans.id ? (
+                          <Check className="h-4 w-4" />
+                        ) : (
+                          <span className="w-4" />
+                        )}
+                        {trans.name}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                {(leftVersion !== null || rightVersion !== null) && (
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {leftVersion !== null && (
+                      <span
+                        className={cn(
+                          "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium shadow-sm",
+                          leftVersion === "vi" && "bg-coral text-coral-foreground",
+                          leftVersion === "kjv" && "bg-sage text-sage-foreground",
+                          leftVersion === "niv" && "bg-sky-blue text-sky-blue-foreground",
+                          leftVersion === "zh" && "bg-tertiary text-tertiary-foreground dark:bg-yellow-600 dark:text-yellow-950"
+                        )}
+                      >
+                        {TRANSLATIONS.find((tr) => tr.id === leftVersion)?.name ?? leftVersion}
+                      </span>
+                    )}
+                    {rightVersion !== null && (
+                      <span
+                        className={cn(
+                          "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium shadow-sm",
+                          rightVersion === "vi" && "bg-coral text-coral-foreground",
+                          rightVersion === "kjv" && "bg-sage text-sage-foreground",
+                          rightVersion === "niv" && "bg-sky-blue text-sky-blue-foreground",
+                          rightVersion === "zh" && "bg-tertiary text-tertiary-foreground dark:bg-yellow-600 dark:text-yellow-950"
+                        )}
+                      >
+                        {TRANSLATIONS.find((tr) => tr.id === rightVersion)?.name ?? rightVersion}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                {!focusMode && rightVersion !== null && (
+                  <button
+                    onClick={() => setSyncMode(!syncMode)}
+                    className={cn(
+                      "px-3 py-1.5 rounded-md text-sm font-medium transition-all",
+                      syncMode
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-accent"
+                    )}
+                  >
+                    {syncMode ? t("readSynced") : t("readIndependent")}
+                  </button>
+                )}
+                <button
+                  onClick={() => setFocusMode(!focusMode)}
+                  className={cn(
+                    "p-2 rounded-md transition-all",
+                    focusMode
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-accent"
+                  )}
+                  title={focusMode ? t("readExitFocus") : t("readFocusMode")}
+                >
+                  {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+            {(leftVersion !== null || rightVersion !== null) && leftBook && (
+              <div className="flex items-center justify-center gap-2 flex-wrap">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className="flex items-center gap-1.5 rounded-md border border-second bg-second/5 text-foreground px-3 py-2 text-sm font-medium min-h-9 shrink-0 transition-all hover:bg-second/10"
+                      aria-label={t("readOldTestament")}
+                    >
+                      <span className="truncate">
+                        {testamentFilter === "ot" ? "Old" : "New"}
+                      </span>
+                      <ChevronDown className="h-4 w-4 shrink-0" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="min-w-[120px] rounded-md">
+                    <DropdownMenuItem
+                      onClick={() => setTestamentFilterAndAdjustBook("ot")}
+                      className="gap-2"
+                    >
+                      {testamentFilter === "ot" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+                      Old
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setTestamentFilterAndAdjustBook("nt")}
+                      className="gap-2"
+                    >
+                      {testamentFilter === "nt" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+                      New
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubNavChapterOpen(false);
+                      setSubNavBookOpen(!subNavBookOpen);
+                    }}
+                    className="px-3 py-2 rounded-md text-sm font-medium border border-sage bg-sage/10 text-foreground hover:bg-sage/20 transition-all flex items-center gap-1.5 h-9"
+                  >
+                    {getBookLabelForSelection(leftBook, leftVersion, rightVersion)}
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                  {subNavBookOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setSubNavBookOpen(false)}
+                        aria-hidden
+                      />
+                      <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-md shadow-lg z-20 max-h-80 overflow-y-auto w-48 min-w-48">
+                        <div className="sticky top-0 bg-muted/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                          {testamentFilter === "ot"
+                            ? t("readOldTestament")
+                            : t("readNewTestament")}
+                        </div>
+                        {filteredBooks.map((b) => (
+                          <button
+                            key={b.id}
+                            type="button"
+                            onClick={() => {
+                              handleLeftBookChange(b);
+                              setSubNavBookOpen(false);
+                            }}
+                            className={cn(
+                              "w-full text-left px-3 py-2 text-sm hover:bg-accent transition-all",
+                              b.id === leftBook.id
+                                ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
+                                : "text-foreground"
+                            )}
+                          >
+                            {getBookLabelForSelection(b, leftVersion, rightVersion)}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubNavBookOpen(false);
+                      setSubNavChapterOpen(!subNavChapterOpen);
+                    }}
+                    className="px-3 py-2 rounded-md text-sm font-medium border border-primary bg-primary/5 text-foreground hover:bg-primary/10 transition-all flex items-center gap-1.5 h-9 dark:border-primary dark:bg-primary/5"
+                    aria-label={t("readChapterN", { n: leftChapter })}
+                  >
+                    {leftChapter}
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                  {subNavChapterOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setSubNavChapterOpen(false)}
+                        aria-hidden
+                      />
+                      <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-md shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))] p-2">
+                        <div className="grid grid-cols-5 gap-1">
+                          {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map(
+                            (ch) => (
+                              <button
+                                key={ch}
+                                type="button"
+                                onClick={() => {
+                                  handleLeftChapterChange(ch);
+                                  setSubNavChapterOpen(false);
+                                }}
+                                className={cn(
+                                  "flex items-center justify-center min-w-9 min-h-9 rounded-md text-sm hover:bg-accent transition-all",
+                                  ch === leftChapter
+                                    ? "bg-primary text-primary-foreground font-medium"
+                                    : "text-foreground"
+                                )}
+                              >
+                                {ch}
+                              </button>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </Container>
       </header>
@@ -635,10 +863,10 @@ function ReadingPanel({
                   type="button"
                   onClick={() => onTestamentFilterChange(filter)}
                   className={cn(
-                    "rounded-lg px-3 py-2 text-sm font-medium transition-all h-full",
+                    "rounded-lg px-3 py-2 text-sm font-medium transition-all h-full border",
                     testamentFilter === filter
-                      ? "bg-second-dark text-second-foreground"
-                      : "text-muted-foreground hover:bg-second/20 hover:text-foreground"
+                      ? "bg-second/5 border-second text-foreground"
+                      : "border-transparent text-muted-foreground hover:bg-second/20 hover:text-foreground"
                   )}
                 >
                   {filter === "ot" ? t("readOldTestament") : t("readNewTestament")}
@@ -649,15 +877,16 @@ function ReadingPanel({
           <div className="flex items-center gap-2 flex-wrap">
             <div className="relative">
               <button
+                type="button"
                 onClick={() => setShowBookMenu(!showBookMenu)}
-                className="px-4 py-2 bg-card border border-border rounded-lg text-foreground font-medium hover:bg-second/10 transition-all flex items-center gap-2"
+                className="px-4 py-2 border border-sage bg-sage/10 rounded-lg text-foreground font-medium hover:bg-sage/20 transition-all flex items-center gap-2"
               >
                 {getBookDisplayName(book, version) || t("readBook")}
                 <ChevronDown className="w-4 h-4" />
               </button>
               {showBookMenu && (
                 <>
-                  <div className="fixed inset-0 z-10" onClick={() => setShowBookMenu(false)} />
+                  <div className="fixed inset-0 z-10" onClick={() => setShowBookMenu(false)} aria-hidden />
                   <div className="absolute top-full mt-2 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-48">
                     <div className="sticky top-0 bg-muted/80 px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                       {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
@@ -665,6 +894,7 @@ function ReadingPanel({
                     {panelFilteredBooks.map((b) => (
                       <button
                         key={b.id}
+                        type="button"
                         onClick={() => {
                           onBookChange(b);
                           setShowBookMenu(false);
@@ -672,7 +902,7 @@ function ReadingPanel({
                         className={cn(
                           "w-full text-left px-4 py-2 hover:bg-accent transition-all",
                           b.id === book?.id
-                            ? "bg-primary/10 text-primary font-medium"
+                            ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
                             : "text-foreground"
                         )}
                       >
@@ -685,26 +915,28 @@ function ReadingPanel({
             </div>
             <div className="relative">
               <button
+                type="button"
                 onClick={() => setShowChapterMenu(!showChapterMenu)}
-                className="px-4 py-2 bg-card border border-border rounded-lg text-foreground font-medium hover:bg-second/10 transition-all flex items-center gap-2"
+                className="px-4 py-2 border border-primary bg-primary/5 rounded-lg text-foreground font-medium hover:bg-primary/10 transition-all flex items-center gap-2 dark:border-primary dark:bg-primary/5"
               >
                 {t("readChapterN", { n: chapter })}
                 <ChevronDown className="w-4 h-4" />
               </button>
               {showChapterMenu && (
                 <>
-                  <div className="fixed inset-0 z-10" onClick={() => setShowChapterMenu(false)} />
-                  <div className="absolute top-full mt-2 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-40">
+                  <div className="fixed inset-0 z-10" onClick={() => setShowChapterMenu(false)} aria-hidden />
+                  <div className="absolute top-full mt-2 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))]">
                     <div className="grid grid-cols-5 gap-2 p-2">
                       {Array.from({ length: maxChapters }, (_, i) => i + 1).map((ch) => (
                         <button
                           key={ch}
+                          type="button"
                           onClick={() => {
                             onChapterChange(ch);
                             setShowChapterMenu(false);
                           }}
                           className={cn(
-                            "flex items-center justify-center min-w-[2.25rem] min-h-[2.25rem] rounded-full hover:bg-accent transition-all text-sm",
+                            "flex items-center justify-center min-w-9 min-h-9 rounded-md hover:bg-accent transition-all text-sm",
                             ch === chapter
                               ? "bg-primary text-primary-foreground font-medium"
                               : "text-foreground"
