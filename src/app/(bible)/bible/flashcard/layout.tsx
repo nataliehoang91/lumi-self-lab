@@ -1,24 +1,15 @@
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
+/** Grid skeleton: 2 rows, 1 col (default) → 2 (sm) → 3 (md) → 4 (lg). */
 function FlashcardSkeleton() {
+  const count = 8; // 2 rows × 4 cols on lg
   return (
-    <div className="min-h-screen pt-14 flex flex-col items-center px-4 sm:px-6 max-w-6xl mx-auto bg-linear-to-b from-background to-muted/20">
-      <div className="w-full text-center py-3 shrink-0">
-        <Skeleton className="h-4 w-32 mx-auto" />
-        <div className="flex justify-center gap-1.5 mt-2">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <Skeleton key={i} className="h-1.5 w-6 rounded-full" />
-          ))}
-        </div>
-      </div>
-      <div className="w-full flex-1 flex flex-col items-center justify-center gap-4 py-4">
-        <Skeleton className="h-10 w-10 rounded-full shrink-0" />
-        <Skeleton className="w-full max-w-[280px] h-[260px] rounded-2xl shrink-0" />
-        <Skeleton className="h-10 w-10 rounded-full shrink-0" />
-      </div>
-      <div className="pb-6">
-        <Skeleton className="h-3 w-56" />
+    <div className="min-h-screen pt-14 flex flex-col px-4 sm:px-6 max-w-7xl mx-auto bg-background">
+      <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 py-4">
+        {Array.from({ length: count }).map((_, i) => (
+          <Skeleton key={i} className="w-full aspect-[3/4] max-h-[320px] rounded-2xl shrink-0" />
+        ))}
       </div>
     </div>
   );
