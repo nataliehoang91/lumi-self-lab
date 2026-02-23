@@ -1,5 +1,6 @@
 "use server";
 
+import { cacheLife } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import type { ChapterContent } from "@/components/Bible/Read/types";
@@ -12,7 +13,10 @@ function versionToApiLang(version: ReadVersionId): ApiLang {
   return version === "vi" ? "vie" : version;
 }
 
+/** Cached via use cache + cacheLife so repeated navigations don't hit DB every time. */
 export async function getBooks(): Promise<BibleBook[]> {
+  "use cache";
+  cacheLife("hours");
   const rows = await prisma.bibleBook.findMany({
     orderBy: { order: "asc" },
     select: {

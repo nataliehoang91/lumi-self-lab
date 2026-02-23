@@ -106,10 +106,14 @@ export function ReadProvider({
       if (serverDataApplied.current) return;
       serverDataApplied.current = true;
       setBooks(serverBooks);
-      const parsed = parseReadSearchParams(rawParams, "EN");
-      setLeftVersion(parsed.version1);
-      setRightVersion(parsed.version2);
-      setSyncMode(parsed.sync);
+      const hasVersionInUrl =
+        (rawParams.version1 ?? rawParams.v1 ?? "").trim() !== "";
+      if (hasVersionInUrl) {
+        const parsed = parseReadSearchParams(rawParams, "EN");
+        setLeftVersion(parsed.version1);
+        setRightVersion(parsed.version2);
+        setSyncMode(parsed.sync);
+      }
       if (serverBooks.length > 0) {
         setLeftBook(serverBooks[0]);
         setRightBook(serverBooks[0]);
@@ -167,7 +171,7 @@ export function ReadProvider({
     if (books.length > 0 && !rightBook) setRightBook(books[0]);
   }, [books, leftBook, rightBook]);
 
-  // URL sync: init from URL and clean invalid version2
+  // URL sync: when URL is missing/invalid, add default version from language; keep in sync on back/forward
   useEffect(() => {
     const raw = Object.fromEntries(searchParams.entries());
     const parsed = parseReadSearchParams(raw, globalLanguage);
@@ -176,10 +180,9 @@ export function ReadProvider({
       version2: parsed.version2,
       sync: parsed.sync,
     });
-    const currentSearch = typeof window !== "undefined" ? window.location.search : "";
     const desiredSearch = qs ? `?${qs}` : "";
-    if (currentSearch !== desiredSearch) {
-      router.replace(qs ? `${pathname}?${qs}` : pathname);
+    if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
+      router.replace(desiredSearch ? `${pathname}${desiredSearch}` : pathname);
     }
     if (!initFromUrlRunOnce.current) {
       initFromUrlRunOnce.current = true;
@@ -192,7 +195,7 @@ export function ReadProvider({
     initialUrlSynced.current = true;
   }, [searchParams, pathname, globalLanguage, router]);
 
-  // Push URL when user changes version or sync
+  // Push URL when user changes version or sync (skip if URL already matches to avoid extra requests)
   useEffect(() => {
     if (!initialUrlSynced.current) return;
     const v1 = leftVersion ?? defaultVersionFromLanguage(globalLanguage);
@@ -201,11 +204,11 @@ export function ReadProvider({
       version2: rightVersion,
       sync: syncMode,
     });
-    const nextUrl = qs ? `${pathname}?${qs}` : pathname;
-    const currentSearch = typeof window !== "undefined" ? window.location.search : "";
     const desiredSearch = qs ? `?${qs}` : "";
-    if (currentSearch !== desiredSearch) {
-      router.replace(nextUrl);
+    if (desiredSearch === "") return;
+    if (typeof window === "undefined") return;
+    if (window.location.search !== desiredSearch) {
+      router.replace(`${pathname}${desiredSearch}`);
     }
   }, [leftVersion, rightVersion, syncMode, pathname, globalLanguage, router]);
 

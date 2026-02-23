@@ -28,7 +28,9 @@ export function ReadPageContent({
 
   useEffect(() => {
     setServerData(initialBooks, searchParams);
-  }, [initialBooks, searchParams, setServerData]);
+    // Intentionally run once on mount so client-side URL updates don't re-trigger
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
