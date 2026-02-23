@@ -49,3 +49,23 @@ export function getFilteredBooks(
 ): BibleBook[] {
   return filter === "ot" ? otBooks : ntBooks;
 }
+
+/** Resolve book from URL params: by id within testament list, or first book of that testament. */
+export function resolveBookFromParams(
+  books: BibleBook[],
+  bookId: string | null,
+  testament: TestamentFilter
+): BibleBook {
+  const list = testament === "ot" ? getOtBooks(books) : getNtBooks(books);
+  if (list.length === 0) return books[0];
+  if (bookId) {
+    const found = list.find((b) => b.id === bookId);
+    if (found) return found;
+  }
+  return list[0];
+}
+
+export function clampChapter(chapter: number, book: BibleBook | null): number {
+  if (!book) return 1;
+  return Math.min(Math.max(1, chapter), book.chapterCount);
+}

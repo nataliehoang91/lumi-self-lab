@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Maximize2, Minimize2, ChevronDown, Check } from "lucide-react";
+import { BookOpen, Maximize2, Minimize2, ChevronDown, Check, Lightbulb } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,6 +48,8 @@ export function ReadHeader() {
     handleLeftChapterChange,
     setTestamentFilterAndAdjustBook,
     filteredBooks,
+    insightOpen,
+    setInsightOpen,
   } = useRead();
 
   return (
@@ -204,6 +206,27 @@ export function ReadHeader() {
                 {syncMode ? t("readSynced") : t("readIndependent")}
               </Button>
             )}
+            {/* Insights button (desktop) */}
+            {!focusMode && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setInsightOpen(!insightOpen)}
+                className={cn(
+                  "rounded-lg gap-1.5",
+                  insightOpen
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-accent"
+                )}
+                title={t("readInsights") ?? "Insights"}
+              >
+                <Lightbulb className="w-4 h-4" />
+                <span className="hidden sm:inline text-sm font-medium">
+                  {t("readInsightsLabel") ?? "Insights"}
+                </span>
+              </Button>
+            )}
             <Button
               type="button"
               variant="ghost"
@@ -292,6 +315,24 @@ export function ReadHeader() {
                   )}
                 >
                   {syncMode ? t("readSynced") : t("readIndependent")}
+                </Button>
+              )}
+              {/* Insights button (mobile) */}
+              {!focusMode && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setInsightOpen(!insightOpen)}
+                  className={cn(
+                    "rounded-md",
+                    insightOpen
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-accent"
+                  )}
+                  title={t("readInsights") ?? "Insights"}
+                >
+                  <Lightbulb className="w-4 h-4" />
                 </Button>
               )}
               <Button

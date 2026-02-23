@@ -57,6 +57,30 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readOldTestament: "Old Testament",
     readNewTestament: "New Testament",
     readAll: "All",
+    // Insights
+    readInsights: "Insights",
+    readInsightsLabel: "Insights",
+    readInsightsTitle: "Chapter insights",
+    readInsightsBetaBadge: "Beta",
+    readInsightsLanguagesNote: "Insights are currently available in English and Vietnamese. More languages coming soon.",
+    readInsightsFor: "{book} {n}",
+    readInsightsClose: "Close",
+    readInsightsContext: "Context",
+    readInsightsExplanation: "Explanation",
+    readInsightsReflection: "Reflection",
+    readInsightsComingSoon:
+      "Insights for this chapter are coming soon. Try John 3 for a preview.",
+    readInsightsDismissHint: "Press",
+    readInsightsDismissHintTail: "or tap the lightbulb again to close",
+    // Sample John 3 content (can be localized later)
+    readInsightJohn3Context:
+      "This conversation between Jesus and Nicodemus takes place early in Jesus' ministry and introduces the theme of spiritual rebirth.",
+    readInsightJohn3Explanation:
+      'Jesus explains that being "born again" is a spiritual transformation through the Spirit, not a physical rebirth. John 3:16 reveals God’s love and the gift of eternal life through belief in Jesus.',
+    readInsightJohn3Reflection1:
+      'What does "being born again" mean to you personally?',
+    readInsightJohn3Reflection2:
+      "How does the image of the wind help you understand spiritual transformation?",
   },
   vi: {
     clickToReveal: "Nhấp để xem câu kinh thánh",
@@ -99,6 +123,30 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readOldTestament: "Cựu Ước",
     readNewTestament: "Tân Ước",
     readAll: "Tất cả",
+    // Insights
+    readInsights: "Khải thị",
+    readInsightsLabel: "Khải thị",
+    readInsightsTitle: "Khải thị cho chương",
+    readInsightsBetaBadge: "Beta",
+    readInsightsLanguagesNote:
+      "Khải thị hiện chỉ có cho tiếng Anh và tiếng Việt. Các ngôn ngữ khác sẽ được thêm sau.",
+    readInsightsFor: "{book} {n}",
+    readInsightsClose: "Đóng",
+    readInsightsContext: "Bối cảnh",
+    readInsightsExplanation: "Giải thích",
+    readInsightsReflection: "Suy ngẫm",
+    readInsightsComingSoon:
+      "Khải thị cho chương này sẽ sớm có mặt. Hãy thử Giăng 3 để xem trước.",
+    readInsightsDismissHint: "Nhấn",
+    readInsightsDismissHintTail: "hoặc chạm lại biểu tượng bóng đèn để đóng",
+    readInsightJohn3Context:
+      "Cuộc đối thoại giữa Chúa Jêsus và Ni-cô-đem diễn ra đầu chức vụ của Ngài, mở ra chủ đề quan trọng về sự tái sinh thuộc linh.",
+    readInsightJohn3Explanation:
+      "Chúa Jêsus giải thích rằng \"sinh lại\" là sự biến đổi thuộc linh bởi Thánh Linh, không phải là sự sinh ra thể xác lần thứ hai. Giăng 3:16 bày tỏ tình yêu của Đức Chúa Trời và món quà sự sống đời đời cho người tin Con Ngài.",
+    readInsightJohn3Reflection1:
+      "\"Được sinh lại\" có ý nghĩa gì với chính bạn?",
+    readInsightJohn3Reflection2:
+      "Hình ảnh ngọn gió giúp bạn hiểu thế nào về sự biến đổi thuộc linh?",
   },
   zh: {
     clickToReveal: "點擊顯示經文",
@@ -141,6 +189,28 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readOldTestament: "舊約",
     readNewTestament: "新約",
     readAll: "全部",
+    // Insights
+    readInsights: "靈修提示",
+    readInsightsLabel: "靈修提示",
+    readInsightsTitle: "本章靈修提示",
+    readInsightsBetaBadge: "Beta",
+    readInsightsLanguagesNote:
+      "靈修提示目前優先提供英文與越南文章節，其他語言將陸續加入。",
+    readInsightsFor: "{book} 第 {n} 章",
+    readInsightsClose: "關閉",
+    readInsightsContext: "背景",
+    readInsightsExplanation: "解說",
+    readInsightsReflection: "默想",
+    readInsightsComingSoon:
+      "本章的靈修提示即將推出。可以先試試約翰福音第 3 章。",
+    readInsightsDismissHint: "按下",
+    readInsightsDismissHintTail: "或再次點擊燈泡圖示關閉",
+    readInsightJohn3Context:
+      "這段對話發生在耶穌事工初期，祂與尼哥底母談論「重生」，開啟了重要的屬靈主題。",
+    readInsightJohn3Explanation:
+      "耶穌說明「重生」不是肉身再生，而是聖靈帶來的內在更新。約翰福音 3:16 顯明神愛世人，並藉著信靠獨生子賜下永生。",
+    readInsightJohn3Reflection1: "「重生」對你個人意味著什麼？",
+    readInsightJohn3Reflection2: "風的比喻如何幫助你理解屬靈的改變？",
   },
 };
 
