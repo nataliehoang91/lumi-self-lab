@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import type { ChapterContent } from "@/components/Bible/Read/types";
-import type { ReadVersionId } from "./params";
+import type { ReadVersionId } from "@/app/(bible)/bible/read/params";
 
 const LANGS = ["vie", "kjv", "niv", "zh"] as const;
 type ApiLang = (typeof LANGS)[number];

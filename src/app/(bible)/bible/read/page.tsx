@@ -1,7 +1,17 @@
-import { getBooks } from "./actions";
-import { BibleReadPage } from "@/components/Bible/Read/BibleReadPage";
+import { getBooks } from "@/app/actions/bible/read";
+import { ReadPageContent } from "./ReadPageContent";
 
-export default async function ReadPage() {
+type SearchParams = Record<string, string | undefined>;
+
+export default async function ReadPage({
+  searchParams,
+}: {
+  searchParams?: SearchParams | Promise<SearchParams>;
+}) {
   const initialBooks = await getBooks();
-  return <BibleReadPage initialBooks={initialBooks} />;
+  const params: SearchParams =
+    searchParams && typeof (searchParams as Promise<SearchParams>).then === "function"
+      ? await (searchParams as Promise<SearchParams>)
+      : ((searchParams as SearchParams) ?? {});
+  return <ReadPageContent initialBooks={initialBooks} searchParams={params} />;
 }

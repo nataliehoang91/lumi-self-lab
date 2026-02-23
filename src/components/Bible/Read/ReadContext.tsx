@@ -16,7 +16,7 @@ import {
   defaultVersionFromLanguage,
   type ReadSearchParams,
 } from "@/app/(bible)/bible/read/params";
-import { getChapterContent } from "@/app/(bible)/bible/read/actions";
+import { getChapterContent } from "@/app/actions/bible/read";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import type { BibleBook } from "./types";
 import type { ChapterContent } from "./types";
@@ -50,6 +50,11 @@ interface ReadState {
 
 interface ReadContextValue extends ReadState {
   setBooks: (books: BibleBook[]) => void;
+  /** Hydrate from server: initial books + searchParams (call once from page content). */
+  setServerData: (
+    books: BibleBook[],
+    searchParams: Record<string, string | undefined>
+  ) => void;
   handleVersionChipClick: (transId: VersionId) => void;
   setSyncMode: (v: boolean) => void;
   setFocusMode: (v: boolean) => void;
@@ -94,6 +99,24 @@ export function ReadProvider({
   const initialParsedRef = useRef<ReadSearchParams | null>(null);
   const initialUrlSynced = useRef(false);
   const initFromUrlRunOnce = useRef(false);
+  const serverDataApplied = useRef(false);
+
+  const setServerData = useCallback(
+    (serverBooks: BibleBook[], rawParams: Record<string, string | undefined>) => {
+      if (serverDataApplied.current) return;
+      serverDataApplied.current = true;
+      setBooks(serverBooks);
+      const parsed = parseReadSearchParams(rawParams, "EN");
+      setLeftVersion(parsed.version1);
+      setRightVersion(parsed.version2);
+      setSyncMode(parsed.sync);
+      if (serverBooks.length > 0) {
+        setLeftBook(serverBooks[0]);
+        setRightBook(serverBooks[0]);
+      }
+    },
+    []
+  );
 
   function getInitialParsed(): ReadSearchParams {
     if (initialParsedRef.current === null) {
@@ -340,6 +363,7 @@ export function ReadProvider({
   const value: ReadContextValue = {
     books,
     setBooks,
+    setServerData,
     leftVersion,
     rightVersion,
     syncMode,

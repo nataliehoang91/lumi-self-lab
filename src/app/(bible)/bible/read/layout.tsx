@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import ReadLoading from "./loading";
+import { ReadLayoutClient } from "./ReadLayoutClient";
 
 export default function ReadLayout({
   children,
@@ -7,8 +8,10 @@ export default function ReadLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Suspense fallback={<ReadLoading />}>
-      {children}
-    </Suspense>
+    <ReadLayoutClient>
+      <Suspense fallback={<ReadLoading />}>
+        {children}
+      </Suspense>
+    </ReadLayoutClient>
   );
 }
