@@ -50,11 +50,6 @@ interface ReadState {
 
 interface ReadContextValue extends ReadState {
   setBooks: (books: BibleBook[]) => void;
-  /** Hydrate from server: initial books + searchParams (call once from page content). */
-  setServerData: (
-    books: BibleBook[],
-    searchParams: Record<string, string | undefined>
-  ) => void;
   handleVersionChipClick: (transId: VersionId) => void;
   setSyncMode: (v: boolean) => void;
   setFocusMode: (v: boolean) => void;
@@ -85,12 +80,19 @@ export function useRead() {
 
 const initialParsedRefDefault = { current: null as ReadSearchParams | null };
 
+function hasVersionInParams(params: Record<string, string | undefined>): boolean {
+  return (params.version1 ?? params.v1 ?? "").trim() !== "";
+}
+
 export function ReadProvider({
   children,
   initialBooks = [],
+  initialSearchParams,
 }: {
   children: ReactNode;
   initialBooks?: BibleBook[];
+  /** When provided with initialBooks, used for initial version/sync state (avoids useEffect hydration). */
+  initialSearchParams?: Record<string, string | undefined>;
 }) {
   const { globalLanguage } = useBibleApp();
   const searchParams = useSearchParams();
@@ -99,28 +101,6 @@ export function ReadProvider({
   const initialParsedRef = useRef<ReadSearchParams | null>(null);
   const initialUrlSynced = useRef(false);
   const initFromUrlRunOnce = useRef(false);
-  const serverDataApplied = useRef(false);
-
-  const setServerData = useCallback(
-    (serverBooks: BibleBook[], rawParams: Record<string, string | undefined>) => {
-      if (serverDataApplied.current) return;
-      serverDataApplied.current = true;
-      setBooks(serverBooks);
-      const hasVersionInUrl =
-        (rawParams.version1 ?? rawParams.v1 ?? "").trim() !== "";
-      if (hasVersionInUrl) {
-        const parsed = parseReadSearchParams(rawParams, "EN");
-        setLeftVersion(parsed.version1);
-        setRightVersion(parsed.version2);
-        setSyncMode(parsed.sync);
-      }
-      if (serverBooks.length > 0) {
-        setLeftBook(serverBooks[0]);
-        setRightBook(serverBooks[0]);
-      }
-    },
-    []
-  );
 
   function getInitialParsed(): ReadSearchParams {
     if (initialParsedRef.current === null) {
@@ -131,13 +111,29 @@ export function ReadProvider({
   }
 
   const [books, setBooks] = useState<BibleBook[]>(initialBooks);
-  const [syncMode, setSyncMode] = useState(() => getInitialParsed().sync);
+  const [syncMode, setSyncMode] = useState(() =>
+    initialSearchParams && hasVersionInParams(initialSearchParams)
+      ? parseReadSearchParams(initialSearchParams, "EN").sync
+      : getInitialParsed().sync
+  );
   const [focusMode, setFocusMode] = useState(false);
-  const [leftVersion, setLeftVersion] = useState<VersionId | null>(() => getInitialParsed().version1);
-  const [rightVersion, setRightVersion] = useState<VersionId | null>(() => getInitialParsed().version2);
-  const [leftBook, setLeftBook] = useState<BibleBook | null>(null);
+  const [leftVersion, setLeftVersion] = useState<VersionId | null>(() =>
+    initialSearchParams && hasVersionInParams(initialSearchParams)
+      ? parseReadSearchParams(initialSearchParams, "EN").version1
+      : getInitialParsed().version1
+  );
+  const [rightVersion, setRightVersion] = useState<VersionId | null>(() =>
+    initialSearchParams && hasVersionInParams(initialSearchParams)
+      ? parseReadSearchParams(initialSearchParams, "EN").version2
+      : getInitialParsed().version2
+  );
+  const [leftBook, setLeftBook] = useState<BibleBook | null>(
+    initialBooks.length > 0 ? initialBooks[0] : null
+  );
   const [leftChapter, setLeftChapter] = useState(1);
-  const [rightBook, setRightBook] = useState<BibleBook | null>(null);
+  const [rightBook, setRightBook] = useState<BibleBook | null>(
+    initialBooks.length > 0 ? initialBooks[0] : null
+  );
   const [rightChapter, setRightChapter] = useState(1);
   const [leftContent, setLeftContent] = useState<ChapterContent | null>(null);
   const [rightContent, setRightContent] = useState<ChapterContent | null>(null);
@@ -155,16 +151,6 @@ export function ReadProvider({
   const otBooks = getOtBooks(books);
   const ntBooks = getNtBooks(books);
   const filteredBooks = testamentFilter === "ot" ? otBooks : ntBooks;
-
-  useEffect(() => {
-    if (initialBooks.length > 0 && books.length === 0) {
-      setBooks(initialBooks);
-      if (initialBooks.length > 0) {
-        setLeftBook((prev) => prev ?? initialBooks[0]);
-        setRightBook((prev) => prev ?? initialBooks[0]);
-      }
-    }
-  }, [initialBooks, books.length]);
 
   useEffect(() => {
     if (books.length > 0 && !leftBook) setLeftBook(books[0]);
@@ -366,7 +352,6 @@ export function ReadProvider({
   const value: ReadContextValue = {
     books,
     setBooks,
-    setServerData,
     leftVersion,
     rightVersion,
     syncMode,

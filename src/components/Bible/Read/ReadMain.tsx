@@ -41,13 +41,29 @@ export function ReadMain() {
     setRightTestamentFilterAndAdjust,
   } = useRead();
 
+  const isIndependentTwoPanels = rightVersion !== null && !syncMode;
+
   return (
     <main className={cn("transition-all duration-300", focusMode ? "py-8" : "py-6")}>
       <div className={cn("mx-auto", focusMode ? "max-w-6xl px-6" : "max-w-7xl px-4 sm:px-6")}>
-        <div className="flex gap-0 relative">
+        <div
+          className={cn(
+            "flex gap-0 relative",
+            isIndependentTwoPanels && "flex-col md:flex-row"
+          )}
+        >
           <div
-            className="transition-all duration-300 min-w-0"
-            style={{ width: rightVersion !== null ? `${panelWidth}%` : "100%" }}
+            className={cn(
+              "transition-all duration-300 min-w-0",
+              isIndependentTwoPanels && "w-full md:w-[var(--read-left-width)]"
+            )}
+            style={
+              rightVersion !== null
+                ? isIndependentTwoPanels
+                  ? { ["--read-left-width" as string]: `${panelWidth}%` }
+                  : { width: `${panelWidth}%` }
+                : { width: "100%" }
+            }
           >
             <ReadingPanel
               version={leftVersion}
@@ -72,7 +88,10 @@ export function ReadMain() {
 
           {rightVersion !== null && !focusMode && (
             <div
-              className="w-px bg-border relative flex items-center justify-center cursor-col-resize hover:bg-primary transition-colors group shrink-0"
+              className={cn(
+                "w-px bg-border relative flex items-center justify-center cursor-col-resize hover:bg-primary transition-colors group shrink-0",
+                isIndependentTwoPanels && "hidden md:flex"
+              )}
               onMouseDown={() => setIsDragging(true)}
             >
               <div className="absolute bg-muted group-hover:bg-primary/10 p-1.5 rounded-full transition-colors">
@@ -83,8 +102,15 @@ export function ReadMain() {
 
           {rightVersion !== null && (
             <div
-              className="transition-all duration-300 min-w-0"
-              style={{ width: `${100 - panelWidth}%` }}
+              className={cn(
+                "transition-all duration-300 min-w-0",
+                isIndependentTwoPanels && "w-full md:w-[var(--read-right-width)]"
+              )}
+              style={
+                isIndependentTwoPanels
+                  ? { ["--read-right-width" as string]: `${100 - panelWidth}%` }
+                  : { width: `${100 - panelWidth}%` }
+              }
             >
               <ReadingPanel
                 version={rightVersion}
