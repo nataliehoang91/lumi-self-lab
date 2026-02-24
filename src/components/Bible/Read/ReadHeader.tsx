@@ -200,7 +200,9 @@ export function ReadHeader() {
                 onClick={() => setSyncMode(!syncMode)}
                 className={cn(
                   "rounded-lg",
-                  syncMode ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"
+                  syncMode
+                    ? "bg-rose-100 text-rose-900 hover:bg-rose-200 dark:bg-rose-800 dark:text-rose-100 dark:hover:bg-rose-700"
+                    : "bg-muted text-muted-foreground hover:bg-rose-100 hover:text-rose-800 dark:hover:bg-rose-900/30 dark:hover:text-rose-200"
                 )}
               >
                 {syncMode ? t("readSynced") : t("readIndependent")}
@@ -216,8 +218,8 @@ export function ReadHeader() {
                 className={cn(
                   "rounded-lg gap-1.5",
                   insightOpen
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground hover:bg-accent"
+                    ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                    : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
                 )}
                 title={t("readInsights") ?? "Insights"}
               >
@@ -311,7 +313,9 @@ export function ReadHeader() {
                   onClick={() => setSyncMode(!syncMode)}
                   className={cn(
                     "rounded-md",
-                    syncMode ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"
+                    syncMode
+                      ? "bg-rose-100 text-rose-900 hover:bg-rose-200 dark:bg-rose-800 dark:text-rose-100 dark:hover:bg-rose-700"
+                      : "bg-muted text-muted-foreground hover:bg-rose-100 hover:text-rose-800 dark:hover:bg-rose-900/30 dark:hover:text-rose-200"
                   )}
                 >
                   {syncMode ? t("readSynced") : t("readIndependent")}
@@ -327,8 +331,8 @@ export function ReadHeader() {
                   className={cn(
                     "rounded-md",
                     insightOpen
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:bg-accent"
+                      ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                      : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
                   )}
                   title={t("readInsights") ?? "Insights"}
                 >

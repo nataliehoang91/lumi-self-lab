@@ -341,6 +341,7 @@ model BibleBook {
   chapters     BibleChapter[]
   verses       FlashVerse[]
   verseContent BibleVerseContent[]
+  insights     BibleInsight[]
 
   @@unique([order])
   @@index([order])
@@ -372,6 +373,27 @@ model BibleVerseContent {
 
   @@unique([bookId, chapter, verse])
   @@index([bookId])
+}
+
+// Bible insights: context, explanation, reflections. Scope = book | chapter | verse. Source = db (manual/import) or ai.
+model BibleInsight {
+  id             String   @id @default(cuid())
+  source         String   // "db" | "ai"
+  scope          String   // "book" | "chapter" | "verse"
+  bookId         String
+  book           BibleBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapterNumber  Int?     // null = book-level; set for chapter- or verse-level
+  verseNumber    Int?     // null = book or chapter level; set for verse-level
+  language       String   // "en" | "vi" | "zh"
+  context        String?  @db.Text
+  explanation    String?  @db.Text
+  reflections    Json?    // array of strings, e.g. ["Question 1?", "Question 2?"]
+  status         String   @default("published") // "draft" | "published"
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([bookId, chapterNumber, verseNumber, language, source])
+  @@index([bookId, chapterNumber, verseNumber, language])
 }
 
 // Fixed sets (categories) for grouping flash cards. No create-form for now.

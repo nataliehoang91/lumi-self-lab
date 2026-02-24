@@ -7,6 +7,7 @@ import { useRead } from "./ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { ReadingPanel } from "./ReadingPanel";
+import { getInsightsForChapter } from "@/app/actions/bible/insights";
 
 export function ReadMain() {
   const { globalLanguage, fontSize } = useBibleApp();
@@ -62,7 +63,44 @@ export function ReadMain() {
     return () => window.removeEventListener("keydown", handler);
   }, [insightOpen, setInsightOpen]);
 
-  const currentInsight =
+  const [insightFromDb, setInsightFromDb] = useState<{
+    context: string | null;
+    explanation: string | null;
+    reflections: string[];
+  } | null>(null);
+  const [insightFromAi, setInsightFromAi] = useState<{
+    context: string | null;
+    explanation: string | null;
+    reflections: string[];
+  } | null>(null);
+  const [loadingInsight, setLoadingInsight] = useState(false);
+
+  useEffect(() => {
+    if (!insightOpen || !leftBook) return;
+    let cancelled = false;
+    const tid = setTimeout(() => {
+      if (!cancelled) setLoadingInsight(true);
+    }, 0);
+    getInsightsForChapter(leftBook.id, leftChapter, globalLanguage)
+      .then(({ db, ai }) => {
+        if (cancelled) return;
+        setInsightFromDb(
+          db ? { context: db.context, explanation: db.explanation, reflections: db.reflections } : null
+        );
+        setInsightFromAi(
+          ai ? { context: ai.context, explanation: ai.explanation, reflections: ai.reflections } : null
+        );
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingInsight(false);
+      });
+    return () => {
+      cancelled = true;
+      clearTimeout(tid);
+    };
+  }, [insightOpen, leftBook, leftChapter, globalLanguage]);
+
+  const john3Fallback =
     leftBook && leftBook.nameEn === "John" && leftChapter === 3
       ? {
           context:
@@ -79,6 +117,8 @@ export function ReadMain() {
           ],
         }
       : null;
+
+  const currentInsight = insightFromDb ?? insightFromAi ?? john3Fallback;
 
   return (
     <main className={cn("transition-all duration-300", focusMode ? "py-8" : "py-6")}>
@@ -258,7 +298,11 @@ export function ReadMain() {
                   </div>
                 </div>
                 <div className="px-6 py-5 space-y-4">
-                  {currentInsight ? (
+                  {loadingInsight ? (
+                    <div className="text-center text-sm text-muted-foreground py-4">
+                      Loading insights…
+                    </div>
+                  ) : currentInsight ? (
                     <>
                       {activeInsightTab === "context" && (
                         <p className="text-sm text-foreground leading-relaxed text-pretty">

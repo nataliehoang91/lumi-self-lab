@@ -6,6 +6,7 @@
 import { PrismaClient } from "@prisma/client";
 import { seedBibleBooks } from "./seed/bible-books";
 import { seedBibleChapters } from "./seed/bible-chapters";
+import { seedBibleInsights } from "./seed/bible-insights";
 import { seedBibleVerseContent } from "./seed/bible-verse-content";
 import { seedExperimentTemplates } from "./seed/experiment-templates";
 import { seedFlashCardCollections } from "./seed/flash-card-collections";
@@ -20,6 +21,7 @@ async function main() {
     await seedBibleBooks(prisma);
     await seedBibleChapters(prisma);
     await seedBibleVerseContent(prisma);
+    await seedBibleInsights(prisma);
     await seedFlashCardSets(prisma);
     await seedFlashCardCollections(prisma);
     await assignVersesToCollection2026(prisma);
