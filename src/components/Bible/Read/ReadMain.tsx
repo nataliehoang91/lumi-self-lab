@@ -175,11 +175,11 @@ export function ReadMain() {
                       hoveredVerse={hoveredVerse}
                       onVerseHover={setHoveredVerse}
                       focusMode={focusMode}
-                      showControls={false}
+                      showControls={true}
                       showBookChapterSelectors={true}
                       fontSize={fontSize}
                       t={t}
-                      testamentFilter={testamentFilter}
+                      testamentFilter={leftTestamentFilter}
                       onTestamentFilterChange={setLeftTestamentFilterAndAdjust}
                     />
                   </div>

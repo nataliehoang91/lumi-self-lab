@@ -80,27 +80,34 @@ export function ReadHeader() {
               ))}
             </div>
           </div>
-          {(leftVersion !== null || rightVersion !== null) && leftBook && (
+          {(leftVersion !== null || rightVersion !== null) && leftBook && syncMode && (
             <div className="flex items-center gap-2 flex-wrap shrink-0">
-              <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-0.5 h-9 box-border">
-                {(["ot", "nt"] as const).map((filter) => (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
                   <Button
-                    key={filter}
                     type="button"
                     variant="ghost"
                     size="sm"
-                    onClick={() => setTestamentFilterAndAdjustBook(filter)}
-                    className={cn(
-                      "rounded-lg px-3 py-1.5 h-full border",
-                      testamentFilter === filter
-                        ? "bg-second/5 border-second text-foreground"
-                        : "border-transparent text-muted-foreground hover:bg-second/20 hover:text-foreground"
-                    )}
+                    className="gap-1.5 rounded-lg border border-second bg-second/5 text-foreground h-9 shrink-0 hover:bg-second/10"
+                    aria-label={t("readOldTestament")}
                   >
-                    {filter === "ot" ? t("readOldTestament") : t("readNewTestament")}
+                    <span className="truncate">
+                      {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
+                    </span>
+                    <ChevronDown className="w-4 h-4" />
                   </Button>
-                ))}
-              </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="min-w-[140px] rounded-lg">
+                  <DropdownMenuItem onClick={() => setTestamentFilterAndAdjustBook("ot")} className="gap-2">
+                    {testamentFilter === "ot" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+                    {t("readOldTestament")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTestamentFilterAndAdjustBook("nt")} className="gap-2">
+                    {testamentFilter === "nt" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+                    {t("readNewTestament")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <div className="relative">
                 <Button
                   type="button"
@@ -354,7 +361,7 @@ export function ReadHeader() {
               </Button>
             </div>
           </div>
-          {(leftVersion !== null || rightVersion !== null) && leftBook && (
+          {(leftVersion !== null || rightVersion !== null) && leftBook && syncMode && (
             <div className="flex items-center justify-center gap-2 flex-wrap">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

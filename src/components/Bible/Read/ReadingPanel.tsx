@@ -1,14 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, ChevronDown, Copy, Bookmark, StickyNote } from "lucide-react";
+import { BookOpen, ChevronDown, Copy, Bookmark, StickyNote, Check } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
 import { TRANSLATIONS } from "./constants";
 import { getOtBooks, getNtBooks, getBookDisplayName, normalizeVerseTextForDisplay } from "./utils";
 import type { ReadingPanelProps } from "./types";
-import type { TestamentFilter } from "./constants";
 
 export function ReadingPanel({
   version,
@@ -64,28 +69,43 @@ export function ReadingPanel({
           <div className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
             {versionName}
           </div>
-          {onTestamentFilterChange && (
-            <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-0.5 w-fit h-10 box-border">
-              {(["ot", "nt"] as const).map((filter: TestamentFilter) => (
-                <Button
-                  key={filter}
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onTestamentFilterChange(filter)}
-                  className={cn(
-                    "rounded-lg px-3 py-2 h-full border",
-                    testamentFilter === filter
-                      ? "bg-second/5 border-second text-foreground"
-                      : "border-transparent text-muted-foreground hover:bg-second/20 hover:text-foreground"
-                  )}
-                >
-                  {filter === "ot" ? t("readOldTestament") : t("readNewTestament")}
-                </Button>
-              ))}
-            </div>
-          )}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex flex-row items-center gap-4 flex-wrap">
+            {onTestamentFilterChange && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="gap-1.5 rounded-lg border border-second bg-second/5 text-foreground h-10 shrink-0 hover:bg-second/10"
+                    aria-label={t("readOldTestament")}
+                  >
+                    <span className="truncate">
+                      {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
+                    </span>
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="min-w-[140px] rounded-lg">
+                  <DropdownMenuItem onClick={() => onTestamentFilterChange("ot")} className="gap-2">
+                    {testamentFilter === "ot" ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <span className="w-4" />
+                    )}
+                    {t("readOldTestament")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onTestamentFilterChange("nt")} className="gap-2">
+                    {testamentFilter === "nt" ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <span className="w-4" />
+                    )}
+                    {t("readNewTestament")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             <div className="relative">
               <Button
                 type="button"
@@ -108,9 +128,7 @@ export function ReadingPanel({
                   />
                   <div className="absolute top-full mt-2 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-48">
                     <div className="sticky top-0 bg-muted/80 px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                      {testamentFilter === "ot"
-                        ? t("readOldTestament")
-                        : t("readNewTestament")}
+                      {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
                     </div>
                     {panelFilteredBooks.map((b) => (
                       <Button
