@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GripVertical, Lightbulb } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "@/components/ui/resizable";
 import { useRead } from "./ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
@@ -31,8 +36,6 @@ export function ReadMain() {
     books,
     hoveredVerse,
     setHoveredVerse,
-    panelWidth,
-    setIsDragging,
     testamentFilter,
     leftTestamentFilter,
     rightTestamentFilter,
@@ -144,20 +147,81 @@ export function ReadMain() {
                 />
               </div>
             </div>
+          ) : rightVersion !== null && !focusMode ? (
+            <div className="w-full min-h-0 flex flex-col md:h-[calc(100vh-12rem)]">
+              <ResizablePanelGroup
+                direction="horizontal"
+                className={cn(
+                  "flex-1 min-h-0 w-full overflow-hidden",
+                  isIndependentTwoPanels && "flex-col md:flex-row"
+                )}
+              >
+                <ResizablePanel
+                  defaultSize={50}
+                  minSize={25}
+                  maxSize={75}
+                  className="min-w-0 min-h-0 overflow-hidden"
+                >
+                  <div className="h-full min-h-0 overflow-auto">
+                    <ReadingPanel
+                      version={leftVersion}
+                      book={leftBook}
+                      chapter={leftChapter}
+                      onBookChange={handleLeftBookChange}
+                      onChapterChange={handleLeftChapterChange}
+                      content={leftContent}
+                      loading={loadingLeft}
+                      books={books}
+                      hoveredVerse={hoveredVerse}
+                      onVerseHover={setHoveredVerse}
+                      focusMode={focusMode}
+                      showControls={false}
+                      showBookChapterSelectors={true}
+                      fontSize={fontSize}
+                      t={t}
+                      testamentFilter={testamentFilter}
+                      onTestamentFilterChange={setLeftTestamentFilterAndAdjust}
+                    />
+                  </div>
+                </ResizablePanel>
+                <ResizableHandle withHandle className="bg-primary data-[resize-handle-active]:bg-primary" />
+                <ResizablePanel
+                  defaultSize={50}
+                  minSize={25}
+                  maxSize={75}
+                  className="min-w-0 min-h-0 overflow-hidden"
+                >
+                  <div className="h-full min-h-0 overflow-auto">
+                    <ReadingPanel
+                      version={rightVersion}
+                      book={rightBook}
+                      chapter={rightChapter}
+                      onBookChange={handleRightBookChange}
+                      onChapterChange={handleRightChapterChange}
+                      content={rightContent}
+                      loading={loadingRight}
+                      books={books}
+                      hoveredVerse={hoveredVerse}
+                      onVerseHover={setHoveredVerse}
+                      focusMode={focusMode}
+                      showControls={true}
+                      showBookChapterSelectors={true}
+                      fontSize={fontSize}
+                      t={t}
+                      testamentFilter={rightTestamentFilter}
+                      onTestamentFilterChange={setRightTestamentFilterAndAdjust}
+                    />
+                  </div>
+                </ResizablePanel>
+              </ResizablePanelGroup>
+            </div>
           ) : (
             <>
               <div
                 className={cn(
                   "transition-all duration-300 min-w-0",
-                  isIndependentTwoPanels && "w-full md:w-[var(--read-left-width)]"
+                  rightVersion !== null && "w-full"
                 )}
-                style={
-                  rightVersion !== null
-                    ? isIndependentTwoPanels
-                      ? { ["--read-left-width" as string]: `${panelWidth}%` }
-                      : { width: `${panelWidth}%` }
-                    : { width: "100%" }
-                }
               >
                 <ReadingPanel
                   version={leftVersion}
@@ -181,21 +245,6 @@ export function ReadMain() {
                   }
                 />
               </div>
-
-              {rightVersion !== null && !focusMode && (
-                <div
-                  className={cn(
-                    "w-px bg-border relative flex items-center justify-center cursor-col-resize hover:bg-primary transition-colors group shrink-0",
-                    isIndependentTwoPanels && "hidden md:flex"
-                  )}
-                  onMouseDown={() => setIsDragging(true)}
-                >
-                  <div className="absolute bg-muted group-hover:bg-primary/10 p-1.5 rounded-full transition-colors">
-                    <GripVertical className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                  </div>
-                </div>
-              )}
-
               {rightVersion !== null && (
                 <div
                   className={cn(
@@ -204,8 +253,8 @@ export function ReadMain() {
                   )}
                   style={
                     isIndependentTwoPanels
-                      ? { ["--read-right-width" as string]: `${100 - panelWidth}%` }
-                      : { width: `${100 - panelWidth}%` }
+                      ? { ["--read-right-width" as string]: `${100 - 50}%` }
+                      : { width: "50%" }
                   }
                 >
                   <ReadingPanel

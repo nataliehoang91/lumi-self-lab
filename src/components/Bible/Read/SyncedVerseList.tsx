@@ -92,26 +92,33 @@ export function SyncedVerseList({
   const rightLabel = TRANSLATIONS.find((tr) => tr.id === rightVersion)?.fullName ?? rightVersion;
 
   return (
-    <div
-      className={cn(
-        "leading-relaxed gap-x-4 gap-y-6",
-        focusMode ? fontSizeClassFocus : fontSizeClass
-      )}
-      style={{
-        display: "grid",
-        gridTemplateColumns: "auto 1fr auto 1fr",
-        alignItems: "start",
-      }}
-    >
-      <span aria-hidden className="text-xs font-medium text-muted-foreground tracking-wide uppercase" />
-      <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
-        {leftLabel}
-      </span>
+    <div className="relative">
+      {/* Full-height vertical divider between left and right panels */}
+      <div
+        aria-hidden
+        className="absolute top-0 bottom-0 w-px bg-primary pointer-events-none"
+        style={{ left: "50%", transform: "translateX(-50%)" }}
+      />
+      <div
+        className={cn(
+          "leading-relaxed gap-x-2 gap-y-6",
+          focusMode ? fontSizeClassFocus : fontSizeClass
+        )}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "auto 1fr auto 1fr",
+          alignItems: "start",
+        }}
+      >
+        <span aria-hidden className="text-xs font-medium text-muted-foreground tracking-wide uppercase" />
+        <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
+          {leftLabel}
+        </span>
       <span aria-hidden className="text-xs font-medium text-muted-foreground tracking-wide uppercase" />
       <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
         {rightLabel}
       </span>
-      {verseNumbers.map((num) => {
+        {verseNumbers.map((num) => {
         const leftVerse = leftVerses.find((v) => v.number === num);
         const rightVerse = rightVerses.find((v) => v.number === num);
         const leftText = normalizeVerseTextForDisplay(
@@ -143,7 +150,7 @@ export function SyncedVerseList({
             </span>
             <p
               className={cn(
-                "text-foreground text-pretty min-h-[1.5em] pr-4 border-r border-border",
+                "text-foreground text-pretty min-h-[1.5em] pr-3",
                 leftVersion === "vi" ? "font-vietnamese [font-size:inherit]" : left.fontClass
               )}
             >
@@ -170,7 +177,7 @@ export function SyncedVerseList({
             <span
               className={cn(
                 verseNumClass,
-                "pt-0.5 shrink-0",
+                "pt-0.5 shrink-0 pl-5",
                 hoveredVerse === num && "text-primary"
               )}
             >
@@ -205,6 +212,7 @@ export function SyncedVerseList({
           </div>
         );
       })}
+      </div>
     </div>
   );
 }
