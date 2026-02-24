@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
 import { TRANSLATIONS } from "./constants";
-import { getOtBooks, getNtBooks, getBookDisplayName } from "./utils";
+import { getOtBooks, getNtBooks, getBookDisplayName, normalizeVerseTextForDisplay } from "./utils";
 import type { ReadingPanelProps } from "./types";
 import type { TestamentFilter } from "./constants";
 
@@ -217,7 +217,7 @@ export function ReadingPanel({
           </div>
         ) : (
           content.verses.map((verse) => {
-            const text = verse.text || "";
+            const text = normalizeVerseTextForDisplay(verse.text || "", version);
             const showNotes = isKJV && hasKJVNotes(text);
             const parsed = showNotes ? parseKJVNotes(text) : null;
             return (

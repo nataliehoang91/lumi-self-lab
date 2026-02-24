@@ -2,6 +2,15 @@ import { OT_ORDER_MAX, type TestamentFilter } from "./constants";
 import type { BibleBook } from "./types";
 import type { VersionId } from "./constants";
 
+/** Replace backtick with apostrophe in English verse text (source often uses ` for '). */
+export function normalizeVerseTextForDisplay(
+  text: string,
+  version: VersionId | null
+): string {
+  if (!version || version === "vi" || version === "zh") return text;
+  return text.replace(/`/g, "'");
+}
+
 export function getOtBooks(books: BibleBook[]): BibleBook[] {
   return books.filter((b) => b.order <= OT_ORDER_MAX);
 }
