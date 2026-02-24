@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { BookOpen, ChevronDown, Copy, Bookmark, StickyNote, Check } from "lucide-react";
+import { BookOpen, Copy, Bookmark, StickyNote } from "lucide-react";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
@@ -34,8 +34,6 @@ export function ReadingPanel({
   testamentFilter,
   onTestamentFilterChange,
 }: ReadingPanelProps) {
-  const [showBookMenu, setShowBookMenu] = useState(false);
-  const [showChapterMenu, setShowChapterMenu] = useState(false);
   const versionName = version
     ? (TRANSLATIONS.find((tr) => tr.id === version)?.fullName ?? version.toUpperCase())
     : "";
@@ -71,135 +69,60 @@ export function ReadingPanel({
           </div>
           <div className="flex flex-row items-center gap-4 flex-wrap">
             {onTestamentFilterChange && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="gap-1.5 rounded-lg border border-second bg-second/5 text-foreground h-10 shrink-0 hover:bg-second/10"
-                    aria-label={t("readOldTestament")}
-                  >
-                    <span className="truncate">
-                      {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
-                    </span>
-                    <ChevronDown className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="min-w-[140px] rounded-lg">
-                  <DropdownMenuItem onClick={() => onTestamentFilterChange("ot")} className="gap-2">
-                    {testamentFilter === "ot" ? (
-                      <Check className="h-4 w-4" />
-                    ) : (
-                      <span className="w-4" />
-                    )}
-                    {t("readOldTestament")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onTestamentFilterChange("nt")} className="gap-2">
-                    {testamentFilter === "nt" ? (
-                      <Check className="h-4 w-4" />
-                    ) : (
-                      <span className="w-4" />
-                    )}
-                    {t("readNewTestament")}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Select
+                value={testamentFilter}
+                onValueChange={(v) => v && onTestamentFilterChange(v as "ot" | "nt")}
+              >
+                <SelectTrigger className="w-auto min-w-[8rem] rounded-lg border-second bg-second/5 h-10 shrink-0 hover:bg-second/10">
+                  <SelectValue placeholder={t("readOldTestament")} />
+                </SelectTrigger>
+                <SelectContent align="start" className="rounded-lg">
+                  <SelectItem value="ot">{t("readOldTestament")}</SelectItem>
+                  <SelectItem value="nt">{t("readNewTestament")}</SelectItem>
+                </SelectContent>
+              </Select>
             )}
-            <div className="relative">
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowBookMenu(!showBookMenu)}
-                className={cn(
-                  "rounded-lg border border-sage bg-sage/10 text-foreground font-medium hover:bg-sage/20 gap-2"
-                )}
-              >
-                {getBookDisplayName(book, version) || t("readBook")}
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-              {showBookMenu && (
-                <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setShowBookMenu(false)}
-                    aria-hidden
-                  />
-                  <div className="absolute top-full mt-2 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-48">
-                    <div className="sticky top-0 bg-muted/80 px-4 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                      {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
-                    </div>
-                    {panelFilteredBooks.map((b) => (
-                      <Button
-                        key={b.id}
-                        type="button"
-                        variant="ghost"
-                        onClick={() => {
-                          onBookChange(b);
-                          setShowBookMenu(false);
-                        }}
-                        className={cn(
-                          "w-full justify-start px-4 py-2 hover:bg-accent transition-all",
-                          b.id === book?.id
-                            ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
-                            : "text-foreground"
-                        )}
-                      >
-                        {getBookDisplayName(b, version)}
-                      </Button>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-            <div className="relative">
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowChapterMenu(!showChapterMenu)}
-                className={cn(
-                  "rounded-lg border border-primary bg-primary/5 text-foreground font-medium hover:bg-primary/10 gap-2 dark:border-primary dark:bg-primary/5"
-                )}
-              >
-                {t("readChapterN", { n: chapter })}
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-              {showChapterMenu && (
-                <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setShowChapterMenu(false)}
-                    aria-hidden
-                  />
-                  <div className="absolute top-full mt-2 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))]">
-                    <div className="grid grid-cols-5 gap-2 p-2">
-                      {Array.from({ length: maxChapters }, (_, i) => i + 1).map((ch) => (
-                        <Button
-                          key={ch}
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            onChapterChange(ch);
-                            setShowChapterMenu(false);
-                          }}
-                          className={cn(
-                            "min-w-9 min-h-9 rounded-md hover:bg-accent transition-all text-sm",
-                            ch === chapter
-                              ? "bg-primary text-primary-foreground font-medium"
-                              : "text-foreground"
-                          )}
-                        >
-                          {ch}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
+            <Select
+              value={book?.id ?? ""}
+              onValueChange={(id) => {
+                const b = panelFilteredBooks.find((x) => x.id === id);
+                if (b) onBookChange(b);
+              }}
+            >
+              <SelectTrigger className="w-auto min-w-[7rem] rounded-lg border-sage bg-sage/10 h-10 shrink-0 hover:bg-sage/20">
+                <SelectValue placeholder={t("readBook")}>
+                  {getBookDisplayName(book, version) || t("readBook")}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent align="start" className="rounded-lg max-h-80">
+                {panelFilteredBooks.map((b) => (
+                  <SelectItem key={b.id} value={b.id}>
+                    {getBookDisplayName(b, version)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select
+              value={String(chapter)}
+              onValueChange={(v) => onChapterChange(Number(v))}
+            >
+              <SelectTrigger className="w-auto min-w-[5rem] rounded-lg border-primary bg-primary/5 h-10 shrink-0 hover:bg-primary/10 dark:border-primary dark:bg-primary/5">
+                <SelectValue placeholder={t("readChapterN", { n: 1 })} />
+              </SelectTrigger>
+              <SelectContent align="start" className="rounded-lg max-h-80 w-auto [&_[data-state]>span:first-child]:invisible">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-1 p-2">
+                  {Array.from({ length: maxChapters }, (_, i) => i + 1).map((ch) => (
+                    <SelectItem
+                      key={ch}
+                      value={String(ch)}
+                      className="min-w-9 min-h-9 flex items-center justify-center rounded-md py-0 px-2 data-[highlighted]:bg-accent"
+                    >
+                      {ch}
+                    </SelectItem>
+                  ))}
+                </div>
+              </SelectContent>
+            </Select>
           </div>
         </div>
       )}
