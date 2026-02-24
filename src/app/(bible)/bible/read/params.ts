@@ -31,6 +31,7 @@ export interface ReadSearchParams {
   book2Id: string | null;
   chapter2: number;
   testament2: TestamentParam;
+  insights: boolean;
 }
 
 function parsePositiveInt(value: string | undefined, fallback: number): number {
@@ -64,6 +65,8 @@ export function parseReadSearchParams(
   const t2Raw = (searchParams.testament2 ?? "").trim().toLowerCase();
   const testament2 = isTestamentParam(t2Raw) ? t2Raw : "ot";
 
+  const insights = searchParams.insights === "true";
+
   return {
     version1,
     version2,
@@ -74,6 +77,7 @@ export function parseReadSearchParams(
     book2Id,
     chapter2,
     testament2,
+    insights,
   };
 }
 
@@ -87,6 +91,7 @@ export function buildReadSearchParams(params: {
   book2Id?: string | null;
   chapter2?: number;
   testament2?: TestamentParam;
+  insights?: boolean;
 }): string {
   const sp = new URLSearchParams();
   if (params.version1 != null) sp.set("version1", params.version1);
@@ -98,5 +103,6 @@ export function buildReadSearchParams(params: {
   if (params.book2Id) sp.set("book2", params.book2Id);
   if (params.chapter2 != null && params.chapter2 >= 1) sp.set("chapter2", String(params.chapter2));
   if (params.testament2) sp.set("testament2", params.testament2);
+  if (params.insights === true) sp.set("insights", "true");
   return sp.toString();
 }

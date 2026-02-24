@@ -89,7 +89,7 @@ export function ReadingPanel({
                 if (b) onBookChange(b);
               }}
             >
-              <SelectTrigger className="w-auto min-w-[7rem] rounded-lg border-sage bg-sage/10 h-10 shrink-0 hover:bg-sage/20">
+              <SelectTrigger className="w-auto min-w-20 rounded-lg border-sage bg-sage/10 h-10 shrink-0 hover:bg-sage/20">
                 <SelectValue placeholder={t("readBook")}>
                   {getBookDisplayName(book, version) || t("readBook")}
                 </SelectValue>
@@ -102,14 +102,14 @@ export function ReadingPanel({
                 ))}
               </SelectContent>
             </Select>
-            <Select
-              value={String(chapter)}
-              onValueChange={(v) => onChapterChange(Number(v))}
-            >
-              <SelectTrigger className="w-auto min-w-[5rem] rounded-lg border-primary bg-primary/5 h-10 shrink-0 hover:bg-primary/10 dark:border-primary dark:bg-primary/5">
+            <Select value={String(chapter)} onValueChange={(v) => onChapterChange(Number(v))}>
+              <SelectTrigger className="w-auto min-w-20 rounded-lg border-primary bg-primary/5 h-10 shrink-0 hover:bg-primary/10 dark:border-primary dark:bg-primary/5">
                 <SelectValue placeholder={t("readChapterN", { n: 1 })} />
               </SelectTrigger>
-              <SelectContent align="start" className="rounded-lg max-h-80 w-auto [&_[data-state]>span:first-child]:invisible">
+              <SelectContent
+                align="start"
+                className="rounded-lg max-h-80 w-auto [&_[data-state]>span:first-child]:invisible"
+              >
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-1 p-2">
                   {Array.from({ length: maxChapters }, (_, i) => i + 1).map((ch) => (
                     <SelectItem

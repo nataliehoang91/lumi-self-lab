@@ -284,16 +284,10 @@ export function ReadMain() {
           )}
         </div>
 
-        {/* Insights sheet */}
+        {/* Insights: slide-up panel that keeps background interactive, close via Close button or ESC */}
         {insightOpen && !focusMode && (
-          <>
-            <div
-              className="fixed inset-0 z-40 bg-background/60"
-              onClick={() => setInsightOpen(false)}
-              aria-hidden
-            />
-            <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4">
-              <div className="mx-auto max-w-3xl bg-card/95 backdrop-blur border border-border rounded-2xl shadow-xl animate-in slide-in-from-bottom-4 duration-300">
+          <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4 pointer-events-none">
+            <div className="mx-auto max-w-3xl pointer-events-auto bg-card/95 backdrop-blur border border-border rounded-2xl shadow-xl animate-in slide-in-from-bottom-4 duration-300">
                 <div className="px-6 pt-5 pb-4 border-b border-border/60 bg-gradient-to-r from-primary/5 via-primary/10 to-transparent">
                   <div className="flex items-center justify-between gap-3 mb-3">
                     <div className="flex items-center gap-3">
@@ -425,7 +419,7 @@ export function ReadMain() {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </main>

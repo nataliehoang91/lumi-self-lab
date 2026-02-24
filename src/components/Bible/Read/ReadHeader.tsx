@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+import { usePathname } from "next/navigation";
 import { BookOpen, Maximize2, Minimize2, ChevronDown, Check, Lightbulb } from "lucide-react";
 import {
   DropdownMenu,
@@ -16,6 +18,11 @@ import { getBibleIntl } from "@/lib/bible-intl";
 import { TRANSLATIONS, VERSION_CHIP_STYLES, VERSION_BADGE_CLASS } from "./constants";
 import { getBookLabelForSelection } from "./utils";
 import type { VersionId } from "./constants";
+import { buildReadSearchParams, defaultVersionFromLanguage } from "@/app/(bible)/bible/read/params";
+import {
+  NavigationForm,
+  NavigationButton,
+} from "@/components/CoreAdvancedComponent/behaviors/navigation-form";
 
 function chipSelectedStyle(transId: VersionId, leftVersion: VersionId | null, rightVersion: VersionId | null): string {
   const base = "px-3 py-1.5 rounded-lg text-sm font-medium transition-all shrink-0 ";
@@ -25,6 +32,7 @@ function chipSelectedStyle(transId: VersionId, leftVersion: VersionId | null, ri
 }
 
 export function ReadHeader() {
+  const pathname = usePathname();
   const { globalLanguage } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
@@ -38,7 +46,11 @@ export function ReadHeader() {
     setFocusMode,
     leftBook,
     leftChapter,
+    rightBook,
+    rightChapter,
     testamentFilter,
+    leftTestamentFilter,
+    rightTestamentFilter,
     subNavBookOpen,
     setSubNavBookOpen,
     subNavChapterOpen,
@@ -49,8 +61,39 @@ export function ReadHeader() {
     setTestamentFilterAndAdjustBook,
     filteredBooks,
     insightOpen,
-    setInsightOpen,
   } = useRead();
+
+  const insightsToggleSearchParams = useMemo(() => {
+    const v1 = leftVersion ?? defaultVersionFromLanguage(globalLanguage);
+    const leftTestament = syncMode ? testamentFilter : leftTestamentFilter;
+    const rightTestament = syncMode ? testamentFilter : rightTestamentFilter;
+    const qs = buildReadSearchParams({
+      version1: v1,
+      version2: rightVersion,
+      sync: syncMode,
+      book1Id: leftBook?.id ?? undefined,
+      chapter1: leftChapter,
+      testament1: leftTestament,
+      book2Id: rightVersion && !syncMode ? rightBook?.id ?? undefined : undefined,
+      chapter2: rightVersion && !syncMode ? rightChapter : undefined,
+      testament2: rightVersion && !syncMode ? rightTestament : undefined,
+      insights: !insightOpen,
+    });
+    return new URLSearchParams(qs);
+  }, [
+    leftVersion,
+    rightVersion,
+    syncMode,
+    leftBook?.id,
+    leftChapter,
+    rightBook?.id,
+    rightChapter,
+    testamentFilter,
+    leftTestamentFilter,
+    rightTestamentFilter,
+    insightOpen,
+    globalLanguage,
+  ]);
 
   return (
     <header
@@ -217,24 +260,31 @@ export function ReadHeader() {
             )}
             {/* Insights button (desktop) */}
             {!focusMode && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => setInsightOpen(!insightOpen)}
-                className={cn(
-                  "rounded-lg gap-1.5",
-                  insightOpen
-                    ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
-                    : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
-                )}
-                title={t("readInsights") ?? "Insights"}
-              >
-                <Lightbulb className="w-4 h-4" />
-                <span className="hidden sm:inline text-sm font-medium">
-                  {t("readInsightsLabel") ?? "Insights"}
-                </span>
-              </Button>
+              <NavigationForm action={pathname} preventReset>
+                <NavigationButton
+                  formAction={pathname}
+                  searchParams={insightsToggleSearchParams}
+                  asChild
+                >
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className={cn(
+                      "rounded-lg gap-1.5",
+                      insightOpen
+                        ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                        : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
+                    )}
+                    title={t("readInsights") ?? "Insights"}
+                  >
+                    <Lightbulb className="w-4 h-4" />
+                    <span className="hidden sm:inline text-sm font-medium">
+                      {t("readInsightsLabel") ?? "Insights"}
+                    </span>
+                  </Button>
+                </NavigationButton>
+              </NavigationForm>
             )}
             <Button
               type="button"
@@ -330,21 +380,28 @@ export function ReadHeader() {
               )}
               {/* Insights button (mobile) */}
               {!focusMode && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setInsightOpen(!insightOpen)}
-                  className={cn(
-                    "rounded-md",
-                    insightOpen
-                      ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
-                      : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
-                  )}
-                  title={t("readInsights") ?? "Insights"}
-                >
-                  <Lightbulb className="w-4 h-4" />
-                </Button>
+                <NavigationForm action={pathname} preventReset>
+                  <NavigationButton
+                    formAction={pathname}
+                    searchParams={insightsToggleSearchParams}
+                    asChild
+                  >
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className={cn(
+                        "rounded-md",
+                        insightOpen
+                          ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                          : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
+                      )}
+                      title={t("readInsights") ?? "Insights"}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                    </Button>
+                  </NavigationButton>
+                </NavigationForm>
               )}
               <Button
                 type="button"

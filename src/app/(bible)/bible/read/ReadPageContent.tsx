@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRead } from "@/components/Bible/Read";
-import { ReadHeader } from "@/components/Bible/Read";
-import { ReadMain } from "@/components/Bible/Read";
+import { useRead, ReadHeader, ReadMain } from "@/components/Bible/Read";
 import { useReadFocus } from "@/components/Bible/ReadFocusContext";
 
 function ReadFocusSync() {

@@ -181,7 +181,7 @@ export function ReadProvider({
   const [rightTestamentFilter, setRightTestamentFilter] = useState<TestamentFilter>(
     initialBookChapter.rightTestamentFilter
   );
-  const [insightOpen, setInsightOpen] = useState(false);
+  const [insightOpen, setInsightOpen] = useState(() => getInitialParsed().insights);
 
   const otBooks = getOtBooks(books);
   const ntBooks = getNtBooks(books);
@@ -214,6 +214,7 @@ export function ReadProvider({
         book2Id: hasRight ? right.id : undefined,
         chapter2: hasRight ? rightCh : undefined,
         testament2: hasRight ? parsed.testament2 : undefined,
+        insights: parsed.insights,
       });
       const desiredSearch = qs ? `?${qs}` : "";
       if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
@@ -234,11 +235,13 @@ export function ReadProvider({
       setTestamentFilter(parsed.testament1);
       setLeftTestamentFilter(parsed.testament1);
       setRightTestamentFilter(hasRight ? parsed.testament2 : parsed.testament1);
+      setInsightOpen(parsed.insights);
     } else {
       const qs = buildReadSearchParams({
         version1: parsed.version1,
         version2: parsed.version2,
         sync: parsed.sync,
+        insights: parsed.insights,
       });
       const desiredSearch = qs ? `?${qs}` : "";
       if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
@@ -252,6 +255,7 @@ export function ReadProvider({
       setLeftVersion(parsed.version1);
       setRightVersion(parsed.version2);
       setSyncMode(parsed.sync);
+      setInsightOpen(parsed.insights);
     }
     initialUrlSynced.current = true;
   }, [searchParams, pathname, globalLanguage, router, books]);
@@ -273,6 +277,7 @@ export function ReadProvider({
         rightVersion && !syncMode ? rightBook?.id ?? undefined : undefined,
       chapter2: rightVersion && !syncMode ? rightChapter : undefined,
       testament2: rightVersion && !syncMode ? rightTestament : undefined,
+      insights: insightOpen || undefined,
     });
     const desiredSearch = qs ? `?${qs}` : "";
     if (desiredSearch === "") return;
@@ -291,6 +296,7 @@ export function ReadProvider({
     rightBook?.id,
     rightChapter,
     rightTestamentFilter,
+    insightOpen,
     pathname,
     globalLanguage,
     router,
