@@ -192,10 +192,25 @@ export function ReadProvider({
     if (books.length > 0 && !rightBook) setRightBook(books[0]);
   }, [books, leftBook, rightBook]);
 
-  // URL sync: when URL is missing/invalid, add default version from language; keep in sync on back/forward
+  // URL sync: keep state in sync with URL; when URL has no versions, stay in "empty" state
   useEffect(() => {
     const raw = Object.fromEntries(searchParams.entries());
     const parsed = parseReadSearchParams(raw, globalLanguage);
+    const hasAnyVersion = parsed.version1 !== null || parsed.version2 !== null;
+
+    // No versions in URL -> do NOT add defaults or push params; keep empty state
+    if (!hasAnyVersion && !parsed.insights) {
+      if (!initFromUrlRunOnce.current) {
+        initFromUrlRunOnce.current = true;
+        initialUrlSynced.current = true;
+      }
+      setLeftVersion(null);
+      setRightVersion(null);
+      setSyncMode(parsed.sync);
+      setInsightOpen(false);
+      initialUrlSynced.current = true;
+      return;
+    }
     if (books.length > 0) {
       const left = resolveBookFromParams(books, parsed.book1Id, parsed.testament1);
       const leftCh = clampChapter(parsed.chapter1, left);
@@ -204,21 +219,23 @@ export function ReadProvider({
         ? resolveBookFromParams(books, parsed.book2Id, parsed.testament2)
         : left;
       const rightCh = hasRight ? clampChapter(parsed.chapter2, right) : leftCh;
-      const qs = buildReadSearchParams({
-        version1: parsed.version1,
-        version2: parsed.version2,
-        sync: parsed.sync,
-        book1Id: left.id,
-        chapter1: leftCh,
-        testament1: parsed.testament1,
-        book2Id: hasRight ? right.id : undefined,
-        chapter2: hasRight ? rightCh : undefined,
-        testament2: hasRight ? parsed.testament2 : undefined,
-        insights: parsed.insights,
-      });
-      const desiredSearch = qs ? `?${qs}` : "";
-      if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
-        router.replace(desiredSearch ? `${pathname}${desiredSearch}` : pathname);
+      if (hasAnyVersion) {
+        const qs = buildReadSearchParams({
+          version1: parsed.version1 ?? undefined,
+          version2: parsed.version2 ?? undefined,
+          sync: parsed.sync,
+          book1Id: left.id,
+          chapter1: leftCh,
+          testament1: parsed.testament1,
+          book2Id: hasRight ? right.id : undefined,
+          chapter2: hasRight ? rightCh : undefined,
+          testament2: hasRight ? parsed.testament2 : undefined,
+          insights: parsed.insights || undefined,
+        });
+        const desiredSearch = qs ? `?${qs}` : "";
+        if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
+          router.replace(desiredSearch ? `${pathname}${desiredSearch}` : pathname);
+        }
       }
       if (!initFromUrlRunOnce.current) {
         initFromUrlRunOnce.current = true;
@@ -237,15 +254,17 @@ export function ReadProvider({
       setRightTestamentFilter(hasRight ? parsed.testament2 : parsed.testament1);
       setInsightOpen(parsed.insights);
     } else {
-      const qs = buildReadSearchParams({
-        version1: parsed.version1,
-        version2: parsed.version2,
-        sync: parsed.sync,
-        insights: parsed.insights,
-      });
-      const desiredSearch = qs ? `?${qs}` : "";
-      if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
-        router.replace(desiredSearch ? `${pathname}${desiredSearch}` : pathname);
+      if (hasAnyVersion || parsed.insights) {
+        const qs = buildReadSearchParams({
+          version1: parsed.version1 ?? undefined,
+          version2: parsed.version2 ?? undefined,
+          sync: hasAnyVersion ? parsed.sync : undefined,
+          insights: parsed.insights || undefined,
+        });
+        const desiredSearch = qs ? `?${qs}` : "";
+        if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
+          router.replace(desiredSearch ? `${pathname}${desiredSearch}` : pathname);
+        }
       }
       if (!initFromUrlRunOnce.current) {
         initFromUrlRunOnce.current = true;
@@ -263,11 +282,34 @@ export function ReadProvider({
   // Push URL when user changes version, sync, book, chapter, or testament
   useEffect(() => {
     if (!initialUrlSynced.current) return;
-    const v1 = leftVersion ?? defaultVersionFromLanguage(globalLanguage);
+    const hasAnyVersion = leftVersion !== null || rightVersion !== null;
+
+    // If user has cleared all versions and insights is off, clear query string entirely
+    if (!hasAnyVersion && !insightOpen) {
+      if (typeof window === "undefined") return;
+      if (window.location.search !== "") {
+        router.replace(pathname);
+      }
+      return;
+    }
+
+    // No versions but insights open -> only keep insights in URL
+    if (!hasAnyVersion && insightOpen) {
+      const qsInsightsOnly = buildReadSearchParams({ insights: true });
+      const desiredSearchInsights = qsInsightsOnly ? `?${qsInsightsOnly}` : "";
+      if (typeof window === "undefined") return;
+      if (window.location.search !== desiredSearchInsights) {
+        router.replace(`${pathname}${desiredSearchInsights}`);
+      }
+      return;
+    }
+
+    // At least one version selected: leftVersion is the primary
+    const v1 = leftVersion;
     const leftTestament = syncMode ? testamentFilter : leftTestamentFilter;
     const rightTestament = syncMode ? testamentFilter : rightTestamentFilter;
     const qs = buildReadSearchParams({
-      version1: v1,
+      version1: v1 ?? undefined,
       version2: rightVersion,
       sync: syncMode,
       book1Id: leftBook?.id ?? undefined,

@@ -49,6 +49,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readChooseVersions: "Choose one or two versions to compare.",
     readNoContent: "No content available for this chapter.",
     readSelectAnother: "Select another book or chapter.",
+    readEmptyStateTitle: "Select a translation above",
+    readEmptyStateSubtitle: "Choose one or two versions to compare.",
     readFocusMode: "Focus mode (expand)",
     readExitFocus: "Exit focus (minimize)",
     readCopyVerse: "Copy verse",
@@ -72,6 +74,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
       "Insights for this chapter are coming soon. Try John 3 for a preview.",
     readInsightsDismissHint: "Press",
     readInsightsDismissHintTail: "or tap the lightbulb again to close",
+    readInsightsMinimize: "Minimize",
     // Sample John 3 content (can be localized later)
     readInsightJohn3Context:
       "This conversation between Jesus and Nicodemus takes place early in Jesus' ministry and introduces the theme of spiritual rebirth.",
@@ -115,6 +118,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readChooseVersions: "Chọn một hoặc hai bản để so sánh.",
     readNoContent: "Không có nội dung cho chương này.",
     readSelectAnother: "Chọn sách hoặc chương khác.",
+    readEmptyStateTitle: "Chọn bản dịch ở trên",
+    readEmptyStateSubtitle: "Chọn một hoặc hai bản để so sánh.",
     readFocusMode: "Chế độ tập trung (mở rộng)",
     readExitFocus: "Thoát tập trung (thu nhỏ)",
     readCopyVerse: "Sao chép câu",
@@ -139,6 +144,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
       "Khải thị cho chương này sẽ sớm có mặt. Hãy thử Giăng 3 để xem trước.",
     readInsightsDismissHint: "Nhấn",
     readInsightsDismissHintTail: "hoặc chạm lại biểu tượng bóng đèn để đóng",
+    readInsightsMinimize: "Thu nhỏ",
     readInsightJohn3Context:
       "Cuộc đối thoại giữa Chúa Jêsus và Ni-cô-đem diễn ra đầu chức vụ của Ngài, mở ra chủ đề quan trọng về sự tái sinh thuộc linh.",
     readInsightJohn3Explanation:
@@ -181,6 +187,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readChooseVersions: "選擇一或兩個譯本進行對照。",
     readNoContent: "本章暫無內容。",
     readSelectAnother: "請選擇其他書卷或章節。",
+    readEmptyStateTitle: "請在上方選擇譯本",
+    readEmptyStateSubtitle: "選擇一或兩個譯本進行對照。",
     readFocusMode: "專注模式（展開）",
     readExitFocus: "退出專注（縮小）",
     readCopyVerse: "複製經文",
@@ -205,6 +213,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
       "本章的靈修提示即將推出。可以先試試約翰福音第 3 章。",
     readInsightsDismissHint: "按下",
     readInsightsDismissHintTail: "或再次點擊燈泡圖示關閉",
+    readInsightsMinimize: "最小化",
     readInsightJohn3Context:
       "這段對話發生在耶穌事工初期，祂與尼哥底母談論「重生」，開啟了重要的屬靈主題。",
     readInsightJohn3Explanation:

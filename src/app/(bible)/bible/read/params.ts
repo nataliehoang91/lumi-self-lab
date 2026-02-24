@@ -49,7 +49,7 @@ export function parseReadSearchParams(
 
   const version1: ReadVersionId | null = isReadVersionId(v1Raw)
     ? v1Raw
-    : defaultVersionFromLanguage(language);
+    : null;
   const version2: ReadVersionId | null =
     v2Raw && isReadVersionId(v2Raw) ? v2Raw : null;
   const sync =

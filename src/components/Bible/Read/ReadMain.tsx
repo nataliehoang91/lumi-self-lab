@@ -54,6 +54,7 @@ export function ReadMain() {
   const [activeInsightTab, setActiveInsightTab] = useState<
     "context" | "explanation" | "reflection"
   >("context");
+  const [insightMinimized, setInsightMinimized] = useState(false);
 
   // Close insights with ESC key
   useEffect(() => {
@@ -61,6 +62,7 @@ export function ReadMain() {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setInsightOpen(false);
+        setInsightMinimized(false);
       }
     };
     window.addEventListener("keydown", handler);
@@ -130,7 +132,22 @@ export function ReadMain() {
         <div
           className={cn("flex gap-0 relative", isIndependentTwoPanels && "flex-col md:flex-row")}
         >
-          {syncMode && rightVersion !== null && !focusMode ? (
+          {!leftVersion && !rightVersion ? (
+            <div className="flex-1 flex items-center justify-center py-16">
+              <div className="text-center text-muted-foreground space-y-2">
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-border">
+                  <span className="text-lg">📖</span>
+                </div>
+                <p className="text-sm font-medium">
+                  {t("readEmptyStateTitle") ?? "Select a translation above"}
+                </p>
+                <p className="text-xs">
+                  {t("readEmptyStateSubtitle") ??
+                    "Choose one or two versions to compare."}
+                </p>
+              </div>
+            </div>
+          ) : syncMode && rightVersion !== null && !focusMode ? (
             <div className="min-w-0 flex-1 overflow-auto">
               <div className="px-4 sm:px-6 md:px-8">
                 <SyncedVerseList
@@ -284,8 +301,8 @@ export function ReadMain() {
           )}
         </div>
 
-        {/* Insights: simple slide-up panel (bottom), background still clickable */}
-        {insightOpen && !focusMode && (
+        {/* Insights: full panel (bottom) */}
+        {insightOpen && !focusMode && !insightMinimized && (
           <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4 pointer-events-none">
             <div className="mx-auto max-w-3xl pointer-events-auto bg-card/95 backdrop-blur border border-border rounded-2xl shadow-xl animate-in slide-in-from-bottom-4 duration-300">
               <div className="px-6 pt-5 pb-4 border-b border-border/60 bg-gradient-to-r from-primary/5 via-primary/10 to-transparent">
@@ -308,13 +325,25 @@ export function ReadMain() {
                       )}
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setInsightOpen(false)}
-                    className="text-xs text-muted-foreground hover:text-foreground"
-                  >
-                    {t("readInsightsClose") ?? "Close"}
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setInsightMinimized(true)}
+                      className="text-xs text-muted-foreground hover:text-foreground"
+                    >
+                      {t("readInsightsMinimize") ?? "Minimize"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setInsightOpen(false);
+                        setInsightMinimized(false);
+                      }}
+                      className="text-xs text-muted-foreground hover:text-foreground"
+                    >
+                      {t("readInsightsClose") ?? "Close"}
+                    </button>
+                  </div>
                 </div>
                 <div className="flex items-center justify-between gap-3 mt-1">
                   <div className="inline-flex items-center gap-2">
@@ -418,6 +447,29 @@ export function ReadMain() {
                 </span>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Insights: minimized pill bottom-right */}
+        {insightOpen && !focusMode && insightMinimized && (
+          <div className="fixed bottom-4 right-4 z-50 pointer-events-none">
+            <button
+              type="button"
+              onClick={() => setInsightMinimized(false)}
+              className="pointer-events-auto flex items-center gap-2 rounded-full bg-card/95 border border-border px-3 py-1.5 shadow-lg text-xs text-muted-foreground hover:bg-muted/80"
+            >
+              <span className="flex items-center justify-center rounded-full bg-primary/10 text-primary w-5 h-5">
+                <Lightbulb className="w-3 h-3" />
+              </span>
+              <span className="font-medium text-foreground">
+                {t("readInsightsTitle") ?? "Chapter insights"}
+              </span>
+              {leftBook && (
+                <span className="text-[11px] text-muted-foreground">
+                  {leftBook.nameEn} {leftChapter}
+                </span>
+              )}
+            </button>
           </div>
         )}
       </div>
