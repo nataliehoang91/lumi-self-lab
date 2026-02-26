@@ -147,14 +147,16 @@ export function ReadingPanel({
         className={cn("space-y-6 leading-relaxed", focusMode ? fontSizeClassFocus : fontSizeClass)}
       >
         {loading ? (
-          <div className="flex items-center justify-center py-16">
+          <div className="flex items-center justify-center min-h-[60vh]">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-primary" />
           </div>
         ) : !content || content.verses.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground">
-            <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p>{t("readNoContent")}</p>
-            <p className="text-sm mt-2">{t("readSelectAnother")}</p>
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="text-center text-muted-foreground">
+              <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <p>{t("readNoContent")}</p>
+              <p className="text-sm mt-2">{t("readSelectAnother")}</p>
+            </div>
           </div>
         ) : (
           content.verses.map((verse) => {

@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { usePathname } from "next/navigation";
 import { BookOpen, Maximize2, Minimize2, ChevronDown, Check, Lightbulb } from "lucide-react";
 import {
   DropdownMenu,
@@ -9,6 +8,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
@@ -19,12 +25,13 @@ import { TRANSLATIONS, VERSION_CHIP_STYLES, VERSION_BADGE_CLASS } from "./consta
 import { getBookLabelForSelection } from "./utils";
 import type { VersionId } from "./constants";
 import { buildReadSearchParams, defaultVersionFromLanguage } from "@/app/(bible)/bible/read/params";
-import {
-  NavigationForm,
-  NavigationButton,
-} from "@/components/CoreAdvancedComponent/behaviors/navigation-form";
+import { NavigationButton } from "@/components/CoreAdvancedComponent/behaviors/navigation-form";
 
-function chipSelectedStyle(transId: VersionId, leftVersion: VersionId | null, rightVersion: VersionId | null): string {
+function chipSelectedStyle(
+  transId: VersionId,
+  leftVersion: VersionId | null,
+  rightVersion: VersionId | null
+): string {
   const base = "px-3 py-1.5 rounded-lg text-sm font-medium transition-all shrink-0 ";
   const isSelected = leftVersion === transId || rightVersion === transId;
   if (!isSelected) return base + VERSION_CHIP_STYLES[transId].unselected;
@@ -32,7 +39,6 @@ function chipSelectedStyle(transId: VersionId, leftVersion: VersionId | null, ri
 }
 
 export function ReadHeader() {
-  const pathname = usePathname();
   const { globalLanguage } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
@@ -74,7 +80,7 @@ export function ReadHeader() {
       book1Id: leftBook?.id ?? undefined,
       chapter1: leftChapter,
       testament1: leftTestament,
-      book2Id: rightVersion && !syncMode ? rightBook?.id ?? undefined : undefined,
+      book2Id: rightVersion && !syncMode ? (rightBook?.id ?? undefined) : undefined,
       chapter2: rightVersion && !syncMode ? rightChapter : undefined,
       testament2: rightVersion && !syncMode ? rightTestament : undefined,
       insights: !insightOpen,
@@ -116,7 +122,10 @@ export function ReadHeader() {
                   variant="ghost"
                   size="sm"
                   onClick={() => handleVersionChipClick(trans.id)}
-                  className={cn("shrink-0 border", chipSelectedStyle(trans.id, leftVersion, rightVersion))}
+                  className={cn(
+                    "shrink-0 border",
+                    chipSelectedStyle(trans.id, leftVersion, rightVersion)
+                  )}
                 >
                   {trans.name}
                 </Button>
@@ -141,12 +150,26 @@ export function ReadHeader() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="min-w-[140px] rounded-lg">
-                  <DropdownMenuItem onClick={() => setTestamentFilterAndAdjustBook("ot")} className="gap-2">
-                    {testamentFilter === "ot" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+                  <DropdownMenuItem
+                    onClick={() => setTestamentFilterAndAdjustBook("ot")}
+                    className="gap-2"
+                  >
+                    {testamentFilter === "ot" ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <span className="w-4" />
+                    )}
                     {t("readOldTestament")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTestamentFilterAndAdjustBook("nt")} className="gap-2">
-                    {testamentFilter === "nt" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+                  <DropdownMenuItem
+                    onClick={() => setTestamentFilterAndAdjustBook("nt")}
+                    className="gap-2"
+                  >
+                    {testamentFilter === "nt" ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <span className="w-4" />
+                    )}
                     {t("readNewTestament")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -167,7 +190,11 @@ export function ReadHeader() {
                 </Button>
                 {subNavBookOpen && (
                   <>
-                    <div className="fixed inset-0 z-10" onClick={() => setSubNavBookOpen(false)} aria-hidden />
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setSubNavBookOpen(false)}
+                      aria-hidden
+                    />
                     <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-48 min-w-48">
                       <div className="sticky top-0 bg-muted/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                         {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
@@ -196,48 +223,33 @@ export function ReadHeader() {
                 )}
               </div>
               <div className="relative">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setSubNavBookOpen(false);
-                    setSubNavChapterOpen(!subNavChapterOpen);
-                  }}
-                  className="rounded-lg border border-primary bg-primary/5 text-foreground hover:bg-primary/10 gap-1.5 dark:border-primary dark:bg-primary/5"
+                <Select
+                  value={String(leftChapter)}
+                  onValueChange={(v) => handleLeftChapterChange(Number(v))}
                 >
-                  {t("readChapterN", { n: leftChapter })}
-                  <ChevronDown className="w-4 h-4" />
-                </Button>
-                {subNavChapterOpen && (
-                  <>
-                    <div className="fixed inset-0 z-10" onClick={() => setSubNavChapterOpen(false)} aria-hidden />
-                    <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))] p-2">
-                      <div className="grid grid-cols-5 gap-1">
-                        {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map((ch) => (
-                          <Button
-                            key={ch}
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              handleLeftChapterChange(ch);
-                              setSubNavChapterOpen(false);
-                            }}
-                            className={cn(
-                              "min-w-9 min-h-9 rounded-md text-sm hover:bg-accent transition-all",
-                              ch === leftChapter
-                                ? "bg-primary text-primary-foreground font-medium"
-                                : "text-foreground"
-                            )}
-                          >
-                            {ch}
-                          </Button>
-                        ))}
-                      </div>
+                  <SelectTrigger className="w-auto min-w-[5rem] rounded-lg border-primary bg-primary/5 h-10 shrink-0 hover:bg-primary/10 dark:border-primary dark:bg-primary/5 gap-1.5">
+                    <SelectValue placeholder={t("readChapterN", { n: 1 })}>
+                      {t("readChapterN", { n: leftChapter })}
+                    </SelectValue>
+                    <ChevronDown className="w-4 h-4" />
+                  </SelectTrigger>
+                  <SelectContent
+                    align="start"
+                    className="rounded-lg max-h-80 w-auto [&_[data-state]>span:first-child]:invisible"
+                  >
+                    <div className="grid grid-cols-5 gap-1 p-2">
+                      {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map((ch) => (
+                        <SelectItem
+                          key={ch}
+                          value={String(ch)}
+                          className="min-w-9 min-h-9 flex items-center justify-center rounded-md py-0 px-2 data-[highlighted]:bg-accent"
+                        >
+                          {ch}
+                        </SelectItem>
+                      ))}
                     </div>
-                  </>
-                )}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           )}
@@ -260,31 +272,25 @@ export function ReadHeader() {
             )}
             {/* Insights button (desktop) */}
             {!focusMode && (
-              <NavigationForm action={pathname} preventReset>
-                <NavigationButton
-                  formAction={pathname}
-                  searchParams={insightsToggleSearchParams}
-                  asChild
+              <NavigationButton searchParams={insightsToggleSearchParams} asChild>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "rounded-lg gap-1.5",
+                    insightOpen
+                      ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                      : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
+                  )}
+                  title={t("readInsights") ?? "Insights"}
                 >
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className={cn(
-                      "rounded-lg gap-1.5",
-                      insightOpen
-                        ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
-                        : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
-                    )}
-                    title={t("readInsights") ?? "Insights"}
-                  >
-                    <Lightbulb className="w-4 h-4" />
-                    <span className="hidden sm:inline text-sm font-medium">
-                      {t("readInsightsLabel") ?? "Insights"}
-                    </span>
-                  </Button>
-                </NavigationButton>
-              </NavigationForm>
+                  <Lightbulb className="w-4 h-4" />
+                  <span className="hidden sm:inline text-sm font-medium">
+                    {t("readInsightsLabel") ?? "Insights"}
+                  </span>
+                </Button>
+              </NavigationButton>
             )}
             <Button
               type="button"
@@ -294,7 +300,9 @@ export function ReadHeader() {
               title={focusMode ? t("readExitFocus") : t("readFocusMode")}
               className={cn(
                 "rounded-lg",
-                focusMode ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"
+                focusMode
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground hover:bg-accent"
               )}
             >
               {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -380,28 +388,22 @@ export function ReadHeader() {
               )}
               {/* Insights button (mobile) */}
               {!focusMode && (
-                <NavigationForm action={pathname} preventReset>
-                  <NavigationButton
-                    formAction={pathname}
-                    searchParams={insightsToggleSearchParams}
-                    asChild
+                <NavigationButton searchParams={insightsToggleSearchParams} asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "rounded-md",
+                      insightOpen
+                        ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+                        : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
+                    )}
+                    title={t("readInsights") ?? "Insights"}
                   >
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className={cn(
-                        "rounded-md",
-                        insightOpen
-                          ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
-                          : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200"
-                      )}
-                      title={t("readInsights") ?? "Insights"}
-                    >
-                      <Lightbulb className="w-4 h-4" />
-                    </Button>
-                  </NavigationButton>
-                </NavigationForm>
+                    <Lightbulb className="w-4 h-4" />
+                  </Button>
+                </NavigationButton>
               )}
               <Button
                 type="button"
@@ -411,7 +413,9 @@ export function ReadHeader() {
                 title={focusMode ? t("readExitFocus") : t("readFocusMode")}
                 className={cn(
                   "rounded-md",
-                  focusMode ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"
+                  focusMode
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-accent"
                 )}
               >
                 {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -434,12 +438,26 @@ export function ReadHeader() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="min-w-[120px] rounded-md">
-                  <DropdownMenuItem onClick={() => setTestamentFilterAndAdjustBook("ot")} className="gap-2">
-                    {testamentFilter === "ot" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+                  <DropdownMenuItem
+                    onClick={() => setTestamentFilterAndAdjustBook("ot")}
+                    className="gap-2"
+                  >
+                    {testamentFilter === "ot" ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <span className="w-4" />
+                    )}
                     Old
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTestamentFilterAndAdjustBook("nt")} className="gap-2">
-                    {testamentFilter === "nt" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+                  <DropdownMenuItem
+                    onClick={() => setTestamentFilterAndAdjustBook("nt")}
+                    className="gap-2"
+                  >
+                    {testamentFilter === "nt" ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <span className="w-4" />
+                    )}
                     New
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -460,7 +478,11 @@ export function ReadHeader() {
                 </Button>
                 {subNavBookOpen && (
                   <>
-                    <div className="fixed inset-0 z-10" onClick={() => setSubNavBookOpen(false)} aria-hidden />
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setSubNavBookOpen(false)}
+                      aria-hidden
+                    />
                     <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-md shadow-lg z-20 max-h-80 overflow-y-auto w-48 min-w-48">
                       <div className="sticky top-0 bg-muted/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                         {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
@@ -476,7 +498,9 @@ export function ReadHeader() {
                           }}
                           className={cn(
                             "w-full justify-start px-3 py-2 text-sm hover:bg-accent transition-all",
-                            b.id === leftBook.id ? "bg-sage/20 text-sage-dark font-medium dark:text-sage" : "text-foreground"
+                            b.id === leftBook.id
+                              ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
+                              : "text-foreground"
                           )}
                         >
                           {getBookLabelForSelection(b, leftVersion, rightVersion)}
@@ -503,29 +527,35 @@ export function ReadHeader() {
                 </Button>
                 {subNavChapterOpen && (
                   <>
-                    <div className="fixed inset-0 z-10" onClick={() => setSubNavChapterOpen(false)} aria-hidden />
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setSubNavChapterOpen(false)}
+                      aria-hidden
+                    />
                     <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-md shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))] p-2">
                       <div className="grid grid-cols-5 gap-1">
-                        {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map((ch) => (
-                          <Button
-                            key={ch}
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              handleLeftChapterChange(ch);
-                              setSubNavChapterOpen(false);
-                            }}
-                            className={cn(
-                              "min-w-9 min-h-9 rounded-md text-sm hover:bg-accent transition-all",
-                              ch === leftChapter
-                                ? "bg-primary text-primary-foreground font-medium"
-                                : "text-foreground"
-                            )}
-                          >
-                            {ch}
-                          </Button>
-                        ))}
+                        {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map(
+                          (ch) => (
+                            <Button
+                              key={ch}
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                handleLeftChapterChange(ch);
+                                setSubNavChapterOpen(false);
+                              }}
+                              className={cn(
+                                "min-w-9 min-h-9 rounded-md text-sm hover:bg-accent transition-all",
+                                ch === leftChapter
+                                  ? "bg-primary text-primary-foreground font-medium"
+                                  : "text-foreground"
+                              )}
+                            >
+                              {ch}
+                            </Button>
+                          )
+                        )}
                       </div>
                     </div>
                   </>

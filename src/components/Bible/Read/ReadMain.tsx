@@ -80,31 +80,62 @@ export function ReadMain() {
     reflections: string[];
   } | null>(null);
   const [loadingInsight, setLoadingInsight] = useState(false);
+  const [insightCache, setInsightCache] = useState<
+    Record<
+      string,
+      {
+        db: { context: string | null; explanation: string | null; reflections: string[] } | null;
+        ai: { context: string | null; explanation: string | null; reflections: string[] } | null;
+      }
+    >
+  >({});
 
   useEffect(() => {
     if (!insightOpen || !leftBook) return;
+
+    const cacheKey = `${leftBook.id}:${leftChapter}:${globalLanguage}`;
+    const cached = insightCache[cacheKey];
+
+    // Use cached insights if available to avoid refetch and repeated loading
+    if (cached) {
+      setInsightFromDb(cached.db);
+      setInsightFromAi(cached.ai);
+      setLoadingInsight(false);
+      return;
+    }
+
     let cancelled = false;
     const tid = setTimeout(() => {
       if (!cancelled) setLoadingInsight(true);
     }, 0);
+
     getInsightsForChapter(leftBook.id, leftChapter, globalLanguage)
       .then(({ db, ai }) => {
         if (cancelled) return;
-        setInsightFromDb(
-          db ? { context: db.context, explanation: db.explanation, reflections: db.reflections } : null
-        );
-        setInsightFromAi(
-          ai ? { context: ai.context, explanation: ai.explanation, reflections: ai.reflections } : null
-        );
+        const dbValue = db
+          ? { context: db.context, explanation: db.explanation, reflections: db.reflections }
+          : null;
+        const aiValue = ai
+          ? { context: ai.context, explanation: ai.explanation, reflections: ai.reflections }
+          : null;
+
+        setInsightFromDb(dbValue);
+        setInsightFromAi(aiValue);
+
+        setInsightCache((prev) => ({
+          ...prev,
+          [cacheKey]: { db: dbValue, ai: aiValue },
+        }));
       })
       .finally(() => {
         if (!cancelled) setLoadingInsight(false);
       });
+
     return () => {
       cancelled = true;
       clearTimeout(tid);
     };
-  }, [insightOpen, leftBook, leftChapter, globalLanguage]);
+  }, [insightOpen, leftBook, leftChapter, globalLanguage, insightCache]);
 
   const john3Fallback =
     leftBook && leftBook.nameEn === "John" && leftChapter === 3

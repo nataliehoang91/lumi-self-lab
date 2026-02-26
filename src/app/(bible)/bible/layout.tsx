@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { BibleAppProvider } from "@/components/Bible/BibleAppContext";
 import { ReadFocusProvider } from "@/components/Bible/ReadFocusContext";
 import { BibleNavBar } from "@/components/Bible/BibleNavBar";
-import { BibleMainWithPadding } from "./BibleMainWithPadding";
+import { BibleMainWithPadding } from "@/components/Bible/Read/BibleMainWithPadding";
 
 function BibleShell({ children }: { children: React.ReactNode }) {
   return (

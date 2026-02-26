@@ -118,7 +118,7 @@ export function ReadProvider({
       ? parseReadSearchParams(initialSearchParams, "EN").sync
       : getInitialParsed().sync
   );
-  const [focusMode, setFocusMode] = useState(false);
+  const [focusMode, setFocusMode] = useState(() => getInitialParsed().focus);
   const [leftVersion, setLeftVersion] = useState<VersionId | null>(() =>
     initialSearchParams && hasVersionInParams(initialSearchParams)
       ? parseReadSearchParams(initialSearchParams, "EN").version1
@@ -207,6 +207,7 @@ export function ReadProvider({
       setLeftVersion(null);
       setRightVersion(null);
       setSyncMode(parsed.sync);
+      setFocusMode(parsed.focus);
       setInsightOpen(false);
       initialUrlSynced.current = true;
       return;
@@ -231,6 +232,7 @@ export function ReadProvider({
           chapter2: hasRight ? rightCh : undefined,
           testament2: hasRight ? parsed.testament2 : undefined,
           insights: parsed.insights || undefined,
+          focus: parsed.focus || undefined,
         });
         const desiredSearch = qs ? `?${qs}` : "";
         if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
@@ -245,6 +247,7 @@ export function ReadProvider({
       setLeftVersion(parsed.version1);
       setRightVersion(parsed.version2);
       setSyncMode(parsed.sync);
+      setFocusMode(parsed.focus);
       setLeftBook(left);
       setLeftChapter(leftCh);
       setRightBook(right);
@@ -260,6 +263,7 @@ export function ReadProvider({
           version2: parsed.version2 ?? undefined,
           sync: hasAnyVersion ? parsed.sync : undefined,
           insights: parsed.insights || undefined,
+          focus: parsed.focus || undefined,
         });
         const desiredSearch = qs ? `?${qs}` : "";
         if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
@@ -274,6 +278,7 @@ export function ReadProvider({
       setLeftVersion(parsed.version1);
       setRightVersion(parsed.version2);
       setSyncMode(parsed.sync);
+      setFocusMode(parsed.focus);
       setInsightOpen(parsed.insights);
     }
     initialUrlSynced.current = true;
@@ -285,7 +290,7 @@ export function ReadProvider({
     const hasAnyVersion = leftVersion !== null || rightVersion !== null;
 
     // If user has cleared all versions and insights is off, clear query string entirely
-    if (!hasAnyVersion && !insightOpen) {
+    if (!hasAnyVersion && !insightOpen && !focusMode) {
       if (typeof window === "undefined") return;
       if (window.location.search !== "") {
         router.replace(pathname);
@@ -294,8 +299,11 @@ export function ReadProvider({
     }
 
     // No versions but insights open -> only keep insights in URL
-    if (!hasAnyVersion && insightOpen) {
-      const qsInsightsOnly = buildReadSearchParams({ insights: true });
+    if (!hasAnyVersion && (insightOpen || focusMode)) {
+      const qsInsightsOnly = buildReadSearchParams({
+        insights: insightOpen || undefined,
+        focus: focusMode || undefined,
+      });
       const desiredSearchInsights = qsInsightsOnly ? `?${qsInsightsOnly}` : "";
       if (typeof window === "undefined") return;
       if (window.location.search !== desiredSearchInsights) {
@@ -320,6 +328,7 @@ export function ReadProvider({
       chapter2: rightVersion && !syncMode ? rightChapter : undefined,
       testament2: rightVersion && !syncMode ? rightTestament : undefined,
       insights: insightOpen || undefined,
+      focus: focusMode || undefined,
     });
     const desiredSearch = qs ? `?${qs}` : "";
     if (desiredSearch === "") return;
@@ -339,6 +348,7 @@ export function ReadProvider({
     rightChapter,
     rightTestamentFilter,
     insightOpen,
+    focusMode,
     pathname,
     globalLanguage,
     router,
