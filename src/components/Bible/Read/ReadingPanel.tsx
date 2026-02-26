@@ -146,11 +146,7 @@ export function ReadingPanel({
       <div
         className={cn("space-y-6 leading-relaxed", focusMode ? fontSizeClassFocus : fontSizeClass)}
       >
-        {loading ? (
-          <div className="flex items-center justify-center min-h-[60vh]">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-primary" />
-          </div>
-        ) : !content || content.verses.length === 0 ? (
+        {!content || content.verses.length === 0 ? (
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center text-muted-foreground">
               <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />

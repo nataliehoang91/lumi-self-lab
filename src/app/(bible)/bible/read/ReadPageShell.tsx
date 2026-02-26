@@ -4,6 +4,8 @@ import { use } from "react";
 import { ReadProvider } from "@/components/Bible/Read";
 import { ReadPageContent } from "./ReadPageContent";
 import type { BibleBook } from "@/components/Bible/Read/types";
+import { NavigationForm } from "@/components/CoreAdvancedComponent/behaviors/navigation-form";
+import { usePathname } from "next/navigation";
 
 /**
  * Unwraps the server getBooks() promise with React use() so the read page
@@ -18,9 +20,12 @@ export function ReadPageShell({
   searchParams: Record<string, string | undefined>;
 }) {
   const initialBooks = use(booksPromise);
+  const pathname = usePathname();
   return (
-    <ReadProvider initialBooks={initialBooks} initialSearchParams={searchParams}>
-      <ReadPageContent />
-    </ReadProvider>
+    <NavigationForm action={pathname} preventReset>
+      <ReadProvider initialBooks={initialBooks} initialSearchParams={searchParams}>
+        <ReadPageContent />
+      </ReadProvider>
+    </NavigationForm>
   );
 }

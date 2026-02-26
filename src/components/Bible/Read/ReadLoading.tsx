@@ -1,10 +1,13 @@
+"use client";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { Container } from "@/components/ui/container";
 
 /**
- * Loading skeleton for /bible/read – matches BibleReadPage: sticky header + main content.
+ * Loading skeleton for the /bible/read page.
+ * Mirrors the sticky header + main layout of the actual Read page.
  */
-export default function ReadLoading() {
+export function ReadLoading() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky z-40 top-14 bg-background/95 border-b border-border">
