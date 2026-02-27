@@ -1,5 +1,10 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default function AdminPage() {
-  redirect("/bible/admin/flashcard/list");
+  return (
+    <div>
+      Admin Page <Link href="/bible/admin/login">Flashcard List</Link>
+    </div>
+  );
 }
