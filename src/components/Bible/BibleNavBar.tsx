@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ChevronDown, Check, SquareMenu, BookOpen, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -249,6 +250,23 @@ export function BibleNavBar() {
 
           {/* 4. Theme */}
           <ThemeToggleButtonBibleApp variant="desktop" />
+
+          {/* 5. User (Clerk) */}
+          <SignedIn>
+            <div className="flex items-center">
+              <UserButton afterSignOutUrl="/bible" />
+            </div>
+          </SignedIn>
+          <SignedOut>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-3 text-xs font-medium text-muted-foreground hover:text-foreground"
+              asChild
+            >
+              <Link href="/sign-in?redirect_url=/bible">Sign in</Link>
+            </Button>
+          </SignedOut>
         </div>
       </Container>
     </nav>

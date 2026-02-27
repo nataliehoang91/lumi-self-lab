@@ -18,8 +18,6 @@ export type LayoutMode = "vertical" | "horizontal" | "all";
 const BIBLE_PREFS_KEY = "bible-app-prefs";
 const LANGS: Language[] = ["EN", "VI", "ZH"];
 const FONTS: FontSize[] = ["small", "medium", "large"];
-const LAYOUTS: LayoutMode[] = ["vertical", "horizontal", "all"];
-
 function readStoredPrefs(): { language: Language; fontSize: FontSize } {
   if (typeof window === "undefined")
     return { language: "EN", fontSize: "medium" };
@@ -76,18 +74,23 @@ export function BibleAppProvider({ children }: { children: ReactNode }) {
 
   // Sync state from URL when on flashcard page; otherwise from localStorage.
   useEffect(() => {
-    if (isFlashcardPage && searchParams) {
-      const lang = searchParams.get("lang");
-      const font = searchParams.get("font");
-      if (lang && LANGS.includes(lang as Language)) setGlobalLanguageState(lang as Language);
-      if (font && FONTS.includes(font as FontSize)) setFontSizeState(font as FontSize);
-      setLayoutModeState("all");
-    } else {
-      const { language, fontSize: size } = readStoredPrefs();
-      setGlobalLanguageState(language);
-      setFontSizeState(size);
-    }
-    hasLoadedFromStorage.current = true;
+    if (!searchParams) return;
+
+    // Defer state updates to avoid synchronous setState calls inside the effect body.
+    Promise.resolve().then(() => {
+      if (isFlashcardPage) {
+        const lang = searchParams.get("lang");
+        const font = searchParams.get("font");
+        if (lang && LANGS.includes(lang as Language)) setGlobalLanguageState(lang as Language);
+        if (font && FONTS.includes(font as FontSize)) setFontSizeState(font as FontSize);
+        setLayoutModeState("all");
+      } else {
+        const { language, fontSize: size } = readStoredPrefs();
+        setGlobalLanguageState(language);
+        setFontSizeState(size);
+      }
+      hasLoadedFromStorage.current = true;
+    });
   }, [isFlashcardPage, searchParams]);
 
   // Persist to localStorage when not on flashcard (and after initial load).

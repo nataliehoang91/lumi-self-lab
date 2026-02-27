@@ -1,3 +1,5 @@
+"use client";
+
 import { Suspense } from "react";
 import { BibleAppProvider } from "@/components/Bible/BibleAppContext";
 import { ReadFocusProvider } from "@/components/Bible/ReadFocusContext";
@@ -10,7 +12,9 @@ function BibleShell({ children }: { children: React.ReactNode }) {
     <BibleAppProvider>
       <ReadFocusProvider>
         <BibleNavBar />
-        <BibleMainWithPadding>{children}</BibleMainWithPadding>
+        <BibleMainWithPadding>
+          {children}
+        </BibleMainWithPadding>
       </ReadFocusProvider>
     </BibleAppProvider>
   );
