@@ -1,4 +1,5 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { BibleRedirect } from "@/components/Bible/BibleRedirect";
 
 export const metadata: Metadata = {
   title: "Scripture Memory - Bible Flashcards",
@@ -6,5 +7,6 @@ export const metadata: Metadata = {
 };
 
 export default function BiblePage() {
-  return <div>Bible Page</div>;
+  // Server component: can export metadata and render a small client redirect.
+  return <BibleRedirect />;
 }
