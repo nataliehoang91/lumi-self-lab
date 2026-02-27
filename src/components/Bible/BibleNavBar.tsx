@@ -102,7 +102,7 @@ export function BibleNavBar() {
           </div>
 
           {/* 2. Font size */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -131,7 +131,7 @@ export function BibleNavBar() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="hidden md:flex items-center gap-0.5 rounded-lg border border-sky-blue/30 bg-sky-blue/10 p-0.5">
+          <div className="hidden lg:flex items-center gap-0.5 rounded-lg border border-sky-blue/30 bg-sky-blue/10 p-0.5">
             <Button
               variant={fontSize === "small" ? "skyBlue" : "ghost"}
               size="sm"
@@ -165,7 +165,7 @@ export function BibleNavBar() {
           </div>
 
           {/* 3. Language – mint-forest green */}
-          <div className="hidden md:flex items-center rounded-xl border border-bible-lang/40 bg-bible-lang/10 p-0.5">
+          <div className="hidden lg:flex items-center rounded-xl border border-bible-lang/40 bg-bible-lang/10 p-0.5">
             <Button
               variant="ghost"
               size="sm"
@@ -206,7 +206,7 @@ export function BibleNavBar() {
               中
             </Button>
           </div>
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

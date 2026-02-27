@@ -108,8 +108,8 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
           key={i}
           className="absolute rounded-full pointer-events-none bg-muted-foreground/20"
           style={{
-            width: `${Math.random() * 2 + 1}px`,
-            height: `${Math.random() * 2 + 1}px`,
+            width: `${Math.random() * 5 + 1}px`,
+            height: `${Math.random() * 5 + 1}px`,
             left: `${10 + (i / 18) * 80}%`,
             top: `${20 + Math.sin(i * 1.3) * 30 + 30}%`,
             animation: `float-${i % 3} ${4 + (i % 4)}s ease-in-out infinite`,
