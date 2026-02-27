@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Copy, Bookmark, StickyNote } from "lucide-react";
+import { Copy, Bookmark, StickyNote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
@@ -9,6 +9,7 @@ import type { ChapterContent } from "../types";
 import type { VersionId } from "../constants";
 import type { TFunction } from "../types";
 import type { FontSize } from "@/components/Bible/BibleAppContext";
+import { BookCircleIcon } from "../../GeneralComponents/book-circle-icon";
 
 export interface ReadingPanelContentProps {
   version: VersionId;
@@ -47,7 +48,7 @@ export function ReadingPanelContent({
     return (
       <div className="flex w-full min-h-[calc(100vh-14rem)] items-center justify-center py-12">
         <div className="text-center text-muted-foreground">
-          <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          <BookCircleIcon size="lg" className="mx-auto mb-4" />
           <p>{t("readNoContent")}</p>
           <p className="text-sm mt-2">{t("readSelectAnother")}</p>
         </div>

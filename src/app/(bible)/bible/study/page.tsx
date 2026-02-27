@@ -1,98 +1,43 @@
 import { getStudyListsForCurrentUser } from "@/app/actions/bible/study";
-import { CreateStudyListForm } from "@/components/Bible/Study/CreateStudyListForm";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { NewStudyListPlaceholderCard } from "@/components/Bible/Study/NewStudyListPlaceholderCard";
+import { StudyListCard } from "@/components/Bible/Study/StudyListCard";
+import { BookCircleIcon } from "@/components/Bible/GeneralComponents/book-circle-icon";
+import { Container } from "@/components/ui/container";
+import type { BibleStudyList } from "@/types/bible-study";
 
 export default async function BibleStudyPage() {
   const lists = await getStudyListsForCurrentUser();
 
-  console.log("lists", lists);
-
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] flex flex-col items-center px-4 sm:px-6 py-10">
-      <div className="w-full max-w-xl space-y-8">
-        <div className="text-center space-y-2">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
-            Study
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">Start Your Study</h1>
-          <p className="text-sm sm:text-base text-muted-foreground">
-            Create study lists to collect passages and build your perfect study sessions.
-          </p>
-        </div>
-
-        {lists.length === 0 ? (
-          <div className="mt-8 flex flex-col items-center gap-4 text-center">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-              <span className="text-2xl">📖</span>
-            </div>
-            <div className="space-y-1">
-              <h2 className="text-lg font-semibold text-foreground">No study lists yet</h2>
-              <p className="text-sm text-muted-foreground">
-                Create a named list, then add any passages — books, chapters, or specific verses —
-                to study side by side.
-              </p>
-            </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="px-5">
-                  <span className="mr-2 text-lg leading-none">+</span>
-                  Create your first list
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Create a new study list</DialogTitle>
-                </DialogHeader>
-                <CreateStudyListForm />
-              </DialogContent>
-            </Dialog>
+    <Container maxWidth="7xl" className="min-h-screen flex flex-col py-6  lg:px-0 px-4">
+      {lists.length === 0 ? (
+        <div className="mt-16 flex flex-col items-center gap-4 text-center">
+          <BookCircleIcon size="lg" />
+          <div className="space-y-1">
+            <h2 className="text-xl font-semibold text-foreground">Start Your Study</h2>
+            <p className="text-sm text-muted-foreground">
+              Add passages to compare translations, study verses in depth, and build your perfect
+              study session.
+            </p>
           </div>
-        ) : (
-          <>
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-foreground">Your study lists</h2>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" className="gap-1">
-                    <span className="text-lg leading-none">+</span>
-                    New list
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Create a new study list</DialogTitle>
-                  </DialogHeader>
-                  <CreateStudyListForm />
-                </DialogContent>
-              </Dialog>
-            </div>
-            <ul className="space-y-2">
-              {lists.map((list) => (
-                <li
-                  key={list.id}
-                  className="rounded-xl border border-border bg-background px-4 py-3 text-left text-sm"
-                >
-                  <div className="font-medium">{list.title}</div>
-                  {list.description && (
-                    <div className="text-xs text-muted-foreground mt-1">{list.description}</div>
-                  )}
-                  <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                    <span>0 passages</span>
-                    <span>{list.createdAt.toLocaleDateString()}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
-    </div>
+          <NewStudyListPlaceholderCard label="Create your first list" />
+        </div>
+      ) : (
+        <>
+          <div className="mt-4 mb-2 flex items-baseline justify-between">
+            <h2 className="text-sm font-semibold text-foreground">Your study lists</h2>
+            <span className="text-xs text-muted-foreground">
+              {lists.length} {lists.length === 1 ? "list" : "lists"}
+            </span>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {lists.map((list: BibleStudyList) => (
+              <StudyListCard key={list.id} list={list} />
+            ))}
+            <NewStudyListPlaceholderCard />
+          </div>
+        </>
+      )}
+    </Container>
   );
 }

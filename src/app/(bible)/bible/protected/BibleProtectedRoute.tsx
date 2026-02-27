@@ -7,7 +7,7 @@ interface Props {
 }
 
 export async function BibleProtectedRoute({ children }: Props) {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     return <BibleProtectedRedirect />;
@@ -15,4 +15,3 @@ export async function BibleProtectedRoute({ children }: Props) {
 
   return <>{children}</>;
 }
-

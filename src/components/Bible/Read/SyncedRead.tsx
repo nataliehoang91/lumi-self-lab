@@ -1,12 +1,12 @@
 "use client";
 
-import { BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
 import { TRANSLATIONS } from "./constants";
 import { normalizeVerseTextForDisplay, getBookDisplayName } from "./utils";
 import { useRead } from "./context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
+import { BookCircleIcon } from "../GeneralComponents/book-circle-icon";
 import { getBibleIntl } from "@/lib/bible-intl";
 import type { VersionId } from "./constants";
 import { BibleMinimalLoader } from "../GeneralComponents/minimal-bible-loader";
@@ -71,7 +71,7 @@ export function SyncedRead() {
     return (
       <div className="flex w-full min-h-[calc(100vh-14rem)] items-center justify-center py-16 text-muted-foreground">
         <div className="text-center">
-          <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          <BookCircleIcon size="lg" className="mx-auto mb-4" />
           <p>{t("readNoContent")}</p>
           <p className="text-sm mt-2">{t("readSelectAnother")}</p>
         </div>

@@ -52,3 +52,15 @@ export async function createStudyList(
     return { errors: { general: ["save_failed"] } };
   }
 }
+
+export async function deleteStudyList(listId: string) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return;
+  }
+
+  await prisma.bibleStudyList.deleteMany({
+    where: { id: listId, clerkUserId: userId },
+  });
+}
