@@ -23,7 +23,7 @@ export function ChapterSelectMobile() {
   if (!leftBook) return null;
 
   return (
-    <div className="relative">
+    <div className="relative flex justify-end">
       <Button
         type="button"
         variant="ghost"
@@ -45,7 +45,7 @@ export function ChapterSelectMobile() {
             onClick={() => setSubNavChapterOpen(false)}
             aria-hidden
           />
-          <div className="absolute top-full mt-1 left-0 bg-card border border-border rounded-md shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))] p-2">
+          <div className="absolute top-full mt-1 right-0 bg-card border border-border rounded-md shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))] p-2">
             <div className="grid grid-cols-5 gap-1">
               {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map((ch) => (
                 <Button

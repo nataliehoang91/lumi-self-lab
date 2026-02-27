@@ -28,7 +28,7 @@ const DrawerTrigger = VaulDrawer.Trigger;
 DrawerTrigger.displayName = "DrawerTrigger";
 
 const DrawerPortal = VaulDrawer.Portal;
-DrawerPortal.displayName = "DrawerPortal";
+(DrawerPortal as React.ComponentType & { displayName?: string }).displayName = "DrawerPortal";
 
 const DrawerClose = VaulDrawer.Close;
 DrawerClose.displayName = "DrawerClose";

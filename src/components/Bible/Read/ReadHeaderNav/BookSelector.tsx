@@ -57,36 +57,40 @@ export function BookSelector({ variant = "desktop" }: { variant?: Variant }) {
           />
           <div
             className={cn(
-              "absolute top-full mt-1 left-0 bg-card border border-border shadow-lg z-20 max-h-80 overflow-y-auto w-48 min-w-48",
+              "absolute top-full mt-1 left-0 bg-card border border-border shadow-lg z-20 max-h-80 overflow-y-auto min-w-[260px]",
               isDesktop ? "rounded-lg" : "rounded-md"
             )}
           >
             <div className="sticky top-0 bg-muted/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
               {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
             </div>
-            {filteredBooks.map((b) => (
-              <Button
-                key={b.id}
-                type="button"
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start px-3 py-2 text-sm transition-all",
-                  "hover:bg-sage/15 hover:text-sage-dark dark:hover:text-sage",
-                  b.id === leftBook.id
-                    ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
-                    : "text-foreground"
-                )}
-                onClick={() => {
-                  handleLeftBookChange(b);
-                  setSubNavBookOpen(false);
-                }}
-              >
-                <span className="tabular-nums text-muted-foreground shrink-0 w-6 text-right">
-                  {b.chapterCount}
-                </span>
-                <span className="ml-2">{getBookLabelForSelection(b, leftVersion, rightVersion)}</span>
-              </Button>
-            ))}
+            <div className="px-1">
+              {filteredBooks.map((b) => (
+                <Button
+                  key={b.id}
+                  type="button"
+                  variant="ghost"
+                  className={cn(
+                    "w-full justify-start px-3 py-2 text-sm transition-all",
+                    "hover:bg-sage/15 hover:text-sage-dark dark:hover:text-sage",
+                    b.id === leftBook.id
+                      ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
+                      : "text-foreground"
+                  )}
+                  onClick={() => {
+                    handleLeftBookChange(b);
+                    setSubNavBookOpen(false);
+                  }}
+                >
+                  <span className="tabular-nums text-muted-foreground shrink-0 w-6 text-right">
+                    {b.chapterCount}
+                  </span>
+                  <span className="ml-2">
+                    {getBookLabelForSelection(b, leftVersion, rightVersion)}
+                  </span>
+                </Button>
+              ))}
+            </div>
           </div>
         </>
       )}

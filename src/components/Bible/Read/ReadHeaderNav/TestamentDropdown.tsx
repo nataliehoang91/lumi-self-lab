@@ -44,17 +44,30 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
           <ChevronDown className="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className={cn("min-w-[140px] rounded-lg", !isDesktop && "min-w-[120px] rounded-md")}>
+      <DropdownMenuContent
+        align="start"
+        className={cn("min-w-[140px] rounded-lg", !isDesktop && "min-w-[120px] rounded-md")}
+      >
         <DropdownMenuItem
           onClick={() => setTestamentFilterAndAdjustBook("ot")}
-          className="gap-2"
+          className={cn(
+            "gap-2 cursor-pointer",
+            testamentFilter === "ot"
+              ? "bg-second text-second-foreground font-medium"
+              : "hover:bg-second/15 hover:text-second-foreground"
+          )}
         >
           {testamentFilter === "ot" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
           {isDesktop ? t("readOldTestament") : "Old"}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTestamentFilterAndAdjustBook("nt")}
-          className="gap-2"
+          className={cn(
+            "gap-2 cursor-pointer",
+            testamentFilter === "nt"
+              ? "bg-second text-second-foreground font-medium"
+              : "hover:bg-second/15 hover:text-second-foreground"
+          )}
         >
           {testamentFilter === "nt" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
           {isDesktop ? t("readNewTestament") : "New"}
