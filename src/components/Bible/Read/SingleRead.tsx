@@ -1,11 +1,12 @@
 "use client";
 
-import { useRead } from "../context/ReadContext";
+import { cn } from "@/lib/utils";
+import { useRead } from "./context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
-import { ReadingPanel } from "../ReadingPanel";
+import { EnhancedReadingPanel } from "./EnhancedReadingPanel/EnhancedReadingPanel";
 
-export function SingleReadingPanel({ side }: { side: "left" | "right" }) {
+function SingleReadPanel({ side }: { side: "left" | "right" }) {
   const { globalLanguage, fontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
@@ -71,7 +72,8 @@ export function SingleReadingPanel({ side }: { side: "left" | "right" }) {
       : undefined;
 
   return (
-    <ReadingPanel
+    <EnhancedReadingPanel
+      side={side}
       version={version}
       book={book}
       chapter={chapter}
@@ -90,5 +92,33 @@ export function SingleReadingPanel({ side }: { side: "left" | "right" }) {
       testamentFilter={testament}
       onTestamentFilterChange={handleTestamentChange}
     />
+  );
+}
+
+export function SingleRead() {
+  const { rightVersion, syncMode } = useRead();
+  const isIndependentTwoPanels = rightVersion !== null && !syncMode;
+
+  return (
+    <>
+      <div className={cn("transition-all duration-300 min-w-0", rightVersion !== null && "w-full")}>
+        <SingleReadPanel side="left" />
+      </div>
+      {rightVersion !== null && (
+        <div
+          className={cn(
+            "transition-all duration-300 min-w-0",
+            isIndependentTwoPanels && "w-full md:w-(--read-right-width)"
+          )}
+          style={
+            isIndependentTwoPanels
+              ? { ["--read-right-width" as string]: `${100 - 50}%` }
+              : { width: "50%" }
+          }
+        >
+          <SingleReadPanel side="right" />
+        </div>
+      )}
+    </>
   );
 }

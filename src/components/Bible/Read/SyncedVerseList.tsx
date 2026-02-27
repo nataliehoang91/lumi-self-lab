@@ -73,10 +73,12 @@ export function SyncedVerseList({
 
   if (verseNumbers.length === 0) {
     return (
-      <div className="text-center py-16 text-muted-foreground">
-        <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
-        <p>{t("readNoContent")}</p>
-        <p className="text-sm mt-2">{t("readSelectAnother")}</p>
+      <div className="flex w-full min-h-[calc(100vh-14rem)] items-center justify-center py-16 text-muted-foreground">
+        <div className="text-center">
+          <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          <p>{t("readNoContent")}</p>
+          <p className="text-sm mt-2">{t("readSelectAnother")}</p>
+        </div>
       </div>
     );
   }

@@ -21,7 +21,7 @@ export function ReadShellContainer({ children }: { children: ReactNode }) {
   return (
     <Container
       maxWidth="full"
-      className="min-h-screen bg-background text-foreground font-sans flex flex-col"
+      className="min-h-screen bg-read text-foreground font-sans flex flex-col"
     >
       {children}
     </Container>

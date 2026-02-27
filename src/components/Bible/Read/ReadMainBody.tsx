@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useRead } from "../context/ReadContext";
-import { EmptyReadState } from "./EmptyReadState";
+import { useRead } from "./context/ReadContext";
+import { EmptyReadState } from "./EnhancedReadingPanel/EmptyReadState";
 import { SyncedRead } from "./SyncedRead";
 import { IndependentRead } from "./IndependentRead";
 import { SingleRead } from "./SingleRead";
@@ -15,7 +15,9 @@ const ReadMainBodyContainer = ({
   isIndependentTwoPanels: boolean;
 }) => {
   return (
-    <div className={cn("flex gap-0 relative", isIndependentTwoPanels && "flex-col md:flex-row")}>
+    <div
+      className={cn("flex gap-0 relative w-full", isIndependentTwoPanels && "flex-col md:flex-row")}
+    >
       {children}
     </div>
   );

@@ -29,7 +29,7 @@ export function BibleNavBar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm shadow-sm transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/80 transition-all duration-300",
         readFocusMode
           ? "opacity-0 pointer-events-none h-0 overflow-hidden border-transparent"
           : "opacity-100"
@@ -254,4 +254,3 @@ export function BibleNavBar() {
     </nav>
   );
 }
-

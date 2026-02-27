@@ -28,6 +28,7 @@ export type TFunction = (
 ) => string;
 
 export interface ReadingPanelProps {
+  side: "left" | "right";
   version: VersionId | null;
   book: BibleBook | null;
   chapter: number;

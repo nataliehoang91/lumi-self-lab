@@ -70,7 +70,8 @@ export function BookSelector({ variant = "desktop" }: { variant?: Variant }) {
                 type="button"
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start px-3 py-2 text-sm hover:bg-accent transition-all",
+                  "w-full justify-start px-3 py-2 text-sm transition-all",
+                  "hover:bg-sage/15 hover:text-sage-dark dark:hover:text-sage",
                   b.id === leftBook.id
                     ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
                     : "text-foreground"
@@ -80,7 +81,10 @@ export function BookSelector({ variant = "desktop" }: { variant?: Variant }) {
                   setSubNavBookOpen(false);
                 }}
               >
-                {getBookLabelForSelection(b, leftVersion, rightVersion)}
+                <span className="tabular-nums text-muted-foreground shrink-0 w-6 text-right">
+                  {b.chapterCount}
+                </span>
+                <span className="ml-2">{getBookLabelForSelection(b, leftVersion, rightVersion)}</span>
               </Button>
             ))}
           </div>

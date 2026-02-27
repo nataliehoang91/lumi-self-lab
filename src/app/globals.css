@@ -300,6 +300,14 @@
     background-color: rgb(4, 9, 20);
   }
 
+  /* Softer background for read mode — easier on the eyes than pure white */
+  .bg-read {
+    background-color: rgb(250 248 245); /* warm off-white */
+  }
+  .dark .bg-read {
+    background-color: rgb(15 18 25); /* soft dark, slightly warmer than body */
+  }
+
   .pile {
     @apply grid grid-cols-1 grid-rows-1 *:col-start-1 *:row-start-1;
   }
