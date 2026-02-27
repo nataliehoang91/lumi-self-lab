@@ -20,6 +20,9 @@ export function SyncedRead() {
     hoveredVerse,
     setHoveredVerse,
   } = useRead();
+
+  if (rightVersion === null) return null;
+
   return (
     <div className="min-w-0 flex-1 overflow-auto">
       <div className="px-4 sm:px-6 md:px-8">

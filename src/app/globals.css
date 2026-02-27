@@ -285,6 +285,21 @@
     background-color: rgb(4, 9, 20); /* slate-900 */
   }
 
+  /* Same as body background — for full-screen overlays (e.g. BibleLoader) */
+  .bg-body {
+    min-height: 100vh;
+    background-image: linear-gradient(
+      to bottom right,
+      rgb(255 237 213),
+      rgb(253 242 248),
+      rgb(243 232 255)
+    );
+  }
+  .dark .bg-body {
+    background-image: none;
+    background-color: rgb(4, 9, 20);
+  }
+
   .pile {
     @apply grid grid-cols-1 grid-rows-1 *:col-start-1 *:row-start-1;
   }

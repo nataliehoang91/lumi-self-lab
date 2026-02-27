@@ -32,9 +32,7 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
   const [progress, setProgress] = useState(0);
   const [bookOpen, setBookOpen] = useState(false);
   const [particleCount] = useState(() => Array.from({ length: 18 }, (_, i) => i));
-  const verseRef = useRef(
-    LOADING_VERSES[Math.floor(Math.random() * LOADING_VERSES.length)],
-  );
+  const verseRef = useRef(LOADING_VERSES[Math.floor(Math.random() * LOADING_VERSES.length)]);
   const verse = verseRef.current;
 
   // Phase: enter — book appears
@@ -83,33 +81,31 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden transition-all duration-700 ${
+      className={`fixed inset-0 z-50 flex min-h-screen min-w-full flex-col items-center justify-center overflow-hidden bg-body text-foreground transition-all duration-700 ${
         phase === "exit" ? "opacity-0 scale-[1.03]" : "opacity-100 scale-100"
       }`}
-      style={{ background: "oklch(0.13 0.01 85)" }}
       aria-label="Loading Scripture Memory"
       role="status"
     >
-      {/* Ambient glow */}
+      {/* Ambient glow — theme-aware */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 55%, oklch(0.28 0.03 85 / 0.35) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 40% at 50% 55%, hsl(var(--primary) / 0.2) 0%, transparent 70%)",
           transition: "opacity 1s ease",
           opacity: bookOpen ? 1 : 0,
         }}
       />
 
-      {/* Floating dust particles */}
+      {/* Floating dust particles — theme-aware */}
       {particleCount.map((i) => (
         <div
           key={i}
-          className="absolute rounded-full pointer-events-none"
+          className="absolute rounded-full pointer-events-none bg-muted-foreground/20"
           style={{
             width: `${Math.random() * 2 + 1}px`,
             height: `${Math.random() * 2 + 1}px`,
-            background: `oklch(0.75 0.02 85 / ${Math.random() * 0.3 + 0.1})`,
             left: `${10 + (i / 18) * 80}%`,
             top: `${20 + Math.sin(i * 1.3) * 30 + 30}%`,
             animation: `float-${i % 3} ${4 + (i % 4)}s ease-in-out infinite`,
@@ -126,8 +122,7 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
           style={{
             transform: bookOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.85)",
             opacity: bookOpen ? 1 : 0,
-            transition:
-              "transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease",
+            transition: "transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease",
           }}
         >
           <svg
@@ -137,6 +132,7 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
+            className="stroke-border text-muted-foreground dark:stroke-foreground/50 dark:text-foreground/70"
           >
             {/* Spine */}
             <line
@@ -144,17 +140,15 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
               y1="8"
               x2="48"
               y2="68"
-              stroke="oklch(0.65 0.03 85)"
+              stroke="currentColor"
               strokeWidth="1.5"
               strokeLinecap="round"
             />
             {/* Left page */}
             <path
               d="M48 10 C35 8, 10 12, 6 16 L6 66 C10 62, 35 58, 48 60 Z"
-              fill="oklch(0.22 0.012 85)"
-              stroke="oklch(0.5 0.02 85)"
+              className="fill-muted/80 stroke-border dark:fill-foreground/25 dark:stroke-foreground/45"
               strokeWidth="1"
-              className="book-page-left"
               style={{
                 transformOrigin: "48px 35px",
                 animation: bookOpen
@@ -170,11 +164,11 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
                 y1={y}
                 x2="42"
                 y2={y + 1}
-                stroke="oklch(0.45 0.015 85)"
+                className="stroke-muted-foreground/60 dark:stroke-foreground/55"
                 strokeWidth="0.8"
                 strokeLinecap="round"
                 style={{
-                  opacity: bookOpen ? 0.6 : 0,
+                  opacity: bookOpen ? 1 : 0,
                   transition: `opacity 0.4s ease ${0.8 + idx * 0.06}s`,
                 }}
               />
@@ -182,8 +176,7 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
             {/* Right page */}
             <path
               d="M48 10 C61 8, 86 12, 90 16 L90 66 C86 62, 61 58, 48 60 Z"
-              fill="oklch(0.22 0.012 85)"
-              stroke="oklch(0.5 0.02 85)"
+              className="fill-muted/80 stroke-border dark:fill-foreground/25 dark:stroke-foreground/45"
               strokeWidth="1"
               style={{
                 transformOrigin: "48px 35px",
@@ -200,33 +193,23 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
                 y1={y + 1}
                 x2="82"
                 y2={y}
-                stroke="oklch(0.45 0.015 85)"
+                className="stroke-muted-foreground/60 dark:stroke-foreground/55"
                 strokeWidth="0.8"
                 strokeLinecap="round"
                 style={{
-                  opacity: bookOpen ? 0.6 : 0,
+                  opacity: bookOpen ? 1 : 0,
                   transition: `opacity 0.4s ease ${0.8 + idx * 0.06}s`,
                 }}
               />
             ))}
             {/* Glow at spine */}
-            <ellipse
-              cx="48"
-              cy="38"
-              rx="3"
-              ry="24"
-              fill="oklch(0.78 0.04 85 / 0.12)"
-            />
+            <ellipse cx="48" cy="38" rx="3" ry="24" className="fill-primary/10 dark:fill-primary/25" />
           </svg>
 
           {/* Soft radial beneath book */}
           <div
-            className="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full pointer-events-none"
+            className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-20 h-3 rounded-full pointer-events-none bg-muted-foreground/20 dark:bg-foreground/25 blur-md"
             style={{
-              width: "80px",
-              height: "12px",
-              background: "oklch(0.65 0.03 85 / 0.18)",
-              filter: "blur(8px)",
               opacity: bookOpen ? 1 : 0,
               transition: "opacity 1s ease 0.6s",
             }}
@@ -235,55 +218,39 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
 
         {/* Brand name */}
         <div
-          className="flex flex-col items-center gap-1"
+          className="flex flex-col items-center gap-1 text-muted-foreground"
           style={{
             opacity: bookOpen ? 1 : 0,
             transform: bookOpen ? "translateY(0)" : "translateY(8px)",
             transition: "opacity 0.7s ease 0.4s, transform 0.7s ease 0.4s",
           }}
         >
-          <span
-            className="font-serif tracking-widest uppercase text-xs"
-            style={{ color: "oklch(0.5 0.015 85)", letterSpacing: "0.25em" }}
-          >
-            Scripture Memory
-          </span>
+          <span className="font-serif tracking-[0.25em] uppercase text-sm">Scripture Memory</span>
         </div>
 
         {/* Verse typewriter */}
         <div
-          className="text-center space-y-3 min-h-[80px] flex flex-col items-center justify-center"
+          className="text-center space-y-3 min-h-[80px] flex flex-col items-center justify-center text-foreground"
           style={{
             opacity: phase === "enter" ? 0 : 1,
             transition: "opacity 0.5s ease",
           }}
         >
           <p
-            className="font-serif leading-relaxed text-balance"
-            style={{
-              color: "oklch(0.82 0.015 85)",
-              fontSize: "1.05rem",
-              lineHeight: "1.7",
-            }}
+            className="font-serif text-[1.05rem] leading-relaxed text-balance"
+            style={{ lineHeight: "1.7" }}
           >
             {displayedText}
             {phase === "typewrite" && (
               <span
-                className="inline-block w-0.5 h-5 ml-0.5 align-middle"
-                style={{
-                  background: "oklch(0.65 0.02 85)",
-                  animation: "blink 0.7s step-end infinite",
-                  verticalAlign: "middle",
-                  marginBottom: "2px",
-                }}
+                className="inline-block w-0.5 h-5 ml-0.5 align-middle bg-primary animate-[blink_0.7s_step-end_infinite]"
+                style={{ verticalAlign: "middle", marginBottom: "2px" }}
               />
             )}
           </p>
           <p
-            className="font-sans text-xs tracking-widest uppercase"
+            className="font-sans text-xs tracking-[0.2em] uppercase text-muted-foreground"
             style={{
-              color: "oklch(0.45 0.01 85)",
-              letterSpacing: "0.2em",
               opacity: showRef ? 1 : 0,
               transform: showRef ? "translateY(0)" : "translateY(6px)",
               transition: "opacity 0.6s ease, transform 0.6s ease",
@@ -301,27 +268,13 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
             transition: "opacity 0.5s ease",
           }}
         >
-          <div
-            className="w-full max-w-xs rounded-full overflow-hidden"
-            style={{
-              height: "1px",
-              background: "oklch(0.3 0.01 85)",
-            }}
-          >
+          <div className="w-full max-w-xs h-px rounded-full overflow-hidden bg-border">
             <div
-              className="h-full rounded-full"
-              style={{
-                width: `${progress}%`,
-                background: "oklch(0.72 0.025 85)",
-                transition: "width 0.08s linear",
-                boxShadow: "0 0 8px oklch(0.72 0.025 85 / 0.6)",
-              }}
+              className="h-full rounded-full bg-primary transition-[width] duration-75 ease-linear shadow-[0_0_8px_hsl(var(--primary)/0.6)]"
+              style={{ width: `${progress}%` }}
             />
           </div>
-          <span
-            className="font-sans text-xs tabular-nums"
-            style={{ color: "oklch(0.38 0.01 85)", letterSpacing: "0.12em" }}
-          >
+          <span className="font-sans text-xs tabular-nums tracking-wider text-muted-foreground">
             {Math.round(progress)}%
           </span>
         </div>
@@ -359,4 +312,3 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
     </div>
   );
 }
-

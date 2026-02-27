@@ -32,9 +32,7 @@ function verseTextWithNotes(
   const showNotes = isKJV && hasKJVNotes(text);
   const parsed = showNotes ? parseKJVNotes(text) : null;
   const fontClass =
-    version === "vi"
-      ? "font-vietnamese [font-size:inherit]"
-      : "font-bible-english text-[1.1em]";
+    version === "vi" ? "font-vietnamese [font-size:inherit]" : "font-bible-english text-[1.1em]";
   return { text, parsed, fontClass };
 }
 
@@ -70,10 +68,7 @@ export function SyncedVerseList({
   const leftVerses = leftContent?.verses ?? [];
   const rightVerses = rightContent?.verses ?? [];
   const verseNumbers = [
-    ...new Set([
-      ...leftVerses.map((v) => v.number),
-      ...rightVerses.map((v) => v.number),
-    ]),
+    ...new Set([...leftVerses.map((v) => v.number), ...rightVerses.map((v) => v.number)]),
   ].sort((a, b) => a - b);
 
   if (verseNumbers.length === 0) {
@@ -110,108 +105,102 @@ export function SyncedVerseList({
           alignItems: "start",
         }}
       >
-        <span aria-hidden className="text-xs font-medium text-muted-foreground tracking-wide uppercase" />
+        <span
+          aria-hidden
+          className="text-xs font-medium text-muted-foreground tracking-wide uppercase"
+        />
         <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
           {leftLabel}
         </span>
-      <span aria-hidden className="text-xs font-medium text-muted-foreground tracking-wide uppercase" />
-      <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
-        {rightLabel}
-      </span>
+        <span
+          aria-hidden
+          className="text-xs font-medium text-muted-foreground tracking-wide uppercase"
+        />
+        <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
+          {rightLabel}
+        </span>
         {verseNumbers.map((num) => {
-        const leftVerse = leftVerses.find((v) => v.number === num);
-        const rightVerse = rightVerses.find((v) => v.number === num);
-        const leftText = normalizeVerseTextForDisplay(
-          leftVerse?.text ?? "",
-          leftVersion
-        );
-        const rightText = normalizeVerseTextForDisplay(
-          rightVerse?.text ?? "",
-          rightVersion
-        );
-        const left = verseTextWithNotes(leftText, leftVersion, "bible-english");
-        const right = verseTextWithNotes(rightText, rightVersion, "bible-english");
+          const leftVerse = leftVerses.find((v) => v.number === num);
+          const rightVerse = rightVerses.find((v) => v.number === num);
+          const leftText = normalizeVerseTextForDisplay(leftVerse?.text ?? "", leftVersion);
+          const rightText = normalizeVerseTextForDisplay(rightVerse?.text ?? "", rightVersion);
+          const left = verseTextWithNotes(leftText, leftVersion, "bible-english");
+          const right = verseTextWithNotes(rightText, rightVersion, "bible-english");
 
-        return (
-          <div
-            key={num}
-            className="contents group"
-            onMouseEnter={() => onVerseHover(num)}
-            onMouseLeave={() => onVerseHover(null)}
-          >
-            <span
-              className={cn(
-                verseNumClass,
-                "pt-0.5",
-                hoveredVerse === num && "text-primary"
-              )}
+          return (
+            <div
+              key={num}
+              className="contents group"
+              onMouseEnter={() => onVerseHover(num)}
+              onMouseLeave={() => onVerseHover(null)}
             >
-              {num}
-            </span>
-            <p
-              className={cn(
-                "text-foreground text-pretty min-h-[1.5em] pr-3",
-                leftVersion === "vi" ? "font-vietnamese [font-size:inherit]" : left.fontClass
-              )}
-            >
-              {left.parsed && left.parsed.notes.length > 0 ? (
-                <>
-                  {left.parsed.parts.map((p, i) =>
-                    typeof p === "number" ? (
-                      <sup
-                        key={i}
-                        className="align-super text-[0.7em] font-medium text-muted-foreground"
-                        title={left.parsed!.notes[p - 1]}
-                      >
-                        {p}
-                      </sup>
-                    ) : (
-                      <span key={i}>{p}</span>
-                    )
-                  )}
-                </>
-              ) : (
-                leftText
-              )}
-            </p>
-            <span
-              className={cn(
-                verseNumClass,
-                "pt-0.5 shrink-0 pl-5",
-                hoveredVerse === num && "text-primary"
-              )}
-            >
-              {num}
-            </span>
-            <p
-              className={cn(
-                "text-foreground text-pretty min-h-[1.5em] pl-4",
-                rightVersion === "vi" ? "font-vietnamese [font-size:inherit]" : right.fontClass
-              )}
-            >
-              {right.parsed && right.parsed.notes.length > 0 ? (
-                <>
-                  {right.parsed.parts.map((p, i) =>
-                    typeof p === "number" ? (
-                      <sup
-                        key={i}
-                        className="align-super text-[0.7em] font-medium text-muted-foreground"
-                        title={right.parsed!.notes[p - 1]}
-                      >
-                        {p}
-                      </sup>
-                    ) : (
-                      <span key={i}>{p}</span>
-                    )
-                  )}
-                </>
-              ) : (
-                rightText
-              )}
-            </p>
-          </div>
-        );
-      })}
+              <span className={cn(verseNumClass, "pt-0.5", hoveredVerse === num && "text-primary")}>
+                {num}
+              </span>
+              <p
+                className={cn(
+                  "text-foreground text-pretty min-h-[1.5em] pr-3",
+                  leftVersion === "vi" ? "font-vietnamese [font-size:inherit]" : left.fontClass
+                )}
+              >
+                {left.parsed && left.parsed.notes.length > 0 ? (
+                  <>
+                    {left.parsed.parts.map((p, i) =>
+                      typeof p === "number" ? (
+                        <sup
+                          key={i}
+                          className="align-super text-[0.7em] font-medium text-muted-foreground"
+                          title={left.parsed!.notes[p - 1]}
+                        >
+                          {p}
+                        </sup>
+                      ) : (
+                        <span key={i}>{p}</span>
+                      )
+                    )}
+                  </>
+                ) : (
+                  leftText
+                )}
+              </p>
+              <span
+                className={cn(
+                  verseNumClass,
+                  "pt-0.5 shrink-0 pl-5",
+                  hoveredVerse === num && "text-primary"
+                )}
+              >
+                {num}
+              </span>
+              <p
+                className={cn(
+                  "text-foreground text-pretty min-h-[1.5em] pl-4",
+                  rightVersion === "vi" ? "font-vietnamese [font-size:inherit]" : right.fontClass
+                )}
+              >
+                {right.parsed && right.parsed.notes.length > 0 ? (
+                  <>
+                    {right.parsed.parts.map((p, i) =>
+                      typeof p === "number" ? (
+                        <sup
+                          key={i}
+                          className="align-super text-[0.7em] font-medium text-muted-foreground"
+                          title={right.parsed!.notes[p - 1]}
+                        >
+                          {p}
+                        </sup>
+                      ) : (
+                        <span key={i}>{p}</span>
+                      )
+                    )}
+                  </>
+                ) : (
+                  rightText
+                )}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
 "use client";
 
-import { use, useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import { ReadProvider, useRead } from "@/components/Bible/Read/context/ReadContext";
 import { ReadInsightsContainer } from "@/components/Bible/Read/ReadInsightsContainer";
 import { ReadContentContainer, ReadShellContainer } from "./ReadContentContainer";
+import { BibleLoader } from "@/components/Bible/Read/BibleLoader";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { useReadFocus } from "@/components/Bible/ReadFocusContext";
 import { NavigationForm } from "@/components/CoreAdvancedComponent/behaviors/navigation-form";
@@ -24,7 +25,7 @@ function ReadFocusSync() {
 /**
  * Unwraps the server getBooks() promise with React use() so the read page
  * can stream: shell renders first, then content when books resolve (Suspense).
- * No useEffect needed — provider gets initial data as props.
+ * Shows BibleLoader on first enter, then main content after onComplete.
  */
 export function ReadPageShell({
   booksPromise,
@@ -35,6 +36,18 @@ export function ReadPageShell({
 }) {
   const initialBooks = use(booksPromise);
   const pathname = usePathname();
+  const [entryLoaderDone, setEntryLoaderDone] = useState(false);
+
+  if (!entryLoaderDone) {
+    return (
+      <BibleLoader
+        onComplete={() => {
+          setEntryLoaderDone(true);
+        }}
+      />
+    );
+  }
+
   return (
     <NavigationForm action={pathname} preventReset>
       <ReadProvider initialBooks={initialBooks} initialSearchParams={searchParams}>
