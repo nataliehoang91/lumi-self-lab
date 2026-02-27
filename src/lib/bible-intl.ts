@@ -65,6 +65,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightsTitle: "Chapter insights",
     readInsightsBetaBadge: "Beta",
     readInsightsLanguagesNote: "Insights are currently available in English and Vietnamese. More languages coming soon.",
+    readInsightsComingSoonTag: "Coming soon",
     readInsightsFor: "{book} {n}",
     readInsightsClose: "Close",
     readInsightsContext: "Context",
@@ -142,6 +143,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightsReflection: "Suy ngẫm",
     readInsightsComingSoon:
       "Khải thị cho chương này sẽ sớm có mặt. Hãy thử Giăng 3 để xem trước.",
+    readInsightsComingSoonTag: "Sắp ra mắt",
     readInsightsDismissHint: "Nhấn",
     readInsightsDismissHintTail: "hoặc chạm lại biểu tượng bóng đèn để đóng",
     readInsightsMinimize: "Thu nhỏ",
@@ -211,6 +213,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightsReflection: "默想",
     readInsightsComingSoon:
       "本章的靈修提示即將推出。可以先試試約翰福音第 3 章。",
+    readInsightsComingSoonTag: "即將推出",
     readInsightsDismissHint: "按下",
     readInsightsDismissHintTail: "或再次點擊燈泡圖示關閉",
     readInsightsMinimize: "最小化",

@@ -117,20 +117,20 @@ export function FlashCardShell({
           >
             <SelectValue placeholder={intl.t("selectCollection")} />
           </SelectTrigger>
-          <SelectContent
-            className="rounded-xl border border-border bg-popover text-popover-foreground"
-            sideOffset={4}
-          >
-            {collections.map((c) => (
-              <SelectItem
-                key={c.id}
-                value={c.id}
-                className="rounded-lg focus:bg-muted focus:text-muted-foreground"
-              >
-                {c.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
+            <SelectContent
+              className="rounded-xl border border-border bg-popover text-popover-foreground"
+              sideOffset={4}
+            >
+              {collections.map((c) => (
+                <SelectItem
+                  key={c.id}
+                  value={c.id}
+                  className="rounded-lg focus:bg-muted focus:text-muted-foreground"
+                >
+                  {intl.t("collectionName", { name: c.name }) ?? `Collection ${c.name}`}
+                </SelectItem>
+              ))}
+            </SelectContent>
         </Select>
       </div>
     ) : null;

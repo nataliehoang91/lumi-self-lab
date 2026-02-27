@@ -102,12 +102,12 @@
   --gradient-violet-tint: rgb(245 243 255 / 0.3);
 }
 
-/* Vietnamese verse text – Be Vietnam Pro (loaded in root layout) */
+/* Vietnamese verse text – Merriweather serif (loaded in root layout) */
 .font-vietnamese {
-  font-family: var(--font-vietnamese), var(--font-geist-sans), ui-sans-serif, sans-serif;
+  font-family: var(--font-vietnamese), var(--font-bible-serif), ui-serif, Georgia, serif;
 }
 
-/* English / non-Vietnamese verse text – Source Serif 4 (larger x-height, balances with Be Vietnam Pro) */
+/* English / non-Vietnamese verse text – Lora serif (literary, warm, for scripture) */
 .font-bible-english {
   font-family: var(--font-bible-serif), ui-serif, Georgia, serif;
 }
@@ -195,6 +195,7 @@
 /* @theme is a valid Tailwind CSS v4 directive - linter warning can be ignored */
 @theme {
   --font-sans: "Geist", "Geist Fallback";
+  --font-serif: var(--font-bible-serif), ui-serif, Georgia, serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback";
 
   /* Map CSS variables to Tailwind theme colors */
