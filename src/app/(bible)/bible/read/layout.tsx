@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { ReadLoading } from "@/components/Bible/Read/ReadLoading";
+import { FullPageBibleLoader } from "@/components/Bible/GeneralComponents/full-page-bible-loader";
 
 export default function ReadLayout({ children }: { children: React.ReactNode }) {
-  return <Suspense fallback={<ReadLoading />}>{children}</Suspense>;
+  return <Suspense fallback={<FullPageBibleLoader />}>{children}</Suspense>;
 }

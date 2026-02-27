@@ -6,7 +6,7 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { EnhancedReadingPanel } from "./EnhancedReadingPanel/EnhancedReadingPanel";
 
-function SingleReadPanel({ side }: { side: "left" | "right" }) {
+export function SingleRead() {
   const { globalLanguage, fontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
@@ -37,74 +37,45 @@ function SingleReadPanel({ side }: { side: "left" | "right" }) {
     setRightTestamentFilterAndAdjust,
   } = useRead();
 
-  const isLeft = side === "left";
-
-  const version = isLeft ? leftVersion : rightVersion;
-  const book = isLeft ? leftBook : syncMode ? leftBook : rightBook;
-  const chapter = isLeft ? leftChapter : syncMode ? leftChapter : rightChapter;
-  const content = isLeft ? leftContent : rightContent;
-  const loading = isLeft ? loadingLeft : loadingRight;
-
-  const showControls =
-    isLeft && (!syncMode || rightVersion === null) ? true : !isLeft ? !syncMode : false;
-
-  const showSelectors =
-    isLeft && rightVersion !== null && !syncMode ? true : !isLeft ? !syncMode : false;
-
-  const testament =
-    isLeft && syncMode
-      ? testamentFilter
-      : isLeft
-        ? leftTestamentFilter
-        : syncMode
-          ? testamentFilter
-          : rightTestamentFilter;
-
-  const handleBookChange = isLeft ? handleLeftBookChange : handleRightBookChange;
-  const handleChapterChange = isLeft ? handleLeftChapterChange : handleRightChapterChange;
-
-  const handleTestamentChange = isLeft
-    ? !syncMode
-      ? setLeftTestamentFilterAndAdjust
-      : undefined
-    : !syncMode
-      ? setRightTestamentFilterAndAdjust
-      : undefined;
-
-  return (
-    <EnhancedReadingPanel
-      side={side}
-      version={version}
-      book={book}
-      chapter={chapter}
-      onBookChange={handleBookChange}
-      onChapterChange={handleChapterChange}
-      content={content}
-      loading={loading}
-      books={books}
-      hoveredVerse={hoveredVerse}
-      onVerseHover={setHoveredVerse}
-      focusMode={focusMode}
-      showControls={showControls}
-      showBookChapterSelectors={showSelectors}
-      fontSize={fontSize}
-      t={t}
-      testamentFilter={testament}
-      onTestamentFilterChange={handleTestamentChange}
-    />
-  );
-}
-
-export function SingleRead() {
-  const { rightVersion, syncMode } = useRead();
   const isIndependentTwoPanels = rightVersion !== null && !syncMode;
+
+  const leftVersionValue = leftVersion;
+  const rightVersionValue = rightVersion;
+
+  const leftTestamentValue = syncMode ? testamentFilter : leftTestamentFilter;
+  const rightTestamentValue = syncMode ? testamentFilter : rightTestamentFilter;
+
+  const showLeftControls = !syncMode || rightVersionValue === null;
+  const showRightControls = !syncMode;
+
+  const showLeftSelectors = rightVersionValue !== null && !syncMode;
+  const showRightSelectors = !syncMode;
 
   return (
     <>
-      <div className={cn("transition-all duration-300 min-w-0", rightVersion !== null && "w-full")}>
-        <SingleReadPanel side="left" />
+      <div className={cn("transition-all duration-300 min-w-0", rightVersionValue !== null && "w-full")}>
+        <EnhancedReadingPanel
+          side="left"
+          version={leftVersionValue}
+          book={leftBook}
+          chapter={leftChapter}
+          onBookChange={handleLeftBookChange}
+          onChapterChange={handleLeftChapterChange}
+          content={leftContent}
+          loading={loadingLeft}
+          books={books}
+          hoveredVerse={hoveredVerse}
+          onVerseHover={setHoveredVerse}
+          focusMode={focusMode}
+          showControls={showLeftControls}
+          showBookChapterSelectors={showLeftSelectors}
+          fontSize={fontSize}
+          t={t}
+          testamentFilter={leftTestamentValue}
+          onTestamentFilterChange={!syncMode ? setLeftTestamentFilterAndAdjust : undefined}
+        />
       </div>
-      {rightVersion !== null && (
+      {rightVersionValue !== null && (
         <div
           className={cn(
             "transition-all duration-300 min-w-0",
@@ -116,7 +87,26 @@ export function SingleRead() {
               : { width: "50%" }
           }
         >
-          <SingleReadPanel side="right" />
+          <EnhancedReadingPanel
+            side="right"
+            version={rightVersionValue}
+            book={syncMode ? leftBook : rightBook}
+            chapter={syncMode ? leftChapter : rightChapter}
+            onBookChange={handleRightBookChange}
+            onChapterChange={handleRightChapterChange}
+            content={rightContent}
+            loading={loadingRight}
+            books={books}
+            hoveredVerse={hoveredVerse}
+            onVerseHover={setHoveredVerse}
+            focusMode={focusMode}
+            showControls={showRightControls}
+            showBookChapterSelectors={showRightSelectors}
+            fontSize={fontSize}
+            t={t}
+            testamentFilter={rightTestamentValue}
+            onTestamentFilterChange={!syncMode ? setRightTestamentFilterAndAdjust : undefined}
+          />
         </div>
       )}
     </>

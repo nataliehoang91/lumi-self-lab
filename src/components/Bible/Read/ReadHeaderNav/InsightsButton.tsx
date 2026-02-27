@@ -88,7 +88,7 @@ export function InsightsButton({ variant = "desktop" }: { variant?: Variant }) {
             <>
               <Lightbulb className="w-4 h-4" />
               <span className="hidden sm:inline text-sm font-medium">
-                {t("readInsightsLabel") ?? "Insights"}
+                {t("readInsightsLabel") ?? "Insights (coming soon)"}
               </span>
             </>
           ) : (
@@ -100,7 +100,7 @@ export function InsightsButton({ variant = "desktop" }: { variant?: Variant }) {
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
               <span className="hidden sm:inline text-sm font-medium">
-                {t("readInsightsLabel") ?? "Insights"}
+                {t("readInsightsLabel") ?? "Insights (coming soon)"}
               </span>
             </>
           ) : (

@@ -3,6 +3,7 @@ import { BibleAppProvider } from "@/components/Bible/BibleAppContext";
 import { ReadFocusProvider } from "@/components/Bible/ReadFocusContext";
 import { BibleNavBar } from "@/components/Bible/BibleNavBar";
 import { BibleMainWithPadding } from "@/components/Bible/Read/ReadLayout/BibleMainWithPadding";
+import { FullPageBibleLoader } from "@/components/Bible/GeneralComponents/full-page-bible-loader";
 
 function BibleShell({ children }: { children: React.ReactNode }) {
   return (
@@ -20,7 +21,7 @@ export default function BibleSectionLayout({ children }: { children: React.React
     <Suspense
       fallback={
         <div className="min-h-screen bg-background flex items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-primary" />
+          <FullPageBibleLoader />
         </div>
       }
     >

@@ -21,11 +21,11 @@ const LOADING_VERSES = [
   },
 ];
 
-interface BibleLoaderProps {
-  onComplete: () => void;
+interface FullPageBibleLoaderProps {
+  onComplete?: () => void;
 }
 
-export function BibleLoader({ onComplete }: BibleLoaderProps) {
+export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
   const [phase, setPhase] = useState<"enter" | "typewrite" | "ref" | "progress" | "exit">("enter");
   const [displayedText, setDisplayedText] = useState("");
   const [showRef, setShowRef] = useState(false);
@@ -72,7 +72,11 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
         p = 100;
         clearInterval(interval);
         setPhase("exit");
-        setTimeout(onComplete, 700);
+        setTimeout(() => {
+          if (onComplete) {
+            onComplete();
+          }
+        }, 700);
       }
       setProgress(p);
     }, 45);
@@ -203,7 +207,13 @@ export function BibleLoader({ onComplete }: BibleLoaderProps) {
               />
             ))}
             {/* Glow at spine */}
-            <ellipse cx="48" cy="38" rx="3" ry="24" className="fill-primary/10 dark:fill-primary/25" />
+            <ellipse
+              cx="48"
+              cy="38"
+              rx="3"
+              ry="24"
+              className="fill-primary/10 dark:fill-primary/25"
+            />
           </svg>
 
           {/* Soft radial beneath book */}

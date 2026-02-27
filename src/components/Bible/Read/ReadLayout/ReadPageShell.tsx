@@ -4,13 +4,14 @@ import { use, useEffect, useState } from "react";
 import { ReadProvider, useRead } from "@/components/Bible/Read/context/ReadContext";
 import { ReadInsightsContainer } from "@/components/Bible/Read/ReadInsightsContainer";
 import { ReadContentContainer, ReadShellContainer } from "./ReadContentContainer";
-import { BibleLoader } from "@/components/Bible/Read/BibleLoader";
+import { BibleMinimalLoader } from "@/components/Bible/GeneralComponents/minimal-bible-loader";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { useReadFocus } from "@/components/Bible/ReadFocusContext";
 import { NavigationForm } from "@/components/CoreAdvancedComponent/behaviors/navigation-form";
 import { usePathname } from "next/navigation";
 import { ReadHeader } from "../ReadHeaderNav/ReadHeader";
 import { ReadMain } from "../ReadMain";
+import { FullPageBibleLoader } from "../../GeneralComponents/full-page-bible-loader";
 
 function ReadFocusSync() {
   const { focusMode } = useRead();
@@ -40,7 +41,7 @@ export function ReadPageShell({
 
   if (!entryLoaderDone) {
     return (
-      <BibleLoader
+      <FullPageBibleLoader
         onComplete={() => {
           setEntryLoaderDone(true);
         }}

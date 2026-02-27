@@ -8,12 +8,8 @@ export default async function ReadPage({
 }: {
   searchParams?: SearchParams | Promise<SearchParams>;
 }) {
-  const params: SearchParams =
-    searchParams && typeof (searchParams as Promise<SearchParams>).then === "function"
-      ? await (searchParams as Promise<SearchParams>)
-      : ((searchParams as SearchParams) ?? {});
-
   const booksPromise = getBooks();
+  const params = (await searchParams) ?? {};
 
   return <ReadPageShell booksPromise={booksPromise} searchParams={params} />;
 }

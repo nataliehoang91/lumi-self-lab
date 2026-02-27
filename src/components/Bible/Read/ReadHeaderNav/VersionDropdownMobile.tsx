@@ -55,24 +55,30 @@ export function VersionDropdownMobile() {
       {(leftVersion !== null || rightVersion !== null) && (
         <div className="flex items-center gap-1.5 shrink-0">
           {leftVersion !== null && (
-            <span
+            <button
+              type="button"
+              onClick={() => handleVersionChipClick(leftVersion)}
               className={cn(
                 "inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium shadow-sm",
+                "transition-colors hover:brightness-95",
                 VERSION_BADGE_CLASS[leftVersion]
               )}
             >
               {TRANSLATIONS.find((tr) => tr.id === leftVersion)?.name ?? leftVersion}
-            </span>
+            </button>
           )}
           {rightVersion !== null && (
-            <span
+            <button
+              type="button"
+              onClick={() => handleVersionChipClick(rightVersion)}
               className={cn(
                 "inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium shadow-sm",
+                "transition-colors hover:brightness-95",
                 VERSION_BADGE_CLASS[rightVersion]
               )}
             >
               {TRANSLATIONS.find((tr) => tr.id === rightVersion)?.name ?? rightVersion}
-            </span>
+            </button>
           )}
         </div>
       )}

@@ -46,19 +46,6 @@ export function BibleNavBar() {
             size="sm"
             className={cn(
               "h-8 px-4 text-xs font-medium rounded-xl transition-all border",
-              isFlashcard
-                ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
-                : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
-            )}
-            asChild
-          >
-            <Link href="/bible/flashcard">Flashcard</Link>
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              "h-8 px-4 text-xs font-medium rounded-xl transition-all border",
               isRead
                 ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
                 : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
@@ -66,6 +53,19 @@ export function BibleNavBar() {
             asChild
           >
             <Link href="/bible/read">Read</Link>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "h-8 px-4 text-xs font-medium rounded-xl transition-all border",
+              isFlashcard
+                ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
+                : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
+            )}
+            asChild
+          >
+            <Link href="/bible/flashcard">Flashcard</Link>
           </Button>
         </div>
 

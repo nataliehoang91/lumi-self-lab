@@ -13,7 +13,9 @@ const ReadBodyContainer = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <main className={cn("transition-all duration-300", focusMode ? "py-8" : "py-6")}>
-      <Container maxWidth="7xl">{children}</Container>
+      <Container maxWidth="7xl" className="md:px-0 px-2">
+        {children}
+      </Container>
     </main>
   );
 };
