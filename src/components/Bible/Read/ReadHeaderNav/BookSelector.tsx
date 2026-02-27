@@ -2,7 +2,7 @@
 
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRead } from "../ReadContext";
+import { useRead } from "../context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { getBookLabelForSelection } from "../utils";

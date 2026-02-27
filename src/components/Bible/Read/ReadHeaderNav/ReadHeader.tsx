@@ -1,30 +1,31 @@
 "use client";
 
 import { BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
-import { useRead } from "./ReadContext";
+import { useRead } from "../context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
-import { VersionChipButtons } from "./ReadHeaderNav/VersionChipButtons";
-import { TestamentDropdown } from "./ReadHeaderNav/TestamentDropdown";
-import { BookSelector } from "./ReadHeaderNav/BookSelector";
-import { ChapterSelectDesktop } from "./ReadHeaderNav/ChapterSelectDesktop";
-import { ChapterSelectMobile } from "./ReadHeaderNav/ChapterSelectMobile";
-import { SyncToggleButton } from "./ReadHeaderNav/SyncToggleButton";
-import { InsightsButton } from "./ReadHeaderNav/InsightsButton";
-import { FocusModeButton } from "./ReadHeaderNav/FocusModeButton";
-import { VersionDropdownMobile } from "./ReadHeaderNav/VersionDropdownMobile";
+import { VersionChipButtons } from "./VersionChipButtons";
+import { TestamentDropdown } from "./TestamentDropdown";
+import { BookSelector } from "./BookSelector";
+import { ChapterSelectDesktop } from "./ChapterSelectDesktop";
+import { ChapterSelectMobile } from "./ChapterSelectMobile";
+import { InsightsButton } from "./InsightsButton";
+import { FocusModeButton } from "./FocusModeButton";
+import { VersionDropdownMobile } from "./VersionDropdownMobile";
 
 export function ReadHeader() {
   const { globalLanguage } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
 
-  const { leftVersion, rightVersion, syncMode, focusMode, leftBook } = useRead();
+  const { leftVersion, rightVersion, syncMode, focusMode, leftBook, setSyncMode } = useRead();
 
   const hasVersionSelected = leftVersion !== null || rightVersion !== null;
   const showBookChapterNav = hasVersionSelected && leftBook !== null && syncMode;
+  const showSyncToggle = !focusMode && rightVersion !== null;
 
   return (
     <header
@@ -49,7 +50,22 @@ export function ReadHeader() {
             </div>
           )}
           <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-            <SyncToggleButton variant="desktop" />
+            {showSyncToggle && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setSyncMode(!syncMode)}
+                className={cn(
+                  "rounded-lg",
+                  syncMode
+                    ? "bg-rose-100 text-rose-900 hover:bg-rose-200 dark:bg-rose-800 dark:text-rose-100 dark:hover:bg-rose-700"
+                    : "bg-muted text-muted-foreground hover:bg-rose-100 hover:text-rose-800 dark:hover:bg-rose-900/30 dark:hover:text-rose-200"
+                )}
+              >
+                {syncMode ? t("readSynced") : t("readIndependent")}
+              </Button>
+            )}
             {!focusMode && <InsightsButton variant="desktop" />}
             <FocusModeButton variant="desktop" />
           </div>
@@ -60,7 +76,22 @@ export function ReadHeader() {
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <VersionDropdownMobile />
             <div className="flex items-center gap-2 shrink-0">
-              <SyncToggleButton variant="mobile" />
+              {showSyncToggle && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSyncMode(!syncMode)}
+                  className={cn(
+                    "rounded-md",
+                    syncMode
+                      ? "bg-rose-100 text-rose-900 hover:bg-rose-200 dark:bg-rose-800 dark:text-rose-100 dark:hover:bg-rose-700"
+                      : "bg-muted text-muted-foreground hover:bg-rose-100 hover:text-rose-800 dark:hover:bg-rose-900/30 dark:hover:text-rose-200"
+                  )}
+                >
+                  {syncMode ? t("readSynced") : t("readIndependent")}
+                </Button>
+              )}
               {!focusMode && <InsightsButton variant="mobile" />}
               <FocusModeButton variant="mobile" />
             </div>

@@ -18,11 +18,11 @@ import {
 } from "@/app/(bible)/bible/read/params";
 import { getChapterContent } from "@/app/actions/bible/read";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
-import type { BibleBook } from "./types";
-import type { ChapterContent } from "./types";
-import type { VersionId } from "./constants";
-import type { TestamentFilter } from "./constants";
-import { getOtBooks, getNtBooks, resolveBookFromParams, clampChapter } from "./utils";
+import type { BibleBook } from "../types";
+import type { ChapterContent } from "../types";
+import type { VersionId } from "../constants";
+import type { TestamentFilter } from "../constants";
+import { getOtBooks, getNtBooks, resolveBookFromParams, clampChapter } from "../utils";
 
 interface ReadState {
   books: BibleBook[];

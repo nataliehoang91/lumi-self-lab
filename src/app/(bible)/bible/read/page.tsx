@@ -1,5 +1,5 @@
 import { getBooks } from "@/app/actions/bible/read";
-import { ReadPageShell } from "@/components/Bible/Read";
+import { ReadPageShell } from "@/components/Bible/Read/ReadLayout/ReadPageShell";
 
 type SearchParams = Record<string, string | undefined>;
 
