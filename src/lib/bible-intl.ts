@@ -199,34 +199,62 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
       "A related Semitic language used in parts of Daniel and Ezra, and widely spoken in the time of Jesus.",
 
     learnOriginTimeline: "Manuscript Timeline",
+    learnOriginMapTitle: "Biblical Manuscript Map",
+    learnOriginMapBody:
+      "A few of the key locations where Scripture was written, copied, translated, and preserved.",
+    learnOriginLocJerusalem: "Jerusalem",
+    learnOriginLocJerusalemDesc:
+      "The spiritual centre of ancient Israel and the site of the Temple, where the Law was read and preserved.",
+    learnOriginLocQumran: "Qumran",
+    learnOriginLocQumranDesc:
+      "Desert community near the Dead Sea where the Dead Sea Scrolls were discovered in 1947, confirming the reliability of Old Testament manuscripts.",
+    learnOriginLocAlexandria: "Alexandria",
+    learnOriginLocAlexandriaDesc:
+      "A major centre of learning in the ancient world, where Jewish scholars produced the Greek translation of the Old Testament (the Septuagint).",
+    learnOriginLocRome: "Rome",
+    learnOriginLocRomeDesc:
+      "Capital of the Roman Empire, where early Christian communities formed and key Latin translations like the Vulgate were produced.",
+    learnOriginLocAntioch: "Antioch",
+    learnOriginLocAntiochDesc:
+      "One of the first major Gentile churches; a launching point for Paul’s missionary journeys and the spread of the New Testament.",
+    learnOriginLocSinai: "Mount Sinai",
+    learnOriginLocSinaiDesc:
+      "The traditional site where Moses received the Law — the beginning of Israel’s written Scriptures.",
 
     learnOriginT1Year: "~1400 BC",
-    learnOriginT1Event:
-      "The Torah (Pentateuch) traditionally attributed to Moses — forming the foundation of the Hebrew Scriptures.",
+    learnOriginT1Event: "Earliest Old Testament Books Written (Pentateuch)",
+    learnOriginT1Desc:
+      "The Pentateuch laid the foundation of Israel’s faith — including the Law, the primeval history, and the covenant between God and His people.",
 
     learnOriginT2Year: "~450 BC",
-    learnOriginT2Event:
-      "The Law and the Prophets firmly established in Jewish worship, forming the recognised core of the Hebrew canon.",
+    learnOriginT2Event: "Old Testament Canon Largely Established",
+    learnOriginT2Desc:
+      "The Law and the Prophets were firmly established in Jewish worship and community life, forming the core of the Hebrew canon.",
 
     learnOriginT3Year: "~250 BC",
-    learnOriginT3Event:
-      "The Septuagint — a Greek translation of the Hebrew Scriptures — produced in Alexandria for the Jewish diaspora.",
+    learnOriginT3Event: "The Septuagint Produced in Alexandria",
+    learnOriginT3Desc:
+      "The first Greek translation of the Old Testament made the Scriptures accessible to the Hellenistic world and was widely used in the early Church.",
 
     learnOriginT4Year: "50–95 AD",
-    learnOriginT4Event:
-      "Apostles and early disciples write the Gospels and letters, which are copied and circulated among churches across the Roman Empire.",
+    learnOriginT4Event: "New Testament Books Written",
+    learnOriginT4Desc:
+      "The Gospels and apostolic letters were copied and circulated among churches throughout the Roman Empire, gradually being recognised as carrying spiritual authority.",
 
     learnOriginT5Year: "367 AD",
-    learnOriginT5Event:
-      "Athanasius of Alexandria lists the 27 New Testament books — matching the canon recognised today.",
+    learnOriginT5Event: "Athanasius Lists the 27 New Testament Books",
+    learnOriginT5Desc:
+      "For the first time, the full list of the 27 New Testament books was clearly recorded, reflecting the writings already widely used in the Church.",
 
     learnOriginT6Year: "~400 AD",
-    learnOriginT6Event:
-      "Jerome completes the Latin Vulgate, which becomes the standard Bible of Western Christianity for over a millennium.",
+    learnOriginT6Event: "Jerome Completes the Vulgate",
+    learnOriginT6Desc:
+      "The Latin translation became the standard Bible of Western Christianity for over a millennium.",
 
     learnOriginT7Year: "1947",
-    learnOriginT7Event:
-      "The Dead Sea Scrolls discovered at Qumran — confirming the remarkable preservation of Old Testament manuscripts over more than 1,000 years.",
+    learnOriginT7Event: "Discovery of the Dead Sea Scrolls",
+    learnOriginT7Desc:
+      "Manuscripts dating as early as the third century BC demonstrated the remarkable preservation of the Old Testament text across many centuries of transmission.",
 
     learnOriginReliableTitle: "Why Is the Bible Considered Reliable?",
 
@@ -480,21 +508,55 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnOriginLangAramaic: "A-ram",
     learnOriginLangAramaicNote: "Một số đoạn trong Đa-ni-ên & E-xơ-ra",
     learnOriginTimeline: "Dòng thời gian bản thảo",
+    learnOriginMapTitle: "Bản đồ bản thảo Kinh thánh",
+    learnOriginMapBody:
+      "Một vài địa điểm trọng yếu nơi Kinh thánh được viết, sao chép, dịch và được gìn giữ qua nhiều thế kỷ.",
+    learnOriginLocJerusalem: "Giê-ru-sa-lem",
+    learnOriginLocJerusalemDesc:
+      "Trung tâm thuộc linh của dân Y-sơ-ra-ên xưa, nơi Đền thờ được xây dựng và Lời Chúa được đọc công khai.",
+    learnOriginLocQumran: "Qumran",
+    learnOriginLocQumranDesc:
+      "Vùng gần Biển Chết, nơi Cuộn Sách Biển Chết được phát hiện năm 1947, xác nhận độ chính xác của bản thảo Cựu Ước.",
+    learnOriginLocAlexandria: "A-léc-xan-ri-a",
+    learnOriginLocAlexandriaDesc:
+      "Thành phố cảng lớn với cộng đồng Do Thái đông đảo, nơi bản dịch Hy Lạp của Cựu Ước (Bản Bảy Mươi) được hình thành.",
+    learnOriginLocRome: "Rô-ma",
+    learnOriginLocRomeDesc:
+      "Thủ đô Đế quốc La Mã, nơi Hội thánh sơ khai được gây dựng và bản dịch Latin Vulgate có ảnh hưởng sâu rộng.",
+    learnOriginLocAntioch: "An-ti-ốt",
+    learnOriginLocAntiochDesc:
+      'Nơi các môn đồ lần đầu tiên được gọi là "Cơ Đốc nhân" và là điểm xuất phát của nhiều chuyến hành trình truyền giáo của Phao-lô.',
+    learnOriginLocSinai: "Núi Si-na-i",
+    learnOriginLocSinaiDesc:
+      "Nơi Môi-se nhận Luật pháp theo tường thuật Kinh Thánh — điểm khởi đầu quan trọng của văn bản Kinh Thánh.",
     learnOriginT1Year: "~1400 TCN",
     learnOriginT1Event: "Các sách Cựu Ước sớm nhất được viết (Ngũ Kinh)",
+    learnOriginT1Desc:
+      "Ngũ Kinh đặt nền tảng cho đức tin Israel — bao gồm luật pháp, lịch sử khởi nguyên và giao ước giữa Đức Chúa Trời với dân Ngài.",
     learnOriginT2Year: "~450 TCN",
     learnOriginT2Event: "Canon Cựu Ước cơ bản hoàn chỉnh",
+    learnOriginT2Desc:
+      "Luật pháp và các sách Tiên tri được xác lập vững chắc trong đời sống thờ phượng Do Thái, hình thành cốt lõi của chính điển Hê-bơ-rơ.",
     learnOriginT3Year: "~250 TCN",
-    learnOriginT3Event: "Bản Bảy Mươi (bản dịch Hy Lạp của Cựu Ước) ra đời tại Alexandria",
+    learnOriginT3Event: "Bản Bảy Mươi ra đời tại Alexandria",
+    learnOriginT3Desc:
+      "Bản dịch Hy Lạp đầu tiên của Cựu Ước giúp Kinh Thánh tiếp cận thế giới Hy Lạp hóa và được sử dụng rộng rãi trong Hội Thánh đầu tiên.",
     learnOriginT4Year: "50–95 SCN",
-    learnOriginT4Event: "Các sách Tân Ước được viết bởi các sứ đồ và môn đồ sơ khai",
+    learnOriginT4Event: "Các sách Tân Ước được viết",
+    learnOriginT4Desc:
+      "Các thư tín và sách Tin Lành được sao chép, lưu hành giữa các Hội Thánh khắp Đế quốc La Mã, dần được xem là có thẩm quyền thuộc linh.",
     learnOriginT5Year: "367 SCN",
-    learnOriginT5Event: "Athanasius liệt kê 27 sách Tân Ước — giống ngày nay",
+    learnOriginT5Event: "Athanasius liệt kê 27 sách Tân Ước",
+    learnOriginT5Desc:
+      "Lần đầu tiên danh sách 27 sách Tân Ước được ghi lại rõ ràng, phản ánh những bản văn đã được sử dụng rộng rãi trong Hội Thánh.",
     learnOriginT6Year: "400 SCN",
-    learnOriginT6Event: "Jerome hoàn thành Vulgate (Kinh thánh Latin)",
+    learnOriginT6Event: "Jerome hoàn thành Vulgate",
+    learnOriginT6Desc:
+      "Bản dịch Kinh Thánh sang tiếng Latin này trở thành bản văn chuẩn tại Tây phương suốt hơn một thiên niên kỷ.",
     learnOriginT7Year: "1947",
-    learnOriginT7Event:
-      "Cuộn Sách Biển Chết được phát hiện tại Qumran — xác nhận độ chính xác bản thảo Cựu Ước",
+    learnOriginT7Event: "Cuộn Sách Biển Chết được phát hiện",
+    learnOriginT7Desc:
+      "Các bản thảo cổ từ thế kỷ thứ ba TCN cho thấy văn bản Cựu Ước được bảo tồn với độ chính xác đáng kinh ngạc qua nhiều thế kỷ.",
     learnOriginReliableTitle: "Tại sao Kinh thánh được xem là đáng tin?",
     learnOriginReliableP1:
       "Tân Ước có nhiều bằng chứng bản thảo hơn bất kỳ tài liệu cổ đại nào — hơn 5.800 bản thảo Hy Lạp, so với chưa đến 650 bản cho Iliad của Homer. Khoảng cách thời gian giữa bản gốc và bản thảo còn lại sớm nhất cũng rất ngắn (vài thập kỷ, không phải thế kỷ).",

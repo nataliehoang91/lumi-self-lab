@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { MapPin, X } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { LearnAccordion } from "@/components/Bible/Learn/LearnAccordion";
+import { BibleHeading } from "@/components/Bible/BibleHeading";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { cn } from "@/lib/utils";
@@ -12,36 +13,43 @@ const TIMELINE_ITEMS = [
   {
     keyYear: "learnOriginT1Year" as const,
     keyEvent: "learnOriginT1Event" as const,
+    keyDesc: "learnOriginT1Desc" as const,
     locationId: "sinai" as const,
   },
   {
     keyYear: "learnOriginT2Year" as const,
     keyEvent: "learnOriginT2Event" as const,
+    keyDesc: "learnOriginT2Desc" as const,
     locationId: "jerusalem" as const,
   },
   {
     keyYear: "learnOriginT3Year" as const,
     keyEvent: "learnOriginT3Event" as const,
+    keyDesc: "learnOriginT3Desc" as const,
     locationId: "alexandria" as const,
   },
   {
     keyYear: "learnOriginT4Year" as const,
     keyEvent: "learnOriginT4Event" as const,
+    keyDesc: "learnOriginT4Desc" as const,
     locationId: "antioch" as const,
   },
   {
     keyYear: "learnOriginT5Year" as const,
     keyEvent: "learnOriginT5Event" as const,
+    keyDesc: "learnOriginT5Desc" as const,
     locationId: "alexandria" as const,
   },
   {
     keyYear: "learnOriginT6Year" as const,
     keyEvent: "learnOriginT6Event" as const,
+    keyDesc: "learnOriginT6Desc" as const,
     locationId: "rome" as const,
   },
   {
     keyYear: "learnOriginT7Year" as const,
     keyEvent: "learnOriginT7Event" as const,
+    keyDesc: "learnOriginT7Desc" as const,
     locationId: "qumran" as const,
   },
 ] as const;
@@ -76,40 +84,40 @@ const FAQ_KEYS = [
 
 const MAP_LOCATIONS = {
   jerusalem: {
-    label: "Jerusalem",
+    labelKey: "learnOriginLocJerusalem" as const,
+    descKey: "learnOriginLocJerusalemDesc" as const,
     x: 66,
     y: 46,
-    desc: "...",
   },
   qumran: {
-    label: "Qumran",
+    labelKey: "learnOriginLocQumran" as const,
+    descKey: "learnOriginLocQumranDesc" as const,
     x: 69,
     y: 49,
-    desc: "...",
   },
   alexandria: {
-    label: "Alexandria",
+    labelKey: "learnOriginLocAlexandria" as const,
+    descKey: "learnOriginLocAlexandriaDesc" as const,
     x: 49,
     y: 54,
-    desc: "...",
   },
   rome: {
-    label: "Rome",
+    labelKey: "learnOriginLocRome" as const,
+    descKey: "learnOriginLocRomeDesc" as const,
     x: 27,
     y: 26,
-    desc: "...",
   },
   antioch: {
-    label: "Antioch",
+    labelKey: "learnOriginLocAntioch" as const,
+    descKey: "learnOriginLocAntiochDesc" as const,
     x: 71,
     y: 34,
-    desc: "...",
   },
   sinai: {
-    label: "Mount Sinai",
+    labelKey: "learnOriginLocSinai" as const,
+    descKey: "learnOriginLocSinaiDesc" as const,
     x: 60,
     y: 58,
-    desc: "...",
   },
 } as const;
 
@@ -132,6 +140,8 @@ function MiniMap({
   variant?: "block" | "inline";
 }) {
   const locations = Object.entries(MAP_LOCATIONS);
+  const { globalLanguage } = useBibleApp();
+  const intl = getBibleIntl(globalLanguage);
 
   // Inline mode: fill the parent height (used in timeline cards)
   if (variant === "inline") {
@@ -209,19 +219,27 @@ function MiniMap({
           {locations.map(([id, loc]) => {
             const isActive = activeId === (id as MapLocationId);
             const offset = LABEL_OFFSET[id as MapLocationId];
+            const label = intl.t(loc.labelKey);
 
             return (
               <g key={id}>
                 {isActive && (
-                  <circle cx={loc.x} cy={loc.y} r="5.5" fill="oklch(0.45 0.1 35)" opacity="0.2" />
+                  <circle
+                    cx={loc.x}
+                    cy={loc.y}
+                    r="4"
+                    className="animate-pulse"
+                    fill="oklch(0.45 0.1 35)"
+                    opacity="0.25"
+                  />
                 )}
                 <circle
                   cx={loc.x}
                   cy={loc.y}
-                  r={isActive ? 2.8 : 1.8}
+                  r={isActive ? 1.8 : 1.2}
                   fill={isActive ? "oklch(0.45 0.1 35)" : "oklch(0.35 0.012 85)"}
                   stroke="oklch(0.99 0.002 85)"
-                  strokeWidth="0.7"
+                  strokeWidth="0.6"
                 />
                 <text
                   x={loc.x + offset.dx}
@@ -231,7 +249,7 @@ function MiniMap({
                   fontFamily="sans-serif"
                   fontWeight={isActive ? "700" : "500"}
                 >
-                  {loc.label}
+                  {label}
                 </text>
               </g>
             );
@@ -315,24 +333,32 @@ function MiniMap({
           />
         ))}
 
-        {/* Location dots */}
+        {/* Location dots (standalone map) */}
         {locations.map(([id, loc]) => {
           const isActive = activeId === (id as MapLocationId);
           const offset = LABEL_OFFSET[id as MapLocationId];
+          const label = intl.t(loc.labelKey);
 
           return (
             <g key={id}>
               {/* pulse ring for active */}
               {isActive && (
-                <circle cx={loc.x} cy={loc.y} r="5.5" fill="oklch(0.45 0.1 35)" opacity="0.2" />
+                <circle
+                  cx={loc.x}
+                  cy={loc.y}
+                  r="4"
+                  className="animate-pulse"
+                  fill="oklch(0.45 0.1 35)"
+                  opacity="0.25"
+                />
               )}
               <circle
                 cx={loc.x}
                 cy={loc.y}
-                r={isActive ? 2.8 : 1.8}
+                r={isActive ? 1.8 : 1.3}
                 fill={isActive ? "oklch(0.45 0.1 35)" : "oklch(0.35 0.012 85)"}
                 stroke="oklch(0.99 0.002 85)"
-                strokeWidth="0.7"
+                strokeWidth="0.6"
               />
               <text
                 x={loc.x + offset.dx}
@@ -342,7 +368,7 @@ function MiniMap({
                 fontFamily="sans-serif"
                 fontWeight={isActive ? "700" : "500"}
               >
-                {loc.label}
+                {label}
               </text>
             </g>
           );
@@ -352,10 +378,20 @@ function MiniMap({
   );
 }
 
-function MapPopover({ locationId, children }: { locationId: MapLocationId; children: ReactNode }) {
+function MapPopover({
+  locationId,
+  children,
+}: {
+  locationId: MapLocationId;
+  children: ReactNode;
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
   const loc = MAP_LOCATIONS[locationId];
+  const { globalLanguage } = useBibleApp();
+  const intl = getBibleIntl(globalLanguage);
+  const label = intl.t(loc.labelKey);
+  const desc = intl.t(loc.descKey);
 
   useEffect(() => {
     if (!open) return;
@@ -370,7 +406,11 @@ function MapPopover({ locationId, children }: { locationId: MapLocationId; child
 
   return (
     <div ref={ref} className="relative inline-block">
-      <button type="button" onClick={() => setOpen((o) => !o)} className="focus:outline-none">
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="focus:outline-none"
+      >
         {children}
       </button>
 
@@ -382,7 +422,7 @@ function MapPopover({ locationId, children }: { locationId: MapLocationId; child
           <div className="p-4">
             <div className="flex items-start justify-between gap-2 mb-1.5">
               <p className="text-xs font-semibold text-foreground uppercase tracking-[0.2em]">
-                {loc.label}
+                {label}
               </p>
               <button
                 type="button"
@@ -392,7 +432,7 @@ function MapPopover({ locationId, children }: { locationId: MapLocationId; child
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">{loc.desc}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
           </div>
         </div>
       )}
@@ -403,67 +443,42 @@ function MapPopover({ locationId, children }: { locationId: MapLocationId; child
 export default function BibleOriginPage() {
   const { globalLanguage, fontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
-  const [showDeep, setShowDeep] = useState(false);
+  const mapPopoverRef = useRef<HTMLDivElement>(null);
+  const [mapActiveLocation, setMapActiveLocation] = useState<MapLocationId | null>(null);
+
+  useEffect(() => {
+    if (mapActiveLocation === null) return;
+    const handler = (e: MouseEvent) => {
+      if (mapPopoverRef.current && !mapPopoverRef.current.contains(e.target as Node)) {
+        setMapActiveLocation(null);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [mapActiveLocation]);
 
   const bodyClass =
     fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
-  const h1Class =
-    fontSize === "small"
-      ? "text-3xl md:text-4xl"
-      : fontSize === "large"
-        ? "text-5xl md:text-6xl"
-        : "text-4xl md:text-5xl";
 
   return (
     <div>
       <div className="mb-12">
         <p className="text-xs font-mono text-second mb-3">{intl.t("learnOriginModuleNum")}</p>
-        <h1
-          className={cn(
-            "font-bible-english font-semibold text-foreground leading-tight text-balance",
-            h1Class
-          )}
+        <BibleHeading
+          level="h1"
+          className="font-bible-english font-semibold text-foreground leading-tight text-balance"
         >
           {intl.t("learnOriginTitle")}
-        </h1>
+        </BibleHeading>
         <p className={cn("mt-4 text-muted-foreground leading-relaxed", bodyClass)}>
           {intl.t("learnOriginIntro")}
         </p>
       </div>
 
-      <div className="flex gap-1 p-1 bg-muted rounded-xl w-fit mb-10">
-        <button
-          type="button"
-          onClick={() => setShowDeep(false)}
-          className={cn(
-            "px-4 py-2 rounded-lg font-medium transition-all",
-            bodyClass,
-            !showDeep
-              ? "bg-card text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          {intl.t("learnOriginSummary")}
-        </button>
-        <button
-          type="button"
-          onClick={() => setShowDeep(true)}
-          className={cn(
-            "px-4 py-2 rounded-lg font-medium transition-all",
-            bodyClass,
-            showDeep
-              ? "bg-card text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          {intl.t("learnOriginDeepDive")}
-        </button>
-      </div>
-
       <section className="mb-10">
-        <h2 className="font-bible-english text-2xl font-semibold text-foreground mb-4">
+        <BibleHeading level="h2" className="font-bible-english font-semibold text-foreground mb-4">
           {intl.t("learnOriginOriginalLanguages")}
-        </h2>
+        </BibleHeading>
         <div className="grid grid-cols-3 gap-3">
           {LANG_KEYS.map((l) => (
             <div
@@ -488,16 +503,16 @@ export default function BibleOriginPage() {
       </section>
 
       <section className="mb-14">
-        <h2 className="font-serif text-2xl font-semibold text-foreground mb-6">
-          Manuscript Timeline
-        </h2>
+        <BibleHeading level="h2" className="font-serif font-semibold text-foreground mb-6">
+          {intl.t("learnOriginTimeline")}
+        </BibleHeading>
         <div className="relative">
           {/* Vertical line — aligned to dot column */}
           <div className="absolute left-[106px] top-3 bottom-3 w-px  border border-dashed" />
           <div className="space-y-6">
-            {TIMELINE_ITEMS.map((t, i) => {
-              const loc = MAP_LOCATIONS[t.locationId as MapLocationId];
-              return (
+          {TIMELINE_ITEMS.map((t, i) => {
+            const loc = MAP_LOCATIONS[t.locationId as MapLocationId];
+            return (
                 <div key={i} className="flex gap-4 items-start">
                   {/* Date — fixed width, no wrap */}
                   <div className="w-24 shrink-0 text-right pt-4">
@@ -518,14 +533,16 @@ export default function BibleOriginPage() {
                           {intl.t(t.keyEvent)}
                         </p>
                         <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
-                          {intl.t(t.keyEvent)}
+                          {intl.t(t.keyDesc)}
                         </p>
                         {/* Location tag with popover trigger */}
                         <div className="mt-3 ">
-                          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full hover:bg-muted/80 transition-colors cursor-pointer">
-                            <MapPin className="w-3 h-3" />
-                            {loc.label}
-                          </span>
+                          <MapPopover locationId={t.locationId}>
+                            <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full hover:bg-muted/80 transition-colors cursor-pointer">
+                              <MapPin className="w-3 h-3" />
+                              {intl.t(loc.labelKey)}
+                            </span>
+                          </MapPopover>
                         </div>
                       </div>
 
@@ -555,44 +572,90 @@ export default function BibleOriginPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="font-bible-english text-2xl font-semibold text-foreground mb-2">
-          Biblical Manuscript Map
-        </h2>
+        <BibleHeading level="h2" className="font-bible-english font-semibold text-foreground mb-2">
+          {intl.t("learnOriginMapTitle")}
+        </BibleHeading>
         <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass)}>
-          A few of the key locations where Scripture was written, copied, translated, and preserved.
+          {intl.t("learnOriginMapBody")}
         </p>
-        <MiniMap activeId={null} />
-        <div className="mt-3 flex flex-wrap gap-3">
-          {Object.entries(MAP_LOCATIONS).map(([id, loc]) => (
+        <div className="relative w-full" style={{ paddingBottom: "62%" }}>
+          <div className="absolute inset-0">
+            <MiniMap activeId={mapActiveLocation} />
+          </div>
+          {mapActiveLocation && (
             <div
-              key={id}
-              className={cn("flex items-center gap-1.5 text-muted-foreground", bodyClass)}
+              ref={mapPopoverRef}
+              className="absolute z-50 w-72 sm:w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden animate-in fade-in duration-200"
+              style={{
+                left: `${MAP_LOCATIONS[mapActiveLocation].x}%`,
+                top: `${(MAP_LOCATIONS[mapActiveLocation].y / 62) * 100}%`,
+                transform: "translate(-50%, -100%)",
+                marginTop: "-18px",
+              }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 inline-block" />
-              {loc.label}
+              <div className="p-3 pb-0">
+                <MiniMap activeId={mapActiveLocation} />
+              </div>
+              <div className="p-4">
+                <div className="flex items-start justify-between gap-2 mb-1.5">
+                  <p className="text-xs font-semibold text-foreground uppercase tracking-[0.2em]">
+                    {intl.t(MAP_LOCATIONS[mapActiveLocation].labelKey)}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setMapActiveLocation(null)}
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {intl.t(MAP_LOCATIONS[mapActiveLocation].descKey)}
+                </p>
+              </div>
             </div>
-          ))}
+          )}
+        </div>
+        <div className="mt-3 flex flex-wrap gap-3 justify-center">
+            {Object.entries(MAP_LOCATIONS).map(([id, loc]) => {
+              const locationId = id as MapLocationId;
+              const label = intl.t(loc.labelKey);
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setMapActiveLocation(locationId)}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 text-muted-foreground bg-muted px-2.5 py-1 rounded-full hover:bg-muted/80 transition-colors cursor-pointer",
+                    bodyClass
+                  )}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-foreground/60 inline-block" />
+                  {label}
+                </button>
+              );
+            })}
         </div>
       </section>
 
-      {showDeep && (
-        <section className="mb-10 p-6 bg-card border border-sage-dark/20 rounded-2xl space-y-4 animate-in fade-in duration-300">
-          <h2 className="font-bible-english text-xl font-semibold text-foreground">
-            {intl.t("learnOriginReliableTitle")}
-          </h2>
-          <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
-            {intl.t("learnOriginReliableP1")}
-          </p>
-          <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
-            {intl.t("learnOriginReliableP2")}
-          </p>
-        </section>
-      )}
+      <section className="mb-10 p-6 bg-primary-light/10 gap-6 border border-primary-dark/30 rounded-2xl space-y-4 animate-in fade-in duration-300">
+        <BibleHeading
+          level="h2"
+          className="font-bible-english font-semibold text-foreground text-xl md:text-2xl"
+        >
+          {intl.t("learnOriginReliableTitle")}
+        </BibleHeading>
+        <p className={cn(" leading-relaxed", bodyClass)}>{intl.t("learnOriginReliableP1")}</p>
+        <p className={cn(" leading-relaxed", bodyClass)}>{intl.t("learnOriginReliableP2")}</p>
+      </section>
 
       <section className="mb-14">
-        <h2 className="font-bible-english text-xl font-semibold text-foreground mb-4">
+        <BibleHeading
+          level="h2"
+          className="font-bible-english font-semibold text-foreground mb-4 text-xl md:text-2xl"
+        >
           {intl.t("learnOriginFAQTitle")}
-        </h2>
+        </BibleHeading>
         <LearnAccordion
           items={FAQ_KEYS.map((f) => ({
             term: intl.t(f.keyQ),
