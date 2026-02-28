@@ -200,7 +200,25 @@ model BibleStudyList {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  passages    BibleStudyPassage[]
+
   @@index([clerkUserId])
+}
+
+// Individual passages (chapter-level for now) saved into a study list.
+model BibleStudyPassage {
+  id         String   @id @default(cuid())
+  listId     String
+  list       BibleStudyList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  bookId     String
+  chapter    Int
+  verseStart Int?
+  verseEnd   Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([listId])
+  @@unique([listId, bookId, chapter, verseStart, verseEnd])
 }
 
 ////////////////////////////////////////////////////////////

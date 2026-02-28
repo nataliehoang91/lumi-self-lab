@@ -4,10 +4,11 @@ import { StudyListCard } from "@/components/Bible/Study/StudyListCard";
 import { BookCircleIcon } from "@/components/Bible/GeneralComponents/book-circle-icon";
 import { Container } from "@/components/ui/container";
 import type { BibleStudyList } from "@/types/bible-study";
-
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 export default async function BibleStudyPage() {
   const lists = await getStudyListsForCurrentUser();
-
   return (
     <Container maxWidth="7xl" className="min-h-screen flex flex-col py-6  lg:px-0 px-4">
       {lists.length === 0 ? (

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useState, useEffect, useRef } from "react";
 
 const STUDY_PHRASES = [
@@ -14,9 +15,11 @@ const STUDY_PHRASES = [
 
 interface StudyFullPageLoaderProps {
   onComplete?: () => void;
+  /** Visual style. "dark" matches current design; "light" is softer on bright backgrounds. */
+  variant?: "light" | "dark";
 }
 
-export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
+export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullPageLoaderProps) {
   const [phase, setPhase] = useState<"enter" | "typewrite" | "ref" | "progress" | "exit">("enter");
   const [displayedText, setDisplayedText] = useState("");
   const [showRef, setShowRef] = useState(false);
@@ -28,6 +31,26 @@ export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
   const [penVisible, setPenVisible] = useState(false);
   const phraseRef = useRef(STUDY_PHRASES[Math.floor(Math.random() * STUDY_PHRASES.length)]);
   const phrase = phraseRef.current;
+
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+
+  const colors = {
+    // Page background
+    background: isLight ? "oklch(0.98 0.01 85)" : "oklch(0.13 0.01 85)",
+    // Ambient radial glow
+    ambient: isLight
+      ? "radial-gradient(ellipse 55% 38% at 50% 52%, oklch(0.90 0.025 85 / 0.45) 0%, transparent 70%)"
+      : "radial-gradient(ellipse 55% 38% at 50% 52%, oklch(0.26 0.025 85 / 0.4) 0%, transparent 70%)",
+    // Type text + reference
+    verseText: isLight ? "oklch(0.30 0.02 85)" : "oklch(0.82 0.015 85)",
+    verseRef: isLight ? "oklch(0.42 0.015 85)" : "oklch(0.44 0.01 85)",
+    // Cursor + progress primary
+    accent: isLight ? "oklch(0.55 0.025 85)" : "oklch(0.60 0.02 85)",
+    // Progress track + label
+    progressTrack: isLight ? "oklch(0.90 0.01 85)" : "oklch(0.28 0.01 85)",
+    progressLabel: isLight ? "oklch(0.40 0.015 85)" : "oklch(0.36 0.01 85)",
+  } as const;
 
   // Stagger the book stack in
   useEffect(() => {
@@ -85,7 +108,7 @@ export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
     <div
       className={`fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden transition-all duration-650`}
       style={{
-        background: "oklch(0.13 0.01 85)",
+        background: colors.background,
         opacity: phase === "exit" ? 0 : 1,
         transform: phase === "exit" ? "scale(1.025)" : "scale(1)",
         transition: "opacity 0.65s ease, transform 0.65s ease",
@@ -97,8 +120,7 @@ export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 55% 38% at 50% 52%, oklch(0.26 0.025 85 / 0.4) 0%, transparent 70%)",
+          background: colors.ambient,
           opacity: mounted ? 1 : 0,
           transition: "opacity 1s ease 0.3s",
         }}
@@ -332,7 +354,7 @@ export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
           <p
             className="font-serif leading-relaxed text-balance"
             style={{
-              color: "oklch(0.82 0.015 85)",
+              color: colors.verseText,
               fontSize: "1rem",
               lineHeight: "1.75",
             }}
@@ -342,7 +364,7 @@ export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
               <span
                 className="inline-block w-0.5 h-4 ml-0.5 align-middle"
                 style={{
-                  background: "oklch(0.60 0.02 85)",
+                  background: colors.accent,
                   animation: "blink-cursor 0.7s step-end infinite",
                   verticalAlign: "middle",
                   marginBottom: "1px",
@@ -353,7 +375,7 @@ export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
           <p
             className="font-sans text-xs tracking-widest"
             style={{
-              color: "oklch(0.44 0.01 85)",
+              color: colors.verseRef,
               letterSpacing: "0.2em",
               opacity: showRef ? 1 : 0,
               transform: showRef ? "translateY(0)" : "translateY(6px)",
@@ -374,13 +396,13 @@ export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
         >
           <div
             className="w-full max-w-xs rounded-full overflow-hidden"
-            style={{ height: "1px", background: "oklch(0.28 0.01 85)" }}
+            style={{ height: "1px", background: colors.progressTrack }}
           >
             <div
               style={{
                 width: `${progress}%`,
                 height: "100%",
-                background: "oklch(0.68 0.022 85)",
+                background: colors.accent,
                 transition: "width 0.08s linear",
                 boxShadow: "0 0 6px oklch(0.68 0.022 85 / 0.55)",
                 borderRadius: "9999px",
@@ -389,7 +411,7 @@ export function StudyFullPageLoader({ onComplete }: StudyFullPageLoaderProps) {
           </div>
           <span
             className="font-sans text-xs tabular-nums"
-            style={{ color: "oklch(0.36 0.01 85)", letterSpacing: "0.12em" }}
+            style={{ color: colors.progressLabel, letterSpacing: "0.12em" }}
           >
             {Math.round(progress)}%
           </span>

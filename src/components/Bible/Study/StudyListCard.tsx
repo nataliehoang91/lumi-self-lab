@@ -2,7 +2,7 @@
 
 import type { BibleStudyList } from "@/types/bible-study";
 import { deleteStudyList } from "@/app/actions/bible/study";
-import { BookOpen, Clock, Loader2, Trash2, X } from "lucide-react";
+import { BookOpen, Clock, Loader2, X } from "lucide-react";
 import {
   InteractiveForm,
   LoadingMessage,
@@ -10,14 +10,24 @@ import {
   SubmitMessage,
 } from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
 import { ReserveLayout } from "@/components/ui/reverse-layout";
+import { useRouter } from "next/navigation";
 
 interface StudyListCardProps {
   list: BibleStudyList;
 }
 
 export function StudyListCard({ list }: StudyListCardProps) {
+  const router = useRouter();
+
+  const handleOpen = () => {
+    router.push(`/bible/study/${list.id}`);
+  };
+
   return (
-    <div className="flex flex-col rounded-2xl border border-border bg-background text-left text-sm min-h-[180px]">
+    <div
+      className="flex flex-col rounded-2xl border border-border bg-background text-left text-sm min-h-[180px] cursor-pointer hover:border-primary/40 hover:shadow-sm transition-colors"
+      onClick={handleOpen}
+    >
       <div className="flex items-start justify-between gap-2 rounded-t-2xl bg-muted px-4 py-3">
         <div className="pr-2">
           <div className="text-base font-semibold text-foreground line-clamp-1">{list.title}</div>
@@ -27,26 +37,32 @@ export function StudyListCard({ list }: StudyListCardProps) {
             </div>
           )}
         </div>
-        <InteractiveForm
-          action={async () => {
-            await deleteStudyList(list.id);
-            return {
-              redirect: "/bible/study",
-              refresh: true,
-            };
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
           }}
         >
-          <SubmitButton>
-            <ReserveLayout>
-              <SubmitMessage>
-                <X className="w-3.5 h-3.5" aria-hidden />
-              </SubmitMessage>
-              <LoadingMessage>
-                <Loader2 className="w-3.5 h-3.5" aria-hidden />
-              </LoadingMessage>
-            </ReserveLayout>
-          </SubmitButton>
-        </InteractiveForm>
+          <InteractiveForm
+            action={async () => {
+              await deleteStudyList(list.id);
+              return {
+                redirect: "/bible/study",
+                refresh: true,
+              };
+            }}
+          >
+            <SubmitButton>
+              <ReserveLayout>
+                <SubmitMessage>
+                  <X className="w-3.5 h-3.5" aria-hidden />
+                </SubmitMessage>
+                <LoadingMessage>
+                  <Loader2 className="w-3.5 h-3.5" aria-hidden />
+                </LoadingMessage>
+              </ReserveLayout>
+            </SubmitButton>
+          </InteractiveForm>
+        </div>
       </div>
       <div className="flex flex-col flex-1 px-4 pb-3 pt-2">
         <div className="mt-auto border-t border-border/60 pt-2" />

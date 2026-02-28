@@ -7,3 +7,14 @@ export interface BibleStudyList {
   updatedAt: Date;
 }
 
+export interface BibleStudyPassage {
+  id: string;
+  listId: string;
+  bookId: string;
+  chapter: number;
+  verseStart: number | null;
+  verseEnd: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
