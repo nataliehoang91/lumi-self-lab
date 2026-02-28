@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { ChevronDown, Check, SquareMenu, BookOpen, Layers } from "lucide-react";
+import { ChevronDown, Check, SquareMenu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -34,11 +33,17 @@ export function BibleNavBar() {
   const { readFocusMode } = useReadFocus();
   const { globalLanguage, setGlobalLanguage, fontSize, setFontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
-  const isRead = pathname?.includes("/bible/read");
-  const isFlashcard = pathname?.includes("/bible/flashcard");
   const isLearn = pathname?.includes("/bible/learn");
+  const isBible =
+    pathname?.startsWith("/bible/read") ||
+    pathname?.startsWith("/bible/book-overviews") ||
+    pathname?.startsWith("/bible/topics") ||
+    pathname?.startsWith("/bible/topics-timeline");
+  const isReflect = pathname?.startsWith("/bible/reflect");
+  const isGlossary =
+    pathname?.includes("/bible/flashcard") || pathname?.startsWith("/bible/glossary");
 
-  const learnLinks: { href: string; label: string; isActive: boolean }[] = [
+  const learnLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
     { href: "/bible/learn", label: "Start Here", isActive: pathname === "/bible/learn" },
     {
       href: "/bible/learn/bible-structure",
@@ -61,6 +66,85 @@ export function BibleNavBar() {
       isActive: pathname?.startsWith("/bible/learn/what-is-faith") ?? false,
     },
   ];
+
+  const bibleLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
+    { href: "/bible/read", label: "Read", isActive: pathname?.startsWith("/bible/read") ?? false },
+    {
+      href: "/bible/book-overviews",
+      label: "Book Overviews",
+      isActive: pathname === "/bible/book-overviews",
+      comingSoon: true,
+    },
+    {
+      href: "/bible/topics",
+      label: "Topics Explorer",
+      isActive: pathname === "/bible/topics",
+      comingSoon: true,
+    },
+    {
+      href: "/bible/topics-timeline",
+      label: "Topics Timeline",
+      isActive: pathname === "/bible/topics-timeline",
+      comingSoon: true,
+    },
+  ];
+
+  const reflectLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
+    {
+      href: "/bible/reflect/journal",
+      label: "Journal",
+      isActive: pathname?.startsWith("/bible/reflect/journal") ?? false,
+      comingSoon: true,
+    },
+    {
+      href: "/bible/reflect/devotional",
+      label: "Devotional",
+      isActive: pathname?.startsWith("/bible/reflect/devotional") ?? false,
+      comingSoon: true,
+    },
+  ];
+
+  const glossaryLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] =
+    [
+      {
+        href: "/bible/flashcard",
+        label: "Flashcard",
+        isActive: pathname?.includes("/bible/flashcard") ?? false,
+      },
+      {
+        href: "/bible/glossary/other",
+        label: "Other",
+        isActive: pathname?.startsWith("/bible/glossary/other") ?? false,
+        comingSoon: true,
+      },
+    ];
+
+  function renderDropdownLinks(links: typeof learnLinks, firstBold = false) {
+    return links.map((link, index) => (
+      <NavigationMenuLink key={link.href} asChild>
+        <Link
+          href={link.href}
+          className={cn(
+            "group/item relative flex w-full flex-row items-center justify-start overflow-visible rounded-lg px-2 py-1.5 text-left text-sm outline-none transition-colors duration-200 hover:bg-transparent active:scale-[0.98] text-foreground",
+            index === 0 && firstBold && "font-semibold",
+            link.isActive && "bg-primary-light/20"
+          )}
+        >
+          {!link.isActive && (
+            <span className="absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-primary-dark transition-[width] duration-200 ease-out group-hover/item:w-full" />
+          )}
+          <span className="flex min-w-0 items-center gap-2 whitespace-nowrap">
+            <span className="whitespace-nowrap">{link.label}</span>
+            {link.comingSoon && (
+              <span className="shrink-0 text-[10px] uppercase tracking-wide text-muted-foreground">
+                Soon
+              </span>
+            )}
+          </span>
+        </Link>
+      </NavigationMenuLink>
+    ));
+  }
 
   return (
     <nav
@@ -95,14 +179,14 @@ export function BibleNavBar() {
                     <Link
                       href={learnLinks[0].href}
                       className={cn(
-                        "group/item relative flex w-full overflow-visible rounded-lg px-2 py-1.5 text-sm outline-none transition-colors duration-200 hover:bg-transparent active:scale-[0.98] text-foreground font-semibold",
+                        "group/item relative flex w-full flex-row items-center justify-start overflow-visible rounded-lg px-2 py-1.5 text-left text-sm outline-none transition-colors duration-200 hover:bg-transparent active:scale-[0.98] text-foreground font-semibold whitespace-nowrap",
                         learnLinks[0].isActive && "bg-primary-light/20"
                       )}
                     >
                       {!learnLinks[0].isActive && (
                         <span className="absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-primary-dark transition-[width] duration-200 ease-out group-hover/item:w-full" />
                       )}
-                      {learnLinks[0].label}
+                      <span className="whitespace-nowrap">{learnLinks[0].label}</span>
                     </Link>
                   </NavigationMenuLink>
                   <div className="my-1 h-px bg-border" />
@@ -111,98 +195,143 @@ export function BibleNavBar() {
                       <Link
                         href={link.href}
                         className={cn(
-                          "group/item relative flex w-full overflow-visible rounded-lg px-2 py-1.5 text-sm outline-none transition-colors duration-200 hover:bg-transparent active:scale-[0.98] text-foreground",
+                          "group/item relative flex w-full flex-row items-center justify-start overflow-visible rounded-lg px-2 py-1.5 text-left text-sm outline-none transition-colors duration-200 hover:bg-transparent active:scale-[0.98] text-foreground whitespace-nowrap",
                           link.isActive && "bg-primary-light/20"
                         )}
                       >
                         {!link.isActive && (
                           <span className="absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-primary-dark transition-[width] duration-200 ease-out group-hover/item:w-full" />
                         )}
-                        {link.label}
+                        <span className="whitespace-nowrap">{link.label}</span>
                       </Link>
                     </NavigationMenuLink>
                   ))}
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/bible/read"
-                    className={cn(
-                      "inline-flex h-8 items-center justify-center rounded-xl border px-4 text-xs font-medium transition-all duration-200 outline-none hover:scale-[1.02] active:scale-[0.98]",
-                      isRead
-                        ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
-                        : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
-                    )}
-                  >
-                    Read
-                  </Link>
-                </NavigationMenuLink>
+                <NavigationMenuTrigger
+                  className={cn(
+                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98]",
+                    isBible
+                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground data-[state=open]:bg-primary/5"
+                  )}
+                >
+                  Bible
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="rounded-xl min-w-40 p-1.5 left-0 overflow-visible data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-2 data-[motion=from-start]:slide-in-from-left-2 data-[motion=to-end]:slide-out-to-right-2 data-[motion=to-start]:slide-out-to-left-2 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 origin-top-left">
+                  {renderDropdownLinks(bibleLinks, true)}
+                </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/bible/flashcard"
-                    className={cn(
-                      "inline-flex h-8 items-center justify-center rounded-xl border px-4 text-xs font-medium transition-all duration-200 outline-none hover:scale-[1.02] active:scale-[0.98]",
-                      isFlashcard
-                        ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
-                        : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
-                    )}
-                  >
-                    Flashcard
-                  </Link>
-                </NavigationMenuLink>
+                <NavigationMenuTrigger
+                  className={cn(
+                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98]",
+                    isReflect
+                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground data-[state=open]:bg-primary/5"
+                  )}
+                >
+                  Reflect
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="rounded-xl min-w-40 p-1.5 left-0 overflow-visible data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-2 data-[motion=from-start]:slide-in-from-left-2 data-[motion=to-end]:slide-out-to-right-2 data-[motion=to-start]:slide-out-to-left-2 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 origin-top-left">
+                  {renderDropdownLinks(reflectLinks)}
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger
+                  className={cn(
+                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98]",
+                    isGlossary
+                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground data-[state=open]:bg-primary/5"
+                  )}
+                >
+                  Glossary
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="rounded-xl min-w-40 p-1.5 left-0 overflow-visible data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-2 data-[motion=from-start]:slide-in-from-left-2 data-[motion=to-end]:slide-out-to-right-2 data-[motion=to-start]:slide-out-to-left-2 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 origin-top-left">
+                  {renderDropdownLinks(glossaryLinks, true)}
+                </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-          {/* 1. Square menu: navigate to Flashcard / Read (mobile only; center Read/Flashcard show from sm) */}
+          {/* 1. Mobile nav: same Navigation Menu as desktop (one trigger opens full nav) */}
           <div className="sm:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 min-h-8 w-8 min-w-8 rounded-lg border border-primary-dark bg-primary-dark text-primary-foreground shadow-sm hover:opacity-90 hover:bg-primary-dark"
-                  aria-label="Navigate to Flashcard or Read"
-                >
-                  <SquareMenu className="h-4 w-4 shrink-0" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link href="/bible/read" className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4" />
-                    Read
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/bible/flashcard" className="flex items-center gap-2">
-                    <Layers className="h-4 w-4" />
-                    Flashcard
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="font-semibold">
-                  <Link href="/bible/learn">Start Here</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/bible/learn/bible-structure">Bible Structure</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/bible/learn/bible-origin">Bible Origin</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/bible/learn/who-is-jesus">Who is Jesus</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/bible/learn/what-is-faith">What is Faith</Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <NavigationMenu viewport={false}>
+              <NavigationMenuList className="gap-0">
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger
+                    className="h-8 min-h-8 w-8 min-w-8 rounded-lg border border-primary-dark bg-primary-dark text-primary-foreground shadow-sm hover:opacity-90 p-0 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                    aria-label="Open menu"
+                  >
+                    <SquareMenu className="h-4 w-4 shrink-0" />
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="rounded-xl min-w-52 p-1.5 left-auto right-0 data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 origin-top-right">
+                    <div className="space-y-0.5">
+                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Learn</p>
+                      {learnLinks.map((link) => (
+                        <NavigationMenuLink key={link.href} asChild>
+                          <Link
+                            href={link.href}
+                            className="flex items-center rounded-lg px-2 py-1.5 text-left text-sm text-foreground hover:bg-primary-light/20"
+                          >
+                            {link.label}
+                          </Link>
+                        </NavigationMenuLink>
+                      ))}
+                      <div className="my-1.5 h-px bg-border" />
+                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Bible</p>
+                      {bibleLinks.map((link) => (
+                        <NavigationMenuLink key={link.href} asChild>
+                          <Link
+                            href={link.href}
+                            className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm text-foreground hover:bg-primary-light/20"
+                          >
+                            <span>{link.label}</span>
+                            {link.comingSoon && (
+                              <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Soon</span>
+                            )}
+                          </Link>
+                        </NavigationMenuLink>
+                      ))}
+                      <div className="my-1.5 h-px bg-border" />
+                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Reflect</p>
+                      {reflectLinks.map((link) => (
+                        <NavigationMenuLink key={link.href} asChild>
+                          <Link
+                            href={link.href}
+                            className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm text-foreground hover:bg-primary-light/20"
+                          >
+                            <span>{link.label}</span>
+                            {link.comingSoon && (
+                              <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Soon</span>
+                            )}
+                          </Link>
+                        </NavigationMenuLink>
+                      ))}
+                      <div className="my-1.5 h-px bg-border" />
+                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Glossary</p>
+                      {glossaryLinks.map((link) => (
+                        <NavigationMenuLink key={link.href} asChild>
+                          <Link
+                            href={link.href}
+                            className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm text-foreground hover:bg-primary-light/20"
+                          >
+                            <span>{link.label}</span>
+                            {link.comingSoon && (
+                              <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Soon</span>
+                            )}
+                          </Link>
+                        </NavigationMenuLink>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           {/* 2. Font size */}
