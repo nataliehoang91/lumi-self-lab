@@ -275,7 +275,8 @@
 
 /* @theme is a valid Tailwind CSS v4 directive - linter warning can be ignored */
 @theme {
-  --font-sans: "Geist", "Geist Fallback";
+  /* Inter for UI (recommended for Vietnamese); fallback to system UI */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-bible-serif), ui-serif, Georgia, serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback";
 
@@ -693,6 +694,9 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
   }
 }
 

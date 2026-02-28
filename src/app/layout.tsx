@@ -1,15 +1,16 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Lora, Merriweather } from "next/font/google";
+import { Inter, Geist_Mono, Lora, Merriweather } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Suspense } from "react";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+/* Inter: recommended for UI (incl. Vietnamese); body 16–17px, line-height 1.6–1.75, letter-spacing 0–0.2px */
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "vietnamese"],
 });
 
 const geistMono = Geist_Mono({
@@ -61,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${vietnameseScripture.variable} ${loraSerif.variable} font-sans antialiased`}
+        className={`${inter.variable} ${geistMono.variable} ${vietnameseScripture.variable} ${loraSerif.variable} font-sans antialiased`}
       >
         <Suspense
           fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}
