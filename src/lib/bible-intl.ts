@@ -105,12 +105,72 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnModule4Desc:
       "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with Him.",
     learnMinRead: "{min} min read",
-    learnVerse:
-      "Your word is a lamp to my feet and a light to my path.",
+    learnVerse: "Your word is a lamp to my feet and a light to my path.",
     learnVerseRef: "PSALM 119:105",
     learnCtaTitle: "You have the foundation.",
     learnCtaSubtitle: "Now open Scripture and read for yourself.",
     learnOpenBible: "Open Bible",
+    learnStructureAllLessons: "All lessons",
+    learnStructureNextOrigin: "Next: Bible Origin",
+    learnStructModuleNum: "01 / 04",
+    learnStructIntro1: "The Bible is not just a single book — it is a collection of ",
+    learnStructIntro66: "66 writings",
+    learnStructIntro2: " shaped across ",
+    learnStructIntro1500: "1,500 years",
+    learnStructIntro3: " by around ",
+    learnStructIntro40: "40 different authors",
+    learnStructIntro4:
+      ". Yet through all its diversity, it tells one unified story: God's relentless pursuit to redeem humanity through Jesus Christ.",
+    learnStructStatBooks: "Books total",
+    learnStructStatOT: "Old Testament",
+    learnStructStatNT: "New Testament",
+    learnStructStatAuthors: "Human authors",
+    learnStructOTTitle: "Old Testament",
+    learnStructOTIntro:
+      "It tells the story of creation, human rebellion, and God's unfolding promise — working through Israel to prepare the way for a coming Saviour.",
+    learnStructOTLaw: "Law",
+    learnStructOTLawDesc:
+      "Genesis through Deuteronomy — creation, the fall, and God's covenant with Israel.",
+    learnStructOTHistory: "History",
+    learnStructOTHistoryDesc:
+      "Joshua through Esther — Israel's story in the Promised Land, kings, exile, and return.",
+    learnStructOTPoetry: "Poetry & Wisdom",
+    learnStructOTPoetryDesc:
+      "Job through Song of Solomon — reflection on suffering, praise, wisdom, and love.",
+    learnStructOTProphets: "Prophets",
+    learnStructOTProphetsDesc:
+      "Isaiah through Malachi — God's messengers calling Israel back, pointing forward to Christ.",
+    learnStructNTTitle: "New Testament",
+    learnStructNTIntro:
+      "It begins with the life of Jesus, follows the birth of the early church, and closes with a vision of how history ultimately finds its fulfillment in Christ.",
+    learnStructNTGospels: "Gospels",
+    learnStructNTGospelsDesc:
+      "Matthew, Mark, Luke, John — four accounts of Jesus's life, ministry, death, and resurrection.",
+    learnStructNTHistory: "History",
+    learnStructNTHistoryDesc:
+      "Acts — the story of the early church spreading from Jerusalem to the ends of the earth.",
+    learnStructNTLetters: "Letters",
+    learnStructNTLettersDesc:
+      "Romans through Jude — Paul and others writing to churches and individuals about faith and life.",
+    learnStructNTProphecy: "Prophecy",
+    learnStructNTProphecyDesc:
+      "Revelation — a vision of the end of history and the victory of Christ.",
+    learnStructCentralTitle: "Central Theme",
+    learnStructCentralBody:
+      "Though written across centuries by many voices, the Bible tells one grand story: God creates a good world. Humanity turns away. God begins a patient rescue plan through Israel. That plan reaches its climax in Jesus Christ — whose death and resurrection open the way for restoration and renewed life with God.",
+    learnStructGlossaryTitle: "Quick Glossary",
+    learnStructGlossCovenant: "Covenant",
+    learnStructGlossCovenantDef:
+      "A sacred agreement or promise between God and his people, central to both Old and New Testaments.",
+    learnStructGlossGospel: "Gospel",
+    learnStructGlossGospelDef:
+      'Literally "good news" — referring to the message of Jesus Christ\'s life, death, and resurrection.',
+    learnStructGlossProphet: "Prophet",
+    learnStructGlossProphetDef:
+      "A person called by God to speak his message to the people, often calling people back to faithfulness and, at times, revealing what God would do in the future.",
+    learnStructGlossGrace: "Grace",
+    learnStructGlossGraceDef:
+      "God's unmerited favour — his love and mercy given freely, not earned by human effort.",
   },
   vi: {
     clickToReveal: "Nhấp để xem câu kinh thánh",
@@ -205,6 +265,67 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnCtaTitle: "Bạn đã có nền tảng.",
     learnCtaSubtitle: "Giờ hãy mở Kinh thánh và đọc cho chính mình.",
     learnOpenBible: "Mở Kinh thánh",
+    learnStructureAllLessons: "Tất cả bài",
+    learnStructureNextOrigin: "Tiếp: Nguồn gốc Kinh thánh",
+    learnStructModuleNum: "01 / 04",
+    learnStructIntro1: "Kinh Thánh không chỉ là một quyển sách — đó là một tuyển tập gồm ",
+    learnStructIntro66: "66 sách",
+    learnStructIntro2: " được viết trong suốt khoảng ",
+    learnStructIntro1500: "1.500 năm",
+    learnStructIntro3: " bởi gần ",
+    learnStructIntro40: "40 tác giả khác nhau",
+    learnStructIntro4:
+      ". Dù được hình thành qua nhiều thế kỷ và bối cảnh khác nhau, toàn bộ Kinh Thánh cùng kể một câu chuyện duy nhất: kế hoạch cứu chuộc của Đức Chúa Trời dành cho nhân loại, được hoàn tất trong Đức Chúa Jêsus Christ.",
+    learnStructStatBooks: "Sách tổng cộng",
+    learnStructStatOT: "Cựu Ước",
+    learnStructStatNT: "Tân Ước",
+    learnStructStatAuthors: "Tác giả loài người",
+    learnStructOTTitle: "Cựu Ước",
+    learnStructOTIntro:
+      "Được viết chủ yếu bằng tiếng Hê-bơ-rơ (và một phần tiếng A-ram), Cựu Ước ghi lại từ sự sáng tạo vũ trụ cho đến thời kỳ ngay trước khi Chúa Jêsus giáng sinh. Đây là câu chuyện về Đức Chúa Trời, về dân Y-sơ-ra-ên, và về lời hứa lâu dài về một Đấng Cứu Thế sẽ đến.",
+    learnStructOTLaw: "Luật pháp",
+    learnStructOTLawDesc:
+      "Sáng thế ký đến Phục truyền — sáng thế, sự sa ngã và giao ước của Đức Chúa Trời với Y-sơ-ra-ên.",
+    learnStructOTHistory: "Lịch sử",
+    learnStructOTHistoryDesc:
+      "Giô-sué đến Ê-xơ-tê — câu chuyện Y-sơ-ra-ên trong Đất Hứa, các vua, lưu đày và trở về.",
+    learnStructOTPoetry: "Thi ca & Khôn ngoan",
+    learnStructOTPoetryDesc:
+      "Gióp đến Nhã Ca — suy ngẫm về đau khổ, ca ngợi, khôn ngoan và tình yêu.",
+    learnStructOTProphets: "Tiên tri",
+    learnStructOTProphetsDesc:
+      "Ê-sai đến Ma-la-chi — sứ giả của Đức Chúa Trời kêu gọi Y-sơ-ra-ên trở lại, chỉ về Đấng Christ.",
+    learnStructNTTitle: "Tân Ước",
+    learnStructNTIntro:
+      "Được viết bằng tiếng Hy Lạp, Tân Ước mở đầu bằng bốn sách Phúc Âm kể về cuộc đời, chức vụ, sự chết và sự sống lại của Chúa Jêsus. Sau đó là câu chuyện về Hội Thánh đầu tiên lan rộng ra khắp thế giới, và kết thúc bằng khải tượng về sự hoàn tất của lịch sử trong Đấng Christ.",
+    learnStructNTGospels: "Phúc âm",
+    learnStructNTGospelsDesc:
+      "Ma-thi-ơ, Mác, Lu-ca, Giăng — bốn tường thuật về cuộc đời, chức vụ, sự chết và sống lại của Chúa Jêsus.",
+    learnStructNTHistory: "Lịch sử",
+    learnStructNTHistoryDesc:
+      "Công vụ — câu chuyện Hội thánh đầu tiên lan ra từ Giê-ru-sa-lem đến tận cùng trái đất.",
+    learnStructNTLetters: "Thư tín",
+    learnStructNTLettersDesc:
+      "Rô-ma đến Giu-đe — Phao-lô và những người khác viết cho các Hội thánh và cá nhân về đức tin và đời sống.",
+    learnStructNTProphecy: "Khải tượng",
+    learnStructNTProphecyDesc:
+      "Khải huyền — khải tượng về sự kết thúc lịch sử và sự chiến thắng của Đấng Christ.",
+    learnStructCentralTitle: "Chủ đề trung tâm",
+    learnStructCentralBody:
+      "Dù được viết bởi nhiều con người khác nhau qua nhiều thế kỷ, Kinh Thánh chỉ kể một đại câu chuyện: Đức Chúa Trời tạo dựng một thế giới tốt lành. Con người chọn sự phản nghịch. Đức Chúa Trời bắt đầu một kế hoạch giải cứu lâu dài qua dân Y-sơ-ra-ên. Kế hoạch đó đạt đến đỉnh điểm trong Đức Chúa Jêsus Christ — Đấng đã chết và sống lại, mở ra con đường để con người được hòa giải và phục hồi mối tương giao với Đức Chúa Trời.",
+    learnStructGlossaryTitle: "Từ vựng nhanh",
+    learnStructGlossCovenant: "Giao ước",
+    learnStructGlossCovenantDef:
+      "Một sự cam kết thiêng liêng giữa Đức Chúa Trời và con người. Giao ước là nền tảng xuyên suốt cả Cựu Ước lẫn Tân Ước.",
+    learnStructGlossGospel: "Phúc âm",
+    learnStructGlossGospelDef:
+      'Nghĩa là "Tin Lành" hay "tin vui" — nói về cuộc đời, sự chết và sự sống lại của Chúa Jêsus vì nhân loại.',
+    learnStructGlossProphet: "Tiên tri",
+    learnStructGlossProphetDef:
+      "Người được Đức Chúa Trời kêu gọi để truyền đạt sứ điệp của Ngài, kêu gọi dân sự ăn năn và sống trung tín.",
+    learnStructGlossGrace: "Ân điển",
+    learnStructGlossGraceDef:
+      "Tình yêu và lòng thương xót mà Đức Chúa Trời ban cho con người cách nhưng không — không phải do công trạng, mà bởi lòng nhân từ của Ngài.",
   },
   zh: {
     clickToReveal: "點擊顯示經文",
@@ -297,6 +418,54 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnCtaTitle: "你已有根基。",
     learnCtaSubtitle: "現在打開聖經，親自閱讀。",
     learnOpenBible: "打開聖經",
+    learnStructureAllLessons: "所有課程",
+    learnStructureNextOrigin: "下一課：聖經的來源",
+    learnStructModuleNum: "01 / 04",
+    learnStructIntro1: "聖經不只是一本書——它是在",
+    learnStructIntro66: "六十六卷書",
+    learnStructIntro2: "、約",
+    learnStructIntro1500: "一千五百年",
+    learnStructIntro3: "間、由約",
+    learnStructIntro40: "四十位不同作者",
+    learnStructIntro4: "寫成的合集。儘管內容多元，它述說一個統一的故事：神透過耶穌基督鍥而不捨地救贖人類。",
+    learnStructStatBooks: "書卷總數",
+    learnStructStatOT: "舊約",
+    learnStructStatNT: "新約",
+    learnStructStatAuthors: "人類作者",
+    learnStructOTTitle: "舊約",
+    learnStructOTIntro: "述說創造、人類悖逆，以及神逐步展開的應許——藉著以色列預備將要來的救主。",
+    learnStructOTLaw: "律法書",
+    learnStructOTLawDesc: "創世記至申命記——創造、墮落，以及神與以色列所立之約。",
+    learnStructOTHistory: "歷史書",
+    learnStructOTHistoryDesc: "約書亞記至以斯帖記——以色列在應許之地的歷史、列王、被擄與歸回。",
+    learnStructOTPoetry: "詩歌與智慧書",
+    learnStructOTPoetryDesc: "約伯記至雅歌——對苦難、讚美、智慧與愛的反思。",
+    learnStructOTProphets: "先知書",
+    learnStructOTProphetsDesc: "以賽亞書至瑪拉基書——神的使者呼召以色列歸回，並指向基督。",
+    learnStructNTTitle: "新約",
+    learnStructNTIntro:
+      "以耶穌的生平開始，記述早期教會的誕生，並以歷史在基督裡終極實現的異象作結。",
+    learnStructNTGospels: "福音書",
+    learnStructNTGospelsDesc: "馬太、馬可、路加、約翰——四卷對耶穌生平、事奉、受死與復活的記述。",
+    learnStructNTHistory: "歷史書",
+    learnStructNTHistoryDesc: "使徒行傳——早期教會從耶路撒冷傳到地極的故事。",
+    learnStructNTLetters: "書信",
+    learnStructNTLettersDesc: "羅馬書至猶大書——保羅等人寫給教會與個人的信仰與生活教導。",
+    learnStructNTProphecy: "預言",
+    learnStructNTProphecyDesc: "啟示錄——歷史終結與基督得勝的異象。",
+    learnStructCentralTitle: "中心主題",
+    learnStructCentralBody:
+      "聖經雖由許多人在不同世紀寫成，卻述說一個宏大的故事：神創造美好的世界，人類背離，神透過以色列展開耐心的救贖計劃，這計劃在耶穌基督裡達到高潮——祂的死與復活開通了與神恢復、得新生命的道路。",
+    learnStructGlossaryTitle: "簡要詞彙",
+    learnStructGlossCovenant: "約",
+    learnStructGlossCovenantDef: "神與祂子民之間神聖的協定或應許，是舊約與新約的核心。",
+    learnStructGlossGospel: "福音",
+    learnStructGlossGospelDef: "字意為「好消息」——指耶穌基督生平、受死與復活的信息。",
+    learnStructGlossProphet: "先知",
+    learnStructGlossProphetDef:
+      "蒙神呼召向百姓傳講祂信息的人，常呼籲人回轉忠心，有時揭示神在未來要做的事。",
+    learnStructGlossGrace: "恩典",
+    learnStructGlossGraceDef: "神白白的恩惠——祂無條件賜下的愛與憐憫，非人靠己力可賺取。",
   },
 };
 
