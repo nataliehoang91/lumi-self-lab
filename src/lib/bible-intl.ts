@@ -59,21 +59,23 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readAddNote: "Add note",
     readOldTestament: "Old Testament",
     readNewTestament: "New Testament",
+    readOldShort: "Old",
+    readNewShort: "New",
     readAll: "All",
     // Insights
     readInsights: "Insights",
     readInsightsLabel: "Insights",
     readInsightsTitle: "Chapter insights",
     readInsightsBetaBadge: "Beta",
-    readInsightsLanguagesNote: "Insights are currently available in English and Vietnamese. More languages coming soon.",
+    readInsightsLanguagesNote:
+      "Insights are currently available in English and Vietnamese. More languages coming soon.",
     readInsightsComingSoonTag: "Coming soon",
     readInsightsFor: "{book} {n}",
     readInsightsClose: "Close",
     readInsightsContext: "Context",
     readInsightsExplanation: "Explanation",
     readInsightsReflection: "Reflection",
-    readInsightsComingSoon:
-      "Insights for this chapter are coming soon. Try John 3 for a preview.",
+    readInsightsComingSoon: "Insights for this chapter are coming soon. Try John 3 for a preview.",
     readInsightsDismissHint: "Press",
     readInsightsDismissHintTail: "or tap the lightbulb again to close",
     readInsightsMinimize: "Minimize",
@@ -82,10 +84,33 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
       "This conversation between Jesus and Nicodemus takes place early in Jesus' ministry and introduces the theme of spiritual rebirth.",
     readInsightJohn3Explanation:
       'Jesus explains that being "born again" is a spiritual transformation through the Spirit, not a physical rebirth. John 3:16 reveals God’s love and the gift of eternal life through belief in Jesus.',
-    readInsightJohn3Reflection1:
-      'What does "being born again" mean to you personally?',
+    readInsightJohn3Reflection1: 'What does "being born again" mean to you personally?',
     readInsightJohn3Reflection2:
       "How does the image of the wind help you understand spiritual transformation?",
+    // Learn
+    learnStartHere: "Start Here",
+    learnTitle: "Begin with the foundation.",
+    learnSubtitle:
+      "Before reading deeply, take a moment to understand what the Bible is, who Jesus is, and what faith truly means.",
+    learnModule1Title: "What Is the Bible?",
+    learnModule1Desc:
+      "Discover what the Bible is, how it is structured, who wrote it, and the redemptive story woven through every page.",
+    learnModule2Title: "Bible Origin & Canon",
+    learnModule2Desc:
+      "Explore how Scripture was preserved across centuries, from ancient manuscripts to the Bible we hold today.",
+    learnModule3Title: "Who Is Jesus?",
+    learnModule3Desc:
+      "Understand who Jesus claimed to be — fully God, fully man — and why his life, death, and resurrection change everything.",
+    learnModule4Title: "What Is Faith?",
+    learnModule4Desc:
+      "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with Him.",
+    learnMinRead: "{min} min read",
+    learnVerse:
+      "Your word is a lamp to my feet and a light to my path.",
+    learnVerseRef: "PSALM 119:105",
+    learnCtaTitle: "You have the foundation.",
+    learnCtaSubtitle: "Now open Scripture and read for yourself.",
+    learnOpenBible: "Open Bible",
   },
   vi: {
     clickToReveal: "Nhấp để xem câu kinh thánh",
@@ -130,6 +155,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readAddNote: "Thêm ghi chú",
     readOldTestament: "Cựu Ước",
     readNewTestament: "Tân Ước",
+    readOldShort: "Cựu",
+    readNewShort: "Tân",
     readAll: "Tất cả",
     // Insights
     readInsights: "Khải thị",
@@ -143,8 +170,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightsContext: "Bối cảnh",
     readInsightsExplanation: "Giải thích",
     readInsightsReflection: "Suy ngẫm",
-    readInsightsComingSoon:
-      "Khải thị cho chương này sẽ sớm có mặt. Hãy thử Giăng 3 để xem trước.",
+    readInsightsComingSoon: "Khải thị cho chương này sẽ sớm có mặt. Hãy thử Giăng 3 để xem trước.",
     readInsightsComingSoonTag: "Sắp ra mắt",
     readInsightsDismissHint: "Nhấn",
     readInsightsDismissHintTail: "hoặc chạm lại biểu tượng bóng đèn để đóng",
@@ -152,11 +178,33 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightJohn3Context:
       "Cuộc đối thoại giữa Chúa Jêsus và Ni-cô-đem diễn ra đầu chức vụ của Ngài, mở ra chủ đề quan trọng về sự tái sinh thuộc linh.",
     readInsightJohn3Explanation:
-      "Chúa Jêsus giải thích rằng \"sinh lại\" là sự biến đổi thuộc linh bởi Thánh Linh, không phải là sự sinh ra thể xác lần thứ hai. Giăng 3:16 bày tỏ tình yêu của Đức Chúa Trời và món quà sự sống đời đời cho người tin Con Ngài.",
-    readInsightJohn3Reflection1:
-      "\"Được sinh lại\" có ý nghĩa gì với chính bạn?",
+      'Chúa Jêsus giải thích rằng "sinh lại" là sự biến đổi thuộc linh bởi Thánh Linh, không phải là sự sinh ra thể xác lần thứ hai. Giăng 3:16 bày tỏ tình yêu của Đức Chúa Trời và món quà sự sống đời đời cho người tin Con Ngài.',
+    readInsightJohn3Reflection1: '"Được sinh lại" có ý nghĩa gì với chính bạn?',
     readInsightJohn3Reflection2:
       "Hình ảnh ngọn gió giúp bạn hiểu thế nào về sự biến đổi thuộc linh?",
+    // Learn (Vietnamese – replace with your translations)
+    learnStartHere: "Bắt đầu tại đây",
+    learnTitle: "Bắt đầu từ nền tảng.",
+    learnSubtitle:
+      "Trước khi đi sâu vào Kinh Thánh, hãy dành chút thời gian để hiểu Kinh Thánh là gì, Chúa Jêsus là ai, và đức tin thật sự có ý nghĩa gì.",
+    learnModule1Title: "Kinh thánh là gì?",
+    learnModule1Desc:
+      "Tìm hiểu Kinh Thánh là gì, được cấu trúc như thế nào, ai là người viết và câu chuyện cứu chuộc xuyên suốt mọi trang sách.",
+    learnModule2Title: "Nguồn gốc & Canon Kinh thánh",
+    learnModule2Desc:
+      "Khám phá hành trình bảo tồn Kinh Thánh qua nhiều thế kỷ — từ bản chép tay cổ đến quyển Kinh Thánh ngày nay.",
+    learnModule3Title: "Chúa Jêsus là ai?",
+    learnModule3Desc:
+      "Hiểu về Đấng tự xưng là Con Đức Chúa Trời — vừa trọn vẹn là Đức Chúa Trời, vừa trọn vẹn là con người — và vì sao điều đó thay đổi mọi điều.",
+    learnModule4Title: "Đức tin là gì?",
+    learnModule4Desc:
+      "Tìm hiểu ý nghĩa của việc tin cậy Đức Chúa Trời — ân điển, sự ăn năn, cầu nguyện và một mối quan hệ thật với Ngài.",
+    learnMinRead: "{min} phút đọc",
+    learnVerse: "Lời Chúa là ngọn đèn cho chân tôi, Ánh sáng cho đường lối tôi.",
+    learnVerseRef: "THI THIÊN 119:105",
+    learnCtaTitle: "Bạn đã có nền tảng.",
+    learnCtaSubtitle: "Giờ hãy mở Kinh thánh và đọc cho chính mình.",
+    learnOpenBible: "Mở Kinh thánh",
   },
   zh: {
     clickToReveal: "點擊顯示經文",
@@ -201,21 +249,21 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readAddNote: "添加筆記",
     readOldTestament: "舊約",
     readNewTestament: "新約",
+    readOldShort: "舊",
+    readNewShort: "新",
     readAll: "全部",
     // Insights
     readInsights: "靈修提示",
     readInsightsLabel: "靈修提示",
     readInsightsTitle: "本章靈修提示",
     readInsightsBetaBadge: "Beta",
-    readInsightsLanguagesNote:
-      "靈修提示目前優先提供英文與越南文章節，其他語言將陸續加入。",
+    readInsightsLanguagesNote: "靈修提示目前優先提供英文與越南文章節，其他語言將陸續加入。",
     readInsightsFor: "{book} 第 {n} 章",
     readInsightsClose: "關閉",
     readInsightsContext: "背景",
     readInsightsExplanation: "解說",
     readInsightsReflection: "默想",
-    readInsightsComingSoon:
-      "本章的靈修提示即將推出。可以先試試約翰福音第 3 章。",
+    readInsightsComingSoon: "本章的靈修提示即將推出。可以先試試約翰福音第 3 章。",
     readInsightsComingSoonTag: "即將推出",
     readInsightsDismissHint: "按下",
     readInsightsDismissHintTail: "或再次點擊燈泡圖示關閉",
@@ -226,6 +274,29 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
       "耶穌說明「重生」不是肉身再生，而是聖靈帶來的內在更新。約翰福音 3:16 顯明神愛世人，並藉著信靠獨生子賜下永生。",
     readInsightJohn3Reflection1: "「重生」對你個人意味著什麼？",
     readInsightJohn3Reflection2: "風的比喻如何幫助你理解屬靈的改變？",
+    // Learn
+    learnStartHere: "Start Here",
+    learnTitle: "Begin with the foundation.",
+    learnSubtitle:
+      "Before reading deeply, take a moment to understand what the Bible is, who Jesus is, and what faith truly means.",
+    learnModule1Title: "What Is the Bible?",
+    learnModule1Desc:
+      "Discover what the Bible is, how it is structured, who wrote it, and the redemptive story woven through every page.",
+    learnModule2Title: "Bible Origin & Canon",
+    learnModule2Desc:
+      "Explore how Scripture was preserved across centuries, from ancient manuscripts to the Bible we hold today.",
+    learnModule3Title: "Who Is Jesus?",
+    learnModule3Desc:
+      "Understand who Jesus claimed to be — fully God, fully man — and why his life, death, and resurrection change everything.",
+    learnModule4Title: "What Is Faith?",
+    learnModule4Desc:
+      "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with Him.",
+    learnMinRead: "{min} 分鐘閱讀",
+    learnVerse: "你的話是我腳前的燈，是我路上的光。",
+    learnVerseRef: "詩篇 119:105",
+    learnCtaTitle: "你已有根基。",
+    learnCtaSubtitle: "現在打開聖經，親自閱讀。",
+    learnOpenBible: "打開聖經",
   },
 };
 

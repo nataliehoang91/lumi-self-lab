@@ -9,6 +9,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,7 @@ export function BibleNavBar() {
   const intl = getBibleIntl(globalLanguage);
   const isRead = pathname?.includes("/bible/read");
   const isFlashcard = pathname?.includes("/bible/flashcard");
+  const isLearn = pathname?.includes("/bible/learn");
 
   return (
     <nav
@@ -42,6 +44,41 @@ export function BibleNavBar() {
           <h1 className="sm:visible invisible text-lg font-semibold truncate">Scripture Memory</h1>
         </div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden sm:flex items-center justify-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "h-8 px-4 text-xs font-medium rounded-xl transition-all border gap-1",
+                  isLearn
+                    ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
+                    : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
+                )}
+              >
+                Learn
+                <ChevronDown className="h-3.5 w-3.5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="rounded-xl min-w-40 p-1.5">
+              <DropdownMenuItem asChild className="rounded-lg font-semibold text-foreground">
+                <Link href="/bible/learn">Start Here</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="my-1" />
+              <DropdownMenuItem asChild className="rounded-lg">
+                <Link href="/bible/learn/bible-structure">Bible Structure</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="rounded-lg">
+                <Link href="/bible/learn/bible-origin">Bible Origin</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="rounded-lg">
+                <Link href="/bible/learn/who-is-jesus">Who is Jesus</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="rounded-lg">
+                <Link href="/bible/learn/what-is-faith">What is Faith</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button
             variant="ghost"
             size="sm"
@@ -96,6 +133,22 @@ export function BibleNavBar() {
                     <Layers className="h-4 w-4" />
                     Flashcard
                   </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="font-semibold">
+                  <Link href="/bible/learn">Start Here</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/bible/learn/bible-structure">Bible Structure</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/bible/learn/bible-origin">Bible Origin</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/bible/learn/who-is-jesus">Who is Jesus</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/bible/learn/what-is-faith">What is Faith</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -164,7 +217,7 @@ export function BibleNavBar() {
             </Button>
           </div>
 
-          {/* 3. Language – mint-forest green */}
+          {/* 3. Language – mint-forest green (on Learn: EN/VI only, no Chinese) */}
           <div className="hidden lg:flex items-center rounded-xl border border-bible-lang/40 bg-bible-lang/10 p-0.5">
             <Button
               variant="ghost"
@@ -172,7 +225,7 @@ export function BibleNavBar() {
               onClick={() => setGlobalLanguage("EN")}
               className={cn(
                 "h-8 px-2.5 text-sm rounded-lg transition-all",
-                globalLanguage === "EN"
+                globalLanguage === "EN" || (isLearn && globalLanguage === "ZH")
                   ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
                   : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
               )}
@@ -192,19 +245,21 @@ export function BibleNavBar() {
             >
               VI
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setGlobalLanguage("ZH")}
-              className={cn(
-                "h-8 px-2.5 text-sm rounded-lg transition-all",
-                globalLanguage === "ZH"
-                  ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
-                  : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
-              )}
-            >
-              中
-            </Button>
+            {!isLearn && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setGlobalLanguage("ZH")}
+                className={cn(
+                  "h-8 px-2.5 text-sm rounded-lg transition-all",
+                  globalLanguage === "ZH"
+                    ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
+                    : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
+                )}
+              >
+                中
+              </Button>
+            )}
           </div>
           <div className="lg:hidden">
             <DropdownMenu>
@@ -215,7 +270,9 @@ export function BibleNavBar() {
                   className="h-8 gap-1 px-2.5 text-sm rounded-md bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90 border-2 border-bible-lang"
                   aria-label="Language"
                 >
-                  <span>{globalLanguage === "ZH" ? "中" : globalLanguage}</span>
+                  <span>
+                    {isLearn && globalLanguage === "ZH" ? "EN" : globalLanguage === "ZH" ? "中" : globalLanguage}
+                  </span>
                   <ChevronDown className="h-3.5 w-3.5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -236,14 +293,16 @@ export function BibleNavBar() {
                   )}
                   VI
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setGlobalLanguage("ZH")}>
-                  {globalLanguage === "ZH" ? (
-                    <Check className="h-4 w-4" />
-                  ) : (
-                    <span className="w-4" />
-                  )}
-                  中
-                </DropdownMenuItem>
+                {!isLearn && (
+                  <DropdownMenuItem onClick={() => setGlobalLanguage("ZH")}>
+                    {globalLanguage === "ZH" ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <span className="w-4" />
+                    )}
+                    中
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
