@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { ChevronDown, Check, SquareMenu } from "lucide-react";
+import { useState } from "react";
+import { SquareMenu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,6 +11,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+} from "@/components/ui/sheet";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -119,6 +127,8 @@ export function BibleNavBar() {
       },
     ];
 
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
   function renderDropdownLinks(links: typeof learnLinks, firstBold = false) {
     return links.map((link, index) => (
       <NavigationMenuLink key={link.href} asChild>
@@ -158,18 +168,18 @@ export function BibleNavBar() {
       <Container className="relative w-full h-14 flex items-center justify-between gap-2 px-4 sm:px-6 py-3">
         <div className="flex items-center gap-6 min-w-0">
           <BibleLogo />
-          <h1 className="sm:visible invisible text-lg font-semibold truncate">Scripture Memory</h1>
+          <h1 className="xl:visible invisible text-lg font-semibold truncate">Scripture Memory</h1>
         </div>
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden sm:flex items-center justify-center">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden xl:flex items-center justify-center">
           <NavigationMenu viewport={false}>
             <NavigationMenuList className="gap-2">
               <NavigationMenuItem>
                 <NavigationMenuTrigger
                   className={cn(
-                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98]",
+                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                     isLearn
-                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
-                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground data-[state=open]:bg-primary/5"
+                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 focus:bg-primary-dark focus:text-primary-foreground data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground focus:bg-primary/5 focus:text-foreground data-[state=open]:bg-primary/5"
                   )}
                 >
                   Learn
@@ -211,10 +221,10 @@ export function BibleNavBar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger
                   className={cn(
-                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98]",
+                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                     isBible
-                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
-                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground data-[state=open]:bg-primary/5"
+                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 focus:bg-primary-dark focus:text-primary-foreground data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground focus:bg-primary/5 focus:text-foreground data-[state=open]:bg-primary/5"
                   )}
                 >
                   Bible
@@ -226,10 +236,10 @@ export function BibleNavBar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger
                   className={cn(
-                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98]",
+                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                     isReflect
-                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
-                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground data-[state=open]:bg-primary/5"
+                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 focus:bg-primary-dark focus:text-primary-foreground data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground focus:bg-primary/5 focus:text-foreground data-[state=open]:bg-primary/5"
                   )}
                 >
                   Reflect
@@ -241,10 +251,10 @@ export function BibleNavBar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger
                   className={cn(
-                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98]",
+                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                     isGlossary
-                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
-                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground data-[state=open]:bg-primary/5"
+                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 focus:bg-primary-dark focus:text-primary-foreground data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground focus:bg-primary/5 focus:text-foreground data-[state=open]:bg-primary/5"
                   )}
                 >
                   Glossary
@@ -258,245 +268,272 @@ export function BibleNavBar() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-          {/* 1. Mobile nav: same Navigation Menu as desktop (one trigger opens full nav) */}
-          <div className="sm:hidden">
-            <NavigationMenu viewport={false}>
-              <NavigationMenuList className="gap-0">
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger
-                    className="h-8 min-h-8 w-8 min-w-8 rounded-lg border border-primary-dark bg-primary-dark text-primary-foreground shadow-sm hover:opacity-90 p-0 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
-                    aria-label="Open menu"
-                  >
-                    <SquareMenu className="h-4 w-4 shrink-0" />
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent className="rounded-xl min-w-52 p-1.5 left-auto right-0 data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 origin-top-right">
-                    <div className="space-y-0.5">
-                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Learn</p>
-                      {learnLinks.map((link) => (
-                        <NavigationMenuLink key={link.href} asChild>
-                          <Link
-                            href={link.href}
-                            className="flex items-center rounded-lg px-2 py-1.5 text-left text-sm text-foreground hover:bg-primary-light/20"
-                          >
-                            {link.label}
-                          </Link>
-                        </NavigationMenuLink>
-                      ))}
-                      <div className="my-1.5 h-px bg-border" />
-                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Bible</p>
-                      {bibleLinks.map((link) => (
-                        <NavigationMenuLink key={link.href} asChild>
-                          <Link
-                            href={link.href}
-                            className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm text-foreground hover:bg-primary-light/20"
-                          >
-                            <span>{link.label}</span>
-                            {link.comingSoon && (
-                              <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Soon</span>
-                            )}
-                          </Link>
-                        </NavigationMenuLink>
-                      ))}
-                      <div className="my-1.5 h-px bg-border" />
-                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Reflect</p>
-                      {reflectLinks.map((link) => (
-                        <NavigationMenuLink key={link.href} asChild>
-                          <Link
-                            href={link.href}
-                            className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm text-foreground hover:bg-primary-light/20"
-                          >
-                            <span>{link.label}</span>
-                            {link.comingSoon && (
-                              <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Soon</span>
-                            )}
-                          </Link>
-                        </NavigationMenuLink>
-                      ))}
-                      <div className="my-1.5 h-px bg-border" />
-                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Glossary</p>
-                      {glossaryLinks.map((link) => (
-                        <NavigationMenuLink key={link.href} asChild>
-                          <Link
-                            href={link.href}
-                            className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm text-foreground hover:bg-primary-light/20"
-                          >
-                            <span>{link.label}</span>
-                            {link.comingSoon && (
-                              <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Soon</span>
-                            )}
-                          </Link>
-                        </NavigationMenuLink>
-                      ))}
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-
-          {/* 2. Font size */}
-          <div className="lg:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="skyBlue"
-                  size="sm"
-                  className="h-8 gap-1 px-2.5 text-sm rounded-md"
-                  aria-label={intl.t("navFontMedium")}
-                >
-                  <span>{fontSize === "small" ? "A-" : fontSize === "large" ? "A+" : "A"}</span>
-                  <ChevronDown className="h-3.5 w-3.5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setFontSize("small")}>
-                  {fontSize === "small" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
-                  A- {intl.t("navFontSmall")}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFontSize("medium")}>
-                  {fontSize === "medium" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
-                  A {intl.t("navFontMedium")}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFontSize("large")}>
-                  {fontSize === "large" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
-                  A+ {intl.t("navFontLarge")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <div className="hidden lg:flex items-center gap-0.5 rounded-lg border border-sky-blue/30 bg-sky-blue/10 p-0.5">
-            <Button
-              variant={fontSize === "small" ? "skyBlue" : "ghost"}
-              size="sm"
-              onClick={() => setFontSize("small")}
-              className="h-8 px-3 text-sm hover:bg-sky-blue/20"
-              title={intl.t("navFontSmall")}
-              aria-label={intl.t("navFontSmall")}
-            >
-              A-
-            </Button>
-            <Button
-              variant={fontSize === "medium" ? "skyBlue" : "ghost"}
-              size="sm"
-              onClick={() => setFontSize("medium")}
-              className="h-8 px-3 text-sm hover:bg-sky-blue/20"
-              title={intl.t("navFontMedium")}
-              aria-label={intl.t("navFontMedium")}
-            >
-              A
-            </Button>
-            <Button
-              variant={fontSize === "large" ? "skyBlue" : "ghost"}
-              size="sm"
-              onClick={() => setFontSize("large")}
-              className="h-8 px-3 text-sm hover:bg-sky-blue/20"
-              title={intl.t("navFontLarge")}
-              aria-label={intl.t("navFontLarge")}
-            >
-              A+
-            </Button>
-          </div>
-
-          {/* 3. Language – mint-forest green (on Learn: EN/VI only, no Chinese) */}
-          <div className="hidden lg:flex items-center rounded-xl border border-bible-lang/40 bg-bible-lang/10 p-0.5">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setGlobalLanguage("EN")}
-              className={cn(
-                "h-8 px-2.5 text-sm rounded-lg transition-all",
-                globalLanguage === "EN" || (isLearn && globalLanguage === "ZH")
-                  ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
-                  : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
-              )}
-            >
-              EN
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setGlobalLanguage("VI")}
-              className={cn(
-                "h-8 px-2.5 text-sm rounded-lg transition-all",
-                globalLanguage === "VI"
-                  ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
-                  : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
-              )}
-            >
-              VI
-            </Button>
-            {!isLearn && (
+          {/* 1. Font size – single trigger + vertical dropdown (all screen sizes) */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setGlobalLanguage("ZH")}
+                className="h-8 px-3 text-sm rounded-md border border-sky-blue/40 bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue/90 transition-all"
+                aria-label={intl.t("navFontMedium")}
+                title={
+                  fontSize === "small"
+                    ? intl.t("navFontSmall")
+                    : fontSize === "large"
+                      ? intl.t("navFontLarge")
+                      : intl.t("navFontMedium")
+                }
+              >
+                {fontSize === "small" ? "A-" : fontSize === "large" ? "A+" : "A"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="rounded-md min-w-14 border border-sky-blue/40 bg-sky-blue/10 p-1"
+            >
+              <DropdownMenuItem
+                onClick={() => setFontSize("small")}
                 className={cn(
-                  "h-8 px-2.5 text-sm rounded-lg transition-all",
-                  globalLanguage === "ZH"
-                    ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
-                    : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground"
+                  "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
+                  fontSize === "small"
+                    ? "bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue/90"
+                    : "text-muted-foreground hover:bg-sky-blue/20 hover:text-foreground focus:bg-sky-blue/20 focus:text-foreground"
                 )}
               >
-                中
-              </Button>
-            )}
-          </div>
-          <div className="lg:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 gap-1 px-2.5 text-sm rounded-md bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90 border-2 border-bible-lang"
-                  aria-label="Language"
-                >
-                  <span>
-                    {isLearn && globalLanguage === "ZH"
-                      ? "EN"
-                      : globalLanguage === "ZH"
-                        ? "中"
-                        : globalLanguage}
-                  </span>
-                  <ChevronDown className="h-3.5 w-3.5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setGlobalLanguage("EN")}>
-                  {globalLanguage === "EN" ? (
-                    <Check className="h-4 w-4" />
-                  ) : (
-                    <span className="w-4" />
-                  )}
-                  EN
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setGlobalLanguage("VI")}>
-                  {globalLanguage === "VI" ? (
-                    <Check className="h-4 w-4" />
-                  ) : (
-                    <span className="w-4" />
-                  )}
-                  VI
-                </DropdownMenuItem>
-                {!isLearn && (
-                  <DropdownMenuItem onClick={() => setGlobalLanguage("ZH")}>
-                    {globalLanguage === "ZH" ? (
-                      <Check className="h-4 w-4" />
-                    ) : (
-                      <span className="w-4" />
-                    )}
-                    中
-                  </DropdownMenuItem>
+                A-
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setFontSize("medium")}
+                className={cn(
+                  "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
+                  fontSize === "medium"
+                    ? "bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue/90"
+                    : "text-muted-foreground hover:bg-sky-blue/20 hover:text-foreground focus:bg-sky-blue/20 focus:text-foreground"
                 )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+              >
+                A
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setFontSize("large")}
+                className={cn(
+                  "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
+                  fontSize === "large"
+                    ? "bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue/90"
+                    : "text-muted-foreground hover:bg-sky-blue/20 hover:text-foreground focus:bg-sky-blue/20 focus:text-foreground"
+                )}
+              >
+                A+
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* 3. Language – single trigger + vertical dropdown (all screen sizes) */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 px-3 text-sm rounded-md border border-bible-lang/40 bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90 transition-all"
+                aria-label="Language"
+              >
+                {isLearn && globalLanguage === "ZH"
+                  ? "EN"
+                  : globalLanguage === "ZH"
+                    ? "中"
+                    : globalLanguage}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="rounded-md min-w-14 border border-bible-lang/40 bg-bible-lang/10 p-1"
+            >
+              <DropdownMenuItem
+                onClick={() => setGlobalLanguage("EN")}
+                className={cn(
+                  "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
+                  globalLanguage === "EN" || (isLearn && globalLanguage === "ZH")
+                    ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
+                    : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground focus:bg-bible-lang/20 focus:text-foreground"
+                )}
+              >
+                EN
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setGlobalLanguage("VI")}
+                className={cn(
+                  "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
+                  globalLanguage === "VI"
+                    ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
+                    : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground focus:bg-bible-lang/20 focus:text-foreground"
+                )}
+              >
+                VI
+              </DropdownMenuItem>
+              {!isLearn && (
+                <DropdownMenuItem
+                  onClick={() => setGlobalLanguage("ZH")}
+                  className={cn(
+                    "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
+                    globalLanguage === "ZH"
+                      ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
+                      : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground focus:bg-bible-lang/20 focus:text-foreground"
+                  )}
+                >
+                  中
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* 4. Palette + Theme */}
           <ThemePaletteSwitch />
           <ThemeToggleButtonBibleApp variant="desktop" />
 
-          {/* 5. User (Clerk) */}
-          <SignedIn>
+          {/* 5. Mobile nav: sheet after theme toggle */}
+          <div className="xl:hidden">
+            <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8 rounded-lg border-primary-dark bg-primary-dark text-primary-foreground shadow-sm hover:opacity-90 hover:bg-primary-dark focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  aria-label="Open menu"
+                >
+                  <SquareMenu className="h-4 w-4 shrink-0" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="flex w-full max-w-[min(20rem,85vw)] flex-col border-l p-0 sm:max-w-sm"
+              >
+                <SheetHeader className="flex flex-row items-center gap-3 border-b px-4 py-3 pr-12">
+                  <BibleLogo />
+                  <SheetTitle className="text-left text-lg font-semibold truncate">
+                    Scripture Memory
+                  </SheetTitle>
+                  <div className="ml-auto flex items-center gap-1">
+                    <ThemePaletteSwitch />
+                    <ThemeToggleButtonBibleApp variant="desktop" />
+                  </div>
+                </SheetHeader>
+                <nav className="flex-1 overflow-y-auto px-4 py-3">
+                  <div className="space-y-6">
+                    <section>
+                      <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Learn
+                      </h2>
+                      <ul className="space-y-0.5">
+                        {learnLinks.map((link) => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              onClick={() => setMobileNavOpen(false)}
+                              className={cn(
+                                "block rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-muted",
+                                link.isActive && "bg-primary-light/20 font-medium text-foreground"
+                              )}
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                    <section>
+                      <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Bible
+                      </h2>
+                      <ul className="space-y-0.5">
+                        {bibleLinks.map((link) => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              onClick={() => setMobileNavOpen(false)}
+                              className={cn(
+                                "flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-muted",
+                                link.isActive && "bg-primary-light/20 font-medium text-foreground"
+                              )}
+                            >
+                              <span>{link.label}</span>
+                              {link.comingSoon && (
+                                <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                                  Soon
+                                </span>
+                              )}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                    <section>
+                      <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Reflect
+                      </h2>
+                      <ul className="space-y-0.5">
+                        {reflectLinks.map((link) => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              onClick={() => setMobileNavOpen(false)}
+                              className={cn(
+                                "flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-muted",
+                                link.isActive && "bg-primary-light/20 font-medium text-foreground"
+                              )}
+                            >
+                              <span>{link.label}</span>
+                              {link.comingSoon && (
+                                <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                                  Soon
+                                </span>
+                              )}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                    <section>
+                      <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Glossary
+                      </h2>
+                      <ul className="space-y-0.5">
+                        {glossaryLinks.map((link) => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              onClick={() => setMobileNavOpen(false)}
+                              className={cn(
+                                "flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-muted",
+                                link.isActive && "bg-primary-light/20 font-medium text-foreground"
+                              )}
+                            >
+                              <span>{link.label}</span>
+                              {link.comingSoon && (
+                                <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                                  Soon
+                                </span>
+                              )}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  </div>
+                </nav>
+                <SheetFooter className="border-t py-3">
+                  <Button
+                    asChild
+                    className="w-full bg-primary-dark text-primary-foreground hover:opacity-90 hover:bg-primary-dark"
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    <Link href="/bible/read">Open Bible</Link>
+                  </Button>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          {/* 6. User (Clerk) */}
+          {/* <SignedIn>
             <div className="flex items-center">
               <UserButton afterSignOutUrl="/bible" />
             </div>
@@ -510,7 +547,7 @@ export function BibleNavBar() {
             >
               <Link href="/sign-in?redirect_url=/bible">Sign in</Link>
             </Button>
-          </SignedOut>
+          </SignedOut> */}
         </div>
       </Container>
     </nav>
