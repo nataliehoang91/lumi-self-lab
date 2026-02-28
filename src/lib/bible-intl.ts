@@ -100,7 +100,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnModule2Title: "Bible Origin & Canon",
     learnModule2Desc:
       "Explore how Scripture was preserved across centuries, from ancient manuscripts to the Bible we hold today.",
-    learnModule3Title: "Who Is {jesus}?",
+    learnModule3Title: "Who Is Jesus?",
     learnModule3Desc:
       "Understand who {jesus} claimed to be — fully God, fully man — and why {his} life, death, and resurrection change everything.",
     learnModule4Title: "What Is Faith?",
@@ -113,6 +113,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnCtaSubtitle: "Now open Scripture and read for yourself.",
     learnOpenBible: "Open Bible",
     learnStructureAllLessons: "All lessons",
+    learnStructurePrevious: "Previous",
     learnStructureNext: "Next",
     learnStructureNextOrigin: "Next: Bible Origin",
     learnStructModuleNum: "01 / 04",
@@ -178,49 +179,84 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnOriginModuleNum: "02 / 04",
     learnOriginTitle: "Bible Origin & Canon Formation",
     learnOriginIntro:
-      "How did 66 books, written by dozens of people across 1,500 years, come to be recognised as a single authoritative text? The answer spans ancient manuscripts, early church debates, and archaeological discoveries.",
+      "How did 66 books, written by more than 40 authors across 1,500 years and three continents, come to be recognised as a single authoritative text? The story spans ancient Israel, the early church, manuscript transmission, and archaeological discoveries that continue to shape our understanding today.",
+
     learnOriginSummary: "Summary",
     learnOriginDeepDive: "Deep Dive",
+
     learnOriginOriginalLanguages: "Original Languages",
+
     learnOriginLangHebrew: "Hebrew",
-    learnOriginLangHebrewNote: "Most of the Old Testament",
+    learnOriginLangHebrewNote:
+      "The primary language of the Old Testament — the language of Israel's law, poetry, and prophecy.",
+
     learnOriginLangGreek: "Greek",
-    learnOriginLangGreekNote: "All of the New Testament",
+    learnOriginLangGreekNote:
+      "Koine Greek — the common language of the Roman Empire and the original language of the New Testament.",
+
     learnOriginLangAramaic: "Aramaic",
-    learnOriginLangAramaicNote: "Portions of Daniel & Ezra",
+    learnOriginLangAramaicNote:
+      "A related Semitic language used in parts of Daniel and Ezra, and widely spoken in the time of Jesus.",
+
     learnOriginTimeline: "Manuscript Timeline",
-    learnOriginT1Year: "1400 BC",
-    learnOriginT1Event: "Earliest books of the Old Testament written (Torah / Pentateuch)",
-    learnOriginT2Year: "450 BC",
-    learnOriginT2Event: "Old Testament canon largely complete",
-    learnOriginT3Year: "250 BC",
-    learnOriginT3Event: "Septuagint (Greek translation of OT) produced in Alexandria",
+
+    learnOriginT1Year: "~1400 BC",
+    learnOriginT1Event:
+      "The Torah (Pentateuch) traditionally attributed to Moses — forming the foundation of the Hebrew Scriptures.",
+
+    learnOriginT2Year: "~450 BC",
+    learnOriginT2Event:
+      "The Law and the Prophets firmly established in Jewish worship, forming the recognised core of the Hebrew canon.",
+
+    learnOriginT3Year: "~250 BC",
+    learnOriginT3Event:
+      "The Septuagint — a Greek translation of the Hebrew Scriptures — produced in Alexandria for the Jewish diaspora.",
+
     learnOriginT4Year: "50–95 AD",
-    learnOriginT4Event: "New Testament books written by apostles and early disciples",
+    learnOriginT4Event:
+      "Apostles and early disciples write the Gospels and letters, which are copied and circulated among churches across the Roman Empire.",
+
     learnOriginT5Year: "367 AD",
-    learnOriginT5Event: "Athanasius lists the 27 NT books — same as today",
-    learnOriginT6Year: "400 AD",
-    learnOriginT6Event: "Jerome completes the Vulgate (Latin Bible)",
+    learnOriginT5Event:
+      "Athanasius of Alexandria lists the 27 New Testament books — matching the canon recognised today.",
+
+    learnOriginT6Year: "~400 AD",
+    learnOriginT6Event:
+      "Jerome completes the Latin Vulgate, which becomes the standard Bible of Western Christianity for over a millennium.",
+
     learnOriginT7Year: "1947",
-    learnOriginT7Event: "Dead Sea Scrolls discovered in Qumran — confirming OT manuscript accuracy",
+    learnOriginT7Event:
+      "The Dead Sea Scrolls discovered at Qumran — confirming the remarkable preservation of Old Testament manuscripts over more than 1,000 years.",
+
     learnOriginReliableTitle: "Why Is the Bible Considered Reliable?",
+
     learnOriginReliableP1:
-      "The New Testament has more manuscript evidence than any other ancient document — over 5,800 Greek manuscripts, compared to fewer than 650 for Homer's Iliad. The time gap between the original writings and earliest surviving manuscripts is also remarkably short (decades, not centuries).",
+      "The New Testament is supported by more manuscript evidence than any other work of ancient literature — over 5,800 Greek manuscripts and more than 25,000 in total across ancient languages. The time gap between the original writings and our earliest surviving copies is comparatively short, often within a few generations.",
+
     learnOriginReliableP2:
-      "The Dead Sea Scrolls confirmed that the Old Testament text had been preserved with extraordinary accuracy over a thousand years of copying. Scribal tradition in Judaism was meticulous — a single error on a page could require destroying the entire scroll.",
+      "The discovery of the Dead Sea Scrolls demonstrated that the Hebrew Scriptures had been preserved with extraordinary consistency over centuries of careful copying. Jewish scribal tradition was highly meticulous, contributing to the stability of the biblical text over time.",
+
     learnOriginFAQTitle: "Common Questions",
+
     learnOriginFAQ1Q: "Why do Protestant and Catholic Bibles differ in length?",
+
     learnOriginFAQ1A:
-      "Catholic Bibles include 7 additional books called the Deuterocanonical (or Apocrypha) books, written between the OT and NT periods. The early Protestant Reformers followed the Hebrew canon, which excluded these books, so most Protestant Bibles have 66 books while Catholic Bibles have 73.",
+      "Catholic Bibles include seven additional books often called the Deuterocanonical books, written during the intertestamental period. Protestant Reformers followed the traditional Hebrew canon, which did not include these writings — resulting in 66 books in most Protestant Bibles and 73 in Catholic editions.",
+
     learnOriginFAQ2Q: "What are the Dead Sea Scrolls and why do they matter?",
+
     learnOriginFAQ2A:
-      "Discovered in 1947 near the Dead Sea, the scrolls are the oldest known manuscripts of the Hebrew Bible — some dating to 200 BC. When compared to later manuscripts, the text was remarkably preserved, providing strong evidence for the Bible's accurate transmission across centuries.",
+      "Discovered in 1947 near the Dead Sea, the scrolls contain some of the oldest known manuscripts of the Hebrew Bible, dating as early as the third century BC. When compared with later medieval manuscripts, the text shows remarkable consistency, providing strong evidence for careful transmission over time.",
+
     learnOriginFAQ3Q: "What languages was the Bible originally written in?",
+
     learnOriginFAQ3A:
-      "The Old Testament was written primarily in Hebrew, with small portions in Aramaic. The New Testament was written in Koine Greek — the common language of the first-century Mediterranean world.",
-    learnOriginFAQ4Q: "How was the New Testament canon decided?",
+      "The Old Testament was written primarily in Hebrew, with portions in Aramaic. The New Testament was written in Koine Greek, the widely spoken language of the eastern Roman Empire in the first century.",
+
+    learnOriginFAQ4Q: "How was the New Testament canon recognised?",
+
     learnOriginFAQ4A:
-      "Early churches tested writings against three criteria: apostolic authorship (written by an apostle or someone close to one), consistency with established doctrine, and widespread use in churches. By the 4th century, the 27 books of the NT were broadly recognised.",
+      "Early Christian communities evaluated writings based on apostolic connection, consistency with established teaching, and widespread usage in churches. By the fourth century, the 27 books of the New Testament were broadly recognised across the Christian world. Church councils later affirmed what had already become widely accepted.",
     // Who Is Jesus (03 / 04)
     learnJesusModuleNum: "03 / 04",
     learnJesusTitle: "Who Is Jesus?",
@@ -238,6 +274,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnJesusDivineBody:
       "Yet {he} also forgave sins, commanded the wind and waves, received worship, and rose from the dead. The New Testament presents {him} not merely as a messenger of God, but as God incarnate.",
     learnJesusDivineRef: "John 1:1 · Colossians 2:9",
+    // What Is Faith (04 / 04)
+    learnFaithModuleNum: "04 / 04",
     learnJesusCrossTitle: "The Cross & Resurrection",
     learnJesusCrossP1:
       "Around 30 AD, {jesus} was crucified under the Roman governor Pontius Pilate. Christians believe this was not a tragic accident of history, but the center of God's redemptive plan. On the cross, {he} willingly bore the weight of human sin — opening the way for forgiveness and reconciliation with God.",
@@ -350,10 +388,10 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnModule1Title: "Kinh thánh là gì?",
     learnModule1Desc:
       "Tìm hiểu Kinh Thánh là gì, được cấu trúc như thế nào, ai là người viết và câu chuyện cứu chuộc xuyên suốt mọi trang sách.",
-    learnModule2Title: "Nguồn gốc & Canon Kinh thánh",
+    learnModule2Title: "Nguồn gốc & Chính điển Kinh thánh",
     learnModule2Desc:
       "Khám phá hành trình bảo tồn Kinh Thánh qua nhiều thế kỷ — từ bản chép tay cổ đến quyển Kinh Thánh ngày nay.",
-    learnModule3Title: "{jesus} là ai?",
+    learnModule3Title: "Chúa Jêsus là ai?",
     learnModule3Desc:
       "Hiểu về Đấng tự xưng là Con Đức Chúa Trời — vừa trọn vẹn là Đức Chúa Trời, vừa trọn vẹn là con người — và vì sao điều đó thay đổi mọi điều.",
     learnModule4Title: "Đức tin là gì?",
@@ -366,6 +404,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnCtaSubtitle: "Giờ hãy mở Kinh thánh và đọc cho chính mình.",
     learnOpenBible: "Mở Kinh thánh",
     learnStructureAllLessons: "Tất cả bài",
+    learnStructurePrevious: "Trước",
     learnStructureNext: "Tiếp",
     learnStructureNextOrigin: "Tiếp: Nguồn gốc Kinh thánh",
     learnStructModuleNum: "01 / 04",
@@ -428,7 +467,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStructGlossGraceDef:
       "Tình yêu và lòng thương xót mà Đức Chúa Trời ban cho con người cách nhưng không — không phải do công trạng, mà bởi lòng nhân từ của Ngài.",
     learnOriginModuleNum: "02 / 04",
-    learnOriginTitle: "Nguồn gốc Kinh thánh & Hình thành Canon",
+    learnOriginTitle: "Nguồn gốc Kinh thánh & Hình thành Chính Điển",
     learnOriginIntro:
       "Làm thế nào 66 sách, được viết bởi hàng chục tác giả qua 1.500 năm, được công nhận là một văn bản có thẩm quyền? Câu trả lời trải dài từ bản thảo cổ đại, tranh luận trong Hội thánh sơ khai, đến các khám phá khảo cổ.",
     learnOriginSummary: "Tóm tắt",
@@ -441,11 +480,11 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnOriginLangAramaic: "A-ram",
     learnOriginLangAramaicNote: "Một số đoạn trong Đa-ni-ên & E-xơ-ra",
     learnOriginTimeline: "Dòng thời gian bản thảo",
-    learnOriginT1Year: "1400 TCN",
+    learnOriginT1Year: "~1400 TCN",
     learnOriginT1Event: "Các sách Cựu Ước sớm nhất được viết (Ngũ Kinh)",
-    learnOriginT2Year: "450 TCN",
+    learnOriginT2Year: "~450 TCN",
     learnOriginT2Event: "Canon Cựu Ước cơ bản hoàn chỉnh",
-    learnOriginT3Year: "250 TCN",
+    learnOriginT3Year: "~250 TCN",
     learnOriginT3Event: "Bản Bảy Mươi (bản dịch Hy Lạp của Cựu Ước) ra đời tại Alexandria",
     learnOriginT4Year: "50–95 SCN",
     learnOriginT4Event: "Các sách Tân Ước được viết bởi các sứ đồ và môn đồ sơ khai",
@@ -491,6 +530,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnJesusDivineBody:
       "Tuy nhiên, {he} cũng tha tội, khiến gió và biển phải vâng lời, nhận sự thờ phượng, và sống lại từ cõi chết. Tân Ước không chỉ trình bày {him} như một sứ giả của Đức Chúa Trời, nhưng là Đức Chúa Trời nhập thể.",
     learnJesusDivineRef: "Giăng 1:1 · Cô-lô-se 2:9",
+    // Đức tin là gì? (04 / 04)
+    learnFaithModuleNum: "04 / 04",
     learnJesusCrossTitle: "Thập Tự Giá & Sự Phục Sinh",
     learnJesusCrossP1:
       "Khoảng năm 30 sau Công Nguyên, {jesus} bị đóng đinh dưới thời tổng đốc La Mã Bôn-xơ Phi-lát. Người tin Chúa tin rằng đây không phải là một tai nạn lịch sử, nhưng là trung tâm của kế hoạch cứu chuộc của Đức Chúa Trời. Trên thập tự giá, {he} tự nguyện gánh lấy tội lỗi nhân loại — mở đường cho sự tha thứ và sự hòa giải với Đức Chúa Trời.",
@@ -604,7 +645,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnModule2Title: "Bible Origin & Canon",
     learnModule2Desc:
       "Explore how Scripture was preserved across centuries, from ancient manuscripts to the Bible we hold today.",
-    learnModule3Title: "Who Is {jesus}?",
+    learnModule3Title: "Who Is Jesus?",
     learnModule3Desc:
       "Understand who {jesus} claimed to be — fully God, fully man — and why {his} life, death, and resurrection change everything.",
     learnModule4Title: "What Is Faith?",
@@ -617,6 +658,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnCtaSubtitle: "現在打開聖經，親自閱讀。",
     learnOpenBible: "打開聖經",
     learnStructureAllLessons: "所有課程",
+    learnStructurePrevious: "上一課",
     learnStructureNext: "下一課",
     learnStructureNextOrigin: "下一課：聖經的來源",
     learnStructModuleNum: "01 / 04",
@@ -642,6 +684,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStructOTPoetryDesc: "約伯記至雅歌——對苦難、讚美、智慧與愛的反思。",
     learnStructOTProphets: "先知書",
     learnStructOTProphetsDesc: "以賽亞書至瑪拉基書——神的使者呼召以色列歸回，並指向基督。",
+    // 信心是什麼？(04 / 04)
+    learnFaithModuleNum: "04 / 04",
     learnStructNTTitle: "新約",
     learnStructNTIntro:
       "以耶穌的生平開始，記述早期教會的誕生，並以歷史在基督裡終極實現的異象作結。",

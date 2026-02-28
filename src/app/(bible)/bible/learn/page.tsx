@@ -91,7 +91,7 @@ export default function LearnPage() {
             subtitleClass
           )}
         >
-          {intl.rich("learnSubtitle", { jesus: <strong>{intl.t("jesus")}</strong> })}
+          {intl.rich("learnSubtitle", getJesusRichParams(intl))}
         </p>
       </div>
 
