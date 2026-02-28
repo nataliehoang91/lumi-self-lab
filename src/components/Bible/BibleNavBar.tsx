@@ -12,6 +12,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { useBibleApp } from "./BibleAppContext";
 import { useReadFocus } from "./ReadFocusContext";
@@ -30,10 +38,34 @@ export function BibleNavBar() {
   const isFlashcard = pathname?.includes("/bible/flashcard");
   const isLearn = pathname?.includes("/bible/learn");
 
+  const learnLinks: { href: string; label: string; isActive: boolean }[] = [
+    { href: "/bible/learn", label: "Start Here", isActive: pathname === "/bible/learn" },
+    {
+      href: "/bible/learn/bible-structure",
+      label: "Bible Structure",
+      isActive: pathname?.startsWith("/bible/learn/bible-structure") ?? false,
+    },
+    {
+      href: "/bible/learn/bible-origin",
+      label: "Bible Origin",
+      isActive: pathname?.startsWith("/bible/learn/bible-origin") ?? false,
+    },
+    {
+      href: "/bible/learn/who-is-jesus",
+      label: "Who is Jesus",
+      isActive: pathname?.startsWith("/bible/learn/who-is-jesus") ?? false,
+    },
+    {
+      href: "/bible/learn/what-is-faith",
+      label: "What is Faith",
+      isActive: pathname?.startsWith("/bible/learn/what-is-faith") ?? false,
+    },
+  ];
+
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/80 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 transition-all duration-300",
         readFocusMode
           ? "opacity-0 pointer-events-none h-0 overflow-hidden border-transparent"
           : "opacity-100"
@@ -44,68 +76,86 @@ export function BibleNavBar() {
           <BibleLogo />
           <h1 className="sm:visible invisible text-lg font-semibold truncate">Scripture Memory</h1>
         </div>
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden sm:flex items-center justify-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "h-8 px-4 text-xs font-medium rounded-xl transition-all border gap-1",
-                  isLearn
-                    ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
-                    : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
-                )}
-              >
-                Learn
-                <ChevronDown className="h-3.5 w-3.5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="rounded-xl min-w-40 p-1.5">
-              <DropdownMenuItem asChild className="rounded-lg font-semibold text-foreground">
-                <Link href="/bible/learn">Start Here</Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator className="my-1" />
-              <DropdownMenuItem asChild className="rounded-lg">
-                <Link href="/bible/learn/bible-structure">Bible Structure</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="rounded-lg">
-                <Link href="/bible/learn/bible-origin">Bible Origin</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="rounded-lg">
-                <Link href="/bible/learn/who-is-jesus">Who is Jesus</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="rounded-lg">
-                <Link href="/bible/learn/what-is-faith">What is Faith</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              "h-8 px-4 text-xs font-medium rounded-xl transition-all border",
-              isRead
-                ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
-                : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
-            )}
-            asChild
-          >
-            <Link href="/bible/read">Read</Link>
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              "h-8 px-4 text-xs font-medium rounded-xl transition-all border",
-              isFlashcard
-                ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
-                : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
-            )}
-            asChild
-          >
-            <Link href="/bible/flashcard">Flashcard</Link>
-          </Button>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden sm:flex items-center justify-center">
+          <NavigationMenu viewport={false}>
+            <NavigationMenuList className="gap-2">
+              <NavigationMenuItem>
+                <NavigationMenuTrigger
+                  className={cn(
+                    "h-8 px-4 text-xs font-medium rounded-xl transition-all duration-200 border gap-1 bg-background hover:scale-[1.02] active:scale-[0.98]",
+                    isLearn
+                      ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90 data-[state=open]:bg-primary-dark data-[state=open]:text-primary-foreground"
+                      : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground data-[state=open]:bg-primary/5"
+                  )}
+                >
+                  Learn
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="rounded-xl min-w-40 p-1.5 left-0 overflow-visible data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-2 data-[motion=from-start]:slide-in-from-left-2 data-[motion=to-end]:slide-out-to-right-2 data-[motion=to-start]:slide-out-to-left-2 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 origin-top-left">
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={learnLinks[0].href}
+                      className={cn(
+                        "group/item relative flex w-full overflow-visible rounded-lg px-2 py-1.5 text-sm outline-none transition-colors duration-200 hover:bg-transparent active:scale-[0.98] text-foreground font-semibold",
+                        learnLinks[0].isActive && "bg-primary-light/20"
+                      )}
+                    >
+                      {!learnLinks[0].isActive && (
+                        <span className="absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-primary-dark transition-[width] duration-200 ease-out group-hover/item:w-full" />
+                      )}
+                      {learnLinks[0].label}
+                    </Link>
+                  </NavigationMenuLink>
+                  <div className="my-1 h-px bg-border" />
+                  {learnLinks.slice(1).map((link) => (
+                    <NavigationMenuLink key={link.href} asChild>
+                      <Link
+                        href={link.href}
+                        className={cn(
+                          "group/item relative flex w-full overflow-visible rounded-lg px-2 py-1.5 text-sm outline-none transition-colors duration-200 hover:bg-transparent active:scale-[0.98] text-foreground",
+                          link.isActive && "bg-primary-light/20"
+                        )}
+                      >
+                        {!link.isActive && (
+                          <span className="absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-primary-dark transition-[width] duration-200 ease-out group-hover/item:w-full" />
+                        )}
+                        {link.label}
+                      </Link>
+                    </NavigationMenuLink>
+                  ))}
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href="/bible/read"
+                    className={cn(
+                      "inline-flex h-8 items-center justify-center rounded-xl border px-4 text-xs font-medium transition-all duration-200 outline-none hover:scale-[1.02] active:scale-[0.98]",
+                      isRead
+                        ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
+                        : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
+                    )}
+                  >
+                    Read
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href="/bible/flashcard"
+                    className={cn(
+                      "inline-flex h-8 items-center justify-center rounded-xl border px-4 text-xs font-medium transition-all duration-200 outline-none hover:scale-[1.02] active:scale-[0.98]",
+                      isFlashcard
+                        ? "bg-primary-dark text-primary-foreground border-primary-dark shadow-sm hover:opacity-90"
+                        : "border-primary-dark bg-primary/5 hover:bg-primary-dark/10 hover:text-foreground"
+                    )}
+                  >
+                    Flashcard
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
@@ -272,7 +322,11 @@ export function BibleNavBar() {
                   aria-label="Language"
                 >
                   <span>
-                    {isLearn && globalLanguage === "ZH" ? "EN" : globalLanguage === "ZH" ? "中" : globalLanguage}
+                    {isLearn && globalLanguage === "ZH"
+                      ? "EN"
+                      : globalLanguage === "ZH"
+                        ? "中"
+                        : globalLanguage}
                   </span>
                   <ChevronDown className="h-3.5 w-3.5" />
                 </Button>
