@@ -7,7 +7,7 @@ export function BibleLogo() {
   return (
     <Link
       href="/bible"
-      className="size-8 sm:size-10 rounded-lg bg-linear-to-br from-primary-light via-coral to-yellow-200 text-stone-800 flex items-center justify-center shrink-0 overflow-hidden"
+      className="logo-brand-colors size-8 sm:size-10 rounded-lg bg-linear-to-br from-primary-light via-coral to-yellow-200 text-stone-800 flex items-center justify-center shrink-0 overflow-hidden"
       aria-label="Scripture Memory home"
     >
       <Image

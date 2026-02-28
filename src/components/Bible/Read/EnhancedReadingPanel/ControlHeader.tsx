@@ -54,12 +54,12 @@ export function ReadingPanelControlHeader({ side }: { side: "left" | "right" }) 
               value={testamentFilterForPanel}
               onValueChange={(v) => v && onTestamentFilterChange(v as "ot" | "nt")}
             >
-              <SelectTrigger className="w-auto min-w-32 rounded-lg border-second bg-second/5 h-10 shrink-0 hover:bg-second/10">
-                <SelectValue placeholder={t("readOldTestament")} />
+              <SelectTrigger className="w-auto min-w-24 rounded-lg border-second bg-second/5 h-10 shrink-0 hover:bg-second/10">
+                <SelectValue placeholder={t("readOldShort")} />
               </SelectTrigger>
               <SelectContent align="start" className="rounded-lg">
-                <SelectItem value="ot">{t("readOldTestament")}</SelectItem>
-                <SelectItem value="nt">{t("readNewTestament")}</SelectItem>
+                <SelectItem value="ot">{t("readOldShort")}</SelectItem>
+                <SelectItem value="nt">{t("readNewShort")}</SelectItem>
               </SelectContent>
             </Select>
           )}

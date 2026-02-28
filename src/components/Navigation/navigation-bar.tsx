@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Menu, X, BarChart3, Building2, Crown, Loader2, Shield } from "lucide-react";
 import { Logo } from "@/components/GeneralComponents/Logo";
 import { ThemeToggle } from "@/components/GeneralComponents/ThemeToggle";
+import { ThemePaletteSwitch } from "@/components/GeneralComponents/ThemePaletteSwitch";
 import { cn } from "@/lib/utils";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@/hooks/user-context";
@@ -392,6 +393,7 @@ export function NavigationBar() {
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
+            <ThemePaletteSwitch />
             <ThemeToggle variant="desktop" />
             <SignedIn>
               <UserButton
@@ -470,6 +472,7 @@ export function NavigationBar() {
             )}
 
             <div className="flex items-center gap-2 pt-2">
+              <ThemePaletteSwitch />
               <ThemeToggle variant="mobile" />
             </div>
 

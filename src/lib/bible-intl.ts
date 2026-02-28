@@ -93,19 +93,19 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStartHere: "Start Here",
     learnTitle: "Begin with the foundation.",
     learnSubtitle:
-      "Before reading deeply, take a moment to understand what the Bible is, who Jesus is, and what faith truly means.",
+      "Before reading deeply, take a moment to understand what the Bible is, who {jesus} is, and what faith truly means.",
     learnModule1Title: "What Is the Bible?",
     learnModule1Desc:
       "Discover what the Bible is, how it is structured, who wrote it, and the redemptive story woven through every page.",
     learnModule2Title: "Bible Origin & Canon",
     learnModule2Desc:
       "Explore how Scripture was preserved across centuries, from ancient manuscripts to the Bible we hold today.",
-    learnModule3Title: "Who Is Jesus?",
+    learnModule3Title: "Who Is {jesus}?",
     learnModule3Desc:
-      "Understand who Jesus claimed to be — fully God, fully man — and why his life, death, and resurrection change everything.",
+      "Understand who {jesus} claimed to be — fully God, fully man — and why {his} life, death, and resurrection change everything.",
     learnModule4Title: "What Is Faith?",
     learnModule4Desc:
-      "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with Him.",
+      "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with {him}.",
     learnMinRead: "{min} min read",
     learnVerse: "Your word is a lamp to my feet and a light to my path.",
     learnVerseRef: "PSALM 119:105",
@@ -346,19 +346,19 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStartHere: "Bắt đầu tại đây",
     learnTitle: "Bắt đầu từ nền tảng.",
     learnSubtitle:
-      "Trước khi đi sâu vào Kinh Thánh, hãy dành chút thời gian để hiểu Kinh Thánh là gì, Chúa Jêsus là ai, và đức tin thật sự có ý nghĩa gì.",
+      "Trước khi đi sâu vào Kinh Thánh, hãy dành chút thời gian để hiểu Kinh Thánh là gì, {jesus} là ai, và đức tin thật sự có ý nghĩa gì.",
     learnModule1Title: "Kinh thánh là gì?",
     learnModule1Desc:
       "Tìm hiểu Kinh Thánh là gì, được cấu trúc như thế nào, ai là người viết và câu chuyện cứu chuộc xuyên suốt mọi trang sách.",
     learnModule2Title: "Nguồn gốc & Canon Kinh thánh",
     learnModule2Desc:
       "Khám phá hành trình bảo tồn Kinh Thánh qua nhiều thế kỷ — từ bản chép tay cổ đến quyển Kinh Thánh ngày nay.",
-    learnModule3Title: "Chúa Jêsus là ai?",
+    learnModule3Title: "{jesus} là ai?",
     learnModule3Desc:
       "Hiểu về Đấng tự xưng là Con Đức Chúa Trời — vừa trọn vẹn là Đức Chúa Trời, vừa trọn vẹn là con người — và vì sao điều đó thay đổi mọi điều.",
     learnModule4Title: "Đức tin là gì?",
     learnModule4Desc:
-      "Tìm hiểu ý nghĩa của việc tin cậy Đức Chúa Trời — ân điển, sự ăn năn, cầu nguyện và một mối quan hệ thật với Ngài.",
+      "Tìm hiểu ý nghĩa của việc tin cậy Đức Chúa Trời — ân điển, sự ăn năn, cầu nguyện và một mối quan hệ thật với {him}.",
     learnMinRead: "{min} phút đọc",
     learnVerse: "Lời Chúa là ngọn đèn cho chân tôi, Ánh sáng cho đường lối tôi.",
     learnVerseRef: "THI THIÊN 119:105",
@@ -597,19 +597,19 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStartHere: "Start Here",
     learnTitle: "Begin with the foundation.",
     learnSubtitle:
-      "Before reading deeply, take a moment to understand what the Bible is, who Jesus is, and what faith truly means.",
+      "Before reading deeply, take a moment to understand what the Bible is, who {jesus} is, and what faith truly means.",
     learnModule1Title: "What Is the Bible?",
     learnModule1Desc:
       "Discover what the Bible is, how it is structured, who wrote it, and the redemptive story woven through every page.",
     learnModule2Title: "Bible Origin & Canon",
     learnModule2Desc:
       "Explore how Scripture was preserved across centuries, from ancient manuscripts to the Bible we hold today.",
-    learnModule3Title: "Who Is Jesus?",
+    learnModule3Title: "Who Is {jesus}?",
     learnModule3Desc:
-      "Understand who Jesus claimed to be — fully God, fully man — and why his life, death, and resurrection change everything.",
+      "Understand who {jesus} claimed to be — fully God, fully man — and why {his} life, death, and resurrection change everything.",
     learnModule4Title: "What Is Faith?",
     learnModule4Desc:
-      "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with Him.",
+      "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with {him}.",
     learnMinRead: "{min} 分鐘閱讀",
     learnVerse: "你的話是我腳前的燈，是我路上的光。",
     learnVerseRef: "詩篇 119:105",

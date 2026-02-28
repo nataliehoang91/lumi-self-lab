@@ -19,6 +19,7 @@ import { getBibleIntl } from "@/lib/bible-intl";
 import { Container } from "../ui/container";
 import { BibleLogo } from "./BibleLogo";
 import { ThemeToggleButtonBibleApp } from "./theme-toggle-in-bible-app";
+import { ThemePaletteSwitch } from "@/components/GeneralComponents/ThemePaletteSwitch";
 
 export function BibleNavBar() {
   const pathname = usePathname();
@@ -307,7 +308,8 @@ export function BibleNavBar() {
             </DropdownMenu>
           </div>
 
-          {/* 4. Theme */}
+          {/* 4. Palette + Theme */}
+          <ThemePaletteSwitch />
           <ThemeToggleButtonBibleApp variant="desktop" />
 
           {/* 5. User (Clerk) */}

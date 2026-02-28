@@ -23,9 +23,7 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
 
   const isDesktop = variant === "desktop";
   const label =
-    testamentFilter === "ot"
-      ? isDesktop ? t("readOldTestament") : "Old"
-      : isDesktop ? t("readNewTestament") : "New";
+    testamentFilter === "ot" ? t("readOldShort") : t("readNewShort");
 
   return (
     <DropdownMenu>
@@ -38,7 +36,7 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
             "gap-1.5 rounded-lg border border-second bg-second/5 text-foreground h-9 shrink-0 hover:bg-second/10",
             !isDesktop && "rounded-md min-h-9"
           )}
-          aria-label={t("readOldTestament")}
+          aria-label={testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
         >
           <span className="truncate">{label}</span>
           <ChevronDown className="w-4 h-4" />
@@ -58,7 +56,7 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
           )}
         >
           {testamentFilter === "ot" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
-          {isDesktop ? t("readOldTestament") : "Old"}
+          {t("readOldShort")}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTestamentFilterAndAdjustBook("nt")}
@@ -70,7 +68,7 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
           )}
         >
           {testamentFilter === "nt" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
-          {isDesktop ? t("readNewTestament") : "New"}
+          {t("readNewShort")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

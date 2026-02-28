@@ -30,12 +30,12 @@ export function WelcomeThemeToggle() {
       >
         <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
           <Sun
-            className={`theme-toggle-icon theme-toggle-sun absolute inset-0 !h-5 !w-5 text-tertiary ${
+            className={`theme-toggle-icon theme-toggle-sun absolute inset-0 !h-5 !w-5 text-foreground ${
               displayDark ? "theme-toggle-hidden" : "theme-toggle-visible"
             }`}
           />
           <Moon
-            className={`theme-toggle-icon theme-toggle-moon absolute inset-0 !h-5 !w-5 text-sky-blue ${
+            className={`theme-toggle-icon theme-toggle-moon absolute inset-0 !h-5 !w-5 text-foreground ${
               displayDark ? "theme-toggle-visible" : "theme-toggle-hidden"
             }`}
           />

@@ -3,52 +3,43 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Light, soothing pastel palette */
+  /* Light, soothing pastel palette (default theme) */
   --card: var(--background);
   --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
 
-  /* ═══ Main theme colors (5) ═══
-   * 1. Primary    – Orange/Peach    – oklch(0.75 0.12 45)   ≈ #e89b6c  rgb(232 155 108)
-   * 2. Second     – Violet/Purple  – oklch(0.7 0.15 270)   ≈ #9b7ddb  rgb(155 125 219)
-   * Secondary    – Neutral gray (Tailwind default) – for secondary buttons, badges
-   * 3. Tertiary   – Amber-Yellow   – oklch(0.78 0.12 80)  (muted highlight)
-   * 4. Coral      – Red-pink-coral – oklch(0.72 0.14 25)   ≈ #e07d6a  rgb(224 125 106)
-   * 5. Sky Blue – Soft blue, balances warm palette – oklch(0.70 0.10 235) (secondary UI, badges)
-   */
-
-  /* 1. Primary: Orange/Peach (hue 45) */
-  --primary: oklch(0.8 0.12 35) /* oklch(0.75 0.12 45) */;
+  /* Primary: Orange/Peach */
+  --primary: oklch(0.8 0.12 35);
   --primary-foreground: oklch(0.985 0 0);
   --primary-light: oklch(0.91 0.06 34.34);
   --primary-dark: #ff9073;
 
-  /* 2. Second: Violet/Purple (hue 270) – our violet brand color */
+  /* Second: Violet/Purple */
   --second: oklch(0.7 0.15 270);
   --second-dark: oklch(0.67 0.14 270.05);
   --second-foreground: oklch(0.985 0 0);
 
-  /* Secondary: Neutral gray (Tailwind default) – for secondary UI, buttons, badges */
+  /* Secondary: Neutral gray */
   --secondary: oklch(0.965 0.005 270);
   --secondary-foreground: oklch(0.21 0.01 270);
 
-  /* 3. Tertiary: Amber-Yellow (muted, for highlights) */
+  /* Tertiary: Amber-Yellow */
   --tertiary: #fbc464;
   --tertiary-foreground: oklch(0.32 0.08 65);
 
-  /* 4. Coral: Red-pink-coral (hue 25) */
+  /* Coral */
   --coral: oklch(0.72 0.14 25);
   --coral-foreground: oklch(0.985 0 0);
 
-  /* 5. Sky Blue: soft blue, balances warm palette (hue 235) */
+  /* Sky Blue */
   --sky-blue: oklch(0.7 0.1 235);
   --sky-blue-foreground: oklch(0.985 0 0);
 
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.5 0.01 85);
 
-  /* Accent: Orange/Yellow (hue 45) – accents and highlights (distinct from primary) */
+  /* Accent */
   --accent: oklch(0.8 0.1 45);
   --accent-foreground: oklch(0.21 0.006 285.885);
 
@@ -65,8 +56,7 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
-  /* Sidebar colors - match primary theme */
-  --sidebar-primary: oklch(0.75 0.12 45); /* Orange/Peach */
+  --sidebar-primary: oklch(0.75 0.12 45);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.967 0.001 286.375);
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
@@ -75,25 +65,19 @@
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
 
-  /* Success: lively sage green (for success states, checkmarks, completion) */
+  /* Success, sage, bible */
   --success: oklch(0.5 0.14 145);
   --success-muted: oklch(0.9 0.07 145);
-
-  /* Sage green tones – #8a958a / oklch(0.66 0.02 145.89) */
   --sage: oklch(0.67 0.06 145.63);
   --sage-foreground: oklch(0.99 0 0);
   --sage-muted: oklch(0.88 0.015 146);
   --sage-dark: oklch(0.52 0.02 146);
-
-  /* Bible navigation (Flashcard / Read – salmon/coral from nav reference) */
   --bible-nav: #ec686c;
   --bible-nav-foreground: oklch(0.99 0 0);
-
-  /* Bible language selector – mint-forest green (not sage) */
   --bible-lang: #3d8b6e;
   --bible-lang-foreground: oklch(0.99 0 0);
 
-  /* Named gradient colors (for waitlist and other gradients) */
+  /* Gradients */
   --gradient-peach: rgb(255 247 237);
   --gradient-peach-button: linear-gradient(135deg, #ffb38c 0%, #fca17e 100%);
   --gradient-second-button: linear-gradient(135deg, #b8a4e8 0%, #9b7ddb 100%);
@@ -119,59 +103,35 @@
   --card-foreground: var(--foreground);
   --popover: oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.985 0 0);
-
-  /* Primary: Orange/Peach (hue 45) */
   --primary: oklch(0.75 0.12 45);
   --primary-foreground: oklch(0.141 0.005 285.823);
   --primary-light: oklch(0.85 0.1 34.7);
   --primary-dark: #ff9073;
-
-  /* Second: Violet - brighter for dark mode */
   --second: oklch(0.75 0.15 270);
   --second-dark: oklch(0.67 0.14 270.05);
   --second-foreground: oklch(0.985 0 0);
-
-  /* Secondary: Neutral gray for dark mode */
   --secondary: oklch(0.22 0.01 270);
   --secondary-foreground: oklch(0.95 0.01 270);
-
-  /* Tertiary: Amber-Yellow - slightly brighter for dark mode */
   --tertiary: #ffd07e;
   --tertiary-foreground: oklch(0.22 0.04 75);
-
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.65 0.008 85);
-
-  /* Accent color: Darker Orange/Yellow (hue 45) - brighter for dark mode visibility */
-  --accent: oklch(0.85 0.1 45); /* Darker Orange/Yellow */
+  --accent: oklch(0.85 0.1 45);
   --accent-foreground: oklch(0.141 0.005 285.823);
-
-  /* Coral: Red-pink-coral - brighter for dark mode */
   --coral: oklch(0.78 0.15 25);
   --coral-foreground: oklch(0.141 0.005 285.823);
-
-  /* Sky Blue - slightly brighter for dark mode */
   --sky-blue: oklch(0.72 0.1 235);
   --sky-blue-foreground: oklch(0.985 0 0);
-
-  /* Success - slightly brighter for dark mode */
   --success: oklch(0.55 0.14 145);
   --success-muted: oklch(0.25 0.06 145);
-
-  /* Sage green tones – dark mode (same hue, slightly brighter for visibility) */
   --sage: oklch(0.68 0.025 145.89);
   --sage-foreground: oklch(0.99 0 0);
   --sage-muted: oklch(0.32 0.02 146);
   --sage-dark: oklch(0.48 0.02 146);
-
-  /* Bible navigation */
   --bible-nav: #ec686c;
   --bible-nav-foreground: oklch(0.99 0 0);
-
-  /* Bible language – mint-forest green */
   --bible-lang: #4a9b78;
   --bible-lang-foreground: oklch(0.99 0 0);
-
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.95 0.01 50);
   --border: oklch(1 0 0 / 10%);
@@ -190,6 +150,127 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+}
+
+/* Optional: warm black & white theme – only when .theme-warm is set on <html> */
+.theme-warm {
+  --background: oklch(0.985 0.004 85);
+  --foreground: oklch(0.22 0.01 70);
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.25 0.02 70);
+  --primary-foreground: oklch(0.985 0.004 85);
+  --primary-light: oklch(0.94 0.008 85);
+  --primary-dark: oklch(0.22 0.01 70);
+  --second: oklch(0.35 0.02 70);
+  --second-dark: oklch(0.28 0.02 70);
+  --second-foreground: oklch(0.985 0.004 85);
+  --secondary: oklch(0.955 0.006 85);
+  --secondary-foreground: oklch(0.28 0.01 70);
+  --tertiary: oklch(0.92 0.02 80);
+  --tertiary-foreground: oklch(0.28 0.02 70);
+  --coral: oklch(0.65 0.06 35);
+  --coral-foreground: oklch(0.985 0 0);
+  --sky-blue: oklch(0.6 0.04 240);
+  --sky-blue-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.96 0.006 85);
+  --muted-foreground: oklch(0.48 0.01 75);
+  --accent: oklch(0.94 0.01 85);
+  --accent-foreground: oklch(0.25 0.01 70);
+  --destructive: oklch(0.55 0.2 25);
+  --border: oklch(0.91 0.008 85);
+  --input: oklch(0.91 0.008 85);
+  --ring: oklch(0.7 0.02 75);
+  --chart-1: oklch(0.55 0.08 70);
+  --chart-2: oklch(0.5 0.06 85);
+  --chart-3: oklch(0.45 0.05 75);
+  --chart-4: oklch(0.6 0.06 80);
+  --chart-5: oklch(0.5 0.05 70);
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--muted);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  --success: oklch(0.5 0.1 145);
+  --success-muted: oklch(0.9 0.04 145);
+  --sage: oklch(0.6 0.04 145);
+  --sage-muted: oklch(0.9 0.02 145);
+  --sage-dark: oklch(0.5 0.03 145);
+  --bible-nav: oklch(0.35 0.03 70);
+  --bible-lang: oklch(0.45 0.05 160);
+  --gradient-peach: var(--background);
+  --gradient-peach-button: linear-gradient(135deg, oklch(0.9 0.02 75) 0%, oklch(0.88 0.02 70) 100%);
+  --gradient-second-button: linear-gradient(135deg, oklch(0.4 0.02 70) 0%, oklch(0.3 0.02 70) 100%);
+  --gradient-primary-button: linear-gradient(135deg, oklch(0.28 0.02 70) 0%, oklch(0.22 0.02 70) 100%);
+  --gradient-white: var(--background);
+  --gradient-violet-tint: oklch(0.97 0.01 85 / 0.5);
+}
+.theme-warm.dark {
+  --background: oklch(0.18 0.01 75);
+  --foreground: oklch(0.96 0.006 85);
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.22 0.01 75);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.92 0.02 85);
+  --primary-foreground: oklch(0.2 0.02 70);
+  --primary-light: oklch(0.25 0.02 70);
+  --primary-dark: oklch(0.9 0.02 85);
+  --second: oklch(0.85 0.02 85);
+  --second-dark: oklch(0.8 0.02 85);
+  --second-foreground: oklch(0.2 0.02 70);
+  --secondary: oklch(0.26 0.01 75);
+  --secondary-foreground: oklch(0.92 0.01 85);
+  --tertiary: oklch(0.28 0.02 75);
+  --tertiary-foreground: oklch(0.92 0 0);
+  --coral: oklch(0.6 0.08 35);
+  --sky-blue: oklch(0.55 0.05 235);
+  --muted: oklch(0.26 0.01 75);
+  --muted-foreground: oklch(0.62 0.01 85);
+  --accent: oklch(0.28 0.02 75);
+  --accent-foreground: oklch(0.94 0 0);
+  --success: oklch(0.5 0.1 145);
+  --success-muted: oklch(0.28 0.05 145);
+  --sage: oklch(0.55 0.04 145);
+  --sage-muted: oklch(0.3 0.02 145);
+  --sage-dark: oklch(0.45 0.03 145);
+  --bible-nav: oklch(0.7 0.02 85);
+  --bible-lang: oklch(0.55 0.06 160);
+  --destructive: oklch(0.6 0.2 25);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.65 0.02 75);
+  --chart-1: oklch(0.6 0.06 70);
+  --chart-2: oklch(0.55 0.05 85);
+  --chart-3: oklch(0.5 0.05 75);
+  --chart-4: oklch(0.58 0.06 80);
+  --chart-5: oklch(0.52 0.05 70);
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--muted);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+/* Logo always uses default brand colors (never changes with palette) */
+.theme-warm .logo-brand-colors,
+.theme-warm.dark .logo-brand-colors {
+  --primary: oklch(0.8 0.12 35);
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-light: oklch(0.91 0.06 34.34);
+  --primary-dark: #ff9073;
+  --second: oklch(0.7 0.15 270);
+  --second-dark: oklch(0.67 0.14 270.05);
+  --coral: oklch(0.72 0.14 25);
+  --coral-foreground: oklch(0.985 0 0);
 }
 
 /* @theme is a valid Tailwind CSS v4 directive - linter warning can be ignored */
@@ -270,23 +351,29 @@
 
   body {
     @apply text-foreground;
-    /* Light mode: gradient background */
+    min-height: 100vh;
     background-image: linear-gradient(
       to bottom right,
       rgb(255 237 213),
-      /* orange-100 */ rgb(253 242 248),
-      /* pink-50 */ rgb(243 232 255) /* purple-100 */
+      rgb(253 242 248),
+      rgb(243 232 255)
     );
-    min-height: 100vh;
+  }
+
+  .theme-warm body {
+    background-image: none;
+    background-color: var(--background);
   }
 
   .dark body {
-    /* Dark mode: solid slate background - override gradient */
     background-image: none;
-    background-color: rgb(4, 9, 20); /* slate-900 */
+    background-color: rgb(4, 9, 20);
   }
 
-  /* Same as body background — for full-screen overlays (e.g. BibleLoader) */
+  .theme-warm.dark body {
+    background-color: var(--background);
+  }
+
   .bg-body {
     min-height: 100vh;
     background-image: linear-gradient(
@@ -296,17 +383,21 @@
       rgb(243 232 255)
     );
   }
+  .theme-warm .bg-body,
   .dark .bg-body {
     background-image: none;
-    background-color: rgb(4, 9, 20);
+    background-color: var(--background);
   }
 
-  /* Softer background for read mode — easier on the eyes than pure white */
   .bg-read {
-    background-color: oklch(0.97 0.005 85); /* warm off-white */
+    background-color: oklch(0.97 0.005 85);
   }
   .dark .bg-read {
-    background-color: oklch(0.18 0.008 85); /* soft dark, slightly warmer than body */
+    background-color: oklch(0.18 0.008 85);
+  }
+  .theme-warm .bg-read,
+  .theme-warm.dark .bg-read {
+    background-color: var(--background);
   }
 
   .pile {

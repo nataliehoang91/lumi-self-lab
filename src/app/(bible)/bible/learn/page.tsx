@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
-import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 
 const MODULES = [
@@ -41,12 +40,27 @@ const HREFS = [
   "/bible/learn/what-is-faith",
 ] as const;
 
+function getJesusRichParams(intl: ReturnType<typeof getBibleIntl>) {
+  const isVi = intl.locale === "vi";
+  const jesus = isVi ? "Chúa Jêsus" : "Jesus";
+  const he = isVi ? "Ngài" : "He";
+  const him = isVi ? "Ngài" : "Him";
+  const his = isVi ? "Ngài" : "His";
+
+  return {
+    jesus: <strong>{jesus}</strong>,
+    he: <strong>{he}</strong>,
+    him: <strong>{him}</strong>,
+    his: <strong>{his}</strong>,
+  };
+}
+
 export default function LearnPage() {
   const { globalLanguage, fontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
 
-  const sizeClass =
-    fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-base";
+  const bodyClass =
+    fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
   const h1Class =
     fontSize === "small"
       ? "text-3xl md:text-4xl"
@@ -55,90 +69,110 @@ export default function LearnPage() {
         : "text-4xl md:text-5xl";
   const subtitleClass =
     fontSize === "small" ? "text-base" : fontSize === "large" ? "text-xl" : "text-lg";
+  const verseClass =
+    fontSize === "small"
+      ? "text-lg md:text-xl"
+      : fontSize === "large"
+        ? "text-2xl md:text-3xl"
+        : "text-xl md:text-2xl";
 
   return (
-    <div className="min-h-screen bg-read font-sans">
-      <main>
-        <Container maxWidth="5xl" className={cn("px-4 py-16 md:py-24", sizeClass)}>
-          <div className="mb-16">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
-              {intl.t("learnStartHere")}
-            </p>
-            <h1
-              className={cn("font-bible-english font-semibold leading-tight text-balance", h1Class)}
-            >
-              {intl.t("learnTitle")}
-            </h1>
-            <p
-              className={cn(
-                "mt-4 font-light text-muted-foreground leading-relaxed max-w-xl",
-                subtitleClass
-              )}
-            >
-              {intl.t("learnSubtitle")}
-            </p>
-          </div>
+    <div>
+      <div className="mb-16">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+          {intl.t("learnStartHere")}
+        </p>
+        <h1 className={cn("font-bible-english font-semibold leading-tight text-balance", h1Class)}>
+          {intl.t("learnTitle")}
+        </h1>
+        <p
+          className={cn(
+            "mt-4 font-light text-muted-foreground leading-relaxed max-w-xl",
+            subtitleClass
+          )}
+        >
+          {intl.rich("learnSubtitle", { jesus: <strong>{intl.t("jesus")}</strong> })}
+        </p>
+      </div>
 
-          <div className="space-y-3">
-            {MODULES.map((m, i) => (
-              <Link
-                key={m.num}
-                href={HREFS[i]}
-                className="group flex flex-col gap-4 p-6 bg-card border border-border rounded-2xl hover:border-foreground/30 hover:shadow-sm transition-all"
-              >
-                <div className="flex items-start gap-6">
-                  <span className="font-mono text-sm font-bold text-second pt-0.5 w-6 shrink-0">
-                    {m.num}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold group-hover:text-foreground transition-colors">
-                      {intl.t(m.keyTitle)}
-                    </p>
-                    <p className="text-sm font-normal text-muted-foreground mt-1 leading-relaxed">
-                      {intl.t(m.keyDesc)}
-                    </p>
-                    <p className="text-xs font-light text-muted-foreground mt-2">
-                      {intl.t("learnMinRead", { min: m.min })}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-end">
-                  <span className="flex items-center gap-1.5 text-sm font-medium rounded-lg border border-primary-dark bg-primary-light text-foreground px-3 py-1.5 transition-all group-hover:gap-2 group-hover:bg-primary-dark/20 group-hover:border-primary-dark">
-                    {intl.t("readPageTitle")}
-                    <ChevronRight
-                      className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5"
-                      aria-hidden
-                    />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="mt-12 rounded-2xl px-8 pt-8 pb-6 flex flex-col bg-primary-light/20 gap-6 border border-primary-dark/30">
-            <div className="text-left">
-              <p className="font-bible-english text-xl md:text-2xl font-normal leading-relaxed  text-balance">
-                &ldquo;{intl.t("learnVerse")}&rdquo;
-              </p>
-              <p className="text-xs font-sans tracking-[0.2em] uppercase mt-3">
-                {intl.t("learnVerseRef")}
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-              <div>
-                <p className="text-sm font-medium">{intl.t("learnCtaTitle")}</p>
-                <p className="text-sm mt-0.5 text-muted-foreground">{intl.t("learnCtaSubtitle")}</p>
+      <div className="space-y-3">
+        {MODULES.map((m, i) => (
+          <Link
+            key={m.num}
+            href={HREFS[i]}
+            className="group flex flex-col px-6 py-4 bg-card border  rounded-2xl hover:border-primary/60 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-start gap-6">
+              <span className="font-mono text-sm font-semibold text-second pt-0.5 w-6 ">
+                {m.num}
+              </span>
+              <div className="flex-1 min-w-0">
+                <p
+                  className={cn(
+                    "font-semibold group-hover:text-foreground transition-colors",
+                    bodyClass
+                  )}
+                >
+                  {intl.rich(m.keyTitle, getJesusRichParams(intl))}
+                </p>
+                <p
+                  className={cn(
+                    "font-normal text-muted-foreground mt-1 leading-relaxed",
+                    bodyClass
+                  )}
+                >
+                  {intl.rich(m.keyDesc, getJesusRichParams(intl))}
+                </p>
               </div>
-              <Link
-                href="/bible/read"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap hover:opacity-90 bg-second-dark text-background"
-              >
-                {intl.t("learnOpenBible")} <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
+            <div className="flex justify-between  mt-4">
+              <p className={cn("font-light pl-12 text-muted-foreground text-xs", bodyClass)}>
+                {intl.t("learnMinRead", { min: m.min })}
+              </p>
+              <span className="flex items-center gap-1.5 text-sm font-medium rounded-lg   bg-primary-light/80 text-foreground px-3 py-1.5 shrink-0 transition-all group-hover:bg-primary/25 group-hover:border-primary/70">
+                {intl.t("readPageTitle")}
+                <ChevronRight
+                  className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="mt-12 rounded-2xl px-8 pt-8 pb-6 flex flex-col bg-primary-light/10 gap-6 border border-primary-dark/30">
+        <div className="text-left">
+          <p
+            className={cn(
+              "font-bible-english font-normal leading-relaxed text-balance",
+              verseClass
+            )}
+          >
+            &ldquo;{intl.t("learnVerse")}&rdquo;
+          </p>
+          <p className="text-xs font-sans tracking-[0.2em] uppercase mt-3">
+            {intl.t("learnVerseRef")}
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+          <div>
+            <p className={cn("font-medium", bodyClass)}>{intl.t("learnCtaTitle")}</p>
+            <p className={cn("mt-0.5 text-muted-foreground", bodyClass)}>
+              {intl.t("learnCtaSubtitle")}
+            </p>
           </div>
-        </Container>
-      </main>
+          <Link
+            href="/bible/read"
+            className={cn(
+              "flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all whitespace-nowrap hover:opacity-90 bg-primary text-primary-foreground",
+              bodyClass
+            )}
+          >
+            {intl.t("learnOpenBible")} <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
