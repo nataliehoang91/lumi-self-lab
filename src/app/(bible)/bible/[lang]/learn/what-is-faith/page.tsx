@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { cn } from "@/lib/utils";
@@ -91,12 +91,17 @@ const VI = {
 type Lang = "en" | "vi";
 const CONTENT: Record<Lang, typeof EN> = { en: EN, vi: VI };
 
+function getLangFromPath(pathname: string | null): "en" | "vi" | null {
+  const m = pathname?.match(/^\/bible\/(en|vi)(\/|$)/);
+  return (m?.[1] as "en" | "vi") ?? null;
+}
+
 export default function WhatIsFaithPage() {
   const params = useParams();
-  const lang = (params?.lang as string)?.toLowerCase();
-  // Avoid 404 during client-side lang switch (params can be briefly undefined)
-  if (lang !== undefined && lang !== "en" && lang !== "vi") notFound();
-  const resolvedLang = lang === "vi" ? "vi" : "en";
+  const pathname = usePathname();
+  const langRaw = (params?.lang as string)?.toLowerCase() ?? getLangFromPath(pathname) ?? "en";
+  if (langRaw !== "en" && langRaw !== "vi") notFound();
+  const resolvedLang = langRaw === "vi" ? "vi" : "en";
   const content = CONTENT[resolvedLang];
   const { fontSize } = useBibleApp();
 
