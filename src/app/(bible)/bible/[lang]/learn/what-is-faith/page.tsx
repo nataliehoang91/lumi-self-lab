@@ -94,9 +94,10 @@ const CONTENT: Record<Lang, typeof EN> = { en: EN, vi: VI };
 export default function WhatIsFaithPage() {
   const params = useParams();
   const lang = (params?.lang as string)?.toLowerCase();
-  if (lang !== "en" && lang !== "vi") notFound();
-
-  const content = CONTENT[lang as Lang];
+  // Avoid 404 during client-side lang switch (params can be briefly undefined)
+  if (lang !== undefined && lang !== "en" && lang !== "vi") notFound();
+  const resolvedLang = lang === "vi" ? "vi" : "en";
+  const content = CONTENT[resolvedLang];
   const { fontSize } = useBibleApp();
 
   const bodyClass =

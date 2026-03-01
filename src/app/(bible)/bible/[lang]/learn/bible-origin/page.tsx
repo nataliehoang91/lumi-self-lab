@@ -11,6 +11,6 @@ export default function BibleOriginPage() {
 
   if (lang === "vi") return <VnBibleOriginPage />;
   if (lang === "en") return <EnBibleOriginPage />;
-
-  return notFound();
+  if (lang !== undefined) notFound();
+  return <EnBibleOriginPage />;
 }

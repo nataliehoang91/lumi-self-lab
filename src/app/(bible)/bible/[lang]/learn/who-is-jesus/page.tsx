@@ -11,5 +11,6 @@ export default function WhoIsJesusPage() {
 
   if (lang === "vi") return <VnWhoIsJesus />;
   if (lang === "en") return <EnWhoIsJesus />;
-  notFound();
+  if (lang !== undefined) notFound();
+  return <EnWhoIsJesus />;
 }

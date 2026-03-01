@@ -11,5 +11,6 @@ export default function BibleStructurePage() {
 
   if (lang === "vi") return <VnWhatIsBiblePage />;
   if (lang === "en") return <EnWhatIsBiblePage />;
-  notFound();
+  if (lang !== undefined) notFound();
+  return <EnWhatIsBiblePage />;
 }

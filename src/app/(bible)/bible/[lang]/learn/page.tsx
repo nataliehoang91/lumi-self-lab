@@ -11,5 +11,7 @@ export default function LearnPage() {
 
   if (lang === "vi") return <VnLearnPage />;
   if (lang === "en") return <EnLearnPage />;
-  notFound();
+  // Avoid 404 during client-side lang switch (params can be briefly undefined)
+  if (lang !== undefined) notFound();
+  return <EnLearnPage />;
 }
