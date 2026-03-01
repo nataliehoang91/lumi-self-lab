@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -10,12 +11,12 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { cn } from "@/lib/utils";
 
 export interface LearnAccordionItem {
-  term: string;
-  def: string;
+  term: string | ReactNode;
+  def: string | ReactNode;
 }
 
 interface LearnAccordionProps {
-  items: LearnAccordionItem[];
+  items: readonly LearnAccordionItem[];
   className?: string;
   itemClassName?: string;
 }
@@ -36,7 +37,7 @@ export function LearnAccordion({ items, className, itemClassName }: LearnAccordi
             itemClassName
           )}
         >
-          <AccordionTrigger className="px-5 py-3.5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+          <AccordionTrigger className="px-5 py-3.5 hover:no-underline data-[state=open]:text-primary-dark [&[data-state=open]>svg]:rotate-180">
             <span className={cn("font-bold text-left", bodyClass)}>{item.term}</span>
           </AccordionTrigger>
           <AccordionContent className={cn("px-5 pb-4 leading-relaxed pt-3", bodyClass)}>

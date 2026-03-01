@@ -22,7 +22,8 @@ const EN = {
   graceTitle: "Salvation by Grace",
   graceBody:
     "The Christian message is that salvation — being made right with God — is not earned by good behaviour. It is received as a gift, through trusting in what Jesus did.",
-  graceQuote: "For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God.",
+  graceQuote:
+    "For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God.",
   graceRef: "Ephesians 2:8",
   repentanceTitle: "Repentance",
   repentanceBody:
@@ -39,7 +40,7 @@ const EN = {
   ],
   relationshipTitle: "A Relationship, Not a Religion",
   relationshipP1:
-    "Christianity at its core is not a set of rules to follow but a person to know. Jesus said he came so that people \"may have life, and have it to the full\" (John 10:10). The goal is not perfect behaviour but an ongoing, honest relationship with God.",
+    'Christianity at its core is not a set of rules to follow but a person to know. Jesus said he came so that people "may have life, and have it to the full" (John 10:10). The goal is not perfect behaviour but an ongoing, honest relationship with God.',
   relationshipP2:
     "Reading Scripture, praying, and gathering with other believers are all ways of growing in that relationship — not conditions for earning it.",
   ctaTitle: "Ready to start a 7-day reading plan?",
@@ -51,19 +52,26 @@ const VI = {
   moduleNum: "04 / 04",
   title: "Đức tin là gì?",
   intro:
-    "Đức tin không phải là sự lạc quan mù quáng hay nỗ lực tôn giáo. Trong Kinh Thánh, đức tin có nghĩa là tin cậy Đức Chúa Trời — cụ thể là tin rằng những gì Ngài phán là thật và Chúa Jêsus đúng là Đấng Ngài xưng nhận.",
+    "Đức tin không phải là sự lạc quan mù quáng hay nỗ lực tôn giáo. Trong Kinh Thánh, đức tin có nghĩa là tin cậy Đức Chúa Trời — cụ thể là tin rằng những gì Ngài phán là thật và Chúa Giê-xu đúng là Đấng Ngài xưng nhận.",
   graceTitle: "Sự Cứu Rỗi Bởi Ân Điển",
   graceBody:
-    "Sứ điệp Cơ Đốc là sự cứu rỗi — được hòa giải với Đức Chúa Trời — không phải do việc lành đạt được, mà được nhận như một món quà, qua việc tin cậy những gì Chúa Jêsus đã làm.",
-  graceQuote: "Ấy là nhờ ân điển, bởi đức tin, mà anh em được cứu, điều đó không phải đến từ anh em, bèn là sự ban cho của Đức Chúa Trời.",
+    "Sứ điệp Cơ Đốc là sự cứu rỗi — được hòa giải với Đức Chúa Trời — không phải do việc lành đạt được, mà được nhận như một món quà, qua việc tin cậy những gì Chúa Giê-xu đã làm.",
+  graceQuote:
+    "Ấy là nhờ ân điển, bởi đức tin, mà anh em được cứu, điều đó không phải đến từ anh em, bèn là sự ban cho của Đức Chúa Trời.",
   graceRef: "Ê-phê-sô 2:8",
   repentanceTitle: "Sự Ăn Năn",
   repentanceBody:
-    "Ăn năn có nghĩa là thay đổi hướng đi thật sự — quay khỏi đời sống tự chủ hướng về Đức Chúa Trời. Không phải là cảm giác tội lỗi, mà là chọn một con đường khác. Lời đầu tiên của Chúa Jêsus được ghi lại trong Mác là: \"Hãy ăn năn và tin Tin Lành.\"",
+    'Ăn năn có nghĩa là thay đổi hướng đi thật sự — quay khỏi đời sống tự chủ hướng về Đức Chúa Trời. Không phải là cảm giác tội lỗi, mà là chọn một con đường khác. Lời đầu tiên của Chúa Giê-xu được ghi lại trong Mác là: "Hãy ăn năn và tin Tin Lành."',
   repentanceRef: "Mác 1:15",
   prayerTitle: "Hướng Dẫn Cầu Nguyện Cho Người Mới",
-  prayerIntro: "Cầu nguyện đơn giản là trò chuyện với Đức Chúa Trời. Một cấu trúc đơn giản được dùng qua nhiều thế kỷ là ACTS:",
-  prayerSteps: ["Tôn thờ (Adoration)", "Xưng tội (Confession)", "Tạ ơn (Thanksgiving)", "Cầu xin (Supplication)"],
+  prayerIntro:
+    "Cầu nguyện đơn giản là trò chuyện với Đức Chúa Trời. Một cấu trúc đơn giản được dùng qua nhiều thế kỷ là ACTS:",
+  prayerSteps: [
+    "Tôn thờ (Adoration)",
+    "Xưng tội (Confession)",
+    "Tạ ơn (Thanksgiving)",
+    "Cầu xin (Supplication)",
+  ],
   prayerDescs: [
     "Bắt đầu bằng việc nhìn biết Đức Chúa Trời là ai — không phải điều bạn muốn, mà chính Ngài là ai. Ca ngợi Ngài.",
     "Thành thật về những chỗ bạn đã vấp ngã. Đức Chúa Trời đã biết; đây là cho sự tự do của bạn.",
@@ -72,7 +80,7 @@ const VI = {
   ],
   relationshipTitle: "Mối Quan Hệ, Không Phải Tôn Giáo",
   relationshipP1:
-    "Cơ Đốc giáo cốt lõi không phải là một bộ quy tắc để tuân theo mà là một Đấng để biết. Chúa Jêsus phán Ngài đến để con người \"được sự sống, và sự sống dư dật\" (Giăng 10:10). Mục đích không phải là hành vi hoàn hảo mà là mối quan hệ chân thật, liên tục với Đức Chúa Trời.",
+    'Cơ Đốc giáo cốt lõi không phải là một bộ quy tắc để tuân theo mà là một Đấng để biết. Chúa Giê-xu phán Ngài đến để con người "được sự sống, và sự sống dư dật" (Giăng 10:10). Mục đích không phải là hành vi hoàn hảo mà là mối quan hệ chân thật, liên tục với Đức Chúa Trời.',
   relationshipP2:
     "Đọc Kinh Thánh, cầu nguyện và nhóm với anh em tin Chúa là những cách để lớn lên trong mối quan hệ ấy — không phải điều kiện để giành lấy nó.",
   ctaTitle: "Sẵn sàng bắt đầu kế hoạch đọc 7 ngày?",
@@ -173,12 +181,8 @@ export default function WhatIsFaithPage() {
         <h2 className="font-bible-english text-xl font-semibold mb-3">
           {content.relationshipTitle}
         </h2>
-        <p className={cn("leading-relaxed opacity-80 mb-4", bodyClass)}>
-          {content.relationshipP1}
-        </p>
-        <p className={cn("leading-relaxed opacity-80", bodyClass)}>
-          {content.relationshipP2}
-        </p>
+        <p className={cn("leading-relaxed opacity-80 mb-4", bodyClass)}>{content.relationshipP1}</p>
+        <p className={cn("leading-relaxed opacity-80", bodyClass)}>{content.relationshipP2}</p>
       </section>
 
       <section className="p-6 bg-card border border-sage-dark/20 rounded-2xl space-y-3 mb-8">

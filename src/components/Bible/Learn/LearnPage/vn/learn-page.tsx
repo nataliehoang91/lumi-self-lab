@@ -21,10 +21,10 @@ const MODULES = [
   },
   {
     num: "03",
-    title: "Chúa Jêsus là ai?",
+    title: "Chúa Giê-xu là ai?",
     desc: (
       <>
-        Chúa Jêsus là nhân vật trung tâm của Kinh Thánh. Ngài tuyên bố điều gì về chính mình — và
+        Chúa Giê-xu là nhân vật trung tâm của Kinh Thánh. Ngài tuyên bố điều gì về chính mình — và
         tại sao cái chết và sự sống lại của Ngài được xem là bước ngoặt của lịch sử?
       </>
     ),
@@ -52,7 +52,7 @@ export function VnLearnPage() {
         subtitle={
           <>
             Trước khi đọc từng câu Kinh Thánh, hãy hiểu bức tranh lớn — Kinh Thánh kể câu chuyện gì,{" "}
-            <strong>Chúa Jêsus</strong> là ai, và đức tin thực sự thay đổi điều gì trong cuộc sống.
+            <strong>Chúa Giê-xu</strong> là ai, và đức tin thực sự thay đổi điều gì trong cuộc sống.
           </>
         }
       />

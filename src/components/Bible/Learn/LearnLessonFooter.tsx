@@ -16,7 +16,9 @@ const MODULE_TITLE_KEYS = [
   "learnModule4Title",
 ] as const;
 
-function getCurrentSegmentAndLang(pathname: string | null): { segment: string; lang: string } | null {
+function getCurrentSegmentAndLang(
+  pathname: string | null
+): { segment: string; lang: string } | null {
   if (!pathname || !pathname.includes("/learn/")) return null;
   const parts = pathname.split("/");
   // /bible/en/learn or /bible/en/learn/bible-origin
@@ -81,7 +83,7 @@ export function LearnLessonFooter() {
         <Link
           href={nextHref}
           className={cn(
-            "flex items-center gap-2 px-5 py-2.5 bg-primary-light rounded-xl font-medium hover:opacity-90 transition-opacity order-2",
+            "flex items-center w-full sm:w-auto justify-end sm:justify-center gap-2 px-5 py-2.5 bg-primary-light rounded-xl font-medium hover:opacity-90 transition-opacity order-2",
             bodyClass
           )}
         >

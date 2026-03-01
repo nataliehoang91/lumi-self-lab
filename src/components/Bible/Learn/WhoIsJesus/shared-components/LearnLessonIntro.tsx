@@ -7,10 +7,10 @@ import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasse
 export interface LearnLessonIntroProps {
   moduleNum: string;
   title: string;
-  intro1: ReactNode;
-  intro1Quote: ReactNode;
+  intro1: string | ReactNode;
+  intro1Quote: string | ReactNode;
   /** Intro paragraph after the quote (e.g. with <strong>Jesus</strong> inline). */
-  children: ReactNode;
+  children: string | ReactNode;
 }
 
 export function LearnLessonIntro({
@@ -24,7 +24,10 @@ export function LearnLessonIntro({
 
   return (
     <div className="mb-12">
-      <p className="text-xs font-mono text-second mb-3" aria-label={moduleNum.replace(" / ", " of ")}>
+      <p
+        className="text-xs font-mono text-second mb-3"
+        aria-label={moduleNum.replace(" / ", " of ")}
+      >
         {moduleNum}
       </p>
       <h1
@@ -36,7 +39,11 @@ export function LearnLessonIntro({
         {title}
       </h1>
 
-      <p className={cn("mt-4 text-muted-foreground leading-relaxed", introClass)}>{intro1}</p>
+      {typeof intro1 === "string" ? (
+        <p className={cn("mt-4 text-muted-foreground leading-relaxed", introClass)}>{intro1}</p>
+      ) : (
+        intro1
+      )}
 
       <blockquote className="mt-3 pl-4 border-l-2 border-primary/40 not-italic" cite="">
         <p className={cn("font-semibold text-foreground leading-relaxed", introClass)}>
@@ -44,7 +51,11 @@ export function LearnLessonIntro({
         </p>
       </blockquote>
 
-      <p className={cn("mt-4 text-muted-foreground leading-relaxed", introClass)}>{children}</p>
+      {typeof children === "string" ? (
+        <p className={cn("mt-4 text-muted-foreground leading-relaxed", introClass)}>{children}</p>
+      ) : (
+        children
+      )}
     </div>
   );
 }

@@ -123,7 +123,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightsMinimize: "Thu nhỏ",
     learnModule1Title: "Kinh thánh là gì?",
     learnModule2Title: "Nguồn gốc & Chính điển Kinh thánh",
-    learnModule3Title: "Chúa Jêsus là ai?",
+    learnModule3Title: "Chúa Giê-xu là ai?",
     learnModule4Title: "Đức tin là gì?",
     learnCtaTitle: "Bạn đã có nền tảng?",
     learnCtaSubtitle: "Giờ hãy mở Kinh thánh và đọc cho chính mình.",
@@ -132,7 +132,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStructureNext: "Tiếp",
     learnStructureNextOrigin: "Tiếp: Nguồn gốc Kinh thánh",
     learnOriginTitle: "Nguồn gốc Kinh thánh & Hình thành Chính Điển",
-    learnJesusTitle: "Chúa Jêsus Là Ai?",
+    learnJesusTitle: "Chúa Giê-xu Là Ai?",
   },
   zh: {
     clickToReveal: "點擊顯示經文",

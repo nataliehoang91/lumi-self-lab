@@ -36,7 +36,9 @@ export function LearnPageModuleCard({
       aria-label={ariaLabel}
     >
       <div className="flex items-start gap-6">
-        <span className="font-mono text-sm font-semibold text-second pt-0.5 w-6 ">{num}</span>
+        <span className={cn("font-mono font-semibold text-second pt-0.5 w-6 ", bodyClass)}>
+          {num}
+        </span>
         <div className="flex-1 min-w-0">
           <p
             className={cn(
