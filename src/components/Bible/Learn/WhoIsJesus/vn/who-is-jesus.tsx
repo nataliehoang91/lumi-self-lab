@@ -1,7 +1,6 @@
 "use client";
 
 import { LearnLessonIntro } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnLessonIntro";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
 import { LearnFullyGodManSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnFullyGodManSection";
 import { LearnCrossSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnCrossSection";
 import { LearnProphecySection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnProphecySection";
@@ -33,15 +32,11 @@ const PROPHECY_ITEMS = [
 ];
 
 export function VnWhoIsJesus() {
-  const { bodyClass, h1Class, introClass } = useLearnFontClasses();
-
   return (
     <article aria-label="Bài học Chúa Jêsus Là Ai?">
       <LearnLessonIntro
         moduleNum="03 / 04"
         title="Chúa Jêsus Là Ai?"
-        titleClassName={h1Class}
-        introClassName={introClass}
         intro1={
           <>
             Trong suốt hơn hai nghìn năm, con người vẫn tranh luận về thân vị của{" "}
@@ -82,7 +77,6 @@ export function VnWhoIsJesus() {
           </>
         }
         rightRef="Giăng 1:1 · Cô-lô-se 2:9"
-        bodyClassName={bodyClass}
       />
 
       <LearnCrossSection
@@ -105,7 +99,6 @@ export function VnWhoIsJesus() {
           </>
         }
         refText="I Cô-rinh-tô 15:3–8"
-        bodyClassName={bodyClass}
       />
 
       <LearnProphecySection
@@ -119,7 +112,6 @@ export function VnWhoIsJesus() {
           </>
         }
         items={PROPHECY_ITEMS}
-        bodyClassName={bodyClass}
       />
 
       <LearnWhyCtaSection
@@ -142,7 +134,6 @@ export function VnWhoIsJesus() {
         }
         linkHref="/bible/vi/read"
         linkLabel="Đọc Phúc Âm"
-        bodyClassName={bodyClass}
       />
     </article>
   );

@@ -1,131 +1,90 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight, ChevronRight } from "lucide-react";
-import { getBibleIntl } from "@/lib/bible-intl";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
-import { cn } from "@/lib/utils";
-
-const MODULES = [
-  { num: "01", keyTitle: "learnModule1Title", keyDesc: "learnModule1Desc", min: 5 },
-  { num: "02", keyTitle: "learnModule2Title", keyDesc: "learnModule2Desc", min: 8 },
-  { num: "03", keyTitle: "learnModule3Title", keyDesc: "learnModule3Desc", min: 6 },
-  { num: "04", keyTitle: "learnModule4Title", keyDesc: "learnModule4Desc", min: 5 },
-] as const;
+import { LearnPageIntro } from "@/components/Bible/Learn/LearnPage/shared-components/LearnPageIntro";
+import { LearnPageModuleCard } from "@/components/Bible/Learn/LearnPage/shared-components/LearnPageModuleCard";
+import { LearnPageVerseCta } from "@/components/Bible/Learn/LearnPage/shared-components/LearnPageVerseCta";
 
 const SEGMENTS = ["bible-structure", "bible-origin", "who-is-jesus", "what-is-faith"] as const;
 
-function getJesusRichParams() {
-  return {
-    jesus: <strong>Chúa Jêsus</strong>,
-    he: <strong>Ngài</strong>,
-    him: <strong>Ngài</strong>,
-    his: <strong>Ngài</strong>,
-  };
-}
+const MODULES = [
+  {
+    num: "01",
+    title: "Kinh thánh là gì?",
+    desc: "Kinh Thánh không chỉ là một tập hợp sách cổ. Đây là một câu chuyện thống nhất về sự sáng tạo, sự sa ngã và kế hoạch cứu chuộc xuyên suốt lịch sử.",
+    min: 5,
+  },
+  {
+    num: "02",
+    title: "Nguồn gốc & Chính điển Kinh thánh",
+    desc: "Kinh Thánh được viết và lưu truyền qua hàng ngàn năm. Làm sao chúng ta biết nội dung ngày nay phản ánh trung thực bản gốc?",
+    min: 8,
+  },
+  {
+    num: "03",
+    title: "Chúa Jêsus là ai?",
+    desc: (
+      <>
+        Chúa Jêsus là nhân vật trung tâm của Kinh Thánh. Ngài tuyên bố điều gì về chính mình — và
+        tại sao cái chết và sự sống lại của Ngài được xem là bước ngoặt của lịch sử?
+      </>
+    ),
+    min: 6,
+  },
+  {
+    num: "04",
+    title: "Đức tin là gì?",
+    desc: (
+      <>
+        Đức tin không chỉ là tin một ý tưởng. Vậy tin cậy Đức Chúa Trời nghĩa là gì — và điều đó ảnh
+        hưởng thế nào đến cách bạn sống mỗi ngày?
+      </>
+    ),
+    min: 5,
+  },
+] as const;
 
 export function VnLearnPage() {
-  const intl = getBibleIntl("VI");
-  const { bodyClass, h1Class, subtitleClass, verseClass } = useLearnFontClasses();
-
   return (
     <article aria-label="Học - Bắt đầu tại đây">
-      <div className="mb-16">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
-          {intl.t("learnStartHere")}
-        </p>
-        <h1 className={cn("font-bible-english font-semibold leading-tight text-balance", h1Class)}>
-          {intl.t("learnTitle")}
-        </h1>
-        <p
-          className={cn(
-            "mt-4 font-light text-muted-foreground leading-relaxed max-w-xl",
-            subtitleClass
-          )}
-        >
-          {intl.rich("learnSubtitle", getJesusRichParams())}
-        </p>
-      </div>
+      <LearnPageIntro
+        eyebrow="Bắt đầu tại đây"
+        title="Bắt đầu từ nền tảng."
+        subtitle={
+          <>
+            Trước khi đọc từng câu Kinh Thánh, hãy hiểu bức tranh lớn — Kinh Thánh kể câu chuyện gì,{" "}
+            <strong>Chúa Jêsus</strong> là ai, và đức tin thực sự thay đổi điều gì trong cuộc sống.
+          </>
+        }
+      />
+
+      <p className="text-sm opacity-70 mb-4">
+        Bạn có thể đọc theo thứ tự, hoặc bắt đầu từ câu hỏi bạn quan tâm nhất.
+      </p>
 
       <div className="space-y-3">
         {MODULES.map((m, i) => (
-          <Link
+          <LearnPageModuleCard
             key={m.num}
+            num={m.num}
+            title={m.title}
+            desc={m.desc}
+            min={m.min}
+            minLabel="phút đọc"
+            readLabel="Đọc"
             href={`/bible/vi/learn/${SEGMENTS[i]}`}
-            className="group flex flex-col px-6 py-4 bg-card border rounded-2xl hover:border-primary/60 hover:shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            aria-label={`${intl.t(m.keyTitle)}, ${intl.t("learnMinRead", { min: m.min })}`}
-          >
-            <div className="flex items-start gap-6">
-              <span className="font-mono text-sm font-semibold text-second pt-0.5 w-6 ">
-                {m.num}
-              </span>
-              <div className="flex-1 min-w-0">
-                <p
-                  className={cn(
-                    "font-semibold group-hover:text-foreground transition-colors",
-                    bodyClass
-                  )}
-                >
-                  {intl.rich(m.keyTitle, getJesusRichParams())}
-                </p>
-                <p
-                  className={cn(
-                    "font-normal text-muted-foreground mt-1 leading-relaxed",
-                    bodyClass
-                  )}
-                >
-                  {intl.rich(m.keyDesc, getJesusRichParams())}
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-between mt-4">
-              <p className={cn("font-light pl-12 text-muted-foreground text-xs", bodyClass)}>
-                {intl.t("learnMinRead", { min: m.min })}
-              </p>
-              <span className="flex items-center gap-1.5 text-sm font-medium rounded-lg bg-primary-light/80 text-foreground px-3 py-1.5 shrink-0 transition-all group-hover:bg-primary/25 group-hover:border-primary/70">
-                {intl.t("readPageTitle")}
-                <ChevronRight
-                  className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 shrink-0"
-                  aria-hidden
-                />
-              </span>
-            </div>
-          </Link>
+            ariaLabel={`${m.title}, ${m.min} phút đọc`}
+          />
         ))}
       </div>
 
-      <div className="mt-12 rounded-2xl px-8 pt-8 pb-6 flex flex-col bg-primary-light/10 gap-6 border border-primary-dark/30">
-        <div className="text-left">
-          <p
-            className={cn(
-              "font-bible-english font-normal leading-relaxed text-balance",
-              verseClass
-            )}
-          >
-            &ldquo;{intl.t("learnVerse")}&rdquo;
-          </p>
-          <p className="text-xs font-sans tracking-[0.2em] uppercase mt-3">
-            {intl.t("learnVerseRef")}
-          </p>
-        </div>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-          <div>
-            <p className={cn("font-medium", bodyClass)}>{intl.t("learnCtaTitle")}</p>
-            <p className={cn("mt-0.5 text-muted-foreground", bodyClass)}>
-              {intl.t("learnCtaSubtitle")}
-            </p>
-          </div>
-          <Link
-            href="/bible/vi/read"
-            className={cn(
-              "flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all whitespace-nowrap hover:opacity-90 bg-primary text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-              bodyClass
-            )}
-          >
-            {intl.t("learnOpenBible")} <ArrowRight className="w-3.5 h-3.5 shrink-0" aria-hidden />
-          </Link>
-        </div>
-      </div>
+      <LearnPageVerseCta
+        verseText="Lời Chúa là ngọn đèn cho chân tôi, Ánh sáng cho đường lối tôi."
+        verseRef="THI THIÊN 119:105"
+        ctaTitle="Bạn đã có nền tảng?"
+        ctaSubtitle="Đừng chỉ học về Kinh Thánh — hãy tự mình khám phá."
+        ctaLabel="Mở Kinh thánh"
+        readHref="/bible/vi/read"
+      />
     </article>
   );
 }

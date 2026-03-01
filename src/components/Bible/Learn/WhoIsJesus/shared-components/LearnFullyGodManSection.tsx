@@ -2,6 +2,7 @@
 
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
 
 export interface LearnFullyGodManSectionProps {
   sectionTitle: string;
@@ -11,9 +12,6 @@ export interface LearnFullyGodManSectionProps {
   rightTitle: string;
   rightBody: ReactNode;
   rightRef: string;
-  /** Optional class for body and ref text (e.g. text-sm from useBibleApp fontSize). */
-  bodyClassName?: string;
-  refClassName?: string;
 }
 
 export function LearnFullyGodManSection({
@@ -24,9 +22,9 @@ export function LearnFullyGodManSection({
   rightTitle,
   rightBody,
   rightRef,
-  bodyClassName,
-  refClassName,
 }: LearnFullyGodManSectionProps) {
+  const { bodyClass, subBodyClass } = useLearnFontClasses();
+
   return (
     <section className="mb-10" aria-labelledby="fully-section-title">
       <h2
@@ -38,19 +36,19 @@ export function LearnFullyGodManSection({
       <div className="grid grid-cols-2 gap-3">
         <div className="p-5 bg-card border border-sage-dark/20 rounded-2xl">
           <p className="font-semibold text-foreground mb-2">{leftTitle}</p>
-          <p className={cn("text-sm text-muted-foreground leading-relaxed", bodyClassName)}>
+          <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
             {leftBody}
           </p>
-          <p className={cn("text-xs text-muted-foreground/60 mt-3 font-mono", refClassName)}>
+          <p className={cn("text-muted-foreground/60 mt-3 font-mono", subBodyClass)}>
             {leftRef}
           </p>
         </div>
         <div className="p-5 bg-card border border-sage-dark/20 rounded-2xl">
           <p className="font-semibold text-foreground mb-2">{rightTitle}</p>
-          <p className={cn("text-sm text-muted-foreground leading-relaxed", bodyClassName)}>
+          <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
             {rightBody}
           </p>
-          <p className={cn("text-xs text-muted-foreground/60 mt-3 font-mono", refClassName)}>
+          <p className={cn("text-muted-foreground/60 mt-3 font-mono", subBodyClass)}>
             {rightRef}
           </p>
         </div>

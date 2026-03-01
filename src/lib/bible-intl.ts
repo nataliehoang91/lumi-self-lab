@@ -34,7 +34,6 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     navFontSmall: "Smaller text",
     navFontMedium: "Medium text",
     navFontLarge: "Larger text",
-    readPageTitle: "Read",
     readVersion: "Version",
     readSynced: "Synced",
     readIndependent: "Independent",
@@ -64,25 +63,10 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightsDismissHint: "Press",
     readInsightsDismissHintTail: "or tap the lightbulb again to close",
     readInsightsMinimize: "Minimize",
-    learnStartHere: "Start Here",
-    learnTitle: "Begin with the foundation.",
-    learnSubtitle:
-      "Before reading deeply, take a moment to understand what the Bible is, who {jesus} is, and what faith truly means.",
     learnModule1Title: "What Is the Bible?",
-    learnModule1Desc:
-      "Discover what the Bible is, how it is structured, who wrote it, and the redemptive story woven through every page.",
     learnModule2Title: "Bible Origin & Canon",
-    learnModule2Desc:
-      "Explore how Scripture was preserved across centuries, from ancient manuscripts to the Bible we hold today.",
     learnModule3Title: "Who Is Jesus?",
-    learnModule3Desc:
-      "Understand who {jesus} claimed to be — fully God, fully man — and why {his} life, death, and resurrection change everything.",
     learnModule4Title: "What Is Faith?",
-    learnModule4Desc:
-      "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with {him}.",
-    learnMinRead: "{min} min read",
-    learnVerse: "Your word is a lamp to my feet and a light to my path.",
-    learnVerseRef: "PSALM 119:105",
     learnCtaTitle: "You have the foundation?",
     learnCtaSubtitle: "Now open Scripture and read for yourself.",
     learnOpenBible: "Open Bible",
@@ -108,7 +92,6 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     navFontSmall: "Chữ nhỏ",
     navFontMedium: "Chữ vừa",
     navFontLarge: "Chữ lớn",
-    readPageTitle: "Đọc",
     readVersion: "Bản dịch",
     readSynced: "Đồng bộ",
     readIndependent: "Độc lập",
@@ -138,25 +121,10 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightsDismissHint: "Nhấn",
     readInsightsDismissHintTail: "hoặc chạm lại biểu tượng bóng đèn để đóng",
     readInsightsMinimize: "Thu nhỏ",
-    learnStartHere: "Bắt đầu tại đây",
-    learnTitle: "Bắt đầu từ nền tảng.",
-    learnSubtitle:
-      "Trước khi đi sâu vào Kinh Thánh, hãy dành chút thời gian để hiểu Kinh Thánh là gì, {jesus} là ai, và đức tin thật sự có ý nghĩa gì.",
     learnModule1Title: "Kinh thánh là gì?",
-    learnModule1Desc:
-      "Tìm hiểu Kinh Thánh là gì, được cấu trúc như thế nào, ai là người viết và câu chuyện cứu chuộc xuyên suốt mọi trang sách.",
     learnModule2Title: "Nguồn gốc & Chính điển Kinh thánh",
-    learnModule2Desc:
-      "Khám phá hành trình bảo tồn Kinh Thánh qua nhiều thế kỷ — từ bản chép tay cổ đến quyển Kinh Thánh ngày nay.",
     learnModule3Title: "Chúa Jêsus là ai?",
-    learnModule3Desc:
-      "Hiểu về Đấng tự xưng là Con Đức Chúa Trời — vừa trọn vẹn là Đức Chúa Trời, vừa trọn vẹn là con người — và vì sao điều đó thay đổi mọi điều.",
     learnModule4Title: "Đức tin là gì?",
-    learnModule4Desc:
-      "Tìm hiểu ý nghĩa của việc tin cậy Đức Chúa Trời — ân điển, sự ăn năn, cầu nguyện và một mối quan hệ thật với {him}.",
-    learnMinRead: "{min} phút đọc",
-    learnVerse: "Lời Chúa là ngọn đèn cho chân tôi, Ánh sáng cho đường lối tôi.",
-    learnVerseRef: "THI THIÊN 119:105",
     learnCtaTitle: "Bạn đã có nền tảng?",
     learnCtaSubtitle: "Giờ hãy mở Kinh thánh và đọc cho chính mình.",
     learnOpenBible: "Mở Kinh thánh",
@@ -182,7 +150,6 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     navFontSmall: "較小字體",
     navFontMedium: "中等字體",
     navFontLarge: "較大字體",
-    readPageTitle: "閱讀",
     readVersion: "譯本",
     readSynced: "已同步",
     readIndependent: "獨立",
@@ -211,25 +178,10 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     readInsightsDismissHint: "按下",
     readInsightsDismissHintTail: "或再次點擊燈泡圖示關閉",
     readInsightsMinimize: "最小化",
-    learnStartHere: "Start Here",
-    learnTitle: "Begin with the foundation.",
-    learnSubtitle:
-      "Before reading deeply, take a moment to understand what the Bible is, who {jesus} is, and what faith truly means.",
     learnModule1Title: "What Is the Bible?",
-    learnModule1Desc:
-      "Discover what the Bible is, how it is structured, who wrote it, and the redemptive story woven through every page.",
     learnModule2Title: "Bible Origin & Canon",
-    learnModule2Desc:
-      "Explore how Scripture was preserved across centuries, from ancient manuscripts to the Bible we hold today.",
     learnModule3Title: "Who Is Jesus?",
-    learnModule3Desc:
-      "Understand who {jesus} claimed to be — fully God, fully man — and why {his} life, death, and resurrection change everything.",
     learnModule4Title: "What Is Faith?",
-    learnModule4Desc:
-      "Learn what it means to trust God — grace, repentance, prayer, and beginning a real relationship with {him}.",
-    learnMinRead: "{min} 分鐘閱讀",
-    learnVerse: "你的話是我腳前的燈，是我路上的光。",
-    learnVerseRef: "詩篇 119:105",
     learnCtaTitle: "你已有根基。",
     learnCtaSubtitle: "現在打開聖經，親自閱讀。",
     learnOpenBible: "打開聖經",

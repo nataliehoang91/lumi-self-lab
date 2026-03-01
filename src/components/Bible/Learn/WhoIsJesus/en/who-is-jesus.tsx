@@ -1,7 +1,6 @@
 "use client";
 
 import { LearnLessonIntro } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnLessonIntro";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
 import { LearnFullyGodManSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnFullyGodManSection";
 import { LearnCrossSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnCrossSection";
 import { LearnProphecySection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnProphecySection";
@@ -29,15 +28,11 @@ const PROPHECY_ITEMS = [
 ];
 
 export function EnWhoIsJesus() {
-  const { bodyClass, h1Class, introClass } = useLearnFontClasses();
-
   return (
     <article aria-label="Who Is Jesus? lesson">
       <LearnLessonIntro
         moduleNum="03 / 04"
         title="Who Is Jesus?"
-        titleClassName={h1Class}
-        introClassName={introClass}
         intro1={
           <>
             For over two thousand years, people have debated who <strong>Jesus</strong> really
@@ -73,7 +68,6 @@ export function EnWhoIsJesus() {
           </>
         }
         rightRef="John 1:1 · Colossians 2:9"
-        bodyClassName={bodyClass}
       />
 
       <LearnCrossSection
@@ -95,7 +89,6 @@ export function EnWhoIsJesus() {
           </>
         }
         refText="1 Corinthians 15:3–8"
-        bodyClassName={bodyClass}
       />
 
       <LearnProphecySection
@@ -109,7 +102,6 @@ export function EnWhoIsJesus() {
           </>
         }
         items={PROPHECY_ITEMS}
-        bodyClassName={bodyClass}
       />
 
       <LearnWhyCtaSection
@@ -130,7 +122,6 @@ export function EnWhoIsJesus() {
         }
         linkHref="/bible/en/read"
         linkLabel="Read the Gospels"
-        bodyClassName={bodyClass}
       />
     </article>
   );
