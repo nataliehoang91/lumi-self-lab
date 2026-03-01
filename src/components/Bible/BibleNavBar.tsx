@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SquareMenu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,12 +36,39 @@ import { BibleLogo } from "./BibleLogo";
 import { ThemeToggleButtonBibleApp } from "./theme-toggle-in-bible-app";
 import { ThemePaletteSwitch } from "@/components/GeneralComponents/ThemePaletteSwitch";
 
+/** Route segment for /bible/[lang]/... */
+function languageToSegment(lang: "EN" | "VI" | "ZH"): "en" | "vi" | "zh" {
+  if (lang === "VI") return "vi";
+  if (lang === "ZH") return "zh";
+  return "en";
+}
+
+/** If pathname is /bible/{en|vi|zh}/..., return path with new lang segment; else null. */
+function pathWithLang(pathname: string | null, newSegment: "en" | "vi" | "zh"): string | null {
+  if (!pathname?.startsWith("/bible/")) return null;
+  const match = pathname.match(/^\/bible\/(en|vi|zh)(\/.*)?$/);
+  if (!match) return null;
+  return `/bible/${newSegment}${match[2] ?? ""}`;
+}
+
 export function BibleNavBar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { readFocusMode } = useReadFocus();
   const { globalLanguage, setGlobalLanguage, fontSize, setFontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const isLearn = pathname?.includes("/bible/learn");
+
+  function handleLanguageChange(lang: "EN" | "VI" | "ZH") {
+    setGlobalLanguage(lang);
+    const segment = languageToSegment(lang);
+    const newPath = pathWithLang(pathname, segment);
+    if (newPath) {
+      const qs = searchParams?.toString();
+      router.replace(qs ? `${newPath}?${qs}` : newPath);
+    }
+  }
   const isBible =
     pathname?.startsWith("/bible/read") ||
     pathname?.startsWith("/bible/book-overviews") ||
@@ -51,32 +78,45 @@ export function BibleNavBar() {
   const isGlossary =
     pathname?.includes("/bible/flashcard") || pathname?.startsWith("/bible/glossary");
 
+  const learnLang = globalLanguage === "VI" ? "vi" : "en";
   const learnLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
-    { href: "/bible/learn", label: "Start Here", isActive: pathname === "/bible/learn" },
     {
-      href: "/bible/learn/bible-structure",
+      href: `/bible/${learnLang}/learn`,
+      label: "Start Here",
+      isActive: pathname === `/bible/${learnLang}/learn`,
+    },
+    {
+      href: `/bible/${learnLang}/learn/bible-structure`,
       label: "Bible Structure",
-      isActive: pathname?.startsWith("/bible/learn/bible-structure") ?? false,
+      isActive:
+        (pathname?.startsWith("/bible/") && pathname?.includes("/learn/bible-structure")) ?? false,
     },
     {
-      href: "/bible/learn/bible-origin",
+      href: `/bible/${learnLang}/learn/bible-origin`,
       label: "Bible Origin",
-      isActive: pathname?.startsWith("/bible/learn/bible-origin") ?? false,
+      isActive:
+        (pathname?.startsWith("/bible/") && pathname?.includes("/learn/bible-origin")) ?? false,
     },
     {
-      href: "/bible/learn/who-is-jesus",
+      href: `/bible/${learnLang}/learn/who-is-jesus`,
       label: "Who is Jesus",
-      isActive: pathname?.startsWith("/bible/learn/who-is-jesus") ?? false,
+      isActive:
+        (pathname?.startsWith("/bible/") && pathname?.includes("/learn/who-is-jesus")) ?? false,
     },
     {
-      href: "/bible/learn/what-is-faith",
+      href: `/bible/${learnLang}/learn/what-is-faith`,
       label: "What is Faith",
-      isActive: pathname?.startsWith("/bible/learn/what-is-faith") ?? false,
+      isActive:
+        (pathname?.startsWith("/bible/") && pathname?.includes("/learn/what-is-faith")) ?? false,
     },
   ];
 
   const bibleLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
-    { href: "/bible/read", label: "Read", isActive: pathname?.startsWith("/bible/read") ?? false },
+    {
+      href: `/bible/${learnLang}/read`,
+      label: "Read",
+      isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/read")) ?? false,
+    },
     {
       href: "/bible/book-overviews",
       label: "Book Overviews",
@@ -115,9 +155,9 @@ export function BibleNavBar() {
   const glossaryLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] =
     [
       {
-        href: "/bible/flashcard",
+        href: `/bible/${learnLang}/flashcard`,
         label: "Flashcard",
-        isActive: pathname?.includes("/bible/flashcard") ?? false,
+        isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/flashcard")) ?? false,
       },
       {
         href: "/bible/glossary/other",
@@ -348,7 +388,7 @@ export function BibleNavBar() {
               className="rounded-md min-w-14 border border-bible-lang/40 bg-bible-lang/10 p-1"
             >
               <DropdownMenuItem
-                onClick={() => setGlobalLanguage("EN")}
+                onClick={() => handleLanguageChange("EN")}
                 className={cn(
                   "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
                   globalLanguage === "EN" || (isLearn && globalLanguage === "ZH")
@@ -359,7 +399,7 @@ export function BibleNavBar() {
                 EN
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => setGlobalLanguage("VI")}
+                onClick={() => handleLanguageChange("VI")}
                 className={cn(
                   "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
                   globalLanguage === "VI"
@@ -371,7 +411,7 @@ export function BibleNavBar() {
               </DropdownMenuItem>
               {!isLearn && (
                 <DropdownMenuItem
-                  onClick={() => setGlobalLanguage("ZH")}
+                  onClick={() => handleLanguageChange("ZH")}
                   className={cn(
                     "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
                     globalLanguage === "ZH"
@@ -525,7 +565,7 @@ export function BibleNavBar() {
                     className="w-full bg-primary-dark text-primary-foreground hover:opacity-90 hover:bg-primary-dark"
                     onClick={() => setMobileNavOpen(false)}
                   >
-                    <Link href="/bible/read">Open Bible</Link>
+                    <Link href={`/bible/${learnLang}/read`}>Open Bible</Link>
                   </Button>
                 </SheetFooter>
               </SheetContent>

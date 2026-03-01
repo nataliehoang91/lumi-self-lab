@@ -16,21 +16,27 @@ const MODULE_TITLE_KEYS = [
   "learnModule4Title",
 ] as const;
 
-function getCurrentSegment(pathname: string | null): string | null {
-  if (!pathname || !pathname.startsWith("/bible/learn/")) return null;
-  const segment = pathname.replace("/bible/learn/", "").split("/")[0];
+function getCurrentSegmentAndLang(pathname: string | null): { segment: string; lang: string } | null {
+  if (!pathname || !pathname.includes("/learn/")) return null;
+  const parts = pathname.split("/");
+  // /bible/en/learn or /bible/en/learn/bible-origin
+  const langIdx = parts.indexOf("bible") + 1;
+  const learnIdx = parts.indexOf("learn");
+  const lang = parts[langIdx] === "vi" ? "vi" : "en";
+  const segment = learnIdx >= 0 && parts[learnIdx + 1] ? parts[learnIdx + 1] : null;
   return segment && LESSON_ORDER.includes(segment as (typeof LESSON_ORDER)[number])
-    ? segment
+    ? { segment, lang }
     : null;
 }
 
 export function LearnLessonFooter() {
   const pathname = usePathname();
-  const segment = getCurrentSegment(pathname);
+  const result = getCurrentSegmentAndLang(pathname);
   const { globalLanguage, fontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
 
-  if (!segment) return null;
+  if (!result) return null;
+  const { segment, lang } = result;
 
   const bodyClass =
     fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
@@ -40,17 +46,17 @@ export function LearnLessonFooter() {
 
   const prevSegment = currentIndex > 0 ? LESSON_ORDER[currentIndex - 1] : null;
   const prevLabel = prevSegment ? intl.t(MODULE_TITLE_KEYS[currentIndex - 1]) : null;
-  const prevHref = prevSegment ? `/bible/learn/${prevSegment}` : null;
+  const prevHref = prevSegment ? `/bible/${lang}/learn/${prevSegment}` : null;
 
   let nextHref: string | null = null;
   let nextLabel: string | null = null;
   let structureNextLabel: string | null = null;
   if (isStructureLesson) {
-    nextHref = "/bible/learn/bible-origin";
+    nextHref = `/bible/${lang}/learn/bible-origin`;
     structureNextLabel = intl.t("learnStructureNextOrigin");
   } else if (currentIndex >= 0 && currentIndex < LESSON_ORDER.length - 1) {
     const nextSegment = LESSON_ORDER[currentIndex + 1];
-    nextHref = `/bible/learn/${nextSegment}`;
+    nextHref = `/bible/${lang}/learn/${nextSegment}`;
     nextLabel = intl.t(MODULE_TITLE_KEYS[currentIndex + 1]);
   }
 

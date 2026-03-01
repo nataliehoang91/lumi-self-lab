@@ -7,7 +7,7 @@ export function BibleRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace("/bible/read");
+    router.replace("/bible/en/read");
   }, [router]);
 
     return null;

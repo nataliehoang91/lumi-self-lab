@@ -11,36 +11,33 @@ import { getBibleIntl } from "@/lib/bible-intl";
 
 export default function LearnLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { globalLanguage, fontSize } = useBibleApp();
-  const intl = getBibleIntl(globalLanguage);
+  const { fontSize } = useBibleApp();
+  const parts = pathname?.split("/") ?? [];
+  // pathname: /bible/en/learn or /bible/en/learn/bible-origin
+  const lang = parts[2] === "vi" ? "vi" : "en";
+  const segment = parts[3] === "learn" && parts[4] ? parts[4] : null;
 
-  const bodyClass =
-    fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
-
-  const segment =
-    pathname && pathname.startsWith("/bible/learn/")
-      ? pathname.replace("/bible/learn/", "").split("/")[0]
-      : null;
-
+  const intl = getBibleIntl(lang === "vi" ? "VI" : "EN");
   const segmentTitleKey: Record<string, string> = {
-    "": "learnTitle",
     "bible-structure": "learnModule1Title",
     "bible-origin": "learnOriginTitle",
     "who-is-jesus": "learnJesusTitle",
     "what-is-faith": "learnModule4Title",
   };
-
   const titleKey = segment ? segmentTitleKey[segment] : null;
   const currentLabel = titleKey ? intl.t(titleKey) : null;
+
+  const bodyClass =
+    fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
 
   return (
     <div className="min-h-screen bg-read font-sans">
       <main>
         <Container maxWidth="5xl" className={cn("px-4 py-16")}>
-          {pathname?.startsWith("/bible/learn") && (
+          {pathname?.includes("/learn") && (
             <div className={cn("flex items-center gap-2 text-muted-foreground mb-8", bodyClass)}>
               <Link
-                href="/bible/learn"
+                href={`/bible/${lang}/learn`}
                 className="hover:text-foreground transition-colors font-medium"
               >
                 Learn

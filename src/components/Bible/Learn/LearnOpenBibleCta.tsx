@@ -20,7 +20,7 @@ export function LearnOpenBibleCta() {
         </p>
       </div>
       <Link
-        href="/bible/read"
+        href={`/bible/${globalLanguage === "VI" ? "vi" : "en"}/read`}
         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap hover:opacity-90"
         style={{ background: "oklch(0.92 0.006 85)", color: "oklch(0.22 0.01 85)" }}
       >

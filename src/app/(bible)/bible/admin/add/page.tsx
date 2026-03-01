@@ -17,7 +17,7 @@ export default function AdminAddVersePage() {
               List verses
             </Link>
             <Link
-              href="/bible/flashcard"
+              href="/bible/en/flashcard"
               className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 hover:bg-stone-50"
             >
               Flash cards

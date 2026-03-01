@@ -18,6 +18,7 @@ import {
 } from "@/app/(bible)/bible/read/params";
 import { getChapterContent } from "@/app/actions/bible/read";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
+import type { Language } from "@/components/Bible/BibleAppContext";
 import type { BibleBook } from "../types";
 import type { ChapterContent } from "../types";
 import type { VersionId } from "../constants";
@@ -160,15 +161,44 @@ function hasVersionInParams(params: Record<string, string | undefined>): boolean
   return (params.version1 ?? params.v1 ?? "").trim() !== "";
 }
 
+/** Route segment for /bible/[lang]/read from version id. */
+function versionToRouteLang(version: VersionId): "en" | "vi" | "zh" {
+  if (version === "vi") return "vi";
+  if (version === "zh") return "zh";
+  return "en";
+}
+
+/** Route segment from Language (used when no version selected). */
+function languageToRouteSegment(lang: Language): "en" | "vi" | "zh" {
+  if (lang === "VI") return "vi";
+  if (lang === "ZH") return "zh";
+  return "en";
+}
+
+/** Canonical read path with lang segment so URL stays in sync when user picks VI/EN/中文. */
+function getReadPathForState(
+  leftVersion: VersionId | null,
+  effectiveLanguage: Language
+): string {
+  const segment =
+    leftVersion !== null
+      ? versionToRouteLang(leftVersion)
+      : languageToRouteSegment(effectiveLanguage);
+  return `/bible/${segment}/read`;
+}
+
 export function ReadProvider({
   children,
   initialBooks = [],
   initialSearchParams,
+  initialLanguage,
 }: {
   children: ReactNode;
   initialBooks?: BibleBook[];
   /** When provided with initialBooks, used for initial version/sync state (avoids useEffect hydration). */
   initialSearchParams?: Record<string, string | undefined>;
+  /** Route language (e.g. from /bible/vi/read). Used for default version when no version in URL. */
+  initialLanguage?: Language;
 }) {
   const { globalLanguage } = useBibleApp();
   const searchParams = useSearchParams();
@@ -176,13 +206,14 @@ export function ReadProvider({
   const pathname = usePathname();
   const initialUrlSynced = useRef(false);
   const initFromUrlRunOnce = useRef(false);
+  const effectiveLanguage = initialLanguage ?? globalLanguage;
 
   const initialParsed = useMemo(
     () =>
       initialSearchParams && hasVersionInParams(initialSearchParams)
         ? parseReadSearchParams(initialSearchParams, "EN")
-        : parseReadSearchParams(Object.fromEntries(searchParams.entries()), globalLanguage),
-    [initialSearchParams, searchParams, globalLanguage]
+        : parseReadSearchParams(Object.fromEntries(searchParams.entries()), effectiveLanguage),
+    [initialSearchParams, searchParams, effectiveLanguage]
   );
 
   const [books, setBooks] = useState<BibleBook[]>(initialBooks);
@@ -256,7 +287,7 @@ export function ReadProvider({
   // URL sync: keep state in sync with URL; when URL has no versions, stay in "empty" state
   useEffect(() => {
     const raw = Object.fromEntries(searchParams.entries());
-    const parsed = parseReadSearchParams(raw, globalLanguage);
+    const parsed = parseReadSearchParams(raw, effectiveLanguage);
     const hasAnyVersion = parsed.version1 !== null || parsed.version2 !== null;
 
     // No versions in URL -> do NOT add defaults or push params; keep empty state
@@ -343,18 +374,20 @@ export function ReadProvider({
       setInsightOpen(parsed.insights);
     }
     initialUrlSynced.current = true;
-  }, [searchParams, pathname, globalLanguage, router, books]);
+  }, [searchParams, pathname, effectiveLanguage, router, books]);
 
-  // Push URL when user changes version, sync, book, chapter, or testament
+  // Push URL when user changes version, sync, book, chapter, or testament.
+  // Use path with correct [lang] segment so selecting VI updates route to /bible/vi/read.
   useEffect(() => {
     if (!initialUrlSynced.current) return;
     const hasAnyVersion = leftVersion !== null || rightVersion !== null;
+    const readPath = getReadPathForState(leftVersion, effectiveLanguage);
 
     // If user has cleared all versions and insights is off, clear query string entirely
     if (!hasAnyVersion && !insightOpen && !focusMode) {
       if (typeof window === "undefined") return;
-      if (window.location.search !== "") {
-        router.replace(pathname);
+      if (pathname !== readPath || window.location.search !== "") {
+        router.replace(readPath);
       }
       return;
     }
@@ -367,8 +400,8 @@ export function ReadProvider({
       });
       const desiredSearchInsights = qsInsightsOnly ? `?${qsInsightsOnly}` : "";
       if (typeof window === "undefined") return;
-      if (window.location.search !== desiredSearchInsights) {
-        router.replace(`${pathname}${desiredSearchInsights}`);
+      if (pathname !== readPath || window.location.search !== desiredSearchInsights) {
+        router.replace(`${readPath}${desiredSearchInsights}`);
       }
       return;
     }
@@ -394,8 +427,8 @@ export function ReadProvider({
     const desiredSearch = qs ? `?${qs}` : "";
     if (desiredSearch === "") return;
     if (typeof window === "undefined") return;
-    if (window.location.search !== desiredSearch) {
-      router.replace(`${pathname}${desiredSearch}`);
+    if (pathname !== readPath || window.location.search !== desiredSearch) {
+      router.replace(`${readPath}${desiredSearch}`);
     }
   }, [
     leftVersion,
@@ -411,7 +444,7 @@ export function ReadProvider({
     insightOpen,
     focusMode,
     pathname,
-    globalLanguage,
+    effectiveLanguage,
     router,
   ]);
 

@@ -9,6 +9,7 @@ import type { BibleBook } from "@/components/Bible/Read/types";
 import { useReadFocus } from "@/components/Bible/ReadFocusContext";
 import { NavigationForm } from "@/components/CoreAdvancedComponent/behaviors/navigation-form";
 import { usePathname } from "next/navigation";
+import type { Language } from "@/components/Bible/BibleAppContext";
 import { ReadHeader } from "../ReadHeaderNav/ReadHeader";
 import { ReadMain } from "../ReadMain";
 import { FullPageBibleLoader } from "../../GeneralComponents/full-page-bible-loader";
@@ -31,9 +32,11 @@ function ReadFocusSync() {
 export function ReadPageShell({
   booksPromise,
   searchParams,
+  initialLanguage,
 }: {
   booksPromise: Promise<BibleBook[]>;
   searchParams: Record<string, string | undefined>;
+  initialLanguage?: Language;
 }) {
   const initialBooks = use(booksPromise);
   const pathname = usePathname();
@@ -51,7 +54,11 @@ export function ReadPageShell({
 
   return (
     <NavigationForm action={pathname} preventReset>
-      <ReadProvider initialBooks={initialBooks} initialSearchParams={searchParams}>
+      <ReadProvider
+        initialBooks={initialBooks}
+        initialSearchParams={searchParams}
+        initialLanguage={initialLanguage}
+      >
         <ReadShellContainer>
           <ReadFocusSync />
           <ReadContentContainer>
