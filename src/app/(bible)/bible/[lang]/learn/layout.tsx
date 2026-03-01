@@ -6,12 +6,12 @@ import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { LearnLessonFooter } from "@/components/Bible/Learn/LearnLessonFooter";
-import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
+import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
 
 export default function LearnLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { fontSize } = useBibleApp();
+  const { bodyClass } = useLearnFontClasses();
   const parts = pathname?.split("/") ?? [];
   // pathname: /bible/en/learn or /bible/en/learn/bible-origin
   const lang = parts[2] === "vi" ? "vi" : "en";
@@ -26,9 +26,6 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
   };
   const titleKey = segment ? segmentTitleKey[segment] : null;
   const currentLabel = titleKey ? intl.t(titleKey) : null;
-
-  const bodyClass =
-    fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
 
   return (
     <div className="min-h-screen bg-read font-sans">
