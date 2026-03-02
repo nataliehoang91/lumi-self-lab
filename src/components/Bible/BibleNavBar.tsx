@@ -79,6 +79,11 @@ export function BibleNavBar() {
   const isGlossary =
     pathname?.includes("/bible/flashcard") || (pathname?.includes("/bible/") && pathname?.includes("/glossary"));
 
+  /** ZH is only supported on read and flashcard; hide on learn, book-overviews, topics, reflect, study, glossary. */
+  const showZhLanguage =
+    (pathname?.includes("/bible/") && pathname?.includes("/read")) ||
+    (pathname?.includes("/bible/") && pathname?.includes("/flashcard"));
+
   const learnLang = globalLanguage === "VI" ? "vi" : "en";
   const langSegment = (pathname?.match(/^\/bible\/(en|vi|zh)/))?.[1] ?? learnLang;
   const learnLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
@@ -378,7 +383,7 @@ export function BibleNavBar() {
                 className="h-8 px-3 text-sm rounded-md border border-bible-lang/40 bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90 transition-all"
                 aria-label="Language"
               >
-                {isLearn && globalLanguage === "ZH"
+                {globalLanguage === "ZH" && !showZhLanguage
                   ? "EN"
                   : globalLanguage === "ZH"
                     ? "中"
@@ -393,7 +398,7 @@ export function BibleNavBar() {
                 onClick={() => handleLanguageChange("EN")}
                 className={cn(
                   "h-8 px-2.5 text-sm rounded-md transition-all cursor-pointer",
-                  globalLanguage === "EN" || (isLearn && globalLanguage === "ZH")
+                  globalLanguage === "EN" || (globalLanguage === "ZH" && !showZhLanguage)
                     ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang/90"
                     : "text-muted-foreground hover:bg-bible-lang/20 hover:text-foreground focus:bg-bible-lang/20 focus:text-foreground"
                 )}
@@ -411,7 +416,7 @@ export function BibleNavBar() {
               >
                 VI
               </DropdownMenuItem>
-              {!isLearn && (
+              {showZhLanguage && (
                 <DropdownMenuItem
                   onClick={() => handleLanguageChange("ZH")}
                   className={cn(

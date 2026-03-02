@@ -120,7 +120,7 @@ export function EnBibleOriginPage() {
       <LearnBibleOriginIntro
         moduleNum="02 / 04"
         title="Bible Origin & Canon Formation"
-        intro="How did 66 books, written by more than 40 authors across 1,500 years and three continents, come to be recognised as a single authoritative text? The story spans ancient Israel, the early church, manuscript transmission, and archaeological discoveries that continue to shape our understanding today."
+        intro="How did 66 books, written by more than 40 authors across 1,500 years and three continents, come to be recognised as the Bible? The story spans ancient Israel, the early church, manuscript transmission, and archaeological discoveries that continue to shape our understanding today."
       />
 
       <LearnBibleOriginLanguages

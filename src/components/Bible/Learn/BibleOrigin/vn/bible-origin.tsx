@@ -116,11 +116,11 @@ export function VnBibleOriginPage() {
   const mapLabels = getMapLabels(VN_MAP_LOCATIONS);
 
   return (
-    <article aria-label="Nguồn gốc Kinh thánh & Hình thành Chính Điển">
+    <article aria-label="Nguồn gốc Kinh Thánh & Sự hình thành chính điển">
       <LearnBibleOriginIntro
         moduleNum="02 / 04"
-        title="Nguồn gốc Kinh thánh & Hình thành Chính Điển"
-        intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả qua 1.500 năm, được công nhận là một văn bản có thẩm quyền? Câu trả lời trải dài từ bản thảo cổ đại, tranh luận trong Hội thánh sơ khai, đến các khám phá khảo cổ."
+        title="Nguồn gốc Kinh Thánh & Sự hình thành chính điển"
+        intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả trong khoảng 1.500 năm, được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, sự sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
       />
 
       <LearnBibleOriginLanguages
@@ -148,7 +148,7 @@ export function VnBibleOriginPage() {
       <LearnBibleOriginReliable
         reliableTitle="Tại sao Kinh thánh được xem là đáng tin?"
         reliableP1="Tân Ước có nhiều bằng chứng bản thảo hơn bất kỳ tài liệu cổ đại nào — hơn 5.800 bản thảo Hy Lạp, so với chưa đến 650 bản cho Iliad của Homer. Khoảng cách thời gian giữa bản gốc và bản thảo còn lại sớm nhất cũng rất ngắn (vài thập kỷ, không phải thế kỷ)."
-        reliableP2="Cuộn Sách Biển Chết xác nhận văn bản Cựu Ước được bảo tồn với độ chính xác phi thường qua hơn một ngàn năm sao chép. Truyền thống kinh sư trong Do Thái giáo rất tỉ mỉ — một lỗi trên một trang có thể khiến phải hủy toàn bộ cuộn."
+        reliableP2="Cuộn Sách Biển Chết xác nhận văn bản Cựu Ước được bảo tồn với độ chính xác phi thường qua hơn một ngàn năm sao chép. Dù tồn tại một số khác biệt nhỏ giữa các bản chép tay, phần lớn chỉ là sai biệt chính tả hoặc cách diễn đạt, không ảnh hưởng đến nội dung cốt lõi của đức tin."
       />
 
       <LearnBibleOriginFaq faqTitle="Câu hỏi thường gặp" faq={VN_FAQ} />
