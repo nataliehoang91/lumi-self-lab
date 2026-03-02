@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { BibleStudyList, BibleStudyPassage } from "@/types/bible-study";
 import type { BibleBook, ChapterContent } from "@/components/Bible/Read/types";
-import type { ReadVersionId } from "@/app/(bible)/bible/read/params";
+import type { ReadVersionId } from "@/app/(bible)/bible/[lang]/read/params";
 import { getChapterContent } from "@/app/actions/bible/read";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";

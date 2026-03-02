@@ -15,7 +15,7 @@ import {
   parseReadSearchParams,
   buildReadSearchParams,
   type ReadSearchParams,
-} from "@/app/(bible)/bible/read/params";
+} from "@/app/(bible)/bible/[lang]/read/params";
 import { getChapterContent } from "@/app/actions/bible/read";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import type { Language } from "@/components/Bible/BibleAppContext";

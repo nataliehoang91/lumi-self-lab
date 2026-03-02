@@ -40,7 +40,6 @@ export default async function FlashcardPage({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const { lang } = await params;
-  if (lang !== "en" && lang !== "vi" && lang !== "zh") notFound();
 
   const routeLang = routeLangToLanguage(lang);
   const paramsFromUrl = await searchParams;
@@ -54,7 +53,9 @@ export default async function FlashcardPage({
 
   const isAll = parsed.layout === "all";
   const visibleCount = isAll ? Math.min(parsed.limit, ids.length) : 1;
-  const slice = isAll ? ids.slice(0, visibleCount) : ids.slice(parsed.index, parsed.index + visibleCount);
+  const slice = isAll
+    ? ids.slice(0, visibleCount)
+    : ids.slice(parsed.index, parsed.index + visibleCount);
 
   return (
     <div className="min-h-screen flex flex-col w-full">

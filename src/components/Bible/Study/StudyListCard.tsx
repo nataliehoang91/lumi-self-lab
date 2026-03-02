@@ -10,7 +10,7 @@ import {
   SubmitMessage,
 } from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
 import { ReserveLayout } from "@/components/ui/reverse-layout";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 interface StudyListCardProps {
   list: BibleStudyList;
@@ -18,9 +18,11 @@ interface StudyListCardProps {
 
 export function StudyListCard({ list }: StudyListCardProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const langSegment = (pathname?.match(/^\/bible\/(en|vi|zh)/))?.[1] ?? "en";
 
   const handleOpen = () => {
-    router.push(`/bible/study/${list.id}`);
+    router.push(`/bible/${langSegment}/study/${list.id}`);
   };
 
   return (
@@ -46,7 +48,7 @@ export function StudyListCard({ list }: StudyListCardProps) {
             action={async () => {
               await deleteStudyList(list.id);
               return {
-                redirect: "/bible/study",
+                redirect: `/bible/${langSegment}/study`,
                 refresh: true,
               };
             }}

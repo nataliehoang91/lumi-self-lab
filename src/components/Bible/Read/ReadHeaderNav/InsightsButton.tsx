@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { useRead } from "../context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
-import { buildReadSearchParams, defaultVersionFromLanguage } from "@/app/(bible)/bible/read/params";
+import { buildReadSearchParams, defaultVersionFromLanguage } from "@/app/(bible)/bible/[lang]/read/params";
 import {
   NavigationButton,
   NavigationSubmitMessage,

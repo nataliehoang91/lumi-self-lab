@@ -70,15 +70,17 @@ export function BibleNavBar() {
     }
   }
   const isBible =
-    pathname?.startsWith("/bible/read") ||
-    pathname?.startsWith("/bible/book-overviews") ||
-    pathname?.startsWith("/bible/topics") ||
-    pathname?.startsWith("/bible/topics-timeline");
-  const isReflect = pathname?.startsWith("/bible/reflect");
+    pathname?.includes("/bible/") &&
+    (pathname?.includes("/read") ||
+      pathname?.includes("/book-overviews") ||
+      pathname?.includes("/topics") ||
+      pathname?.includes("/topics-timeline"));
+  const isReflect = pathname?.includes("/bible/") && pathname?.includes("/reflect");
   const isGlossary =
-    pathname?.includes("/bible/flashcard") || pathname?.startsWith("/bible/glossary");
+    pathname?.includes("/bible/flashcard") || (pathname?.includes("/bible/") && pathname?.includes("/glossary"));
 
   const learnLang = globalLanguage === "VI" ? "vi" : "en";
+  const langSegment = (pathname?.match(/^\/bible\/(en|vi|zh)/))?.[1] ?? learnLang;
   const learnLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
     {
       href: `/bible/${learnLang}/learn`,
@@ -113,41 +115,41 @@ export function BibleNavBar() {
 
   const bibleLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
     {
-      href: `/bible/${learnLang}/read`,
+      href: `/bible/${langSegment}/read`,
       label: "Read",
       isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/read")) ?? false,
     },
     {
-      href: "/bible/book-overviews",
+      href: `/bible/${langSegment}/book-overviews`,
       label: "Book Overviews",
-      isActive: pathname === "/bible/book-overviews",
+      isActive: pathname?.includes("/book-overviews") ?? false,
       comingSoon: true,
     },
     {
-      href: "/bible/topics",
+      href: `/bible/${langSegment}/topics`,
       label: "Topics Explorer",
-      isActive: pathname === "/bible/topics",
+      isActive: (pathname?.includes("/topics") && !pathname?.includes("/topics-timeline")) ?? false,
       comingSoon: true,
     },
     {
-      href: "/bible/topics-timeline",
+      href: `/bible/${langSegment}/topics-timeline`,
       label: "Topics Timeline",
-      isActive: pathname === "/bible/topics-timeline",
+      isActive: pathname?.includes("/topics-timeline") ?? false,
       comingSoon: true,
     },
   ];
 
   const reflectLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] = [
     {
-      href: "/bible/reflect/journal",
+      href: `/bible/${langSegment}/reflect/journal`,
       label: "Journal",
-      isActive: pathname?.startsWith("/bible/reflect/journal") ?? false,
+      isActive: pathname?.includes("/reflect/journal") ?? false,
       comingSoon: true,
     },
     {
-      href: "/bible/reflect/devotional",
+      href: `/bible/${langSegment}/reflect/devotional`,
       label: "Devotional",
-      isActive: pathname?.startsWith("/bible/reflect/devotional") ?? false,
+      isActive: pathname?.includes("/reflect/devotional") ?? false,
       comingSoon: true,
     },
   ];
@@ -155,14 +157,14 @@ export function BibleNavBar() {
   const glossaryLinks: { href: string; label: string; isActive: boolean; comingSoon?: boolean }[] =
     [
       {
-        href: `/bible/${learnLang}/flashcard`,
+        href: `/bible/${langSegment}/flashcard`,
         label: "Flashcard",
         isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/flashcard")) ?? false,
       },
       {
-        href: "/bible/glossary/other",
+        href: `/bible/${langSegment}/glossary/other`,
         label: "Other",
-        isActive: pathname?.startsWith("/bible/glossary/other") ?? false,
+        isActive: pathname?.includes("/glossary/other") ?? false,
         comingSoon: true,
       },
     ];

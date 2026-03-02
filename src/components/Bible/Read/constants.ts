@@ -1,4 +1,4 @@
-import type { ReadVersionId } from "@/app/(bible)/bible/read/params";
+import type { ReadVersionId } from "@/app/(bible)/bible/[lang]/read/params";
 
 export const TRANSLATIONS: ReadonlyArray<{
   id: ReadVersionId;

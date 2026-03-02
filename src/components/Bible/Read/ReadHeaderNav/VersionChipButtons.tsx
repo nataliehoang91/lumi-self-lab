@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { useRead } from "../context/ReadContext";
 import { TRANSLATIONS, VERSION_CHIP_STYLES } from "../constants";
 import type { VersionId } from "../constants";
-import { buildReadSearchParams } from "@/app/(bible)/bible/read/params";
+import { buildReadSearchParams } from "@/app/(bible)/bible/[lang]/read/params";
 import {
   NavigationButton,
   NavigationSubmitMessage,

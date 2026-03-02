@@ -30,4 +30,3 @@ export default function StudyError({ error, reset }: StudyErrorProps) {
     </div>
   );
 }
-

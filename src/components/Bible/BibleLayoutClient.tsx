@@ -10,7 +10,7 @@ import { BibleNavBar } from "@/components/Bible/BibleNavBar";
 import { BibleMainWithPadding } from "@/components/Bible/Read/ReadLayout/BibleMainWithPadding";
 import { FullPageBibleLoader } from "@/components/Bible/GeneralComponents/full-page-bible-loader";
 
-const PROTECTED_BIBLE_PATHS = ["/bible/study"];
+const PROTECTED_BIBLE_STUDY_REGEX = /^\/bible\/(en|vi|zh)\/study(?:\/|$)/;
 
 export function BibleLayoutClient({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -18,9 +18,7 @@ export function BibleLayoutClient({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
 
-  const isProtected = PROTECTED_BIBLE_PATHS.some(
-    (p) => pathname === p || pathname.startsWith(p + "/"),
-  );
+  const isProtected = pathname != null && PROTECTED_BIBLE_STUDY_REGEX.test(pathname);
 
   useEffect(() => {
     if (!isLoaded) return;
