@@ -40,6 +40,22 @@ export function useLearnFontClasses() {
   const buttonClass =
     fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-md" : "text-sm";
 
+  /** Large hero title (e.g. LangPage). */
+  const heroTitleClass =
+    fontSize === "small"
+      ? "text-4xl md:text-5xl lg:text-6xl"
+      : fontSize === "large"
+        ? "text-6xl md:text-8xl lg:text-9xl"
+        : "text-5xl md:text-7xl lg:text-8xl";
+
+  /** Stat value (big number). */
+  const statValueClass =
+    fontSize === "small"
+      ? "text-3xl md:text-4xl"
+      : fontSize === "large"
+        ? "text-5xl md:text-6xl"
+        : "text-4xl md:text-5xl";
+
   return {
     bodyClass,
     bodyTitleClass,
@@ -49,5 +65,7 @@ export function useLearnFontClasses() {
     verseClass,
     introClass,
     buttonClass,
+    heroTitleClass,
+    statValueClass,
   };
 }

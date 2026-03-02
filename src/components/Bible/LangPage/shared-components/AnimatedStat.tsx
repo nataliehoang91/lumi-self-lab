@@ -12,15 +12,21 @@ const STAT_VALUE_CLASS: Record<StatAccent, string> = {
   sage: "text-sage",
 };
 
+export interface AnimatedStatProps {
+  value: string;
+  label: string;
+  accent?: StatAccent;
+  valueClassName?: string;
+  labelClassName?: string;
+}
+
 export function AnimatedStat({
   value,
   label,
   accent,
-}: {
-  value: string;
-  label: string;
-  accent?: StatAccent;
-}) {
+  valueClassName,
+  labelClassName,
+}: AnimatedStatProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -44,13 +50,14 @@ export function AnimatedStat({
     >
       <p
         className={cn(
-          "font-serif text-4xl md:text-5xl font-semibold",
+          "font-serif font-semibold",
+          valueClassName ?? "text-4xl md:text-5xl",
           accent ? STAT_VALUE_CLASS[accent] : "text-foreground"
         )}
       >
         {value}
       </p>
-      <p className="mt-1 text-sm text-muted-foreground">{label}</p>
+      <p className={cn("mt-1 text-muted-foreground", labelClassName ?? "text-sm")}>{label}</p>
     </div>
   );
 }

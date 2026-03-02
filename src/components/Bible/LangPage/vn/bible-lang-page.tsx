@@ -1,48 +1,29 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight, BookOpen, BookMarked, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { BookOpen, BookMarked, Sparkles } from "lucide-react";
 import { DailyVerse } from "../shared-components/DailyVerse";
-import { FadeIn } from "../shared-components/FadeIn";
-import { AnimatedStat } from "../shared-components/AnimatedStat";
-import type { JourneyItem, NavLink, JourneyAccent } from "../shared-components/types";
-
-const JOURNEY_STRIP_CLASS: Record<JourneyAccent, string> = {
-  primary: "bg-primary/80",
-  second: "bg-second/80",
-  tertiary: "bg-tertiary/80",
-  sage: "bg-sage/80",
-  coral: "bg-coral/80",
-};
-
-const JOURNEY_ICON_CLASS: Record<JourneyAccent, string> = {
-  primary: "bg-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground",
-  second: "bg-second/20 text-second group-hover:bg-second group-hover:text-second-foreground",
-  tertiary:
-    "bg-tertiary/20 text-tertiary group-hover:bg-tertiary group-hover:text-tertiary-foreground",
-  sage: "bg-sage/20 text-sage group-hover:bg-sage group-hover:text-sage-foreground",
-  coral: "bg-coral/20 text-coral group-hover:bg-coral group-hover:text-coral-foreground",
-};
+import { LangPageHero } from "../shared-components/LangPageHero";
+import { LangPageStats } from "../shared-components/LangPageStats";
+import { LangPageJourney } from "../shared-components/LangPageJourney";
+import { LangPageCtaBanner } from "../shared-components/LangPageCtaBanner";
+import { LangPageFooter } from "../shared-components/LangPageFooter";
+import type { JourneyItem, NavLink } from "../shared-components/types";
+import type { StatAccent } from "../shared-components/AnimatedStat";
+import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
 
 const DAILY_VERSES_VN = [
   {
     text: "Lời Chúa là ngọn đèn cho chân tôi, ánh sáng cho đường lối tôi.",
     ref: "Thi thiên 119:105",
   },
-  {
-    text: "Hãy hết lòng tin cậy Đức Giê-hô-va.",
-    ref: "Châm ngôn 3:5",
-  },
+  { text: "Hãy hết lòng tin cậy Đức Giê-hô-va.", ref: "Châm ngôn 3:5" },
   {
     text: "Tôi làm được mọi sự nhờ Đấng Christ ban thêm sức cho tôi.",
     ref: "Phi-líp 4:13",
   },
 ];
 
-function getJourneyVn(lang: string): JourneyItem[] {
-  const base = `/bible/${lang}`;
-
+function getJourneyVn(base: string): JourneyItem[] {
   return [
     {
       step: "01",
@@ -84,9 +65,8 @@ function getJourneyVn(lang: string): JourneyItem[] {
     },
   ];
 }
-function getNavLinksVn(lang: string): NavLink[] {
-  const base = `/bible/${lang}`;
 
+function getNavLinksVn(base: string): NavLink[] {
   return [
     { label: "Học", href: `${base}/learn` },
     { label: "Đọc", href: `${base}/read` },
@@ -100,58 +80,33 @@ export interface VnBibleLangPageProps {
 }
 
 export function VnBibleLangPage({ lang }: VnBibleLangPageProps) {
-  const today = new Date();
-  const verseIdx = today.getDate() % DAILY_VERSES_VN.length;
-  const verse = DAILY_VERSES_VN[verseIdx];
-  const journey = getJourneyVn(lang);
-  const navLinks = getNavLinksVn(lang);
   const base = `/bible/${lang}`;
+  const { subBodyClass, verseClass, bodyClass } = useLearnFontClasses();
+
+  const verseIdx = new Date().getDate() % DAILY_VERSES_VN.length;
+  const verse = DAILY_VERSES_VN[verseIdx];
+  const journey = getJourneyVn(base);
+  const navLinks = getNavLinksVn(base);
+
+  const stats: { value: string; label: string; accent: StatAccent }[] = [
+    { value: "66", label: "Sách", accent: "primary" },
+    { value: "1,189", label: "Chương", accent: "second" },
+    { value: "3,000+", label: "Ngôn ngữ", accent: "tertiary" },
+    { value: "1", label: "Câu chuyện", accent: "sage" },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
-      <section className="relative min-h-[80vh] flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" aria-hidden>
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute left-0 right-0 border-t border-border/30"
-              style={{ top: `${(i + 1) * 14}%` }}
-            />
-          ))}
-        </div>
-
-        <div className="relative max-w-4xl mx-auto text-center space-y-8 z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-second/60 bg-second/10 text-xs font-medium text-second tracking-wide uppercase">
-            Nơi bình yên để biết Chúa
-          </div>
-
-          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-semibold text-foreground leading-[1.05] tracking-tight text-balance">
-            Biết chính mình.
-            <br />
-            <span className="text-primary">Biết Kinh thánh.</span>
-          </h1>
-
-          <p className="max-w-xl mx-auto text-lg text-muted-foreground leading-relaxed text-pretty">
-            Một không gian yên tĩnh để học và đọc Kinh thánh.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href={`${base}/learn`}
-              className="px-7 py-3.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2"
-            >
-              Bắt đầu tại đây
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href={`${base}/read`}
-              className="px-7 py-3.5 border border-second bg-transparent rounded-xl text-sm font-medium text-second hover:bg-second hover:text-second-foreground transition-colors"
-            >
-              Mở Kinh thánh
-            </Link>
-          </div>
-        </div>
-
+      <LangPageHero
+        eyebrow="Nơi bình yên để biết Chúa"
+        title1="Biết chính mình."
+        title2="Biết Kinh thánh."
+        subtitle="Một không gian yên tĩnh để học và đọc Kinh thánh."
+        ctaStartLabel="Bắt đầu tại đây"
+        ctaBibleLabel="Mở Kinh thánh"
+        learnHref={`${base}/learn`}
+        readHref={`${base}/read`}
+      >
         <div className="relative z-10 mt-20 w-full max-w-2xl mx-auto">
           <DailyVerse
             label="Câu của ngày"
@@ -159,147 +114,36 @@ export function VnBibleLangPage({ lang }: VnBibleLangPageProps) {
             verseRef={verse.ref}
             readHref={`${base}/read`}
             readLabel="Đọc trong bối cảnh"
+            labelClassName={subBodyClass}
+            quoteClassName={verseClass}
+            refClassName={bodyClass}
+            linkClassName={bodyClass}
           />
         </div>
+      </LangPageHero>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-          <div className="w-px h-10 bg-foreground/40 animate-pulse" />
-        </div>
-      </section>
+      <LangPageStats stats={stats} />
 
-      <section className="border-y border-border/50 py-16 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
-          <AnimatedStat value="66" label="Sách" accent="primary" />
-          <AnimatedStat value="1,189" label="Chương" accent="second" />
-          <AnimatedStat value="3,000+" label="Ngôn ngữ" accent="tertiary" />
-          <AnimatedStat value="1" label="Câu chuyện" accent="sage" />
-        </div>
-      </section>
+      <LangPageJourney
+        title="Hành trình của bạn"
+        subtitle="Con đường từ câu hỏi đầu tiên đến đức tin sâu nhiệm."
+        items={journey}
+      />
 
-      <section className="py-20 px-6 border-t border-border/50">
-        <div className="max-w-5xl mx-auto">
-          <FadeIn>
-            <div className="mb-16">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-3">
-                Hành trình của bạn
-              </p>
-              <h2 className="font-serif text-3xl md:text-4xl font-semibold text-foreground text-balance leading-tight max-w-xl">
-                Con đường từ câu hỏi đầu tiên đến đức tin sâu nhiệm.
-              </h2>
-            </div>
-          </FadeIn>
+      <LangPageCtaBanner
+        title="Bắt đầu từ một bước nhỏ."
+        paragraph="Dù bạn mới bắt đầu hay đã đọc nhiều năm, bạn có thể tiếp tục học và lớn lên từng ngày."
+        newLabel="Tôi mới đến"
+        bibleLabel="Đưa tôi đến Kinh thánh"
+        learnHref={`${base}/learn`}
+        readHref={`${base}/read`}
+      />
 
-          <div className="space-y-4">
-            {journey.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <FadeIn key={item.step} delay={i * 80}>
-                  <div className="group relative border border-border hover:border-foreground/40 rounded-2xl p-6 md:p-8 bg-card hover:shadow-md transition-all overflow-hidden">
-                    <div
-                      className={cn(
-                        "absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl",
-                        JOURNEY_STRIP_CLASS[item.accent]
-                      )}
-                    />
-                    <div className="flex flex-col md:flex-row md:items-center gap-6">
-                      <div className="flex items-center gap-4 md:w-48 shrink-0">
-                        <div
-                          className={cn(
-                            "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
-                            JOURNEY_ICON_CLASS[item.accent]
-                          )}
-                        >
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-xs font-mono text-muted-foreground/60">{item.step}</p>
-                          <p className="font-semibold text-foreground">{item.label}</p>
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-foreground mb-1">{item.headline}</p>
-                        <p className="text-sm text-muted-foreground leading-relaxed">{item.body}</p>
-                        <div className="flex flex-wrap gap-2 mt-4">
-                          {item.links.map((l) => (
-                            <Link
-                              key={l.href}
-                              href={l.href}
-                              className="px-3 py-1 text-xs border border-border rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                            >
-                              {l.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="shrink-0">
-                        <Link
-                          href={item.cta.href}
-                          className="flex items-center gap-2 px-5 py-2.5 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
-                        >
-                          {item.cta.label}
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </FadeIn>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24 px-6">
-        <FadeIn>
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2>Bắt đầu từ một bước nhỏ.</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto text-pretty">
-              Dù bạn mới bắt đầu hay đã đọc nhiều năm, bạn có thể tiếp tục học và lớn lên từng
-              ngày.{" "}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-              <Link
-                href={`${base}/learn`}
-                className="px-8 py-4 bg-primary text-primary-foreground rounded-xl text-base font-semibold hover:opacity-90 transition-opacity flex items-center gap-2"
-              >
-                Tôi mới đến
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href={`${base}/read`}
-                className="px-8 py-4 border border-second bg-transparent rounded-xl text-base font-medium text-second hover:bg-second hover:text-second-foreground transition-colors"
-              >
-                Đưa tôi đến Kinh thánh
-              </Link>
-            </div>
-          </div>
-        </FadeIn>
-      </section>
-
-      <footer className="border-t border-border/50 py-12 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <div>
-            <p className="font-serif font-semibold text-foreground text-lg">SelfWithin</p>
-            <p className="text-sm text-muted-foreground mt-1">Nơi bình yên để biết Chúa.</p>
-          </div>
-          <nav className="grid grid-cols-2 md:flex gap-x-10 gap-y-2">
-            {navLinks.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-        <div className="max-w-5xl mx-auto mt-8 pt-6 border-t border-border/40 flex items-center justify-between">
-          <p className="text-xs text-muted-foreground/60">
-            &copy; {new Date().getFullYear()} SelfWithin. Kinh thánh cho tâm hồn.
-          </p>
-        </div>
-      </footer>
+      <LangPageFooter
+        tagline="Nơi bình yên để biết Chúa."
+        copyright="Kinh thánh cho tâm hồn."
+        navLinks={navLinks}
+      />
     </div>
   );
 }

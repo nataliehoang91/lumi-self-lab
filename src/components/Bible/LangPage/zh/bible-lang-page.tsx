@@ -6,7 +6,7 @@ export interface ZhBibleLangPageProps {
   lang: string;
 }
 
-/** Chinese version: use English content for now; can add zh copy later. */
+/** Chinese: use English content for now. */
 export function ZhBibleLangPage({ lang }: ZhBibleLangPageProps) {
   return <EnBibleLangPage lang={lang} />;
 }
