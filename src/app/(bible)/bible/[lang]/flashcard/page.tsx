@@ -1,11 +1,10 @@
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
-import { parseSearchParams } from "@/app/(bible)/bible/flashcard/params";
+import { parseSearchParams } from "../../flashcard/params";
 import { CardSkeleton } from "@/components/Bible/FlashCard/CardSkeleton";
 import { CardWithData } from "@/components/Bible/FlashCard/CardWithData";
 import { FlashCardShell } from "@/components/Bible/FlashCard/FlashCardShell";
 import type { Language } from "@/components/Bible/BibleAppContext";
-import { notFound } from "next/navigation";
 
 const MAX_IDS = 500;
 

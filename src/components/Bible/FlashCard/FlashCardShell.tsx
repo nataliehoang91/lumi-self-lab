@@ -15,7 +15,6 @@ import {
 import { cn } from "@/lib/utils";
 import { getBibleIntl } from "@/lib/bible-intl";
 import type { Language, FontSize, LayoutMode } from "@/components/Bible/BibleAppContext";
-import { buildFlashcardSearchParams } from "@/app/(bible)/bible/flashcard/params";
 import { Container } from "@/components/ui/container";
 
 const ALL_BATCH_SIZE = 50;
@@ -98,7 +97,10 @@ export function FlashCardShell({
   const collectionSelectorInline =
     collections.length > 0 ? (
       <div className="flex items-center gap-2 flex-wrap min-w-0">
-        <label htmlFor="collection-select" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground shrink-0">
+        <label
+          htmlFor="collection-select"
+          className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground shrink-0"
+        >
           <Layers className="w-5 h-5 text-primary shrink-0" />
           {intl.t("collection")}
         </label>
@@ -117,20 +119,20 @@ export function FlashCardShell({
           >
             <SelectValue placeholder={intl.t("selectCollection")} />
           </SelectTrigger>
-            <SelectContent
-              className="rounded-xl border border-border bg-popover text-popover-foreground"
-              sideOffset={4}
-            >
-              {collections.map((c) => (
-                <SelectItem
-                  key={c.id}
-                  value={c.id}
-                  className="rounded-lg focus:bg-muted focus:text-muted-foreground"
-                >
-                  {intl.t("collectionName", { name: c.name }) ?? `Collection ${c.name}`}
-                </SelectItem>
-              ))}
-            </SelectContent>
+          <SelectContent
+            className="rounded-xl border border-border bg-popover text-popover-foreground"
+            sideOffset={4}
+          >
+            {collections.map((c) => (
+              <SelectItem
+                key={c.id}
+                value={c.id}
+                className="rounded-lg focus:bg-muted focus:text-muted-foreground"
+              >
+                {intl.t("collectionName", { name: c.name }) ?? `Collection ${c.name}`}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
       </div>
     ) : null;
@@ -139,9 +141,7 @@ export function FlashCardShell({
     <header className="sticky z-40 top-14 bg-background/95 border-b border-border transition-all duration-300">
       <Container className="mx-auto px-4 sm:px-6 py-3">
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-3 min-w-0">
-            {collectionSelectorInline}
-          </div>
+          <div className="flex items-center gap-3 min-w-0">{collectionSelectorInline}</div>
           {total > 0 && (
             <p className="text-sm text-muted-foreground shrink-0">
               {isAll
@@ -245,73 +245,73 @@ export function FlashCardShell({
         </div>
 
         <div className="w-full flex-1 flex flex-col items-center justify-center px-2 sm:px-4 py-4 min-h-[min(60vh,400px)]">
-        <div
-          className={cn(
-            "flex items-center justify-center gap-4 max-w-full flex-1 min-h-0",
-            isVertical ? "flex-col w-full" : "flex-row w-full"
-          )}
-        >
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={() => pushParams({ index: index - 1 })}
-            disabled={!showPrev}
-            className={cn(
-              "shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full",
-              isVertical && "order-first"
-            )}
-            aria-label={isVertical ? "Previous (up)" : "Previous (left)"}
-          >
-            {isVertical ? <ChevronUp className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
-          </Button>
-
           <div
             className={cn(
-              "flex gap-3 sm:gap-4 min-h-0 flex-1 items-center justify-center min-w-0",
-              isVertical
-                ? "flex-col w-full self-stretch overflow-y-auto"
-                : "flex-row overflow-x-auto overflow-y-hidden shrink-0"
+              "flex items-center justify-center gap-4 max-w-full flex-1 min-h-0",
+              isVertical ? "flex-col w-full" : "flex-row w-full"
             )}
           >
-            {isVertical ? (
-              <div className="w-full min-w-0 max-w-lg self-stretch flex flex-col items-center justify-center px-1">
-                {children}
-              </div>
-            ) : (
-              <>
-                {Array.from({ length: React.Children.count(children) }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="shrink-0 w-[min(100%,320px)] sm:w-[min(100%,28rem)] max-w-lg flex items-center justify-center basis-[min(100%,320px)] sm:basis-md"
-                  >
-                    {React.Children.toArray(children)[i]}
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => pushParams({ index: index - 1 })}
+              disabled={!showPrev}
+              className={cn(
+                "shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full",
+                isVertical && "order-first"
+              )}
+              aria-label={isVertical ? "Previous (up)" : "Previous (left)"}
+            >
+              {isVertical ? <ChevronUp className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+            </Button>
 
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={() => pushParams({ index: index + 1 })}
-            disabled={!showNext}
-            className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full"
-            aria-label={isVertical ? "Next (down)" : "Next (right)"}
-          >
-            {isVertical ? (
-              <ChevronDown className="h-5 w-5" />
-            ) : (
-              <ChevronRight className="h-5 w-5" />
-            )}
-          </Button>
-        </div>
-        <p className="text-xs text-muted-foreground mt-4 text-center">
-          {isVertical ? intl.t("useArrowKeysVertical") : intl.t("useArrowKeys")}
-        </p>
-        <p className="text-xs text-muted-foreground text-center">{intl.t("keyboardHint")}</p>
+            <div
+              className={cn(
+                "flex gap-3 sm:gap-4 min-h-0 flex-1 items-center justify-center min-w-0",
+                isVertical
+                  ? "flex-col w-full self-stretch overflow-y-auto"
+                  : "flex-row overflow-x-auto overflow-y-hidden shrink-0"
+              )}
+            >
+              {isVertical ? (
+                <div className="w-full min-w-0 max-w-lg self-stretch flex flex-col items-center justify-center px-1">
+                  {children}
+                </div>
+              ) : (
+                <>
+                  {Array.from({ length: React.Children.count(children) }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="shrink-0 w-[min(100%,320px)] sm:w-[min(100%,28rem)] max-w-lg flex items-center justify-center basis-[min(100%,320px)] sm:basis-md"
+                    >
+                      {React.Children.toArray(children)[i]}
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => pushParams({ index: index + 1 })}
+              disabled={!showNext}
+              className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full"
+              aria-label={isVertical ? "Next (down)" : "Next (right)"}
+            >
+              {isVertical ? (
+                <ChevronDown className="h-5 w-5" />
+              ) : (
+                <ChevronRight className="h-5 w-5" />
+              )}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground mt-4 text-center">
+            {isVertical ? intl.t("useArrowKeysVertical") : intl.t("useArrowKeys")}
+          </p>
+          <p className="text-xs text-muted-foreground text-center">{intl.t("keyboardHint")}</p>
         </div>
       </div>
     </>
