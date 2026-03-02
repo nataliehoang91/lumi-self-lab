@@ -24,7 +24,7 @@ export function BibleLangPageWithLoader({ locale }: BibleLangPageWithLoaderProps
 
   return (
     <>
-      {true && (
+      {!showContent && (
         <LandingLoader
           onComplete={() => {
             setShowContent(true);

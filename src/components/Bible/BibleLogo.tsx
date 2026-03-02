@@ -6,30 +6,14 @@ export function BibleLogo() {
   return (
     <Link
       href="/bible"
-      className="logo-brand-colors size-8 sm:size-10 rounded-lg text-stone-800 flex items-center justify-center shrink-0 overflow-hidden"
-      style={{
-        // Very light background so the cross stands out
-        background:
-          "linear-gradient(135deg, oklch(0.99 0.02 95) 0%, oklch(0.98 0.04 80) 40%, oklch(0.98 0.06 90) 100%)",
-      }}
+      className="bible-logo-shell logo-brand-colors size-8 sm:size-10 rounded-xl border border-primary-light shadow-sm text-stone-800 flex items-center justify-center shrink-0 overflow-hidden"
       aria-label="Scripture Memory home"
     >
       <div className="relative w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center">
         {/* Soft halo behind cross */}
-        <div
-          className="absolute inset-0 rounded-full pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(circle, oklch(0.96 0.1 70 / 0.4) 0%, oklch(0.99 0.03 85 / 0.08) 55%, transparent 85%)",
-            filter: "blur(4px)",
-          }}
-        />
+        <div className="absolute inset-0 rounded-full pointer-events-none bible-logo-halo" />
         {/* Cross — same gradient language as landing loader */}
-        <svg
-          viewBox="0 0 52 66"
-          aria-hidden="true"
-          className="relative w-full h-full"
-        >
+        <svg viewBox="0 0 52 66" aria-hidden="true" className="relative w-full h-full">
           <defs>
             <linearGradient
               id="bibleCrossGrad"

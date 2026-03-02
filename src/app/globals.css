@@ -210,9 +210,21 @@
   --bible-lang: oklch(0.28 0.02 75);
   --bible-lang-foreground: oklch(0.985 0 0);
   --gradient-peach: var(--background);
-  --gradient-peach-button: linear-gradient(135deg, oklch(0.82 0.02 75) 0%, oklch(0.75 0.02 75) 100%);
-  --gradient-second-button: linear-gradient(135deg, oklch(0.3 0.02 75) 0%, oklch(0.22 0.02 75) 100%);
-  --gradient-primary-button: linear-gradient(135deg, oklch(0.25 0.02 75) 0%, oklch(0.18 0.02 75) 100%);
+  --gradient-peach-button: linear-gradient(
+    135deg,
+    oklch(0.82 0.02 75) 0%,
+    oklch(0.75 0.02 75) 100%
+  );
+  --gradient-second-button: linear-gradient(
+    135deg,
+    oklch(0.3 0.02 75) 0%,
+    oklch(0.22 0.02 75) 100%
+  );
+  --gradient-primary-button: linear-gradient(
+    135deg,
+    oklch(0.25 0.02 75) 0%,
+    oklch(0.18 0.02 75) 100%
+  );
   --gradient-white: var(--background);
   --gradient-violet-tint: oklch(0.93 0.01 85 / 0.5);
 }
@@ -366,9 +378,9 @@
     min-height: 100vh;
     background-image: linear-gradient(
       to bottom right,
-      rgb(255 237 213), /* orange-100 */
-      rgb(253 242 248), /* pink-50 */
-      rgb(243 232 255)  /* purple-100 */
+      rgb(255 237 213),
+      /* orange-100 */ rgb(253 242 248),
+      /* pink-50 */ rgb(243 232 255) /* purple-100 */
     );
   }
 
@@ -735,12 +747,13 @@
   /* Light-mode glow around the cross: bright core, very soft outer falloff */
   --loader-bloom1: oklch(0.92 0.06 34 / 0.38); /* inner bloom – bright peach */
   --loader-bloom2: oklch(0.96 0.04 80 / 0.08); /* mid bloom – near-bg, low alpha */
-  --loader-glow: oklch(0.96 0.1 70 / 0.55);    /* tight glow right behind cross */
-  --loader-halo: oklch(0.97 0.03 85 / 0.06);   /* outer halo – very light, subtle */
+  --loader-glow: oklch(0.96 0.1 70 / 0.55); /* tight glow right behind cross */
+  --loader-halo: oklch(0.97 0.03 85 / 0.06); /* outer halo – very light, subtle */
 }
 .dark .landing-loader-bg {
-  --loader-wordmark: oklch(0.82 0.08 50);
-  --loader-tagline: oklch(0.65 0.06 45);
+  /* Dark mode: brighter wordmark/tagline for better contrast */
+  --loader-wordmark: oklch(0.94 0.04 85);
+  --loader-tagline: oklch(0.88 0.03 80);
   --loader-words: oklch(0.95 0.04 75);
   --loader-verse: oklch(0.85 0.06 55);
   --loader-verse-ref: oklch(0.6 0.06 40);
@@ -753,8 +766,8 @@
   /* Dark-mode glow: tighter and darker so it feels smooth on zinc-900 */
   --loader-bloom1: oklch(0.4 0.06 45 / 0.38); /* inner bloom – warm but not washed out */
   --loader-bloom2: oklch(0.26 0.04 45 / 0.18); /* mid bloom – closer to bg */
-  --loader-glow: oklch(0.5 0.08 50 / 0.35);    /* glow right behind cross */
-  --loader-halo: oklch(0.22 0.03 45 / 0.12);   /* outer halo – subtle, darker */
+  --loader-glow: oklch(0.5 0.08 50 / 0.35); /* glow right behind cross */
+  --loader-halo: oklch(0.22 0.03 45 / 0.12); /* outer halo – subtle, darker */
 }
 .landing-loader-vignette {
   background: linear-gradient(to top, var(--loader-vignette), transparent);
@@ -864,4 +877,35 @@
   transform: rotate(-180deg);
   opacity: 0;
   scale: 0;
+}
+
+/* Bible logo: soft halo behind cross */
+.bible-logo-halo {
+  background: radial-gradient(
+    circle,
+    oklch(0.96 0.1 70 / 0.4) 0%,
+    oklch(0.99 0.03 85 / 0.08) 55%,
+    transparent 85%
+  );
+  filter: blur(4px);
+}
+
+/* Bible logo: badge background shell */
+.bible-logo-shell {
+  background: linear-gradient(
+    135deg,
+    /* match body gradient: orange-100 → pink-50 → purple-100, but slightly warmer */
+    rgb(251, 241, 227) 0%,
+    rgb(247, 241, 244) 48%,
+    rgb(246, 241, 251) 100%
+  );
+}
+
+.dark .bible-logo-shell {
+  background: linear-gradient(
+    135deg,
+    rgb(24, 24, 27) 0%,
+    rgb(24, 24, 27) 48%,
+    rgb(24, 24, 27) 100%
+  );
 }
