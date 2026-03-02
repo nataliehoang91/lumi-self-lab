@@ -1,7 +1,7 @@
 import type { LayoutMode, FontSize, Language } from "@/components/Bible/BibleAppContext";
 
 const DEFAULT_INDEX = 0;
-const DEFAULT_LAYOUT: LayoutMode = "vertical";
+const DEFAULT_LAYOUT: LayoutMode = "all";
 const DEFAULT_FONT: FontSize = "medium";
 // Keep in sync with FlashCardShell.ALL_BATCH_SIZE (50).
 const DEFAULT_LIMIT = 50;
@@ -24,11 +24,9 @@ export function parseSearchParams(
   let index = Number.parseInt(indexRaw ?? "", 10);
   if (!Number.isFinite(index) || index < 0) index = DEFAULT_INDEX;
 
-  const layoutRaw = params.layout;
-  const layout: LayoutMode =
-    layoutRaw === "horizontal" || layoutRaw === "all" || layoutRaw === "vertical"
-      ? (layoutRaw as LayoutMode)
-      : DEFAULT_LAYOUT;
+  // For now, flashcards only use the \"all\" (grid) layout.
+  // We intentionally ignore any layout param in the URL.
+  const layout: LayoutMode = DEFAULT_LAYOUT;
 
   const fontRaw = params.font;
   const font: FontSize =

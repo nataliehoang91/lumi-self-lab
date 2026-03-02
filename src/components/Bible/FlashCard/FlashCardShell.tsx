@@ -165,7 +165,7 @@ export function FlashCardShell({
           )}
         >
           <div className="w-full flex-1 flex flex-col items-center justify-center py-8 px-4">
-            <div className="rounded-xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 p-8 shadow-lg w-full max-w-md flex items-center justify-center">
+            <div className="rounded-xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 p-8 shadow-lg w-full max-w-md flex items-center justify-center">
               <p className="text-center text-muted-foreground">{intl.t("noVerses")}</p>
             </div>
           </div>

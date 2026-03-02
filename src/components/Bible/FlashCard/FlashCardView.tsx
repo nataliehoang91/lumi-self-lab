@@ -170,7 +170,7 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
 
   if (ids.length === 0) {
     return (
-      <div className="rounded-xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 p-8 text-center text-muted-foreground shadow-lg">
+      <div className="rounded-xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 p-8 text-center text-muted-foreground shadow-lg">
         {intl.t("noVerses")}
       </div>
     );

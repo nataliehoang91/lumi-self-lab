@@ -44,7 +44,7 @@ export function FlashCardHorizontal({
         }}
       >
         <div
-          className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-4 flex flex-col items-center justify-center"
+          className="absolute inset-0 rounded-2xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 shadow-lg p-4 flex flex-col items-center justify-center"
           style={{ backfaceVisibility: "hidden" }}
         >
           <Badge variant="outline" className="text-xs">
@@ -57,7 +57,7 @@ export function FlashCardHorizontal({
         </div>
 
         <div
-          className="absolute inset-0 rounded-2xl bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-lg p-4 flex flex-col"
+          className="absolute inset-0 rounded-2xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 shadow-lg p-4 flex flex-col"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <div className="flex-1 flex flex-col min-h-0 overflow-auto">

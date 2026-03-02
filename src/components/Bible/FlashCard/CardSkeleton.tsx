@@ -38,7 +38,7 @@ export function CardSkeleton({
       {/* Card skeleton container */}
       <div
         className={cn(
-          "w-full rounded-2xl bg-card border border-border overflow-hidden relative",
+          "w-full rounded-2xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 overflow-hidden relative",
           horizontal ? "aspect-4/3 max-h-[280px]" : "h-[280px] sm:h-[320px]"
         )}
       >
