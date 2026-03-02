@@ -75,6 +75,11 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStructureNextOrigin: "Next: Bible Origin",
     learnOriginTitle: "Bible Origin & Canon Formation",
     learnJesusTitle: "Who Is Jesus?",
+    learnDeepDiveTitle: "Want to explore this more?",
+    learnDeepDiveLabel: "Deep Dive",
+    learnDeepDiveDescription:
+      "Take a closer look at the history, context, and meaning behind what you've just read.",
+    learnDeepDiveButton: "Go deeper",
   },
   vi: {
     clickToReveal: "Nhấp để xem câu kinh thánh",
@@ -133,6 +138,11 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStructureNextOrigin: "Tiếp: Nguồn gốc Kinh thánh",
     learnOriginTitle: "Nguồn gốc Kinh thánh & Hình thành Chính Điển",
     learnJesusTitle: "Chúa Giê-xu Là Ai?",
+    learnDeepDiveTitle: "Muốn tìm hiểu sâu hơn?",
+    learnDeepDiveLabel: "Tìm hiểu thêm",
+    learnDeepDiveDescription:
+      "Nếu bạn muốn hiểu rõ hơn về bối cảnh và ý nghĩa phía sau bài học này, bạn có thể tiếp tục đọc phần mở rộng.",
+    learnDeepDiveButton: "Khám phá thêm",
   },
   zh: {
     clickToReveal: "點擊顯示經文",
@@ -190,6 +200,11 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     learnStructureNextOrigin: "下一課：聖經的來源",
     learnOriginTitle: "聖經的來源與正典形成",
     learnJesusTitle: "Who Is Jesus?",
+    learnDeepDiveTitle: "Want to explore this more?",
+    learnDeepDiveLabel: "Deep Dive",
+    learnDeepDiveDescription:
+      "Take a closer look at the history, context, and meaning behind what you've just read.",
+    learnDeepDiveButton: "Go deeper",
   },
 };
 

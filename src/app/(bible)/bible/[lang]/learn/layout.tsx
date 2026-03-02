@@ -6,6 +6,7 @@ import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { LearnLessonFooter } from "@/components/Bible/Learn/LearnLessonFooter";
+import { LearnDeepDiveCta } from "@/components/Bible/Learn/LearnDeepDiveCta";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
 
@@ -31,7 +32,7 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-read font-sans">
       <main>
         <Container maxWidth="5xl" className={cn("px-4 py-16")}>
-          {pathname?.includes("/learn") && (
+          {pathname?.includes("/learn") && segment != null && (
             <div className={cn("flex items-center gap-2 text-muted-foreground mb-8", bodyClass)}>
               <Link
                 href={`/bible/${lang}/learn`}
@@ -49,6 +50,9 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
           )}
 
           {children}
+
+          <LearnDeepDiveCta />
+          <div className="my-10" />
           <LearnLessonFooter />
         </Container>
       </main>

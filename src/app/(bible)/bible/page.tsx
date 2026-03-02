@@ -1,12 +1,19 @@
-import type { Metadata } from "next";
-import { BibleRedirect } from "@/components/Bible/BibleRedirect";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
-export const metadata: Metadata = {
-  title: "Scripture Memory - Bible Flashcards",
-  description: "A beautiful scripture memory app for church communities",
-};
+const DEFAULT_LOCALE = "en";
 
-export default function BiblePage() {
-  // Server component: can export metadata and render a small client redirect.
-  return <BibleRedirect />;
+/** Prefer vi if Accept-Language suggests Vietnamese; else zh; else en. */
+async function getLocaleFromHeaders(): Promise<"en" | "vi" | "zh"> {
+  const headersList = await headers();
+  const acceptLanguage = headersList.get("accept-language") ?? "";
+  const lower = acceptLanguage.toLowerCase();
+  if (lower.includes("vi")) return "vi";
+  if (lower.includes("zh")) return "zh";
+  return DEFAULT_LOCALE;
+}
+
+export default async function BiblePage() {
+  const locale = await getLocaleFromHeaders();
+  redirect(`/bible/${locale}`);
 }
