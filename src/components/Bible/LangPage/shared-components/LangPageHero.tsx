@@ -31,7 +31,7 @@ export function LangPageHero({
 
   return (
     <section className="relative min-h-[80vh] flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+      {/* <div className="absolute inset-0 pointer-events-none" aria-hidden>
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
@@ -39,7 +39,7 @@ export function LangPageHero({
             style={{ top: `${(i + 1) * 14}%` }}
           />
         ))}
-      </div>
+      </div> */}
 
       <div className="relative max-w-4xl mx-auto text-center space-y-8 z-10">
         <div
@@ -56,7 +56,9 @@ export function LangPageHero({
           <span className="text-primary">{title2}</span>
         </h1>
 
-        <p className={`max-w-xl mx-auto text-muted-foreground leading-relaxed text-pretty ${subtitleClass}`}>
+        <p
+          className={`max-w-xl mx-auto text-muted-foreground leading-relaxed text-pretty ${subtitleClass}`}
+        >
           {subtitle}
         </p>
 

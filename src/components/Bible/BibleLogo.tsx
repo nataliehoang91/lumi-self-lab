@@ -1,22 +1,70 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
 export function BibleLogo() {
   return (
     <Link
       href="/bible"
-      className="logo-brand-colors size-8 sm:size-10 rounded-lg bg-linear-to-br from-primary-light via-coral to-yellow-200 text-stone-800 flex items-center justify-center shrink-0 overflow-hidden"
+      className="logo-brand-colors size-8 sm:size-10 rounded-lg text-stone-800 flex items-center justify-center shrink-0 overflow-hidden"
+      style={{
+        // Very light background so the cross stands out
+        background:
+          "linear-gradient(135deg, oklch(0.99 0.02 95) 0%, oklch(0.98 0.04 80) 40%, oklch(0.98 0.06 90) 100%)",
+      }}
       aria-label="Scripture Memory home"
     >
-      <Image
-        src="/images/webp/cross-icon-black.webp"
-        alt=""
-        width={40}
-        height={40}
-        className="size-full object-contain p-0.5"
-      />
+      <div className="relative w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center">
+        {/* Soft halo behind cross */}
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle, oklch(0.96 0.1 70 / 0.4) 0%, oklch(0.99 0.03 85 / 0.08) 55%, transparent 85%)",
+            filter: "blur(4px)",
+          }}
+        />
+        {/* Cross — same gradient language as landing loader */}
+        <svg
+          viewBox="0 0 52 66"
+          aria-hidden="true"
+          className="relative w-full h-full"
+        >
+          <defs>
+            <linearGradient
+              id="bibleCrossGrad"
+              x1="26"
+              y1="0"
+              x2="26"
+              y2="66"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor="oklch(0.9 0.08 34)" />
+              <stop offset="50%" stopColor="oklch(0.75 0.16 30)" />
+              <stop offset="100%" stopColor="oklch(0.88 0.16 70)" />
+            </linearGradient>
+            <linearGradient
+              id="bibleCrossHighlight"
+              x1="0"
+              y1="18"
+              x2="52"
+              y2="18"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor="oklch(0.9 0.08 34)" />
+              <stop offset="50%" stopColor="oklch(0.75 0.16 30)" />
+              <stop offset="100%" stopColor="oklch(0.88 0.16 70)" />
+            </linearGradient>
+          </defs>
+          {/* Vertical beam */}
+          <rect x="22" y="0" width="8" height="66" rx="4" fill="url(#bibleCrossGrad)" />
+          {/* Horizontal beam */}
+          <rect x="0" y="18" width="52" height="8" rx="4" fill="url(#bibleCrossHighlight)" />
+          {/* Inner shimmer highlight */}
+          <rect x="24" y="0" width="3" height="66" rx="2" fill="oklch(0.99 0.04 80 / 0.28)" />
+          <rect x="0" y="20" width="52" height="3" rx="2" fill="oklch(0.99 0.04 80 / 0.28)" />
+        </svg>
+      </div>
     </Link>
   );
 }

@@ -360,27 +360,61 @@
     @apply border-border;
   }
 
+  /* Default body: original gradient (orange-100 → pink-50 → purple-100) — pre-Bible */
   body {
     @apply text-foreground;
     min-height: 100vh;
-    background-color: var(--background);
+    background-image: linear-gradient(
+      to bottom right,
+      rgb(255 237 213), /* orange-100 */
+      rgb(253 242 248), /* pink-50 */
+      rgb(243 232 255)  /* purple-100 */
+    );
   }
 
   .dark body {
-    background-color: var(--background);
+    background-image: none;
+    background-color: rgb(24 24 27); /* zinc-900 */
   }
 
   .theme-warm body,
   .theme-warm.dark body {
+    background-image: none;
     background-color: var(--background);
   }
 
   .bg-body {
     min-height: 100vh;
+    background-image: linear-gradient(
+      to bottom right,
+      rgb(255 237 213),
+      rgb(253 242 248),
+      rgb(243 232 255)
+    );
+  }
+
+  .dark .bg-body,
+  .theme-warm .bg-body,
+  .theme-warm.dark .bg-body {
+    background-image: none;
     background-color: var(--background);
   }
 
+  .dark .bg-body {
+    background-color: rgb(24 24 27); /* zinc-900 */
+  }
+
+  /* Bible read: softer background for long reading (light warm gray / soft dark) */
   .bg-read {
+    background-color: oklch(0.97 0.005 85);
+  }
+
+  .dark .bg-read {
+    background-color: oklch(0.18 0.008 85);
+  }
+
+  .theme-warm .bg-read,
+  .theme-warm.dark .bg-read {
     background-color: var(--background);
   }
 
@@ -676,11 +710,82 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     font-size: 16px;
     line-height: 1.6;
     letter-spacing: 0.2px;
   }
+}
+
+/* Landing loader: same as welcome page (peach → white → violet). Dark: deep violet, not black. */
+/* Loader: light = app gradient; dark = warm charcoal + C palette */
+/* Loader uses .bg-body for background; only CSS vars for text/particles here */
+.landing-loader-bg {
+  --loader-wordmark: var(--foreground);
+  --loader-tagline: var(--muted-foreground);
+  --loader-words: var(--foreground);
+  --loader-verse: var(--foreground);
+  --loader-verse-ref: var(--muted-foreground);
+  --loader-hairline: var(--border);
+  --loader-particle: var(--foreground);
+  --loader-progress-track: var(--muted-foreground);
+  --loader-progress-fill-0: var(--primary);
+  --loader-progress-fill-1: var(--second);
+  --loader-vignette: var(--background);
+  /* Light-mode glow around the cross: bright core, very soft outer falloff */
+  --loader-bloom1: oklch(0.92 0.06 34 / 0.38); /* inner bloom – bright peach */
+  --loader-bloom2: oklch(0.96 0.04 80 / 0.08); /* mid bloom – near-bg, low alpha */
+  --loader-glow: oklch(0.96 0.1 70 / 0.55);    /* tight glow right behind cross */
+  --loader-halo: oklch(0.97 0.03 85 / 0.06);   /* outer halo – very light, subtle */
+}
+.dark .landing-loader-bg {
+  --loader-wordmark: oklch(0.82 0.08 50);
+  --loader-tagline: oklch(0.65 0.06 45);
+  --loader-words: oklch(0.95 0.04 75);
+  --loader-verse: oklch(0.85 0.06 55);
+  --loader-verse-ref: oklch(0.6 0.06 40);
+  --loader-hairline: oklch(0.35 0.05 40);
+  --loader-particle: oklch(0.82 0.1 55);
+  --loader-progress-track: oklch(0.22 0.04 40);
+  --loader-progress-fill-0: oklch(0.91 0.06 34);
+  --loader-progress-fill-1: oklch(0.72 0.14 25);
+  --loader-vignette: oklch(0.12 0.018 45);
+  /* Dark-mode glow: tighter and darker so it feels smooth on zinc-900 */
+  --loader-bloom1: oklch(0.4 0.06 45 / 0.38); /* inner bloom – warm but not washed out */
+  --loader-bloom2: oklch(0.26 0.04 45 / 0.18); /* mid bloom – closer to bg */
+  --loader-glow: oklch(0.5 0.08 50 / 0.35);    /* glow right behind cross */
+  --loader-halo: oklch(0.22 0.03 45 / 0.12);   /* outer halo – subtle, darker */
+}
+.landing-loader-vignette {
+  background: linear-gradient(to top, var(--loader-vignette), transparent);
+}
+/* Central bloom – theme-aware */
+.landing-loader-bloom {
+  background: radial-gradient(
+    ellipse 55% 38% at 50% 50%,
+    var(--muted-foreground) 0%,
+    var(--muted-foreground) 40%,
+    transparent 80%
+  );
+  opacity: 0.4;
+}
+.dark .landing-loader-bloom {
+  background: radial-gradient(
+    ellipse 55% 38% at 50% 50%,
+    var(--foreground) 0%,
+    var(--foreground) 40%,
+    transparent 80%
+  );
+  opacity: 0.12;
+}
+.landing-loader-bloom-off {
+  background: radial-gradient(ellipse 0% 0% at 50% 50%, transparent 0%, transparent 100%);
+  opacity: 1;
+}
+/* Halo – primary tint */
+.landing-loader-halo {
+  background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+  opacity: 0.12;
 }
 
 /* Welcome page: gradient background (orange → white → violet) */

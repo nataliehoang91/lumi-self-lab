@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const SUPPORTED_LOCALES = ["en", "vi", "zh"] as const;
 export type BibleLocale = (typeof SUPPORTED_LOCALES)[number];
@@ -23,7 +23,7 @@ export default async function BibleLangLayout({
   const { lang } = await params;
   const normalized = lang?.toLowerCase();
   if (!normalized || !isBibleLocale(normalized)) {
-    notFound();
+    redirect("/bible/en");
   }
   return <>{children}</>;
 }

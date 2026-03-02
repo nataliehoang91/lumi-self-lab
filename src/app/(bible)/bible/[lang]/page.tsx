@@ -1,17 +1,11 @@
 import { isBibleLocale } from "./layout";
-import { notFound } from "next/navigation";
-import { EnBibleLangPage } from "@/components/Bible/LangPage/en/bible-lang-page";
-import { VnBibleLangPage } from "@/components/Bible/LangPage/vn/bible-lang-page";
+import { redirect } from "next/navigation";
+import { BibleLangPageWithLoader } from "@/components/Bible/LangPage/BibleLangPageWithLoader";
 
-export default async function BibleLangRoute({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
+export default async function BibleLangRoute({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const locale = lang?.toLowerCase();
-  if (!locale || !isBibleLocale(locale)) notFound();
+  if (!locale || !isBibleLocale(locale)) redirect("/bible/en");
 
-  if (locale === "vi") return <VnBibleLangPage lang={locale} />;
-  return <EnBibleLangPage lang={locale} />;
+  return <BibleLangPageWithLoader locale={locale} />;
 }
