@@ -1,7 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { BibleHeading } from "@/components/Bible/BibleHeading";
 import {
   LearnMiniMap,
@@ -34,6 +41,8 @@ export function LearnBibleOriginTimeline({
   mapLocations,
   mapLabels,
 }: LearnBibleOriginTimelineProps) {
+  const [mapSheetLocationId, setMapSheetLocationId] = useState<MapLocationId | null>(null);
+
   return (
     <section className="mb-14">
       <BibleHeading level="h2" className="font-serif font-semibold text-foreground mb-6">
@@ -45,6 +54,12 @@ export function LearnBibleOriginTimeline({
           {timelineItems.map((t, i) => {
             const locationId = TIMELINE_LOCATION_IDS[i];
             const loc = mapLocations[locationId];
+            const chipContent = (
+              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full hover:bg-muted/80 transition-colors cursor-pointer">
+                <MapPin className="w-3 h-3" />
+                {loc.label}
+              </span>
+            );
             return (
               <div key={i} className="flex gap-4 items-start">
                 <div className="w-24 shrink-0 text-right pt-4">
@@ -62,18 +77,26 @@ export function LearnBibleOriginTimeline({
                       <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
                         {t.desc}
                       </p>
-                      <div className="mt-3">
-                        <LearnMapPopover
-                          locationId={locationId}
-                          label={loc.label}
-                          desc={loc.desc}
-                          miniMapLabels={mapLabels}
+                      <div className="mt-3 flex items-center gap-0">
+                        {/* Below md: tap location opens slide-in map sheet */}
+                        <button
+                          type="button"
+                          onClick={() => setMapSheetLocationId(locationId)}
+                          className="md:hidden focus:outline-none"
                         >
-                          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full hover:bg-muted/80 transition-colors cursor-pointer">
-                            <MapPin className="w-3 h-3" />
-                            {loc.label}
-                          </span>
-                        </LearnMapPopover>
+                          {chipContent}
+                        </button>
+                        {/* md and up: popover as before */}
+                        <div className="hidden md:block">
+                          <LearnMapPopover
+                            locationId={locationId}
+                            label={loc.label}
+                            desc={loc.desc}
+                            miniMapLabels={mapLabels}
+                          >
+                            {chipContent}
+                          </LearnMapPopover>
+                        </div>
                       </div>
                     </div>
                     <Dialog>
@@ -102,6 +125,29 @@ export function LearnBibleOriginTimeline({
           })}
         </div>
       </div>
+
+      {/* Below md: slide-in sheet with map when a location is tapped */}
+      <Sheet open={mapSheetLocationId != null} onOpenChange={(open) => !open && setMapSheetLocationId(null)}>
+        <SheetContent side="bottom" className="rounded-t-2xl border-t">
+          {mapSheetLocationId != null && (
+            <>
+              <SheetHeader>
+                <SheetTitle className="text-left uppercase tracking-wider text-sm">
+                  {mapLocations[mapSheetLocationId].label}
+                </SheetTitle>
+              </SheetHeader>
+              <div className="px-4 pb-6 pt-0">
+                <div className="rounded-xl overflow-hidden border border-border bg-card">
+                  <LearnMiniMap activeId={mapSheetLocationId} labels={mapLabels} />
+                </div>
+                <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
+                  {mapLocations[mapSheetLocationId].desc}
+                </p>
+              </div>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
     </section>
   );
 }

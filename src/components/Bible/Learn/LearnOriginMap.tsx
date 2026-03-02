@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { X } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const MAP_LOCATION_IDS = [
   "jerusalem",
@@ -246,6 +248,41 @@ export function LearnMapPopover({
   );
 }
 
+function LocationDetailContent({
+  activeId,
+  active,
+  labels,
+  onClose,
+}: {
+  activeId: MapLocationId;
+  active: { label: string; desc: string };
+  labels: Record<MapLocationId, string>;
+  onClose: () => void;
+}) {
+  return (
+    <>
+      <div className="p-3 pb-0">
+        <LearnMiniMap activeId={activeId} labels={labels} />
+      </div>
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-2 mb-1.5">
+          <p className="text-xs font-semibold text-foreground uppercase tracking-[0.2em]">
+            {active.label}
+          </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">{active.desc}</p>
+      </div>
+    </>
+  );
+}
+
 export function LearnOriginMapFullWidth({
   activeId,
   onActiveChange,
@@ -258,9 +295,10 @@ export function LearnOriginMapFullWidth({
   renderPopover: (locationId: MapLocationId) => { label: string; desc: string };
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (activeId === null) return;
+    if (activeId === null || isMobile) return;
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         onActiveChange(null);
@@ -268,17 +306,19 @@ export function LearnOriginMapFullWidth({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [activeId, onActiveChange]);
+  }, [activeId, onActiveChange, isMobile]);
 
   const active = activeId ? renderPopover(activeId) : null;
 
   return (
     <>
+      {/* Map and buttons always stay in the layout so the section stays on screen */}
       <div className="relative w-full" style={{ paddingBottom: "62%" }}>
         <div className="absolute inset-0">
           <LearnMiniMap activeId={activeId} labels={labels} />
         </div>
-        {activeId && active && (
+        {/* Floating popover only on md and up; below md we use the bottom sheet */}
+        {activeId && active && !isMobile && (
           <div
             ref={ref}
             className="absolute z-50 w-72 sm:w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden animate-in fade-in duration-200"
@@ -289,24 +329,12 @@ export function LearnOriginMapFullWidth({
               marginTop: "-18px",
             }}
           >
-            <div className="p-3 pb-0">
-              <LearnMiniMap activeId={activeId} labels={labels} />
-            </div>
-            <div className="p-4">
-              <div className="flex items-start justify-between gap-2 mb-1.5">
-                <p className="text-xs font-semibold text-foreground uppercase tracking-[0.2em]">
-                  {active.label}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => onActiveChange(null)}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">{active.desc}</p>
-            </div>
+            <LocationDetailContent
+              activeId={activeId}
+              active={active}
+              labels={labels}
+              onClose={() => onActiveChange(null)}
+            />
           </div>
         )}
       </div>
@@ -323,6 +351,27 @@ export function LearnOriginMapFullWidth({
           </button>
         ))}
       </div>
+
+      {/* Below md: slide-in sheet keeps the map visible above */}
+      <Sheet open={activeId != null && isMobile} onOpenChange={(open) => !open && onActiveChange(null)}>
+        <SheetContent side="bottom" className="rounded-t-2xl border-t">
+          {activeId && active && (
+            <>
+              <SheetHeader>
+                <SheetTitle className="text-left uppercase tracking-wider text-sm">
+                  {active.label}
+                </SheetTitle>
+              </SheetHeader>
+              <div className="px-4 pb-6 pt-0">
+                <div className="rounded-xl overflow-hidden border border-border bg-card">
+                  <LearnMiniMap activeId={activeId} labels={labels} />
+                </div>
+                <p className="text-sm text-muted-foreground mt-4 leading-relaxed">{active.desc}</p>
+              </div>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
     </>
   );
 }
