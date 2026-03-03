@@ -1,0 +1,39 @@
+"use client";
+
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { cn } from "@/lib/utils";
+
+export interface LearnWhatIsFaithCtaSectionProps {
+  ctaTitle: string;
+  ctaBody: string;
+  ctaButton: string;
+  ctaHref?: string;
+}
+
+export function LearnWhatIsFaithCtaSection({
+  ctaTitle,
+  ctaBody,
+  ctaButton,
+  ctaHref = "/bible/plans",
+}: LearnWhatIsFaithCtaSectionProps) {
+  const { bodyClass } = useLearnFontClasses();
+
+  return (
+    <section
+      className="bg-card border-sage-dark/20 mb-8 space-y-3 rounded-2xl border p-6"
+    >
+      <p className="text-foreground font-semibold">{ctaTitle}</p>
+      <p className={cn("text-muted-foreground", bodyClass)}>{ctaBody}</p>
+      <Link
+        href={ctaHref}
+        className="bg-foreground text-background inline-flex items-center gap-2
+            rounded-xl px-5 py-2.5 text-sm font-medium transition-opacity
+            hover:opacity-90"
+      >
+        {ctaButton} <ArrowRight className="h-3.5 w-3.5" />
+      </Link>
+    </section>
+  );
+}
