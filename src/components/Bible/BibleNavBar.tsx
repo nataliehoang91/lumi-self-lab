@@ -74,7 +74,10 @@ export function BibleNavBar() {
   function handleLanguageChange(lang: "EN" | "VI" | "ZH") {
     setGlobalLanguage(lang);
     const segment = languageToSegment(lang);
-    const newPath = pathWithLang(pathname, segment);
+    const newPath =
+      pathname === "/bible" || pathname === "/bible/"
+        ? `/bible/${segment}`
+        : pathWithLang(pathname, segment);
     if (newPath) {
       const qs = searchParams?.toString();
       router.replace(qs ? `${newPath}?${qs}` : newPath);

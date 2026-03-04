@@ -50,6 +50,7 @@ export function LearnLessonFooter() {
 
   const currentIndex = LESSON_ORDER.indexOf(segment as (typeof LESSON_ORDER)[number]);
   const isStructureLesson = segment === "bible-structure";
+  const isLastLesson = currentIndex === LESSON_ORDER.length - 1;
 
   const prevSegment = currentIndex > 0 ? LESSON_ORDER[currentIndex - 1] : null;
   const prevLabel = prevSegment ? intl.t(MODULE_TITLE_KEYS[currentIndex - 1]) : null;
@@ -66,6 +67,9 @@ export function LearnLessonFooter() {
     nextHref = `/bible/${lang}/learn/${nextSegment}`;
     nextLabel = intl.t(MODULE_TITLE_KEYS[currentIndex + 1]);
   }
+
+  const readHref = `/bible/${lang}/read`;
+  const startReadingLabel = intl.t("learnFooterStartReading");
 
   return (
     <div
@@ -107,6 +111,19 @@ export function LearnLessonFooter() {
               <span className="font-bold">{nextLabel}</span>
             </>
           )}
+          <ArrowRight className="h-3.5 w-3.5 shrink-0" />
+        </Link>
+      ) : isLastLesson ? (
+        <Link
+          href={readHref}
+          className={cn(
+            `bg-primary-light order-2 flex w-full items-center justify-end gap-2
+              rounded-xl px-5 py-2.5 font-medium transition-opacity hover:opacity-90
+              sm:w-auto sm:justify-center`,
+            bodyClass
+          )}
+        >
+          <span className="font-bold">{startReadingLabel}</span>
           <ArrowRight className="h-3.5 w-3.5 shrink-0" />
         </Link>
       ) : (

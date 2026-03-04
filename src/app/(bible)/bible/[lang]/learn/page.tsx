@@ -1,7 +1,3 @@
-"use client";
-
-import { useParams, usePathname } from "next/navigation";
-import { notFound } from "next/navigation";
 import { EnLearnPage } from "@/components/Bible/Learn/LearnPage/en/learn-page";
 import { VnLearnPage } from "@/components/Bible/Learn/LearnPage/vn/learn-page";
 
@@ -10,13 +6,17 @@ function getLangFromPath(pathname: string | null): "en" | "vi" | null {
   return (m?.[1] as "en" | "vi") ?? null;
 }
 
-export default function LearnPage() {
-  const params = useParams();
-  const pathname = usePathname();
-  const lang =
-    (params?.lang as string)?.toLowerCase() ?? getLangFromPath(pathname) ?? "en";
+export default async function LearnPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const finalParams = await params;
+  const lang = finalParams.lang.toLowerCase();
 
-  if (lang === "vi") return <VnLearnPage />;
-  if (lang === "en") return <EnLearnPage />;
-  notFound();
+  if (lang === "vi") {
+    return <VnLearnPage />;
+  } else {
+    return <EnLearnPage />;
+  }
 }

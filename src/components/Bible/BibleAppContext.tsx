@@ -70,11 +70,20 @@ export function BibleAppProvider({ children }: { children: ReactNode }) {
 
   const isFlashcardPage = pathname?.includes("/flashcard") ?? false;
 
-  // Sync state from URL when on flashcard page; otherwise from localStorage.
+  // Derive language from pathname when on /bible/[lang]/... so navbar matches URL (no full reload on switch).
+  const langFromPath = (() => {
+    const m = pathname?.match(/^\/bible\/(en|vi|zh)(\/|$)/);
+    const seg = m?.[1];
+    if (seg === "en") return "EN";
+    if (seg === "vi") return "VI";
+    if (seg === "zh") return "ZH";
+    return null;
+  })();
+
+  // Sync state: flashcard from searchParams; under /bible/[lang] from URL segment; else localStorage.
   useEffect(() => {
     if (!searchParams) return;
 
-    // Defer state updates to avoid synchronous setState calls inside the effect body.
     Promise.resolve().then(() => {
       if (isFlashcardPage) {
         const lang = searchParams.get("lang");
@@ -85,12 +94,12 @@ export function BibleAppProvider({ children }: { children: ReactNode }) {
         setLayoutModeState("all");
       } else {
         const { language, fontSize: size } = readStoredPrefs();
-        setGlobalLanguageState(language);
+        setGlobalLanguageState(langFromPath ?? language);
         setFontSizeState(size);
       }
       hasLoadedFromStorage.current = true;
     });
-  }, [isFlashcardPage, searchParams]);
+  }, [isFlashcardPage, searchParams, pathname, langFromPath]);
 
   // Persist to localStorage when not on flashcard (and after initial load).
   useEffect(() => {
