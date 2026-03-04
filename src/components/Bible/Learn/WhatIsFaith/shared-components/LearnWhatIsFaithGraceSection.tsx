@@ -27,8 +27,17 @@ export function LearnWhatIsFaithGraceSection({
       <p className={cn("text-muted-foreground mb-3 leading-relaxed", bodyClass)}>
         {graceBody}
       </p>
-      <QuoteCard quote={graceQuote} footnote={graceRef} className="mt-4" />
+      <div
+        className="md:bg-primary-50/20 md:border-primary-100 mx-auto justify-center
+          rounded-xl bg-transparent px-6 py-6 md:border"
+      >
+        <QuoteCard
+          quote={graceQuote}
+          footnoteAlign="center"
+          footnote={graceRef}
+          className="mt-4"
+        />
+      </div>
     </section>
   );
 }
-

@@ -132,6 +132,8 @@ export function EnWhatIsBiblePage() {
           `${BOOK_ISAIAH_EN} through ${BOOK_MALACHI_EN} — ${TERM_GOD_EN}'s messengers calling ${PLACE_ISRAEL_EN} back, pointing forward to ${TERM_CHRIST_EN}.`,
         ]}
         sections={OT_SECTIONS}
+        bookLabelSingular="book"
+        bookLabelPlural="books"
       />
 
       <LearnWhatIsBibleTestamentSection
@@ -145,6 +147,8 @@ export function EnWhatIsBiblePage() {
           `${BOOK_REVELATION_EN} — a vision of the end of history and the victory of ${TERM_CHRIST_EN}.`,
         ]}
         sections={NT_SECTIONS}
+        bookLabelSingular="book"
+        bookLabelPlural="books"
       />
 
       <LearnWhyItMatters title="The Central Story — and Why It Matters">

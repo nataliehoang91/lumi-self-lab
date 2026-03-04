@@ -42,7 +42,7 @@ export function LangPageCtaBanner({
             {paragraph}
           </p>
           <div
-            className="flex max-w-xs flex-col items-stretch justify-center gap-3
+            className="mx-auto flex max-w-xs flex-col items-stretch justify-center gap-3
               md:mx-auto md:px-12"
           >
             <Link
@@ -63,7 +63,7 @@ export function LangPageCtaBanner({
               className={cn(
                 `bg-second-400/40 border-second-400 text-second-900 hover:bg-second-400/60
                 flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5
-                text-lg font-semibold transition-colors`,
+                text-lg font-semibold transition-colors dark:text-white`,
                 buttonClass
               )}
             >

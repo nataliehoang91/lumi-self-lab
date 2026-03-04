@@ -16,6 +16,10 @@ export interface LearnWhatIsBibleTestamentSectionProps {
     string | React.ReactNode,
   ];
   sections: readonly TestamentSectionConfig[];
+  /** Localised label for a single book (e.g. "book", "sách"). Defaults to "book". */
+  bookLabelSingular?: string;
+  /** Localised label for multiple books (e.g. "books", "sách"). Defaults to "books". */
+  bookLabelPlural?: string;
 }
 
 export function LearnWhatIsBibleTestamentSection({
@@ -24,8 +28,13 @@ export function LearnWhatIsBibleTestamentSection({
   sectionNames,
   sectionDescs,
   sections,
+  bookLabelSingular,
+  bookLabelPlural,
 }: LearnWhatIsBibleTestamentSectionProps) {
   const { bodyClass } = useLearnFontClasses();
+
+  const singular = bookLabelSingular ?? "book";
+  const plural = bookLabelPlural ?? "books";
 
   return (
     <section className="mb-12">
@@ -46,10 +55,11 @@ export function LearnWhatIsBibleTestamentSection({
             className="bg-card border-sage-dark/20 flex gap-4 rounded-xl border p-4"
           >
             <div
-              className="bg-second/30 flex h-10 w-10 shrink-0 items-center justify-center
-                rounded-full font-mono text-sm font-semibold"
+              className="bg-second/30 flex h-14 w-14 shrink-0 flex-col items-center
+                justify-center rounded-full font-mono text-xs leading-tight font-semibold"
             >
-              {s.books}
+              <span className="text-xs">{s.books}</span>
+              <span className="opacity-80">{s.books === 1 ? singular : plural}</span>
             </div>
             <div className="min-w-0">
               <p className={cn("text-foreground font-medium", bodyClass)}>

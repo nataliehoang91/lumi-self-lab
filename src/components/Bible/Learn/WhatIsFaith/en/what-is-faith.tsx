@@ -156,7 +156,7 @@ export function EnWhatIsFaithPage() {
         </p>
       </LearnWhyItMatters>
 
-      <LearnWhatIsFaithGlossary glossaryTitle="Quick Terms" glossary={EN_GLOSSARY} />
+      <LearnWhatIsFaithGlossary glossaryTitle="Quick Glossary" glossary={EN_GLOSSARY} />
     </div>
   );
 }

@@ -26,9 +26,12 @@ export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterP
         }}
       />
 
-      <div className="mx-auto max-w-5xl px-4 pt-8 pb-5">
+      <div className="mx-auto max-w-7xl px-4 pt-8 pb-5">
         {/* Main row */}
-        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+        <div
+          className="flex flex-col items-center gap-6 md:flex-row md:items-start
+            md:justify-between"
+        >
           {/* Brand block */}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2">
@@ -51,14 +54,15 @@ export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterP
           {/* Nav links — tighter, 2-col grid on small, row on md */}
           <nav
             aria-label="Footer navigation"
-            className="grid grid-cols-2 gap-x-8 gap-y-1.5 md:flex md:gap-6"
+            className="grid w-full grid-cols-2 justify-center justify-items-center gap-x-8
+              gap-y-1.5 md:flex md:w-auto md:justify-center md:gap-6"
           >
             {navLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className={`text-muted-foreground hover:text-foreground text-xs
-                leading-relaxed transition-colors ${subBodyClass}`}
+                className={`text-muted-foreground hover:text-foreground text-center
+                text-xs leading-relaxed transition-colors ${subBodyClass}`}
               >
                 {l.label}
               </Link>
@@ -68,13 +72,9 @@ export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterP
 
         {/* Bottom bar */}
         <div
-          className="border-border/30 mt-6 flex items-center justify-between gap-4
-            border-t pt-4"
+          className="border-border/30 flex flex-col items-center justify-center gap-6
+            pt-8"
         >
-          <p className={`text-muted-foreground/50 text-xs ${subBodyClass}`}>
-            &copy; {new Date().getFullYear()} Powered by SelfWithin. {copyright}
-          </p>
-          {/* Tiny accent dots using brand colors */}
           <div className="flex items-center gap-1.5" aria-hidden="true">
             <span
               className="size-3 rounded-full"
@@ -89,6 +89,10 @@ export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterP
               style={{ background: "oklch(0.72 0.14 25 / 0.5)" }}
             />
           </div>
+          <p className={`text-muted-foreground/50 text-xs ${subBodyClass}`}>
+            &copy; {new Date().getFullYear()} Powered by SelfWithin. {copyright}
+          </p>
+          {/* Tiny accent dots using brand colors */}
         </div>
       </div>
     </footer>

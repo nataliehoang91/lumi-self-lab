@@ -39,7 +39,7 @@ export function LearnDeepDiveCta() {
   const { lang } = result;
 
   return (
-    <Card className="border-l-second/80 overflow-hidden rounded-2xl border-l-4 px-2 py-0">
+    <Card className="border-l-second/80 overflow-hidden rounded-2xl border-l-4 px-2 py-2">
       <CardHeader className="border-border/80 space-y-0 border-b py-2">
         <p
           className={cn(

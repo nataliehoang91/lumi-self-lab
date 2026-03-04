@@ -25,13 +25,13 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
           <div className="mb-16">
             <p
               className={`text-muted-foreground mb-3 font-semibold tracking-[0.2em]
-                uppercase ${subBodyClass}`}
+                uppercase dark:text-white ${subBodyClass}`}
             >
               {title}
             </p>
             <h2
               className={`text-foreground max-w-xl font-serif leading-tight font-semibold
-                text-balance ${h1Class}`}
+                text-balance dark:text-white ${h1Class}`}
             >
               {subtitle}
             </h2>
@@ -67,7 +67,8 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                       </div>
                       <div>
                         <p
-                          className={`text-muted-foreground/60 font-mono ${subBodyClass}`}
+                          className={`text-muted-foreground/60 font-mono
+                          dark:text-gray-400 ${subBodyClass}`}
                         >
                           {item.step}
                         </p>
@@ -77,10 +78,16 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                       </div>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className={`text-foreground mb-1 font-medium ${bodyTitleClass}`}>
+                      <p
+                        className={`text-foreground mb-1 font-medium dark:text-white
+                        ${bodyTitleClass}`}
+                      >
                         {item.headline}
                       </p>
-                      <p className={`text-muted-foreground leading-relaxed ${bodyClass}`}>
+                      <p
+                        className={`text-muted-foreground leading-relaxed
+                        dark:text-gray-400 ${bodyClass}`}
+                      >
                         {item.body}
                       </p>
                       <div className="mt-4 flex flex-wrap gap-2">
@@ -89,20 +96,21 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                             key={l.href}
                             href={l.href}
                             className={`border-border text-muted-foreground
-                            hover:text-foreground hover:bg-accent rounded-lg border px-3
-                            py-1 transition-colors ${subBodyClass}`}
+                            hover:text-foreground hover:bg-primary-50 rounded-lg border
+                            px-3 py-1 transition-colors dark:text-white ${subBodyClass}`}
                           >
                             {l.label}
                           </Link>
                         ))}
                       </div>
                     </div>
-                    <div className="shrink-0">
+                    <div className="t shrink-0">
                       <Link
                         href={item.cta.href}
                         className={`bg-second-400/40 border-second-400 flex items-center
-                        gap-2 rounded-xl border px-5 py-2.5 font-medium whitespace-nowrap
-                        transition-opacity hover:opacity-90 ${buttonClass}`}
+                        justify-center gap-2 rounded-xl border px-5 py-2.5 font-medium
+                        whitespace-nowrap transition-opacity hover:opacity-90
+                        dark:text-white ${buttonClass}`}
                       >
                         {item.cta.label}
                         <ArrowRight className="h-3.5 w-3.5" />

@@ -54,7 +54,7 @@ export function QuoteCard({
       <div className="text-primary text-3xl leading-none select-none" aria-hidden="true">
         <QuoteIcon className="h-6 w-6" aria-hidden="true" />
       </div>
-      <div className={cn("flex flex-col gap-0")}>
+      <div className={cn("flex flex-col gap-4")}>
         <p
           className={cn(
             "font-bible-english md:text-md text-lg leading-relaxed font-semibold"
@@ -65,7 +65,7 @@ export function QuoteCard({
         {footnote && (
           <p
             className={cn(
-              "text-muted-foreground mt-0 font-mono text-sm",
+              "text-muted-foreground mt-0 -ml-6 font-mono text-sm",
               TEXT_ALIGN[footnoteAlignResolved]
             )}
           >

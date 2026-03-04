@@ -26,15 +26,33 @@ import {
 const EN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
   {
     term: "Messiah",
-    def: "A Hebrew word meaning “anointed one.” In the Bible, it refers to the promised king and deliverer expected by Israel. The New Testament presents Jesus as that Messiah.",
+    def: (
+      <>
+        A Hebrew word meaning “anointed one.” In the {TERM_BIBLE_EN}, it refers to the
+        promised king and deliverer expected by Israel. The {TERM_NEW_TESTAMENT_EN} presents{" "}
+        <strong>Jesus</strong> as that Messiah.
+      </>
+    ),
   },
   {
     term: "Incarnation",
-    def: "The Christian belief that God took on human nature in the person of Jesus. Not merely a messenger, but God entering human history.",
+    def: (
+      <>
+        The Christian belief that {TERM_GOD_EN} took on human nature in the person of{" "}
+        <strong>Jesus</strong>. Not merely a messenger, but {TERM_GOD_EN} entering human
+        history.
+      </>
+    ),
   },
   {
     term: "Resurrection",
-    def: "The belief that Jesus rose bodily from the dead on the third day after His crucifixion. For Christians, this event stands at the heart of their faith.",
+    def: (
+      <>
+        The belief that <strong>Jesus</strong> rose bodily from the dead on the third day
+        after <strong>His</strong> crucifixion. For Christians, this event stands at the
+        heart of their faith.
+      </>
+    ),
   },
 ];
 
@@ -99,7 +117,7 @@ export function EnWhoIsJesus() {
         leftTitle="Fully Human"
         leftBody={
           <>
-            {NAME_JESUS_EN} was born, grew up in an ordinary family, felt hunger and
+            <strong>{NAME_JESUS_EN}</strong> was born, grew up in an ordinary family, felt hunger and
             exhaustion, experienced sorrow, and ultimately faced death.{" "}
             <strong>He</strong> entered the human condition fully — not from a distance,
             but from within.
@@ -122,7 +140,7 @@ export function EnWhoIsJesus() {
         title="The Cross & Resurrection"
         paragraph1={
           <>
-            Around 30 AD, {NAME_JESUS_EN} was crucified under the Roman governor Pontius
+            Around 30 AD, <strong>{NAME_JESUS_EN}</strong> was crucified under the Roman governor Pontius
             Pilate. Christians believe this was not a tragic accident of history, but the
             center of {TERM_GOD_EN}&apos;s redemptive plan. On the cross,{" "}
             <strong>He</strong> willingly bore the weight of human sin — opening the way
@@ -144,7 +162,7 @@ export function EnWhoIsJesus() {
         title="Fulfilment of Prophecy"
         intro={
           <>
-            Long before {NAME_JESUS_EN} was born, the Hebrew Scriptures spoke of a coming
+            Long before <strong>{NAME_JESUS_EN}</strong> was born, the Hebrew Scriptures spoke of a coming
             Messiah — describing <strong>His</strong> birthplace, <strong>His</strong>{" "}
             suffering, and even the manner of <strong>His</strong> death. Christians
             believe these promises converged in <strong>Him</strong>. The interpretation
@@ -158,7 +176,7 @@ export function EnWhoIsJesus() {
         title={`Why Does ${NAME_JESUS_EN} Matter Today?`}
         paragraph1={
           <>
-            If {NAME_JESUS_EN} truly rose from the dead, then <strong>His</strong> life
+            If <strong>{NAME_JESUS_EN}</strong> truly rose from the dead, then <strong>His</strong> life
             cannot be reduced to a moral example or an inspiring story.{" "}
             <strong>He</strong> claimed to be “the way, the truth, and the life” (John
             14:6) — not merely offering advice, but inviting people into a restored
@@ -167,7 +185,7 @@ export function EnWhoIsJesus() {
         }
         paragraph2={
           <>
-            For Christians, faith in {NAME_JESUS_EN} is not merely belief in a doctrine,
+            For Christians, faith in <strong>{NAME_JESUS_EN}</strong> is not merely belief in a doctrine,
             but trust in a living person — one who offers forgiveness, purpose, and
             eternal hope.
           </>

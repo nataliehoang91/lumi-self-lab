@@ -29,7 +29,7 @@ export function LearnAccordion({ items, className, itemClassName }: LearnAccordi
   return (
     <Accordion
       type="multiple"
-      className={cn("bg-background/50 space-y-2 rounded-xl", className)}
+      className={cn("bg-background/60 space-y-2 rounded-xl", className)}
     >
       {items.map((item, i) => (
         <AccordionItem

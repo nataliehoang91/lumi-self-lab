@@ -33,7 +33,7 @@ export function LearnFullyGodManSection({
       >
         {sectionTitle}
       </h2>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div className="bg-card border-sage-dark/20 rounded-2xl border p-5">
           <p className="text-foreground mb-2 font-semibold">{leftTitle}</p>
           <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>

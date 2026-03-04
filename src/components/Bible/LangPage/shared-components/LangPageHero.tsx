@@ -92,7 +92,7 @@ export function LangPageHero({
             className={cn(
               `bg-second-400/40 border-second-400 text-second-900 hover:bg-second-400/60
               flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-lg
-              font-semibold transition-colors`,
+              font-semibold transition-colors dark:text-white`,
               buttonClass
             )}
           >

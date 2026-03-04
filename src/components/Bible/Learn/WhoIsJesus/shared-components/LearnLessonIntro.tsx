@@ -23,7 +23,7 @@ export function LearnLessonIntro({
   const { h1Class, introClass } = useLearnFontClasses();
 
   return (
-    <div className="mb-12">
+    <div className="mb-12 space-y-6">
       <p
         className="text-second mb-3 font-mono text-xs"
         aria-label={moduleNum.replace(" / ", " of ")}

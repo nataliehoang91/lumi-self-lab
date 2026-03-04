@@ -187,6 +187,8 @@ export function VnWhatIsBiblePage() {
           </>,
         ]}
         sections={OT_SECTIONS}
+        bookLabelSingular="sách"
+        bookLabelPlural="sách"
       />
 
       <LearnWhatIsBibleTestamentSection
@@ -258,6 +260,8 @@ export function VnWhatIsBiblePage() {
           </>,
         ]}
         sections={NT_SECTIONS}
+        bookLabelSingular="sách"
+        bookLabelPlural="sách"
       />
 
       <LearnWhyItMatters title="Câu chuyện trung tâm — và vì sao nó quan trọng">

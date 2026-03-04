@@ -88,13 +88,6 @@ export function EnBibleLangPage({ lang }: EnBibleLangPageProps) {
   const journey = getJourneyEn(base);
   const navLinks = getNavLinksEn(base);
 
-  const stats: { value: string; label: string; accent: StatAccent }[] = [
-    { value: "66", label: "Books", accent: "primary" },
-    { value: "1,189", label: "Chapters", accent: "second" },
-    { value: "3,000+", label: "Languages", accent: "tertiary" },
-    { value: "1", label: "Unified Story", accent: "sage" },
-  ];
-
   return (
     <div className="bg-body text-foreground min-h-screen font-sans">
       <LangPageHero

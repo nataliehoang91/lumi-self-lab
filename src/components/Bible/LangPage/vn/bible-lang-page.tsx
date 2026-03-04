@@ -3,12 +3,10 @@
 import { BookOpen, BookMarked, Sparkles } from "lucide-react";
 import { DailyVerse } from "../shared-components/DailyVerse";
 import { LangPageHero } from "../shared-components/LangPageHero";
-import { LangPageStats } from "../shared-components/LangPageStats";
 import { LangPageJourney } from "../shared-components/LangPageJourney";
 import { LangPageCtaBanner } from "../shared-components/LangPageCtaBanner";
 import { LangPageFooter } from "../shared-components/LangPageFooter";
 import type { JourneyItem, NavLink } from "../shared-components/types";
-import type { StatAccent } from "../shared-components/AnimatedStat";
 import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
 
 const DAILY_VERSES_VN = [
@@ -38,7 +36,7 @@ function getJourneyVn(base: string): JourneyItem[] {
       ],
       cta: { label: "Bắt đầu học", href: `${base}/learn` },
       icon: BookOpen,
-      accent: "primary",
+      accent: "coral",
     },
     {
       step: "02",
@@ -48,7 +46,7 @@ function getJourneyVn(base: string): JourneyItem[] {
       links: [{ label: "Xem đôi", href: `${base}/read` }],
       cta: { label: "Mở Kinh thánh", href: `${base}/read` },
       icon: BookMarked,
-      accent: "sage",
+      accent: "gray",
     },
     {
       step: "03",
@@ -61,7 +59,7 @@ function getJourneyVn(base: string): JourneyItem[] {
       ],
       cta: { label: "Mở Flashcard", href: `${base}/flashcard` },
       icon: Sparkles,
-      accent: "coral",
+      accent: "sage",
     },
   ];
 }
@@ -88,19 +86,12 @@ export function VnBibleLangPage({ lang }: VnBibleLangPageProps) {
   const journey = getJourneyVn(base);
   const navLinks = getNavLinksVn(base);
 
-  const stats: { value: string; label: string; accent: StatAccent }[] = [
-    { value: "66", label: "Sách", accent: "primary" },
-    { value: "1,189", label: "Chương", accent: "second" },
-    { value: "3,000+", label: "Ngôn ngữ", accent: "tertiary" },
-    { value: "1", label: "Câu chuyện", accent: "sage" },
-  ];
-
   return (
-    <div className="bg-background text-foreground min-h-screen font-sans">
+    <div className="bg-body text-foreground min-h-screen font-sans">
       <LangPageHero
         eyebrow="Nơi bình yên để biết Chúa"
         title1="Biết chính mình."
-        title2="Biết Kinh thánh."
+        title2="Biết Kinh Thánh."
         subtitle="Một không gian yên tĩnh để học và đọc Kinh thánh."
         ctaStartLabel="Bắt đầu tại đây"
         ctaBibleLabel="Mở Kinh thánh"
@@ -121,8 +112,6 @@ export function VnBibleLangPage({ lang }: VnBibleLangPageProps) {
           />
         </div>
       </LangPageHero>
-
-      <LangPageStats stats={stats} />
 
       <LangPageJourney
         title="Hành trình của bạn"

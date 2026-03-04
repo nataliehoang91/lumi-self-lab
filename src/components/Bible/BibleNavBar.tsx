@@ -201,6 +201,7 @@ export function BibleNavBar() {
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const isLangLanding = /^\/bible\/(en|vi|zh)$/.test(pathname ?? "");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -259,8 +260,13 @@ export function BibleNavBar() {
         "fixed top-0 right-0 left-0 z-100 w-full transition-all duration-300",
         readFocusMode &&
           "pointer-events-none h-0 overflow-hidden border-transparent opacity-0",
-        !readFocusMode && "opacity-100 bg-transparent",
-        !readFocusMode && scrolled && "border-b border-border/60 bg-card/95 shadow-sm"
+        !readFocusMode && "opacity-100",
+        !readFocusMode &&
+          (isLangLanding
+            ? scrolled
+              ? "border-b border-border/60 bg-card/95 shadow-sm"
+              : "bg-transparent"
+            : "border-b border-border/60 bg-card/95 shadow-sm")
       )}
     >
       <Container

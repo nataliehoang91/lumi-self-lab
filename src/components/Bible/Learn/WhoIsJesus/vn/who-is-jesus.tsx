@@ -29,15 +29,33 @@ import {
 const VN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
   {
     term: "Đấng Mê-si (Messiah)",
-    def: "Từ Hê-bơ-rơ nghĩa là “Đấng được xức dầu.” Trong Kinh Thánh, danh xưng này chỉ về vị vua và Đấng giải cứu mà dân Y-sơ-ra-ên trông đợi. Các sách Tân Ước trình bày Chúa Giê-xu là Đấng Mê-si ấy.",
+    def: (
+      <>
+        Từ Hê-bơ-rơ nghĩa là “Đấng được xức dầu.” Trong Kinh Thánh, danh xưng này chỉ về
+        vị vua và Đấng giải cứu mà dân Y-sơ-ra-ên trông đợi. Các sách Tân Ước trình bày{" "}
+        <strong>Chúa Giê-xu</strong> là Đấng Mê-si ấy.
+      </>
+    ),
   },
   {
     term: "Sự nhập thể (Incarnation)",
-    def: "Niềm tin rằng Đức Chúa Trời đã đến trong thân thể con người nơi Chúa Giê-xu. Không chỉ là một sứ giả, mà là Đức Chúa Trời bước vào lịch sử loài người.",
+    def: (
+      <>
+        Niềm tin rằng <strong>Đức Chúa Trời</strong> đã đến trong thân thể con người nơi{" "}
+        <strong>Chúa Giê-xu</strong>. Không chỉ là một sứ giả, mà là{" "}
+        <strong>Đức Chúa Trời</strong> bước vào lịch sử loài người.
+      </>
+    ),
   },
   {
     term: "Sự phục sinh (Resurrection)",
-    def: "Niềm tin rằng Chúa Giê-xu đã sống lại cách thân thể vào ngày thứ ba sau khi bị đóng đinh. Đối với Cơ Đốc nhân, đây là trung tâm của đức tin và là dấu mốc quyết định của lịch sử.",
+    def: (
+      <>
+        Niềm tin rằng <strong>Chúa Giê-xu</strong> đã sống lại cách thân thể vào ngày thứ
+        ba sau khi bị đóng đinh. Đối với Cơ Đốc nhân, đây là trung tâm của đức tin và là
+        dấu mốc quyết định của lịch sử.
+      </>
+    ),
   },
 ];
 
@@ -90,8 +108,8 @@ export function VnWhoIsJesus() {
         intro1Quote={
           <>
             <strong>Ngài</strong> là một thầy giáo? Một nhà tiên tri? Một nhà cách mạng?
-            Một huyền thoại? Con {TERM_GOD_VN}? Hay là Đấng vượt xa mọi tưởng tượng của
-            chúng ta?
+            Một huyền thoại? Con <strong>{TERM_GOD_VN}</strong>? Hay là Đấng vượt xa mọi
+            tưởng tượng của chúng ta?
           </>
         }
       >
@@ -105,24 +123,25 @@ export function VnWhoIsJesus() {
       </LearnLessonIntro>
 
       <LearnFullyGodManSection
-        sectionTitle={`Trọn Vẹn Là ${TERM_GOD_VN}. Trọn Vẹn Là Con Người.`}
+        sectionTitle={`Vừa Là Con ${TERM_GOD_VN}, Vừa Là Con Người`}
         leftTitle="Hoàn Toàn Là Con Người"
         leftBody={
           <>
-            Chúa {NAME_JESUS_VN} được sinh ra, lớn lên trong một gia đình bình thường,
-            biết đói, biết mệt, từng buồn khóc và cuối cùng đối diện với sự chết.{" "}
-            <strong>Ngài</strong> bước vào thân phận con người cách trọn vẹn — không từ
-            xa, nhưng từ bên trong.
+            <strong>Chúa {NAME_JESUS_VN}</strong> được sinh ra như một con người thật.
+            Ngài lớn lên trong một gia đình bình thường, biết đói, biết mệt, từng buồn và
+            đã khóc. Ngài cũng chịu đau đớn và đối diện với sự chết.
+            <strong>Ngài</strong> không đứng ngoài cuộc sống con người — Ngài sống trọn
+            vẹn trong đó.
           </>
         }
-        leftRef={`Giăng 11:35 · ${LANG_HEBREW_VN} 4:15`}
-        rightTitle={`Hoàn Toàn Là ${TERM_GOD_VN}`}
+        leftRef="Giăng 11:35 · Hê-bơ-rơ 4:15"
+        rightTitle={`Hoàn Toàn Là Con ${TERM_GOD_VN}`}
         rightBody={
           <>
-            Tuy nhiên, <strong>Ngài</strong> cũng tha tội, khiến gió và biển phải vâng
-            lời, nhận sự thờ phượng, và sống lại từ cõi chết. {TERM_NEW_TESTAMENT_VN}{" "}
-            trình bày <strong>Ngài</strong> không chỉ như một sứ giả của {TERM_GOD_VN}, mà
-            như chính {TERM_GOD_VN} đến trong thân thể con người.
+            Đồng thời, <strong>Ngài</strong> làm những phép lạ: chữa lành người bệnh,
+            khiến gió và biển phải vâng lời, cho người chết sống lại. Những hành động ấy
+            khiến nhiều người tin rằng Ngài không chỉ là một giáo sư hay tiên tri, mà là{" "}
+            <strong>{TERM_GOD_VN}</strong> — Ngôi Hai trong Ba Ngôi.
           </>
         }
         rightRef="Giăng 1:1 · Cô-lô-se 2:9"
@@ -132,11 +151,12 @@ export function VnWhoIsJesus() {
         title="Thập Tự Giá & Sự Phục Sinh"
         paragraph1={
           <>
-            Khoảng năm 30 sau Công Nguyên, Chúa {NAME_JESUS_VN} bị đóng đinh dưới thời
-            tổng đốc La Mã Bôn-xơ Phi-lát. Người tin Chúa tin rằng đây không chỉ là một
-            biến cố lịch sử, nhưng là trung tâm của kế hoạch cứu chuộc. Trên thập tự giá,{" "}
-            <strong>Ngài</strong> được hiểu là đã gánh lấy tội lỗi nhân loại — mở ra con
-            đường tha thứ và hòa giải với {TERM_GOD_VN}.
+            Khoảng năm 30 sau Công Nguyên, <strong>Chúa {NAME_JESUS_VN}</strong> bị đóng
+            đinh dưới thời tổng đốc La Mã Bôn-xơ Phi-lát. Người tin Chúa tin rằng đây
+            không chỉ là một biến cố lịch sử, nhưng là trung tâm của kế hoạch cứu chuộc
+            của <strong>{TERM_GOD_VN}</strong>. Trên thập tự giá, <strong>Ngài</strong>{" "}
+            được hiểu là đã gánh lấy tội lỗi nhân loại — mở ra con đường tha thứ và hòa
+            giải với <strong>{TERM_GOD_VN}</strong>.
           </>
         }
         paragraph2={
@@ -154,12 +174,12 @@ export function VnWhoIsJesus() {
         title="Sự Ứng Nghiệm Lời Tiên Tri"
         intro={
           <>
-            Từ nhiều thế kỷ trước khi Chúa {NAME_JESUS_VN} ra đời, {TERM_BIBLE_VN} đã nói
-            về một Đấng Mê-si sẽ đến — mô tả nơi sinh, sự chịu khổ, và thậm chí cách{" "}
-            <strong>Ngài</strong> chịu chết. Nhiều người tin Chúa thấy sự tương ứng rõ
-            ràng giữa các lời tiên tri ấy và cuộc đời của <strong>Ngài</strong>. Tuy
-            nhiên, cách hiểu và diễn giải những lời tiên tri này vẫn là chủ đề được thảo
-            luận trong nhiều thế kỷ.
+            Từ nhiều thế kỷ trước khi <strong>Chúa {NAME_JESUS_VN}</strong> ra đời,{" "}
+            {TERM_BIBLE_VN} đã nói về một Đấng Mê-si sẽ đến — mô tả nơi sinh, sự chịu khổ,
+            và thậm chí cách <strong>Ngài</strong> chịu chết. Nhiều người tin Chúa thấy sự
+            tương ứng rõ ràng giữa các lời tiên tri ấy và cuộc đời của{" "}
+            <strong>Ngài</strong>. Tuy nhiên, cách hiểu và diễn giải những lời tiên tri
+            này vẫn là chủ đề được thảo luận trong nhiều thế kỷ.
           </>
         }
         items={PROPHECY_ITEMS}
@@ -169,7 +189,7 @@ export function VnWhoIsJesus() {
         title={`Vì Sao Chúa ${NAME_JESUS_VN} Vẫn Quan Trọng Ngày Nay?`}
         paragraph1={
           <>
-            Nếu Chúa {NAME_JESUS_VN} thực sự đã sống lại từ cõi chết, thì{" "}
+            Nếu <strong>Chúa {NAME_JESUS_VN}</strong> thực sự đã sống lại từ cõi chết, thì{" "}
             <strong>Ngài</strong> không thể chỉ được xem như một thầy giáo đạo đức hay một
             câu chuyện truyền cảm hứng.
           </>
