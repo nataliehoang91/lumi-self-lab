@@ -23,9 +23,17 @@ export interface ReadingPanelContentProps {
 
 const fontSizeToClass = (fontSize: FontSize, focus: boolean) => {
   if (focus) {
-    return fontSize === "small" ? "text-base" : fontSize === "large" ? "text-xl" : "text-lg";
+    return fontSize === "small"
+      ? "text-base"
+      : fontSize === "large"
+        ? "text-xl"
+        : "text-lg";
   }
-  return fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-base";
+  return fontSize === "small"
+    ? "text-sm"
+    : fontSize === "large"
+      ? "text-lg"
+      : "text-base";
 };
 
 /**
@@ -46,11 +54,14 @@ export function ReadingPanelContent({
 
   if (!content || content.verses.length === 0) {
     return (
-      <div className="flex w-full min-h-[calc(100vh-14rem)] items-center justify-center py-12">
-        <div className="text-center text-muted-foreground">
+      <div
+        className="flex min-h-[calc(100vh-14rem)] w-full items-center justify-center
+          py-12"
+      >
+        <div className="text-muted-foreground text-center">
           <BookCircleIcon size="lg" className="mx-auto mb-4" />
           <p>{t("readNoContent")}</p>
-          <p className="text-sm mt-2">{t("readSelectAnother")}</p>
+          <p className="mt-2 text-sm">{t("readSelectAnother")}</p>
         </div>
       </div>
     );
@@ -58,7 +69,10 @@ export function ReadingPanelContent({
 
   return (
     <div
-      className={cn("space-y-6 leading-relaxed", focusMode ? fontSizeClassFocus : fontSizeClass)}
+      className={cn(
+        "space-y-6 leading-relaxed",
+        focusMode ? fontSizeClassFocus : fontSizeClass
+      )}
     >
       {content.verses.map((verse) => {
         const text = normalizeVerseTextForDisplay(verse.text || "", version);
@@ -75,7 +89,7 @@ export function ReadingPanelContent({
               <span
                 className={cn(
                   focusMode ? "text-base" : "text-sm",
-                  "text-muted-foreground font-medium shrink-0 transition-all",
+                  "text-muted-foreground shrink-0 font-medium transition-all",
                   hoveredVerse === verse.number && "text-primary"
                 )}
               >
@@ -95,7 +109,8 @@ export function ReadingPanelContent({
                       typeof p === "number" ? (
                         <sup
                           key={i}
-                          className="align-super text-[0.7em] font-medium text-muted-foreground"
+                          className="text-muted-foreground align-super text-[0.7em]
+                            font-medium"
                           title={parsed!.notes[p - 1]}
                         >
                           {p}
@@ -111,7 +126,10 @@ export function ReadingPanelContent({
               </p>
             </div>
             {!focusMode && hoveredVerse === verse.number && (
-              <div className="absolute -right-2 top-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div
+                className="absolute top-0 -right-2 flex gap-1 opacity-0 transition-opacity
+                  group-hover:opacity-100"
+              >
                 <Button
                   type="button"
                   variant="outline"
@@ -121,27 +139,27 @@ export function ReadingPanelContent({
                     e.stopPropagation();
                     void navigator.clipboard.writeText(text);
                   }}
-                  className="h-8 w-8 rounded border-border bg-card hover:bg-accent"
+                  className="border-border bg-card hover:bg-accent h-8 w-8 rounded"
                 >
-                  <Copy className="w-3.5 h-3.5 text-muted-foreground" />
+                  <Copy className="text-muted-foreground h-3.5 w-3.5" />
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
                   size="icon"
                   title={t("readBookmark")}
-                  className="h-8 w-8 rounded border-border bg-card hover:bg-accent"
+                  className="border-border bg-card hover:bg-accent h-8 w-8 rounded"
                 >
-                  <Bookmark className="w-3.5 h-3.5 text-muted-foreground" />
+                  <Bookmark className="text-muted-foreground h-3.5 w-3.5" />
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
                   size="icon"
                   title={t("readAddNote")}
-                  className="h-8 w-8 rounded border-border bg-card hover:bg-accent"
+                  className="border-border bg-card hover:bg-accent h-8 w-8 rounded"
                 >
-                  <StickyNote className="w-3.5 h-3.5 text-muted-foreground" />
+                  <StickyNote className="text-muted-foreground h-3.5 w-3.5" />
                 </Button>
               </div>
             )}

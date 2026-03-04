@@ -15,7 +15,12 @@ export type ReviewSummaryField =
       fieldId: string;
       label: string;
       type: "yesno";
-      summary: { count: number; yesCount: number; noCount: number; yesPercentage: number };
+      summary: {
+        count: number;
+        yesCount: number;
+        noCount: number;
+        yesPercentage: number;
+      };
     }
   | {
       fieldId: string;
@@ -48,7 +53,9 @@ export type ExperimentForReview = {
   checkIns: CheckInRow[];
 };
 
-export function computeReviewSummaryFields(experiment: ExperimentForReview): ReviewSummaryField[] {
+export function computeReviewSummaryFields(
+  experiment: ExperimentForReview
+): ReviewSummaryField[] {
   const byFieldId = new Map<string, ResponseRow[]>();
 
   for (const checkIn of experiment.checkIns) {
@@ -110,7 +117,9 @@ export function computeReviewSummaryFields(experiment: ExperimentForReview): Rev
     }
 
     if (field.type === "yesno") {
-      const vals = responses.map((r) => r.responseBool).filter((v) => v === true || v === false);
+      const vals = responses
+        .map((r) => r.responseBool)
+        .filter((v) => v === true || v === false);
       const count = vals.length;
       const yesCount = vals.filter((v) => v === true).length;
       const noCount = vals.filter((v) => v === false).length;

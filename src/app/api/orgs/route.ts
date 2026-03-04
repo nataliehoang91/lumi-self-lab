@@ -35,7 +35,8 @@ export async function POST(req: Request) {
   if (!name) {
     return NextResponse.json({ error: "name is required" }, { status: 400 });
   }
-  const description = typeof body.description === "string" ? body.description.trim() || null : null;
+  const description =
+    typeof body.description === "string" ? body.description.trim() || null : null;
 
   try {
     const result = await prisma.$transaction(async (tx) => {

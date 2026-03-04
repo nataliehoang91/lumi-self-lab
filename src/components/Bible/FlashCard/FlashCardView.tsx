@@ -123,7 +123,9 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
     if (!isAnimating && ids.length > 0) {
       setIsAnimating(true);
       setTimeout(() => {
-        setCurrentIndex(Math.floor(Math.random() * Math.max(1, ids.length - visibleCount + 1)));
+        setCurrentIndex(
+          Math.floor(Math.random() * Math.max(1, ids.length - visibleCount + 1))
+        );
         setIsAnimating(false);
       }, 300);
     }
@@ -170,7 +172,10 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
 
   if (ids.length === 0) {
     return (
-      <div className="rounded-xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 p-8 text-center text-muted-foreground shadow-lg">
+      <div
+        className="bg-card border-border text-muted-foreground rounded-xl border p-8
+          text-center shadow-lg dark:border-zinc-700 dark:bg-zinc-800"
+      >
         {intl.t("noVerses")}
       </div>
     );
@@ -184,7 +189,8 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
 
   const allIds = ids.slice(0, allDisplayCount);
   const hasMoreAll = ids.length > allDisplayCount;
-  const loadMore = () => setAllDisplayCount((c) => Math.min(c + ALL_BATCH_SIZE, ids.length));
+  const loadMore = () =>
+    setAllDisplayCount((c) => Math.min(c + ALL_BATCH_SIZE, ids.length));
   const scrollToTop = () =>
     scrollAnchorRef.current?.scrollIntoView({ behavior: "smooth" }) ??
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -193,20 +199,23 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
     return (
       <div
         className={cn(
-          "w-full flex flex-col items-center min-h-0 px-4 sm:px-6 max-w-6xl mx-auto",
+          "mx-auto flex min-h-0 w-full max-w-6xl flex-col items-center px-4 sm:px-6",
           fontSizeClass
         )}
         ref={scrollAnchorRef}
       >
         {/* Pagination info */}
-        <div className="w-full text-center py-3 shrink-0">
-          <p className="text-sm text-muted-foreground">
+        <div className="w-full shrink-0 py-3 text-center">
+          <p className="text-muted-foreground text-sm">
             {intl.t("showing", { from: 1, to: allIds.length, total: ids.length })}
           </p>
         </div>
 
         {/* Grid: 4 → 3 → 2 → 1 by screen size */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 py-4">
+        <div
+          className="grid w-full grid-cols-1 gap-3 py-4 sm:grid-cols-2 sm:gap-4
+            md:grid-cols-3 lg:grid-cols-4"
+        >
           {allIds.map((verseId) => (
             <LazyFlashCard
               key={verseId}
@@ -216,9 +225,9 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
               cardLanguage={cardLanguageById[verseId] ?? globalLanguage}
               onCardLanguageChange={(lang) => setLanguageForCard(verseId, lang)}
               t={{
-                clickToReveal: getBibleIntl(cardLanguageById[verseId] ?? globalLanguage).t(
-                  "clickToReveal"
-                ),
+                clickToReveal: getBibleIntl(
+                  cardLanguageById[verseId] ?? globalLanguage
+                ).t("clickToReveal"),
               }}
               horizontal={false}
             />
@@ -226,7 +235,7 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
         </div>
 
         {/* Load more + Back to top */}
-        <div className="w-full flex flex-col items-center gap-4 py-6 pb-8">
+        <div className="flex w-full flex-col items-center gap-4 py-6 pb-8">
           {hasMoreAll && (
             <Button variant="outline" onClick={loadMore} className="min-w-[140px]">
               {intl.t("loadMore")}
@@ -246,19 +255,19 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
   return (
     <div
       className={cn(
-        "w-full flex flex-col items-center px-4 sm:px-6 max-w-6xl mx-auto",
+        "mx-auto flex w-full max-w-6xl flex-col items-center px-4 sm:px-6",
         "min-h-[calc(100vh-3.5rem)]",
         fontSizeClass
       )}
     >
       {/* Progress */}
-      <div className="w-full text-center py-3 shrink-0">
-        <p className="text-sm text-muted-foreground">
+      <div className="w-full shrink-0 py-3 text-center">
+        <p className="text-muted-foreground text-sm">
           {visibleCount > 1
             ? `${currentIndex + 1}–${Math.min(currentIndex + visibleCount, ids.length)} of ${ids.length}`
             : intl.t("verseOf", { current: currentIndex + 1, total: ids.length })}
         </p>
-        <div className="flex justify-center gap-1 sm:gap-1.5 mt-2 flex-wrap">
+        <div className="mt-2 flex flex-wrap justify-center gap-1 sm:gap-1.5">
           {Array.from({ length: Math.max(1, maxIndex + 1) }).map((_, idx) => (
             <button
               key={idx}
@@ -266,8 +275,8 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
               className={cn(
                 "h-1.5 rounded-full transition-all duration-300",
                 idx === currentIndex
-                  ? "w-6 sm:w-8 bg-primary"
-                  : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  ? "bg-primary w-6 sm:w-8"
+                  : "bg-muted-foreground/30 hover:bg-muted-foreground/50 w-1.5"
               )}
               aria-label={`Go to verse set ${idx + 1}`}
             />
@@ -276,11 +285,14 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
       </div>
 
       {/* Cards + navigation — flex-1 + justify-center to center block vertically */}
-      <div className="w-full flex-1 flex flex-col items-center justify-center px-2 sm:px-4 py-4 min-h-0">
+      <div
+        className="flex min-h-0 w-full flex-1 flex-col items-center justify-center px-2
+          py-4 sm:px-4"
+      >
         <div
           className={cn(
-            "flex items-center gap-4 max-w-full",
-            isVertical ? "flex-col w-full" : "flex-row justify-center w-full"
+            "flex max-w-full items-center gap-4",
+            isVertical ? "w-full flex-col" : "w-full flex-row justify-center"
           )}
         >
           <Button
@@ -290,20 +302,24 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
             onClick={handlePrevious}
             disabled={currentIndex === 0 || isAnimating}
             className={cn(
-              "shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full",
+              "h-10 w-10 shrink-0 rounded-full sm:h-12 sm:w-12",
               isVertical && "order-first"
             )}
             aria-label={isVertical ? "Previous (up)" : "Previous (left)"}
           >
-            {isVertical ? <ChevronUp className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+            {isVertical ? (
+              <ChevronUp className="h-5 w-5" />
+            ) : (
+              <ChevronLeft className="h-5 w-5" />
+            )}
           </Button>
 
           <div
             className={cn(
-              "flex gap-3 sm:gap-4 min-h-0",
+              "flex min-h-0 gap-3 sm:gap-4",
               isVertical
-                ? "flex-col flex-1 w-full max-w-md overflow-y-auto"
-                : "flex-row justify-center overflow-x-auto shrink-0 min-w-0"
+                ? "w-full max-w-md flex-1 flex-col overflow-y-auto"
+                : "min-w-0 shrink-0 flex-row justify-center overflow-x-auto"
             )}
           >
             {visibleIds.map((verseId) => (
@@ -315,9 +331,9 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
                 cardLanguage={cardLanguageById[verseId] ?? globalLanguage}
                 onCardLanguageChange={(lang) => setLanguageForCard(verseId, lang)}
                 t={{
-                  clickToReveal: getBibleIntl(cardLanguageById[verseId] ?? globalLanguage).t(
-                    "clickToReveal"
-                  ),
+                  clickToReveal: getBibleIntl(
+                    cardLanguageById[verseId] ?? globalLanguage
+                  ).t("clickToReveal"),
                 }}
                 horizontal={!isVertical}
               />
@@ -330,7 +346,7 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
             size="icon"
             onClick={handleNext}
             disabled={currentIndex >= maxIndex || isAnimating}
-            className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full"
+            className="h-10 w-10 shrink-0 rounded-full sm:h-12 sm:w-12"
             aria-label={isVertical ? "Next (down)" : "Next (right)"}
           >
             {isVertical ? (
@@ -341,10 +357,12 @@ export function FlashCardView({ ids }: FlashCardViewProps) {
           </Button>
         </div>
 
-        <p className="text-xs text-muted-foreground mt-4 text-center">
+        <p className="text-muted-foreground mt-4 text-center text-xs">
           {isVertical ? intl.t("useArrowKeysVertical") : intl.t("useArrowKeys")}
         </p>
-        <p className="text-xs text-muted-foreground text-center">{intl.t("keyboardHint")}</p>
+        <p className="text-muted-foreground text-center text-xs">
+          {intl.t("keyboardHint")}
+        </p>
       </div>
     </div>
   );

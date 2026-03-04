@@ -99,7 +99,8 @@ export async function PATCH(
     if (body.minValue !== undefined) updateData.minValue = body.minValue || null;
     if (body.maxValue !== undefined) updateData.maxValue = body.maxValue || null;
     if (body.emojiCount !== undefined) updateData.emojiCount = body.emojiCount || null;
-    if (body.selectOptions !== undefined) updateData.selectOptions = body.selectOptions || [];
+    if (body.selectOptions !== undefined)
+      updateData.selectOptions = body.selectOptions || [];
 
     const field = await prisma.experimentField.update({
       where: { id: fieldId },

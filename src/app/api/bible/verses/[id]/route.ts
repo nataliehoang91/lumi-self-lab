@@ -36,9 +36,6 @@ export async function GET(
     });
   } catch (e) {
     console.error("bible/verses/[id]", e);
-    return NextResponse.json(
-      { error: "Failed to fetch verse." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch verse." }, { status: 500 });
   }
 }

@@ -14,7 +14,16 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Plus, X, List, Smile, CheckCircle2, MessageSquare, Activity, Pencil } from "lucide-react";
+import {
+  Plus,
+  X,
+  List,
+  Smile,
+  CheckCircle2,
+  MessageSquare,
+  Activity,
+  Pencil,
+} from "lucide-react";
 
 export type FieldType = "text" | "number" | "select" | "emoji" | "yesno";
 
@@ -142,15 +151,15 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
   const getFieldIcon = (type: FieldType) => {
     switch (type) {
       case "text":
-        return <MessageSquare className="w-4 h-4" />;
+        return <MessageSquare className="h-4 w-4" />;
       case "number":
-        return <Activity className="w-4 h-4" />;
+        return <Activity className="h-4 w-4" />;
       case "select":
-        return <List className="w-4 h-4" />;
+        return <List className="h-4 w-4" />;
       case "emoji":
-        return <Smile className="w-4 h-4" />;
+        return <Smile className="h-4 w-4" />;
       case "yesno":
-        return <CheckCircle2 className="w-4 h-4" />;
+        return <CheckCircle2 className="h-4 w-4" />;
     }
   };
 
@@ -187,17 +196,21 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
           {fields.map((field, index) => (
             <Card
               key={field.id}
-              className="p-3 rounded-2xl border-border/50 bg-card hover:shadow-md transition-all"
+              className="border-border/50 bg-card rounded-2xl p-3 transition-all
+                hover:shadow-md"
             >
               <div className="flex items-center gap-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 flex items-center gap-2">
+                    <div
+                      className="bg-primary/10 flex h-6 w-6 flex-shrink-0 items-center
+                        justify-center rounded-lg"
+                    >
                       {getFieldIcon(field.type)}
                     </div>
-                    <p className="text-sm font-medium truncate">{field.label}</p>
+                    <p className="truncate text-sm font-medium">{field.label}</p>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="text-muted-foreground flex items-center gap-2 text-xs">
                     <span>{getFieldTypeName(field.type)}</span>
                     {field.required && (
                       <>
@@ -222,7 +235,9 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                     {field.textType && (
                       <>
                         <span>•</span>
-                        <span>{field.textType === "short" ? "Short text" : "Long text"}</span>
+                        <span>
+                          {field.textType === "short" ? "Short text" : "Long text"}
+                        </span>
                       </>
                     )}
                     {field.emojiCount && (
@@ -233,14 +248,15 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex flex-shrink-0 items-center gap-2">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => handleEditField(field)}
-                    className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary rounded-xl"
+                    className="hover:bg-primary/10 hover:text-primary h-8 w-8 rounded-xl
+                      p-0"
                   >
-                    <Pencil className="w-4 h-4" />
+                    <Pencil className="h-4 w-4" />
                   </Button>
                   <Switch
                     checked={field.required}
@@ -251,9 +267,10 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                     variant="ghost"
                     size="sm"
                     onClick={() => removeField(field.id)}
-                    className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive rounded-xl"
+                    className="hover:bg-destructive/10 hover:text-destructive h-8 w-8
+                      rounded-xl p-0"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -264,15 +281,19 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
 
       {/* Step 2: Configuration Form */}
       {isConfiguringField && (
-        <Card className="p-5 rounded-2xl border-2 border-primary/50 bg-gradient-to-br from-primary/5 to-violet/5">
-          <h4 className="font-semibold mb-4">
-            {editingFieldId ? "Edit" : "Configure"} {getFieldTypeName(newField.type as FieldType)}
+        <Card
+          className="border-primary/50 from-primary/5 to-violet/5 rounded-2xl border-2
+            bg-gradient-to-br p-5"
+        >
+          <h4 className="mb-4 font-semibold">
+            {editingFieldId ? "Edit" : "Configure"}{" "}
+            {getFieldTypeName(newField.type as FieldType)}
           </h4>
 
           <div className="space-y-4">
             {newField.type !== "text" && (
               <div>
-                <Label htmlFor="field-label" className="text-sm mb-2 block">
+                <Label htmlFor="field-label" className="mb-2 block text-sm">
                   Question / Label <span className="text-destructive">*</span>
                 </Label>
                 <Input
@@ -289,7 +310,7 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
             {newField.type === "number" && (
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label htmlFor="min-value" className="text-sm mb-2 block">
+                  <Label htmlFor="min-value" className="mb-2 block text-sm">
                     Min Value
                   </Label>
                   <Input
@@ -306,7 +327,7 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                   />
                 </div>
                 <div>
-                  <Label htmlFor="max-value" className="text-sm mb-2 block">
+                  <Label htmlFor="max-value" className="mb-2 block text-sm">
                     Max Value
                   </Label>
                   <Input
@@ -328,7 +349,7 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
             {newField.type === "emoji" && (
               <div className="space-y-4">
                 <div>
-                  <Label className="text-sm mb-2 block">Emoji Scale Levels</Label>
+                  <Label className="mb-2 block text-sm">Emoji Scale Levels</Label>
                   <Select
                     value={newField.emojiCount?.toString()}
                     onValueChange={(value) =>
@@ -350,8 +371,8 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                 </div>
 
                 {/* Live emoji preview */}
-                <div className="p-4 rounded-xl bg-background border border-border/50">
-                  <p className="text-xs text-muted-foreground mb-3 text-center">
+                <div className="bg-background border-border/50 rounded-xl border p-4">
+                  <p className="text-muted-foreground mb-3 text-center text-xs">
                     During check-in, you&apos;ll select one emoji:
                   </p>
                   <div className="flex items-center justify-center gap-2">
@@ -359,13 +380,18 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                       <button
                         key={index}
                         type="button"
-                        className="w-10 h-10 rounded-xl border-2 border-transparent hover:border-primary/50 hover:bg-primary/10 flex items-center justify-center text-2xl transition-all hover:scale-110"
+                        className="hover:border-primary/50 hover:bg-primary/10 flex h-10
+                          w-10 items-center justify-center rounded-xl border-2
+                          border-transparent text-2xl transition-all hover:scale-110"
                       >
                         {emoji}
                       </button>
                     ))}
                   </div>
-                  <div className="flex justify-between text-xs text-muted-foreground mt-2 px-1">
+                  <div
+                    className="text-muted-foreground mt-2 flex justify-between px-1
+                      text-xs"
+                  >
                     <span>Low</span>
                     <span>High</span>
                   </div>
@@ -375,7 +401,7 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
 
             {newField.type === "text" && (
               <div>
-                <Label className="text-sm mb-2 block">Text Input Type</Label>
+                <Label className="mb-2 block text-sm">Text Input Type</Label>
                 <Select
                   value={newField.textType}
                   onValueChange={(value: "short" | "long") =>
@@ -395,7 +421,7 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
 
             {newField.type === "select" && (
               <div>
-                <Label htmlFor="field-options" className="text-sm mb-2 block">
+                <Label htmlFor="field-options" className="mb-2 block text-sm">
                   Dropdown Options
                 </Label>
                 <Input
@@ -405,7 +431,9 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                   placeholder="Option 1, Option 2, Option 3"
                   className="rounded-xl"
                 />
-                <p className="text-xs text-muted-foreground mt-1">Separate options with commas</p>
+                <p className="text-muted-foreground mt-1 text-xs">
+                  Separate options with commas
+                </p>
               </div>
             )}
 
@@ -413,7 +441,9 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
               <Switch
                 id="field-required"
                 checked={newField.required}
-                onCheckedChange={(checked) => setNewField({ ...newField, required: checked })}
+                onCheckedChange={(checked) =>
+                  setNewField({ ...newField, required: checked })
+                }
               />
               <Label htmlFor="field-required" className="text-sm">
                 Required field
@@ -431,7 +461,8 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
               <Button
                 onClick={addField}
                 disabled={newField.type !== "text" && !newField.label}
-                className="flex-1 rounded-xl bg-primary hover:bg-primary/90 hover:scale-105 transition-all"
+                className="bg-primary hover:bg-primary/90 flex-1 rounded-xl transition-all
+                  hover:scale-105"
               >
                 {editingFieldId ? "Update Field" : "Add Field"}
               </Button>
@@ -446,13 +477,15 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="w-full rounded-2xl border-dashed border-2 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all hover:scale-[1.02] py-6 bg-transparent"
+              className="border-primary/30 hover:border-primary hover:bg-primary/5 w-full
+                rounded-2xl border-2 border-dashed bg-transparent py-6 transition-all
+                hover:scale-[1.02]"
             >
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="mr-2 h-4 w-4" />
               Add Check-In Field
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[450px] p-5 rounded-2xl" align="start">
+          <PopoverContent className="w-[450px] rounded-2xl p-5" align="start">
             <div className="space-y-4">
               <h4 className="font-semibold">Select Field Type</h4>
 
@@ -460,15 +493,19 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                 <button
                   type="button"
                   onClick={() => handleSelectType("emoji")}
-                  className="p-4 rounded-2xl border-2 border-border/50 bg-card hover:border-primary/50 hover:scale-[1.02] transition-all"
+                  className="border-border/50 bg-card hover:border-primary/50 rounded-2xl
+                    border-2 p-4 transition-all hover:scale-[1.02]"
                 >
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white">
-                      <Smile className="w-5 h-5" />
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <div
+                      className="flex h-10 w-10 items-center justify-center rounded-xl
+                        bg-gradient-to-br from-yellow-400 to-orange-400 text-white"
+                    >
+                      <Smile className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-sm">Emoji Scale</p>
-                      <p className="text-xs text-muted-foreground">Track feelings</p>
+                      <p className="text-sm font-medium">Emoji Scale</p>
+                      <p className="text-muted-foreground text-xs">Track feelings</p>
                     </div>
                   </div>
                 </button>
@@ -476,15 +513,19 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                 <button
                   type="button"
                   onClick={() => handleSelectType("number")}
-                  className="p-4 rounded-2xl border-2 border-border/50 bg-card hover:border-primary/50 hover:scale-[1.02] transition-all"
+                  className="border-border/50 bg-card hover:border-primary/50 rounded-2xl
+                    border-2 p-4 transition-all hover:scale-[1.02]"
                 >
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center text-white">
-                      <Activity className="w-5 h-5" />
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <div
+                      className="flex h-10 w-10 items-center justify-center rounded-xl
+                        bg-gradient-to-br from-blue-400 to-cyan-400 text-white"
+                    >
+                      <Activity className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-sm">Number Scale</p>
-                      <p className="text-xs text-muted-foreground">Rate 1-10</p>
+                      <p className="text-sm font-medium">Number Scale</p>
+                      <p className="text-muted-foreground text-xs">Rate 1-10</p>
                     </div>
                   </div>
                 </button>
@@ -492,15 +533,19 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                 <button
                   type="button"
                   onClick={() => handleSelectType("text")}
-                  className="p-4 rounded-2xl border-2 border-border/50 bg-card hover:border-primary/50 hover:scale-[1.02] transition-all"
+                  className="border-border/50 bg-card hover:border-primary/50 rounded-2xl
+                    border-2 p-4 transition-all hover:scale-[1.02]"
                 >
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white">
-                      <MessageSquare className="w-5 h-5" />
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <div
+                      className="flex h-10 w-10 items-center justify-center rounded-xl
+                        bg-gradient-to-br from-purple-400 to-pink-400 text-white"
+                    >
+                      <MessageSquare className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-sm">Text Journal</p>
-                      <p className="text-xs text-muted-foreground">Free writing</p>
+                      <p className="text-sm font-medium">Text Journal</p>
+                      <p className="text-muted-foreground text-xs">Free writing</p>
                     </div>
                   </div>
                 </button>
@@ -508,15 +553,19 @@ export function CustomFieldBuilder({ fields, onChange }: CustomFieldBuilderProps
                 <button
                   type="button"
                   onClick={() => handleSelectType("yesno")}
-                  className="p-4 rounded-2xl border-2 border-border/50 bg-card hover:border-primary/50 hover:scale-[1.02] transition-all"
+                  className="border-border/50 bg-card hover:border-primary/50 rounded-2xl
+                    border-2 p-4 transition-all hover:scale-[1.02]"
                 >
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-400 flex items-center justify-center text-white">
-                      <CheckCircle2 className="w-5 h-5" />
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <div
+                      className="flex h-10 w-10 items-center justify-center rounded-xl
+                        bg-gradient-to-br from-green-400 to-emerald-400 text-white"
+                    >
+                      <CheckCircle2 className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-sm">Yes/No</p>
-                      <p className="text-xs text-muted-foreground">Simple check</p>
+                      <p className="text-sm font-medium">Yes/No</p>
+                      <p className="text-muted-foreground text-xs">Simple check</p>
                     </div>
                   </div>
                 </button>

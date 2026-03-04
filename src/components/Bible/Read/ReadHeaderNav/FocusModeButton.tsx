@@ -32,7 +32,7 @@ export function FocusModeButton({ variant = "desktop" }: { variant?: Variant }) 
         !isDesktop && "rounded-md"
       )}
     >
-      {focusMode ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+      {focusMode ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
     </Button>
   );
 }

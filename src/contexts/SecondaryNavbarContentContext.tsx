@@ -7,7 +7,9 @@ type SecondaryNavbarContextValue = {
   setContent: (content: ReactNode) => void;
 };
 
-const SecondaryNavbarContentContext = createContext<SecondaryNavbarContextValue | null>(null);
+const SecondaryNavbarContentContext = createContext<SecondaryNavbarContextValue | null>(
+  null
+);
 
 export function SecondaryNavbarContentProvider({ children }: { children: ReactNode }) {
   const [content, setContentState] = useState<ReactNode>(null);

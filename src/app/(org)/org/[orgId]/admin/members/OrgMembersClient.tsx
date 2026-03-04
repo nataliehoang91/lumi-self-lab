@@ -230,32 +230,32 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
           <Link href={`/org/${orgId}/admin`}>
-            <ArrowLeft className="size-4 mr-2" />
+            <ArrowLeft className="mr-2 size-4" />
             Back to org admin
           </Link>
         </Button>
 
-        <h1 className="text-2xl font-semibold text-foreground mb-2">Members</h1>
+        <h1 className="text-foreground mb-2 text-2xl font-semibold">Members</h1>
         <p className="text-muted-foreground mb-6">
-          Manage who has access to this organisation workspace. Add existing users or invite a
-          teammate by email.
+          Manage who has access to this organisation workspace. Add existing users or
+          invite a teammate by email.
         </p>
 
         {/* Invite a teammate */}
-        <Card className="p-6 mb-6">
-          <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+        <Card className="mb-6 p-6">
+          <h2 className="text-foreground mb-4 flex items-center gap-2 font-semibold">
             <Mail className="size-4" />
             Invite a teammate
           </h2>
-          <p className="text-sm text-muted-foreground mb-4">
-            Send an invite by email. They can accept after signing in to join this organisation
-            workspace.
+          <p className="text-muted-foreground mb-4 text-sm">
+            Send an invite by email. They can accept after signing in to join this
+            organisation workspace.
           </p>
           <form onSubmit={handleInvite} className="flex flex-wrap items-end gap-4">
-            <div className="flex-1 min-w-[200px]">
+            <div className="min-w-[200px] flex-1">
               <Label htmlFor="invite-email">Email</Label>
               <Input
                 id="invite-email"
@@ -288,7 +288,7 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
             <Button type="submit" disabled={inviteSubmitting}>
               {inviteSubmitting ? (
                 <>
-                  <Loader2 className="size-4 animate-spin mr-2" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Sending…
                 </>
               ) : (
@@ -296,13 +296,13 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
               )}
             </Button>
           </form>
-          {inviteError && <p className="text-sm text-destructive mt-2">{inviteError}</p>}
+          {inviteError && <p className="text-destructive mt-2 text-sm">{inviteError}</p>}
           {lastInviteLink && (
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-muted-foreground mt-2 text-sm">
               Invite sent. Share this link with your teammate:{" "}
               <a
                 href={lastInviteLink}
-                className="text-primary underline break-all"
+                className="text-primary break-all underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -312,20 +312,20 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
           )}
 
           {/* Pending invites */}
-          <div className="mt-6 pt-6 border-t">
-            <h3 className="font-medium text-foreground mb-3">Pending invites</h3>
+          <div className="mt-6 border-t pt-6">
+            <h3 className="text-foreground mb-3 font-medium">Pending invites</h3>
             {invitesLoading ? (
-              <p className="text-sm text-muted-foreground">Loading…</p>
+              <p className="text-muted-foreground text-sm">Loading…</p>
             ) : invites.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No pending invites.</p>
+              <p className="text-muted-foreground text-sm">No pending invites.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b bg-muted/50">
-                      <th className="text-left p-2 font-medium">Email</th>
-                      <th className="text-left p-2 font-medium">Role</th>
-                      <th className="text-left p-2 font-medium">Expires</th>
+                    <tr className="bg-muted/50 border-b">
+                      <th className="p-2 text-left font-medium">Email</th>
+                      <th className="p-2 text-left font-medium">Role</th>
+                      <th className="p-2 text-left font-medium">Expires</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -339,7 +339,9 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                               ? "Team manager"
                               : "Member"}
                         </td>
-                        <td className="p-2 text-muted-foreground">{formatJoined(i.expiresAt)}</td>
+                        <td className="text-muted-foreground p-2">
+                          {formatJoined(i.expiresAt)}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -350,21 +352,22 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
         </Card>
 
         {/* Add member (existing user, no invite) */}
-        <Card className="p-6 mb-8">
-          <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+        <Card className="mb-8 p-6">
+          <h2 className="text-foreground mb-4 flex items-center gap-2 font-semibold">
             <UserPlus className="size-4" />
             Add member
           </h2>
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="text-muted-foreground mb-4 text-sm">
             Add someone who already has an account. They must have signed up first.
           </p>
           {members.length === 1 && (
-            <p className="text-sm text-muted-foreground mb-4">
-              You can add teammates by email once they&apos;ve signed up, or invite them above.
+            <p className="text-muted-foreground mb-4 text-sm">
+              You can add teammates by email once they&apos;ve signed up, or invite them
+              above.
             </p>
           )}
           <form onSubmit={handleAdd} className="flex flex-wrap items-end gap-4">
-            <div className="flex-1 min-w-[200px]">
+            <div className="min-w-[200px] flex-1">
               <Label htmlFor="add-email">Email</Label>
               <Input
                 id="add-email"
@@ -397,7 +400,7 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
             <Button type="submit" disabled={addSubmitting}>
               {addSubmitting ? (
                 <>
-                  <Loader2 className="size-4 animate-spin mr-2" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Adding…
                 </>
               ) : (
@@ -405,35 +408,35 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
               )}
             </Button>
           </form>
-          {addError && <p className="text-sm text-destructive mt-2">{addError}</p>}
+          {addError && <p className="text-destructive mt-2 text-sm">{addError}</p>}
         </Card>
 
         {/* Members table */}
         <Card className="overflow-hidden">
           {loading ? (
-            <div className="p-8 text-center text-muted-foreground">
-              <Loader2 className="size-6 animate-spin mx-auto mb-2" />
+            <div className="text-muted-foreground p-8 text-center">
+              <Loader2 className="mx-auto mb-2 size-6 animate-spin" />
               Loading members…
             </div>
           ) : error ? (
-            <div className="p-8 text-center text-destructive">
-              <p className="font-medium mb-1">Couldn&apos;t load members</p>
+            <div className="text-destructive p-8 text-center">
+              <p className="mb-1 font-medium">Couldn&apos;t load members</p>
               <p className="text-sm">{error}</p>
             </div>
           ) : members.length === 0 ? (
-            <div className="p-8 text-center text-muted-foreground">
-              <p className="font-medium text-foreground mb-1">No members yet</p>
+            <div className="text-muted-foreground p-8 text-center">
+              <p className="text-foreground mb-1 font-medium">No members yet</p>
               <p className="text-sm">Add a member using the form above.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b bg-muted/50">
-                    <th className="text-left p-3 font-medium">Email</th>
-                    <th className="text-left p-3 font-medium">Role</th>
-                    <th className="text-left p-3 font-medium">Joined</th>
-                    <th className="text-right p-3 font-medium">Actions</th>
+                  <tr className="bg-muted/50 border-b">
+                    <th className="p-3 text-left font-medium">Email</th>
+                    <th className="p-3 text-left font-medium">Role</th>
+                    <th className="p-3 text-left font-medium">Joined</th>
+                    <th className="p-3 text-right font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -450,7 +453,10 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                             <span>{m.email ?? "—"}</span>
                             <span className="flex flex-wrap gap-1">
                               {isCurrentUser && (
-                                <Badge variant="secondary" className="text-xs font-normal">
+                                <Badge
+                                  variant="secondary"
+                                  className="text-xs font-normal"
+                                >
                                   You
                                 </Badge>
                               )}
@@ -462,7 +468,8 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                               {isCurrentUser && isSuperAdmin && (
                                 <Badge
                                   variant="outline"
-                                  className="text-xs font-normal text-violet-600 dark:text-violet-400 border-violet-500/50"
+                                  className="border-violet-500/50 text-xs font-normal
+                                    text-violet-600 dark:text-violet-400"
                                 >
                                   Platform admin
                                 </Badge>
@@ -495,19 +502,22 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                             <span className="text-muted-foreground">Org admin</span>
                           )}
                           {isLastOrgAdmin && !isSuperAdmin && (
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="text-muted-foreground mt-1 text-xs">
                               At least one organisation admin is required.
                             </p>
                           )}
                         </td>
-                        <td className="p-3 text-muted-foreground">{formatJoined(m.joinedAt)}</td>
+                        <td className="text-muted-foreground p-3">
+                          {formatJoined(m.joinedAt)}
+                        </td>
                         <td className="p-3 text-right">
                           {canRemove ? (
                             <Button
                               type="button"
                               variant="ghost"
                               size="icon"
-                              className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                              className="text-destructive hover:text-destructive
+                                hover:bg-destructive/10"
                               onClick={() => handleRemove(m.id)}
                               title="Remove member"
                             >
@@ -515,7 +525,7 @@ export function OrgMembersClient({ orgId }: { orgId: string }) {
                             </Button>
                           ) : (
                             <span
-                              className="text-xs text-muted-foreground"
+                              className="text-muted-foreground text-xs"
                               title="At least one organisation admin is required"
                             >
                               —

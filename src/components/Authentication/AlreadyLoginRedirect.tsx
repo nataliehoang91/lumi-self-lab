@@ -8,7 +8,9 @@ interface AlreadyLoggedInRedirectProps {
   callbackUrl?: string;
 }
 
-export const AlreadyLoggedInRedirect = ({ callbackUrl }: AlreadyLoggedInRedirectProps) => {
+export const AlreadyLoggedInRedirect = ({
+  callbackUrl,
+}: AlreadyLoggedInRedirectProps) => {
   const [count, setCount] = useState(3);
   const router = useRouter();
 
@@ -29,7 +31,10 @@ export const AlreadyLoggedInRedirect = ({ callbackUrl }: AlreadyLoggedInRedirect
   }, [router, callbackUrl]);
 
   return (
-    <div className="text-center text-muted-foreground mt-4 gap-3.5 flex flex-col items-center justify-center">
+    <div
+      className="text-muted-foreground mt-4 flex flex-col items-center justify-center
+        gap-3.5 text-center"
+    >
       You are already logged in. Redirecting to home in
       <span className="text-primary font-bold">{count}</span>
       <LoadingIcon />

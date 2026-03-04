@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 
 /** Theme accent for journey step strip: primary, second, tertiary, sage, coral */
-export type JourneyAccent = "primary" | "second" | "tertiary" | "sage" | "coral";
+export type JourneyAccent = "primary" | "second" | "tertiary" | "sage" | "coral" | "gray";
 
 export interface JourneyItem {
   step: string;

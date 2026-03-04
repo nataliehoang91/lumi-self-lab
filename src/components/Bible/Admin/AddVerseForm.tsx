@@ -148,9 +148,11 @@ export function AddVerseForm() {
       verseEndNum - verseNum <= 50);
   const hasContent =
     content &&
-    (content.contentVIE1923 || content.contentKJV || content.contentNIV || content.contentZH);
-  const canSubmit =
-    !!bookId && !!chapter && !!verse && !!hasContent && validRange;
+    (content.contentVIE1923 ||
+      content.contentKJV ||
+      content.contentNIV ||
+      content.contentZH);
+  const canSubmit = !!bookId && !!chapter && !!verse && !!hasContent && validRange;
 
   return (
     <Form asChild className="contents">
@@ -212,7 +214,8 @@ export function AddVerseForm() {
             name="flashCardSetId"
             required
             disabled={setsLoading}
-            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800
+              disabled:opacity-60"
           >
             <option value="">Select set</option>
             {sets.map((s) => (
@@ -223,11 +226,14 @@ export function AddVerseForm() {
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-stone-700">Collection</label>
+          <label className="mb-1 block text-sm font-medium text-stone-700">
+            Collection
+          </label>
           <select
             name="collectionId"
             disabled={collectionsLoading}
-            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800
+              disabled:opacity-60"
           >
             <option value="">No collection</option>
             {collections.map((c) => (
@@ -245,7 +251,8 @@ export function AddVerseForm() {
             onChange={(e) => setBookId(e.target.value)}
             required
             disabled={booksLoading}
-            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800
+              disabled:opacity-60"
           >
             <option value="">Select book (EN / VI / 中)</option>
             {books.map((b) => (
@@ -258,7 +265,9 @@ export function AddVerseForm() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-stone-700">Chapter</label>
+            <label className="mb-1 block text-sm font-medium text-stone-700">
+              Chapter
+            </label>
             <select
               name="chapter"
               value={chapter}
@@ -268,7 +277,8 @@ export function AddVerseForm() {
               }}
               required
               disabled={chaptersLoading || !bookId}
-              className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2
+                text-stone-800 disabled:opacity-60"
             >
               <option value="">Select chapter</option>
               {chapters.map((c) => (
@@ -289,7 +299,8 @@ export function AddVerseForm() {
               }}
               required
               disabled={!verseCount}
-              className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2
+                text-stone-800 disabled:opacity-60"
             >
               <option value="">Select verse</option>
               {verseOptions.map((n) => (
@@ -308,7 +319,8 @@ export function AddVerseForm() {
               value={verseEnd}
               onChange={(e) => setVerseEnd(e.target.value)}
               disabled={!verseCount || !verse}
-              className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2
+                text-stone-800 disabled:opacity-60"
             >
               <option value="">Single verse</option>
               {verseOptions
@@ -345,10 +357,15 @@ export function AddVerseForm() {
         {!contentLoading && bookId && chapter && verse && (
           <>
             {hasContent ? (
-              <div className="space-y-3 rounded-lg border border-stone-200 bg-stone-50 p-3 text-sm">
+              <div
+                className="space-y-3 rounded-lg border border-stone-200 bg-stone-50 p-3
+                  text-sm"
+              >
                 {content?.contentVIE1923 && (
                   <div>
-                    <span className="font-medium text-stone-600">Vietnamese (traditional):</span>
+                    <span className="font-medium text-stone-600">
+                      Vietnamese (traditional):
+                    </span>
                     <p className="mt-1 text-stone-800">{content.contentVIE1923}</p>
                   </div>
                 )}
@@ -373,8 +390,8 @@ export function AddVerseForm() {
               </div>
             ) : (
               <p className="text-sm text-amber-700">
-                No content for this verse in the database. Add it to BibleVerseContent to enable
-                Save.
+                No content for this verse in the database. Add it to BibleVerseContent to
+                enable Save.
               </p>
             )}
           </>
@@ -382,7 +399,8 @@ export function AddVerseForm() {
 
         <SubmitButton
           disabled={!canSubmit}
-          className="rounded-lg bg-stone-800 px-4 py-2 text-white hover:bg-stone-700 disabled:opacity-50"
+          className="rounded-lg bg-stone-800 px-4 py-2 text-white hover:bg-stone-700
+            disabled:opacity-50"
         >
           <SubmitMessage>Save to flash cards</SubmitMessage>
           <LoadingMessage>Saving…</LoadingMessage>

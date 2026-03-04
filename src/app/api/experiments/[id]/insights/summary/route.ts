@@ -84,7 +84,10 @@ const insightsSummaryResponseSchema = z.object({
 // GET /api/experiments/[id]/insights/summary
 // ---------------------------------------------------------------------------
 
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -181,11 +184,14 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       }
 
       if (field.type === "yesno") {
-        const vals = responses.map((r) => r.responseBool).filter((v) => v === true || v === false);
+        const vals = responses
+          .map((r) => r.responseBool)
+          .filter((v) => v === true || v === false);
         const count = vals.length;
         const yesCount = vals.filter((v) => v === true).length;
         const noCount = vals.filter((v) => v === false).length;
-        const yesPercentage = count === 0 ? 0 : Math.round((yesCount / count) * 1000) / 10;
+        const yesPercentage =
+          count === 0 ? 0 : Math.round((yesCount / count) * 1000) / 10;
         fields.push({
           fieldId: field.id,
           label: field.label,
@@ -257,6 +263,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return NextResponse.json(parsed.data);
   } catch (error) {
     console.error("Error fetching insights summary:", error);
-    return NextResponse.json({ error: "Failed to fetch insights summary" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch insights summary" },
+      { status: 500 }
+    );
   }
 }

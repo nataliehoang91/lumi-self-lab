@@ -38,11 +38,14 @@ export function EllipsisBreadcrumb({
             <React.Fragment key={index}>
               <BreadcrumbItem>
                 {item.isCurrentPage || !item.href ? (
-                  <BreadcrumbPage className="font-bold text-foreground">
+                  <BreadcrumbPage className="text-foreground font-bold">
                     {item.label}
                   </BreadcrumbPage>
                 ) : (
-                  <BreadcrumbLink href={item.href} className="hover:opacity-80 transition-colors">
+                  <BreadcrumbLink
+                    href={item.href}
+                    className="transition-colors hover:opacity-80"
+                  >
                     {item.label}
                   </BreadcrumbLink>
                 )}
@@ -66,13 +69,13 @@ export function EllipsisBreadcrumb({
         {/* First item - always visible */}
         <BreadcrumbItem>
           {firstItem?.isCurrentPage || !firstItem?.href ? (
-            <BreadcrumbPage className="font-bold text-foreground">
+            <BreadcrumbPage className="text-foreground font-bold">
               {firstItem?.label}
             </BreadcrumbPage>
           ) : (
             <BreadcrumbLink
               href={firstItem?.href}
-              className="hover:text-blue-800 transition-colors"
+              className="transition-colors hover:text-blue-800"
             >
               {firstItem?.label}
             </BreadcrumbLink>
@@ -86,13 +89,13 @@ export function EllipsisBreadcrumb({
             <React.Fragment key={index}>
               <BreadcrumbItem>
                 {item.isCurrentPage || !item.href ? (
-                  <BreadcrumbPage className="font-bold text-foreground">
+                  <BreadcrumbPage className="text-foreground font-bold">
                     {item.label}
                   </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink
                     href={item.href}
-                    className="hover:text-blue-800 transition-colors"
+                    className="transition-colors hover:text-blue-800"
                   >
                     {item.label}
                   </BreadcrumbLink>
@@ -112,9 +115,14 @@ export function EllipsisBreadcrumb({
         {/* Last item (current page) - visible on all screens */}
         <BreadcrumbItem>
           {lastItem?.isCurrentPage || !lastItem?.href ? (
-            <BreadcrumbPage className="font-bold text-foreground">{lastItem?.label}</BreadcrumbPage>
+            <BreadcrumbPage className="text-foreground font-bold">
+              {lastItem?.label}
+            </BreadcrumbPage>
           ) : (
-            <BreadcrumbLink href={lastItem?.href} className="hover:text-blue-800 transition-colors">
+            <BreadcrumbLink
+              href={lastItem?.href}
+              className="transition-colors hover:text-blue-800"
+            >
               {lastItem?.label}
             </BreadcrumbLink>
           )}

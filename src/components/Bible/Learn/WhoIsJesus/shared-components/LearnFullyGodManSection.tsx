@@ -29,13 +29,13 @@ export function LearnFullyGodManSection({
     <section className="mb-10" aria-labelledby="fully-section-title">
       <h2
         id="fully-section-title"
-        className="font-bible-english text-2xl font-semibold text-foreground mb-4"
+        className="font-bible-english text-foreground mb-4 text-2xl font-semibold"
       >
         {sectionTitle}
       </h2>
       <div className="grid grid-cols-2 gap-3">
-        <div className="p-5 bg-card border border-sage-dark/20 rounded-2xl">
-          <p className="font-semibold text-foreground mb-2">{leftTitle}</p>
+        <div className="bg-card border-sage-dark/20 rounded-2xl border p-5">
+          <p className="text-foreground mb-2 font-semibold">{leftTitle}</p>
           <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
             {leftBody}
           </p>
@@ -43,8 +43,8 @@ export function LearnFullyGodManSection({
             {leftRef}
           </p>
         </div>
-        <div className="p-5 bg-card border border-sage-dark/20 rounded-2xl">
-          <p className="font-semibold text-foreground mb-2">{rightTitle}</p>
+        <div className="bg-card border-sage-dark/20 rounded-2xl border p-5">
+          <p className="text-foreground mb-2 font-semibold">{rightTitle}</p>
           <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
             {rightBody}
           </p>

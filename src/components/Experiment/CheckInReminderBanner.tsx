@@ -26,11 +26,17 @@ function getTodayUTCDateString(): string {
   return toStartOfDayUTC(new Date()).toISOString().split("T")[0];
 }
 
-function hasCheckInToday(checkIns: Array<{ checkInDate: string }>, todayStr: string): boolean {
+function hasCheckInToday(
+  checkIns: Array<{ checkInDate: string }>,
+  todayStr: string
+): boolean {
   return checkIns.some((c) => c.checkInDate === todayStr);
 }
 
-function shouldShowBanner(experiment: ExperimentWithCheckIns, reminder: ReminderState): boolean {
+function shouldShowBanner(
+  experiment: ExperimentWithCheckIns,
+  reminder: ReminderState
+): boolean {
   if (experiment.status !== "active") return false;
   if (!experiment.startDate) return false;
   const todayStr = getTodayUTCDateString();
@@ -66,7 +72,8 @@ export function CheckInReminderBanner({
   return (
     <div
       role="status"
-      className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-900 dark:bg-amber-950/40"
+      className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3
+        dark:border-amber-900 dark:bg-amber-950/40"
     >
       <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
         You haven&apos;t checked in today. Add your check-in when you&apos;re ready.

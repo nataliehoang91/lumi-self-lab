@@ -81,7 +81,9 @@ function transformAPIUserToUserData(apiUser: APIUser): UserData {
   // Check if user has manager role (team_manager or org_admin) (or super_admin)
   const hasManagerRole =
     isSuperAdmin ||
-    apiUser.organisations.some((org) => org.role === "team_manager" || org.role === "org_admin");
+    apiUser.organisations.some(
+      (org) => org.role === "team_manager" || org.role === "org_admin"
+    );
 
   // Upgraded: has upgradedAt OR super_admin (auto full access)
   const isUpgraded = !!apiUser.upgradedAt || isSuperAdmin;

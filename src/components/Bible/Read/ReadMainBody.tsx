@@ -16,7 +16,10 @@ const ReadMainBodyContainer = ({
 }) => {
   return (
     <div
-      className={cn("flex gap-0 relative w-full", isIndependentTwoPanels && "flex-col md:flex-row")}
+      className={cn(
+        "relative flex w-full gap-0",
+        isIndependentTwoPanels && "flex-col md:flex-row"
+      )}
     >
       {children}
     </div>

@@ -35,7 +35,8 @@ export function GeneralErrorFallback({
     ) {
       return {
         title: "Connection Error",
-        description: "Unable to load data. Please check your internet connection and try again.",
+        description:
+          "Unable to load data. Please check your internet connection and try again.",
       };
     }
     if (error.message?.includes("404") || error.message?.includes("not found")) {
@@ -71,30 +72,37 @@ export function GeneralErrorFallback({
   const { title, description } = getErrorType();
 
   return (
-    <Container maxWidth="md" className="flex items-center justify-center min-h-screen">
-      <Card className="w-full max-w-md text-center p-6 border-none shadow-none">
-        <div className="flex justify-center mb-6">
-          <div className="h-20 w-20 flex items-center justify-center rounded-full bg-red-50 border border-red-400 shadow-sm">
+    <Container maxWidth="md" className="flex min-h-screen items-center justify-center">
+      <Card className="w-full max-w-md border-none p-6 text-center shadow-none">
+        <div className="mb-6 flex justify-center">
+          <div
+            className="flex h-20 w-20 items-center justify-center rounded-full border
+              border-red-400 bg-red-50 shadow-sm"
+          >
             {Icon ? (
-              <Icon className="h-9 w-9 text-coral" />
+              <Icon className="text-coral h-9 w-9" />
             ) : (
-              <RefreshCw className="h-9 w-9 text-coral" />
+              <RefreshCw className="text-coral h-9 w-9" />
             )}
           </div>
         </div>
-        <h1 className="text-2xl font-bold text-foreground mb-2">{title}</h1>
+        <h1 className="text-foreground mb-2 text-2xl font-bold">{title}</h1>
         <p className="text-muted-foreground mb-6">{description}</p>
 
         {process.env.NODE_ENV === "development" && (
-          <details className="text-left mb-6 rounded-lg border border-border bg-muted/50 p-3">
-            <summary className="text-sm font-medium text-muted-foreground cursor-pointer">
+          <details
+            className="border-border bg-muted/50 mb-6 rounded-lg border p-3 text-left"
+          >
+            <summary className="text-muted-foreground cursor-pointer text-sm font-medium">
               Technical details
             </summary>
-            <p className="mt-2 text-xs text-destructive font-mono break-words">{error.message}</p>
+            <p className="text-destructive mt-2 font-mono text-xs break-words">
+              {error.message}
+            </p>
           </details>
         )}
 
-        <div className="flex flex-col-reverse sm:flex-row gap-3 justify-center">
+        <div className="flex flex-col-reverse justify-center gap-3 sm:flex-row">
           {showHomeButton && (
             <Button variant="outline" onClick={() => router.push(homeUrl)}>
               <Home className="mr-2 h-4 w-4" />

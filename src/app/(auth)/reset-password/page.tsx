@@ -24,17 +24,22 @@ import { Sparkles } from "lucide-react";
  */
 export default function ResetPasswordPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo/Icon */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center justify-center mb-4">
+        <div className="mb-8 text-center">
+          <Link href="/" className="mb-4 inline-flex items-center justify-center">
             <div className="relative">
-              <Sparkles className="w-12 h-12 text-second animate-float" />
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse-glow" />
+              <Sparkles className="text-second animate-float h-12 w-12" />
+              <div
+                className="bg-primary/20 animate-pulse-glow absolute inset-0 rounded-full
+                  blur-xl"
+              />
             </div>
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Reset Password</h1>
+          <h1 className="text-foreground mb-2 text-3xl font-bold md:text-4xl">
+            Reset Password
+          </h1>
           <p className="text-muted-foreground">Enter your new password</p>
         </div>
 
@@ -88,7 +93,8 @@ export default function ResetPasswordPage() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground text-sm
+              transition-colors"
           >
             Back to Home
           </Link>

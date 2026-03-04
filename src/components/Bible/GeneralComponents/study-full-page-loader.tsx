@@ -5,8 +5,14 @@ import { useState, useEffect, useRef } from "react";
 
 const STUDY_PHRASES = [
   { text: "Study to show thyself approved unto God.", ref: "2 Timothy 2:15" },
-  { text: "Let the word of Christ dwell in you richly in all wisdom.", ref: "Colossians 3:16" },
-  { text: "Open my eyes, that I may behold wondrous things out of your law.", ref: "Psalm 119:18" },
+  {
+    text: "Let the word of Christ dwell in you richly in all wisdom.",
+    ref: "Colossians 3:16",
+  },
+  {
+    text: "Open my eyes, that I may behold wondrous things out of your law.",
+    ref: "Psalm 119:18",
+  },
   {
     text: "For everything that was written in the past was written to teach us.",
     ref: "Romans 15:4",
@@ -19,8 +25,13 @@ interface StudyFullPageLoaderProps {
   variant?: "light" | "dark";
 }
 
-export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullPageLoaderProps) {
-  const [phase, setPhase] = useState<"enter" | "typewrite" | "ref" | "progress" | "exit">("enter");
+export function StudyFullPageLoader({
+  onComplete,
+  variant = "dark",
+}: StudyFullPageLoaderProps) {
+  const [phase, setPhase] = useState<"enter" | "typewrite" | "ref" | "progress" | "exit">(
+    "enter"
+  );
   const [displayedText, setDisplayedText] = useState("");
   const [showRef, setShowRef] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -29,7 +40,9 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
   const [stack2, setStack2] = useState(false);
   const [stack3, setStack3] = useState(false);
   const [penVisible, setPenVisible] = useState(false);
-  const phraseRef = useRef(STUDY_PHRASES[Math.floor(Math.random() * STUDY_PHRASES.length)]);
+  const phraseRef = useRef(
+    STUDY_PHRASES[Math.floor(Math.random() * STUDY_PHRASES.length)]
+  );
   const phrase = phraseRef.current;
 
   const { theme } = useTheme();
@@ -106,7 +119,8 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden transition-all duration-650`}
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center
+        overflow-hidden transition-all duration-650`}
       style={{
         background: colors.background,
         opacity: phase === "exit" ? 0 : 1,
@@ -118,7 +132,7 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
     >
       {/* Ambient glow */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         style={{
           background: colors.ambient,
           opacity: mounted ? 1 : 0,
@@ -127,7 +141,9 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-10 px-6 max-w-lg w-full">
+      <div
+        className="relative z-10 flex w-full max-w-lg flex-col items-center gap-10 px-6"
+      >
         {/* Stacked books icon */}
         <div
           className="relative"
@@ -168,16 +184,38 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
                   ? "translateY(0px) rotate(-3deg)"
                   : "translateY(24px) rotate(-3deg)",
                 opacity: stack1 ? 1 : 0,
-                transition: "transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease",
+                transition:
+                  "transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease",
                 transformOrigin: "54px 78px",
               }}
             >
               {/* Spine */}
-              <rect x="10" y="64" width="6" height="22" rx="1" fill="oklch(0.38 0.015 85)" />
+              <rect
+                x="10"
+                y="64"
+                width="6"
+                height="22"
+                rx="1"
+                fill="oklch(0.38 0.015 85)"
+              />
               {/* Cover */}
-              <rect x="16" y="64" width="76" height="22" rx="2" fill="oklch(0.30 0.012 85)" />
+              <rect
+                x="16"
+                y="64"
+                width="76"
+                height="22"
+                rx="2"
+                fill="oklch(0.30 0.012 85)"
+              />
               {/* Pages edge */}
-              <rect x="88" y="65" width="4" height="20" rx="1" fill="oklch(0.48 0.018 85)" />
+              <rect
+                x="88"
+                y="65"
+                width="4"
+                height="20"
+                rx="1"
+                fill="oklch(0.48 0.018 85)"
+              />
               {/* Horizontal lines (pages) */}
               <line
                 x1="17"
@@ -217,9 +255,30 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
                 transformOrigin: "54px 55px",
               }}
             >
-              <rect x="14" y="44" width="6" height="22" rx="1" fill="oklch(0.34 0.013 85)" />
-              <rect x="20" y="44" width="70" height="22" rx="2" fill="oklch(0.26 0.01 85)" />
-              <rect x="86" y="45" width="4" height="20" rx="1" fill="oklch(0.44 0.016 85)" />
+              <rect
+                x="14"
+                y="44"
+                width="6"
+                height="22"
+                rx="1"
+                fill="oklch(0.34 0.013 85)"
+              />
+              <rect
+                x="20"
+                y="44"
+                width="70"
+                height="22"
+                rx="2"
+                fill="oklch(0.26 0.01 85)"
+              />
+              <rect
+                x="86"
+                y="45"
+                width="4"
+                height="20"
+                rx="1"
+                fill="oklch(0.44 0.016 85)"
+              />
               <line
                 x1="21"
                 y1="49"
@@ -267,9 +326,30 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
                 transformOrigin: "54px 33px",
               }}
             >
-              <rect x="18" y="22" width="6" height="22" rx="1" fill="oklch(0.42 0.016 85)" />
-              <rect x="24" y="22" width="62" height="22" rx="2" fill="oklch(0.32 0.013 85)" />
-              <rect x="82" y="23" width="4" height="20" rx="1" fill="oklch(0.50 0.018 85)" />
+              <rect
+                x="18"
+                y="22"
+                width="6"
+                height="22"
+                rx="1"
+                fill="oklch(0.42 0.016 85)"
+              />
+              <rect
+                x="24"
+                y="22"
+                width="62"
+                height="22"
+                rx="2"
+                fill="oklch(0.32 0.013 85)"
+              />
+              <rect
+                x="82"
+                y="23"
+                width="4"
+                height="20"
+                rx="1"
+                fill="oklch(0.50 0.018 85)"
+              />
               <line
                 x1="25"
                 y1="27"
@@ -309,13 +389,34 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
               }}
             >
               {/* Pen body */}
-              <rect x="55" y="4" width="6" height="28" rx="1.5" fill="oklch(0.60 0.02 85)" />
+              <rect
+                x="55"
+                y="4"
+                width="6"
+                height="28"
+                rx="1.5"
+                fill="oklch(0.60 0.02 85)"
+              />
               {/* Pen nib */}
               <path d="M55 32 L58 40 L61 32 Z" fill="oklch(0.70 0.025 85)" />
               {/* Pen clip */}
-              <rect x="59.5" y="6" width="1.2" height="20" rx="0.6" fill="oklch(0.48 0.015 85)" />
+              <rect
+                x="59.5"
+                y="6"
+                width="1.2"
+                height="20"
+                rx="0.6"
+                fill="oklch(0.48 0.015 85)"
+              />
               {/* Pen top cap */}
-              <rect x="55" y="3" width="6" height="3" rx="1.5" fill="oklch(0.50 0.016 85)" />
+              <rect
+                x="55"
+                y="3"
+                width="6"
+                height="3"
+                rx="1.5"
+                fill="oklch(0.50 0.016 85)"
+              />
             </g>
           </svg>
         </div>
@@ -330,7 +431,7 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
           className="flex flex-col items-center gap-1"
         >
           <span
-            className="font-serif tracking-widest uppercase text-xs"
+            className="font-serif text-xs tracking-widest uppercase"
             style={{ color: "oklch(0.50 0.015 85)", letterSpacing: "0.25em" }}
           >
             Scripture Memory
@@ -345,7 +446,8 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
 
         {/* Verse typewriter */}
         <div
-          className="text-center space-y-3 min-h-[80px] flex flex-col items-center justify-center"
+          className="flex min-h-[80px] flex-col items-center justify-center space-y-3
+            text-center"
           style={{
             opacity: phase === "enter" ? 0 : 1,
             transition: "opacity 0.5s ease",
@@ -362,7 +464,7 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
             {displayedText}
             {phase === "typewrite" && (
               <span
-                className="inline-block w-0.5 h-4 ml-0.5 align-middle"
+                className="ml-0.5 inline-block h-4 w-0.5 align-middle"
                 style={{
                   background: colors.accent,
                   animation: "blink-cursor 0.7s step-end infinite",
@@ -388,14 +490,14 @@ export function StudyFullPageLoader({ onComplete, variant = "dark" }: StudyFullP
 
         {/* Progress bar */}
         <div
-          className="w-full flex flex-col items-center gap-3"
+          className="flex w-full flex-col items-center gap-3"
           style={{
             opacity: phase === "progress" || phase === "exit" ? 1 : 0,
             transition: "opacity 0.5s ease",
           }}
         >
           <div
-            className="w-full max-w-xs rounded-full overflow-hidden"
+            className="w-full max-w-xs overflow-hidden rounded-full"
             style={{ height: "1px", background: colors.progressTrack }}
           >
             <div

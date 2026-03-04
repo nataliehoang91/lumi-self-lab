@@ -89,7 +89,9 @@ export function AiChatPanel() {
               if (parsed) {
                 assistantMessage += parsed;
                 setMessages((prev) =>
-                  prev.map((m) => (m.id === assistantId ? { ...m, content: assistantMessage } : m))
+                  prev.map((m) =>
+                    m.id === assistantId ? { ...m, content: assistantMessage } : m
+                  )
                 );
               }
             } catch (e) {
@@ -118,27 +120,32 @@ export function AiChatPanel() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-sidebar/95 backdrop-blur-xl border-r border-sidebar-border relative">
+    <div
+      className="bg-sidebar/95 border-sidebar-border relative flex h-full flex-col
+        border-r backdrop-blur-xl"
+    >
       {/* Header */}
-      <div className="p-5 border-b border-sidebar-border/50">
+      <div className="border-sidebar-border/50 border-b p-5">
         <div className="flex items-center justify-between">
           <Link href="/" className="inline-flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-second" />
-            <h1 className="text-lg font-bold text-sidebar-foreground">Self-Lab</h1>
+            <Sparkles className="text-second h-5 w-5" />
+            <h1 className="text-sidebar-foreground text-lg font-bold">Self-Lab</h1>
           </Link>
         </div>
-        <p className="text-xs text-sidebar-foreground/60 mt-1">AI Assistant</p>
+        <p className="text-sidebar-foreground/60 mt-1 text-xs">AI Assistant</p>
       </div>
 
       {/* Suggested Prompts */}
-      <div className="p-4 border-b border-sidebar-border/50">
-        <p className="text-xs font-medium text-sidebar-foreground/50 mb-3">TRY ASKING</p>
+      <div className="border-sidebar-border/50 border-b p-4">
+        <p className="text-sidebar-foreground/50 mb-3 text-xs font-medium">TRY ASKING</p>
         <div className="space-y-2">
           {SUGGESTED_PROMPTS.map((prompt, index) => (
             <button
               key={index}
               onClick={() => handleSuggestedPrompt(prompt)}
-              className="w-full text-left text-xs p-3 rounded-2xl bg-sidebar-accent/60 hover:bg-sidebar-accent text-sidebar-accent-foreground transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="bg-sidebar-accent/60 hover:bg-sidebar-accent
+                text-sidebar-accent-foreground w-full rounded-2xl p-3 text-left text-xs
+                transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               {prompt}
             </button>
@@ -152,7 +159,8 @@ export function AiChatPanel() {
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+              className={`flex
+              ${message.role === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
                 className={`max-w-[85%] rounded-3xl p-4 shadow-sm ${
@@ -162,9 +170,9 @@ export function AiChatPanel() {
                 }`}
               >
                 {message.role === "assistant" && (
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-second" />
-                    <span className="text-xs font-medium text-second">AI</span>
+                  <div className="mb-1.5 flex items-center gap-2">
+                    <Sparkles className="text-second h-3.5 w-3.5" />
+                    <span className="text-second text-xs font-medium">AI</span>
                   </div>
                 )}
                 <p className="text-sm leading-relaxed">{message.content}</p>
@@ -173,11 +181,20 @@ export function AiChatPanel() {
           ))}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="max-w-[85%] rounded-3xl p-4 bg-card text-card-foreground shadow-sm">
+              <div
+                className="bg-card text-card-foreground max-w-[85%] rounded-3xl p-4
+                  shadow-sm"
+              >
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse [animation-delay:0.2s]" />
-                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse [animation-delay:0.4s]" />
+                  <div className="bg-primary h-2 w-2 animate-pulse rounded-full" />
+                  <div
+                    className="bg-primary h-2 w-2 animate-pulse rounded-full
+                      [animation-delay:0.2s]"
+                  />
+                  <div
+                    className="bg-primary h-2 w-2 animate-pulse rounded-full
+                      [animation-delay:0.4s]"
+                  />
                 </div>
               </div>
             </div>
@@ -186,23 +203,28 @@ export function AiChatPanel() {
       </ScrollArea>
 
       {/* Chat Input */}
-      <div className="sticky bottom-0 bg-sidebar/95 backdrop-blur-xl border-t border-sidebar-border/50 p-4">
+      <div
+        className="bg-sidebar/95 border-sidebar-border/50 sticky bottom-0 border-t p-4
+          backdrop-blur-xl"
+      >
         <form onSubmit={handleSubmit}>
-          <div className="flex gap-2 w-full">
+          <div className="flex w-full gap-2">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your thoughts..."
-              className="flex-1 min-w-0 bg-sidebar-accent/50 border-sidebar-border/50 rounded-2xl text-sidebar-foreground placeholder:text-sidebar-foreground/40"
+              className="bg-sidebar-accent/50 border-sidebar-border/50
+                text-sidebar-foreground placeholder:text-sidebar-foreground/40 min-w-0
+                flex-1 rounded-2xl"
               disabled={isLoading}
             />
             <Button
               type="submit"
               size="icon"
               disabled={isLoading || !input.trim()}
-              className="rounded-2xl w-11 h-11"
+              className="h-11 w-11 rounded-2xl"
             >
-              <Send className="w-4 h-4" />
+              <Send className="h-4 w-4" />
             </Button>
           </div>
         </form>

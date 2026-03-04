@@ -14,15 +14,17 @@ interface ExperimentCreationContextType {
   clear: () => void;
 }
 
-const ExperimentCreationContext = createContext<ExperimentCreationContextType | undefined>(
-  undefined
-);
+const ExperimentCreationContext = createContext<
+  ExperimentCreationContextType | undefined
+>(undefined);
 
 export function ExperimentCreationProvider({ children }: { children: ReactNode }) {
   const [orgId, setOrgId] = useState<string | null>(null);
   const [templateId, setTemplateId] = useState<string | null>(null);
   const [assignedInviteId, setAssignedInviteId] = useState<string | null>(null);
-  const [source, setSource] = useState<"personal" | "org-template" | "org-assigned">("personal");
+  const [source, setSource] = useState<"personal" | "org-template" | "org-assigned">(
+    "personal"
+  );
 
   const clear = () => {
     setOrgId(null);
@@ -53,7 +55,9 @@ export function ExperimentCreationProvider({ children }: { children: ReactNode }
 export function useExperimentCreation() {
   const context = useContext(ExperimentCreationContext);
   if (!context) {
-    throw new Error("useExperimentCreation must be used within ExperimentCreationProvider");
+    throw new Error(
+      "useExperimentCreation must be used within ExperimentCreationProvider"
+    );
   }
   return context;
 }

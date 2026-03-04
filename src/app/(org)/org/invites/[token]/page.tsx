@@ -21,7 +21,11 @@ function roleLabel(role: string): string {
   return "member";
 }
 
-export default function OrgInviteAcceptPage({ params }: { params: Promise<{ token: string }> }) {
+export default function OrgInviteAcceptPage({
+  params,
+}: {
+  params: Promise<{ token: string }>;
+}) {
   const { token } = use(params);
   const router = useRouter();
   const [details, setDetails] = useState<InviteDetails | null>(null);
@@ -44,7 +48,9 @@ export default function OrgInviteAcceptPage({ params }: { params: Promise<{ toke
         setError(null);
       })
       .catch((err) => {
-        setError(err instanceof Error ? err.message : "This invite is invalid or has expired.");
+        setError(
+          err instanceof Error ? err.message : "This invite is invalid or has expired."
+        );
         setDetails(null);
       })
       .finally(() => setLoading(false));
@@ -84,9 +90,9 @@ export default function OrgInviteAcceptPage({ params }: { params: Promise<{ toke
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="p-8 max-w-md w-full text-center">
-          <Loader2 className="size-8 animate-spin mx-auto text-muted-foreground mb-4" />
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md p-8 text-center">
+          <Loader2 className="text-muted-foreground mx-auto mb-4 size-8 animate-spin" />
           <p className="text-muted-foreground">Loading invitation…</p>
         </Card>
       </div>
@@ -95,10 +101,10 @@ export default function OrgInviteAcceptPage({ params }: { params: Promise<{ toke
 
   if (error || !details) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="p-8 max-w-md w-full text-center">
-          <p className="text-destructive font-medium mb-2">Invalid or expired invite</p>
-          <p className="text-sm text-muted-foreground mb-6">{error}</p>
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md p-8 text-center">
+          <p className="text-destructive mb-2 font-medium">Invalid or expired invite</p>
+          <p className="text-muted-foreground mb-6 text-sm">{error}</p>
           <Button asChild variant="outline">
             <Link href="/org">Go to organisations</Link>
           </Button>
@@ -108,25 +114,30 @@ export default function OrgInviteAcceptPage({ params }: { params: Promise<{ toke
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="p-8 max-w-md w-full">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Building2 className="w-6 h-6 text-primary" />
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full max-w-md p-8">
+        <div className="mb-6 flex items-center gap-3">
+          <div
+            className="bg-primary/10 flex h-12 w-12 items-center justify-center
+              rounded-xl"
+          >
+            <Building2 className="text-primary h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-foreground">
+            <h1 className="text-foreground text-xl font-semibold">
               Join an organisation workspace
             </h1>
-            <p className="text-sm text-muted-foreground">
-              You&apos;re joining {details.organisationName} as a {roleLabel(details.role)}.
+            <p className="text-muted-foreground text-sm">
+              You&apos;re joining {details.organisationName} as a{" "}
+              {roleLabel(details.role)}.
             </p>
           </div>
         </div>
-        <p className="text-sm text-muted-foreground mb-6">
-          This adds you to the organisation workspace. You are not creating a new account—you&apos;re joining with your existing sign-in.
+        <p className="text-muted-foreground mb-6 text-sm">
+          This adds you to the organisation workspace. You are not creating a new
+          account—you&apos;re joining with your existing sign-in.
         </p>
-        {acceptError && <p className="text-sm text-destructive mb-4">{acceptError}</p>}
+        {acceptError && <p className="text-destructive mb-4 text-sm">{acceptError}</p>}
         <div className="flex gap-3">
           <Button onClick={handleAccept} disabled={submitting} className="flex-1 gap-2">
             {submitting ? (

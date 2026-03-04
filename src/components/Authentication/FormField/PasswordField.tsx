@@ -22,7 +22,7 @@ export const PasswordField = () => {
     <FormField name="password">
       <div className="flex items-center justify-between">
         <FormLabel>Password</FormLabel>
-        <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+        <Link href="/forgot-password" className="text-primary text-sm hover:underline">
           Forgot Password?
         </Link>
       </div>
@@ -38,11 +38,16 @@ export const PasswordField = () => {
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-transparent"
+                className="text-muted-foreground hover:text-primary h-8 w-8 p-0
+                  hover:bg-transparent"
                 aria-label="Show password"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
               </Button>
             }
           />

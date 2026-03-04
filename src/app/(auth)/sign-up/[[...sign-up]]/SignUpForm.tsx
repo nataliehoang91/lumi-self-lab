@@ -10,13 +10,13 @@ import { Logo } from "@/components/GeneralComponents/Logo";
  */
 export function SignUpForm() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4 animate-float">
+        <div className="mb-8 text-center">
+          <div className="animate-float mb-4 flex justify-center">
             <Logo href="/" className="w-12 md:w-12" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+          <h1 className="text-foreground mb-2 text-3xl font-bold md:text-4xl">
             Begin Your Journey
           </h1>
           <p className="text-muted-foreground">Create an account to start exploring</p>
@@ -78,7 +78,8 @@ export function SignUpForm() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground text-sm
+              transition-colors"
           >
             Back to Home
           </Link>

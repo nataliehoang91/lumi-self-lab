@@ -45,16 +45,19 @@ export function ReadingPanelControlHeader({ side }: { side: "left" | "right" }) 
   if (showControls && showBookChapterSelectors) {
     return (
       <div className="mb-6 space-y-4">
-        <div className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
+        <div className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
           {versionName}
         </div>
-        <div className="flex flex-row items-center gap-4 flex-wrap">
+        <div className="flex flex-row flex-wrap items-center gap-4">
           {onTestamentFilterChange && (
             <Select
               value={testamentFilterForPanel}
               onValueChange={(v) => v && onTestamentFilterChange(v as "ot" | "nt")}
             >
-              <SelectTrigger className="w-auto min-w-24 rounded-lg border-second bg-second/5 h-10 shrink-0 hover:bg-second/10">
+              <SelectTrigger
+                className="border-second bg-second/5 hover:bg-second/10 h-10 w-auto
+                  min-w-24 shrink-0 rounded-lg"
+              >
                 <SelectValue placeholder={t("readOldShort")} />
               </SelectTrigger>
               <SelectContent align="start" className="rounded-lg">
@@ -70,12 +73,15 @@ export function ReadingPanelControlHeader({ side }: { side: "left" | "right" }) 
               if (b) onBookChange(b);
             }}
           >
-            <SelectTrigger className="w-auto min-w-20 rounded-lg border-sage bg-sage/10 h-10 shrink-0 hover:bg-sage/20">
+            <SelectTrigger
+              className="border-sage bg-sage/10 hover:bg-sage/20 h-10 w-auto min-w-20
+                shrink-0 rounded-lg"
+            >
               <SelectValue placeholder={t("readBook")}>
                 {book ? getBookDisplayName(book, version) : t("readBook")}
               </SelectValue>
             </SelectTrigger>
-            <SelectContent align="start" className="rounded-lg max-h-80">
+            <SelectContent align="start" className="max-h-80 rounded-lg">
               {panelFilteredBooks.map((b) => (
                 <SelectItem key={b.id} value={b.id}>
                   {getBookDisplayName(b, version)}
@@ -83,20 +89,29 @@ export function ReadingPanelControlHeader({ side }: { side: "left" | "right" }) 
               ))}
             </SelectContent>
           </Select>
-          <Select value={String(chapter)} onValueChange={(v) => onChapterChange(Number(v))}>
-            <SelectTrigger className="w-auto min-w-20 rounded-lg border-primary bg-primary/5 h-10 shrink-0 hover:bg-primary/10 dark:border-primary dark:bg-primary/5">
+          <Select
+            value={String(chapter)}
+            onValueChange={(v) => onChapterChange(Number(v))}
+          >
+            <SelectTrigger
+              className="border-primary bg-primary/5 hover:bg-primary/10
+                dark:border-primary dark:bg-primary/5 h-10 w-auto min-w-20 shrink-0
+                rounded-lg"
+            >
               <SelectValue placeholder={t("readChapterN", { n: 1 })} />
             </SelectTrigger>
             <SelectContent
               align="start"
-              className="rounded-lg max-h-80 w-auto [&_[data-state]>span:first-child]:invisible"
+              className="max-h-80 w-auto rounded-lg
+                [&_[data-state]>span:first-child]:invisible"
             >
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-1 p-2">
+              <div className="grid grid-cols-3 gap-1 p-2 sm:grid-cols-4">
                 {Array.from({ length: maxChapters }, (_, i) => i + 1).map((ch) => (
                   <SelectItem
                     key={ch}
                     value={String(ch)}
-                    className="min-w-9 min-h-9 flex items-center justify-center rounded-md py-0 px-2 data-highlighted:bg-accent"
+                    className="data-highlighted:bg-accent flex min-h-9 min-w-9
+                      items-center justify-center rounded-md px-2 py-0"
                   >
                     {ch}
                   </SelectItem>
@@ -111,12 +126,14 @@ export function ReadingPanelControlHeader({ side }: { side: "left" | "right" }) 
 
   return (
     <div className="mb-6">
-      <div className="text-xs font-medium text-muted-foreground tracking-wide uppercase mb-2">
+      <div
+        className="text-muted-foreground mb-2 text-xs font-medium tracking-wide uppercase"
+      >
         {versionName}
       </div>
       <div
         className={cn(
-          "text-2xl text-foreground",
+          "text-foreground text-2xl",
           version === "vi" ? "font-vietnamese" : "font-bible-english"
         )}
       >

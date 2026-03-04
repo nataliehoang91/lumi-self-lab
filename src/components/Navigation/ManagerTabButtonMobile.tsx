@@ -10,14 +10,17 @@ interface ManagerTabButtonMobileProps {
   onClose: () => void;
 }
 
-export function ManagerTabButtonMobile({ pathname, onClose }: ManagerTabButtonMobileProps) {
+export function ManagerTabButtonMobile({
+  pathname,
+  onClose,
+}: ManagerTabButtonMobileProps) {
   const { userData, loading } = useUser();
 
   if (loading) {
     return (
       <Button
         variant="ghost"
-        className="w-full justify-start rounded-2xl gap-2 text-violet-500"
+        className="w-full justify-start gap-2 rounded-2xl text-violet-500"
         disabled
       >
         <Loader2 className="size-4 animate-spin" />
@@ -31,7 +34,8 @@ export function ManagerTabButtonMobile({ pathname, onClose }: ManagerTabButtonMo
       <Link href="/upgrade" onClick={onClose}>
         <Button
           variant="ghost"
-          className="w-full justify-start rounded-2xl gap-2 border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet hover:text-white"
+          className="border-violet/50 text-violet hover:border-violet hover:bg-violet
+            w-full justify-start gap-2 rounded-2xl border-2 hover:text-white"
         >
           <BarChart3 className="size-4" />
           Upgrade to Organisation
@@ -44,11 +48,12 @@ export function ManagerTabButtonMobile({ pathname, onClose }: ManagerTabButtonMo
     <Link href="/org" onClick={onClose}>
       <Button
         variant="ghost"
-        className={`w-full justify-start rounded-2xl gap-2 ${
+        className={`w-full justify-start gap-2 rounded-2xl ${
           pathname === "/org"
-            ? "bg-primary text-black hover:bg-second hover:text-white"
-            : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet hover:text-white"
-        }`}
+            ? "bg-primary hover:bg-second text-black hover:text-white"
+            : `border-violet/50 text-violet hover:border-violet hover:bg-violet border-2
+              hover:text-white`
+          }`}
       >
         <BarChart3 className="size-4" />
         Manager Dashboard

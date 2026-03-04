@@ -17,7 +17,8 @@ export function SecondaryNavbar({ children }: SecondaryNavbarProps) {
       initial={{ height: 0, opacity: 0 }}
       animate={{ height: "auto", opacity: 1 }}
       transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="sticky top-16 z-40 overflow-hidden border-b border-border/40 bg-card/80 backdrop-blur-sm w-screen relative left-1/2 -translate-x-1/2"
+      className="border-border/40 bg-card/80 relative sticky top-16 left-1/2 z-40 w-screen
+        -translate-x-1/2 overflow-hidden border-b backdrop-blur-sm"
     >
       <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">{children}</div>
     </motion.div>

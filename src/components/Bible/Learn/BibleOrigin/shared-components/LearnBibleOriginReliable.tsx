@@ -18,10 +18,13 @@ export function LearnBibleOriginReliable({
   const { bodyClass } = useLearnFontClasses();
 
   return (
-    <section className="mb-10 p-6 bg-primary-light/10 gap-6 border border-primary-dark/30 rounded-2xl space-y-4 animate-in fade-in duration-300">
+    <section
+      className="bg-primary-light/10 border-primary-dark/30 animate-in fade-in mb-10 gap-6
+        space-y-4 rounded-2xl border p-6 duration-300"
+    >
       <BibleHeading
         level="h2"
-        className="font-bible-english font-semibold text-foreground text-xl md:text-2xl"
+        className="font-bible-english text-foreground text-xl font-semibold md:text-2xl"
       >
         {reliableTitle}
       </BibleHeading>

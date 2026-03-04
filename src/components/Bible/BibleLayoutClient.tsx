@@ -38,7 +38,7 @@ export function BibleLayoutClient({ children }: { children: ReactNode }) {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="bg-background flex min-h-screen items-center justify-center">
           <FullPageBibleLoader />
         </div>
       }

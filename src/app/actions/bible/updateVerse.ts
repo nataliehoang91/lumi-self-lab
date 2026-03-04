@@ -22,19 +22,21 @@ export async function updateVerse(
   const bookId = (formData.get("bookId") as string)?.trim();
   const flashCardSetIdRaw = formData.get("flashCardSetId");
   const flashCardSetId =
-    flashCardSetIdRaw === null || flashCardSetIdRaw === "" ? null : (flashCardSetIdRaw as string)?.trim();
+    flashCardSetIdRaw === null || flashCardSetIdRaw === ""
+      ? null
+      : (flashCardSetIdRaw as string)?.trim();
   const collectionIdRaw = formData.get("collectionId");
   const collectionId =
-    collectionIdRaw === null || collectionIdRaw === "" ? null : (collectionIdRaw as string)?.trim();
+    collectionIdRaw === null || collectionIdRaw === ""
+      ? null
+      : (collectionIdRaw as string)?.trim();
   const chapterRaw = formData.get("chapter");
   const verseRaw = formData.get("verse");
   const verseEndRaw = formData.get("verseEnd");
   const chapter = chapterRaw != null ? Number(chapterRaw) : NaN;
   const verse = verseRaw != null ? Number(verseRaw) : NaN;
   const verseEnd =
-    verseEndRaw != null && String(verseEndRaw).trim() !== ""
-      ? Number(verseEndRaw)
-      : null;
+    verseEndRaw != null && String(verseEndRaw).trim() !== "" ? Number(verseEndRaw) : null;
 
   if (!bookId) {
     return { errors: { general: ["book_required"] } };
@@ -125,7 +127,11 @@ export async function updateVerse(
         content: contentFallback,
       },
     });
-    return { redirect: "/bible/admin/flashcard/list", refresh: true, result: { updated: true } };
+    return {
+      redirect: "/bible/admin/flashcard/list",
+      refresh: true,
+      result: { updated: true },
+    };
   } catch (e) {
     console.error("updateVerse action", e);
     return { errors: { general: ["save_failed"] } };

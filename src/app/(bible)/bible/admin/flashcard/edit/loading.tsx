@@ -15,7 +15,7 @@ export default function AdminEditLoading() {
             <Skeleton className="h-10 w-20 rounded-lg" />
           </div>
         </div>
-        <div className="rounded-xl bg-white p-6 shadow-md space-y-4">
+        <div className="space-y-4 rounded-xl bg-white p-6 shadow-md">
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-10 w-full" />

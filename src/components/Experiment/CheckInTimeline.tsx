@@ -29,11 +29,12 @@ export function CheckInTimeline({ checkIns, onSelectDate }: CheckInTimelineProps
           <button
             type="button"
             onClick={() => onSelectDate(checkIn.checkInDate)}
-            className="w-full flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/60 transition-colors"
+            className="hover:bg-muted/60 flex w-full items-center justify-between gap-3
+              rounded-xl px-3 py-2 text-left text-sm transition-colors"
           >
             <span className="text-muted-foreground font-mono">{checkIn.checkInDate}</span>
-            <span className="flex items-center gap-1.5 text-foreground">
-              <Check className="w-4 h-4 text-emerald-500" />
+            <span className="text-foreground flex items-center gap-1.5">
+              <Check className="h-4 w-4 text-emerald-500" />
               Checked in
             </span>
           </button>

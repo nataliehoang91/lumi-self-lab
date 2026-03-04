@@ -23,12 +23,23 @@ export function NewStudyListPlaceholderCard({
       <DialogTrigger asChild>
         <Button
           variant="secondaryLight"
-          className="group bg-primary/10 border-2 border-dashed border-primary/40 rounded-xl p-6 flex flex-col items-center justify-center gap-2 hover:border-primary/40 hover:bg-primary/5 transition-all duration-200 min-h-[180px]"
+          className="group bg-primary/10 border-primary/40 hover:border-primary/40
+            hover:bg-primary/5 flex min-h-[180px] flex-col items-center justify-center
+            gap-2 rounded-xl border-2 border-dashed p-6 transition-all duration-200"
         >
-          <div className="w-10 h-10 rounded-xl bg-primary/30 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-            <Plus className="w-5 h-5  text-foreground group-hover:text-muted-foreground transition-colors" />
+          <div
+            className="bg-primary/30 group-hover:bg-primary/10 flex h-10 w-10 items-center
+              justify-center rounded-xl transition-colors"
+          >
+            <Plus
+              className="text-foreground group-hover:text-muted-foreground h-5 w-5
+                transition-colors"
+            />
           </div>
-          <span className="text-sm font-medium text-foreground group-hover:text-muted-foreground transition-colors">
+          <span
+            className="text-foreground group-hover:text-muted-foreground text-sm
+              font-medium transition-colors"
+          >
             {label}
           </span>
         </Button>

@@ -338,9 +338,13 @@ export function useGridListKeyboardHandlers() {
     if (!container) return;
 
     // find previous row using selector (exclude disabled rows)
-    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
+    const allRows = container.querySelectorAll(
+      "[data-row-id]:not([data-disabled='true'])"
+    );
 
-    const currentRowIndex = Array.from(allRows).findIndex((row) => row === currentRowElement);
+    const currentRowIndex = Array.from(allRows).findIndex(
+      (row) => row === currentRowElement
+    );
     if (currentRowIndex === -1) return;
 
     const targetRowIndex = currentRowIndex - 1;
@@ -380,8 +384,12 @@ export function useGridListKeyboardHandlers() {
     const container = containerRef?.current;
     if (!container) return;
 
-    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
-    const currentRowIndex = Array.from(allRows).findIndex((row) => row === currentRowElement);
+    const allRows = container.querySelectorAll(
+      "[data-row-id]:not([data-disabled='true'])"
+    );
+    const currentRowIndex = Array.from(allRows).findIndex(
+      (row) => row === currentRowElement
+    );
     if (currentRowIndex === -1) return;
 
     const targetRowIndex = currentRowIndex + 1;
@@ -433,7 +441,9 @@ export function useGridListKeyboardHandlers() {
       return;
     }
 
-    const currentTabbableIndex = allTabbableElements.indexOf(activeElement as HTMLElement);
+    const currentTabbableIndex = allTabbableElements.indexOf(
+      activeElement as HTMLElement
+    );
     if (currentTabbableIndex === -1) {
       // focus the first tabbable element
       allTabbableElements[0]?.focus();
@@ -483,7 +493,9 @@ export function useGridListKeyboardHandlers() {
       return;
     }
 
-    const currentTabbableIndex = allTabbableElements.indexOf(activeElement as HTMLElement);
+    const currentTabbableIndex = allTabbableElements.indexOf(
+      activeElement as HTMLElement
+    );
     if (currentTabbableIndex === -1) {
       // focus the last tabbable element
       allTabbableElements[allTabbableElements.length - 1]?.focus();
@@ -517,7 +529,9 @@ export function useGridListKeyboardHandlers() {
     if (!container) return;
 
     // Find the first non-disabled row
-    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
+    const allRows = container.querySelectorAll(
+      "[data-row-id]:not([data-disabled='true'])"
+    );
 
     if (allRows.length === 0) return;
 
@@ -539,7 +553,9 @@ export function useGridListKeyboardHandlers() {
     if (!container) return;
 
     // Find the last non-disabled row
-    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
+    const allRows = container.querySelectorAll(
+      "[data-row-id]:not([data-disabled='true'])"
+    );
 
     if (allRows.length === 0) return;
 
@@ -574,9 +590,13 @@ export function useGridListKeyboardHandlers() {
     const currentRowElement = activeElement.closest("[data-row-id]");
     if (!currentRowElement) return;
 
-    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
+    const allRows = container.querySelectorAll(
+      "[data-row-id]:not([data-disabled='true'])"
+    );
 
-    const currentRowIndex = Array.from(allRows).findIndex((row) => row === currentRowElement);
+    const currentRowIndex = Array.from(allRows).findIndex(
+      (row) => row === currentRowElement
+    );
     if (currentRowIndex === -1) return;
 
     // Use a reasonable page size (can be made configurable)
@@ -614,9 +634,13 @@ export function useGridListKeyboardHandlers() {
     const currentRowElement = activeElement.closest("[data-row-id]");
     if (!currentRowElement) return;
 
-    const allRows = container.querySelectorAll("[data-row-id]:not([data-disabled='true'])");
+    const allRows = container.querySelectorAll(
+      "[data-row-id]:not([data-disabled='true'])"
+    );
 
-    const currentRowIndex = Array.from(allRows).findIndex((row) => row === currentRowElement);
+    const currentRowIndex = Array.from(allRows).findIndex(
+      (row) => row === currentRowElement
+    );
     if (currentRowIndex === -1) return;
 
     // Use a reasonable page size (can be made configurable)

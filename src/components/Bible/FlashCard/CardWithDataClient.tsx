@@ -12,7 +12,6 @@ interface CardWithDataClientProps {
   initialVerse: VerseData | null;
   lang: Language;
   horizontal?: boolean;
-  fontSize?: "small" | "medium" | "large";
   flexible?: boolean;
 }
 
@@ -22,7 +21,6 @@ export function CardWithDataClient({
   initialVerse,
   lang,
   horizontal = false,
-  fontSize = "medium",
   flexible = false,
 }: CardWithDataClientProps) {
   const { globalLanguage } = useBibleApp();
@@ -72,8 +70,12 @@ export function CardWithDataClient({
       <div
         className={
           horizontal
-            ? "flex w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg aspect-4/3 max-h-[280px] items-center justify-center rounded-2xl border border-border bg-muted/30 text-sm text-muted-foreground"
-            : "flex w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg h-[280px] sm:h-[320px] items-center justify-center rounded-2xl border border-border bg-muted/30 text-sm text-muted-foreground"
+            ? `border-border bg-muted/30 text-muted-foreground flex aspect-4/3
+              max-h-[280px] w-full max-w-full min-w-0 items-center justify-center
+              rounded-2xl border text-sm sm:max-w-lg sm:min-w-md`
+            : `border-border bg-muted/30 text-muted-foreground flex h-[280px] w-full
+              max-w-full min-w-0 items-center justify-center rounded-2xl border text-sm
+              sm:h-[320px] sm:max-w-lg sm:min-w-md`
         }
       >
         Not found
@@ -86,7 +88,6 @@ export function CardWithDataClient({
       verse={verse}
       globalLanguage={effectiveLang}
       horizontal={horizontal}
-      fontSize={fontSize}
       flexible={flexible}
     />
   );

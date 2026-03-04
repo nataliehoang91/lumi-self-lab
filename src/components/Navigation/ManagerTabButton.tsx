@@ -17,7 +17,7 @@ export function ManagerTabButton({ pathname }: ManagerTabButtonProps) {
     return (
       <Button
         variant="ghost"
-        className="rounded-3xl transition-all hover:scale-105 gap-2 text-violet-500"
+        className="gap-2 rounded-3xl text-violet-500 transition-all hover:scale-105"
         disabled
       >
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -31,7 +31,8 @@ export function ManagerTabButton({ pathname }: ManagerTabButtonProps) {
       <Link href="/upgrade">
         <Button
           variant="ghost"
-          className="rounded-3xl transition-all hover:scale-105 gap-2 border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet/10 hover:text-violet"
+          className="border-violet/50 text-violet hover:border-violet hover:bg-violet/10
+            hover:text-violet gap-2 rounded-3xl border-2 transition-all hover:scale-105"
         >
           <BarChart3 className="size-4" />
           Upgrade
@@ -45,11 +46,12 @@ export function ManagerTabButton({ pathname }: ManagerTabButtonProps) {
     <Link href="/org">
       <Button
         variant="ghost"
-        className={`rounded-3xl transition-all hover:scale-105 gap-2 ${
+        className={`gap-2 rounded-3xl transition-all hover:scale-105 ${
           pathname === "/org"
-            ? "bg-primary text-black hover:bg-second hover:text-white"
-            : "border-2 border-violet/50 text-violet hover:border-violet hover:bg-violet/10 hover:text-violet"
-        }`}
+            ? "bg-primary hover:bg-second text-black hover:text-white"
+            : `border-violet/50 text-violet hover:border-violet hover:bg-violet/10
+              hover:text-violet border-2`
+          }`}
       >
         <BarChart3 className="size-4" />
         Manager

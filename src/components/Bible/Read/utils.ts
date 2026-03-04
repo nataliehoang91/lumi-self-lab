@@ -41,8 +41,10 @@ export function getBookLabelForSelection(
   const leftEn = isEn(left);
   const rightEn = isEn(right);
   if (leftEn && rightEn) return book.nameEn;
-  if (left === "vi" && right === "zh") return `${book.nameVi} (${book.nameZh ?? book.nameEn})`;
-  if (left === "zh" && right === "vi") return `${book.nameVi} (${book.nameZh ?? book.nameEn})`;
+  if (left === "vi" && right === "zh")
+    return `${book.nameVi} (${book.nameZh ?? book.nameEn})`;
+  if (left === "zh" && right === "vi")
+    return `${book.nameVi} (${book.nameZh ?? book.nameEn})`;
   if ((left === "vi" && rightEn) || (right === "vi" && leftEn))
     return `${book.nameVi} / ${book.nameEn}`;
   if ((left === "zh" && rightEn) || (right === "zh" && leftEn))

@@ -15,17 +15,17 @@ interface CheckInDatePickerProps {
 export function CheckInDatePicker({ selectedDate, onChange }: CheckInDatePickerProps) {
   return (
     <div>
-      <Label htmlFor="check-in-date-picker" className="text-sm font-medium mb-2 block">
+      <Label htmlFor="check-in-date-picker" className="mb-2 block text-sm font-medium">
         Date
       </Label>
       <div className="flex items-center gap-2">
-        <Calendar className="w-4 h-4 text-muted-foreground shrink-0" />
+        <Calendar className="text-muted-foreground h-4 w-4 shrink-0" />
         <Input
           id="check-in-date-picker"
           type="date"
           value={selectedDate}
           onChange={(e) => onChange(e.target.value)}
-          className="rounded-2xl border-border/50 max-w-xs"
+          className="border-border/50 max-w-xs rounded-2xl"
         />
       </div>
     </div>

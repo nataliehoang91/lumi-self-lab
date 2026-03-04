@@ -24,7 +24,7 @@ export function LearnWhatIsBibleGlossary({
   return (
     <section className="mb-14">
       <h2
-        className={cn("font-bible-english font-semibold text-foreground mb-4", bodyClass)}
+        className={cn("font-bible-english text-foreground mb-4 font-semibold", bodyClass)}
       >
         {glossaryTitle}
       </h2>

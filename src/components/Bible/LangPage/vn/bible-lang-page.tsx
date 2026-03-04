@@ -96,7 +96,7 @@ export function VnBibleLangPage({ lang }: VnBibleLangPageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
+    <div className="bg-background text-foreground min-h-screen font-sans">
       <LangPageHero
         eyebrow="Nơi bình yên để biết Chúa"
         title1="Biết chính mình."
@@ -107,7 +107,7 @@ export function VnBibleLangPage({ lang }: VnBibleLangPageProps) {
         learnHref={`${base}/learn`}
         readHref={`${base}/read`}
       >
-        <div className="relative z-10 mt-20 w-full max-w-2xl mx-auto">
+        <div className="relative z-10 mx-auto mt-20 w-full max-w-2xl">
           <DailyVerse
             label="Câu của ngày"
             text={verse.text}

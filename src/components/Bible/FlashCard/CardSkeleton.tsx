@@ -34,11 +34,17 @@ export function CardSkeleton({
   if (!mounted) return null;
 
   return (
-    <div className={cn("shrink-0 w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg", className)}>
+    <div
+      className={cn(
+        "w-full max-w-full min-w-0 shrink-0 sm:max-w-lg sm:min-w-md",
+        className
+      )}
+    >
       {/* Card skeleton container */}
       <div
         className={cn(
-          "w-full rounded-2xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 overflow-hidden relative",
+          `bg-card border-border relative w-full overflow-hidden rounded-2xl border
+          dark:border-zinc-700 dark:bg-zinc-800`,
           horizontal ? "aspect-4/3 max-h-[280px]" : "h-[280px] sm:h-[320px]"
         )}
       >
@@ -46,7 +52,8 @@ export function CardSkeleton({
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
             animation: "shimmer 2s infinite",
             pointerEvents: "none",
           }}
@@ -54,7 +61,7 @@ export function CardSkeleton({
 
         {/* Content skeleton lines (only in non-horizontal mode) */}
         {!horizontal && (
-          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
+          <div className="absolute right-0 bottom-0 left-0 space-y-2 p-4">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
@@ -74,9 +81,9 @@ export function CardSkeleton({
 
       {/* Minimal progress bar */}
       {showProgress && (
-        <div className="mt-2 h-0.5 bg-muted/30 rounded-full overflow-hidden">
+        <div className="bg-muted/30 mt-2 h-0.5 overflow-hidden rounded-full">
           <div
-            className="h-full bg-primary transition-all duration-300"
+            className="bg-primary h-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>

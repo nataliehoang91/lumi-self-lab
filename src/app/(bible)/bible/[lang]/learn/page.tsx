@@ -13,7 +13,8 @@ function getLangFromPath(pathname: string | null): "en" | "vi" | null {
 export default function LearnPage() {
   const params = useParams();
   const pathname = usePathname();
-  const lang = ((params?.lang as string)?.toLowerCase() ?? getLangFromPath(pathname)) ?? "en";
+  const lang =
+    (params?.lang as string)?.toLowerCase() ?? getLangFromPath(pathname) ?? "en";
 
   if (lang === "vi") return <VnLearnPage />;
   if (lang === "en") return <EnLearnPage />;

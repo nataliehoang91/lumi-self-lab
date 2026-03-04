@@ -177,15 +177,15 @@ export function RangeFilter({
   if (!isClient) {
     return (
       <div className={cn("space-y-3", className)}>
-        <Label className="text-sm font-medium text-foreground">{title}</Label>
+        <Label className="text-foreground text-sm font-medium">{title}</Label>
         <div className="grid grid-cols-2 gap-2">
           <div className="space-y-1">
-            <Label className="text-xs text-muted-foreground">Min:</Label>
-            <div className="h-9 bg-muted rounded-md animate-pulse" />
+            <Label className="text-muted-foreground text-xs">Min:</Label>
+            <div className="bg-muted h-9 animate-pulse rounded-md" />
           </div>
           <div className="space-y-1">
-            <Label className="text-xs text-muted-foreground">Max:</Label>
-            <div className="h-9 bg-muted rounded-md animate-pulse" />
+            <Label className="text-muted-foreground text-xs">Max:</Label>
+            <div className="bg-muted h-9 animate-pulse rounded-md" />
           </div>
         </div>
       </div>
@@ -194,12 +194,12 @@ export function RangeFilter({
 
   return (
     <div className={cn("space-y-3", className)}>
-      <Label className="text-sm font-medium text-foreground">{title}</Label>
+      <Label className="text-foreground text-sm font-medium">{title}</Label>
 
       <div className="grid grid-cols-2 gap-2">
         {/* Min Select */}
         <div className="space-y-1">
-          <Label htmlFor={`min-${title}`} className="text-xs text-muted-foreground">
+          <Label htmlFor={`min-${title}`} className="text-muted-foreground text-xs">
             Min:
           </Label>
           <Select
@@ -212,7 +212,9 @@ export function RangeFilter({
             </SelectTrigger>
             <SelectContent>
               {filteredMinOptions.length === 0 ? (
-                <div className="px-3 py-2 text-sm text-muted-foreground">No options available</div>
+                <div className="text-muted-foreground px-3 py-2 text-sm">
+                  No options available
+                </div>
               ) : (
                 filteredMinOptions.map((option) => (
                   <SelectItem key={option.value} value={option.value.toString()}>
@@ -226,7 +228,7 @@ export function RangeFilter({
 
         {/* Max Select */}
         <div className="space-y-1">
-          <Label htmlFor={`max-${title}`} className="text-xs text-muted-foreground">
+          <Label htmlFor={`max-${title}`} className="text-muted-foreground text-xs">
             Max:
           </Label>
           <Select
@@ -239,7 +241,9 @@ export function RangeFilter({
             </SelectTrigger>
             <SelectContent>
               {filteredMaxOptions.length === 0 ? (
-                <div className="px-3 py-2 text-sm text-muted-foreground">No options available</div>
+                <div className="text-muted-foreground px-3 py-2 text-sm">
+                  No options available
+                </div>
               ) : (
                 filteredMaxOptions.map((option) => (
                   <SelectItem key={option.value} value={option.value.toString()}>
@@ -256,16 +260,17 @@ export function RangeFilter({
       {hasValues && (
         <div
           className={cn(
-            "p-3 rounded-md border text-sm transition-all duration-200",
+            "rounded-md border p-3 text-sm transition-all duration-200",
             isValidRange
-              ? "bg-blue-50 border-blue-200 text-blue-800"
-              : "bg-red-50 border-red-200 text-red-800"
+              ? "border-blue-200 bg-blue-50 text-blue-800"
+              : "border-red-200 bg-red-50 text-red-800"
           )}
         >
           <div className="flex items-center justify-between">
             <span className="font-medium">{getRangeDisplayText()}</span>
             <div
-              className="h-6 w-6 p-0 hover:bg-red-100 z-10 rounded flex items-center justify-center cursor-pointer"
+              className="z-10 flex h-6 w-6 cursor-pointer items-center justify-center
+                rounded p-0 hover:bg-red-100"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -286,7 +291,7 @@ export function RangeFilter({
           </div>
 
           {!isValidRange && validationMessage && (
-            <div className="flex items-center gap-1 mt-1 text-xs">
+            <div className="mt-1 flex items-center gap-1 text-xs">
               <AlertTriangle className="h-3 w-3" />
               <span>{validationMessage}</span>
             </div>

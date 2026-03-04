@@ -82,11 +82,18 @@ export default function GuidedOnboardingPage() {
     return (
       <IndividualContainer className="flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-violet/20 mb-6 animate-pulse">
-            <Sparkles className="w-10 h-10 text-primary animate-float" />
+          <div
+            className="from-primary/20 to-violet/20 mb-6 inline-flex h-20 w-20
+              animate-pulse items-center justify-center rounded-full bg-gradient-to-br"
+          >
+            <Sparkles className="text-primary animate-float h-10 w-10" />
           </div>
-          <h2 className="text-2xl font-medium text-foreground mb-2">Creating your experiment...</h2>
-          <p className="text-muted-foreground">Our AI is designing something just for you</p>
+          <h2 className="text-foreground mb-2 text-2xl font-medium">
+            Creating your experiment...
+          </h2>
+          <p className="text-muted-foreground">
+            Our AI is designing something just for you
+          </p>
         </div>
       </IndividualContainer>
     );
@@ -94,33 +101,45 @@ export default function GuidedOnboardingPage() {
 
   return (
     <IndividualContainer>
-      <div className="max-w-2xl mx-auto">
+      <div className="mx-auto max-w-2xl">
         {/* Progress bar */}
         <div className="mb-12">
-          <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
+          <div
+            className="text-muted-foreground mb-3 flex items-center justify-between
+              text-sm"
+          >
             <span>
               Question {currentQuestion + 1} of {guidedQuestions.length}
             </span>
             <span>{Math.round(progress)}% complete</span>
           </div>
-          <div className="h-2 bg-muted rounded-full overflow-hidden">
+          <div className="bg-muted h-2 overflow-hidden rounded-full">
             <div
-              className="h-full bg-gradient-to-r from-primary to-violet rounded-full transition-all duration-500 ease-out"
+              className="from-primary to-violet h-full rounded-full bg-gradient-to-r
+                transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
 
         {/* Question card */}
-        <div className="bg-card rounded-3xl p-8 md:p-10 shadow-xl shadow-black/5 border border-border/50">
+        <div
+          className="bg-card border-border/50 rounded-3xl border p-8 shadow-xl
+            shadow-black/5 md:p-10"
+        >
           {/* AI badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet/10 text-violet text-sm mb-6">
-            <MessageCircle className="w-4 h-4" />
+          <div
+            className="bg-violet/10 text-violet mb-6 inline-flex items-center gap-2
+              rounded-full px-3 py-1.5 text-sm"
+          >
+            <MessageCircle className="h-4 w-4" />
             <span>AI Guide</span>
           </div>
 
           {/* Question */}
-          <h2 className="text-2xl md:text-3xl font-medium text-foreground mb-4 text-balance">
+          <h2
+            className="text-foreground mb-4 text-2xl font-medium text-balance md:text-3xl"
+          >
             {question.question}
           </h2>
 
@@ -131,56 +150,55 @@ export default function GuidedOnboardingPage() {
             value={answers[currentQuestion]}
             onChange={(e) => handleAnswerChange(e.target.value)}
             placeholder={question.placeholder}
-            className="min-h-[140px] text-lg rounded-2xl border-2 border-border/50 focus:border-primary/50 bg-muted/30 resize-none"
+            className="border-border/50 focus:border-primary/50 bg-muted/30 min-h-[140px]
+              resize-none rounded-2xl border-2 text-lg"
           />
 
           {/* Answered questions dots */}
-          <div className="flex items-center justify-center gap-2 mt-8">
+          <div className="mt-8 flex items-center justify-center gap-2">
             {guidedQuestions.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentQuestion(index)}
-                className={`
-                  w-3 h-3 rounded-full transition-all duration-300
-                  ${
-                    index === currentQuestion
-                      ? "bg-primary w-8"
-                      : answers[index].trim()
-                        ? "bg-violet"
-                        : "bg-muted-foreground/30"
-                  }
-                `}
+                className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                  index === currentQuestion
+                    ? "bg-primary w-8"
+                    : answers[index].trim()
+                      ? "bg-violet"
+                      : "bg-muted-foreground/30"
+                } `}
               />
             ))}
           </div>
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-between mt-8">
+        <div className="mt-8 flex items-center justify-between">
           <Button
             variant="ghost"
             onClick={handleBack}
             disabled={currentQuestion === 0}
             className="gap-2 rounded-2xl"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="h-4 w-4" />
             Back
           </Button>
 
           <Button
             onClick={handleNext}
             disabled={!canContinue}
-            className="gap-2 rounded-2xl bg-primary hover:bg-violet text-primary-foreground px-6"
+            className="bg-primary hover:bg-violet text-primary-foreground gap-2
+              rounded-2xl px-6"
           >
             {currentQuestion === guidedQuestions.length - 1 ? (
               <>
                 Generate Experiment
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="h-4 w-4" />
               </>
             ) : (
               <>
                 Continue
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="h-4 w-4" />
               </>
             )}
           </Button>

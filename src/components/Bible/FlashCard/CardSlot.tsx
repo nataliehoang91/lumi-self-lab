@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils";
 import { getBibleIntl } from "@/lib/bible-intl";
 import type { Language } from "./FlashCardView";
 import type { VerseData } from "@/app/actions/bible/getVerseById";
+import { useBibleApp } from "@/components/Bible/BibleAppContext";
 
 interface CardSlotProps {
   verse: VerseData;
   globalLanguage: Language;
   horizontal?: boolean;
-  fontSize?: "small" | "medium" | "large";
   flexible?: boolean;
 }
 
@@ -20,9 +20,9 @@ export function CardSlot({
   verse,
   globalLanguage,
   horizontal = false,
-  fontSize = "medium",
   flexible = false,
 }: CardSlotProps) {
+  const { fontSize } = useBibleApp();
   const [isFlipped, setIsFlipped] = useState(false);
   const [userCardLanguage, setUserCardLanguage] = useState<Language | null>(null);
   const intl = getBibleIntl(userCardLanguage ?? globalLanguage);

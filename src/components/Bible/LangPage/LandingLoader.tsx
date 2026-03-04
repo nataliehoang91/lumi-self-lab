@@ -101,9 +101,10 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
 
   return (
     <div
-      className={`bg-body landing-loader-bg fixed inset-0 z-100 flex flex-col items-center justify-center overflow-hidden transition-all duration-[900ms] ease-in-out ${
-        phase === "exit" ? "opacity-0" : "opacity-100"
-      }`}
+      className={`bg-body landing-loader-bg fixed inset-0 z-100 flex flex-col items-center
+        justify-center overflow-hidden transition-all duration-[900ms] ease-in-out ${
+          phase === "exit" ? "opacity-0" : "opacity-100"
+        }`}
       role="status"
       aria-label="SelfWithin loading"
     >
@@ -111,7 +112,7 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
       {particleData.current.map((p, i) => (
         <div
           key={i}
-          className="absolute rounded-full pointer-events-none"
+          className="pointer-events-none absolute rounded-full"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,
@@ -126,7 +127,7 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
 
       {/* Central radial bloom — tighter around cross so outer area is softer */}
       <div
-        className="absolute inset-0 pointer-events-none transition-all duration-[1600ms]"
+        className="pointer-events-none absolute inset-0 transition-all duration-[1600ms]"
         style={{
           background: bloomReady
             ? `radial-gradient(ellipse 46% 32% at 50% 50%, var(--loader-bloom1) 0%, var(--loader-bloom2) 55%, transparent 72%)`
@@ -136,7 +137,8 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
 
       {/* Outer halo — smaller, very soft so it blends into bg */}
       <div
-        className="absolute pointer-events-none rounded-full transition-all duration-[2200ms]"
+        className="pointer-events-none absolute rounded-full transition-all
+          duration-[2200ms]"
         style={{
           width: bloomReady ? "420px" : "0px",
           height: bloomReady ? "420px" : "0px",
@@ -150,7 +152,9 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
       />
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center gap-10 px-6 max-w-lg w-full">
+      <div
+        className="relative z-10 flex w-full max-w-lg flex-col items-center gap-10 px-6"
+      >
         {/* Brand wordmark */}
         <div
           className="flex flex-col items-center gap-2.5"
@@ -163,7 +167,7 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
           <div className="flex items-center gap-4">
             <div className="h-px w-10" style={{ background: "var(--loader-hairline)" }} />
             <span
-              className="font-serif tracking-[0.38em] uppercase text-xs"
+              className="font-serif text-xs tracking-[0.38em] uppercase"
               style={{ color: "var(--loader-wordmark)" }}
             >
               Scripture Memory
@@ -171,7 +175,7 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
             <div className="h-px w-10" style={{ background: "var(--loader-hairline)" }} />
           </div>
           <p
-            className="text-xs font-sans uppercase"
+            className="font-sans text-xs uppercase"
             style={{ color: "var(--loader-tagline)", letterSpacing: "0.18em" }}
           >
             Know Scripture. Know Yourself.
@@ -183,28 +187,32 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
           className="relative flex items-center justify-center"
           style={{
             opacity: bloomReady ? 1 : 0,
-            transform: bloomReady ? "translateY(0) scale(1)" : "translateY(18px) scale(0.9)",
+            transform: bloomReady
+              ? "translateY(0) scale(1)"
+              : "translateY(18px) scale(0.9)",
             transition: "opacity 1.3s ease 0.55s, transform 1.3s ease 0.55s",
           }}
         >
           {/* Warm glow behind cross — theme-aware */}
           <div
-            className="absolute rounded-full pointer-events-none"
+            className="pointer-events-none absolute rounded-full"
             style={{
               width: "100px",
               height: "100px",
-              background: "radial-gradient(circle, var(--loader-glow) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, var(--loader-glow) 0%, transparent 70%)",
               filter: "blur(14px)",
               animation: "sw-breathe 4s ease-in-out infinite",
             }}
           />
           {/* Inner close glow — coral */}
           <div
-            className="absolute rounded-full pointer-events-none"
+            className="pointer-events-none absolute rounded-full"
             style={{
               width: "60px",
               height: "60px",
-              background: "radial-gradient(circle, oklch(0.72 0.14 25 / 0.15) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, oklch(0.72 0.14 25 / 0.15) 0%, transparent 70%)",
               filter: "blur(6px)",
               animation: "sw-breathe 4s ease-in-out 0.5s infinite",
             }}
@@ -254,20 +262,36 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
             {/* Horizontal beam */}
             <rect x="0" y="18" width="52" height="8" rx="4" fill="url(#crossHighlight)" />
             {/* Inner shimmer highlight */}
-            <rect x="24" y="0" width="3" height="66" rx="2" fill="oklch(0.99 0.04 80 / 0.3)" />
-            <rect x="0" y="20" width="52" height="3" rx="2" fill="oklch(0.99 0.04 80 / 0.3)" />
+            <rect
+              x="24"
+              y="0"
+              width="3"
+              height="66"
+              rx="2"
+              fill="oklch(0.99 0.04 80 / 0.3)"
+            />
+            <rect
+              x="0"
+              y="20"
+              width="52"
+              height="3"
+              rx="2"
+              fill="oklch(0.99 0.04 80 / 0.3)"
+            />
           </svg>
         </div>
 
         {/* Word cycle / verse */}
-        <div className="h-24 flex items-center justify-center" aria-live="polite">
+        <div className="flex h-24 items-center justify-center" aria-live="polite">
           {phase === "bloom" || phase === "words" ? (
             <p
-              className="font-serif text-5xl font-medium text-center"
+              className="text-center font-serif text-5xl font-medium"
               style={{
                 color: "var(--loader-words)",
                 opacity: wordVisible ? 1 : 0,
-                transform: wordVisible ? "translateY(0) scale(1)" : "translateY(10px) scale(0.97)",
+                transform: wordVisible
+                  ? "translateY(0) scale(1)"
+                  : "translateY(10px) scale(0.97)",
                 transition: "opacity 0.35s ease, transform 0.35s ease",
                 letterSpacing: "-0.01em",
               }}
@@ -276,7 +300,7 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
             </p>
           ) : (
             <div
-              className="text-center flex flex-col items-center gap-3"
+              className="flex flex-col items-center gap-3 text-center"
               style={{
                 opacity: verseVisible ? 1 : 0,
                 transform: verseVisible ? "translateY(0)" : "translateY(10px)",
@@ -290,7 +314,7 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
                 &ldquo;{WELCOME_VERSE.text}&rdquo;
               </p>
               <p
-                className="font-sans text-xs uppercase tracking-[0.22em]"
+                className="font-sans text-xs tracking-[0.22em] uppercase"
                 style={{ color: "var(--loader-verse-ref)" }}
               >
                 — {WELCOME_VERSE.ref}
@@ -301,14 +325,14 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
 
         {/* Progress bar — peach → coral gradient */}
         <div
-          className="flex flex-col items-center gap-2 w-full"
+          className="flex w-full flex-col items-center gap-2"
           style={{
             opacity: phase === "verse" || phase === "exit" ? 1 : 0,
             transition: "opacity 0.6s ease",
           }}
         >
           <div
-            className="w-full max-w-[200px] rounded-full overflow-hidden"
+            className="w-full max-w-[200px] overflow-hidden rounded-full"
             style={{ height: "1px", background: "var(--loader-progress-track)" }}
           >
             <div
@@ -326,7 +350,10 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
       </div>
 
       {/* Bottom vignette — theme-aware */}
-      <div className="landing-loader-vignette absolute bottom-0 left-0 right-0 h-32 pointer-events-none" />
+      <div
+        className="landing-loader-vignette pointer-events-none absolute right-0 bottom-0
+          left-0 h-32"
+      />
 
       <style>{`
         @keyframes sw-float {

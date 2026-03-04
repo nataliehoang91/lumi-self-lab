@@ -119,7 +119,9 @@ export function useReadPanel(side: "left" | "right") {
           ? testamentFilter
           : rightTestamentFilter;
   const onTestamentFilterChange = isLeft
-    ? (syncMode ? undefined : setLeftTestamentFilterAndAdjust)
+    ? syncMode
+      ? undefined
+      : setLeftTestamentFilterAndAdjust
     : syncMode
       ? undefined
       : setRightTestamentFilterAndAdjust;
@@ -212,15 +214,22 @@ export function ReadProvider({
     () =>
       initialSearchParams && hasVersionInParams(initialSearchParams)
         ? parseReadSearchParams(initialSearchParams, "EN")
-        : parseReadSearchParams(Object.fromEntries(searchParams.entries()), effectiveLanguage),
+        : parseReadSearchParams(
+            Object.fromEntries(searchParams.entries()),
+            effectiveLanguage
+          ),
     [initialSearchParams, searchParams, effectiveLanguage]
   );
 
   const [books, setBooks] = useState<BibleBook[]>(initialBooks);
   const [syncMode, setSyncMode] = useState(initialParsed.sync);
   const [focusMode, setFocusMode] = useState(initialParsed.focus);
-  const [leftVersion, setLeftVersion] = useState<VersionId | null>(initialParsed.version1);
-  const [rightVersion, setRightVersion] = useState<VersionId | null>(initialParsed.version2);
+  const [leftVersion, setLeftVersion] = useState<VersionId | null>(
+    initialParsed.version1
+  );
+  const [rightVersion, setRightVersion] = useState<VersionId | null>(
+    initialParsed.version2
+  );
   function getInitialBookChapterFromParams() {
     if (initialSearchParams && initialBooks.length > 0) {
       const p = parseReadSearchParams(initialSearchParams, "EN");
@@ -253,7 +262,9 @@ export function ReadProvider({
   const initialBookChapter = getInitialBookChapterFromParams();
   const [leftBook, setLeftBook] = useState<BibleBook | null>(initialBookChapter.leftBook);
   const [leftChapter, setLeftChapter] = useState(initialBookChapter.leftChapter);
-  const [rightBook, setRightBook] = useState<BibleBook | null>(initialBookChapter.rightBook);
+  const [rightBook, setRightBook] = useState<BibleBook | null>(
+    initialBookChapter.rightBook
+  );
   const [rightChapter, setRightChapter] = useState(initialBookChapter.rightChapter);
   const [leftContent, setLeftContent] = useState<ChapterContent | null>(null);
   const [rightContent, setRightContent] = useState<ChapterContent | null>(null);
@@ -417,8 +428,7 @@ export function ReadProvider({
       book1Id: leftBook?.id ?? undefined,
       chapter1: leftChapter,
       testament1: leftTestament,
-      book2Id:
-        rightVersion && !syncMode ? rightBook?.id ?? undefined : undefined,
+      book2Id: rightVersion && !syncMode ? (rightBook?.id ?? undefined) : undefined,
       chapter2: rightVersion && !syncMode ? rightChapter : undefined,
       testament2: rightVersion && !syncMode ? rightTestament : undefined,
       insights: insightOpen || undefined,
@@ -481,7 +491,17 @@ export function ReadProvider({
     fetchChapter(book.id, ch, rightVersion)
       .then(setRightContent)
       .finally(() => setLoadingRight(false));
-  }, [rightVersion, syncMode, rightBookId, rightChapterNum, leftBook, rightBook, leftChapter, rightChapter, fetchChapter]);
+  }, [
+    rightVersion,
+    syncMode,
+    rightBookId,
+    rightChapterNum,
+    leftBook,
+    rightBook,
+    leftChapter,
+    rightChapter,
+    fetchChapter,
+  ]);
 
   useEffect(() => {
     if (!isDragging) return;

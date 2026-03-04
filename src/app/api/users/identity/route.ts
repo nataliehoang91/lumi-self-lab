@@ -40,8 +40,9 @@ export async function GET() {
     const client = await clerkClient();
     const clerkUser = await client.users.getUser(userId);
     const email =
-      clerkUser.emailAddresses.find((e: { id: string }) => e.id === clerkUser.primaryEmailAddressId)
-        ?.emailAddress ?? null;
+      clerkUser.emailAddresses.find(
+        (e: { id: string }) => e.id === clerkUser.primaryEmailAddressId
+      )?.emailAddress ?? null;
 
     // Get or create user
     let user = await prisma.user.findUnique({

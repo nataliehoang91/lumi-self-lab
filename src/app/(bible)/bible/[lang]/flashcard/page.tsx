@@ -57,13 +57,12 @@ export default async function FlashcardPage({
     : ids.slice(parsed.index, parsed.index + visibleCount);
 
   return (
-    <div className="min-h-screen flex flex-col w-full">
-      <div className="w-full flex flex-col flex-1">
+    <div className="flex min-h-screen w-full flex-col">
+      <div className="flex w-full flex-1 flex-col">
         <FlashCardShell
           ids={ids}
           index={parsed.index}
           layout={parsed.layout}
-          fontSize={parsed.font}
           lang={effectiveLang}
           collections={collections}
           collectionId={effectiveCollection || undefined}
@@ -76,7 +75,6 @@ export default async function FlashcardPage({
                   verseId={verseId}
                   lang={effectiveLang}
                   horizontal={false}
-                  fontSize={parsed.font}
                   flexible={isAll}
                 />
               </Suspense>

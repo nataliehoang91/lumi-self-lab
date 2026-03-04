@@ -17,8 +17,10 @@ function numericDirection(values: number[]): "increasing" | "decreasing" | "flat
   const n = values.length;
   const firstQuarterSize = Math.max(1, Math.floor(n * 0.25));
   const lastQuarterSize = Math.max(1, Math.floor(n * 0.25));
-  const firstAvg = values.slice(0, firstQuarterSize).reduce((a, b) => a + b, 0) / firstQuarterSize;
-  const lastAvg = values.slice(-lastQuarterSize).reduce((a, b) => a + b, 0) / lastQuarterSize;
+  const firstAvg =
+    values.slice(0, firstQuarterSize).reduce((a, b) => a + b, 0) / firstQuarterSize;
+  const lastAvg =
+    values.slice(-lastQuarterSize).reduce((a, b) => a + b, 0) / lastQuarterSize;
   const range = Math.max(...values) - Math.min(...values) || 1;
   const normalizedDiff = (lastAvg - firstAvg) / range;
   if (normalizedDiff > TREND_FLAT_THRESHOLD) return "increasing";
@@ -58,9 +60,13 @@ export type ReviewTrendsField =
       trend: { dominantOverTime?: string[] };
     };
 
-export function computeReviewTrendsFields(experiment: ExperimentForTrends): ReviewTrendsField[] {
+export function computeReviewTrendsFields(
+  experiment: ExperimentForTrends
+): ReviewTrendsField[] {
   const checkInsOrdered = experiment.checkIns;
-  const dateStrings = checkInsOrdered.map((c) => c.checkInDate.toISOString().split("T")[0]);
+  const dateStrings = checkInsOrdered.map(
+    (c) => c.checkInDate.toISOString().split("T")[0]
+  );
 
   const fields: ReviewTrendsField[] = [];
 
@@ -86,7 +92,10 @@ export function computeReviewTrendsFields(experiment: ExperimentForTrends): Revi
       const countOverTime = checkInsOrdered.map((checkIn, i) => ({
         date: dateStrings[i],
         count: checkIn.responses.filter(
-          (r) => r.fieldId === field.id && r.responseText != null && r.responseText.trim() !== ""
+          (r) =>
+            r.fieldId === field.id &&
+            r.responseText != null &&
+            r.responseText.trim() !== ""
         ).length,
       }));
       fields.push({
@@ -145,10 +154,15 @@ export function computeReviewTrendsFields(experiment: ExperimentForTrends): Revi
         const lastQuarterSize = Math.max(1, Math.floor(n * 0.25));
         const firstRate =
           bools.slice(0, firstQuarterSize).filter(Boolean).length / firstQuarterSize;
-        const lastRate = bools.slice(-lastQuarterSize).filter(Boolean).length / lastQuarterSize;
+        const lastRate =
+          bools.slice(-lastQuarterSize).filter(Boolean).length / lastQuarterSize;
         const diff = lastRate - firstRate;
         const yesRateTrend: "up" | "down" | "flat" =
-          diff > TREND_FLAT_THRESHOLD ? "up" : diff < -TREND_FLAT_THRESHOLD ? "down" : "flat";
+          diff > TREND_FLAT_THRESHOLD
+            ? "up"
+            : diff < -TREND_FLAT_THRESHOLD
+              ? "down"
+              : "flat";
         fields.push({
           fieldId: field.id,
           label: field.label,
@@ -176,7 +190,8 @@ export function computeReviewTrendsFields(experiment: ExperimentForTrends): Revi
     const countOverTime = checkInsOrdered.map((checkIn, i) => ({
       date: dateStrings[i],
       count: checkIn.responses.filter(
-        (r) => r.fieldId === field.id && r.responseText != null && r.responseText.trim() !== ""
+        (r) =>
+          r.fieldId === field.id && r.responseText != null && r.responseText.trim() !== ""
       ).length,
     }));
     fields.push({

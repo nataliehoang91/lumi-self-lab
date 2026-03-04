@@ -26,13 +26,17 @@ interface FullPageBibleLoaderProps {
 }
 
 export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
-  const [phase, setPhase] = useState<"enter" | "typewrite" | "ref" | "progress" | "exit">("enter");
+  const [phase, setPhase] = useState<"enter" | "typewrite" | "ref" | "progress" | "exit">(
+    "enter"
+  );
   const [displayedText, setDisplayedText] = useState("");
   const [showRef, setShowRef] = useState(false);
   const [progress, setProgress] = useState(0);
   const [bookOpen, setBookOpen] = useState(false);
   const [particleCount] = useState(() => Array.from({ length: 18 }, (_, i) => i));
-  const verseRef = useRef(LOADING_VERSES[Math.floor(Math.random() * LOADING_VERSES.length)]);
+  const verseRef = useRef(
+    LOADING_VERSES[Math.floor(Math.random() * LOADING_VERSES.length)]
+  );
   const verse = verseRef.current;
 
   // Phase: enter — book appears
@@ -85,15 +89,15 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex min-h-screen min-w-full flex-col items-center justify-center overflow-hidden bg-body text-foreground transition-all duration-700 ${
-        phase === "exit" ? "opacity-0 scale-[1.03]" : "opacity-100 scale-100"
-      }`}
+      className={`bg-body text-foreground fixed inset-0 z-50 flex min-h-screen min-w-full
+        flex-col items-center justify-center overflow-hidden transition-all duration-700
+        ${phase === "exit" ? "scale-[1.03] opacity-0" : "scale-100 opacity-100"}`}
       aria-label="Loading Scripture Memory"
       role="status"
     >
       {/* Ambient glow — theme-aware */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         style={{
           background:
             "radial-gradient(ellipse 60% 40% at 50% 55%, hsl(var(--primary) / 0.2) 0%, transparent 70%)",
@@ -106,7 +110,7 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
       {particleCount.map((i) => (
         <div
           key={i}
-          className="absolute rounded-full pointer-events-none bg-muted-foreground/20"
+          className="bg-muted-foreground/20 pointer-events-none absolute rounded-full"
           style={{
             width: `${Math.random() * 5 + 1}px`,
             height: `${Math.random() * 5 + 1}px`,
@@ -119,14 +123,19 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
       ))}
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center gap-10 px-6 max-w-xl w-full">
+      <div
+        className="relative z-10 flex w-full max-w-xl flex-col items-center gap-10 px-6"
+      >
         {/* Animated open book SVG */}
         <div
           className="relative"
           style={{
-            transform: bookOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.85)",
+            transform: bookOpen
+              ? "translateY(0) scale(1)"
+              : "translateY(20px) scale(0.85)",
             opacity: bookOpen ? 1 : 0,
-            transition: "transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease",
+            transition:
+              "transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease",
           }}
         >
           <svg
@@ -136,7 +145,8 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
-            className="stroke-border text-muted-foreground dark:stroke-foreground/50 dark:text-foreground/70"
+            className="stroke-border text-muted-foreground dark:stroke-foreground/50
+              dark:text-foreground/70"
           >
             {/* Spine */}
             <line
@@ -151,7 +161,8 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
             {/* Left page */}
             <path
               d="M48 10 C35 8, 10 12, 6 16 L6 66 C10 62, 35 58, 48 60 Z"
-              className="fill-muted/80 stroke-border dark:fill-foreground/25 dark:stroke-foreground/45"
+              className="fill-muted/80 stroke-border dark:fill-foreground/25
+                dark:stroke-foreground/45"
               strokeWidth="1"
               style={{
                 transformOrigin: "48px 35px",
@@ -180,7 +191,8 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
             {/* Right page */}
             <path
               d="M48 10 C61 8, 86 12, 90 16 L90 66 C86 62, 61 58, 48 60 Z"
-              className="fill-muted/80 stroke-border dark:fill-foreground/25 dark:stroke-foreground/45"
+              className="fill-muted/80 stroke-border dark:fill-foreground/25
+                dark:stroke-foreground/45"
               strokeWidth="1"
               style={{
                 transformOrigin: "48px 35px",
@@ -218,7 +230,8 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
 
           {/* Soft radial beneath book */}
           <div
-            className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-20 h-3 rounded-full pointer-events-none bg-muted-foreground/20 dark:bg-foreground/25 blur-md"
+            className="bg-muted-foreground/20 dark:bg-foreground/25 pointer-events-none
+              absolute -bottom-4 left-1/2 h-3 w-20 -translate-x-1/2 rounded-full blur-md"
             style={{
               opacity: bookOpen ? 1 : 0,
               transition: "opacity 1s ease 0.6s",
@@ -228,19 +241,22 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
 
         {/* Brand name */}
         <div
-          className="flex flex-col items-center gap-1 text-muted-foreground"
+          className="text-muted-foreground flex flex-col items-center gap-1"
           style={{
             opacity: bookOpen ? 1 : 0,
             transform: bookOpen ? "translateY(0)" : "translateY(8px)",
             transition: "opacity 0.7s ease 0.4s, transform 0.7s ease 0.4s",
           }}
         >
-          <span className="font-serif tracking-[0.25em] uppercase text-sm">Scripture Memory</span>
+          <span className="font-serif text-sm tracking-[0.25em] uppercase">
+            Scripture Memory
+          </span>
         </div>
 
         {/* Verse typewriter */}
         <div
-          className="text-center space-y-3 min-h-[80px] flex flex-col items-center justify-center text-foreground"
+          className="text-foreground flex min-h-[80px] flex-col items-center
+            justify-center space-y-3 text-center"
           style={{
             opacity: phase === "enter" ? 0 : 1,
             transition: "opacity 0.5s ease",
@@ -253,13 +269,14 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
             {displayedText}
             {phase === "typewrite" && (
               <span
-                className="inline-block w-0.5 h-5 ml-0.5 align-middle bg-primary animate-[blink_0.7s_step-end_infinite]"
+                className="bg-primary ml-0.5 inline-block h-5 w-0.5
+                  animate-[blink_0.7s_step-end_infinite] align-middle"
                 style={{ verticalAlign: "middle", marginBottom: "2px" }}
               />
             )}
           </p>
           <p
-            className="font-sans text-xs tracking-[0.2em] uppercase text-muted-foreground"
+            className="text-muted-foreground font-sans text-xs tracking-[0.2em] uppercase"
             style={{
               opacity: showRef ? 1 : 0,
               transform: showRef ? "translateY(0)" : "translateY(6px)",
@@ -272,19 +289,24 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
 
         {/* Progress */}
         <div
-          className="w-full flex flex-col items-center gap-3"
+          className="flex w-full flex-col items-center gap-3"
           style={{
             opacity: phase === "progress" || phase === "exit" ? 1 : 0,
             transition: "opacity 0.5s ease",
           }}
         >
-          <div className="w-full max-w-xs h-px rounded-full overflow-hidden bg-border">
+          <div className="bg-border h-px w-full max-w-xs overflow-hidden rounded-full">
             <div
-              className="h-full rounded-full bg-primary transition-[width] duration-75 ease-linear shadow-[0_0_8px_hsl(var(--primary)/0.6)]"
+              className="bg-primary h-full rounded-full
+                shadow-[0_0_8px_hsl(var(--primary)/0.6)] transition-[width] duration-75
+                ease-linear"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="font-sans text-xs tabular-nums tracking-wider text-muted-foreground">
+          <span
+            className="text-muted-foreground font-sans text-xs tracking-wider
+              tabular-nums"
+          >
             {Math.round(progress)}%
           </span>
         </div>

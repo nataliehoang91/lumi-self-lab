@@ -21,10 +21,15 @@ async function fetchReviewResult(
   return res.json() as Promise<ReviewResultResponse>;
 }
 
-export default async function ReviewPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ReviewPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const headersList = await headers();
-  const host = headersList.get("host") ?? headersList.get("x-forwarded-host") ?? "localhost:3005";
+  const host =
+    headersList.get("host") ?? headersList.get("x-forwarded-host") ?? "localhost:3005";
   const proto = headersList.get("x-forwarded-proto") ?? "http";
   const baseUrl = `${proto}://${host}`;
   const cookie = headersList.get("cookie") ?? "";
@@ -49,19 +54,19 @@ export default async function ReviewPage({ params }: { params: Promise<{ id: str
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
-        <h1 className="text-2xl font-semibold text-foreground">Review</h1>
+        <h1 className="text-foreground text-2xl font-semibold">Review</h1>
       </div>
 
       {/* Header: title, status, date range, stats */}
       <section>
         <h2 className="sr-only">Experiment overview</h2>
-        <div className="rounded-md border border-border bg-card p-4 space-y-2">
-          <h3 className="text-lg font-medium text-foreground">{experiment.title}</h3>
-          <p className="text-sm text-muted-foreground">
+        <div className="border-border bg-card space-y-2 rounded-md border p-4">
+          <h3 className="text-foreground text-lg font-medium">{experiment.title}</h3>
+          <p className="text-muted-foreground text-sm">
             Status: <span className="capitalize">{experiment.status}</span>
           </p>
-          <p className="text-sm text-muted-foreground">Date range: {dateRange}</p>
-          <p className="text-sm text-foreground">
+          <p className="text-muted-foreground text-sm">Date range: {dateRange}</p>
+          <p className="text-foreground text-sm">
             Total check-ins: {stats.totalCheckIns} · Days covered: {stats.daysCovered}
             {stats.completionRate != null &&
               ` · Completion rate: ${(stats.completionRate * 100).toFixed(0)}%`}
@@ -71,24 +76,28 @@ export default async function ReviewPage({ params }: { params: Promise<{ id: str
 
       {/* Summary (per-field) */}
       <section>
-        <h2 className="text-lg font-medium text-foreground mb-3">Summary</h2>
+        <h2 className="text-foreground mb-3 text-lg font-medium">Summary</h2>
         <div className="space-y-3">
           {summary.fields.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No fields.</p>
+            <p className="text-muted-foreground text-sm">No fields.</p>
           ) : (
-            summary.fields.map((field) => <ReviewSummaryField key={field.fieldId} field={field} />)
+            summary.fields.map((field) => (
+              <ReviewSummaryField key={field.fieldId} field={field} />
+            ))
           )}
         </div>
       </section>
 
       {/* Trends (per-field) */}
       <section>
-        <h2 className="text-lg font-medium text-foreground mb-3">Trends</h2>
+        <h2 className="text-foreground mb-3 text-lg font-medium">Trends</h2>
         <div className="space-y-3">
           {trends.fields.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No trends.</p>
+            <p className="text-muted-foreground text-sm">No trends.</p>
           ) : (
-            trends.fields.map((field) => <ReviewTrendField key={field.fieldId} field={field} />)
+            trends.fields.map((field) => (
+              <ReviewTrendField key={field.fieldId} field={field} />
+            ))
           )}
         </div>
       </section>

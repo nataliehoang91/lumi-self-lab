@@ -6,7 +6,11 @@ import { getAuthenticatedUserId, requireSuperAdmin } from "@/lib/permissions";
  * Clerk authentication alone does NOT grant access; enforcement is server-side here.
  * Unauthenticated users are already redirected by middleware to /waitlist.
  */
-export default async function SuperAdminLayout({ children }: { children: React.ReactNode }) {
+export default async function SuperAdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const userId = await getAuthenticatedUserId();
   if (!userId) {
     redirect("/waitlist");

@@ -39,12 +39,12 @@ type ApiTemplate = {
 };
 
 const CARD_STYLES = [
-  { icon: <Target className="w-6 h-6" />, color: "from-green-400 to-emerald-500" },
-  { icon: <Brain className="w-6 h-6" />, color: "from-blue-400 to-indigo-500" },
-  { icon: <Heart className="w-6 h-6" />, color: "from-orange-400 to-rose-500" },
-  { icon: <TrendingUp className="w-6 h-6" />, color: "from-purple-400 to-pink-500" },
-  { icon: <Book className="w-6 h-6" />, color: "from-yellow-400 to-amber-500" },
-  { icon: <Users className="w-6 h-6" />, color: "from-cyan-400 to-teal-500" },
+  { icon: <Target className="h-6 w-6" />, color: "from-green-400 to-emerald-500" },
+  { icon: <Brain className="h-6 w-6" />, color: "from-blue-400 to-indigo-500" },
+  { icon: <Heart className="h-6 w-6" />, color: "from-orange-400 to-rose-500" },
+  { icon: <TrendingUp className="h-6 w-6" />, color: "from-purple-400 to-pink-500" },
+  { icon: <Book className="h-6 w-6" />, color: "from-yellow-400 to-amber-500" },
+  { icon: <Users className="h-6 w-6" />, color: "from-cyan-400 to-teal-500" },
 ];
 
 function formatDuration(days: number | null): string {
@@ -74,26 +74,33 @@ function TemplateCard({
   const difficulty = template.difficulty ?? "Easy";
 
   return (
-    <Card className="p-6 bg-card/80 backdrop-blur border-border/50 hover:shadow-lg transition-all hover:border-second/50 rounded-3xl group">
+    <Card
+      className="bg-card/80 border-border/50 hover:border-second/50 group rounded-3xl p-6
+        backdrop-blur transition-all hover:shadow-lg"
+    >
       <div
-        className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${style.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}
+        className={`h-14 w-14 rounded-2xl bg-gradient-to-br ${style.color} mb-4 flex
+          items-center justify-center text-white transition-transform
+          group-hover:scale-110`}
       >
         {style.icon}
       </div>
 
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <h3 className="text-xl font-semibold text-foreground">{template.title}</h3>
+      <div className="mb-2 flex items-start justify-between gap-2">
+        <h3 className="text-foreground text-xl font-semibold">{template.title}</h3>
         {template.featured && (
-          <Badge className="rounded-2xl bg-yellow-500 text-white shrink-0">Featured</Badge>
+          <Badge className="shrink-0 rounded-2xl bg-yellow-500 text-white">
+            Featured
+          </Badge>
         )}
       </div>
 
-      <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
         {template.description ?? ""}
       </p>
 
       {categories.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mb-2">
+        <div className="mb-2 flex flex-wrap gap-1.5">
           {categories.map((c) => (
             <Badge key={c} variant="second" className="rounded-xl text-xs">
               {c}
@@ -102,29 +109,33 @@ function TemplateCard({
         </div>
       )}
 
-      <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
+      <div className="text-muted-foreground mb-4 flex items-center gap-4 text-sm">
         <div className="flex items-center gap-1">
-          <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-          <span className="font-medium">{template.rating != null ? template.rating : "—"}</span>
+          <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+          <span className="font-medium">
+            {template.rating != null ? template.rating : "—"}
+          </span>
         </div>
         <div className="flex items-center gap-1">
-          <Users className="w-4 h-4" />
-          <span>{template.usageCount != null ? template.usageCount.toLocaleString() : "—"}</span>
+          <Users className="h-4 w-4" />
+          <span>
+            {template.usageCount != null ? template.usageCount.toLocaleString() : "—"}
+          </span>
         </div>
         <div className="flex items-center gap-1">
-          <Calendar className="w-4 h-4" />
+          <Calendar className="h-4 w-4" />
           <span>{duration}</span>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="mb-4 flex flex-wrap gap-2">
         <Badge
           variant="outline"
           className={`rounded-2xl ${
             difficulty === "Easy"
-              ? "bg-green-500/10 text-green-600 border-green-500/20"
-              : "bg-yellow-500/10 text-yellow-600 border-yellow-500/20"
-          }`}
+              ? "border-green-500/20 bg-green-500/10 text-green-600"
+              : "border-yellow-500/20 bg-yellow-500/10 text-yellow-600"
+            }`}
         >
           {difficulty}
         </Badge>
@@ -137,11 +148,12 @@ function TemplateCard({
 
       <Button
         variant={variant}
-        className="w-full rounded-3xl bg-transparent hover:bg-second/10 hover:text-second hover:border-second"
+        className="hover:bg-second/10 hover:text-second hover:border-second w-full
+          rounded-3xl bg-transparent"
         disabled={creatingId === template.id}
         onClick={() => onUseTemplate(template.id)}
       >
-        <Sparkles className="w-4 h-4 mr-2" />
+        <Sparkles className="mr-2 h-4 w-4" />
         {creatingId === template.id ? "Creating…" : "Use Template"}
       </Button>
     </Card>
@@ -150,20 +162,20 @@ function TemplateCard({
 
 function CardSkeleton() {
   return (
-    <Card className="p-6 bg-card/80 border-border/50 rounded-3xl animate-pulse">
-      <div className="w-14 h-14 rounded-2xl bg-muted mb-4" />
-      <div className="h-6 bg-muted rounded w-3/4 mb-2" />
-      <div className="h-4 bg-muted rounded w-full mb-4" />
-      <div className="flex gap-4 mb-4">
-        <div className="h-4 bg-muted rounded w-12" />
-        <div className="h-4 bg-muted rounded w-12" />
-        <div className="h-4 bg-muted rounded w-16" />
+    <Card className="bg-card/80 border-border/50 animate-pulse rounded-3xl p-6">
+      <div className="bg-muted mb-4 h-14 w-14 rounded-2xl" />
+      <div className="bg-muted mb-2 h-6 w-3/4 rounded" />
+      <div className="bg-muted mb-4 h-4 w-full rounded" />
+      <div className="mb-4 flex gap-4">
+        <div className="bg-muted h-4 w-12 rounded" />
+        <div className="bg-muted h-4 w-12 rounded" />
+        <div className="bg-muted h-4 w-16 rounded" />
       </div>
-      <div className="flex gap-2 mb-4">
-        <div className="h-6 bg-muted rounded-full w-14" />
-        <div className="h-6 bg-muted rounded-full w-20" />
+      <div className="mb-4 flex gap-2">
+        <div className="bg-muted h-6 w-14 rounded-full" />
+        <div className="bg-muted h-6 w-20 rounded-full" />
       </div>
-      <div className="h-10 bg-muted rounded-3xl w-full" />
+      <div className="bg-muted h-10 w-full rounded-3xl" />
     </Card>
   );
 }
@@ -249,38 +261,42 @@ export default function TemplatesPage() {
   return (
     <IndividualContainer>
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground mb-2">Experiment Templates</h1>
+        <h1 className="text-foreground mb-2 text-4xl font-bold">Experiment Templates</h1>
         <p className="text-muted-foreground text-lg">
           Discover proven experiments to accelerate your personal growth
         </p>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Search
+            className="text-muted-foreground absolute top-1/2 left-3 h-5 w-5
+              -translate-y-1/2"
+          />
           <Input
             placeholder="Search templates..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 rounded-3xl border-border/50 bg-background/50"
+            className="border-border/50 bg-background/50 rounded-3xl pl-10"
           />
         </div>
         <Button
           variant="outline"
-          className="rounded-3xl border-border/50 bg-background/50 hover:bg-second/10 hover:text-second hover:border-second"
+          className="border-border/50 bg-background/50 hover:bg-second/10
+            hover:text-second hover:border-second rounded-3xl"
         >
-          <Filter className="w-4 h-4 mr-2" />
+          <Filter className="mr-2 h-4 w-4" />
           Filter
         </Button>
         <Button className="rounded-3xl" asChild>
           <Link href="/experiments/create">
-            <Sparkles className="w-4 h-4 mr-2" />
+            <Sparkles className="mr-2 h-4 w-4" />
             Create Custom
           </Link>
         </Button>
       </div>
 
-      <div className="flex gap-2 mb-12 overflow-x-auto pb-2">
+      <div className="mb-12 flex gap-2 overflow-x-auto pb-2">
         {categoryCounts.map((category) => (
           <Button
             key={category.id}
@@ -288,7 +304,8 @@ export default function TemplatesPage() {
             onClick={() => setSelectedCategory(category.id)}
             className={`rounded-3xl whitespace-nowrap transition-all hover:scale-105 ${
               selectedCategory !== category.id
-                ? "bg-transparent hover:bg-second/10 hover:text-second hover:border-second"
+                ? `hover:bg-second/10 hover:text-second hover:border-second
+                  bg-transparent`
                 : ""
             }`}
           >
@@ -301,7 +318,10 @@ export default function TemplatesPage() {
       </div>
 
       {fetchError && (
-        <div className="mb-6 rounded-xl bg-destructive/10 border border-destructive/20 px-4 py-3 text-sm text-destructive">
+        <div
+          className="bg-destructive/10 border-destructive/20 text-destructive mb-6
+            rounded-xl border px-4 py-3 text-sm"
+        >
           {fetchError}
         </div>
       )}
@@ -315,11 +335,14 @@ export default function TemplatesPage() {
       )}
 
       {!loading && !fetchError && filteredTemplates.length === 0 && (
-        <div className="text-center py-16">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-muted/50 flex items-center justify-center">
-            <Search className="w-8 h-8 text-muted-foreground" />
+        <div className="py-16 text-center">
+          <div
+            className="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center
+              rounded-2xl"
+          >
+            <Search className="text-muted-foreground h-8 w-8" />
           </div>
-          <h3 className="text-lg font-medium text-foreground mb-2">No templates found</h3>
+          <h3 className="text-foreground mb-2 text-lg font-medium">No templates found</h3>
           <p className="text-muted-foreground">
             {templates.length === 0
               ? "Templates will appear here once available."
@@ -332,9 +355,9 @@ export default function TemplatesPage() {
         <>
           {featuredTemplates.length > 0 && (
             <div className="mb-12">
-              <div className="flex items-center gap-2 mb-6">
-                <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
-                <h2 className="text-2xl font-bold text-foreground">Featured Templates</h2>
+              <div className="mb-6 flex items-center gap-2">
+                <Star className="h-6 w-6 fill-yellow-500 text-yellow-500" />
+                <h2 className="text-foreground text-2xl font-bold">Featured Templates</h2>
               </div>
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {featuredTemplates.map((template, index) => (
@@ -353,9 +376,9 @@ export default function TemplatesPage() {
 
           {otherTemplates.length > 0 && (
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-6">
+              <h2 className="text-foreground mb-6 text-2xl font-bold">
                 All Templates
-                <span className="text-muted-foreground text-lg ml-2">
+                <span className="text-muted-foreground ml-2 text-lg">
                   ({otherTemplates.length} more)
                 </span>
               </h2>

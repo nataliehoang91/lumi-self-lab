@@ -31,7 +31,8 @@ const teamTemplates = [
   {
     id: "1",
     title: "Focus & Deep Work",
-    description: "Help your team understand their focus patterns and optimize for deep work",
+    description:
+      "Help your team understand their focus patterns and optimize for deep work",
     category: "Productivity",
     fields: [
       { type: "emoji", label: "How focused did you feel today?" },
@@ -53,7 +54,8 @@ const teamTemplates = [
   {
     id: "2",
     title: "Meeting Effectiveness",
-    description: "Evaluate meeting quality and find opportunities to improve team collaboration",
+    description:
+      "Evaluate meeting quality and find opportunities to improve team collaboration",
     category: "Collaboration",
     fields: [
       { type: "number", label: "Number of meetings today" },
@@ -119,7 +121,8 @@ export default function ManagerTemplatesContent() {
     const matchesSearch =
       template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       template.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || template.category === selectedCategory;
+    const matchesCategory =
+      selectedCategory === "All" || template.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -127,73 +130,110 @@ export default function ManagerTemplatesContent() {
   const totalParticipants = teamTemplates.reduce((sum, t) => sum + t.activeUsers, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-violet-50 dark:from-background dark:via-background dark:to-violet-950/20">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div
+      className="dark:from-background dark:via-background min-h-screen bg-gradient-to-br
+        from-orange-50 via-white to-violet-50 dark:to-violet-950/20"
+    >
+      <div className="container mx-auto max-w-7xl px-4 py-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div
+          className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center"
+        >
           <div>
-            <h1 className="text-3xl font-semibold text-foreground mb-1">Team Templates</h1>
+            <h1 className="text-foreground mb-1 text-3xl font-semibold">
+              Team Templates
+            </h1>
             <p className="text-muted-foreground">
               Create and manage experiment templates for your organisation
             </p>
           </div>
 
           <Link href="/org/create">
-            <Button className="rounded-2xl gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
-              <Plus className="w-4 h-4" />
+            <Button
+              className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2
+                rounded-2xl"
+            >
+              <Plus className="h-4 w-4" />
               Create Template
             </Button>
           </Link>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="bg-card rounded-2xl p-5 shadow-lg shadow-black/5 border border-border/50">
+        <div className="mb-8 grid grid-cols-3 gap-4">
+          <div
+            className="bg-card border-border/50 rounded-2xl border p-5 shadow-lg
+              shadow-black/5"
+          >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-primary" />
+              <div
+                className="bg-primary/20 flex h-10 w-10 items-center justify-center
+                  rounded-xl"
+              >
+                <BarChart3 className="text-primary h-5 w-5" />
               </div>
               <div>
-                <p className="text-2xl font-semibold text-foreground">{teamTemplates.length}</p>
-                <p className="text-sm text-muted-foreground">Total Templates</p>
+                <p className="text-foreground text-2xl font-semibold">
+                  {teamTemplates.length}
+                </p>
+                <p className="text-muted-foreground text-sm">Total Templates</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-card rounded-2xl p-5 shadow-lg shadow-black/5 border border-border/50">
+          <div
+            className="bg-card border-border/50 rounded-2xl border p-5 shadow-lg
+              shadow-black/5"
+          >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-xl
+                  bg-emerald-100 dark:bg-emerald-900/30"
+              >
+                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
               </div>
               <div>
-                <p className="text-2xl font-semibold text-foreground">{activeTemplates}</p>
-                <p className="text-sm text-muted-foreground">Active Templates</p>
+                <p className="text-foreground text-2xl font-semibold">
+                  {activeTemplates}
+                </p>
+                <p className="text-muted-foreground text-sm">Active Templates</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-card rounded-2xl p-5 shadow-lg shadow-black/5 border border-border/50">
+          <div
+            className="bg-card border-border/50 rounded-2xl border p-5 shadow-lg
+              shadow-black/5"
+          >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center">
-                <Users className="w-5 h-5 text-sky-600" />
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-xl
+                  bg-sky-100 dark:bg-sky-900/30"
+              >
+                <Users className="h-5 w-5 text-sky-600" />
               </div>
               <div>
-                <p className="text-2xl font-semibold text-foreground">{totalParticipants}</p>
-                <p className="text-sm text-muted-foreground">Total Participants</p>
+                <p className="text-foreground text-2xl font-semibold">
+                  {totalParticipants}
+                </p>
+                <p className="text-muted-foreground text-sm">Total Participants</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Search and Filter */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <div className="mb-6 flex flex-col gap-4 md:flex-row">
           <div className="relative flex-grow">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Search
+              className="text-muted-foreground absolute top-1/2 left-4 h-5 w-5
+                -translate-y-1/2"
+            />
             <Input
               placeholder="Search templates..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 h-12 rounded-2xl bg-card border-border/50"
+              className="bg-card border-border/50 h-12 rounded-2xl pl-12"
             />
           </div>
 
@@ -202,10 +242,12 @@ export default function ManagerTemplatesContent() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-xl whitespace-nowrap text-sm font-medium transition-all ${
+                className={`rounded-xl px-4 py-2 text-sm font-medium whitespace-nowrap
+                transition-all ${
                   selectedCategory === category
                     ? "bg-primary text-primary-foreground"
-                    : "bg-card border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/30"
+                    : `bg-card border-border/50 text-muted-foreground
+                      hover:text-foreground hover:border-primary/30 border`
                 }`}
               >
                 {category}
@@ -215,50 +257,55 @@ export default function ManagerTemplatesContent() {
         </div>
 
         {/* Templates Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid gap-6 md:grid-cols-2">
           {filteredTemplates.map((template) => (
             <div
               key={template.id}
-              className="bg-card rounded-2xl p-6 shadow-lg shadow-black/5 border border-border/50 hover:border-primary/30 transition-all group"
+              className="bg-card border-border/50 hover:border-primary/30 group
+                rounded-2xl border p-6 shadow-lg shadow-black/5 transition-all"
             >
               {/* Header */}
-              <div className="flex items-start justify-between mb-4">
+              <div className="mb-4 flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
                       template.status === "active"
-                        ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                        ? `bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30
+                          dark:text-emerald-400`
                         : "bg-muted text-muted-foreground"
                     }`}
                   >
                     {template.status === "active" ? "Active" : "Draft"}
                   </span>
-                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-violet/10 text-violet">
+                  <span
+                    className="bg-violet/10 text-violet rounded-full px-3 py-1 text-xs
+                      font-medium"
+                  >
                     {template.category}
                   </span>
                 </div>
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="p-2 rounded-xl hover:bg-muted transition-colors">
-                      <MoreVertical className="w-4 h-4 text-muted-foreground" />
+                    <button className="hover:bg-muted rounded-xl p-2 transition-colors">
+                      <MoreVertical className="text-muted-foreground h-4 w-4" />
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="rounded-xl">
-                    <DropdownMenuItem className="gap-2 cursor-pointer">
-                      <Eye className="w-4 h-4" />
+                    <DropdownMenuItem className="cursor-pointer gap-2">
+                      <Eye className="h-4 w-4" />
                       Preview
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="gap-2 cursor-pointer">
-                      <Edit className="w-4 h-4" />
+                    <DropdownMenuItem className="cursor-pointer gap-2">
+                      <Edit className="h-4 w-4" />
                       Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="gap-2 cursor-pointer">
-                      <Copy className="w-4 h-4" />
+                    <DropdownMenuItem className="cursor-pointer gap-2">
+                      <Copy className="h-4 w-4" />
                       Duplicate
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="gap-2 cursor-pointer text-destructive">
-                      <Trash2 className="w-4 h-4" />
+                    <DropdownMenuItem className="text-destructive cursor-pointer gap-2">
+                      <Trash2 className="h-4 w-4" />
                       Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -266,50 +313,60 @@ export default function ManagerTemplatesContent() {
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-semibold text-foreground mb-2">{template.title}</h3>
-              <p className="text-muted-foreground text-sm mb-4">{template.description}</p>
+              <h3 className="text-foreground mb-2 text-xl font-semibold">
+                {template.title}
+              </h3>
+              <p className="text-muted-foreground mb-4 text-sm">{template.description}</p>
 
               {/* Fields preview */}
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="mb-4 flex flex-wrap gap-2">
                 {template.fields.map((field, index) => (
                   <span
                     key={index}
-                    className="px-2 py-1 rounded-lg text-xs bg-muted/50 text-muted-foreground flex items-center gap-1"
+                    className="bg-muted/50 text-muted-foreground flex items-center gap-1
+                      rounded-lg px-2 py-1 text-xs"
                   >
                     {field.type === "emoji" && "😊"}
                     {field.type === "number" && "#"}
                     {field.type === "text" && "T"}
                     {field.type === "yesno" && "✓"}
                     {field.type === "select" && "▼"}
-                    {field.label.length > 20 ? field.label.substring(0, 20) + "..." : field.label}
+                    {field.label.length > 20
+                      ? field.label.substring(0, 20) + "..."
+                      : field.label}
                   </span>
                 ))}
               </div>
 
               {/* Meta info */}
-              <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+              <div className="text-muted-foreground mb-4 flex items-center gap-4 text-sm">
                 <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
+                  <Calendar className="h-4 w-4" />
                   {template.duration} days
                 </span>
                 <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
+                  <Clock className="h-4 w-4" />
                   {template.frequency}
                 </span>
               </div>
 
               {/* Stats (only for active templates) */}
               {template.status === "active" && (
-                <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                <div
+                  className="border-border/50 flex items-center justify-between border-t
+                    pt-4"
+                >
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1 text-sm">
-                      <Users className="w-4 h-4 text-muted-foreground" />
-                      <span className="font-medium text-foreground">{template.activeUsers}</span>
+                      <Users className="text-muted-foreground h-4 w-4" />
+                      <span className="text-foreground font-medium">
+                        {template.activeUsers}
+                      </span>
                       <span className="text-muted-foreground">participants</span>
                     </div>
                     <div className="flex items-center gap-1 text-sm">
-                      <BarChart3 className="w-4 h-4 text-muted-foreground" />
-                      <span className="font-medium text-foreground">
+                      <BarChart3 className="text-muted-foreground h-4 w-4" />
+                      <span className="text-foreground font-medium">
                         {template.completionRate}%
                       </span>
                       <span className="text-muted-foreground">completion</span>
@@ -320,9 +377,10 @@ export default function ManagerTemplatesContent() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="rounded-xl gap-1 text-primary hover:text-primary hover:bg-primary/10"
+                      className="text-primary hover:text-primary hover:bg-primary/10 gap-1
+                        rounded-xl"
                     >
-                      <Sparkles className="w-4 h-4" />
+                      <Sparkles className="h-4 w-4" />
                       Insights
                     </Button>
                   </Link>
@@ -331,8 +389,11 @@ export default function ManagerTemplatesContent() {
 
               {/* Publish button for drafts */}
               {template.status === "draft" && (
-                <div className="pt-4 border-t border-border/50">
-                  <Button className="w-full rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground">
+                <div className="border-border/50 border-t pt-4">
+                  <Button
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground
+                      w-full rounded-xl"
+                  >
                     Publish Template
                   </Button>
                 </div>
@@ -343,17 +404,25 @@ export default function ManagerTemplatesContent() {
 
         {/* Empty state */}
         {filteredTemplates.length === 0 && (
-          <div className="text-center py-16">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-muted/50 flex items-center justify-center">
-              <Search className="w-8 h-8 text-muted-foreground" />
+          <div className="py-16 text-center">
+            <div
+              className="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center
+                justify-center rounded-2xl"
+            >
+              <Search className="text-muted-foreground h-8 w-8" />
             </div>
-            <h3 className="text-lg font-medium text-foreground mb-2">No templates found</h3>
+            <h3 className="text-foreground mb-2 text-lg font-medium">
+              No templates found
+            </h3>
             <p className="text-muted-foreground mb-6">
               Try adjusting your search or filter criteria
             </p>
             <Link href="/org/create">
-              <Button className="rounded-2xl gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
-                <Plus className="w-4 h-4" />
+              <Button
+                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2
+                  rounded-2xl"
+              >
+                <Plus className="h-4 w-4" />
                 Create Template
               </Button>
             </Link>

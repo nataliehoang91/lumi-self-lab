@@ -18,9 +18,6 @@ export async function GET() {
     return NextResponse.json(books);
   } catch (e) {
     console.error("bible/books", e);
-    return NextResponse.json(
-      { error: "Failed to load books." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to load books." }, { status: 500 });
   }
 }

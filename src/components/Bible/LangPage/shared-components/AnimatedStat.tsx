@@ -45,7 +45,7 @@ export function AnimatedStat({
     <div
       ref={ref}
       className={`text-center transition-all duration-700 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
       }`}
     >
       <p
@@ -57,7 +57,9 @@ export function AnimatedStat({
       >
         {value}
       </p>
-      <p className={cn("mt-1 text-muted-foreground", labelClassName ?? "text-sm")}>{label}</p>
+      <p className={cn("text-muted-foreground mt-1", labelClassName ?? "text-sm")}>
+        {label}
+      </p>
     </div>
   );
 }

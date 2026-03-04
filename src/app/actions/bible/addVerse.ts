@@ -24,9 +24,7 @@ export async function addVerse(formData: FormData): Promise<AddVerseResult> {
   const chapter = chapterRaw != null ? Number(chapterRaw) : NaN;
   const verse = verseRaw != null ? Number(verseRaw) : NaN;
   const verseEnd =
-    verseEndRaw != null && String(verseEndRaw).trim() !== ""
-      ? Number(verseEndRaw)
-      : null;
+    verseEndRaw != null && String(verseEndRaw).trim() !== "" ? Number(verseEndRaw) : null;
 
   if (!bookId) {
     return { errors: { general: ["book_required"] } };

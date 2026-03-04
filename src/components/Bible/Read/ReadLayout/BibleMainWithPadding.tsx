@@ -16,4 +16,3 @@ export function BibleMainWithPadding({ children }: { children: React.ReactNode }
     </main>
   );
 }
-

@@ -11,7 +11,10 @@ import { NextResponse } from "next/server";
 import { reviewTrendsResponseSchema } from "@/lib/review-trends-schema";
 import { computeReviewTrendsFields } from "@/lib/review-trends";
 
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -53,7 +56,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const parsed = reviewTrendsResponseSchema.safeParse(payload);
     if (!parsed.success) {
       console.error("Review trends validation failed:", parsed.error);
-      return NextResponse.json({ error: "Internal error building review trends" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Internal error building review trends" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json(parsed.data);

@@ -19,7 +19,7 @@ interface StudyListCardProps {
 export function StudyListCard({ list }: StudyListCardProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const langSegment = (pathname?.match(/^\/bible\/(en|vi|zh)/))?.[1] ?? "en";
+  const langSegment = pathname?.match(/^\/bible\/(en|vi|zh)/)?.[1] ?? "en";
 
   const handleOpen = () => {
     router.push(`/bible/${langSegment}/study/${list.id}`);
@@ -27,14 +27,21 @@ export function StudyListCard({ list }: StudyListCardProps) {
 
   return (
     <div
-      className="flex flex-col rounded-2xl border border-border bg-background text-left text-sm min-h-[180px] cursor-pointer hover:border-primary/40 hover:shadow-sm transition-colors"
+      className="border-border bg-background hover:border-primary/40 flex min-h-[180px]
+        cursor-pointer flex-col rounded-2xl border text-left text-sm transition-colors
+        hover:shadow-sm"
       onClick={handleOpen}
     >
-      <div className="flex items-start justify-between gap-2 rounded-t-2xl bg-muted px-4 py-3">
+      <div
+        className="bg-muted flex items-start justify-between gap-2 rounded-t-2xl px-4
+          py-3"
+      >
         <div className="pr-2">
-          <div className="text-base font-semibold text-foreground line-clamp-1">{list.title}</div>
+          <div className="text-foreground line-clamp-1 text-base font-semibold">
+            {list.title}
+          </div>
           {list.description && (
-            <div className="mt-1 text-xs text-muted-foreground line-clamp-2">
+            <div className="text-muted-foreground mt-1 line-clamp-2 text-xs">
               {list.description}
             </div>
           )}
@@ -56,25 +63,27 @@ export function StudyListCard({ list }: StudyListCardProps) {
             <SubmitButton>
               <ReserveLayout>
                 <SubmitMessage>
-                  <X className="w-3.5 h-3.5" aria-hidden />
+                  <X className="h-3.5 w-3.5" aria-hidden />
                 </SubmitMessage>
                 <LoadingMessage>
-                  <Loader2 className="w-3.5 h-3.5" aria-hidden />
+                  <Loader2 className="h-3.5 w-3.5" aria-hidden />
                 </LoadingMessage>
               </ReserveLayout>
             </SubmitButton>
           </InteractiveForm>
         </div>
       </div>
-      <div className="flex flex-col flex-1 px-4 pb-3 pt-2">
-        <div className="mt-auto border-t border-border/60 pt-2" />
-        <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+      <div className="flex flex-1 flex-col px-4 pt-2 pb-3">
+        <div className="border-border/60 mt-auto border-t pt-2" />
+        <div
+          className="text-muted-foreground mt-2 flex items-center justify-between text-xs"
+        >
           <span className="inline-flex items-center gap-1">
-            <BookOpen className="w-3.5 h-3.5" aria-hidden />
+            <BookOpen className="h-3.5 w-3.5" aria-hidden />
             <span>0 passages</span>
           </span>
           <span className="inline-flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5" aria-hidden />
+            <Clock className="h-3.5 w-3.5" aria-hidden />
             <span>{list.createdAt.toLocaleDateString()}</span>
           </span>
         </div>

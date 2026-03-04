@@ -15,7 +15,11 @@ We're using **Clerk hooks** (`useSignIn`, `useSignUp`) with our **InteractiveFor
 
 ```tsx
 import { useSignIn } from "@clerk/nextjs";
-import { InteractiveForm, SubmitButton, FormField } from "@/components/CoreAdvancedComponent";
+import {
+  InteractiveForm,
+  SubmitButton,
+  FormField,
+} from "@/components/CoreAdvancedComponent";
 
 export default function SignInPage() {
   const { signIn, setActive } = useSignIn();

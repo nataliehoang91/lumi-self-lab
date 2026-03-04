@@ -5,32 +5,35 @@ export default function AdminFlashcardListPage() {
   return (
     <div className="min-h-screen bg-stone-100 p-4 md:p-8">
       <div className="mx-auto max-w-4xl">
-        <div className="mb-6 flex items-center justify-between flex-wrap gap-2">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
           <h1 className="text-2xl font-semibold text-stone-800">Flash verses</h1>
           <div className="flex gap-2">
             <Link
               href="/bible/admin/add"
-              className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 hover:bg-stone-50"
+              className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm
+                text-stone-700 hover:bg-stone-50"
             >
               Add verse
             </Link>
             <Link
               href="/bible/en/flashcard"
-              className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 hover:bg-stone-50"
+              className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm
+                text-stone-700 hover:bg-stone-50"
             >
               Flash cards
             </Link>
             <form action="/api/bible/admin/logout" method="POST">
               <button
                 type="submit"
-                className="rounded-lg bg-stone-200 px-3 py-2 text-sm text-stone-700 hover:bg-stone-300"
+                className="rounded-lg bg-stone-200 px-3 py-2 text-sm text-stone-700
+                  hover:bg-stone-300"
               >
                 Log out
               </button>
             </form>
           </div>
         </div>
-        <div className="rounded-xl bg-white shadow-md overflow-hidden">
+        <div className="overflow-hidden rounded-xl bg-white shadow-md">
           <FlashVerseList />
         </div>
       </div>

@@ -16,21 +16,22 @@ export function ThemeToggle({ variant }: { variant: "desktop" | "mobile" }) {
       onClick={toggleTheme}
       data-variant={variant}
       className={cn(
-        "h-8 w-8 rounded-full shrink-0 overflow-hidden border-border bg-background hover:bg-muted",
+        `border-border bg-background hover:bg-muted h-8 w-8 shrink-0 overflow-hidden
+        rounded-full`,
         variant === "mobile" && "w-full justify-start"
       )}
       aria-label="Toggle theme"
     >
-      <div className="relative flex h-4 w-4 items-center justify-center shrink-0">
+      <div className="relative flex h-4 w-4 shrink-0 items-center justify-center">
         <Sun
           className={cn(
-            "theme-toggle-icon theme-toggle-sun absolute inset-0 h-4 w-4 text-foreground",
+            "theme-toggle-icon theme-toggle-sun text-foreground absolute inset-0 h-4 w-4",
             isLight ? "theme-toggle-visible" : "theme-toggle-hidden"
           )}
         />
         <Moon
           className={cn(
-            "theme-toggle-icon theme-toggle-moon absolute inset-0 h-4 w-4 text-foreground",
+            "theme-toggle-icon theme-toggle-moon text-foreground absolute inset-0 h-4 w-4",
             isLight ? "theme-toggle-hidden" : "theme-toggle-visible"
           )}
         />

@@ -22,8 +22,7 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
   const { testamentFilter, setTestamentFilterAndAdjustBook } = useRead();
 
   const isDesktop = variant === "desktop";
-  const label =
-    testamentFilter === "ot" ? t("readOldShort") : t("readNewShort");
+  const label = testamentFilter === "ot" ? t("readOldShort") : t("readNewShort");
 
   return (
     <DropdownMenu>
@@ -33,41 +32,55 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
           variant="ghost"
           size="sm"
           className={cn(
-            "gap-1.5 rounded-lg border border-second bg-second/5 text-foreground h-9 shrink-0 hover:bg-second/10",
-            !isDesktop && "rounded-md min-h-9"
+            `border-second bg-second/5 text-foreground hover:bg-second/10 h-9 shrink-0
+            gap-1.5 rounded-lg border`,
+            !isDesktop && "min-h-9 rounded-md"
           )}
-          aria-label={testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
+          aria-label={
+            testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")
+          }
         >
           <span className="truncate">{label}</span>
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className={cn("min-w-[140px] rounded-lg", !isDesktop && "min-w-[120px] rounded-md")}
+        className={cn(
+          "min-w-[140px] rounded-lg",
+          !isDesktop && "min-w-[120px] rounded-md"
+        )}
       >
         <DropdownMenuItem
           onClick={() => setTestamentFilterAndAdjustBook("ot")}
           className={cn(
-            "gap-2 cursor-pointer",
+            "cursor-pointer gap-2",
             testamentFilter === "ot"
               ? "bg-second text-second-foreground font-medium"
               : "hover:bg-second/15 hover:text-second-foreground"
           )}
         >
-          {testamentFilter === "ot" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+          {testamentFilter === "ot" ? (
+            <Check className="h-4 w-4" />
+          ) : (
+            <span className="w-4" />
+          )}
           {t("readOldShort")}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTestamentFilterAndAdjustBook("nt")}
           className={cn(
-            "gap-2 cursor-pointer",
+            "cursor-pointer gap-2",
             testamentFilter === "nt"
               ? "bg-second text-second-foreground font-medium"
               : "hover:bg-second/15 hover:text-second-foreground"
           )}
         >
-          {testamentFilter === "nt" ? <Check className="h-4 w-4" /> : <span className="w-4" />}
+          {testamentFilter === "nt" ? (
+            <Check className="h-4 w-4" />
+          ) : (
+            <span className="w-4" />
+          )}
           {t("readNewShort")}
         </DropdownMenuItem>
       </DropdownMenuContent>

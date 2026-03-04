@@ -27,10 +27,15 @@ export function LearnBibleOriginMapSection({
 
   return (
     <section className="mb-10">
-      <BibleHeading level="h2" className="font-bible-english font-semibold text-foreground mb-2">
+      <BibleHeading
+        level="h2"
+        className="font-bible-english text-foreground mb-2 font-semibold"
+      >
         {mapTitle}
       </BibleHeading>
-      <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass)}>{mapBody}</p>
+      <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass)}>
+        {mapBody}
+      </p>
       <LearnOriginMapFullWidth
         activeId={activeId}
         onActiveChange={onActiveChange}

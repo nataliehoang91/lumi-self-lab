@@ -42,9 +42,9 @@ export default function CustomSignInPage() {
   return (
     <SignIn.Root>
       <SignIn.Step name="start">
-        <Card className="p-8 bg-card/90 backdrop-blur-sm rounded-3xl">
+        <Card className="bg-card/90 rounded-3xl p-8 backdrop-blur-sm">
           {/* Your custom header */}
-          <div className="text-center mb-8">
+          <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold">Welcome Back</h1>
             <p className="text-muted-foreground">Sign in to continue</p>
           </div>
@@ -58,7 +58,7 @@ export default function CustomSignInPage() {
               <Input
                 type="email"
                 placeholder="you@example.com"
-                className="h-12 rounded-2xl bg-background/50 border-foreground/25"
+                className="bg-background/50 border-foreground/25 h-12 rounded-2xl"
               />
             </SignIn.Input>
             <SignIn.FieldError />
@@ -73,7 +73,7 @@ export default function CustomSignInPage() {
               <Input
                 type="password"
                 placeholder="Enter your password"
-                className="h-12 rounded-2xl bg-background/50 border-foreground/25"
+                className="bg-background/50 border-foreground/25 h-12 rounded-2xl"
               />
             </SignIn.Input>
             <SignIn.FieldError />
@@ -81,7 +81,10 @@ export default function CustomSignInPage() {
 
           {/* Submit button with your styling */}
           <SignIn.Action submit asChild>
-            <Button type="submit" className="w-full py-6 rounded-2xl shadow-lg hover:shadow-xl">
+            <Button
+              type="submit"
+              className="w-full rounded-2xl py-6 shadow-lg hover:shadow-xl"
+            >
               Sign In
             </Button>
           </SignIn.Action>

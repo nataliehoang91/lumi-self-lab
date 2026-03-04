@@ -107,9 +107,12 @@ export default async function ExperimentDetailPage({
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="flex min-h-screen items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <div
+              className="border-primary mx-auto mb-4 h-8 w-8 animate-spin rounded-full
+                border-4 border-t-transparent"
+            />
             <p className="text-muted-foreground">Loading experiment...</p>
           </div>
         </div>

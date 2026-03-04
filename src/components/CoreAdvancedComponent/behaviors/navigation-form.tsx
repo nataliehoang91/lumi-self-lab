@@ -8,7 +8,9 @@ import { Hidden, Visible } from "@/components/ui/reverse-layout";
 import { composeRefs } from "../utils/compose-ref";
 import { cn } from "@/lib/utils";
 
-const FormRefContext = createContext<React.RefObject<HTMLFormElement | null> | null>(null);
+const FormRefContext = createContext<React.RefObject<HTMLFormElement | null> | null>(
+  null
+);
 const FormActionContext = createContext<string | null>(null);
 
 const IsLoadingContext = createContext<boolean>(false);
@@ -114,7 +116,11 @@ export function NavigationButton({
 
   // Run extraOnClick when loading completes
   useEffect(() => {
-    if (!combinedLoading && pendingClickEventRef.current && typeof extraOnClick === "function") {
+    if (
+      !combinedLoading &&
+      pendingClickEventRef.current &&
+      typeof extraOnClick === "function"
+    ) {
       const event = pendingClickEventRef.current;
       pendingClickEventRef.current = null;
       extraOnClick(event);

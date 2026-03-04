@@ -16,4 +16,3 @@ export function BibleProtectedRedirect() {
 
   return null;
 }
-

@@ -22,10 +22,7 @@ export interface ChapterContent {
   verses: VerseRow[];
 }
 
-export type TFunction = (
-  key: string,
-  params?: Record<string, number | string>
-) => string;
+export type TFunction = (key: string, params?: Record<string, number | string>) => string;
 
 export interface ReadingPanelProps {
   side: "left" | "right";

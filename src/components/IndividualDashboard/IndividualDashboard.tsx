@@ -28,10 +28,13 @@ export function IndividualDashboard({ data }: Props) {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8">
         {view === "individual" && (
           <div className="space-y-8">
-            <DashboardIndividualHeader displayName={displayName} personalStats={personalStats} />
+            <DashboardIndividualHeader
+              displayName={displayName}
+              personalStats={personalStats}
+            />
             {activeExperiments.length > 0 && <DashboardTipCard />}
             <DashboardYourExperiments experiments={activeExperiments} />
             <DashboardStartNewCard />

@@ -52,7 +52,10 @@ export async function getInsightsForChapter(
     orderBy: [{ scope: "desc" }], // "chapter" before "book" (desc = chapter first)
   });
 
-  const bySource = { db: null as ChapterInsightData | null, ai: null as ChapterInsightData | null };
+  const bySource = {
+    db: null as ChapterInsightData | null,
+    ai: null as ChapterInsightData | null,
+  };
 
   for (const row of rows) {
     const source = row.source as BibleInsightSource;

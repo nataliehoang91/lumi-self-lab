@@ -37,7 +37,8 @@ const TEMPLATES: TemplateSeed[] = [
   {
     key: "daily_energy",
     title: "Daily Energy Tracking",
-    description: "Track your daily energy levels to understand patterns and optimise your routine.",
+    description:
+      "Track your daily energy levels to understand patterns and optimise your routine.",
     durationDays: 14,
     frequency: "daily",
     categories: ["Wellness & Health"],
@@ -48,7 +49,13 @@ const TEMPLATES: TemplateSeed[] = [
     usageCount: 2400,
     fields: [
       { label: "Overall energy level", type: "emoji", required: true, emojiCount: 5 },
-      { label: "Energy score", type: "number", required: true, minValue: 1, maxValue: 10 },
+      {
+        label: "Energy score",
+        type: "number",
+        required: true,
+        minValue: 1,
+        maxValue: 10,
+      },
       { label: "Notes", type: "text", required: false, textType: "long" },
     ],
   },
@@ -65,7 +72,13 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.9,
     usageCount: 1800,
     fields: [
-      { label: "Focus quality", type: "number", required: true, minValue: 1, maxValue: 10 },
+      {
+        label: "Focus quality",
+        type: "number",
+        required: true,
+        minValue: 1,
+        maxValue: 10,
+      },
       {
         label: "Distractions today",
         type: "select",
@@ -89,7 +102,12 @@ const TEMPLATES: TemplateSeed[] = [
     usageCount: 3200,
     fields: [
       { label: "Gratitude mood", type: "emoji", required: true, emojiCount: 5 },
-      { label: "Something I'm grateful for", type: "text", required: false, textType: "long" },
+      {
+        label: "Something I'm grateful for",
+        type: "text",
+        required: false,
+        textType: "long",
+      },
     ],
   },
   {
@@ -107,7 +125,12 @@ const TEMPLATES: TemplateSeed[] = [
     fields: [
       { label: "Overall mood", type: "emoji", required: true, emojiCount: 5 },
       { label: "Did you feel anxious today?", type: "yesno", required: true },
-      { label: "What stood out emotionally?", type: "text", required: false, textType: "long" },
+      {
+        label: "What stood out emotionally?",
+        type: "text",
+        required: false,
+        textType: "long",
+      },
     ],
   },
   {
@@ -124,8 +147,19 @@ const TEMPLATES: TemplateSeed[] = [
     usageCount: 1800,
     fields: [
       { label: "Did you complete the habit today?", type: "yesno", required: true },
-      { label: "Effort level", type: "number", required: true, minValue: 1, maxValue: 10 },
-      { label: "What helped or blocked you?", type: "text", required: false, textType: "long" },
+      {
+        label: "Effort level",
+        type: "number",
+        required: true,
+        minValue: 1,
+        maxValue: 10,
+      },
+      {
+        label: "What helped or blocked you?",
+        type: "text",
+        required: false,
+        textType: "long",
+      },
     ],
   },
   {
@@ -141,7 +175,13 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.5,
     usageCount: 1500,
     fields: [
-      { label: "Sleep quality", type: "number", required: true, minValue: 1, maxValue: 10 },
+      {
+        label: "Sleep quality",
+        type: "number",
+        required: true,
+        minValue: 1,
+        maxValue: 10,
+      },
       { label: "Hours slept", type: "number", required: true, minValue: 0, maxValue: 12 },
       { label: "Morning feeling", type: "emoji", required: true, emojiCount: 5 },
       { label: "Notes", type: "text", required: false, textType: "long" },
@@ -160,7 +200,13 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.6,
     usageCount: 1200,
     fields: [
-      { label: "Focus quality", type: "number", required: true, minValue: 1, maxValue: 10 },
+      {
+        label: "Focus quality",
+        type: "number",
+        required: true,
+        minValue: 1,
+        maxValue: 10,
+      },
       {
         label: "Main distraction",
         type: "select",
@@ -183,7 +229,13 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.4,
     usageCount: 1100,
     fields: [
-      { label: "Glasses of water", type: "number", required: true, minValue: 0, maxValue: 20 },
+      {
+        label: "Glasses of water",
+        type: "number",
+        required: true,
+        minValue: 0,
+        maxValue: 20,
+      },
       { label: "How did hydration feel?", type: "emoji", required: true, emojiCount: 5 },
       { label: "Notes", type: "text", required: false, textType: "short" },
     ],
@@ -269,7 +321,13 @@ const TEMPLATES: TemplateSeed[] = [
     usageCount: 1400,
     fields: [
       { label: "Did you read today?", type: "yesno", required: true },
-      { label: "Pages or minutes", type: "number", required: false, minValue: 0, maxValue: 500 },
+      {
+        label: "Pages or minutes",
+        type: "number",
+        required: false,
+        minValue: 0,
+        maxValue: 500,
+      },
       { label: "Enjoyment", type: "emoji", required: true, emojiCount: 5 },
       { label: "Reflection", type: "text", required: false, textType: "long" },
     ],
@@ -288,7 +346,13 @@ const TEMPLATES: TemplateSeed[] = [
     usageCount: 800,
     fields: [
       { label: "What did you learn?", type: "text", required: true, textType: "short" },
-      { label: "Confidence level", type: "number", required: true, minValue: 1, maxValue: 10 },
+      {
+        label: "Confidence level",
+        type: "number",
+        required: true,
+        minValue: 1,
+        maxValue: 10,
+      },
       {
         label: "Topic",
         type: "select",
@@ -310,7 +374,12 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.5,
     usageCount: 1200,
     fields: [
-      { label: "One notable decision today", type: "text", required: true, textType: "short" },
+      {
+        label: "One notable decision today",
+        type: "text",
+        required: true,
+        textType: "short",
+      },
       { label: "Confidence in decision", type: "emoji", required: true, emojiCount: 5 },
       { label: "Outcome (if known)", type: "text", required: false, textType: "short" },
     ],
@@ -359,7 +428,12 @@ const TEMPLATES: TemplateSeed[] = [
         maxValue: 10,
       },
       { label: "In flow?", type: "yesno", required: false },
-      { label: "What helped or blocked?", type: "text", required: false, textType: "long" },
+      {
+        label: "What helped or blocked?",
+        type: "text",
+        required: false,
+        textType: "long",
+      },
     ],
   },
   {
@@ -375,7 +449,13 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.6,
     usageCount: 1300,
     fields: [
-      { label: "Stress level", type: "number", required: true, minValue: 1, maxValue: 10 },
+      {
+        label: "Stress level",
+        type: "number",
+        required: true,
+        minValue: 1,
+        maxValue: 10,
+      },
       { label: "Overall feeling", type: "emoji", required: true, emojiCount: 5 },
       {
         label: "Main stressor",
@@ -399,8 +479,19 @@ const TEMPLATES: TemplateSeed[] = [
     rating: 4.3,
     usageCount: 1000,
     fields: [
-      { label: "How did eating feel today?", type: "emoji", required: true, emojiCount: 5 },
-      { label: "Meals logged", type: "number", required: false, minValue: 0, maxValue: 10 },
+      {
+        label: "How did eating feel today?",
+        type: "emoji",
+        required: true,
+        emojiCount: 5,
+      },
+      {
+        label: "Meals logged",
+        type: "number",
+        required: false,
+        minValue: 0,
+        maxValue: 10,
+      },
       { label: "Notes", type: "text", required: false, textType: "long" },
     ],
   },
@@ -419,7 +510,12 @@ const TEMPLATES: TemplateSeed[] = [
     fields: [
       { label: "Completed routine?", type: "yesno", required: true },
       { label: "Morning energy", type: "emoji", required: true, emojiCount: 5 },
-      { label: "What made a difference?", type: "text", required: false, textType: "long" },
+      {
+        label: "What made a difference?",
+        type: "text",
+        required: false,
+        textType: "long",
+      },
     ],
   },
   {

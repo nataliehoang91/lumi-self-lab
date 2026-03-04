@@ -41,7 +41,14 @@ export async function getChapterContent(
 
   const book = await prisma.bibleBook.findUnique({
     where: { id: bookId },
-    select: { id: true, nameEn: true, nameVi: true, nameZh: true, order: true, chapterCount: true },
+    select: {
+      id: true,
+      nameEn: true,
+      nameVi: true,
+      nameZh: true,
+      order: true,
+      chapterCount: true,
+    },
   });
   if (!book) return null;
 

@@ -7,7 +7,12 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { cn } from "@/lib/utils";
 
-const LESSON_ORDER = ["bible-structure", "bible-origin", "who-is-jesus", "what-is-faith"] as const;
+const LESSON_ORDER = [
+  "bible-structure",
+  "bible-origin",
+  "who-is-jesus",
+  "what-is-faith",
+] as const;
 
 const MODULE_TITLE_KEYS = [
   "learnModule1Title",
@@ -63,18 +68,23 @@ export function LearnLessonFooter() {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-sage-dark/20">
-      <div className="flex flex-wrap items-center gap-3 order-1">
+    <div
+      className="border-sage-dark/20 flex flex-col justify-between gap-4 border-t pt-6
+        sm:flex-row sm:items-center"
+    >
+      <div className="order-1 flex flex-wrap items-center gap-3">
         {prevHref && prevLabel ? (
           <Link
             href={prevHref}
             className={cn(
-              "flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors",
+              `text-muted-foreground hover:text-foreground flex items-center gap-1.5
+                transition-colors`,
               bodyClass
             )}
           >
-            <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
-            {intl.t("learnStructurePrevious")}: <span className="font-semibold">{prevLabel}</span>
+            <ArrowLeft className="h-3.5 w-3.5 shrink-0" />
+            {intl.t("learnStructurePrevious")}:{" "}
+            <span className="font-semibold">{prevLabel}</span>
           </Link>
         ) : null}
       </div>
@@ -83,7 +93,9 @@ export function LearnLessonFooter() {
         <Link
           href={nextHref}
           className={cn(
-            "flex items-center w-full sm:w-auto justify-end sm:justify-center gap-2 px-5 py-2.5 bg-primary-light rounded-xl font-medium hover:opacity-90 transition-opacity order-2",
+            `bg-primary-light order-2 flex w-full items-center justify-end gap-2
+              rounded-xl px-5 py-2.5 font-medium transition-opacity hover:opacity-90
+              sm:w-auto sm:justify-center`,
             bodyClass
           )}
         >
@@ -91,10 +103,11 @@ export function LearnLessonFooter() {
             <span className="font-bold">{structureNextLabel}</span>
           ) : (
             <>
-              {intl.t("learnStructureNext")}: <span className="font-bold">{nextLabel}</span>
+              {intl.t("learnStructureNext")}:{" "}
+              <span className="font-bold">{nextLabel}</span>
             </>
           )}
-          <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+          <ArrowRight className="h-3.5 w-3.5 shrink-0" />
         </Link>
       ) : (
         <div className="order-2" />

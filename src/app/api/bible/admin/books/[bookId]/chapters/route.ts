@@ -20,9 +20,6 @@ export async function GET(
     return NextResponse.json(chapters);
   } catch (e) {
     console.error("bible chapters", e);
-    return NextResponse.json(
-      { error: "Failed to load chapters." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to load chapters." }, { status: 500 });
   }
 }

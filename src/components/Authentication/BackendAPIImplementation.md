@@ -327,11 +327,17 @@ export default function SignUpPage() {
 
   if (verificationRequired) {
     return (
-      <InteractiveForm action={handleVerifyEmail}>{/* Verification code input */}</InteractiveForm>
+      <InteractiveForm action={handleVerifyEmail}>
+        {/* Verification code input */}
+      </InteractiveForm>
     );
   }
 
-  return <InteractiveForm action={handleSignUp}>{/* Email and password inputs */}</InteractiveForm>;
+  return (
+    <InteractiveForm action={handleSignUp}>
+      {/* Email and password inputs */}
+    </InteractiveForm>
+  );
 }
 ```
 
@@ -378,7 +384,11 @@ export default function SignInPage() {
     return { error: "Sign in failed" };
   };
 
-  return <InteractiveForm action={handleSignIn}>{/* Email and password inputs */}</InteractiveForm>;
+  return (
+    <InteractiveForm action={handleSignIn}>
+      {/* Email and password inputs */}
+    </InteractiveForm>
+  );
 }
 ```
 

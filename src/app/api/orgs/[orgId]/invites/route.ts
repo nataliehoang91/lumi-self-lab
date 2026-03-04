@@ -15,7 +15,10 @@ function generateToken(): string {
  * POST /api/orgs/[orgId]/invites — Create invite (Phase 5).
  * Permission: canActAsOrgAdmin.
  */
-export async function POST(req: Request, { params }: { params: Promise<{ orgId: string }> }) {
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ orgId: string }> }
+) {
   const userId = await getAuthenticatedUserId();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -121,7 +124,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ orgId: 
  * GET /api/orgs/[orgId]/invites — List pending invites (Phase 5).
  * Permission: canActAsOrgAdmin.
  */
-export async function GET(_req: Request, { params }: { params: Promise<{ orgId: string }> }) {
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ orgId: string }> }
+) {
   const userId = await getAuthenticatedUserId();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

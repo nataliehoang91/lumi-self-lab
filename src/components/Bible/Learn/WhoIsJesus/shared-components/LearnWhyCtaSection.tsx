@@ -24,15 +24,26 @@ export function LearnWhyCtaSection({
   const { bodyClass } = useLearnFontClasses();
 
   return (
-    <section className="mb-10 p-6 bg-primary-light/10 gap-6 border border-primary-dark/30 rounded-2xl" aria-labelledby="why-cta-title">
-      <h2 id="why-cta-title" className="font-bible-english text-xl font-semibold mb-3">{title}</h2>
+    <section
+      className="bg-primary-light/10 border-primary-dark/30 mb-10 gap-6 rounded-2xl border
+        p-6"
+      aria-labelledby="why-cta-title"
+    >
+      <h2 id="why-cta-title" className="font-bible-english mb-3 text-xl font-semibold">
+        {title}
+      </h2>
       <p className={cn("leading-relaxed opacity-80", bodyClass)}>{paragraph1}</p>
-      <p className={cn("leading-relaxed opacity-80 mt-3", bodyClass)}>{paragraph2}</p>
+      <p className={cn("mt-3 leading-relaxed opacity-80", bodyClass)}>{paragraph2}</p>
       <Link
         href={linkHref}
-        className={cn("mt-5 inline-flex items-center gap-2 font-medium opacity-90 hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg", bodyClass)}
+        className={cn(
+          `focus-visible:ring-ring mt-5 inline-flex items-center gap-2 rounded-lg
+          font-medium opacity-90 transition-opacity hover:opacity-100 focus-visible:ring-2
+          focus-visible:ring-offset-2 focus-visible:outline-none`,
+          bodyClass
+        )}
       >
-        {linkLabel} <ArrowRight className="w-3.5 h-3.5 shrink-0" aria-hidden />
+        {linkLabel} <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
       </Link>
     </section>
   );

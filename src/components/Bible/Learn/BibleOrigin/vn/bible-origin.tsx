@@ -16,7 +16,9 @@ import {
   type FaqItem,
 } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginFaq";
 
-function getMapLabels(loc: Record<MapLocationId, MapLocationInfo>): Record<MapLocationId, string> {
+function getMapLabels(
+  loc: Record<MapLocationId, MapLocationInfo>
+): Record<MapLocationId, string> {
   return {
     jerusalem: loc.jerusalem.label,
     qumran: loc.qumran.label,
@@ -126,7 +128,11 @@ export function VnBibleOriginPage() {
       <LearnBibleOriginLanguages
         originalLanguages="Ngôn ngữ gốc"
         lang={["Hê-bơ-rơ", "Hy Lạp", "A-ram"]}
-        langNote={["Phần lớn Cựu Ước", "Toàn bộ Tân Ước", "Một số đoạn trong Đa-ni-ên & E-xơ-ra"]}
+        langNote={[
+          "Phần lớn Cựu Ước",
+          "Toàn bộ Tân Ước",
+          "Một số đoạn trong Đa-ni-ên & E-xơ-ra",
+        ]}
       />
 
       <LearnBibleOriginTimeline

@@ -3,7 +3,7 @@ import React from "react";
 
 export function LoadingIcon({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex gap-1 items-center ${className}`}>
+    <span className={`inline-flex items-center gap-1 ${className}`}>
       <span className="loading-dot" />
       <span className="loading-dot" style={{ animationDelay: "0.2s" }} />
       <span className="loading-dot" style={{ animationDelay: "0.4s" }} />

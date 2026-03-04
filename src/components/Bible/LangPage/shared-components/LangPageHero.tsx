@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { cn } from "@/lib/utils";
 
 export interface LangPageHeroProps {
   eyebrow: string;
@@ -27,10 +28,14 @@ export function LangPageHero({
   readHref,
   children,
 }: LangPageHeroProps) {
-  const { subBodyClass, heroTitleClass, subtitleClass, buttonClass } = useLearnFontClasses();
+  const { subBodyClass, heroTitleClass, subtitleClass, buttonClass } =
+    useLearnFontClasses();
 
   return (
-    <section className="relative min-h-[80vh] flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden">
+    <section
+      className="relative flex min-h-[80vh] flex-col items-center justify-center
+        overflow-hidden px-6 pt-24 pb-16"
+    >
       {/* <div className="absolute inset-0 pointer-events-none" aria-hidden>
         {[...Array(6)].map((_, i) => (
           <div
@@ -41,38 +46,55 @@ export function LangPageHero({
         ))}
       </div> */}
 
-      <div className="relative max-w-4xl mx-auto text-center space-y-8 z-10">
-        <div
-          className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-second/60 bg-second/10 font-medium text-second tracking-wide uppercase ${subBodyClass}`}
+      <div className="relative z-10 mx-auto max-w-4xl space-y-8 text-center">
+        {/* <div
+          className={`border-second/60 bg-second inline-flex items-center gap-2
+            rounded-full border px-4 py-1.5 font-semibold tracking-wide text-white
+            uppercase ${subBodyClass}`}
         >
           {eyebrow}
-        </div>
+        </div> */}
 
         <h1
-          className={`font-serif font-semibold text-foreground leading-[1.05] tracking-tight text-balance ${heroTitleClass}`}
+          className={`text-primary-dark font-serif leading-[1.05] font-semibold
+            tracking-tight text-balance ${heroTitleClass}`}
         >
           {title1}
           <br />
-          <span className="text-primary">{title2}</span>
+          <span className="text-gray-500">{title2}</span>
         </h1>
 
         <p
-          className={`max-w-xl mx-auto text-muted-foreground leading-relaxed text-pretty ${subtitleClass}`}
+          className={`text-foreground mx-auto mt-16 mb-10 max-w-xl font-serif
+            leading-relaxed text-pretty ${subtitleClass}`}
         >
           {subtitle}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div
+          className="flex max-w-xs flex-col items-stretch justify-center gap-3 md:mx-auto
+            md:px-12"
+        >
           <Link
             href={learnHref}
-            className={`px-7 py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 ${buttonClass}`}
+            className={cn(
+              `bg-primary-dark flex items-center justify-center gap-2 rounded-xl px-4
+              py-2.5 text-lg font-semibold text-white transition-opacity hover:opacity-90`,
+              buttonClass
+            )}
           >
             {ctaStartLabel}
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="h-4 w-4" />
           </Link>
+          <span className="text-muted-foreground text-base font-medium">or</span>
           <Link
             href={readHref}
-            className={`px-7 py-3.5 border border-second bg-transparent rounded-xl font-medium text-second hover:bg-second hover:text-second-foreground transition-colors ${buttonClass}`}
+            className={cn(
+              `bg-second-400/40 border-second-400 text-second-900 hover:bg-second-400/60
+              flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-lg
+              font-semibold transition-colors`,
+              buttonClass
+            )}
           >
             {ctaBibleLabel}
           </Link>
@@ -80,10 +102,6 @@ export function LangPageHero({
       </div>
 
       {children}
-
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-        <div className="w-px h-10 bg-foreground/40 animate-pulse" />
-      </div>
     </section>
   );
 }

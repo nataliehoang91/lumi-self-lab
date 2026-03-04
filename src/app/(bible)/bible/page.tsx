@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
 import { headers } from "next/headers";
+import { BibleLocaleRedirect } from "@/components/Bible/BibleLocaleRedirect";
 
-const DEFAULT_LOCALE = "en";
+const DEFAULT_LOCALE = "en" as const;
 
 /** Prefer vi if Accept-Language suggests Vietnamese; else zh; else en. */
 async function getLocaleFromHeaders(): Promise<"en" | "vi" | "zh"> {
@@ -13,7 +13,10 @@ async function getLocaleFromHeaders(): Promise<"en" | "vi" | "zh"> {
   return DEFAULT_LOCALE;
 }
 
+/**
+ * Root /bible: no params. Client redirect uses localStorage locale if set, else server locale from headers.
+ */
 export default async function BiblePage() {
-  const locale = await getLocaleFromHeaders();
-  redirect(`/bible/${locale}`);
+  const serverLocale = await getLocaleFromHeaders();
+  return <BibleLocaleRedirect fallbackLocale={serverLocale} />;
 }

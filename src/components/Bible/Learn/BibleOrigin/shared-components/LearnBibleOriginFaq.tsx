@@ -18,7 +18,8 @@ export function LearnBibleOriginFaq({ faqTitle, faq }: LearnBibleOriginFaqProps)
     <section className="mb-14">
       <BibleHeading
         level="h2"
-        className="font-bible-english font-semibold text-foreground mb-4 text-xl md:text-2xl"
+        className="font-bible-english text-foreground mb-4 text-xl font-semibold
+          md:text-2xl"
       >
         {faqTitle}
       </BibleHeading>

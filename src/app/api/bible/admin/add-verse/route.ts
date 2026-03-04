@@ -9,7 +9,16 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { bookId, chapter, verse, contentVIE1923, contentKJV, contentNIV, contentZH, flashCardSetId } = body as {
+    const {
+      bookId,
+      chapter,
+      verse,
+      contentVIE1923,
+      contentKJV,
+      contentNIV,
+      contentZH,
+      flashCardSetId,
+    } = body as {
       bookId?: string;
       chapter?: number;
       verse?: number;
@@ -28,7 +37,10 @@ export async function POST(request: NextRequest) {
       typeof verse !== "number" ||
       verse < 1
     ) {
-      return NextResponse.json({ error: "Invalid book, chapter, or verse." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid book, chapter, or verse." },
+        { status: 400 }
+      );
     }
 
     const bibleBook = await prisma.bibleBook.findUnique({
@@ -52,7 +64,10 @@ export async function POST(request: NextRequest) {
 
     if (!hasContent) {
       return NextResponse.json(
-        { error: "At least one version content (Vietnamese, KJV, NIV, or Chinese) is required." },
+        {
+          error:
+            "At least one version content (Vietnamese, KJV, NIV, or Chinese) is required.",
+        },
         { status: 400 }
       );
     }
@@ -70,7 +85,10 @@ export async function POST(request: NextRequest) {
 
     await prisma.flashVerse.create({
       data: {
-        flashCardSetId: typeof flashCardSetId === "string" && flashCardSetId.trim() ? flashCardSetId.trim() : null,
+        flashCardSetId:
+          typeof flashCardSetId === "string" && flashCardSetId.trim()
+            ? flashCardSetId.trim()
+            : null,
         bookId: bibleBook.id,
         book: bibleBook.nameEn,
         chapter,

@@ -5,7 +5,10 @@ import { prisma } from "@/lib/prisma";
  * GET /api/org-invites/[token] — Get invite details for display (Phase 5).
  * No auth required. Returns org name and role if invite is valid and not expired.
  */
-export async function GET(_req: Request, { params }: { params: Promise<{ token: string }> }) {
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ token: string }> }
+) {
   const { token } = await params;
 
   const invite = await prisma.organisationInvite.findUnique({
@@ -18,7 +21,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
   }
 
   if (invite.acceptedAt) {
-    return NextResponse.json({ error: "This invite has already been accepted" }, { status: 404 });
+    return NextResponse.json(
+      { error: "This invite has already been accepted" },
+      { status: 404 }
+    );
   }
 
   const now = new Date();

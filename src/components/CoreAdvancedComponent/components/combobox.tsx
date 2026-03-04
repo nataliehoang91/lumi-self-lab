@@ -334,7 +334,8 @@ function ComboboxInput({
     <div className="flex items-center border-b px-3">
       <CommandInput
         className={cn(
-          "placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          `placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent
+          py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50`,
           className
         )}
         value={state.searchValue}
@@ -396,7 +397,8 @@ function ComboboxOption({
   return (
     <CommandItem
       className={cn(
-        "flex my-1 mx-2 flex-row items-center justify-between gap-2 px-3 py-2 cursor-pointer hover:bg-accent hover:text-accent-foreground rounded-sm",
+        `hover:bg-accent hover:text-accent-foreground mx-2 my-1 flex cursor-pointer
+        flex-row items-center justify-between gap-2 rounded-sm px-3 py-2`,
         {
           "bg-accent text-accent-foreground": selected,
         },
@@ -416,7 +418,7 @@ function ComboboxOption({
     >
       <comboboxOptionValueContext.Provider value={value}>
         <span className="flex-1">{children}</span>
-        {selected && <Check className="h-4 w-4 text-primary dark:text-od-bright-teal" />}
+        {selected && <Check className="text-primary dark:text-od-bright-teal h-4 w-4" />}
       </comboboxOptionValueContext.Provider>
     </CommandItem>
   );
@@ -462,7 +464,13 @@ function ComboboxEmpty({
   );
 }
 
-export function ComboboxValues({ placeholder, locale }: { placeholder: string; locale?: string }) {
+export function ComboboxValues({
+  placeholder,
+  locale,
+}: {
+  placeholder: string;
+  locale?: string;
+}) {
   const state = useComboboxState();
   if (state.selected.length === 0) {
     return placeholder;
@@ -473,7 +481,7 @@ export function ComboboxValues({ placeholder, locale }: { placeholder: string; l
   const remainingCount = state.selected.length - 2;
 
   return (
-    <span className="truncate ">
+    <span className="truncate">
       {displayValues.map((value, index) => {
         // Truncate long values (max 15 characters)
         const truncatedValue = value.length > 15 ? value.substring(0, 15) + "..." : value;
@@ -481,7 +489,9 @@ export function ComboboxValues({ placeholder, locale }: { placeholder: string; l
         return (
           <span key={index} className="font-medium">
             {truncatedValue}
-            {index < displayValues.length - 1 && <span className="text-muted-foreground">, </span>}
+            {index < displayValues.length - 1 && (
+              <span className="text-muted-foreground">, </span>
+            )}
           </span>
         );
       })}

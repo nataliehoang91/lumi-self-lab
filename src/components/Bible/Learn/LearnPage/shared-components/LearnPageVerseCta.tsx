@@ -25,28 +25,39 @@ export function LearnPageVerseCta({
   const { bodyClass, verseClass, buttonClass } = useLearnFontClasses();
 
   return (
-    <div className="mt-12 rounded-2xl px-8 pt-8 pb-6 flex flex-col bg-primary-light/10 gap-6 border border-primary-dark/30">
+    <div
+      className="bg-primary-light/10 border-primary-dark/30 mt-12 flex flex-col gap-6
+        rounded-2xl border px-8 pt-8 pb-6"
+    >
       <div className="text-left">
         <p
-          className={cn("font-bible-english font-normal leading-relaxed text-balance", verseClass)}
+          className={cn(
+            "font-bible-english leading-relaxed font-normal text-balance",
+            verseClass
+          )}
         >
           &ldquo;{verseText}&rdquo;
         </p>
-        <p className="text-xs font-sans tracking-[0.2em] uppercase mt-3">{verseRef}</p>
+        <p className="mt-3 font-sans text-xs tracking-[0.2em] uppercase">{verseRef}</p>
       </div>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+      <div
+        className="flex flex-col justify-between gap-4 pt-2 sm:flex-row sm:items-center"
+      >
         <div>
           <p className={cn("font-medium", bodyClass)}>{ctaTitle}</p>
-          <p className={cn("mt-0.5 text-muted-foreground", bodyClass)}>{ctaSubtitle}</p>
+          <p className={cn("text-muted-foreground mt-0.5", bodyClass)}>{ctaSubtitle}</p>
         </div>
         <Link
           href={readHref}
           className={cn(
-            "flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all whitespace-nowrap hover:opacity-90 bg-primary text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            `bg-primary text-primary-foreground focus-visible:ring-ring flex items-center
+            gap-2 rounded-xl px-5 py-2.5 font-semibold whitespace-nowrap transition-all
+            hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2
+            focus-visible:outline-none`,
             buttonClass
           )}
         >
-          {ctaLabel} <ArrowRight className="w-3.5 h-3.5 shrink-0" aria-hidden />
+          {ctaLabel} <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
         </Link>
       </div>
     </div>

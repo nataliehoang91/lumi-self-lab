@@ -32,11 +32,12 @@ export function ChapterSelectMobile() {
           setSubNavBookOpen(false);
           setSubNavChapterOpen(!subNavChapterOpen);
         }}
-        className="rounded-md h-9 border border-primary bg-primary/5 text-foreground hover:bg-primary/10 gap-1.5 dark:border-primary dark:bg-primary/5"
+        className="border-primary bg-primary/5 text-foreground hover:bg-primary/10
+          dark:border-primary dark:bg-primary/5 h-9 gap-1.5 rounded-md border"
         aria-label={t("readChapterN", { n: leftChapter })}
       >
         {leftChapter}
-        <ChevronDown className="w-4 h-4" />
+        <ChevronDown className="h-4 w-4" />
       </Button>
       {subNavChapterOpen && (
         <>
@@ -45,28 +46,34 @@ export function ChapterSelectMobile() {
             onClick={() => setSubNavChapterOpen(false)}
             aria-hidden
           />
-          <div className="absolute top-full mt-1 right-0 bg-card border border-border rounded-md shadow-lg z-20 max-h-80 overflow-y-auto w-40 min-w-0 max-w-[min(14rem,calc(100vw-2rem))] p-2">
+          <div
+            className="bg-card border-border absolute top-full right-0 z-20 mt-1 max-h-80
+              w-40 max-w-[min(14rem,calc(100vw-2rem))] min-w-0 overflow-y-auto rounded-md
+              border p-2 shadow-lg"
+          >
             <div className="grid grid-cols-5 gap-1">
-              {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map((ch) => (
-                <Button
-                  key={ch}
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    handleLeftChapterChange(ch);
-                    setSubNavChapterOpen(false);
-                  }}
-                  className={cn(
-                    "min-w-9 min-h-9 rounded-md text-sm hover:bg-accent transition-all",
-                    ch === leftChapter
-                      ? "bg-primary text-primary-foreground font-medium"
-                      : "text-foreground"
-                  )}
-                >
-                  {ch}
-                </Button>
-              ))}
+              {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map(
+                (ch) => (
+                  <Button
+                    key={ch}
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      handleLeftChapterChange(ch);
+                      setSubNavChapterOpen(false);
+                    }}
+                    className={cn(
+                      "hover:bg-accent min-h-9 min-w-9 rounded-md text-sm transition-all",
+                      ch === leftChapter
+                        ? "bg-primary text-primary-foreground font-medium"
+                        : "text-foreground"
+                    )}
+                  >
+                    {ch}
+                  </Button>
+                )
+              )}
             </div>
           </div>
         </>

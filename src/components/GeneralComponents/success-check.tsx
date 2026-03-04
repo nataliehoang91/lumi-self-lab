@@ -26,7 +26,11 @@ export function SuccessCheck({ size = "md", className }: SuccessCheckProps) {
   return (
     <div className={cn("flex justify-center", className)}>
       <div
-        className={cn("rounded-full flex items-center justify-center", "bg-success-muted", wrapper)}
+        className={cn(
+          "flex items-center justify-center rounded-full",
+          "bg-success-muted",
+          wrapper
+        )}
       >
         <Check className={cn(icon, "text-success")} />
       </div>

@@ -19,7 +19,9 @@ export async function getStudyListsForCurrentUser() {
   });
 }
 
-export async function getStudyListById(listId: string | null | undefined): Promise<BibleStudyList | null> {
+export async function getStudyListById(
+  listId: string | null | undefined
+): Promise<BibleStudyList | null> {
   if (!listId) return null;
 
   const list = await prisma.bibleStudyList.findUnique({
@@ -145,9 +147,7 @@ export async function saveStudyPassages(params: {
   }
 
   const unique = Array.from(
-    new Map(
-      params.chapters.map((c) => [`${c.bookId}:${c.chapter}`, c]),
-    ).values(),
+    new Map(params.chapters.map((c) => [`${c.bookId}:${c.chapter}`, c])).values()
   );
 
   try {
@@ -170,7 +170,10 @@ export async function saveStudyPassages(params: {
 
     return { count: result.count };
   } catch (err: unknown) {
-    const code = err && typeof err === "object" && "code" in err ? (err as { code: string }).code : null;
+    const code =
+      err && typeof err === "object" && "code" in err
+        ? (err as { code: string }).code
+        : null;
     if (code === "P2021") {
       console.warn(
         "BibleStudyPassage table not found; run `npx prisma migrate dev` to persist study passages."

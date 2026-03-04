@@ -16,16 +16,16 @@ export default async function ExperimentsPage() {
   return (
     <div className="min-h-screen">
       <SetSecondaryNavbar>
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-foreground">Your Experiments</h2>
+            <h2 className="text-foreground text-2xl font-bold">Your Experiments</h2>
             <p className="text-muted-foreground text-sm">
               Track your journey of self-discovery and personal insights
             </p>
           </div>
           <Button asChild size="sm" variant="gradientSecond">
             <Link href="/experiments/create">
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="mr-2 h-4 w-4" />
               Design an Experiment
             </Link>
           </Button>

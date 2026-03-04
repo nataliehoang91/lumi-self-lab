@@ -26,7 +26,9 @@ async function main() {
 
   const books = await prisma.bibleBook.findMany({ orderBy: { order: "asc" } });
   if (books.length !== 66) {
-    throw new Error(`Expected 66 BibleBook rows, got ${books.length}. Run db:seed first.`);
+    throw new Error(
+      `Expected 66 BibleBook rows, got ${books.length}. Run db:seed first.`
+    );
   }
 
   const BATCH = 400;

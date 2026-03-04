@@ -77,8 +77,10 @@ const MOCK_EXPERIMENTS = [
     frequency: "daily" as const,
     daysCompleted: 0,
     startDate: "",
-    hypothesis: "I keep my commitments most of the time, but struggle with spontaneous promises",
-    whyMatters: "I want to build trust with others and understand my patterns around commitment.",
+    hypothesis:
+      "I keep my commitments most of the time, but struggle with spontaneous promises",
+    whyMatters:
+      "I want to build trust with others and understand my patterns around commitment.",
     faithLensEnabled: false,
     scriptures: "",
     spiritualReflection: "",

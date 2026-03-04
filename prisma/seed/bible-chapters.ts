@@ -10,7 +10,9 @@ export async function seedBibleChapters(prisma: PrismaClient) {
 
   const books = await prisma.bibleBook.findMany({ orderBy: { order: "asc" } });
   if (books.length !== VERSE_COUNTS.length) {
-    console.warn("BibleBook count does not match VERSE_COUNTS length, skipping BibleChapter seed.");
+    console.warn(
+      "BibleBook count does not match VERSE_COUNTS length, skipping BibleChapter seed."
+    );
     return;
   }
 

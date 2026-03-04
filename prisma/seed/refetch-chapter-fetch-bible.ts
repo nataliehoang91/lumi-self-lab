@@ -105,8 +105,10 @@ function parseArgs(): {
   let override = false;
   for (const a of args) {
     if (a.startsWith("--bookId=")) bookId = a.slice("--bookId=".length).trim();
-    else if (a.startsWith("--chapter=")) chapter = parseInt(a.slice("--chapter=".length), 10);
-    else if (a.startsWith("--lang=")) lang = a.slice("--lang=".length).trim().toLowerCase() as "vie" | "kjv";
+    else if (a.startsWith("--chapter="))
+      chapter = parseInt(a.slice("--chapter=".length), 10);
+    else if (a.startsWith("--lang="))
+      lang = a.slice("--lang=".length).trim().toLowerCase() as "vie" | "kjv";
     else if (a === "--override") override = true;
   }
   if (!bookId || !Number.isFinite(chapter) || chapter < 1 || !lang) {
@@ -139,7 +141,8 @@ function extractVerseText(t: string | unknown[] | undefined): string {
 async function main() {
   const { bookId, chapter, lang, override } = parseArgs();
   const prisma = new PrismaClient();
-  if (override) console.log("Override mode: overwriting entire chapter for this language.");
+  if (override)
+    console.log("Override mode: overwriting entire chapter for this language.");
 
   const book = await prisma.bibleBook.findUnique({ where: { id: bookId } });
   if (!book) {
@@ -153,7 +156,8 @@ async function main() {
     process.exit(1);
   }
 
-  const translationId = lang === "kjv" ? KJV_ID : (process.env.FETCH_BIBLE_VIE_ID || DEFAULT_VIE_ID);
+  const translationId =
+    lang === "kjv" ? KJV_ID : process.env.FETCH_BIBLE_VIE_ID || DEFAULT_VIE_ID;
 
   const url = `${FETCH_BIBLE_BASE}/${translationId}/txt/${usxCode}.json`;
   const res = await fetch(url);
@@ -177,7 +181,8 @@ async function main() {
   }
   // Cap to canonical verse count (KJV standard) so we don't write 40 verses into a 25-verse chapter
   const bookOrder = book.order;
-  const canonicalCount = VERSE_COUNTS[bookOrder - 1]?.[chapter - 1] ?? versesFromSource.length;
+  const canonicalCount =
+    VERSE_COUNTS[bookOrder - 1]?.[chapter - 1] ?? versesFromSource.length;
   const versesInChapter =
     versesFromSource.length > canonicalCount
       ? versesFromSource.slice(0, canonicalCount)
@@ -205,7 +210,9 @@ async function main() {
       select: { contentVIE1923: true, contentKJV: true },
     });
     const current =
-      lang === "vie" ? (existing?.contentVIE1923 ?? null) : (existing?.contentKJV ?? null);
+      lang === "vie"
+        ? (existing?.contentVIE1923 ?? null)
+        : (existing?.contentKJV ?? null);
     if (!override && current != null && current.trim() !== "") continue;
 
     if (lang === "vie") {
@@ -239,7 +246,9 @@ async function main() {
     console.log(`  verse ${verseNum}: ${override ? "overwritten" : "filled"}`);
   }
 
-  console.log(`Done. ${updated} verses updated (${lang}, ${book.nameEn} ch.${chapter}, fetch.bible).`);
+  console.log(
+    `Done. ${updated} verses updated (${lang}, ${book.nameEn} ch.${chapter}, fetch.bible).`
+  );
   await prisma.$disconnect();
 }
 

@@ -32,40 +32,47 @@ export function FlashCardHorizontal({
 
   return (
     <div
-      className="w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg shrink-0 cursor-pointer"
+      className="w-full max-w-full min-w-0 shrink-0 cursor-pointer sm:max-w-lg
+        sm:min-w-md"
       style={{ perspective: "1000px" }}
       onClick={onFlip}
     >
       <div
-        className="relative w-full aspect-4/3 max-h-[280px] transition-transform duration-500"
+        className="relative aspect-4/3 max-h-[280px] w-full transition-transform
+          duration-500"
         style={{
           transformStyle: "preserve-3d",
           transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
       >
         <div
-          className="absolute inset-0 rounded-2xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 shadow-lg p-4 flex flex-col items-center justify-center"
+          className="bg-card border-border absolute inset-0 flex flex-col items-center
+            justify-center rounded-2xl border p-4 shadow-lg dark:border-zinc-700
+            dark:bg-zinc-800"
           style={{ backfaceVisibility: "hidden" }}
         >
           <Badge variant="outline" className="text-xs">
             {cardLanguage === "VI" ? "VI" : cardLanguage === "ZH" ? "中" : "EN"}
           </Badge>
-          <h2 className="text-lg sm:text-xl font-bold text-foreground text-center mt-2 px-1">
+          <h2
+            className="text-foreground mt-2 px-1 text-center text-lg font-bold sm:text-xl"
+          >
             {displayTitle}
           </h2>
-          <p className="text-xs text-muted-foreground mt-1">{t.clickToReveal}</p>
+          <p className="text-muted-foreground mt-1 text-xs">{t.clickToReveal}</p>
         </div>
 
         <div
-          className="absolute inset-0 rounded-2xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 shadow-lg p-4 flex flex-col"
+          className="bg-card border-border absolute inset-0 flex flex-col rounded-2xl
+            border p-4 shadow-lg dark:border-zinc-700 dark:bg-zinc-800"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          <div className="flex-1 flex flex-col min-h-0 overflow-auto">
-            <div className="flex-1 flex items-center justify-center">
+          <div className="flex min-h-0 flex-1 flex-col overflow-auto">
+            <div className="flex flex-1 items-center justify-center">
               {kjvParsed && kjvParsed.notes.length > 0 ? (
                 <p
                   className={cn(
-                    "leading-relaxed text-center text-pretty text-sm [font-size:inherit]",
+                    "text-center text-sm [font-size:inherit] leading-relaxed text-pretty",
                     cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
                   )}
                 >
@@ -73,7 +80,8 @@ export function FlashCardHorizontal({
                     typeof p === "number" ? (
                       <sup
                         key={i}
-                        className="align-super text-[0.7em] font-medium text-muted-foreground"
+                        className="text-muted-foreground align-super text-[0.7em]
+                          font-medium"
                         title={kjvParsed!.notes[p - 1]}
                       >
                         {p}
@@ -86,7 +94,8 @@ export function FlashCardHorizontal({
               ) : (
                 <p
                   className={cn(
-                    "leading-relaxed text-center text-pretty line-clamp-4 text-sm [font-size:inherit]",
+                    `line-clamp-4 text-center text-sm [font-size:inherit] leading-relaxed
+                      text-pretty`,
                     cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
                   )}
                 >
@@ -95,17 +104,24 @@ export function FlashCardHorizontal({
               )}
             </div>
             {kjvParsed && kjvParsed.notes.length > 0 && (
-              <div className="mt-1.5 pt-1.5 border-t border-border/60 text-left text-xs text-muted-foreground shrink-0 space-y-0.5 max-h-[28%] overflow-auto">
+              <div
+                className="border-border/60 text-muted-foreground mt-1.5 max-h-[28%]
+                  shrink-0 space-y-0.5 overflow-auto border-t pt-1.5 text-left text-xs"
+              >
                 {kjvParsed.notes.map((note, i) => (
                   <div key={i}>
-                    <span className="font-medium text-foreground/80">{i + 1}.</span> {note}
+                    <span className="text-foreground/80 font-medium">{i + 1}.</span>{" "}
+                    {note}
                   </div>
                 ))}
               </div>
             )}
           </div>
-          <div className="flex items-center justify-between pt-2 border-t gap-1 flex-wrap shrink-0">
-            <div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">
+          <div
+            className="flex shrink-0 flex-wrap items-center justify-between gap-1 border-t
+              pt-2"
+          >
+            <div className="bg-muted/50 flex items-center gap-0.5 rounded-md border p-0.5">
               <Button
                 variant={cardLanguage === "EN" ? "default" : "ghost"}
                 size="sm"
@@ -144,7 +160,9 @@ export function FlashCardHorizontal({
               </Button>
             </div>
             {cardLanguage === "EN" && (
-              <div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">
+              <div
+                className="bg-muted/50 flex items-center gap-0.5 rounded-md border p-0.5"
+              >
                 <Button
                   variant={enVersion === "KJV" ? "sage" : "ghost"}
                   size="sm"

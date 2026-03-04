@@ -2,7 +2,14 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { useRouter } from "next/navigation";
-import { createContext, Fragment, useContext, useRef, useTransition, useLayoutEffect } from "react";
+import {
+  createContext,
+  Fragment,
+  useContext,
+  useRef,
+  useTransition,
+  useLayoutEffect,
+} from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { createReducerContext } from "../utils/reducer-context";
 import { cn } from "@/lib/utils";
@@ -377,7 +384,11 @@ export function FormBoundary({ children }: { children: ReactNode }) {
   const formRef = useRef<HTMLFormElement>(null);
   const restoreFocusRef = useRef<HTMLElement>(null);
   return (
-    <FormStateProvider hasOuterBoundary formRef={formRef} restoreFocusRef={restoreFocusRef}>
+    <FormStateProvider
+      hasOuterBoundary
+      formRef={formRef}
+      restoreFocusRef={restoreFocusRef}
+    >
       <FormBoundaryImpl>{children}</FormBoundaryImpl>
     </FormStateProvider>
   );

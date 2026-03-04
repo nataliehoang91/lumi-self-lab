@@ -63,7 +63,8 @@ export function AdminLoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="mt-2 rounded-lg bg-stone-800 px-4 py-2 text-white hover:bg-stone-700 disabled:opacity-50"
+        className="mt-2 rounded-lg bg-stone-800 px-4 py-2 text-white hover:bg-stone-700
+          disabled:opacity-50"
       >
         {loading ? "Signing in…" : "Sign in"}
       </button>

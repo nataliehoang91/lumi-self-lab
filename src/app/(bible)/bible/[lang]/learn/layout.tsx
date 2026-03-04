@@ -29,20 +29,25 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
   const currentLabel = titleKey ? intl.t(titleKey) : null;
 
   return (
-    <div className="min-h-screen bg-read font-sans">
+    <div className="bg-read min-h-screen font-sans">
       <main>
         <Container maxWidth="5xl" className={cn("px-4 py-16")}>
           {pathname?.includes("/learn") && segment != null && (
-            <div className={cn("flex items-center gap-2 text-muted-foreground mb-8", bodyClass)}>
+            <div
+              className={cn(
+                "text-muted-foreground mb-8 flex items-center gap-2",
+                bodyClass
+              )}
+            >
               <Link
                 href={`/bible/${lang}/learn`}
-                className="hover:text-foreground transition-colors font-medium"
+                className="hover:text-foreground font-medium transition-colors"
               >
                 Learn
               </Link>
               {currentLabel && (
                 <>
-                  <ChevronRight className="w-3 h-3" />
+                  <ChevronRight className="h-3 w-3" />
                   <span className="text-foreground">{currentLabel}</span>
                 </>
               )}

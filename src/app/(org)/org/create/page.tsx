@@ -58,24 +58,29 @@ export default function CreateOrganisationPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-xl">
+      <div className="container mx-auto max-w-xl px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
           <Link href="/org">
-            <ArrowLeft className="size-4 mr-2" />
+            <ArrowLeft className="mr-2 size-4" />
             Back to organisations
           </Link>
         </Button>
 
         <Card className="p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-violet/10 flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-violet" />
+          <div className="mb-6 flex items-center gap-3">
+            <div
+              className="bg-violet/10 flex h-10 w-10 items-center justify-center
+                rounded-xl"
+            >
+              <Building2 className="text-violet h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-foreground">Create an organisation</h1>
-              <p className="text-sm text-muted-foreground">
-                An organisation is a workspace for your team. You will have the organisation admin
-                role.
+              <h1 className="text-foreground text-xl font-semibold">
+                Create an organisation
+              </h1>
+              <p className="text-muted-foreground text-sm">
+                An organisation is a workspace for your team. You will have the
+                organisation admin role.
               </p>
             </div>
           </div>
@@ -104,7 +109,7 @@ export default function CreateOrganisationPage() {
                 maxLength={500}
               />
             </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
+            {error && <p className="text-destructive text-sm">{error}</p>}
             <div className="flex gap-3 pt-2">
               <Button type="submit" disabled={submitting}>
                 {submitting ? "Creating…" : "Create organisation"}

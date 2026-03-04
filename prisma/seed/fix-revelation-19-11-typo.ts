@@ -31,7 +31,9 @@ async function main() {
   });
 
   if (!row) {
-    console.log(`No FlashVerse found for ${BOOK} ${CHAPTER}:${VERSE}. Add it via Admin first.`);
+    console.log(
+      `No FlashVerse found for ${BOOK} ${CHAPTER}:${VERSE}. Add it via Admin first.`
+    );
     return;
   }
 

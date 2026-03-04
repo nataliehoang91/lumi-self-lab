@@ -42,7 +42,9 @@ export async function seedFlashVerses(prisma: PrismaClient) {
     console.log("FlashVerse table already has data, skipping seed.");
     return;
   }
-  const defaultSet = await prisma.flashCardSet.findFirst({ orderBy: { sortOrder: "asc" } });
+  const defaultSet = await prisma.flashCardSet.findFirst({
+    orderBy: { sortOrder: "asc" },
+  });
   const data = EXAMPLE_VERSES.map((v) => ({
     ...v,
     flashCardSetId: defaultSet?.id ?? undefined,

@@ -34,42 +34,51 @@ export function FlashCardVertical({
   return (
     <div
       className={cn(
-        "w-full min-w-0 max-w-full shrink-0 cursor-pointer",
-        !flexible && "sm:min-w-md sm:max-w-lg"
+        "w-full max-w-full min-w-0 shrink-0 cursor-pointer",
+        !flexible && "sm:max-w-lg sm:min-w-md"
       )}
       style={{ perspective: "1000px" }}
       onClick={onFlip}
     >
       <div
-        className="relative w-full h-[280px] sm:h-[320px] min-h-[200px] transition-transform duration-500"
+        className="relative h-[280px] min-h-[200px] w-full transition-transform
+          duration-500 sm:h-[320px]"
         style={{
           transformStyle: "preserve-3d",
           transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
       >
         <div
-          className="absolute inset-0 rounded-2xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 shadow-lg p-4 sm:p-5 flex flex-col items-center justify-center min-w-0 overflow-hidden"
+          className="bg-card border-border absolute inset-0 flex min-w-0 flex-col
+            items-center justify-center overflow-hidden rounded-2xl border p-4 shadow-lg
+            sm:p-5 dark:border-zinc-700 dark:bg-zinc-800"
           style={{ backfaceVisibility: "hidden" }}
         >
-          <Badge variant="outline" className="text-xs shrink-0">
+          <Badge variant="outline" className="shrink-0 text-xs">
             {cardLanguage === "VI" ? "VI" : cardLanguage === "ZH" ? "中" : "EN"}
           </Badge>
-          <h2 className="text-base sm:text-xl md:text-2xl font-bold text-foreground text-center mt-2 sm:mt-3 px-2 min-w-0 break-words">
+          <h2
+            className="text-foreground mt-2 min-w-0 px-2 text-center text-base font-bold
+              break-words sm:mt-3 sm:text-xl md:text-2xl"
+          >
             {displayTitle}
           </h2>
-          <p className="text-xs text-muted-foreground mt-1 sm:mt-2 shrink-0">{t.clickToReveal}</p>
+          <p className="text-muted-foreground mt-1 shrink-0 text-xs sm:mt-2">
+            {t.clickToReveal}
+          </p>
         </div>
 
         <div
-          className="absolute inset-0 rounded-2xl bg-card dark:bg-zinc-800 border border-border dark:border-zinc-700 shadow-lg p-5 flex flex-col"
+          className="bg-card border-border absolute inset-0 flex flex-col rounded-2xl
+            border p-5 shadow-lg dark:border-zinc-700 dark:bg-zinc-800"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          <div className="flex-1 flex flex-col min-h-0 overflow-auto">
-            <div className="flex-1 flex items-center justify-center">
+          <div className="flex min-h-0 flex-1 flex-col overflow-auto">
+            <div className="flex flex-1 items-center justify-center">
               {kjvParsed && kjvParsed.notes.length > 0 ? (
                 <p
                   className={cn(
-                    "leading-relaxed text-center text-pretty [font-size:inherit]",
+                    "text-center [font-size:inherit] leading-relaxed text-pretty",
                     cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
                   )}
                 >
@@ -77,7 +86,8 @@ export function FlashCardVertical({
                     typeof p === "number" ? (
                       <sup
                         key={i}
-                        className="align-super text-[0.7em] font-medium text-muted-foreground"
+                        className="text-muted-foreground align-super text-[0.7em]
+                          font-medium"
                         title={kjvParsed!.notes[p - 1]}
                       >
                         {p}
@@ -90,7 +100,8 @@ export function FlashCardVertical({
               ) : (
                 <p
                   className={cn(
-                    "leading-relaxed text-center text-pretty line-clamp-6 [font-size:inherit]",
+                    `line-clamp-6 text-center [font-size:inherit] leading-relaxed
+                      text-pretty`,
                     cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
                   )}
                 >
@@ -99,17 +110,24 @@ export function FlashCardVertical({
               )}
             </div>
             {kjvParsed && kjvParsed.notes.length > 0 && (
-              <div className="mt-2 pt-2 border-t border-border/60 text-left text-xs text-muted-foreground shrink-0 space-y-0.5 max-h-[30%] overflow-auto">
+              <div
+                className="border-border/60 text-muted-foreground mt-2 max-h-[30%]
+                  shrink-0 space-y-0.5 overflow-auto border-t pt-2 text-left text-xs"
+              >
                 {kjvParsed.notes.map((note, i) => (
                   <div key={i}>
-                    <span className="font-medium text-foreground/80">{i + 1}.</span> {note}
+                    <span className="text-foreground/80 font-medium">{i + 1}.</span>{" "}
+                    {note}
                   </div>
                 ))}
               </div>
             )}
           </div>
-          <div className="flex items-center justify-between pt-3 border-t gap-1 flex-wrap shrink-0">
-            <div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">
+          <div
+            className="flex shrink-0 flex-wrap items-center justify-between gap-1 border-t
+              pt-3"
+          >
+            <div className="bg-muted/50 flex items-center gap-0.5 rounded-md border p-0.5">
               <Button
                 variant={cardLanguage === "EN" ? "default" : "ghost"}
                 size="sm"
@@ -148,7 +166,9 @@ export function FlashCardVertical({
               </Button>
             </div>
             {cardLanguage === "EN" && (
-              <div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">
+              <div
+                className="bg-muted/50 flex items-center gap-0.5 rounded-md border p-0.5"
+              >
                 <Button
                   variant={enVersion === "KJV" ? "sage" : "ghost"}
                   size="sm"

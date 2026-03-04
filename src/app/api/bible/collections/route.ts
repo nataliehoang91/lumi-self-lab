@@ -14,9 +14,6 @@ export async function GET() {
     return NextResponse.json(collections);
   } catch (e) {
     console.error("bible/collections", e);
-    return NextResponse.json(
-      { error: "Failed to fetch collections." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch collections." }, { status: 500 });
   }
 }

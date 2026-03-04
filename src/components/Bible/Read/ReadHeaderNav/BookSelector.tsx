@@ -41,12 +41,13 @@ export function BookSelector({ variant = "desktop" }: { variant?: Variant }) {
           setSubNavBookOpen(!subNavBookOpen);
         }}
         className={cn(
-          "rounded-lg border border-sage bg-sage/10 text-foreground hover:bg-sage/20 gap-1.5",
-          !isDesktop && "rounded-md h-9"
+          `border-sage bg-sage/10 text-foreground hover:bg-sage/20 gap-1.5 rounded-lg
+          border`,
+          !isDesktop && "h-9 rounded-md"
         )}
       >
         {getBookLabelForSelection(leftBook, leftVersion, rightVersion)}
-        <ChevronDown className="w-4 h-4" />
+        <ChevronDown className="h-4 w-4" />
       </Button>
       {subNavBookOpen && (
         <>
@@ -57,11 +58,15 @@ export function BookSelector({ variant = "desktop" }: { variant?: Variant }) {
           />
           <div
             className={cn(
-              "absolute top-full mt-1 left-0 bg-card border border-border shadow-lg z-20 max-h-80 overflow-y-auto min-w-[260px]",
+              `bg-card border-border absolute top-full left-0 z-20 mt-1 max-h-80
+              min-w-[260px] overflow-y-auto border shadow-lg`,
               isDesktop ? "rounded-lg" : "rounded-md"
             )}
           >
-            <div className="sticky top-0 bg-muted/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            <div
+              className="bg-muted/80 text-muted-foreground sticky top-0 px-3 py-1.5
+                text-xs font-semibold tracking-wide uppercase"
+            >
               {testamentFilter === "ot" ? t("readOldTestament") : t("readNewTestament")}
             </div>
             <div className="px-1">
@@ -74,7 +79,7 @@ export function BookSelector({ variant = "desktop" }: { variant?: Variant }) {
                     "w-full justify-start px-3 py-2 text-sm transition-all",
                     "hover:bg-sage/15 hover:text-sage-dark dark:hover:text-sage",
                     b.id === leftBook.id
-                      ? "bg-sage/20 text-sage-dark font-medium dark:text-sage"
+                      ? "bg-sage/20 text-sage-dark dark:text-sage font-medium"
                       : "text-foreground"
                   )}
                   onClick={() => {
@@ -82,7 +87,9 @@ export function BookSelector({ variant = "desktop" }: { variant?: Variant }) {
                     setSubNavBookOpen(false);
                   }}
                 >
-                  <span className="tabular-nums text-muted-foreground shrink-0 w-6 text-right">
+                  <span
+                    className="text-muted-foreground w-6 shrink-0 text-right tabular-nums"
+                  >
                     {b.chapterCount}
                   </span>
                   <span className="ml-2">

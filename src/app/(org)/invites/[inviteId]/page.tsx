@@ -60,46 +60,50 @@ export default function InvitationDetailPage({
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
           <Link href="/org">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back
           </Link>
         </Button>
 
         <Card className="p-8">
           <div className="mb-6">
-            <Badge className="mb-4 bg-violet/10 text-violet">Experiment Invitation</Badge>
-            <h1 className="text-3xl font-semibold text-foreground mb-2">
+            <Badge className="bg-violet/10 text-violet mb-4">Experiment Invitation</Badge>
+            <h1 className="text-foreground mb-2 text-3xl font-semibold">
               {invitation.experimentTitle}
             </h1>
             <p className="text-muted-foreground">From: {invitation.orgName}</p>
           </div>
 
-          <div className="space-y-6 mb-8">
+          <div className="mb-8 space-y-6">
             <div>
-              <h3 className="font-semibold text-foreground mb-2">Invited by</h3>
+              <h3 className="text-foreground mb-2 font-semibold">Invited by</h3>
               <p className="text-muted-foreground">{invitation.invitedBy}</p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-foreground mb-2">Description</h3>
+              <h3 className="text-foreground mb-2 font-semibold">Description</h3>
               <p className="text-muted-foreground">{invitation.description}</p>
             </div>
 
-            <Card className="p-4 bg-muted/50 border-border">
+            <Card className="bg-muted/50 border-border p-4">
               <div className="flex items-start gap-3">
-                <Shield className="w-5 h-5 text-violet flex-shrink-0 mt-0.5" />
+                <Shield className="text-violet mt-0.5 h-5 w-5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-foreground mb-2">You&apos;re in control</h4>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    {invitation.orgName} suggested this experiment because they think it might be
-                    valuable for the team. But this is your experiment, and you&apos;re in complete
-                    control.
+                  <h4 className="text-foreground mb-2 font-semibold">
+                    You&apos;re in control
+                  </h4>
+                  <p className="text-muted-foreground mb-2 text-sm">
+                    {invitation.orgName} suggested this experiment because they think it
+                    might be valuable for the team. But this is your experiment, and
+                    you&apos;re in complete control.
                   </p>
-                  <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
-                    <li>Accept and link it to the organisation (share aggregate insights)</li>
+                  <ul className="text-muted-foreground ml-4 list-disc space-y-1 text-sm">
+                    <li>
+                      Accept and link it to the organisation (share aggregate insights)
+                    </li>
                     <li>Accept it as personal (keep it completely private)</li>
                     <li>Decline the invitation (no hard feelings)</li>
                   </ul>
@@ -110,14 +114,18 @@ export default function InvitationDetailPage({
 
           <div className="flex gap-3">
             <Button variant="outline" onClick={handleDecline} className="flex-1">
-              <XCircle className="w-4 h-4 mr-2" />
+              <XCircle className="mr-2 h-4 w-4" />
               Decline
             </Button>
-            <Button onClick={() => handleAccept("personal")} variant="outline" className="flex-1">
+            <Button
+              onClick={() => handleAccept("personal")}
+              variant="outline"
+              className="flex-1"
+            >
               Accept as Personal
             </Button>
             <Button onClick={() => handleAccept("link")} className="flex-1">
-              <CheckCircle2 className="w-4 h-4 mr-2" />
+              <CheckCircle2 className="mr-2 h-4 w-4" />
               Accept & Link
             </Button>
           </div>

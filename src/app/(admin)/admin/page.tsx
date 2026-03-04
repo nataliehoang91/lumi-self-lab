@@ -6,9 +6,11 @@ import { Card } from "@/components/ui/card";
 export default function AdminDashboardPage() {
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <h1 className="text-3xl font-semibold text-foreground mb-2">Platform Admin</h1>
-        <p className="text-muted-foreground mb-8">Admin dashboard (Clerk). Placeholder.</p>
+      <div className="container mx-auto max-w-7xl px-4 py-8">
+        <h1 className="text-foreground mb-2 text-3xl font-semibold">Platform Admin</h1>
+        <p className="text-muted-foreground mb-8">
+          Admin dashboard (Clerk). Placeholder.
+        </p>
         <Card className="p-6">Admin content</Card>
       </div>
     </div>

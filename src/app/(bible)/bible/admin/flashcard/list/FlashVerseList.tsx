@@ -71,7 +71,10 @@ export function FlashVerseList() {
   if (loading) {
     return (
       <div className="p-8 text-center text-stone-500">
-        <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-stone-300 border-t-stone-600" />
+        <div
+          className="inline-block h-6 w-6 animate-spin rounded-full border-2
+            border-stone-300 border-t-stone-600"
+        />
       </div>
     );
   }
@@ -87,7 +90,11 @@ export function FlashVerseList() {
   if (verses.length === 0) {
     return (
       <div className="p-8 text-center text-stone-500">
-        No verses yet. <Link href="/bible/admin/add" className="text-stone-700 underline">Add one</Link>.
+        No verses yet.{" "}
+        <Link href="/bible/admin/add" className="text-stone-700 underline">
+          Add one
+        </Link>
+        .
       </div>
     );
   }
@@ -103,8 +110,8 @@ export function FlashVerseList() {
             <th className="p-3 font-medium text-stone-700">Book (VI)</th>
             <th className="p-3 font-medium text-stone-700">Ch</th>
             <th className="p-3 font-medium text-stone-700">Verse(s)</th>
-            <th className="p-3 font-medium text-stone-700 max-w-[200px]">Snippet</th>
-            <th className="p-3 font-medium text-stone-700 text-right">Actions</th>
+            <th className="max-w-[200px] p-3 font-medium text-stone-700">Snippet</th>
+            <th className="p-3 text-right font-medium text-stone-700">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -120,13 +127,22 @@ export function FlashVerseList() {
                   ? `${v.verse}-${v.verseEnd}`
                   : v.verse}
               </td>
-              <td className="p-3 text-stone-600 max-w-[200px] truncate" title={v.content || ""}>
-                {snippet(v.contentNIV || v.contentKJV || v.contentVIE1923 || v.contentZH || v.content)}
+              <td
+                className="max-w-[200px] truncate p-3 text-stone-600"
+                title={v.content || ""}
+              >
+                {snippet(
+                  v.contentNIV ||
+                    v.contentKJV ||
+                    v.contentVIE1923 ||
+                    v.contentZH ||
+                    v.content
+                )}
               </td>
               <td className="p-3 text-right">
                 <Link
                   href={`/bible/admin/flashcard/edit/${v.id}`}
-                  className="mr-2 text-stone-600 hover:text-stone-800 underline"
+                  className="mr-2 text-stone-600 underline hover:text-stone-800"
                 >
                   Edit
                 </Link>

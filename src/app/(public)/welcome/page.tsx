@@ -13,7 +13,7 @@ import {
  */
 export default function WelcomePage() {
   return (
-    <div className="relative welcome-page-background">
+    <div className="welcome-page-background relative">
       <WelcomeThemeToggle />
       <Container maxWidth="5xl" className="px-4 py-16 md:py-24">
         <WelcomeHeader />

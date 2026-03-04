@@ -26,10 +26,7 @@ export async function GET(
     return NextResponse.json(verse);
   } catch (e) {
     console.error("verse get", e);
-    return NextResponse.json(
-      { error: "Failed to fetch verse." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch verse." }, { status: 500 });
   }
 }
 
@@ -100,7 +97,10 @@ export async function PUT(
 
     if (!hasContent) {
       return NextResponse.json(
-        { error: "At least one version content (Vietnamese, KJV, NIV, or Chinese) is required." },
+        {
+          error:
+            "At least one version content (Vietnamese, KJV, NIV, or Chinese) is required.",
+        },
         { status: 400 }
       );
     }
@@ -142,10 +142,7 @@ export async function PUT(
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("verse update", e);
-    return NextResponse.json(
-      { error: "Failed to update verse." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update verse." }, { status: 500 });
   }
 }
 
@@ -166,9 +163,6 @@ export async function DELETE(
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("verse delete", e);
-    return NextResponse.json(
-      { error: "Failed to delete verse." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete verse." }, { status: 500 });
   }
 }

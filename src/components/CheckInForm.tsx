@@ -68,7 +68,9 @@ export function CheckInForm({
   const today = getTodayUTC();
   const [checkInDate, setCheckInDate] = useState(selectedDateProp ?? today);
   const [notes, setNotes] = useState("");
-  const [responses, setResponses] = useState<Record<string, string | number | boolean>>({});
+  const [responses, setResponses] = useState<Record<string, string | number | boolean>>(
+    {}
+  );
 
   // Phase C.2: Sync date and prefill when selectedDate / initialCheckIn change
   useEffect(() => {
@@ -127,23 +129,30 @@ export function CheckInForm({
     if (field.type === "text" && value !== undefined && value !== null && value !== "") {
       if (String(value).trim() === "") return "Required";
     }
-    if (field.type === "number" && value !== undefined && value !== null && value !== "") {
+    if (
+      field.type === "number" &&
+      value !== undefined &&
+      value !== null &&
+      value !== ""
+    ) {
       const n = Number(value);
       const min = field.minValue ?? 0;
       const max = field.maxValue ?? 10;
-      if (Number.isNaN(n) || n < min || n > max) return `Must be between ${min} and ${max}`;
+      if (Number.isNaN(n) || n < min || n > max)
+        return `Must be between ${min} and ${max}`;
     }
     return null;
   };
 
-  const fieldErrors = Object.fromEntries(fields.map((f) => [f.id, getFieldError(f)])) as Record<
-    string,
-    string | null
-  >;
+  const fieldErrors = Object.fromEntries(
+    fields.map((f) => [f.id, getFieldError(f)])
+  ) as Record<string, string | null>;
   const isFormValid = fields.every((f) => !fieldErrors[f.id]);
 
   const totalRequiredFields = fields.filter((f) => f.required).length;
-  const filledRequiredFields = fields.filter((f) => f.required && !getFieldError(f)).length;
+  const filledRequiredFields = fields.filter(
+    (f) => f.required && !getFieldError(f)
+  ).length;
 
   const hasStructuredData = fields.some((f) => {
     if (f.type === "text") return false;
@@ -255,7 +264,7 @@ export function CheckInForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Phase C.3: Check-in completeness */}
       {totalRequiredFields > 0 && (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Check-in completeness: {filledRequiredFields} / {totalRequiredFields}
         </p>
       )}
@@ -263,17 +272,17 @@ export function CheckInForm({
       {/* Date Selection (hidden when date is controlled by parent e.g. dialog with CheckInDatePicker) */}
       {!hideDateInput && (
         <div>
-          <Label htmlFor="checkInDate" className="text-sm font-medium mb-2 block">
+          <Label htmlFor="checkInDate" className="mb-2 block text-sm font-medium">
             Date
           </Label>
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-muted-foreground" />
+            <Calendar className="text-muted-foreground h-4 w-4" />
             <Input
               id="checkInDate"
               type="date"
               value={checkInDate}
               onChange={(e) => setCheckInDate(e.target.value)}
-              className="rounded-2xl border-border/50 max-w-xs"
+              className="border-border/50 max-w-xs rounded-2xl"
               required
             />
           </div>
@@ -299,7 +308,7 @@ export function CheckInForm({
                     value={(getResponseValue(field.id) as string) || ""}
                     onChange={(e) => handleResponseChange(field.id, e.target.value)}
                     placeholder="Type your response..."
-                    className="rounded-2xl border-border/50 min-h-24 resize-none"
+                    className="border-border/50 min-h-24 resize-none rounded-2xl"
                     required={field.required}
                   />
                 ) : (
@@ -309,7 +318,7 @@ export function CheckInForm({
                     value={(getResponseValue(field.id) as string) || ""}
                     onChange={(e) => handleResponseChange(field.id, e.target.value)}
                     placeholder="Type your response..."
-                    className="rounded-2xl border-border/50"
+                    className="border-border/50 rounded-2xl"
                     required={field.required}
                   />
                 ))}
@@ -324,19 +333,23 @@ export function CheckInForm({
                           ? Number(getResponseValue(field.id))
                           : field.minValue || 0,
                       ]}
-                      onValueChange={(values) => handleResponseChange(field.id, values[0])}
+                      onValueChange={(values) =>
+                        handleResponseChange(field.id, values[0])
+                      }
                       min={field.minValue || 0}
                       max={field.maxValue || 10}
                       step={1}
                       className="flex-1"
                     />
-                    <span className="text-sm font-medium text-foreground min-w-12 text-center">
+                    <span
+                      className="text-foreground min-w-12 text-center text-sm font-medium"
+                    >
                       {getResponseValue(field.id)
                         ? getResponseValue(field.id)
                         : field.minValue || 0}
                     </span>
                   </div>
-                  <div className="flex justify-between text-xs text-muted-foreground px-1">
+                  <div className="text-muted-foreground flex justify-between px-1 text-xs">
                     <span>{field.minValue || 0}</span>
                     <span>{field.maxValue || 10}</span>
                   </div>
@@ -346,7 +359,7 @@ export function CheckInForm({
               {/* Emoji Field */}
               {field.type === "emoji" && field.emojiCount && (
                 <div className="space-y-2">
-                  <div className="flex gap-2 justify-center">
+                  <div className="flex justify-center gap-2">
                     {getEmojis(field.emojiCount).map((emoji, index) => {
                       const rank = index + 1; // 1-based ranking
                       const isSelected = getResponseValue(field.id) === rank;
@@ -356,10 +369,12 @@ export function CheckInForm({
                           key={index}
                           type="button"
                           onClick={() => handleResponseChange(field.id, rank)}
-                          className={`w-12 h-12 rounded-2xl text-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
+                          className={`flex h-12 w-12 items-center justify-center
+                          rounded-2xl text-2xl transition-all hover:scale-110
+                          active:scale-95 ${
                             isSelected
-                              ? "bg-primary/20 border-2 border-primary scale-110"
-                              : "bg-muted/50 border-2 border-transparent hover:bg-muted"
+                              ? "bg-primary/20 border-primary scale-110 border-2"
+                              : "bg-muted/50 hover:bg-muted border-2 border-transparent"
                           }`}
                         >
                           {emoji}
@@ -367,7 +382,7 @@ export function CheckInForm({
                       );
                     })}
                   </div>
-                  <div className="flex justify-between text-xs text-muted-foreground px-1">
+                  <div className="text-muted-foreground flex justify-between px-1 text-xs">
                     <span>Low</span>
                     <span>High</span>
                   </div>
@@ -381,7 +396,10 @@ export function CheckInForm({
                   onValueChange={(value) => handleResponseChange(field.id, value)}
                   required={field.required}
                 >
-                  <SelectTrigger id={`field-${field.id}`} className="rounded-2xl border-border/50">
+                  <SelectTrigger
+                    id={`field-${field.id}`}
+                    className="border-border/50 rounded-2xl"
+                  >
                     <SelectValue placeholder="Select an option..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -404,19 +422,27 @@ export function CheckInForm({
                         ? "yes"
                         : "no"
                   }
-                  onValueChange={(value) => handleResponseChange(field.id, value === "yes")}
+                  onValueChange={(value) =>
+                    handleResponseChange(field.id, value === "yes")
+                  }
                   required={field.required}
                 >
                   <div className="flex gap-4">
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="yes" id={`${field.id}-yes`} />
-                      <Label htmlFor={`${field.id}-yes`} className="font-normal cursor-pointer">
+                      <Label
+                        htmlFor={`${field.id}-yes`}
+                        className="cursor-pointer font-normal"
+                      >
                         Yes
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="no" id={`${field.id}-no`} />
-                      <Label htmlFor={`${field.id}-no`} className="font-normal cursor-pointer">
+                      <Label
+                        htmlFor={`${field.id}-no`}
+                        className="cursor-pointer font-normal"
+                      >
                         No
                       </Label>
                     </div>
@@ -424,7 +450,7 @@ export function CheckInForm({
                 </RadioGroup>
               )}
 
-              {fieldError && <p className="text-xs text-destructive">{fieldError}</p>}
+              {fieldError && <p className="text-destructive text-xs">{fieldError}</p>}
             </div>
           );
         })}
@@ -432,7 +458,7 @@ export function CheckInForm({
 
       {/* Additional Notes */}
       <div>
-        <Label htmlFor="notes" className="text-sm font-medium mb-2 block">
+        <Label htmlFor="notes" className="mb-2 block text-sm font-medium">
           Additional Notes (Optional)
         </Label>
         <Textarea
@@ -440,11 +466,11 @@ export function CheckInForm({
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Any additional thoughts or observations..."
-          className="rounded-2xl border-border/50 min-h-24 resize-none"
+          className="border-border/50 min-h-24 resize-none rounded-2xl"
         />
         {/* Phase C.3: Optional notes nudge */}
         {showNotesNudge && (
-          <p className="text-xs text-muted-foreground mt-1.5">
+          <p className="text-muted-foreground mt-1.5 text-xs">
             Adding a short note can help you reflect later.
           </p>
         )}
@@ -452,8 +478,8 @@ export function CheckInForm({
 
       {/* Error Message */}
       {error && (
-        <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-3">
-          <p className="text-sm text-destructive">{error}</p>
+        <div className="bg-destructive/10 border-destructive/20 rounded-lg border p-3">
+          <p className="text-destructive text-sm">{error}</p>
         </div>
       )}
 
@@ -466,7 +492,10 @@ export function CheckInForm({
         >
           {isSubmitting ? (
             <>
-              <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin mr-2" />
+              <div
+                className="border-primary-foreground mr-2 h-4 w-4 animate-spin
+                  rounded-full border-2 border-t-transparent"
+              />
               Saving...
             </>
           ) : (
@@ -480,15 +509,19 @@ export function CheckInForm({
   if (hideCard) {
     return (
       <div>
-        {!hideTitle && <h3 className="text-lg font-semibold text-foreground mb-4">Add Check-in</h3>}
+        {!hideTitle && (
+          <h3 className="text-foreground mb-4 text-lg font-semibold">Add Check-in</h3>
+        )}
         {formContent}
       </div>
     );
   }
 
   return (
-    <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-      {!hideTitle && <h3 className="text-lg font-semibold text-foreground mb-4">Add Check-in</h3>}
+    <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
+      {!hideTitle && (
+        <h3 className="text-foreground mb-4 text-lg font-semibold">Add Check-in</h3>
+      )}
       {formContent}
     </Card>
   );

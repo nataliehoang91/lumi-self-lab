@@ -51,6 +51,8 @@ export function PrettyIcon({
   className,
 }: PrettyIconProps) {
   return (
-    <div className={cn(sizeClasses[size], variantClasses[variant], className)}>{children}</div>
+    <div className={cn(sizeClasses[size], variantClasses[variant], className)}>
+      {children}
+    </div>
   );
 }

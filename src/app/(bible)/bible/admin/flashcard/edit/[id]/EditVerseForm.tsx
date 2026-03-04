@@ -147,7 +147,10 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
   if (loading || booksLoading) {
     return (
       <div className="py-8 text-center text-stone-500">
-        <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-stone-300 border-t-stone-600" />
+        <div
+          className="inline-block h-6 w-6 animate-spin rounded-full border-2
+            border-stone-300 border-t-stone-600"
+        />
       </div>
     );
   }
@@ -219,7 +222,8 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
             value={flashCardSetId}
             onChange={(e) => setFlashCardSetId(e.target.value)}
             disabled={setsLoading}
-            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800
+              disabled:opacity-60"
           >
             <option value="">No set</option>
             {sets.map((s) => (
@@ -230,13 +234,16 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-stone-700">Collection</label>
+          <label className="mb-1 block text-sm font-medium text-stone-700">
+            Collection
+          </label>
           <select
             name="collectionId"
             value={collectionId}
             onChange={(e) => setCollectionId(e.target.value)}
             disabled={collectionsLoading}
-            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+            className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800
+              disabled:opacity-60"
           >
             <option value="">No collection</option>
             {collections.map((c) => (
@@ -269,7 +276,9 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-stone-700">Chapter</label>
+            <label className="mb-1 block text-sm font-medium text-stone-700">
+              Chapter
+            </label>
             <select
               name="chapter"
               value={chapter}
@@ -279,7 +288,8 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
               }}
               required
               disabled={chaptersLoading || !bookId}
-              className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2
+                text-stone-800 disabled:opacity-60"
             >
               <option value="">Select chapter</option>
               {chapterOptions.map((c) => (
@@ -300,7 +310,8 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
               }}
               required
               disabled={!verseCount}
-              className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2
+                text-stone-800 disabled:opacity-60"
             >
               <option value="">Select verse</option>
               {verseOptions.map((n) => (
@@ -319,7 +330,8 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
               value={verseEnd}
               onChange={(e) => setVerseEnd(e.target.value)}
               disabled={!verseCount || !verse}
-              className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800 disabled:opacity-60"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2
+                text-stone-800 disabled:opacity-60"
             >
               <option value="">Single verse</option>
               {verseOptions
@@ -380,7 +392,10 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
             className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800"
           />
         </div>
-        <SubmitButton className="rounded-lg bg-stone-800 px-4 py-2 text-white hover:bg-stone-700 disabled:opacity-50">
+        <SubmitButton
+          className="rounded-lg bg-stone-800 px-4 py-2 text-white hover:bg-stone-700
+            disabled:opacity-50"
+        >
           <SubmitMessage>Save changes</SubmitMessage>
           <LoadingMessage>Saving…</LoadingMessage>
         </SubmitButton>

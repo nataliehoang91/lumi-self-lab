@@ -21,7 +21,8 @@ export function ReadHeader() {
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
 
-  const { leftVersion, rightVersion, syncMode, focusMode, leftBook, setSyncMode } = useRead();
+  const { leftVersion, rightVersion, syncMode, focusMode, leftBook, setSyncMode } =
+    useRead();
 
   const hasVersionSelected = leftVersion !== null || rightVersion !== null;
   const showBookChapterNav = hasVersionSelected && leftBook !== null && syncMode;
@@ -30,16 +31,18 @@ export function ReadHeader() {
   return (
     <header
       className={cn(
-        "sticky z-40 bg-background/95 border-b border-border transition-all duration-300",
+        "bg-background/95 border-border sticky z-40 border-b transition-all duration-300",
         focusMode ? "top-0" : "top-14"
       )}
     >
-      <Container className="mx-auto px-4 sm:px-6 py-3">
+      <Container className="mx-auto px-4 py-3 sm:px-6">
         {/* Desktop */}
-        <div className="hidden md:flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-3 min-w-0">
-            <BookOpen className="w-5 h-5 text-primary shrink-0" />
-            <h1 className="text-sm font-medium text-foreground shrink-0">{t("readVersion")}</h1>
+        <div className="hidden flex-wrap items-center justify-between gap-4 md:flex">
+          <div className="flex min-w-0 items-center gap-3">
+            <BookOpen className="text-primary h-5 w-5 shrink-0" />
+            <h1 className="text-foreground shrink-0 text-sm font-medium">
+              {t("readVersion")}
+            </h1>
             <VersionChipButtons />
             {showSyncToggle && (
               <Button
@@ -50,8 +53,11 @@ export function ReadHeader() {
                 className={cn(
                   "shrink-0 rounded-lg",
                   syncMode
-                    ? "h-8 px-2.5 bg-rose-100 text-rose-900 hover:bg-rose-200 dark:bg-rose-800 dark:text-rose-100 dark:hover:bg-rose-700"
-                    : "h-8 w-8 min-h-8 min-w-8 bg-muted text-muted-foreground hover:bg-rose-100 hover:text-rose-800 dark:hover:bg-rose-900/30 dark:hover:text-rose-200"
+                    ? `h-8 bg-rose-100 px-2.5 text-rose-900 hover:bg-rose-200
+                      dark:bg-rose-800 dark:text-rose-100 dark:hover:bg-rose-700`
+                    : `bg-muted text-muted-foreground h-8 min-h-8 w-8 min-w-8
+                      hover:bg-rose-100 hover:text-rose-800 dark:hover:bg-rose-900/30
+                      dark:hover:text-rose-200`
                 )}
                 title={syncMode ? t("readSynced") : t("readIndependent")}
                 aria-label={syncMode ? t("readSynced") : t("readIndependent")}
@@ -65,21 +71,21 @@ export function ReadHeader() {
             )}
           </div>
           {showBookChapterNav && (
-            <div className="flex items-center gap-2 flex-wrap shrink-0">
+            <div className="flex shrink-0 flex-wrap items-center gap-2">
               <TestamentDropdown variant="desktop" />
               <BookSelector variant="desktop" />
               <ChapterSelectDesktop />
             </div>
           )}
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
             {!focusMode && <InsightsButton variant="desktop" />}
             <FocusModeButton variant="desktop" />
           </div>
         </div>
 
         {/* Mobile: version row + sync icon in same flex row */}
-        <div className="flex md:hidden flex-col gap-3">
-          <div className="flex items-center gap-2 flex-wrap min-w-0">
+        <div className="flex flex-col gap-3 md:hidden">
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
             <VersionDropdownMobile />
             {showSyncToggle && (
               <Button
@@ -90,8 +96,11 @@ export function ReadHeader() {
                 className={cn(
                   "shrink-0 rounded-md",
                   syncMode
-                    ? "h-9 w-9 bg-rose-100 text-rose-900 hover:bg-rose-200 dark:bg-rose-800 dark:text-rose-100 dark:hover:bg-rose-700"
-                    : "h-8 w-8 min-h-8 min-w-8 bg-muted text-muted-foreground hover:bg-rose-100 hover:text-rose-800 dark:hover:bg-rose-900/30 dark:hover:text-rose-200"
+                    ? `h-9 w-9 bg-rose-100 text-rose-900 hover:bg-rose-200
+                      dark:bg-rose-800 dark:text-rose-100 dark:hover:bg-rose-700`
+                    : `bg-muted text-muted-foreground h-8 min-h-8 w-8 min-w-8
+                      hover:bg-rose-100 hover:text-rose-800 dark:hover:bg-rose-900/30
+                      dark:hover:text-rose-200`
                 )}
                 title={syncMode ? t("readSynced") : t("readIndependent")}
                 aria-label={syncMode ? t("readSynced") : t("readIndependent")}
@@ -103,13 +112,13 @@ export function ReadHeader() {
                 )}
               </Button>
             )}
-            <div className="flex items-center gap-2 shrink-0 ml-auto">
+            <div className="ml-auto flex shrink-0 items-center gap-2">
               {!focusMode && <InsightsButton variant="mobile" />}
               <FocusModeButton variant="mobile" />
             </div>
           </div>
           {showBookChapterNav && (
-            <div className="flex items-center justify-center gap-2 flex-wrap">
+            <div className="flex flex-wrap items-center justify-center gap-2">
               <TestamentDropdown variant="mobile" />
               <BookSelector variant="mobile" />
               <ChapterSelectMobile />

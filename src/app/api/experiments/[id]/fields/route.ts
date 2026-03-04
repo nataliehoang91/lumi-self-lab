@@ -10,7 +10,10 @@ import { NextResponse } from "next/server";
  * GET /api/experiments/[id]/fields
  * Personal only: list fields for an experiment. Access by ownership only.
  */
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -40,7 +43,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
  * POST /api/experiments/[id]/fields
  * Personal only: create a field for an experiment. Owner only.
  */
-export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -77,7 +83,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     }
 
     if (!label || !type || order === undefined) {
-      return NextResponse.json({ error: "Label, type, and order are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Label, type, and order are required" },
+        { status: 400 }
+      );
     }
 
     const field = await prisma.experimentField.create({

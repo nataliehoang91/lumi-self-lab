@@ -42,7 +42,7 @@ export const ForgotPasswordForm = ({
   return (
     <Card className={cn("w-full max-w-md rounded-lg shadow-lg", cardClassName)}>
       <CardHeader className={cn("text-center", cardHeaderClassName)}>
-        <CardTitle className="text-3xl font-bold mb-2">Forgot Password?</CardTitle>
+        <CardTitle className="mb-2 text-3xl font-bold">Forgot Password?</CardTitle>
         <CardDescription className="text-muted-foreground">
           Enter your email to reset your password.
         </CardDescription>
@@ -75,8 +75,12 @@ export const ForgotPasswordForm = ({
               />
             </InputControl>
             <ReserveLayout placeItems="start">
-              <FormMessage match="valueMissing">Please enter your email address</FormMessage>
-              <FormMessage match="typeMismatch">Please enter a valid email address</FormMessage>
+              <FormMessage match="valueMissing">
+                Please enter your email address
+              </FormMessage>
+              <FormMessage match="typeMismatch">
+                Please enter a valid email address
+              </FormMessage>
               <FormErrorMessage name="email" />
             </ReserveLayout>
           </FormField>
@@ -102,7 +106,7 @@ export const ForgotPasswordForm = ({
             <div className="text-center">
               <Link
                 href="/sign-in"
-                className="text-sm underline font-medium text-primary hover:underline"
+                className="text-primary text-sm font-medium underline hover:underline"
               >
                 Go back to Sign In
               </Link>

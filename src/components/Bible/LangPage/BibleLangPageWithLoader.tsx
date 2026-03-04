@@ -32,7 +32,11 @@ export function BibleLangPageWithLoader({ locale }: BibleLangPageWithLoaderProps
         />
       )}
       {showContent &&
-        (locale === "vi" ? <VnBibleLangPage lang={locale} /> : <EnBibleLangPage lang={locale} />)}
+        (locale === "vi" ? (
+          <VnBibleLangPage lang={locale} />
+        ) : (
+          <EnBibleLangPage lang={locale} />
+        ))}
     </>
   );
 }

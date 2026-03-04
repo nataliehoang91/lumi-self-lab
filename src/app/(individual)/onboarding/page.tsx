@@ -15,7 +15,8 @@ export default function OnboardingPage() {
       title: "I'm not sure what to track",
       description: "Let me guide you with a few questions to discover what matters most",
       href: "/onboarding/guided",
-      gradient: "from-violet-100 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/20",
+      gradient:
+        "from-violet-100 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/20",
       iconBg: "bg-violet-500",
     },
     {
@@ -40,18 +41,24 @@ export default function OnboardingPage() {
 
   return (
     <IndividualContainer>
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-violet/20 mb-6">
-            <Compass className="w-8 h-8 text-primary" />
+        <div className="mb-16 text-center">
+          <div
+            className="from-primary/20 to-violet/20 mb-6 inline-flex h-16 w-16
+              items-center justify-center rounded-full bg-gradient-to-br"
+          >
+            <Compass className="text-primary h-8 w-8" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-semibold text-foreground mb-4 text-balance">
+          <h1
+            className="text-foreground mb-4 text-4xl font-semibold text-balance
+              md:text-5xl"
+          >
             What would you like to explore?
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Self-experiments help you understand yourself better. There&apos;s no right or wrong way to
-            start.
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg text-pretty">
+            Self-experiments help you understand yourself better. There&apos;s no right or
+            wrong way to start.
           </p>
         </div>
 
@@ -70,46 +77,38 @@ export default function OnboardingPage() {
                 className="group block"
               >
                 <div
-                  className={`
-                  relative overflow-hidden rounded-3xl p-8 md:p-10
-                  bg-gradient-to-br ${option.gradient}
-                  border-2 border-transparent
-                  transition-all duration-300 ease-out
-                  ${
+                  className={`relative overflow-hidden rounded-3xl bg-gradient-to-br p-8
+                  md:p-10 ${option.gradient} border-2 border-transparent transition-all
+                  duration-300 ease-out ${
                     isHovered
-                      ? "border-primary/30 shadow-xl shadow-primary/10 scale-[1.02]"
+                      ? "border-primary/30 shadow-primary/10 scale-[1.02] shadow-xl"
                       : "shadow-lg shadow-black/5"
-                  }
-                `}
+                  } `}
                 >
                   <div className="flex items-start gap-6">
                     <div
-                      className={`
-                      flex-shrink-0 w-14 h-14 rounded-2xl ${option.iconBg}
-                      flex items-center justify-center
-                      transition-transform duration-300
-                      ${isHovered ? "scale-110 rotate-3" : ""}
-                    `}
+                      className={`h-14 w-14 flex-shrink-0 rounded-2xl ${option.iconBg}
+                      flex items-center justify-center transition-transform duration-300
+                      ${isHovered ? "scale-110 rotate-3" : ""} `}
                     >
-                      <Icon className="w-7 h-7 text-white" />
+                      <Icon className="h-7 w-7 text-white" />
                     </div>
 
                     <div className="flex-grow">
-                      <h3 className="text-xl md:text-2xl font-medium text-foreground mb-2">
+                      <h3 className="text-foreground mb-2 text-xl font-medium md:text-2xl">
                         {option.title}
                       </h3>
                       <p className="text-muted-foreground">{option.description}</p>
                     </div>
 
                     <div
-                      className={`
-                      flex-shrink-0 w-10 h-10 rounded-full bg-white/50 dark:bg-white/10
-                      flex items-center justify-center
-                      transition-all duration-300
+                      className={`flex h-10 w-10 flex-shrink-0 items-center justify-center
+                      rounded-full bg-white/50 transition-all duration-300
+                      dark:bg-white/10
                       ${isHovered ? "bg-primary text-primary-foreground translate-x-1" : ""}
-                    `}
+                      `}
                     >
-                      <ArrowRight className="w-5 h-5" />
+                      <ArrowRight className="h-5 w-5" />
                     </div>
                   </div>
                 </div>
@@ -120,7 +119,7 @@ export default function OnboardingPage() {
 
         {/* Footer hint */}
         <div className="mt-12 text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             You can always change your mind later. This is your journey.
           </p>
         </div>

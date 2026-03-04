@@ -62,12 +62,20 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${geistMono.variable} ${vietnameseScripture.variable} ${loraSerif.variable} font-sans antialiased`}
+        className={`${inter.variable} ${geistMono.variable}
+          ${vietnameseScripture.variable} ${loraSerif.variable} font-sans antialiased`}
       >
         <Suspense
-          fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}
+          fallback={
+            <div className="flex min-h-screen items-center justify-center">
+              Loading...
+            </div>
+          }
         >
-          <ClerkProvider taskUrls={{ "reset-password": "/reset-password" }} waitlistUrl="/waitlist">
+          <ClerkProvider
+            taskUrls={{ "reset-password": "/reset-password" }}
+            waitlistUrl="/waitlist"
+          >
             <ThemeProvider
               attribute="class"
               defaultTheme="system"

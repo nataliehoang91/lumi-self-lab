@@ -14,16 +14,16 @@ export default async function OrgExperimentsPage({
   const { orgId } = await params;
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="container mx-auto max-w-7xl px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
           <Link href={`/org/${orgId}`}>
-            <ArrowLeft className="size-4 mr-2" />
+            <ArrowLeft className="mr-2 size-4" />
             Back to org
           </Link>
         </Button>
         <Card className="p-8 text-center">
-          <Target className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-xl font-semibold text-foreground mb-2">Org experiments</h2>
+          <Target className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+          <h2 className="text-foreground mb-2 text-xl font-semibold">Org experiments</h2>
           <p className="text-muted-foreground">Experiments for this organisation.</p>
         </Card>
       </div>

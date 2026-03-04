@@ -32,21 +32,24 @@ const cardVariantClasses = {
 
 export function WelcomeFeatureCards() {
   return (
-    <div className="grid md:grid-cols-3 gap-4 mb-16">
+    <div className="mb-16 grid gap-4 md:grid-cols-3">
       {features.map(({ variant, icon: Icon, title, description }) => (
         <Card
           key={variant}
           className={cn(
-            "p-6 bg-white/90 dark:bg-card border-2 rounded-2xl hover:shadow-lg transition-all",
+            `dark:bg-card rounded-2xl border-2 bg-white/90 p-6 transition-all
+            hover:shadow-lg`,
             cardVariantClasses[variant]
           )}
         >
-          <div className="flex flex-col items-center text-center md:items-start md:text-left">
+          <div
+            className="flex flex-col items-center text-center md:items-start md:text-left"
+          >
             <PrettyIcon variant={variant} size="sm" className="mb-4">
               <Icon strokeWidth={1.5} />
             </PrettyIcon>
-            <h3 className="font-semibold mb-2 text-foreground">{title}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+            <h3 className="text-foreground mb-2 font-semibold">{title}</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
           </div>
         </Card>
       ))}

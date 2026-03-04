@@ -16,7 +16,9 @@ function verseTextWithNotes(text: string, version: VersionId | null) {
   const showNotes = isKJV && hasKJVNotes(text);
   const parsed = showNotes ? parseKJVNotes(text) : null;
   const fontClass =
-    version === "vi" ? "font-vietnamese [font-size:inherit]" : "font-bible-english text-[1.1em]";
+    version === "vi"
+      ? "font-vietnamese [font-size:inherit]"
+      : "font-bible-english text-[1.1em]";
   return { text, parsed, fontClass };
 }
 
@@ -52,10 +54,12 @@ export function SyncedRead() {
 
   if (loading) {
     const loadingBookLabel =
-      leftBook && leftVersion ? getBookDisplayName(leftBook, leftVersion) : leftBook?.nameEn;
+      leftBook && leftVersion
+        ? getBookDisplayName(leftBook, leftVersion)
+        : leftBook?.nameEn;
 
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-14rem)]">
+      <div className="flex min-h-[calc(100vh-14rem)] items-center justify-center">
         <BibleMinimalLoader book={loadingBookLabel} chapter={leftChapter} />
       </div>
     );
@@ -69,11 +73,14 @@ export function SyncedRead() {
 
   if (verseNumbers.length === 0) {
     return (
-      <div className="flex w-full min-h-[calc(100vh-14rem)] items-center justify-center py-16 text-muted-foreground">
+      <div
+        className="text-muted-foreground flex min-h-[calc(100vh-14rem)] w-full
+          items-center justify-center py-16"
+      >
         <div className="text-center">
           <BookCircleIcon size="lg" className="mx-auto mb-4" />
           <p>{t("readNoContent")}</p>
-          <p className="text-sm mt-2">{t("readSelectAnother")}</p>
+          <p className="mt-2 text-sm">{t("readSelectAnother")}</p>
         </div>
       </div>
     );
@@ -82,19 +89,20 @@ export function SyncedRead() {
   const leftLabel = leftVersion
     ? (TRANSLATIONS.find((tr) => tr.id === leftVersion)?.fullName ?? leftVersion)
     : "";
-  const rightLabel = TRANSLATIONS.find((tr) => tr.id === rightVersion)?.fullName ?? rightVersion;
+  const rightLabel =
+    TRANSLATIONS.find((tr) => tr.id === rightVersion)?.fullName ?? rightVersion;
 
   return (
     <div className="relative">
       {/* Full-height vertical divider between left and right panels */}
       <div
         aria-hidden
-        className="absolute top-0 bottom-0 w-px bg-primary pointer-events-none"
+        className="bg-primary pointer-events-none absolute top-0 bottom-0 w-px"
         style={{ left: "50%", transform: "translateX(-50%)" }}
       />
       <div
         className={cn(
-          "leading-relaxed gap-x-2 gap-y-6",
+          "gap-x-2 gap-y-6 leading-relaxed",
           focusMode ? fontSizeClassFocus : fontSizeClass
         )}
         style={{
@@ -105,40 +113,58 @@ export function SyncedRead() {
       >
         <span
           aria-hidden
-          className="text-xs font-medium text-muted-foreground tracking-wide uppercase"
+          className="text-muted-foreground text-xs font-medium tracking-wide uppercase"
         />
-        <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
+        <span
+          className="text-muted-foreground text-xs font-medium tracking-wide uppercase"
+        >
           {leftLabel}
         </span>
         <span
           aria-hidden
-          className="text-xs font-medium text-muted-foreground tracking-wide uppercase"
+          className="text-muted-foreground text-xs font-medium tracking-wide uppercase"
         />
-        <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
+        <span
+          className="text-muted-foreground text-xs font-medium tracking-wide uppercase"
+        >
           {rightLabel}
         </span>
         {verseNumbers.map((num) => {
           const leftVerse = leftVerses.find((v) => v.number === num);
           const rightVerse = rightVerses.find((v) => v.number === num);
-          const leftText = normalizeVerseTextForDisplay(leftVerse?.text ?? "", leftVersion);
-          const rightText = normalizeVerseTextForDisplay(rightVerse?.text ?? "", rightVersion);
+          const leftText = normalizeVerseTextForDisplay(
+            leftVerse?.text ?? "",
+            leftVersion
+          );
+          const rightText = normalizeVerseTextForDisplay(
+            rightVerse?.text ?? "",
+            rightVersion
+          );
           const left = verseTextWithNotes(leftText, leftVersion);
           const right = verseTextWithNotes(rightText, rightVersion);
 
           return (
             <div
               key={num}
-              className="contents group"
+              className="group contents"
               onMouseEnter={() => setHoveredVerse(num)}
               onMouseLeave={() => setHoveredVerse(null)}
             >
-              <span className={cn(verseNumClass, "pt-0.5", hoveredVerse === num && "text-primary")}>
+              <span
+                className={cn(
+                  verseNumClass,
+                  "pt-0.5",
+                  hoveredVerse === num && "text-primary"
+                )}
+              >
                 {num}
               </span>
               <p
                 className={cn(
-                  "text-foreground text-pretty min-h-[1.5em] pr-3",
-                  leftVersion === "vi" ? "font-vietnamese [font-size:inherit]" : left.fontClass
+                  "text-foreground min-h-[1.5em] pr-3 text-pretty",
+                  leftVersion === "vi"
+                    ? "font-vietnamese [font-size:inherit]"
+                    : left.fontClass
                 )}
               >
                 {left.parsed && left.parsed.notes.length > 0 ? (
@@ -147,7 +173,8 @@ export function SyncedRead() {
                       typeof p === "number" ? (
                         <sup
                           key={i}
-                          className="align-super text-[0.7em] font-medium text-muted-foreground"
+                          className="text-muted-foreground align-super text-[0.7em]
+                            font-medium"
                           title={left.parsed!.notes[p - 1]}
                         >
                           {p}
@@ -164,7 +191,7 @@ export function SyncedRead() {
               <span
                 className={cn(
                   verseNumClass,
-                  "pt-0.5 shrink-0 pl-5",
+                  "shrink-0 pt-0.5 pl-5",
                   hoveredVerse === num && "text-primary"
                 )}
               >
@@ -172,8 +199,10 @@ export function SyncedRead() {
               </span>
               <p
                 className={cn(
-                  "text-foreground text-pretty min-h-[1.5em] pl-4",
-                  rightVersion === "vi" ? "font-vietnamese [font-size:inherit]" : right.fontClass
+                  "text-foreground min-h-[1.5em] pl-4 text-pretty",
+                  rightVersion === "vi"
+                    ? "font-vietnamese [font-size:inherit]"
+                    : right.fontClass
                 )}
               >
                 {right.parsed && right.parsed.notes.length > 0 ? (
@@ -182,7 +211,8 @@ export function SyncedRead() {
                       typeof p === "number" ? (
                         <sup
                           key={i}
-                          className="align-super text-[0.7em] font-medium text-muted-foreground"
+                          className="text-muted-foreground align-super text-[0.7em]
+                            font-medium"
                           title={right.parsed!.notes[p - 1]}
                         >
                           {p}

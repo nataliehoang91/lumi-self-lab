@@ -42,124 +42,147 @@ export default async function OrganisationDashboardPage({
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="container mx-auto max-w-7xl px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-violet/10 flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-violet" />
+          <div className="mb-4 flex items-center gap-3">
+            <div
+              className="bg-violet/10 flex h-12 w-12 items-center justify-center
+                rounded-xl"
+            >
+              <Building2 className="text-violet h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-3xl font-semibold text-foreground">{org.name}</h1>
+              <h1 className="text-foreground text-3xl font-semibold">{org.name}</h1>
               <p className="text-muted-foreground">{org.description ?? ""}</p>
             </div>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid md:grid-cols-4 gap-4 mb-8">
+        <div className="mb-8 grid gap-4 md:grid-cols-4">
           <Card className="p-6">
-            <div className="flex items-center gap-3 mb-2">
-              <Users className="w-5 h-5 text-muted-foreground" />
+            <div className="mb-2 flex items-center gap-3">
+              <Users className="text-muted-foreground h-5 w-5" />
               <div>
-                <p className="text-2xl font-semibold text-foreground">{org.memberCount}</p>
-                <p className="text-sm text-muted-foreground">Members</p>
+                <p className="text-foreground text-2xl font-semibold">
+                  {org.memberCount}
+                </p>
+                <p className="text-muted-foreground text-sm">Members</p>
               </div>
             </div>
           </Card>
 
           <Card className="p-6">
-            <div className="flex items-center gap-3 mb-2">
-              <FileText className="w-5 h-5 text-muted-foreground" />
+            <div className="mb-2 flex items-center gap-3">
+              <FileText className="text-muted-foreground h-5 w-5" />
               <div>
-                <p className="text-2xl font-semibold text-foreground">{org.activeExperiments}</p>
-                <p className="text-sm text-muted-foreground">Active Experiments</p>
+                <p className="text-foreground text-2xl font-semibold">
+                  {org.activeExperiments}
+                </p>
+                <p className="text-muted-foreground text-sm">Active Experiments</p>
               </div>
             </div>
           </Card>
 
           <Card className="p-6">
-            <div className="flex items-center gap-3 mb-2">
-              <FileText className="w-5 h-5 text-muted-foreground" />
+            <div className="mb-2 flex items-center gap-3">
+              <FileText className="text-muted-foreground h-5 w-5" />
               <div>
-                <p className="text-2xl font-semibold text-foreground">{org.totalTemplates}</p>
-                <p className="text-sm text-muted-foreground">Templates</p>
+                <p className="text-foreground text-2xl font-semibold">
+                  {org.totalTemplates}
+                </p>
+                <p className="text-muted-foreground text-sm">Templates</p>
               </div>
             </div>
           </Card>
 
           <Card className="p-6">
-            <div className="flex items-center gap-3 mb-2">
-              <BarChart3 className="w-5 h-5 text-muted-foreground" />
+            <div className="mb-2 flex items-center gap-3">
+              <BarChart3 className="text-muted-foreground h-5 w-5" />
               <div>
-                <p className="text-2xl font-semibold text-foreground">
+                <p className="text-foreground text-2xl font-semibold">
                   {org.avgCompletionRate != null ? `${org.avgCompletionRate}%` : "—"}
                 </p>
-                <p className="text-sm text-muted-foreground">Avg Completion</p>
+                <p className="text-muted-foreground text-sm">Avg Completion</p>
               </div>
             </div>
           </Card>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <div className="mb-8 grid gap-4 md:grid-cols-3">
           <Link href={`/org/${orgId}/templates`}>
-            <Card className="p-6 hover:border-primary transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-primary" />
+            <Card className="hover:border-primary p-6 transition-all">
+              <div className="mb-4 flex items-center gap-3">
+                <div
+                  className="bg-primary/10 flex h-10 w-10 items-center justify-center
+                    rounded-xl"
+                >
+                  <FileText className="text-primary h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Templates</h3>
-                  <p className="text-sm text-muted-foreground">Browse experiment templates</p>
+                  <h3 className="text-foreground font-semibold">Templates</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Browse experiment templates
+                  </p>
                 </div>
               </div>
-              <ArrowRight className="w-5 h-5 text-muted-foreground" />
+              <ArrowRight className="text-muted-foreground h-5 w-5" />
             </Card>
           </Link>
 
           <Link href={`/org/${orgId}/insights`}>
-            <Card className="p-6 hover:border-primary transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-violet/10 flex items-center justify-center">
-                  <BarChart3 className="w-5 h-5 text-violet" />
+            <Card className="hover:border-primary p-6 transition-all">
+              <div className="mb-4 flex items-center gap-3">
+                <div
+                  className="bg-violet/10 flex h-10 w-10 items-center justify-center
+                    rounded-xl"
+                >
+                  <BarChart3 className="text-violet h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Team Insights</h3>
-                  <p className="text-sm text-muted-foreground">View aggregate insights</p>
+                  <h3 className="text-foreground font-semibold">Team Insights</h3>
+                  <p className="text-muted-foreground text-sm">View aggregate insights</p>
                 </div>
               </div>
-              <ArrowRight className="w-5 h-5 text-muted-foreground" />
+              <ArrowRight className="text-muted-foreground h-5 w-5" />
             </Card>
           </Link>
 
           <Link href={`/org/${orgId}/teams`}>
-            <Card className="p-6 hover:border-primary transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-second/10 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-second" />
+            <Card className="hover:border-primary p-6 transition-all">
+              <div className="mb-4 flex items-center gap-3">
+                <div
+                  className="bg-second/10 flex h-10 w-10 items-center justify-center
+                    rounded-xl"
+                >
+                  <Users className="text-second h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Members</h3>
-                  <p className="text-sm text-muted-foreground">View team members</p>
+                  <h3 className="text-foreground font-semibold">Members</h3>
+                  <p className="text-muted-foreground text-sm">View team members</p>
                 </div>
               </div>
-              <ArrowRight className="w-5 h-5 text-muted-foreground" />
+              <ArrowRight className="text-muted-foreground h-5 w-5" />
             </Card>
           </Link>
         </div>
 
         {/* Privacy Notice */}
-        <Card className="p-6 bg-violet/10 border-violet/20">
+        <Card className="bg-violet/10 border-violet/20 p-6">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-violet/20 flex items-center justify-center shrink-0">
-              <BarChart3 className="w-5 h-5 text-violet" />
+            <div
+              className="bg-violet/20 flex h-10 w-10 shrink-0 items-center justify-center
+                rounded-xl"
+            >
+              <BarChart3 className="text-violet h-5 w-5" />
             </div>
             <div>
-              <h3 className="font-semibold text-foreground mb-2">Privacy Protected</h3>
-              <p className="text-sm text-muted-foreground">
-                You&apos;re viewing aggregate insights only. Individual responses and personal
-                reflections are never shared.
+              <h3 className="text-foreground mb-2 font-semibold">Privacy Protected</h3>
+              <p className="text-muted-foreground text-sm">
+                You&apos;re viewing aggregate insights only. Individual responses and
+                personal reflections are never shared.
               </p>
             </div>
           </div>

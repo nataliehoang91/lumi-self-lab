@@ -7,8 +7,17 @@
 
 type TextSummary = { responseCount: number };
 type NumberSummary = { count: number; min: number; max: number; avg: number };
-type YesnoSummary = { count: number; yesCount: number; noCount: number; yesPercentage: number };
-type EmojiSummary = { count: number; avgScore: number; distribution: Record<string, number> };
+type YesnoSummary = {
+  count: number;
+  yesCount: number;
+  noCount: number;
+  yesPercentage: number;
+};
+type EmojiSummary = {
+  count: number;
+  avgScore: number;
+  distribution: Record<string, number>;
+};
 type SelectSummary = { count: number; optionCounts: Record<string, number> };
 
 type SummaryField =
@@ -20,14 +29,15 @@ type SummaryField =
 
 export function ReviewSummaryField({ field }: { field: SummaryField }) {
   return (
-    <div className="rounded-md border border-border bg-card p-4">
-      <h4 className="font-medium text-foreground">{field.label}</h4>
+    <div className="border-border bg-card rounded-md border p-4">
+      <h4 className="text-foreground font-medium">{field.label}</h4>
       <p className="text-muted-foreground text-sm capitalize">{field.type}</p>
-      <div className="mt-2 text-sm text-foreground">
+      <div className="text-foreground mt-2 text-sm">
         {field.type === "text" && <span>{field.summary.responseCount} response(s)</span>}
         {field.type === "number" && (
           <span>
-            n={field.summary.count}; min={field.summary.min}, max={field.summary.max}, avg=
+            n={field.summary.count}; min={field.summary.min}, max={field.summary.max},
+            avg=
             {field.summary.avg.toFixed(1)}
           </span>
         )}

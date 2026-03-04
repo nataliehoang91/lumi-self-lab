@@ -86,37 +86,47 @@ export default function UpgradePage() {
 
   return (
     <IndividualContainer>
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-sm font-medium mb-6">
-            <Zap className="w-4 h-4" />
+        <div className="mb-12 text-center">
+          <div
+            className="mb-6 inline-flex items-center gap-2 rounded-full bg-yellow-100 px-4
+              py-2 text-sm font-medium text-yellow-700 dark:bg-yellow-900/30
+              dark:text-yellow-400"
+          >
+            <Zap className="h-4 w-4" />
             Unlock More Possibilities
           </div>
-          <h1 className="text-4xl font-bold text-foreground mb-4">
+          <h1 className="text-foreground mb-4 text-4xl font-bold">
             Unlock{" "}
-            <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            <span
+              className="from-primary to-primary/80 bg-gradient-to-r bg-clip-text
+                text-transparent"
+            >
               team & organisation features
             </span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Take your self-reflection practice to the team level. Create organisation workspaces,
-            design experiment templates, and gain aggregate insights while respecting
-            everyone&apos;s privacy.
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+            Take your self-reflection practice to the team level. Create organisation
+            workspaces, design experiment templates, and gain aggregate insights while
+            respecting everyone&apos;s privacy.
           </p>
         </div>
 
         {/* Comparison Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        <div className="mb-12 grid gap-6 md:grid-cols-2">
           {/* Current Plan */}
-          <Card className="p-6 bg-card border-border/50 rounded-3xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-2xl bg-muted flex items-center justify-center">
-                <Users className="w-5 h-5 text-muted-foreground" />
+          <Card className="bg-card border-border/50 rounded-3xl p-6">
+            <div className="mb-4 flex items-center gap-3">
+              <div
+                className="bg-muted flex h-10 w-10 items-center justify-center
+                  rounded-2xl"
+              >
+                <Users className="text-muted-foreground h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-semibold text-foreground">Individual</h3>
-                <p className="text-sm text-muted-foreground">Your current plan</p>
+                <h3 className="text-foreground font-semibold">Individual</h3>
+                <p className="text-muted-foreground text-sm">Your current plan</p>
               </div>
             </div>
             <ul className="space-y-3">
@@ -127,8 +137,11 @@ export default function UpgradePage() {
                 "Join organizations as member",
                 "Accept experiment invitations",
               ].map((feature, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <li
+                  key={i}
+                  className="text-muted-foreground flex items-center gap-3 text-sm"
+                >
+                  <Check className="text-primary h-4 w-4 flex-shrink-0" />
                   {feature}
                 </li>
               ))}
@@ -136,20 +149,28 @@ export default function UpgradePage() {
           </Card>
 
           {/* Manager Plan */}
-          <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/30 rounded-3xl relative overflow-hidden">
+          <Card
+            className="from-primary/5 to-primary/10 border-primary/30 relative
+              overflow-hidden rounded-3xl bg-gradient-to-br p-6"
+          >
             <div className="absolute top-4 right-4">
-              <Badge className="bg-second text-second-foreground rounded-full">Recommended</Badge>
+              <Badge className="bg-second text-second-foreground rounded-full">
+                Recommended
+              </Badge>
             </div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-400 flex items-center justify-center">
-                <Crown className="w-5 h-5 text-white" />
+            <div className="mb-4 flex items-center gap-3">
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-2xl
+                  bg-gradient-to-br from-amber-500 to-amber-400"
+              >
+                <Crown className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-foreground">Organisation</h3>
-                <p className="text-sm text-primary">Everything in Individual, plus:</p>
+                <h3 className="text-foreground font-semibold">Organisation</h3>
+                <p className="text-primary text-sm">Everything in Individual, plus:</p>
               </div>
             </div>
-            <ul className="space-y-3 mb-6">
+            <ul className="mb-6 space-y-3">
               {[
                 "Create & manage organisation workspaces",
                 "Design experiment templates",
@@ -158,8 +179,8 @@ export default function UpgradePage() {
                 "Assign experiments to teams",
                 "Privacy-respecting analytics",
               ].map((feature, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-foreground">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <li key={i} className="text-foreground flex items-center gap-3 text-sm">
+                  <Check className="text-primary h-4 w-4 flex-shrink-0" />
                   {feature}
                 </li>
               ))}
@@ -167,17 +188,18 @@ export default function UpgradePage() {
             <Button
               onClick={handleUpgrade}
               disabled={isUpgrading}
-              className="w-full rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground w-full
+                gap-2 rounded-2xl"
             >
               {isUpgrading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                   Unlocking…
                 </>
               ) : (
                 <>
                   Unlock team & organisation features
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </Button>
@@ -186,37 +208,43 @@ export default function UpgradePage() {
 
         {/* Error Message */}
         {error && (
-          <Card className="p-4 mb-6 bg-destructive/10 border-destructive/20 rounded-2xl">
-            <p className="text-sm text-destructive">{error}</p>
+          <Card className="bg-destructive/10 border-destructive/20 mb-6 rounded-2xl p-4">
+            <p className="text-destructive text-sm">{error}</p>
           </Card>
         )}
 
         {/* Features Grid */}
         <div className="mb-12">
-          <h2 className="text-2xl font-semibold text-foreground text-center mb-8">
+          <h2 className="text-foreground mb-8 text-center text-2xl font-semibold">
             Organisation Features
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature, i) => (
-              <Card key={i} className="p-5 bg-card border-border/50 rounded-2xl">
-                <div className="w-10 h-10 rounded-xl bg-second/10 flex items-center justify-center mb-3">
-                  <feature.icon className="w-5 h-5 text-second" />
+              <Card key={i} className="bg-card border-border/50 rounded-2xl p-5">
+                <div
+                  className="bg-second/10 mb-3 flex h-10 w-10 items-center justify-center
+                    rounded-xl"
+                >
+                  <feature.icon className="text-second h-5 w-5" />
                 </div>
-                <h3 className="font-medium text-foreground mb-1">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
+                <h3 className="text-foreground mb-1 font-medium">{feature.title}</h3>
+                <p className="text-muted-foreground text-sm">{feature.description}</p>
               </Card>
             ))}
           </div>
         </div>
 
         {/* Privacy Assurance */}
-        <Card className="p-6 bg-primary/5 border-primary/20 rounded-3xl text-center">
-          <Shield className="w-12 h-12 mx-auto text-sky-500 dark:text-sky-400 mb-4" />
-          <h3 className="text-lg font-semibold text-foreground mb-2">Privacy is Non-Negotiable</h3>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            Even with team & organisation features, you&apos;ll only see aggregate data. Individual
-            responses, personal reflections, and text entries are never shared with organisation
-            admins or other members. Trust is the foundation of Self-Lab.
+        <Card className="bg-primary/5 border-primary/20 rounded-3xl p-6 text-center">
+          <Shield className="mx-auto mb-4 h-12 w-12 text-sky-500 dark:text-sky-400" />
+          <h3 className="text-foreground mb-2 text-lg font-semibold">
+            Privacy is Non-Negotiable
+          </h3>
+          <p className="text-muted-foreground mx-auto max-w-xl">
+            Even with team & organisation features, you&apos;ll only see aggregate data.
+            Individual responses, personal reflections, and text entries are never shared
+            with organisation admins or other members. Trust is the foundation of
+            Self-Lab.
           </p>
         </Card>
       </div>

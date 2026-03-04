@@ -11,7 +11,8 @@ import { ReadingPanelContent } from "./Content";
  * 2. Content — verse list or empty state
  */
 export function EnhancedReadingPanel(props: ReadingPanelProps) {
-  const { side, version, content, hoveredVerse, onVerseHover, focusMode, fontSize, t } = props;
+  const { side, version, content, hoveredVerse, onVerseHover, focusMode, fontSize, t } =
+    props;
 
   if (!version) {
     return (

@@ -33,7 +33,9 @@ export async function getAuthenticatedUserId(): Promise<string | null> {
  * Personal: true if the caller is authenticated. Use for APIs that only
  * expose the current user's own data (e.g. GET /api/users/identity). No role check.
  */
-export async function canAccessPersonalData(clerkUserId: string | null): Promise<boolean> {
+export async function canAccessPersonalData(
+  clerkUserId: string | null
+): Promise<boolean> {
   return !!clerkUserId;
 }
 
@@ -152,7 +154,10 @@ export async function canViewAggregateInsights(
  * Org: true if the user may access org-admin routes (e.g. /org/[orgId]/admin/*).
  * Requires: OrganisationMember.role === "org_admin" OR super_admin. Stricter than canManageOrg.
  */
-export async function canActAsOrgAdmin(clerkUserId: string, orgId: string): Promise<boolean> {
+export async function canActAsOrgAdmin(
+  clerkUserId: string,
+  orgId: string
+): Promise<boolean> {
   if (await requireSuperAdmin(clerkUserId)) return true;
   const membership = await getOrgMembership(clerkUserId, orgId);
   return membership?.role === "org_admin";
@@ -162,7 +167,9 @@ export async function canActAsOrgAdmin(clerkUserId: string, orgId: string): Prom
  * Returns the DB user with role. Use when you need User.role or
  * User.accountType for permission checks.
  */
-export async function getDbUser(clerkUserId: string): Promise<(User & { role: string }) | null> {
+export async function getDbUser(
+  clerkUserId: string
+): Promise<(User & { role: string }) | null> {
   const user = await prisma.user.findUnique({
     where: { clerkUserId },
   });

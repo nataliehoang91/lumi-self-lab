@@ -19,10 +19,7 @@ export async function GET(request: NextRequest) {
   }
   const chapter = parseInt(chapterParam, 10);
   if (!Number.isFinite(chapter) || chapter < 1) {
-    return NextResponse.json(
-      { error: "Invalid chapter." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid chapter." }, { status: 400 });
   }
 
   try {
@@ -73,9 +70,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (e) {
     console.error("bible/read", e);
-    return NextResponse.json(
-      { error: "Failed to load chapter." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to load chapter." }, { status: 500 });
   }
 }

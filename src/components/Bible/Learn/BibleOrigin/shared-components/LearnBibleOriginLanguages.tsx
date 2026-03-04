@@ -20,22 +20,28 @@ export function LearnBibleOriginLanguages({
 
   return (
     <section className="mb-10">
-      <BibleHeading level="h2" className="font-bible-english font-semibold text-foreground mb-4">
+      <BibleHeading
+        level="h2"
+        className="font-bible-english text-foreground mb-4 font-semibold"
+      >
         {originalLanguages}
       </BibleHeading>
       <div className="grid grid-cols-3 gap-3">
         {LANG_SCRIPT.map((l, i) => (
           <div
             key={i}
-            className="p-4 bg-card border border-sage-dark/20 rounded-xl text-center"
+            className="bg-card border-sage-dark/20 rounded-xl border p-4 text-center"
           >
-            <p className="font-bible-english text-xl text-muted-foreground/30 select-none leading-none">
+            <p
+              className="font-bible-english text-muted-foreground/30 text-xl leading-none
+                select-none"
+            >
               {l.script}
             </p>
-            <p className="font-bible-english text-3xl font-semibold text-foreground mt-1">
+            <p className="font-bible-english text-foreground mt-1 text-3xl font-semibold">
               {l.pct}
             </p>
-            <p className={cn("font-medium text-foreground mt-1", bodyClass)}>{lang[i]}</p>
+            <p className={cn("text-foreground mt-1 font-medium", bodyClass)}>{lang[i]}</p>
             <p className={cn("text-muted-foreground mt-0.5 leading-snug", bodyClass)}>
               {langNote[i]}
             </p>

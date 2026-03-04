@@ -55,7 +55,9 @@ export function OrgLinkToggle({
   };
 
   const handleUnlink = () => {
-    if (confirm("Are you sure you want to unlink this experiment from the organisation?")) {
+    if (
+      confirm("Are you sure you want to unlink this experiment from the organisation?")
+    ) {
       onUnlink();
     }
   };
@@ -64,14 +66,17 @@ export function OrgLinkToggle({
     const linkedOrg = organisations.find((org) => org.id === linkedOrgId);
     return (
       <div className="space-y-3">
-        <div className="flex items-center gap-2 p-3 rounded-xl bg-violet/10 border border-violet/20">
-          <Building2 className="w-4 h-4 text-violet" />
-          <span className="text-sm text-foreground">
+        <div
+          className="bg-violet/10 border-violet/20 flex items-center gap-2 rounded-xl
+            border p-3"
+        >
+          <Building2 className="text-violet h-4 w-4" />
+          <span className="text-foreground text-sm">
             Linked to {linkedOrg?.name || "Organisation"}
           </span>
         </div>
         <Button variant="outline" onClick={handleUnlink} className="w-full">
-          <Home className="w-4 h-4 mr-2" />
+          <Home className="mr-2 h-4 w-4" />
           Make Personal
         </Button>
       </div>
@@ -80,13 +85,13 @@ export function OrgLinkToggle({
 
   return (
     <>
-      <div className="p-4 rounded-xl bg-muted/50 border border-border">
-        <p className="text-sm text-muted-foreground mb-3">
-          You can link this experiment to an organisation later if you want to contribute to team
-          insights. Your personal data will always stay private.
+      <div className="bg-muted/50 border-border rounded-xl border p-4">
+        <p className="text-muted-foreground mb-3 text-sm">
+          You can link this experiment to an organisation later if you want to contribute
+          to team insights. Your personal data will always stay private.
         </p>
         <Button variant="outline" onClick={handleLinkClick} className="w-full">
-          <Building2 className="w-4 h-4 mr-2" />
+          <Building2 className="mr-2 h-4 w-4" />
           Link to Organisation
         </Button>
       </div>

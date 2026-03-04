@@ -5,17 +5,19 @@ import { Plus } from "lucide-react";
 
 export function DashboardStartNewCard() {
   return (
-    <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
+    <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h3 className="text-lg font-semibold text-foreground mb-1">Start Something New</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <h3 className="text-foreground mb-1 text-lg font-semibold">
+            Start Something New
+          </h3>
+          <p className="text-muted-foreground text-sm leading-relaxed">
             Design a custom experiment or use a template
           </p>
         </div>
         <Button variant="secondaryLight" asChild>
           <Link href="/experiments/create">
-            <Plus className="w-5 h-5" />
+            <Plus className="h-5 w-5" />
             Create
           </Link>
         </Button>

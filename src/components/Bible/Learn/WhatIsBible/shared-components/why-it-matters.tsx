@@ -13,8 +13,13 @@ export function LearnWhyItMatters({ title, body, children }: LearnWhyItMattersPr
   const { bodyClass } = useLearnFontClasses();
 
   return (
-    <section className="mb-12 p-6 bg-primary-light/10 gap-6 border border-primary-dark/30 rounded-xl">
-      <h2 className="font-bible-english text-xl font-semibold text-foreground mb-3">{title}</h2>
+    <section
+      className="bg-primary-light/10 border-primary-dark/30 mb-12 gap-6 rounded-xl border
+        p-6"
+    >
+      <h2 className="font-bible-english text-foreground mb-3 text-xl font-semibold">
+        {title}
+      </h2>
       {body && <p className={cn("leading-relaxed", bodyClass)}>{body}</p>}
       {children}
     </section>

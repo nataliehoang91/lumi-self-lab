@@ -10,9 +10,15 @@ export function EmptyReadState() {
   const t = intl.t.bind(intl);
 
   return (
-    <div className="flex flex-1 w-full min-h-[calc(100vh-20rem)] items-center justify-center py-16">
-      <div className="text-center text-muted-foreground space-y-2">
-        <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-border">
+    <div
+      className="flex min-h-[calc(100vh-20rem)] w-full flex-1 items-center justify-center
+        py-16"
+    >
+      <div className="text-muted-foreground space-y-2 text-center">
+        <div
+          className="border-border mx-auto mb-3 flex h-10 w-10 items-center justify-center
+            rounded-full border"
+        >
           <BookOpenIcon className="h-5 w-5" />
         </div>
         <p className="text-sm font-medium">

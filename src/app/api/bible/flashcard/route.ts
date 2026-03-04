@@ -13,12 +13,14 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     const [ids, total] = await Promise.all([
-      prisma.flashVerse.findMany({
-        orderBy: { createdAt: "desc" },
-        skip,
-        take: limit,
-        select: { id: true },
-      }).then((rows) => rows.map((r) => r.id)),
+      prisma.flashVerse
+        .findMany({
+          orderBy: { createdAt: "desc" },
+          skip,
+          take: limit,
+          select: { id: true },
+        })
+        .then((rows) => rows.map((r) => r.id)),
       prisma.flashVerse.count(),
     ]);
 

@@ -89,80 +89,105 @@ export default function ExperimentPreviewPage() {
 
   return (
     <IndividualContainer>
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/20 to-violet/20 flex items-center justify-center">
-            <Sparkles className="w-6 h-6 text-primary" />
+        <div className="mb-8 flex items-center gap-3">
+          <div
+            className="from-primary/20 to-violet/20 flex h-12 w-12 items-center
+              justify-center rounded-2xl bg-gradient-to-br"
+          >
+            <Sparkles className="text-primary h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">AI Generated</p>
-            <h1 className="text-2xl font-semibold text-foreground">Your Experiment Preview</h1>
+            <p className="text-muted-foreground text-sm">AI Generated</p>
+            <h1 className="text-foreground text-2xl font-semibold">
+              Your Experiment Preview
+            </h1>
           </div>
         </div>
 
         {/* Main experiment card */}
-        <div className="bg-card rounded-3xl p-8 shadow-xl shadow-black/5 border border-border/50 mb-6">
+        <div
+          className="bg-card border-border/50 mb-6 rounded-3xl border p-8 shadow-xl
+            shadow-black/5"
+        >
           {/* Title */}
           <div className="mb-6">
-            <label className="text-sm text-muted-foreground mb-2 block">Experiment Title</label>
+            <label className="text-muted-foreground mb-2 block text-sm">
+              Experiment Title
+            </label>
             {isEditing === "title" ? (
               <div className="flex gap-2">
                 <Input
                   value={experiment.title}
-                  onChange={(e) => setExperiment({ ...experiment, title: e.target.value })}
-                  className="text-2xl font-semibold rounded-xl"
+                  onChange={(e) =>
+                    setExperiment({ ...experiment, title: e.target.value })
+                  }
+                  className="rounded-xl text-2xl font-semibold"
                 />
                 <Button
                   size="icon"
                   onClick={() => setIsEditing(null)}
-                  className="rounded-xl bg-primary"
+                  className="bg-primary rounded-xl"
                 >
-                  <Check className="w-4 h-4" />
+                  <Check className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-2 group">
-                <h2 className="text-2xl font-semibold text-foreground">{experiment.title}</h2>
+              <div className="group flex items-center gap-2">
+                <h2 className="text-foreground text-2xl font-semibold">
+                  {experiment.title}
+                </h2>
                 <button
                   onClick={() => setIsEditing("title")}
-                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-muted rounded-lg transition-all"
+                  className="hover:bg-muted rounded-lg p-1 opacity-0 transition-all
+                    group-hover:opacity-100"
                 >
-                  <Edit2 className="w-4 h-4 text-muted-foreground" />
+                  <Edit2 className="text-muted-foreground h-4 w-4" />
                 </button>
               </div>
             )}
           </div>
 
           {/* Why it matters */}
-          <div className="mb-6 p-4 rounded-2xl bg-violet/5 border border-violet/20">
-            <label className="text-sm font-medium text-violet mb-2 block">Why This Matters</label>
+          <div className="bg-violet/5 border-violet/20 mb-6 rounded-2xl border p-4">
+            <label className="text-violet mb-2 block text-sm font-medium">
+              Why This Matters
+            </label>
             <p className="text-foreground">{experiment.whyItMatters}</p>
           </div>
 
           {/* Hypothesis */}
-          <div className="mb-6 p-4 rounded-2xl bg-primary/5 border border-primary/20">
-            <label className="text-sm font-medium text-primary mb-2 block">Your Hypothesis</label>
+          <div className="bg-primary/5 border-primary/20 mb-6 rounded-2xl border p-4">
+            <label className="text-primary mb-2 block text-sm font-medium">
+              Your Hypothesis
+            </label>
             <p className="text-foreground">{experiment.hypothesis}</p>
           </div>
 
           {/* Duration & Frequency */}
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="flex items-center gap-3 p-4 rounded-2xl bg-muted/50">
-              <div className="w-10 h-10 rounded-xl bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-sky-600" />
+          <div className="mb-8 grid grid-cols-2 gap-4">
+            <div className="bg-muted/50 flex items-center gap-3 rounded-2xl p-4">
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-xl
+                  bg-sky-100 dark:bg-sky-900/30"
+              >
+                <Calendar className="h-5 w-5 text-sky-600" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Duration</p>
+                <p className="text-muted-foreground text-sm">Duration</p>
                 <p className="font-medium">{experiment.duration} days</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-4 rounded-2xl bg-muted/50">
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                <Clock className="w-5 h-5 text-emerald-600" />
+            <div className="bg-muted/50 flex items-center gap-3 rounded-2xl p-4">
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-xl
+                  bg-emerald-100 dark:bg-emerald-900/30"
+              >
+                <Clock className="h-5 w-5 text-emerald-600" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Check-in</p>
+                <p className="text-muted-foreground text-sm">Check-in</p>
                 <p className="font-medium">{experiment.frequency}</p>
               </div>
             </div>
@@ -170,23 +195,34 @@ export default function ExperimentPreviewPage() {
 
           {/* Tracking fields */}
           <div>
-            <h3 className="text-lg font-medium text-foreground mb-4">What You&apos;ll Track</h3>
+            <h3 className="text-foreground mb-4 text-lg font-medium">
+              What You&apos;ll Track
+            </h3>
             <div className="space-y-3">
               {experiment.fields.map((field, index) => {
                 const Icon = fieldTypeIcons[field.type] || Target;
                 return (
                   <div
                     key={field.id}
-                    className="flex items-center gap-4 p-4 rounded-2xl bg-muted/30 border border-border/50"
+                    className="bg-muted/30 border-border/50 flex items-center gap-4
+                      rounded-2xl border p-4"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-violet/20 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-primary" />
+                    <div
+                      className="from-primary/20 to-violet/20 flex h-10 w-10 items-center
+                        justify-center rounded-xl bg-gradient-to-br"
+                    >
+                      <Icon className="text-primary h-5 w-5" />
                     </div>
                     <div className="flex-grow">
-                      <p className="font-medium text-foreground">{field.label}</p>
-                      <p className="text-sm text-muted-foreground">{fieldTypeLabels[field.type]}</p>
+                      <p className="text-foreground font-medium">{field.label}</p>
+                      <p className="text-muted-foreground text-sm">
+                        {fieldTypeLabels[field.type]}
+                      </p>
                     </div>
-                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-lg">
+                    <span
+                      className="text-muted-foreground bg-muted rounded-lg px-2 py-1
+                        text-xs"
+                    >
                       #{index + 1}
                     </span>
                   </div>
@@ -207,9 +243,10 @@ export default function ExperimentPreviewPage() {
           </Button>
           <Button
             onClick={handleStartExperiment}
-            className="gap-2 rounded-2xl bg-primary hover:bg-violet text-primary-foreground px-8 py-6 text-lg"
+            className="bg-primary hover:bg-violet text-primary-foreground gap-2
+              rounded-2xl px-8 py-6 text-lg"
           >
-            <Play className="w-5 h-5" />
+            <Play className="h-5 w-5" />
             Start Experiment
           </Button>
         </div>

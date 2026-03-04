@@ -78,7 +78,10 @@ export function SignInForm() {
     <InteractiveForm<SignInFields> fields={["email", "password"]} action={handleSignIn}>
       <div className="space-y-6">
         {error && (
-          <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+          <div
+            className="bg-destructive/10 border-destructive/20 text-destructive rounded-md
+              border p-3 text-sm"
+          >
             {error}
           </div>
         )}

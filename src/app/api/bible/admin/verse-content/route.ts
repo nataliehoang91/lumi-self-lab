@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-function joinContent(parts: (string | null | undefined)[], separator = " "): string | null {
+function joinContent(
+  parts: (string | null | undefined)[],
+  separator = " "
+): string | null {
   const trimmed = parts
     .filter((p): p is string => typeof p === "string" && p.trim() !== "")
     .map((p) => p.trim());
@@ -28,14 +31,17 @@ export async function GET(request: NextRequest) {
 
   const chapterNum = parseInt(chapter, 10);
   const verseNum = parseInt(verse, 10);
-  if (Number.isNaN(chapterNum) || Number.isNaN(verseNum) || chapterNum < 1 || verseNum < 1) {
+  if (
+    Number.isNaN(chapterNum) ||
+    Number.isNaN(verseNum) ||
+    chapterNum < 1 ||
+    verseNum < 1
+  ) {
     return NextResponse.json({ error: "Invalid chapter or verse." }, { status: 400 });
   }
 
   const verseEndNum =
-    verseEndParam != null && verseEndParam !== ""
-      ? parseInt(verseEndParam, 10)
-      : null;
+    verseEndParam != null && verseEndParam !== "" ? parseInt(verseEndParam, 10) : null;
   const isRange =
     verseEndNum != null &&
     !Number.isNaN(verseEndNum) &&
@@ -79,9 +85,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(combined);
   } catch (e) {
     console.error("verse-content", e);
-    return NextResponse.json(
-      { error: "Failed to load content." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to load content." }, { status: 500 });
   }
 }

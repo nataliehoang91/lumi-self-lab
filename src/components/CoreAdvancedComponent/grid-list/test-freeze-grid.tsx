@@ -186,7 +186,10 @@ type FreezeGridAction =
 // REDUCER
 // ============================================
 
-function freezeGridReducer(state: FreezeGridState, action: FreezeGridAction): FreezeGridState {
+function freezeGridReducer(
+  state: FreezeGridState,
+  action: FreezeGridAction
+): FreezeGridState {
   switch (action.type) {
     case "FREEZE_COLUMN": {
       if (state.frozenColumns.length >= state.maxFrozenColumns) {
@@ -503,7 +506,13 @@ export function FreezableGridProvider({
     }, 50);
 
     return () => clearTimeout(timer);
-  }, [currentSort, currentOrder, remeasureAll, preserveScrollPosition, state.frozenColumns.length]);
+  }, [
+    currentSort,
+    currentOrder,
+    remeasureAll,
+    preserveScrollPosition,
+    state.frozenColumns.length,
+  ]);
 
   const toggleFreeze = useCallback(
     (columnId: string) => {
@@ -540,7 +549,9 @@ export function FreezableGridProvider({
   );
 
   const getOrderedColumns = useCallback(() => {
-    return state.columnOrder.map((id) => getColumnConfig(id)).filter(Boolean) as ColumnConfig[];
+    return state.columnOrder
+      .map((id) => getColumnConfig(id))
+      .filter(Boolean) as ColumnConfig[];
   }, [state.columnOrder, getColumnConfig]);
 
   const generateGridTemplate = useCallback(() => {
@@ -645,7 +656,11 @@ export function FreezableGridProvider({
     ]
   );
 
-  return <FreezeGridContext.Provider value={contextValue}>{children}</FreezeGridContext.Provider>;
+  return (
+    <FreezeGridContext.Provider value={contextValue}>
+      {children}
+    </FreezeGridContext.Provider>
+  );
 }
 
 // ============================================
@@ -690,7 +705,7 @@ export function FreezableGridContent({
     <div className={cn("w-full", containerClassName)}>
       <div
         className={cn(
-          "grid w-full relative transition-opacity duration-150",
+          "relative grid w-full transition-opacity duration-150",
           context?.isMeasuring ? "opacity-50" : "opacity-100",
           className
         )}
@@ -720,7 +735,7 @@ export function FreezableGridHeader({
 
   return (
     <div
-      className={cn("grid col-span-full grid-cols-subgrid sticky z-40", className)}
+      className={cn("sticky z-40 col-span-full grid grid-cols-subgrid", className)}
       style={{ top: topOffset }}
       role="rowgroup"
       {...props}
@@ -776,7 +791,11 @@ export function FreezableGridHeaderRow({
   }, [children, context]);
 
   return (
-    <div className={cn("grid col-span-full grid-cols-subgrid", className)} role="row" {...props}>
+    <div
+      className={cn("col-span-full grid grid-cols-subgrid", className)}
+      role="row"
+      {...props}
+    >
       {processedChildren}
     </div>
   );
@@ -791,7 +810,10 @@ export function FreezableGridBody({
   className?: string;
 }) {
   return (
-    <div className={cn("grid col-span-full grid-cols-subgrid", className)} role="rowgroup">
+    <div
+      className={cn("col-span-full grid grid-cols-subgrid", className)}
+      role="rowgroup"
+    >
       {children}
     </div>
   );
@@ -826,7 +848,9 @@ export function FreezableGridRow({
     });
 
     // Return in the correct order
-    return context.state.columnOrder.map((columnId) => childMap.get(columnId)).filter(Boolean);
+    return context.state.columnOrder
+      .map((columnId) => childMap.get(columnId))
+      .filter(Boolean);
   }, [children, context]);
 
   return (
@@ -1038,7 +1062,8 @@ export function FreezableGridColumnHeader({
         if (headerRef.current && measureColumn && headerRef.current === currentElement) {
           // Preserve scroll position before measurement
           const scrollContainer =
-            document.querySelector(".freezable-grid-container") || document.documentElement;
+            document.querySelector(".freezable-grid-container") ||
+            document.documentElement;
           const scrollLeft = scrollContainer.scrollLeft;
           const scrollTop = scrollContainer.scrollTop;
 
@@ -1148,7 +1173,7 @@ export function FreezableGridColumnHeader({
       <div className={cn(headerContentFlexDirection || "flex items-center gap-3")}>
         <div
           className={cn(
-            "flex items-center gap-3 justify-center",
+            "flex items-center justify-center gap-3",
             !showLockIcon && !toggleFreezeOutside && "justify-center"
           )}
         >
@@ -1161,7 +1186,8 @@ export function FreezableGridColumnHeader({
                   toggleFreeze(columnId);
                 }
               }}
-              className="flex-shrink-0 hover:opacity-80 transition-opacity cursor-pointer flex items-center gap-1"
+              className="flex flex-shrink-0 cursor-pointer items-center gap-1
+                transition-opacity hover:opacity-80"
               aria-label={isFrozen ? "Unfreeze column" : "Freeze column"}
             >
               {isFrozen ? (
@@ -1178,7 +1204,7 @@ export function FreezableGridColumnHeader({
             </button>
           )}
           {!toggleFreezeOutside && showLockIcon && isFrozen && (
-            <Lock className={cn("size-3 text-blue-400 flex-shrink-0")} />
+            <Lock className={cn("size-3 flex-shrink-0 text-blue-400")} />
           )}
           {children || column?.label}
         </div>
@@ -1189,7 +1215,7 @@ export function FreezableGridColumnHeader({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="h-4 w-4 p-0 hover:bg-white/20 transition-colors ml-4"
+                className="ml-4 h-4 w-4 p-0 transition-colors hover:bg-white/20"
                 onClick={(e) => e.stopPropagation()}
               >
                 <ChevronDown className={cn("h-3 w-3 text-white", iconClassNames)} />
@@ -1216,7 +1242,9 @@ export function FreezableGridColumnHeader({
                   )}
                 </DropdownMenuItem>
               )}
-              {sortable && <DropdownMenuItem onClick={onSort}>Sort Column</DropdownMenuItem>}
+              {sortable && (
+                <DropdownMenuItem onClick={onSort}>Sort Column</DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -1260,7 +1288,8 @@ export function FreezableGridCell({
     const currentElement = cellRef.current;
     const elementChanged = lastElementRef.current !== currentElement;
     const shouldMeasure =
-      (isFrozen || !hasBeenMeasured.current) && (!hasBeenMeasured.current || elementChanged);
+      (isFrozen || !hasBeenMeasured.current) &&
+      (!hasBeenMeasured.current || elementChanged);
 
     if (shouldMeasure) {
       lastElementRef.current = currentElement;
@@ -1270,7 +1299,8 @@ export function FreezableGridCell({
         if (cellRef.current && measureColumn && cellRef.current === currentElement) {
           // Preserve scroll position before measurement
           const scrollContainer =
-            document.querySelector(".freezable-grid-container") || document.documentElement;
+            document.querySelector(".freezable-grid-container") ||
+            document.documentElement;
           const scrollLeft = scrollContainer.scrollLeft;
           const scrollTop = scrollContainer.scrollTop;
 
@@ -1337,7 +1367,7 @@ export function FreezableGridCell({
 
   // Early return AFTER all hooks are called
   if (!context) {
-    return <div className={cn("px-3 py-1 flex items-center", className)}>{children}</div>;
+    return <div className={cn("flex items-center px-3 py-1", className)}>{children}</div>;
   }
 
   const finalFrozenCellClassName = cn(
@@ -1374,7 +1404,8 @@ export function FreezableGridCell({
     <div
       ref={cellRef}
       className={cn(
-        "px-2 py-1 text-sm border-r border-b border-border last:border-r-0 text-left flex items-center dark:border-slate-600",
+        `border-border flex items-center border-r border-b px-2 py-1 text-left text-sm
+        last:border-r-0 dark:border-slate-600`,
         // Allow text wrapping when maxTextLength is undefined
         maxTextLength === undefined && "break-words",
         isFrozen && finalFrozenCellClassName,
@@ -1398,12 +1429,17 @@ export function FrozenColumnsIndicator() {
   }
 
   return (
-    <div className="flex items-center justify-between md:flex-row flex-col gap-4 px-4 py-1.5 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg text-blue-700 dark:text-blue-300 text-sm mb-4">
+    <div
+      className="mb-4 flex flex-col items-center justify-between gap-4 rounded-lg border
+        border-blue-200 bg-blue-50 px-4 py-1.5 text-sm text-blue-700 md:flex-row
+        dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300"
+    >
       <div className="flex items-center gap-3">
         <Lock className="h-4 w-4 flex-shrink-0" />
         <div className="flex items-center gap-2">
           <span suppressHydrationWarning>
-            {context.state.frozenColumns.length} of {context.currentMaxFrozen} columns frozen
+            {context.state.frozenColumns.length} of {context.currentMaxFrozen} columns
+            frozen
           </span>
           <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
             <TooltipProvider>

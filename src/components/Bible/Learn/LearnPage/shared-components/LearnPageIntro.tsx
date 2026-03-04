@@ -15,15 +15,23 @@ export function LearnPageIntro({ eyebrow, title, subtitle }: LearnPageIntroProps
 
   return (
     <div className="mb-16">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+      <p
+        className="text-muted-foreground mb-4 text-xs font-semibold tracking-[0.2em]
+          uppercase"
+      >
         {eyebrow}
       </p>
-      <h1 className={cn("font-bible-english font-semibold leading-tight text-balance", h1Class)}>
+      <h1
+        className={cn(
+          "font-bible-english leading-tight font-semibold text-balance",
+          h1Class
+        )}
+      >
         {title}
       </h1>
       <p
         className={cn(
-          "mt-4 font-light text-muted-foreground leading-relaxed max-w-xl",
+          "text-muted-foreground mt-4 max-w-xl leading-relaxed font-light",
           subtitleClass
         )}
       >

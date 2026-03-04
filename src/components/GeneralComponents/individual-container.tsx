@@ -10,7 +10,7 @@ interface IndividualContainerProps {
  */
 export function IndividualContainer({ children, className }: IndividualContainerProps) {
   return (
-    <div className={cn("min-h-screen w-full mx-auto max-w-7xl md:px-4 py-6", className)}>
+    <div className={cn("mx-auto min-h-screen w-full max-w-7xl py-6 md:px-4", className)}>
       {children}
     </div>
   );

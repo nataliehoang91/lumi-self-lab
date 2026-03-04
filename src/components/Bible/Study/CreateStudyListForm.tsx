@@ -28,8 +28,12 @@ export function CreateStudyListForm() {
   return (
     <Form asChild className="contents">
       <InteractiveForm<StudyListFields>
-        className="space-y-4 rounded-2xl border border-border bg-card/80 p-6 shadow-sm"
-        fields={[STUDY_LIST_TITLE_FIELDS, STUDY_LIST_DESCRIPTION_FIELDS, STUDY_LIST_GENERAL_FIELDS]}
+        className="border-border bg-card/80 space-y-4 rounded-2xl border p-6 shadow-sm"
+        fields={[
+          STUDY_LIST_TITLE_FIELDS,
+          STUDY_LIST_DESCRIPTION_FIELDS,
+          STUDY_LIST_GENERAL_FIELDS,
+        ]}
         action={createStudyList}
       >
         <FormErrorMessage name="general" match="unauthorized">
@@ -46,7 +50,7 @@ export function CreateStudyListForm() {
               minLength={3}
               maxLength={80}
               placeholder="e.g. Morning Devotion"
-              className="w-full rounded-md border px-3 py-2 text-sm bg-background"
+              className="bg-background w-full rounded-md border px-3 py-2 text-sm"
             />
           </InputControl>
           <ReserveLayout placeItems="start">
@@ -65,7 +69,7 @@ export function CreateStudyListForm() {
             <Input
               maxLength={200}
               placeholder="What is this study about?"
-              className="w-full rounded-md border px-3 py-2 text-sm bg-background"
+              className="bg-background w-full rounded-md border px-3 py-2 text-sm"
             />
           </InputControl>
           <ReserveLayout placeItems="start">

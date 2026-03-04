@@ -10,9 +10,6 @@ export async function GET() {
     return NextResponse.json(verses);
   } catch (e) {
     console.error("flash", e);
-    return NextResponse.json(
-      { error: "Failed to fetch verses." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch verses." }, { status: 500 });
   }
 }

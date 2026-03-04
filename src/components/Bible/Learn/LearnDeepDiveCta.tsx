@@ -39,11 +39,12 @@ export function LearnDeepDiveCta() {
   const { lang } = result;
 
   return (
-    <Card className="py-0 px-2 rounded-2xl overflow-hidden border-l-4 border-l-second/80">
-      <CardHeader className="py-2 border-b border-border/80 space-y-0">
+    <Card className="border-l-second/80 overflow-hidden rounded-2xl border-l-4 px-2 py-0">
+      <CardHeader className="border-border/80 space-y-0 border-b py-2">
         <p
           className={cn(
-            "font-serif sm:text-left text-center leading-relaxed text-balance text-foreground",
+            `text-foreground text-center font-serif leading-relaxed text-balance
+            sm:text-left`,
             bodyTitleClass
           )}
         >
@@ -51,7 +52,8 @@ export function LearnDeepDiveCta() {
         </p>
         <p
           className={cn(
-            "mt-2 font-medium tracking-[0.2em] uppercase text-second sm:text-left text-center",
+            `text-second mt-2 text-center font-medium tracking-[0.2em] uppercase
+            sm:text-left`,
             subBodyClass
           )}
         >
@@ -59,10 +61,12 @@ export function LearnDeepDiveCta() {
         </p>
       </CardHeader>
 
-      <CardFooter className="py-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <CardFooter
+        className="flex flex-col justify-between gap-4 py-2 sm:flex-row sm:items-center"
+      >
         <p
           className={cn(
-            "text-muted-foreground sm:text-left text-center leading-relaxed",
+            "text-muted-foreground text-center leading-relaxed sm:text-left",
             bodyClass
           )}
         >
@@ -71,12 +75,13 @@ export function LearnDeepDiveCta() {
         <Link
           href={`/bible/${lang}/learn/deep-dive`}
           className={cn(
-            "flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold whitespace-nowrap transition-all shrink-0",
+            `flex shrink-0 items-center gap-2 rounded-xl px-5 py-2.5 font-semibold
+            whitespace-nowrap transition-all`,
             "bg-second text-second-foreground hover:bg-second/90",
             buttonClass
           )}
         >
-          <Sparkles className="w-3.5 h-3.5" />
+          <Sparkles className="h-3.5 w-3.5" />
           {intl.t("learnDeepDiveButton")}
         </Link>
       </CardFooter>

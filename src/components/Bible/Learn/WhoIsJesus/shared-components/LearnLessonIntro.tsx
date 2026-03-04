@@ -25,14 +25,14 @@ export function LearnLessonIntro({
   return (
     <div className="mb-12">
       <p
-        className="text-xs font-mono text-second mb-3"
+        className="text-second mb-3 font-mono text-xs"
         aria-label={moduleNum.replace(" / ", " of ")}
       >
         {moduleNum}
       </p>
       <h1
         className={cn(
-          "font-bible-english font-semibold text-foreground leading-tight text-balance",
+          "font-bible-english text-foreground leading-tight font-semibold text-balance",
           h1Class
         )}
       >
@@ -40,19 +40,23 @@ export function LearnLessonIntro({
       </h1>
 
       {typeof intro1 === "string" ? (
-        <p className={cn("mt-4 text-muted-foreground leading-relaxed", introClass)}>{intro1}</p>
+        <p className={cn("text-muted-foreground mt-4 leading-relaxed", introClass)}>
+          {intro1}
+        </p>
       ) : (
         intro1
       )}
 
-      <blockquote className="mt-3 pl-4 border-l-2 border-primary/40 not-italic" cite="">
-        <p className={cn("font-semibold text-foreground leading-relaxed", introClass)}>
+      <blockquote className="border-primary/40 mt-3 border-l-2 pl-4 not-italic" cite="">
+        <p className={cn("text-foreground leading-relaxed font-semibold", introClass)}>
           &ldquo;{intro1Quote}&rdquo;
         </p>
       </blockquote>
 
       {typeof children === "string" ? (
-        <p className={cn("mt-4 text-muted-foreground leading-relaxed", introClass)}>{children}</p>
+        <p className={cn("text-muted-foreground mt-4 leading-relaxed", introClass)}>
+          {children}
+        </p>
       ) : (
         children
       )}

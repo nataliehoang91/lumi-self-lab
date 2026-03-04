@@ -12,10 +12,15 @@ export function useLearnFontClasses() {
   const bodyTitleClass =
     fontSize === "small" ? "text-md" : fontSize === "large" ? "text-xl" : "text-lg";
 
-  const bodyClass = fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-md";
+  const bodyClass =
+    fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-md";
 
   const subBodyClass =
-    fontSize === "small" ? "text-[0.6875rem]" : fontSize === "large" ? "text-sm" : "text-xs";
+    fontSize === "small"
+      ? "text-[0.6875rem]"
+      : fontSize === "large"
+        ? "text-sm"
+        : "text-xs";
 
   const h1Class =
     fontSize === "small"

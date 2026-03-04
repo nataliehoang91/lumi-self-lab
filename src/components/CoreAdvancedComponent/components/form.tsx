@@ -595,7 +595,9 @@ function isHTMLElement(element: unknown): element is HTMLElement {
   return element instanceof HTMLElement;
 }
 
-function isFormControl(element: HTMLElement): element is HTMLElement & { validity: ValidityState } {
+function isFormControl(
+  element: HTMLElement
+): element is HTMLElement & { validity: ValidityState } {
   return "validity" in element;
 }
 

@@ -29,23 +29,35 @@ export function LearnWhatIsBibleTestamentSection({
 
   return (
     <section className="mb-12">
-      <h2 className="font-bible-english text-2xl font-semibold text-foreground mb-2">{title}</h2>
+      <h2 className="font-bible-english text-foreground mb-2 text-2xl font-semibold">
+        {title}
+      </h2>
       {typeof intro === "string" ? (
-        <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass)}>{intro}</p>
+        <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass)}>
+          {intro}
+        </p>
       ) : (
         intro
       )}
       <div className="space-y-2">
         {sections.map((s, i) => (
-          <div key={i} className="flex gap-4 p-4 bg-card border border-sage-dark/20 rounded-xl">
-            <div className="w-10 h-10 rounded-full bg-second/30 flex items-center justify-center shrink-0 text-sm font-semibold font-mono">
+          <div
+            key={i}
+            className="bg-card border-sage-dark/20 flex gap-4 rounded-xl border p-4"
+          >
+            <div
+              className="bg-second/30 flex h-10 w-10 shrink-0 items-center justify-center
+                rounded-full font-mono text-sm font-semibold"
+            >
               {s.books}
             </div>
             <div className="min-w-0">
-              <p className={cn("font-medium text-foreground", bodyClass)}>
+              <p className={cn("text-foreground font-medium", bodyClass)}>
                 {sectionNames[s.nameKey]}
               </p>
-              <p className={cn("text-muted-foreground mt-0.5 leading-relaxed", bodyClass)}>
+              <p
+                className={cn("text-muted-foreground mt-0.5 leading-relaxed", bodyClass)}
+              >
                 {sectionDescs[s.descKey]}
               </p>
             </div>

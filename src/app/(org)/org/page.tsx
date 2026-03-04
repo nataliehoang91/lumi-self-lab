@@ -118,7 +118,7 @@ const getScopeBadge = (scope: "personal" | "team" | "org") => {
       );
     case "team":
       return (
-        <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-xs">
+        <Badge className="rounded-full bg-blue-100 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
           Team
         </Badge>
       );
@@ -155,7 +155,8 @@ export default function OrgsPage() {
         }
       })
       .catch((err) => {
-        if (!cancelled) setOrgsError(err instanceof Error ? err.message : "Failed to load");
+        if (!cancelled)
+          setOrgsError(err instanceof Error ? err.message : "Failed to load");
       })
       .finally(() => {
         if (!cancelled) setOrgsLoading(false);
@@ -179,19 +180,25 @@ export default function OrgsPage() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-violet-50 dark:from-background dark:via-background dark:to-violet-950/20">
-        <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div
+        className="dark:from-background dark:via-background min-h-screen bg-gradient-to-br
+          from-orange-50 via-white to-violet-50 dark:to-violet-950/20"
+      >
+        <div className="container mx-auto max-w-5xl px-4 py-8">
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-primary/20 to-violet/20 flex items-center justify-center">
+            <div className="mb-2 flex items-center gap-3">
+              <div
+                className="from-primary/20 to-violet/20 flex h-10 w-10 items-center
+                  justify-center rounded-2xl bg-gradient-to-br"
+              >
                 {userData?.isOrgAdmin ? (
-                  <Building2 className="w-5 h-5 text-primary" />
+                  <Building2 className="text-primary h-5 w-5" />
                 ) : (
-                  <Sparkles className="w-5 h-5 text-primary" />
+                  <Sparkles className="text-primary h-5 w-5" />
                 )}
               </div>
-              <h1 className="text-3xl font-semibold text-foreground">{pageTitle}</h1>
+              <h1 className="text-foreground text-3xl font-semibold">{pageTitle}</h1>
             </div>
             <p className="text-muted-foreground">{pageDescription}</p>
           </div>
@@ -199,10 +206,16 @@ export default function OrgsPage() {
           {/* Pending Assignments */}
           {mockPendingAssignments.length > 0 && (
             <div className="mb-8">
-              <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-orange-500" />
+              <h2
+                className="text-foreground mb-4 flex items-center gap-2 text-lg
+                  font-semibold"
+              >
+                <Clock className="h-5 w-5 text-orange-500" />
                 Pending Assignments
-                <Badge className="bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 rounded-full">
+                <Badge
+                  className="rounded-full bg-orange-100 text-orange-700
+                    dark:bg-orange-900/30 dark:text-orange-400"
+                >
                   {mockPendingAssignments.length}
                 </Badge>
               </h2>
@@ -210,32 +223,39 @@ export default function OrgsPage() {
                 {mockPendingAssignments.map((assignment) => (
                   <Card
                     key={assignment.id}
-                    className="p-4 bg-card border-border/50 rounded-2xl hover:shadow-lg hover:shadow-primary/5 transition-all"
+                    className="bg-card border-border/50 hover:shadow-primary/5 rounded-2xl
+                      p-4 transition-all hover:shadow-lg"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                       <div className="flex-1">
-                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <h3 className="font-medium text-foreground">
+                        <div className="mb-1 flex flex-wrap items-center gap-2">
+                          <h3 className="text-foreground font-medium">
                             {assignment.experimentTitle}
                           </h3>
                           {getScopeBadge(assignment.scope)}
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          From <span className="text-foreground">{assignment.orgName}</span>
+                        <p className="text-muted-foreground mb-2 text-sm">
+                          From{" "}
+                          <span className="text-foreground">{assignment.orgName}</span>
                           {assignment.teamName && (
                             <>
                               {" "}
-                              / <span className="text-foreground">{assignment.teamName}</span>
+                              /{" "}
+                              <span className="text-foreground">
+                                {assignment.teamName}
+                              </span>
                             </>
                           )}
                         </p>
-                        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                        <div
+                          className="text-muted-foreground flex flex-wrap gap-3 text-xs"
+                        >
                           <span className="flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5" />
+                            <Calendar className="h-3.5 w-3.5" />
                             {assignment.duration} days
                           </span>
                           <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5" />
+                            <Clock className="h-3.5 w-3.5" />
                             Assigned {assignment.assignedDate}
                           </span>
                         </div>
@@ -244,16 +264,16 @@ export default function OrgsPage() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="rounded-xl bg-transparent gap-1.5"
+                          className="gap-1.5 rounded-xl bg-transparent"
                         >
-                          <XCircle className="w-4 h-4" />
+                          <XCircle className="h-4 w-4" />
                           Decline
                         </Button>
                         <Button
                           size="sm"
-                          className="rounded-xl bg-primary hover:bg-primary/90 gap-1.5"
+                          className="bg-primary hover:bg-primary/90 gap-1.5 rounded-xl"
                         >
-                          <CheckCircle2 className="w-4 h-4" />
+                          <CheckCircle2 className="h-4 w-4" />
                           Accept
                         </Button>
                       </div>
@@ -263,13 +283,19 @@ export default function OrgsPage() {
               </div>
 
               {/* Privacy notice */}
-              <Card className="mt-4 p-3 bg-emerald-50/50 dark:bg-emerald-900/10 border-emerald-200/50 dark:border-emerald-800/50 rounded-xl">
+              <Card
+                className="mt-4 rounded-xl border-emerald-200/50 bg-emerald-50/50 p-3
+                  dark:border-emerald-800/50 dark:bg-emerald-900/10"
+              >
                 <div className="flex items-start gap-2">
-                  <Shield className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                  <p className="text-xs text-muted-foreground">
-                    <span className="font-medium text-foreground">Your privacy is protected.</span>{" "}
-                    Accepting an experiment only shares aggregate scores with the organization. Your
-                    personal reflections and text entries remain private.
+                  <Shield className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600" />
+                  <p className="text-muted-foreground text-xs">
+                    <span className="text-foreground font-medium">
+                      Your privacy is protected.
+                    </span>{" "}
+                    Accepting an experiment only shares aggregate scores with the
+                    organization. Your personal reflections and text entries remain
+                    private.
                   </p>
                 </div>
               </Card>
@@ -279,12 +305,15 @@ export default function OrgsPage() {
           {/* Search */}
           <div className="mb-6">
             <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Search
+                className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4
+                  -translate-y-1/2"
+              />
               <Input
                 placeholder="Search organizations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 rounded-2xl"
+                className="rounded-2xl pl-10"
               />
             </div>
           </div>
@@ -292,7 +321,7 @@ export default function OrgsPage() {
           {/* Organizations List — real data from GET /api/orgs */}
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <h2 className="text-lg font-semibold text-foreground">
+              <h2 className="text-foreground text-lg font-semibold">
                 Your Organizations ({orgsLoading ? "…" : filteredOrgs.length})
               </h2>
               {userData?.accountType === "organisation" && (
@@ -303,8 +332,8 @@ export default function OrgsPage() {
             </div>
 
             {orgsError && (
-              <Card className="p-4 border-destructive/50 bg-destructive/5 rounded-2xl">
-                <p className="text-sm text-destructive">{orgsError}</p>
+              <Card className="border-destructive/50 bg-destructive/5 rounded-2xl p-4">
+                <p className="text-destructive text-sm">{orgsError}</p>
               </Card>
             )}
 
@@ -314,39 +343,52 @@ export default function OrgsPage() {
                 const orgDetailHref = `/org/${org.id}`;
                 return (
                   <Link key={org.id} href={orgDetailHref}>
-                    <Card className="p-5 bg-card border-border/50 rounded-3xl hover:shadow-lg hover:shadow-primary/5 transition-all group cursor-pointer">
+                    <Card
+                      className="bg-card border-border/50 hover:shadow-primary/5 group
+                        cursor-pointer rounded-3xl p-5 transition-all hover:shadow-lg"
+                    >
                       <div className="flex items-center gap-5">
                         <div
-                          className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${getLogoColor(index)} flex items-center justify-center text-white font-bold text-xl shrink-0`}
+                          className={`h-14 w-14 rounded-2xl bg-gradient-to-br
+                          ${getLogoColor(index)} flex shrink-0 items-center justify-center
+                          text-xl font-bold text-white`}
                         >
                           {org.name.charAt(0)}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex flex-wrap items-center gap-2 mb-1">
-                            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors truncate">
+                        <div className="min-w-0 flex-1">
+                          <div className="mb-1 flex flex-wrap items-center gap-2">
+                            <h3
+                              className="text-foreground group-hover:text-primary truncate
+                                font-semibold transition-colors"
+                            >
                               {org.name}
                             </h3>
                             {getRoleBadge(org.role)}
                           </div>
-                          <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
+                          <p className="text-muted-foreground mb-2 line-clamp-1 text-sm">
                             {org.description ?? ""}
                           </p>
-                          <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                          <div
+                            className="text-muted-foreground flex flex-wrap gap-4 text-xs"
+                          >
                             <span className="flex items-center gap-1">
-                              <Users className="w-3.5 h-3.5" />
+                              <Users className="h-3.5 w-3.5" />
                               {org.memberCount} members
                             </span>
                             <span className="flex items-center gap-1">
-                              <Sparkles className="w-3.5 h-3.5" />
+                              <Sparkles className="h-3.5 w-3.5" />
                               {org.experimentsCount} experiments
                             </span>
                             <span className="flex items-center gap-1">
-                              <Calendar className="w-3.5 h-3.5" />
+                              <Calendar className="h-3.5 w-3.5" />
                               Joined {formatJoinedDate(org.joinedAt)}
                             </span>
                           </div>
                         </div>
-                        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
+                        <ChevronRight
+                          className="text-muted-foreground group-hover:text-primary h-5
+                            w-5 shrink-0 transition-all group-hover:translate-x-1"
+                        />
                       </div>
                     </Card>
                   </Link>
@@ -354,12 +396,12 @@ export default function OrgsPage() {
               })}
 
             {!orgsLoading && !orgsError && filteredOrgs.length === 0 && (
-              <Card className="p-8 bg-card/50 border-border/50 rounded-3xl text-center">
-                <Building2 className="w-12 h-12 mx-auto text-muted-foreground/50 mb-3" />
-                <h3 className="font-medium text-foreground mb-1">
+              <Card className="bg-card/50 border-border/50 rounded-3xl p-8 text-center">
+                <Building2 className="text-muted-foreground/50 mx-auto mb-3 h-12 w-12" />
+                <h3 className="text-foreground mb-1 font-medium">
                   {orgs.length === 0 ? "No organizations yet" : "No organizations found"}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {orgs.length === 0
                     ? "When you join an organization, it will appear here."
                     : "Try a different search term"}
@@ -368,8 +410,8 @@ export default function OrgsPage() {
             )}
 
             {orgsLoading && (
-              <Card className="p-8 bg-card/50 border-border/50 rounded-3xl text-center">
-                <p className="text-sm text-muted-foreground">Loading organizations…</p>
+              <Card className="bg-card/50 border-border/50 rounded-3xl p-8 text-center">
+                <p className="text-muted-foreground text-sm">Loading organizations…</p>
               </Card>
             )}
           </div>

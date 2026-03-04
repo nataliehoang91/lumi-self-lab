@@ -20,12 +20,13 @@ export function BookCircleIcon({ size = "md", className }: BookCircleIconProps) 
   return (
     <div
       className={cn(
-        "flex items-center justify-center border-primary/30 dark:border-primary-light/20 rounded-full border shadow-sm",
+        `border-primary/30 dark:border-primary-light/20 flex items-center justify-center
+        rounded-full border shadow-sm`,
         SIZE_CLASSES[size],
         className
       )}
     >
-      <BookOpenIcon className="h-5 w-5 text-primary" aria-hidden />
+      <BookOpenIcon className="text-primary h-5 w-5" aria-hidden />
     </div>
   );
 }

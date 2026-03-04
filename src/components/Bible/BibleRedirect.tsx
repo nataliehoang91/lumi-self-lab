@@ -10,6 +10,5 @@ export function BibleRedirect() {
     router.replace("/bible/en/read");
   }, [router]);
 
-    return null;
+  return null;
 }
-

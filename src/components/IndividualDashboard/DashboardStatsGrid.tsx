@@ -9,26 +9,41 @@ type Props = {
 export function DashboardStatsGrid({ personalStats }: Props) {
   return (
     <div className="grid grid-cols-3 gap-4">
-      <Card className="p-6 bg-card/80 backdrop-blur border-border/50 text-center">
-        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
-          <Target className="w-5 h-5 text-primary" />
+      <Card className="bg-card/80 border-border/50 p-6 text-center backdrop-blur">
+        <div
+          className="bg-primary/10 mx-auto mb-3 flex h-10 w-10 items-center justify-center
+            rounded-xl"
+        >
+          <Target className="text-primary h-5 w-5" />
         </div>
-        <p className="text-2xl font-bold text-foreground">{personalStats.activeExperiments}</p>
-        <p className="text-sm text-muted-foreground mt-1">Active</p>
+        <p className="text-foreground text-2xl font-bold">
+          {personalStats.activeExperiments}
+        </p>
+        <p className="text-muted-foreground mt-1 text-sm">Active</p>
       </Card>
-      <Card className="p-6 bg-card/80 backdrop-blur border-border/50 text-center">
-        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+      <Card className="bg-card/80 border-border/50 p-6 text-center backdrop-blur">
+        <div
+          className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl
+            bg-emerald-500/10"
+        >
+          <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
         </div>
-        <p className="text-2xl font-bold text-foreground">{personalStats.totalCompleted}</p>
-        <p className="text-sm text-muted-foreground mt-1">Completed</p>
+        <p className="text-foreground text-2xl font-bold">
+          {personalStats.totalCompleted}
+        </p>
+        <p className="text-muted-foreground mt-1 text-sm">Completed</p>
       </Card>
-      <Card className="p-6 bg-card/80 backdrop-blur border-border/50 text-center">
-        <div className="w-10 h-10 rounded-xl bg-coral/10 flex items-center justify-center mx-auto mb-3">
-          <Flame className="w-5 h-5 text-coral" />
+      <Card className="bg-card/80 border-border/50 p-6 text-center backdrop-blur">
+        <div
+          className="bg-coral/10 mx-auto mb-3 flex h-10 w-10 items-center justify-center
+            rounded-xl"
+        >
+          <Flame className="text-coral h-5 w-5" />
         </div>
-        <p className="text-2xl font-bold text-foreground">{personalStats.currentStreak}</p>
-        <p className="text-sm text-muted-foreground mt-1">Day Streak</p>
+        <p className="text-foreground text-2xl font-bold">
+          {personalStats.currentStreak}
+        </p>
+        <p className="text-muted-foreground mt-1 text-sm">Day Streak</p>
       </Card>
     </div>
   );

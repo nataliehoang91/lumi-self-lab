@@ -109,7 +109,9 @@ export function DashboardClient() {
               if (parsed) {
                 assistantMessage += parsed;
                 setMessages((prev) =>
-                  prev.map((m) => (m.id === assistantId ? { ...m, content: assistantMessage } : m))
+                  prev.map((m) =>
+                    m.id === assistantId ? { ...m, content: assistantMessage } : m
+                  )
                 );
               }
             } catch (e) {
@@ -147,18 +149,17 @@ export function DashboardClient() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex flex-col md:flex-row h-screen">
+      <div className="flex h-screen flex-col md:flex-row">
         {/* Chat Sidebar - Hidden on mobile unless toggled */}
         <aside
-          className={`${
-            showChat ? "flex" : "hidden"
-          } md:flex w-full md:w-96 bg-sidebar/95 backdrop-blur-xl border-r border-sidebar-border flex-col`}
+          className={`${showChat ? "flex" : "hidden"} bg-sidebar/95 border-sidebar-border
+            w-full flex-col border-r backdrop-blur-xl md:flex md:w-96`}
         >
-          <div className="p-5 border-b border-sidebar-border/50">
+          <div className="border-sidebar-border/50 border-b p-5">
             <div className="flex items-center justify-between">
               <Link href="/" className="inline-flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-second" />
-                <h1 className="text-lg font-bold text-sidebar-foreground">Self-Lab</h1>
+                <Sparkles className="text-second h-5 w-5" />
+                <h1 className="text-sidebar-foreground text-lg font-bold">Self-Lab</h1>
               </Link>
               <Button
                 variant="ghost"
@@ -166,20 +167,24 @@ export function DashboardClient() {
                 className="md:hidden"
                 onClick={() => setShowChat(false)}
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="h-5 w-5" />
               </Button>
             </div>
-            <p className="text-xs text-sidebar-foreground/60 mt-1">AI Assistant</p>
+            <p className="text-sidebar-foreground/60 mt-1 text-xs">AI Assistant</p>
           </div>
 
-          <div className="p-4 border-b border-sidebar-border/50">
-            <p className="text-xs font-medium text-sidebar-foreground/50 mb-3">TRY ASKING</p>
+          <div className="border-sidebar-border/50 border-b p-4">
+            <p className="text-sidebar-foreground/50 mb-3 text-xs font-medium">
+              TRY ASKING
+            </p>
             <div className="space-y-2">
               {SUGGESTED_PROMPTS.map((prompt, index) => (
                 <button
                   key={index}
                   onClick={() => handleSuggestedPrompt(prompt)}
-                  className="w-full text-left text-xs p-3 rounded-2xl bg-sidebar-accent/60 hover:bg-sidebar-accent text-sidebar-accent-foreground transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-sidebar-accent/60 hover:bg-sidebar-accent
+                    text-sidebar-accent-foreground w-full rounded-2xl p-3 text-left
+                    text-xs transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {prompt}
                 </button>
@@ -193,7 +198,8 @@ export function DashboardClient() {
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex
+                  ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
                     className={`max-w-[85%] rounded-3xl p-4 shadow-sm ${
@@ -203,9 +209,9 @@ export function DashboardClient() {
                     }`}
                   >
                     {message.role === "assistant" && (
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-second" />
-                        <span className="text-xs font-medium text-second">AI</span>
+                      <div className="mb-1.5 flex items-center gap-2">
+                        <Sparkles className="text-second h-3.5 w-3.5" />
+                        <span className="text-second text-xs font-medium">AI</span>
                       </div>
                     )}
                     <p className="text-sm leading-relaxed">{message.content}</p>
@@ -214,11 +220,20 @@ export function DashboardClient() {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="max-w-[85%] rounded-3xl p-4 bg-card text-card-foreground shadow-sm">
+                  <div
+                    className="bg-card text-card-foreground max-w-[85%] rounded-3xl p-4
+                      shadow-sm"
+                  >
                     <div className="flex items-center gap-1.5">
-                      <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                      <div className="w-2 h-2 rounded-full bg-primary animate-pulse [animation-delay:0.2s]" />
-                      <div className="w-2 h-2 rounded-full bg-primary animate-pulse [animation-delay:0.4s]" />
+                      <div className="bg-primary h-2 w-2 animate-pulse rounded-full" />
+                      <div
+                        className="bg-primary h-2 w-2 animate-pulse rounded-full
+                          [animation-delay:0.2s]"
+                      />
+                      <div
+                        className="bg-primary h-2 w-2 animate-pulse rounded-full
+                          [animation-delay:0.4s]"
+                      />
                     </div>
                   </div>
                 </div>
@@ -227,50 +242,62 @@ export function DashboardClient() {
           </ScrollArea>
 
           {/* Chat Input */}
-          <form onSubmit={handleSubmit} className="p-4 border-t border-sidebar-border/50">
+          <form onSubmit={handleSubmit} className="border-sidebar-border/50 border-t p-4">
             <div className="flex gap-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your thoughts..."
-                className="flex-1 bg-sidebar-accent/50 border-sidebar-border/50 rounded-2xl text-sidebar-foreground placeholder:text-sidebar-foreground/40"
+                className="bg-sidebar-accent/50 border-sidebar-border/50
+                  text-sidebar-foreground placeholder:text-sidebar-foreground/40 flex-1
+                  rounded-2xl"
                 disabled={isLoading}
               />
               <Button
                 type="submit"
                 size="icon"
                 disabled={isLoading || !input.trim()}
-                className="rounded-2xl w-11 h-11"
+                className="h-11 w-11 rounded-2xl"
               >
-                <Send className="w-4 h-4" />
+                <Send className="h-4 w-4" />
               </Button>
             </div>
           </form>
         </aside>
 
         {/* Main Content - Experiment Form */}
-        <main className={`${showChat ? "hidden" : "flex"} md:flex flex-1 flex-col overflow-auto`}>
-          <div className="container mx-auto px-4 md:px-8 py-6 md:py-8 max-w-2xl">
-            <div className="flex items-center justify-between mb-6">
+        <main
+          className={`${showChat ? "hidden" : "flex"} flex-1 flex-col overflow-auto
+            md:flex`}
+        >
+          <div className="container mx-auto max-w-2xl px-4 py-6 md:px-8 md:py-8">
+            <div className="mb-6 flex items-center justify-between">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground">New Experiment</h2>
-                <p className="text-sm text-muted-foreground mt-1">Design your reflection</p>
+                <h2 className="text-foreground text-2xl font-bold md:text-3xl">
+                  New Experiment
+                </h2>
+                <p className="text-muted-foreground mt-1 text-sm">
+                  Design your reflection
+                </p>
               </div>
               <Button
                 variant="outline"
                 size="icon"
-                className="md:hidden rounded-2xl bg-transparent"
+                className="rounded-2xl bg-transparent md:hidden"
                 onClick={() => setShowChat(true)}
               >
-                <MessageCircle className="w-5 h-5" />
+                <MessageCircle className="h-5 w-5" />
               </Button>
             </div>
 
             <div className="space-y-5">
-              <Card className="p-5 md:p-6 bg-card/95 backdrop-blur-sm border-border/50 rounded-3xl shadow-sm">
+              <Card
+                className="bg-card/95 border-border/50 rounded-3xl p-5 shadow-sm
+                  backdrop-blur-sm md:p-6"
+              >
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="title" className="text-sm font-medium mb-2 block">
+                    <Label htmlFor="title" className="mb-2 block text-sm font-medium">
                       Experiment Title
                     </Label>
                     <Input
@@ -278,12 +305,12 @@ export function DashboardClient() {
                       value={experimentTitle}
                       onChange={(e) => setExperimentTitle(e.target.value)}
                       placeholder="e.g., My Morning Energy Patterns"
-                      className="rounded-2xl border-border/50"
+                      className="border-border/50 rounded-2xl"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="why" className="text-sm font-medium mb-2 block">
+                    <Label htmlFor="why" className="mb-2 block text-sm font-medium">
                       Why This Matters
                     </Label>
                     <Textarea
@@ -291,12 +318,15 @@ export function DashboardClient() {
                       value={whyMatters}
                       onChange={(e) => setWhyMatters(e.target.value)}
                       placeholder="What draws you to explore this?"
-                      className="rounded-2xl min-h-24 resize-none border-border/50"
+                      className="border-border/50 min-h-24 resize-none rounded-2xl"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="hypothesis" className="text-sm font-medium mb-2 block">
+                    <Label
+                      htmlFor="hypothesis"
+                      className="mb-2 block text-sm font-medium"
+                    >
                       Your Hypothesis
                     </Label>
                     <Textarea
@@ -304,16 +334,19 @@ export function DashboardClient() {
                       value={hypothesis}
                       onChange={(e) => setHypothesis(e.target.value)}
                       placeholder="What patterns might you discover?"
-                      className="rounded-2xl min-h-24 resize-none border-border/50"
+                      className="border-border/50 min-h-24 resize-none rounded-2xl"
                     />
                   </div>
                 </div>
               </Card>
 
-              <Card className="p-5 md:p-6 bg-card/95 backdrop-blur-sm border-border/50 rounded-3xl shadow-sm">
+              <Card
+                className="bg-card/95 border-border/50 rounded-3xl p-5 shadow-sm
+                  backdrop-blur-sm md:p-6"
+              >
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="duration" className="text-sm font-medium mb-2 block">
+                    <Label htmlFor="duration" className="mb-2 block text-sm font-medium">
                       Duration (days)
                     </Label>
                     <Input
@@ -322,17 +355,20 @@ export function DashboardClient() {
                       value={duration}
                       onChange={(e) => setDuration(e.target.value)}
                       placeholder="7"
-                      className="rounded-2xl border-border/50"
+                      className="border-border/50 rounded-2xl"
                       min="1"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="frequency" className="text-sm font-medium mb-2 block">
+                    <Label htmlFor="frequency" className="mb-2 block text-sm font-medium">
                       Check-in
                     </Label>
                     <Select value={frequency} onValueChange={setFrequency}>
-                      <SelectTrigger id="frequency" className="rounded-2xl border-border/50">
+                      <SelectTrigger
+                        id="frequency"
+                        className="border-border/50 rounded-2xl"
+                      >
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -345,27 +381,44 @@ export function DashboardClient() {
                 </div>
               </Card>
 
-              <Card className="p-5 md:p-6 bg-gradient-to-br from-second/10 to-accent/10 backdrop-blur-sm border-second/20 rounded-3xl shadow-sm">
-                <div className="flex items-center justify-between mb-4">
+              <Card
+                className="from-second/10 to-accent/10 border-second/20 rounded-3xl
+                  bg-gradient-to-br p-5 shadow-sm backdrop-blur-sm md:p-6"
+              >
+                <div className="mb-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-second/20 flex items-center justify-center">
-                      <BookOpen className="w-5 h-5 text-second" />
+                    <div
+                      className="bg-second/20 flex h-10 w-10 items-center justify-center
+                        rounded-2xl"
+                    >
+                      <BookOpen className="text-second h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-semibold text-foreground">Faith Lens</h3>
-                      <p className="text-xs text-muted-foreground">Optional spiritual reflection</p>
+                      <h3 className="text-foreground text-base font-semibold">
+                        Faith Lens
+                      </h3>
+                      <p className="text-muted-foreground text-xs">
+                        Optional spiritual reflection
+                      </p>
                     </div>
                   </div>
-                  <Switch checked={faithLensEnabled} onCheckedChange={setFaithLensEnabled} />
+                  <Switch
+                    checked={faithLensEnabled}
+                    onCheckedChange={setFaithLensEnabled}
+                  />
                 </div>
 
                 {faithLensEnabled && (
-                  <div className="space-y-4 pt-3 border-t border-second/10">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      Use Biblical wisdom as a guide if you wish. This is optional and personal.
+                  <div className="border-second/10 space-y-4 border-t pt-3">
+                    <p className="text-muted-foreground text-xs leading-relaxed">
+                      Use Biblical wisdom as a guide if you wish. This is optional and
+                      personal.
                     </p>
                     <div>
-                      <Label htmlFor="scriptures" className="text-sm font-medium mb-2 block">
+                      <Label
+                        htmlFor="scriptures"
+                        className="mb-2 block text-sm font-medium"
+                      >
                         Scripture Reference
                       </Label>
                       <Textarea
@@ -373,7 +426,8 @@ export function DashboardClient() {
                         value={scriptures}
                         onChange={(e) => setScriptures(e.target.value)}
                         placeholder="e.g., Proverbs 3:5-6"
-                        className="rounded-2xl min-h-20 resize-none border-border/50 bg-card/50"
+                        className="border-border/50 bg-card/50 min-h-20 resize-none
+                          rounded-2xl"
                       />
                     </div>
                   </div>
@@ -383,7 +437,8 @@ export function DashboardClient() {
               <Button
                 size="lg"
                 onClick={handleStartExperiment}
-                className="w-full text-base py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full rounded-2xl py-6 text-base shadow-lg transition-all
+                  hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]"
               >
                 Start Experiment
               </Button>

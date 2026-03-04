@@ -294,7 +294,9 @@ function ComboboxContent({
 }: React.ComponentPropsWithoutRef<typeof PopoverContent>) {
   return (
     <PopoverContent className="w-[200px] p-0" {...props}>
-      <Command className={cn("max-h-[300px] overflow-y-auto p-1", className)}>{children}</Command>
+      <Command className={cn("max-h-[300px] overflow-y-auto p-1", className)}>
+        {children}
+      </Command>
     </PopoverContent>
   );
 }
@@ -307,7 +309,8 @@ function ComboboxInput({
     <div className="flex items-center border-b px-3">
       <CommandInput
         className={cn(
-          "placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          `placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent
+          py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50`,
           className
         )}
         {...props}
@@ -322,7 +325,10 @@ function ComboboxOptions({
   ...props
 }: React.ComponentPropsWithoutRef<typeof CommandList>) {
   return (
-    <CommandList className={cn("max-h-[300px] overflow-y-auto p-1", className)} {...props}>
+    <CommandList
+      className={cn("max-h-[300px] overflow-y-auto p-1", className)}
+      {...props}
+    >
       {children}
     </CommandList>
   );
@@ -408,7 +414,13 @@ function ComboboxEmpty({
   );
 }
 
-export function ComboboxValues({ placeholder, locale }: { placeholder: string; locale?: string }) {
+export function ComboboxValues({
+  placeholder,
+  locale,
+}: {
+  placeholder: string;
+  locale?: string;
+}) {
   const state = useComboboxState();
   if (state.selected.length === 0) {
     return placeholder;
@@ -427,7 +439,9 @@ export function ComboboxValues({ placeholder, locale }: { placeholder: string; l
         return (
           <span key={index} className="font-semibold">
             {truncatedValue}
-            {index < displayValues.length - 1 && <span className="text-muted-foreground">, </span>}
+            {index < displayValues.length - 1 && (
+              <span className="text-muted-foreground">, </span>
+            )}
           </span>
         );
       })}

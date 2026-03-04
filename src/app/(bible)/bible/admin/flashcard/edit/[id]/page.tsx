@@ -15,20 +15,23 @@ export default async function AdminEditVersePage({
           <div className="flex gap-2">
             <Link
               href="/bible/admin/flashcard/list"
-              className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 hover:bg-stone-50"
+              className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm
+                text-stone-700 hover:bg-stone-50"
             >
               List
             </Link>
             <Link
               href="/bible/admin/add"
-              className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 hover:bg-stone-50"
+              className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm
+                text-stone-700 hover:bg-stone-50"
             >
               Add verse
             </Link>
             <form action="/api/bible/admin/logout" method="POST">
               <button
                 type="submit"
-                className="rounded-lg bg-stone-200 px-3 py-2 text-sm text-stone-700 hover:bg-stone-300"
+                className="rounded-lg bg-stone-200 px-3 py-2 text-sm text-stone-700
+                  hover:bg-stone-300"
               >
                 Log out
               </button>

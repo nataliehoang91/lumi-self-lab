@@ -56,17 +56,21 @@ export function CircularProgress({
         />
       </svg>
       {children ? (
-        <span className="absolute inset-0 flex items-center justify-center text-sm font-semibold">
+        <span
+          className="absolute inset-0 flex items-center justify-center text-sm
+            font-semibold"
+        >
           {children}
         </span>
       ) : (
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center text-sm font-semibold hover:animate-[wiggle_1s_ease-in-out]"
+            `absolute inset-0 flex items-center justify-center text-sm font-semibold
+              hover:animate-[wiggle_1s_ease-in-out]`
           )}
         >
           {completed ? (
-            <Check className="size-8 text-yellow-500 animate-[wiggle_1s_ease-in-out" />
+            <Check className="animate-[wiggle_1s_ease-in-out size-8 text-yellow-500" />
           ) : (
             `${progress}%`
           )}

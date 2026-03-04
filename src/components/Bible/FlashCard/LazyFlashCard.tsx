@@ -58,7 +58,7 @@ export function LazyFlashCard({
 
   if (loading) {
     return (
-      <div className="shrink-0 w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg">
+      <div className="w-full max-w-full min-w-0 shrink-0 sm:max-w-lg sm:min-w-md">
         <Skeleton
           className={cn(
             "w-full rounded-2xl",
@@ -73,7 +73,9 @@ export function LazyFlashCard({
     return (
       <div
         className={cn(
-          "shrink-0 w-full min-w-0 max-w-full sm:min-w-md sm:max-w-lg flex items-center justify-center rounded-2xl border border-border bg-muted/30 text-sm text-muted-foreground",
+          `border-border bg-muted/30 text-muted-foreground flex w-full max-w-full min-w-0
+          shrink-0 items-center justify-center rounded-2xl border text-sm sm:max-w-lg
+          sm:min-w-md`,
           horizontal ? "aspect-4/3 max-h-[280px]" : "h-[280px] sm:h-[320px]"
         )}
       >

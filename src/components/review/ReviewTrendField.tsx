@@ -39,10 +39,10 @@ type TrendField =
 
 export function ReviewTrendField({ field }: { field: TrendField }) {
   return (
-    <div className="rounded-md border border-border bg-card p-4">
-      <h4 className="font-medium text-foreground">{field.label}</h4>
+    <div className="border-border bg-card rounded-md border p-4">
+      <h4 className="text-foreground font-medium">{field.label}</h4>
       <p className="text-muted-foreground text-sm capitalize">{field.type}</p>
-      <div className="mt-2 text-sm text-foreground">
+      <div className="text-foreground mt-2 text-sm">
         {field.type === "text" && (
           <span>
             {field.trend.countOverTime.length} day(s); counts:{" "}
@@ -51,11 +51,15 @@ export function ReviewTrendField({ field }: { field: TrendField }) {
         )}
         {field.type === "number" && <span>Direction: {field.trend.direction}</span>}
         {field.type === "emoji" && <span>Mood trend: {field.trend.moodTrend}</span>}
-        {field.type === "yesno" && <span>Yes-rate trend: {field.trend.yesRateTrend}</span>}
+        {field.type === "yesno" && (
+          <span>Yes-rate trend: {field.trend.yesRateTrend}</span>
+        )}
         {field.type === "select" && field.trend.dominantOverTime && (
           <span>Over time: {field.trend.dominantOverTime.join(" → ")}</span>
         )}
-        {field.type === "select" && !field.trend.dominantOverTime?.length && <span>—</span>}
+        {field.type === "select" && !field.trend.dominantOverTime?.length && (
+          <span>—</span>
+        )}
       </div>
     </div>
   );

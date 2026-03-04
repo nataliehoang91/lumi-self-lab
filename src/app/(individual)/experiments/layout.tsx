@@ -6,7 +6,11 @@ import { ExperimentsLayoutClient } from "./ExperimentsLayoutClient";
  * Experiments layout: auth guard + ErrorBoundary + Suspense.
  * Unauthenticated users redirect to waitlist.
  */
-export default async function ExperimentsLayout({ children }: { children: React.ReactNode }) {
+export default async function ExperimentsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { userId } = await auth();
   if (!userId) {
     redirect("/waitlist");

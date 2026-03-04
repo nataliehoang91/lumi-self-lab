@@ -19,16 +19,17 @@ const BIBLE_PREFS_KEY = "bible-app-prefs";
 const LANGS: Language[] = ["EN", "VI", "ZH"];
 const FONTS: FontSize[] = ["small", "medium", "large"];
 function readStoredPrefs(): { language: Language; fontSize: FontSize } {
-  if (typeof window === "undefined")
-    return { language: "EN", fontSize: "medium" };
+  if (typeof window === "undefined") return { language: "EN", fontSize: "medium" };
   try {
     const raw = window.localStorage.getItem(BIBLE_PREFS_KEY);
     if (!raw) return { language: "EN", fontSize: "medium" };
     const parsed = JSON.parse(raw) as Record<string, string>;
-    const language =
-      LANGS.includes(parsed.language as Language) ? (parsed.language as Language) : "EN";
-    const fontSize =
-      FONTS.includes(parsed.fontSize as FontSize) ? (parsed.fontSize as FontSize) : "medium";
+    const language = LANGS.includes(parsed.language as Language)
+      ? (parsed.language as Language)
+      : "EN";
+    const fontSize = FONTS.includes(parsed.fontSize as FontSize)
+      ? (parsed.fontSize as FontSize)
+      : "medium";
     return { language, fontSize };
   } catch {
     return { language: "EN", fontSize: "medium" };
@@ -38,10 +39,7 @@ function readStoredPrefs(): { language: Language; fontSize: FontSize } {
 function writeStoredPrefs(language: Language, fontSize: FontSize) {
   if (typeof window === "undefined") return;
   try {
-    window.localStorage.setItem(
-      BIBLE_PREFS_KEY,
-      JSON.stringify({ language, fontSize })
-    );
+    window.localStorage.setItem(BIBLE_PREFS_KEY, JSON.stringify({ language, fontSize }));
   } catch {
     // ignore
   }
@@ -81,7 +79,8 @@ export function BibleAppProvider({ children }: { children: ReactNode }) {
       if (isFlashcardPage) {
         const lang = searchParams.get("lang");
         const font = searchParams.get("font");
-        if (lang && LANGS.includes(lang as Language)) setGlobalLanguageState(lang as Language);
+        if (lang && LANGS.includes(lang as Language))
+          setGlobalLanguageState(lang as Language);
         if (font && FONTS.includes(font as FontSize)) setFontSizeState(font as FontSize);
         setLayoutModeState("all");
       } else {
@@ -159,9 +158,7 @@ export function BibleAppProvider({ children }: { children: ReactNode }) {
     triggerShuffle,
   };
 
-  return (
-    <BibleAppContext.Provider value={value}>{children}</BibleAppContext.Provider>
-  );
+  return <BibleAppContext.Provider value={value}>{children}</BibleAppContext.Provider>;
 }
 
 export function useBibleApp() {

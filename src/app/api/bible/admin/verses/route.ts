@@ -9,10 +9,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const verses = await prisma.flashVerse.findMany({
-      orderBy: [
-        { flashCardCollection: { name: "asc" } },
-        { createdAt: "desc" },
-      ],
+      orderBy: [{ flashCardCollection: { name: "asc" } }, { createdAt: "desc" }],
       include: {
         flashCardSet: { select: { id: true, name: true } },
         flashCardCollection: { select: { id: true, name: true } },
@@ -21,9 +18,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(verses);
   } catch (e) {
     console.error("verses list", e);
-    return NextResponse.json(
-      { error: "Failed to fetch verses." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch verses." }, { status: 500 });
   }
 }

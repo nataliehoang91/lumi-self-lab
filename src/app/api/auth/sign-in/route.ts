@@ -6,7 +6,10 @@ export async function POST(request: Request) {
     const { email, password } = await request.json();
 
     if (!email || !password) {
-      return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email and password are required" },
+        { status: 400 }
+      );
     }
 
     // Clerk handles authentication automatically via its SDK

@@ -28,35 +28,36 @@ export default function CreateExperimentPage() {
   const isOrgLinked = !!orgId;
 
   const makePersonalHref =
-    "/experiments/new/create" + (templateId ? `?template=${encodeURIComponent(templateId)}` : "");
+    "/experiments/new/create" +
+    (templateId ? `?template=${encodeURIComponent(templateId)}` : "");
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto max-w-6xl px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
           <Link href="/experiments/new">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back
           </Link>
         </Button>
 
         {/* Context Banner */}
         {isOrgLinked && (
-          <Card className="p-4 mb-6 bg-violet/10 border-violet/20">
+          <Card className="bg-violet/10 border-violet/20 mb-6 p-4">
             <div className="flex items-center gap-3">
-              <Building2 className="w-5 h-5 text-violet" />
+              <Building2 className="text-violet h-5 w-5" />
               <div>
-                <p className="text-sm font-medium text-foreground">
+                <p className="text-foreground text-sm font-medium">
                   Creating experiment linked to {orgName}
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Your personal reflections will stay private. Only aggregate insights will be
-                  shared.
+                <p className="text-muted-foreground text-xs">
+                  Your personal reflections will stay private. Only aggregate insights
+                  will be shared.
                 </p>
               </div>
               <Button variant="ghost" size="sm" asChild className="ml-auto">
                 <Link href={makePersonalHref}>
-                  <Home className="w-4 h-4 mr-2" />
+                  <Home className="mr-2 h-4 w-4" />
                   Make Personal
                 </Link>
               </Button>
@@ -65,14 +66,16 @@ export default function CreateExperimentPage() {
         )}
 
         {!isOrgLinked && (
-          <Card className="p-4 mb-6 bg-muted/50 border-border">
+          <Card className="bg-muted/50 border-border mb-6 p-4">
             <div className="flex items-center gap-3">
-              <Home className="w-5 h-5 text-muted-foreground" />
+              <Home className="text-muted-foreground h-5 w-5" />
               <div>
-                <p className="text-sm font-medium text-foreground">Creating personal experiment</p>
-                <p className="text-xs text-muted-foreground">
-                  This experiment is completely private. You can link it to an organisation later if
-                  you want.
+                <p className="text-foreground text-sm font-medium">
+                  Creating personal experiment
+                </p>
+                <p className="text-muted-foreground text-xs">
+                  This experiment is completely private. You can link it to an
+                  organisation later if you want.
                 </p>
               </div>
             </div>

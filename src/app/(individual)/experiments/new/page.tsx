@@ -12,9 +12,9 @@ import { CreationMethodSelector } from "@/components/ExperimentCreation/Creation
 export default function NewExperimentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selectedLocation, setSelectedLocation] = useState<"personal" | "organisation" | null>(
-    null
-  );
+  const [selectedLocation, setSelectedLocation] = useState<
+    "personal" | "organisation" | null
+  >(null);
   const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);
   const [showPrivacyReminder, setShowPrivacyReminder] = useState(false);
   const [showMethodSelector, setShowMethodSelector] = useState(false);
@@ -107,39 +107,43 @@ export default function NewExperimentPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-foreground mb-2">Create New Experiment</h1>
+          <h1 className="text-foreground mb-2 text-3xl font-semibold">
+            Create New Experiment
+          </h1>
           <p className="text-muted-foreground">Start your self-reflection journey</p>
         </div>
 
         <Card className="p-8">
-          <h2 className="text-xl font-semibold text-foreground mb-6">
+          <h2 className="text-foreground mb-6 text-xl font-semibold">
             Where does this experiment live?
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-6">
+          <div className="mb-6 grid gap-4 md:grid-cols-2">
             {/* Personal Option */}
             <button
               onClick={() => handleLocationSelect("personal")}
-              className={`p-6 rounded-2xl border-2 text-left transition-all ${
+              className={`rounded-2xl border-2 p-6 text-left transition-all ${
                 selectedLocation === "personal"
                   ? "border-primary bg-primary/10"
                   : "border-border hover:border-primary/50"
-              }`}
+                }`}
             >
-              <div className="flex items-center gap-3 mb-3">
-                <Home className="w-6 h-6 text-primary" />
+              <div className="mb-3 flex items-center gap-3">
+                <Home className="text-primary h-6 w-6" />
                 <div>
-                  <h3 className="font-semibold text-foreground">Personal</h3>
-                  <span className="text-xs text-primary">Recommended</span>
+                  <h3 className="text-foreground font-semibold">Personal</h3>
+                  <span className="text-primary text-xs">Recommended</span>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mb-2">Just for me, completely private</p>
-              <p className="text-xs text-muted-foreground">
-                This experiment is yours alone. Your check-ins, reflections, and insights are
-                completely private. You can always link it to an organisation later if you change
-                your mind.
+              <p className="text-muted-foreground mb-2 text-sm">
+                Just for me, completely private
+              </p>
+              <p className="text-muted-foreground text-xs">
+                This experiment is yours alone. Your check-ins, reflections, and insights
+                are completely private. You can always link it to an organisation later if
+                you change your mind.
               </p>
             </button>
 
@@ -147,37 +151,39 @@ export default function NewExperimentPage() {
             {userOrganisations.length > 0 ? (
               <button
                 onClick={() => handleLocationSelect("organisation")}
-                className={`p-6 rounded-2xl border-2 text-left transition-all ${
+                className={`rounded-2xl border-2 p-6 text-left transition-all ${
                   selectedLocation === "organisation"
                     ? "border-primary bg-primary/10"
                     : "border-border hover:border-primary/50"
-                }`}
+                  }`}
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <Building2 className="w-6 h-6 text-violet" />
-                  <h3 className="font-semibold text-foreground">With an organisation</h3>
+                <div className="mb-3 flex items-center gap-3">
+                  <Building2 className="text-violet h-6 w-6" />
+                  <h3 className="text-foreground font-semibold">With an organisation</h3>
                 </div>
-                <p className="text-sm text-muted-foreground mb-2">
+                <p className="text-muted-foreground mb-2 text-sm">
                   Share aggregate insights (Your reflections stay private)
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Link this experiment to an organisation to contribute to team insights. Your
-                  personal reflections and text responses remain private. Only aggregate patterns
-                  (like average mood scores) are shared.
+                <p className="text-muted-foreground text-xs">
+                  Link this experiment to an organisation to contribute to team insights.
+                  Your personal reflections and text responses remain private. Only
+                  aggregate patterns (like average mood scores) are shared.
                 </p>
               </button>
             ) : (
-              <div className="p-6 rounded-2xl border-2 border-border/50 bg-muted/30">
-                <div className="flex items-center gap-3 mb-3">
-                  <Building2 className="w-6 h-6 text-muted-foreground" />
-                  <h3 className="font-semibold text-muted-foreground">With an organisation</h3>
+              <div className="border-border/50 bg-muted/30 rounded-2xl border-2 p-6">
+                <div className="mb-3 flex items-center gap-3">
+                  <Building2 className="text-muted-foreground h-6 w-6" />
+                  <h3 className="text-muted-foreground font-semibold">
+                    With an organisation
+                  </h3>
                 </div>
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4 text-sm">
                   Join an organisation to enable team insights
                 </p>
                 <Button variant="outline" asChild className="w-full">
                   <Link href="/org">
-                    Learn More <ArrowRight className="w-4 h-4 ml-2" />
+                    Learn More <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -208,7 +214,7 @@ export default function NewExperimentPage() {
                 }}
                 className="flex-1"
               >
-                Continue <ArrowRight className="w-4 h-4 ml-2" />
+                Continue <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           )}

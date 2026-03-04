@@ -11,30 +11,39 @@ export default function ForgotPasswordSentPage() {
   const email = searchParams.get("email") || "your email";
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo/Icon */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center justify-center mb-4">
+        <div className="mb-8 text-center">
+          <Link href="/" className="mb-4 inline-flex items-center justify-center">
             <div className="relative">
-              <Sparkles className="w-12 h-12 text-second animate-float" />
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse-glow" />
+              <Sparkles className="text-second animate-float h-12 w-12" />
+              <div
+                className="bg-primary/20 animate-pulse-glow absolute inset-0 rounded-full
+                  blur-xl"
+              />
             </div>
           </Link>
         </div>
 
-        <Card className="p-8 bg-card/90 backdrop-blur-sm border-border/50 rounded-3xl shadow-xl text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-second/10 mb-4">
-            <Mail className="w-8 h-8 text-second" />
+        <Card
+          className="bg-card/90 border-border/50 rounded-3xl p-8 text-center shadow-xl
+            backdrop-blur-sm"
+        >
+          <div
+            className="bg-second/10 mb-4 inline-flex h-16 w-16 items-center justify-center
+              rounded-full"
+          >
+            <Mail className="text-second h-8 w-8" />
           </div>
 
-          <h3 className="font-semibold text-lg mb-2">Check Your Email</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-            We&apos;ve sent password reset instructions to <strong>{email}</strong>. Please check
-            your inbox and follow the link to reset your password.
+          <h3 className="mb-2 text-lg font-semibold">Check Your Email</h3>
+          <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+            We&apos;ve sent password reset instructions to <strong>{email}</strong>.
+            Please check your inbox and follow the link to reset your password.
           </p>
 
-          <p className="text-xs text-muted-foreground mb-8">
+          <p className="text-muted-foreground mb-8 text-xs">
             If you don&apos;t see the email, check your spam folder or try again.
           </p>
 
@@ -43,7 +52,9 @@ export default function ForgotPasswordSentPage() {
               variant="outline"
               size="lg"
               asChild
-              className="w-full text-lg py-6 rounded-2xl bg-background/50 backdrop-blur border-2 hover:bg-background transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="bg-background/50 hover:bg-background w-full rounded-2xl border-2
+                py-6 text-lg backdrop-blur transition-all hover:scale-[1.02]
+                active:scale-[0.98]"
             >
               <Link href="/sign-in">Back to Sign In</Link>
             </Button>
@@ -51,7 +62,8 @@ export default function ForgotPasswordSentPage() {
               variant="ghost"
               size="lg"
               asChild
-              className="w-full text-lg py-6 rounded-2xl hover:bg-background/50 transition-all"
+              className="hover:bg-background/50 w-full rounded-2xl py-6 text-lg
+                transition-all"
             >
               <Link href="/forgot-password">Send another email</Link>
             </Button>
@@ -62,7 +74,8 @@ export default function ForgotPasswordSentPage() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground text-sm
+              transition-colors"
           >
             Back to Home
           </Link>

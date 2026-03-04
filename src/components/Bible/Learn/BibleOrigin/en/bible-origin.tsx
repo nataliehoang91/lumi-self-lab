@@ -16,7 +16,9 @@ import {
   type FaqItem,
 } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginFaq";
 
-function getMapLabels(loc: Record<MapLocationId, MapLocationInfo>): Record<MapLocationId, string> {
+function getMapLabels(
+  loc: Record<MapLocationId, MapLocationInfo>
+): Record<MapLocationId, string> {
   return {
     jerusalem: loc.jerusalem.label,
     qumran: loc.qumran.label,

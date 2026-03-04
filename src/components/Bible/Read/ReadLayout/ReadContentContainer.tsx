@@ -11,7 +11,7 @@ export function ReadContentContainer({ children }: { children: ReactNode }) {
   return (
     <Container
       maxWidth="full"
-      className={cn("flex-1 flex flex-col min-h-0 min-w-0", insightOpen && "pb-120")}
+      className={cn("flex min-h-0 min-w-0 flex-1 flex-col", insightOpen && "pb-120")}
     >
       {children}
     </Container>
@@ -21,7 +21,7 @@ export function ReadShellContainer({ children }: { children: ReactNode }) {
   return (
     <Container
       maxWidth="full"
-      className="min-h-screen bg-read text-foreground font-sans flex flex-col"
+      className="bg-read text-foreground flex min-h-screen flex-col font-sans"
     >
       {children}
     </Container>

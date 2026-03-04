@@ -34,7 +34,11 @@ export function Heading({ tag = "h2", className, children, ...props }: HeadingPr
 
   return (
     <HeadingTag
-      className={cn("font-heading tracking-tight leading-tight", defaultStyles[tag], className)}
+      className={cn(
+        "font-heading leading-tight tracking-tight",
+        defaultStyles[tag],
+        className
+      )}
       {...props}
     >
       {children}
@@ -45,7 +49,7 @@ export function Heading({ tag = "h2", className, children, ...props }: HeadingPr
 // Paragraph - Regular weight Figtree
 export function Text({ className, children, ...props }: TextProps) {
   return (
-    <p className={cn("font-body leading-relaxed text-base", className)} {...props}>
+    <p className={cn("font-body text-base leading-relaxed", className)} {...props}>
       {children}
     </p>
   );
@@ -68,7 +72,10 @@ export function AccentLink({
 }: React.HTMLAttributes<HTMLAnchorElement> & { href?: string }) {
   return (
     <a
-      className={cn("font-accent text-primary hover:text-primary/80 transition-colors", className)}
+      className={cn(
+        "font-accent text-primary hover:text-primary/80 transition-colors",
+        className
+      )}
       {...props}
     >
       {children}

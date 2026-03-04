@@ -88,35 +88,42 @@ export function VnWhatIsBiblePage() {
           " bởi gần ",
           "40 tác giả khác nhau",
           <>
-            . Dù được hình thành qua nhiều thế kỷ và bối cảnh khác nhau, nhiều người tin rằng toàn
-            bộ <strong>{TERM_BIBLE_VN}</strong> cùng kể một câu chuyện thống nhất — câu chuyện về mối
-            quan hệ giữa <strong>{TERM_GOD_VN}</strong> và con người.
+            . Dù được hình thành qua nhiều thế kỷ và bối cảnh khác nhau, nhiều người tin
+            rằng toàn bộ <strong>{TERM_BIBLE_VN}</strong> cùng kể một câu chuyện thống
+            nhất — câu chuyện về mối quan hệ giữa <strong>{TERM_GOD_VN}</strong> và con
+            người.
           </>,
         ]}
       />
 
-      <blockquote className="mb-12 pl-6 pr-6 py-6 border-l-4 bg-primary-light/5 border-l-primary rounded-r-xl not-italic space-y-4">
-        <p className="font-bible-english text-lg font-semibold  leading-snug">
+      <blockquote
+        className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
+          border-l-4 py-6 pr-6 pl-6 not-italic"
+      >
+        <p className="font-bible-english text-lg leading-snug font-semibold">
           Kinh Thánh là thư viện, không phải một cuốn sách đơn lẻ.
         </p>
-        <p className="leading-relaxed text-sm opacity-90">
+        <p className="text-sm leading-relaxed opacity-90">
           Từ <strong>&ldquo;Bible&rdquo;</strong> bắt nguồn từ tiếng Hy Lạp{" "}
-          <strong>&ldquo;biblia&rdquo;</strong>, nghĩa là &ldquo;những cuốn sách&rdquo;. Hiểu điều
-          này giúp chúng ta tránh việc đọc <strong>{TERM_BIBLE_VN}</strong> như một cuốn sách đồng nhất,
-          mà thay vào đó là một thư viện gồm nhiều tác phẩm liên kết với nhau.
+          <strong>&ldquo;biblia&rdquo;</strong>, nghĩa là &ldquo;những cuốn sách&rdquo;.
+          Hiểu điều này giúp chúng ta tránh việc đọc <strong>{TERM_BIBLE_VN}</strong> như
+          một cuốn sách đồng nhất, mà thay vào đó là một thư viện gồm nhiều tác phẩm liên
+          kết với nhau.
         </p>
-        <p className="leading-relaxed text-sm opacity-80 border-t border-border pt-4">
-          <strong>{TERM_BIBLE_VN}</strong> bao gồm nhiều thể loại: lịch sử, thơ ca, luật pháp, thư tín,
-          khải tượng. Vì vậy, không thể đọc mọi phần theo cùng một cách.
+        <p className="border-border border-t pt-4 text-sm leading-relaxed opacity-80">
+          <strong>{TERM_BIBLE_VN}</strong> bao gồm nhiều thể loại: lịch sử, thơ ca, luật
+          pháp, thư tín, khải tượng. Vì vậy, không thể đọc mọi phần theo cùng một cách.
         </p>
       </blockquote>
 
-      <LearnWhatIsBibleStats statLabels={["Sách tổng cộng", "Cựu Ước", "Tân Ước", "Tác giả"]} />
+      <LearnWhatIsBibleStats
+        statLabels={["Sách tổng cộng", "Cựu Ước", "Tân Ước", "Tác giả"]}
+      />
 
       <LearnWhatIsBibleTestamentSection
         title={TERM_OLD_TESTAMENT_VN}
         intro={
-          <p className={cn(" mb-5 leading-relaxed", bodyClass)}>
+          <p className={cn("mb-5 leading-relaxed", bodyClass)}>
             Được viết chủ yếu bằng tiếng{" "}
             <strong>
               <em>{LANG_HEBREW_VN}</em>
@@ -125,9 +132,9 @@ export function VnWhatIsBiblePage() {
             <strong>
               <em>{LANG_ARAMAIC_VN}</em>
             </strong>
-            ), <strong>{TERM_OLD_TESTAMENT_VN}</strong> ghi lại từ sự sáng tạo vũ trụ cho đến thời kỳ ngay trước khi{" "}
-            <strong>Chúa {NAME_JESUS_VN}</strong> giáng sinh. Đây là câu chuyện về{" "}
-            <strong>{TERM_GOD_VN}</strong>, về dân{" "}
+            ), <strong>{TERM_OLD_TESTAMENT_VN}</strong> ghi lại từ sự sáng tạo vũ trụ cho
+            đến thời kỳ ngay trước khi <strong>Chúa {NAME_JESUS_VN}</strong> giáng sinh.
+            Đây là câu chuyện về <strong>{TERM_GOD_VN}</strong>, về dân{" "}
             <strong>
               <em>{PLACE_ISRAEL_VN}</em>
             </strong>
@@ -185,15 +192,16 @@ export function VnWhatIsBiblePage() {
       <LearnWhatIsBibleTestamentSection
         title={TERM_NEW_TESTAMENT_VN}
         intro={
-          <p className={cn(" mb-5 leading-relaxed", bodyClass)}>
+          <p className={cn("mb-5 leading-relaxed", bodyClass)}>
             Được viết bằng tiếng{" "}
             <strong>
               <em>{LANG_GREEK_VN}</em>
             </strong>
-            , <strong>{TERM_NEW_TESTAMENT_VN}</strong> mở đầu bằng bốn sách Phúc Âm kể về cuộc đời, chức vụ, sự chết
-            và sự sống lại của <strong>Chúa {NAME_JESUS_VN}</strong>. Sau đó là câu chuyện về Hội Thánh đầu
-            tiên lan rộng ra khắp thế giới, và kết thúc bằng khải tượng về sự hoàn tất của lịch sử
-            trong <strong>{TERM_CHRIST_VN}</strong>.
+            , <strong>{TERM_NEW_TESTAMENT_VN}</strong> mở đầu bằng bốn sách Phúc Âm kể về
+            cuộc đời, chức vụ, sự chết và sự sống lại của{" "}
+            <strong>Chúa {NAME_JESUS_VN}</strong>. Sau đó là câu chuyện về Hội Thánh đầu
+            tiên lan rộng ra khắp thế giới, và kết thúc bằng khải tượng về sự hoàn tất của
+            lịch sử trong <strong>{TERM_CHRIST_VN}</strong>.
           </p>
         }
         sectionNames={["Phúc âm", "Lịch sử", "Thư tín", "Khải tượng"]}
@@ -214,8 +222,8 @@ export function VnWhatIsBiblePage() {
             <strong>
               <em>{BOOK_JOHN_VN}</em>
             </strong>{" "}
-            — bốn tường thuật về cuộc đời, chức vụ, sự chết và sống lại của <strong>Chúa {NAME_JESUS_VN}</strong>
-            .
+            — bốn tường thuật về cuộc đời, chức vụ, sự chết và sống lại của{" "}
+            <strong>Chúa {NAME_JESUS_VN}</strong>.
           </>,
           <>
             <strong>
@@ -235,33 +243,42 @@ export function VnWhatIsBiblePage() {
             <strong>
               <em>{BOOK_JUDE_VN}</em>
             </strong>{" "}
-            — <strong><em>{NAME_PAUL_VN}</em></strong> và những người khác viết cho các Hội thánh và cá nhân
-            về đức tin và đời sống.
+            —{" "}
+            <strong>
+              <em>{NAME_PAUL_VN}</em>
+            </strong>{" "}
+            và những người khác viết cho các Hội thánh và cá nhân về đức tin và đời sống.
           </>,
           <>
             <strong>
               <em>{BOOK_REVELATION_VN}</em>
             </strong>{" "}
-            — khải tượng về sự kết thúc lịch sử và sự chiến thắng của <strong>{TERM_CHRIST_VN}</strong>.
+            — khải tượng về sự kết thúc lịch sử và sự chiến thắng của{" "}
+            <strong>{TERM_CHRIST_VN}</strong>.
           </>,
         ]}
         sections={NT_SECTIONS}
       />
 
       <LearnWhyItMatters title="Câu chuyện trung tâm — và vì sao nó quan trọng">
-        <p className={cn(" leading-relaxed", bodyClass)}>
-          Dù được viết bởi nhiều con người khác nhau qua nhiều thế kỷ, <strong>{TERM_BIBLE_VN}</strong>{" "}
-          trình bày một đại câu chuyện: <strong>{TERM_GOD_VN}</strong> tạo dựng thế giới, con người
-          phản nghịch, và một hành trình dài của sự hứa hẹn, hy vọng và phục hồi. Theo các sách Tân
-          Ước cho rằng câu chuyện đó đạt đến đỉnh điểm trong <strong>Đức Chúa {NAME_JESUS_VN} Christ</strong>
-          . Nếu <strong>{TERM_BIBLE_VN}</strong> chỉ là một tập hợp văn bản cổ đại, nó đơn thuần là tài
-          liệu lịch sử.{" "}
+        <p className={cn("leading-relaxed", bodyClass)}>
+          Dù được viết bởi nhiều tác giả khác nhau qua nhiều thế kỷ,{" "}
+          <strong>{TERM_BIBLE_VN}</strong> kể một câu chuyện xuyên suốt:{" "}
+          <strong>{TERM_GOD_VN}</strong> tạo dựng con người với mục đích, con người xa
+          cách Ngài, và một hành trình dài của lời hứa, hy vọng và sự phục hồi. Câu chuyện
+          đó đạt đến đỉnh điểm nơi <strong>Đức Chúa {NAME_JESUS_VN} Christ</strong>.
         </p>
 
-        <p className={cn("mt-4  leading-relaxed", bodyClass)}>
-          Nhưng nếu nó thực sự kể một câu chuyện thống nhất về <strong>{TERM_GOD_VN}</strong> và con
-          người, thì những gì nó tuyên bố về sự sống, đau khổ và hy vọng trở nên đáng để suy nghĩ
-          nghiêm túc.
+        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+          Nếu <strong>{TERM_BIBLE_VN}</strong> chỉ là những văn bản cổ đại, nó đơn thuần
+          là tài liệu lịch sử. Nhưng nếu câu chuyện này là thật, thì nó chạm đến chính đời
+          sống của bạn — đến câu hỏi bạn là ai, vì sao thế giới đầy đổ vỡ, và hy vọng thật
+          sự nằm ở đâu.
+        </p>
+
+        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+          Điều này quan trọng bởi vì đức tin Cơ Đốc không chỉ là một hệ thống đạo đức, mà
+          là lời mời bước vào một câu chuyện lớn hơn chính mình.
         </p>
       </LearnWhyItMatters>
       <LearnWhatIsBibleGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} />

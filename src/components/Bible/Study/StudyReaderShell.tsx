@@ -33,16 +33,22 @@ const VERSIONS: { id: ReadVersionId; label: string }[] = [
   { id: "zh", label: "中文" },
 ];
 
-export function StudyReaderShell({ list, books, initialPassages }: StudyReaderShellProps) {
+export function StudyReaderShell({
+  list,
+  books,
+  initialPassages,
+}: StudyReaderShellProps) {
   const [version, setVersion] = useState<ReadVersionId | null>("niv");
-  const [selectedBookId, setSelectedBookId] = useState<string | null>(books[0]?.id ?? null);
+  const [selectedBookId, setSelectedBookId] = useState<string | null>(
+    books[0]?.id ?? null
+  );
   const [loadedChapters, setLoadedChapters] = useState<LoadedChapterMap>({});
   const [passages, setPassages] = useState<BibleStudyPassage[]>(initialPassages);
   const [saving, setSaving] = useState(false);
 
   const selectedBook = useMemo(
     () => books.find((b) => b.id === selectedBookId) ?? null,
-    [books, selectedBookId],
+    [books, selectedBookId]
   );
 
   const chaptersForBook = useMemo(
@@ -51,7 +57,7 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
         .filter((p) => p.bookId === selectedBook?.id)
         .map((p) => p.chapter)
         .sort((a, b) => a - b),
-    [passages, selectedBook?.id],
+    [passages, selectedBook?.id]
   );
 
   const handleChapterClick = (chapter: number) => {
@@ -67,7 +73,7 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
           p.bookId === selectedBook.id &&
           p.chapter === chapter &&
           p.verseStart === null &&
-          p.verseEnd === null,
+          p.verseEnd === null
       );
       if (existing) {
         return prev.filter((p) => p.id !== existing.id);
@@ -139,12 +145,17 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
       }
       const uniqueCombos = Array.from(
         new Map(
-          passages.map((p) => [`${p.bookId}:${p.chapter}`, { bookId: p.bookId, chapter: p.chapter }]),
-        ).values(),
+          passages.map((p) => [
+            `${p.bookId}:${p.chapter}`,
+            { bookId: p.bookId, chapter: p.chapter },
+          ])
+        ).values()
       );
       const entries: LoadedChapterMap = {};
       const results = await Promise.all(
-        uniqueCombos.map((combo) => getChapterContent(combo.bookId, combo.chapter, version)),
+        uniqueCombos.map((combo) =>
+          getChapterContent(combo.bookId, combo.chapter, version)
+        )
       );
       results.forEach((content, idx) => {
         if (!content) return;
@@ -162,22 +173,30 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
   }, [version, passages]);
 
   return (
-    <Container maxWidth="7xl" className="min-h-screen py-8 lg:px-0 px-4 space-y-8">
+    <Container maxWidth="7xl" className="min-h-screen space-y-8 px-4 py-8 lg:px-0">
       {/* Header */}
       <header className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Study list</p>
-        <h1 className="text-xl font-semibold text-foreground">{list.title}</h1>
+        <p className="text-muted-foreground text-xs tracking-[0.18em] uppercase">
+          Study list
+        </p>
+        <h1 className="text-foreground text-xl font-semibold">{list.title}</h1>
         {list.description && (
-          <p className="text-sm text-muted-foreground max-w-xl">{list.description}</p>
+          <p className="text-muted-foreground max-w-xl text-sm">{list.description}</p>
         )}
       </header>
 
       {/* Controls */}
-      <section className="rounded-2xl border border-border bg-card/60 px-4 py-4 sm:px-5 sm:py-5 space-y-4">
+      <section
+        className="border-border bg-card/60 space-y-4 rounded-2xl border px-4 py-4 sm:px-5
+          sm:py-5"
+      >
         <div className="flex flex-wrap items-center gap-3">
           {/* Version */}
           <div className="space-y-1">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-[0.16em]">
+            <p
+              className="text-muted-foreground text-xs font-medium tracking-[0.16em]
+                uppercase"
+            >
               Version
             </p>
             <div className="flex flex-wrap gap-2">
@@ -187,10 +206,10 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
                   type="button"
                   onClick={() => setVersion(v.id)}
                   className={cn(
-                    "px-3 py-1.5 rounded-full text-xs border transition-colors",
+                    "rounded-full border px-3 py-1.5 text-xs transition-colors",
                     version === v.id
                       ? "bg-foreground text-background border-foreground"
-                      : "bg-background text-foreground/80 border-border hover:bg-muted",
+                      : "bg-background text-foreground/80 border-border hover:bg-muted"
                   )}
                 >
                   {v.label}
@@ -201,11 +220,15 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
 
           {/* Book */}
           <div className="space-y-1">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-[0.16em]">
+            <p
+              className="text-muted-foreground text-xs font-medium tracking-[0.16em]
+                uppercase"
+            >
               Book
             </p>
             <select
-              className="h-8 rounded-full border border-border bg-background px-3 text-xs text-foreground"
+              className="border-border bg-background text-foreground h-8 rounded-full
+                border px-3 text-xs"
               value={selectedBookId ?? ""}
               onChange={(e) => setSelectedBookId(e.target.value || null)}
             >
@@ -221,10 +244,16 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
         {/* Chapter multiselect grid (saved to DB per click) */}
         {selectedBook && (
           <div className="space-y-2">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-[0.16em]">
+            <p
+              className="text-muted-foreground text-xs font-medium tracking-[0.16em]
+                uppercase"
+            >
               Chapters in {selectedBook.nameEn}
             </p>
-            <div className="grid grid-cols-8 sm:grid-cols-10 md:grid-cols-12 gap-1.5 sm:gap-2">
+            <div
+              className="grid grid-cols-8 gap-1.5 sm:grid-cols-10 sm:gap-2
+                md:grid-cols-12"
+            >
               {Array.from({ length: selectedBook.chapterCount }, (_, idx) => {
                 const ch = idx + 1;
                 const active = chaptersForBook.includes(ch);
@@ -234,10 +263,10 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
                     type="button"
                     onClick={() => handleChapterClick(ch)}
                     className={cn(
-                      "h-8 rounded-xl text-xs font-medium border transition-colors",
+                      "h-8 rounded-xl border text-xs font-medium transition-colors",
                       active
                         ? "bg-foreground text-background border-foreground"
-                        : "bg-muted/60 text-foreground border-transparent hover:bg-muted",
+                        : "bg-muted/60 text-foreground hover:bg-muted border-transparent"
                     )}
                   >
                     {ch}
@@ -248,8 +277,8 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
           </div>
         )}
 
-        <div className="pt-1 flex items-center justify-between gap-3">
-          <p className="text-xs text-muted-foreground">
+        <div className="flex items-center justify-between gap-3 pt-1">
+          <p className="text-muted-foreground text-xs">
             {passages.length === 0
               ? "Select one or more chapters to add to this study."
               : `Selected ${passages.length} chapter${passages.length > 1 ? "s" : ""} for this study.`}
@@ -261,7 +290,10 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
               try {
                 await saveStudyPassages({
                   listId: list.id,
-                  chapters: passages.map((p) => ({ bookId: p.bookId, chapter: p.chapter })),
+                  chapters: passages.map((p) => ({
+                    bookId: p.bookId,
+                    chapter: p.chapter,
+                  })),
                 });
               } catch (err) {
                 console.error("Failed to save study passages", err);
@@ -271,10 +303,11 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
             }}
             disabled={passages.length === 0 || saving}
             className={cn(
-              "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs font-medium transition-colors",
+              `inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs
+              font-medium transition-colors`,
               passages.length === 0 || saving
                 ? "bg-muted text-muted-foreground cursor-not-allowed"
-                : "bg-foreground text-background hover:bg-foreground/90",
+                : "bg-foreground text-background hover:bg-foreground/90"
             )}
           >
             {saving ? "Saving…" : "Save list"}
@@ -285,14 +318,17 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
       {/* Content area */}
       <section className="pb-10">
         {Object.keys(loadedChapters).length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-[40vh] text-center gap-3 text-muted-foreground">
+          <div
+            className="text-muted-foreground flex min-h-[40vh] flex-col items-center
+              justify-center gap-3 text-center"
+          >
             <BookCircleIcon size="lg" className="mb-1" />
-            <p className="text-sm font-medium text-foreground">
+            <p className="text-foreground text-sm font-medium">
               Choose a version, book, and chapters to start studying.
             </p>
-            <p className="text-xs max-w-sm">
-              You can select multiple chapters from the same book and we&apos;ll lay them out below
-              for your study session.
+            <p className="max-w-sm text-xs">
+              You can select multiple chapters from the same book and we&apos;ll lay them
+              out below for your study session.
             </p>
           </div>
         ) : (
@@ -305,34 +341,40 @@ export function StudyReaderShell({ list, books, initialPassages }: StudyReaderSh
                 return a.content.book.order - b.content.book.order;
               })
               .map(({ key, content }) => (
-              <article
-                key={key}
-                className="rounded-2xl border border-border bg-background/80 px-4 py-4 sm:px-6 sm:py-5 space-y-3"
-              >
-                <header className="flex items-baseline justify-between gap-3">
-                  <h2 className="text-sm font-semibold text-foreground">
-                    {content.book.nameEn} {content.chapter}
-                  </h2>
-                  <span className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                    {version?.toUpperCase()}
-                  </span>
-                </header>
-                <div className="space-y-2 text-sm leading-relaxed">
-                  {content.verses.map((v) => (
-                    <p key={v.number} className="flex gap-2 text-foreground">
-                      <span className="w-6 shrink-0 text-[11px] font-medium text-muted-foreground mt-0.5">
-                        {v.number}
-                      </span>
-                      <span className="flex-1">{v.text}</span>
-                    </p>
-                  ))}
-                </div>
-              </article>
-            ))}
+                <article
+                  key={key}
+                  className="border-border bg-background/80 space-y-3 rounded-2xl border
+                    px-4 py-4 sm:px-6 sm:py-5"
+                >
+                  <header className="flex items-baseline justify-between gap-3">
+                    <h2 className="text-foreground text-sm font-semibold">
+                      {content.book.nameEn} {content.chapter}
+                    </h2>
+                    <span
+                      className="text-muted-foreground text-[11px] tracking-[0.16em]
+                        uppercase"
+                    >
+                      {version?.toUpperCase()}
+                    </span>
+                  </header>
+                  <div className="space-y-2 text-sm leading-relaxed">
+                    {content.verses.map((v) => (
+                      <p key={v.number} className="text-foreground flex gap-2">
+                        <span
+                          className="text-muted-foreground mt-0.5 w-6 shrink-0 text-[11px]
+                            font-medium"
+                        >
+                          {v.number}
+                        </span>
+                        <span className="flex-1">{v.text}</span>
+                      </p>
+                    ))}
+                  </div>
+                </article>
+              ))}
           </div>
         )}
       </section>
     </Container>
   );
 }
-

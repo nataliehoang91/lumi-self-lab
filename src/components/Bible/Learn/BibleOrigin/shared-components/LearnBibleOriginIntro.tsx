@@ -10,19 +10,26 @@ export interface LearnBibleOriginIntroProps {
   intro: string;
 }
 
-export function LearnBibleOriginIntro({ moduleNum, title, intro }: LearnBibleOriginIntroProps) {
+export function LearnBibleOriginIntro({
+  moduleNum,
+  title,
+  intro,
+}: LearnBibleOriginIntroProps) {
   const { bodyClass } = useLearnFontClasses();
 
   return (
     <div className="mb-12">
-      <p className="text-xs font-mono text-second mb-3">{moduleNum}</p>
+      <p className="text-second mb-3 font-mono text-xs">{moduleNum}</p>
       <BibleHeading
         level="h1"
-        className="font-bible-english font-semibold text-foreground leading-tight text-balance"
+        className="font-bible-english text-foreground leading-tight font-semibold
+          text-balance"
       >
         {title}
       </BibleHeading>
-      <p className={cn("mt-4 text-muted-foreground leading-relaxed", bodyClass)}>{intro}</p>
+      <p className={cn("text-muted-foreground mt-4 leading-relaxed", bodyClass)}>
+        {intro}
+      </p>
     </div>
   );
 }

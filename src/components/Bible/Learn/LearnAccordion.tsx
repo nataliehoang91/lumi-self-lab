@@ -27,20 +27,26 @@ export function LearnAccordion({ items, className, itemClassName }: LearnAccordi
     fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
 
   return (
-    <Accordion type="multiple" className={cn("space-y-2 bg-background/50 rounded-xl", className)}>
+    <Accordion
+      type="multiple"
+      className={cn("bg-background/50 space-y-2 rounded-xl", className)}
+    >
       {items.map((item, i) => (
         <AccordionItem
           key={i}
           value={`item-${i}`}
           className={cn(
-            "border-b border-border overflow-hidden transition-all last:border-b-0 ",
+            "border-border overflow-hidden border-b transition-all last:border-b-0",
             itemClassName
           )}
         >
-          <AccordionTrigger className="px-5 py-3.5 hover:no-underline data-[state=open]:text-primary-dark [&[data-state=open]>svg]:rotate-180">
-            <span className={cn("font-bold text-left", bodyClass)}>{item.term}</span>
+          <AccordionTrigger
+            className="data-[state=open]:text-primary-dark px-5 py-3.5 hover:no-underline
+              [&[data-state=open]>svg]:rotate-180"
+          >
+            <span className={cn("text-left font-bold", bodyClass)}>{item.term}</span>
           </AccordionTrigger>
-          <AccordionContent className={cn("px-5 pb-4 leading-relaxed pt-3", bodyClass)}>
+          <AccordionContent className={cn("px-5 pt-3 pb-4 leading-relaxed", bodyClass)}>
             {item.def}
           </AccordionContent>
         </AccordionItem>

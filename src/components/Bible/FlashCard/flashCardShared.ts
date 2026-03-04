@@ -83,7 +83,10 @@ export function getDisplayTitle(verse: VerseLike, cardLanguage: Language): strin
  * KJV uses {supplied word} or {marginal note: Gr. ...}. Parse into parts and footnotes.
  * Returns { parts: (string | number)[], notes: string[] } so we can render "text ¹ more ²" with notes at bottom.
  */
-export function parseKJVNotes(text: string): { parts: (string | number)[]; notes: string[] } {
+export function parseKJVNotes(text: string): {
+  parts: (string | number)[];
+  notes: string[];
+} {
   const notes: string[] = [];
   const parts: (string | number)[] = [];
   const re = /\{([^}]*)\}/g;

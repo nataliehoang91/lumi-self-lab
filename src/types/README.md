@@ -105,7 +105,7 @@ const formData: CreateExperimentRequest = {
    ```typescript
    // ❌ BAD
    const data: any = await response.json();
-
+   
    // ✅ GOOD
    const data: unknown = await response.json();
    const validated: CreateExperimentRequest = validateCreateRequest(data);

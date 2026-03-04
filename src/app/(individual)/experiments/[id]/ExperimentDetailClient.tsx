@@ -237,14 +237,14 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
         return field.textType === "long" ? (
           <textarea
             placeholder="Type your response..."
-            className="w-full min-h-20 p-2 rounded-lg border border-border/50 bg-background text-sm"
+            className="border-border/50 bg-background min-h-20 w-full rounded-lg border p-2 text-sm"
             disabled
           />
         ) : (
           <input
             type="text"
             placeholder="Type your response..."
-            className="w-full p-2 rounded-lg border border-border/50 bg-background text-sm"
+            className="border-border/50 bg-background w-full rounded-lg border p-2 text-sm"
             disabled
           />
         );
@@ -254,10 +254,10 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
             <input
               type="number"
               placeholder={`${field.minValue || 0} - ${field.maxValue || 10}`}
-              className="w-full p-2 rounded-lg border border-border/50 bg-background text-sm"
+              className="border-border/50 bg-background w-full rounded-lg border p-2 text-sm"
               disabled
             />
-            <div className="flex justify-between text-xs text-muted-foreground px-1">
+            <div className="text-muted-foreground flex justify-between px-1 text-xs">
               <span>{field.minValue || 0}</span>
               <span>{field.maxValue || 10}</span>
             </div>
@@ -272,19 +272,19 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
               : ["😫", "😔", "😕", "😐", "😊", "😄", "🤩"];
         return (
           <div className="space-y-2">
-            <div className="flex gap-2 justify-center">
+            <div className="flex justify-center gap-2">
               {emojiArray.map((emoji, index) => (
                 <button
                   key={index}
                   type="button"
-                  className="w-10 h-10 rounded-xl bg-muted/30 border border-border/50 text-xl flex items-center justify-center cursor-not-allowed"
+                  className="bg-muted/30 border-border/50 flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-xl border text-xl"
                   disabled
                 >
                   {emoji}
                 </button>
               ))}
             </div>
-            <div className="flex justify-between text-xs text-muted-foreground px-1">
+            <div className="text-muted-foreground flex justify-between px-1 text-xs">
               <span>Low</span>
               <span>High</span>
             </div>
@@ -293,7 +293,7 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
       case "select":
         return (
           <select
-            className="w-full p-2 rounded-lg border border-border/50 bg-background text-sm"
+            className="border-border/50 bg-background w-full rounded-lg border p-2 text-sm"
             disabled
           >
             <option>Select an option...</option>
@@ -304,14 +304,14 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
           <div className="flex gap-2">
             <button
               type="button"
-              className="flex-1 p-2 rounded-lg border border-border/50 bg-background text-sm cursor-not-allowed"
+              className="border-border/50 bg-background flex-1 cursor-not-allowed rounded-lg border p-2 text-sm"
               disabled
             >
               Yes
             </button>
             <button
               type="button"
-              className="flex-1 p-2 rounded-lg border border-border/50 bg-background text-sm cursor-not-allowed"
+              className="border-border/50 bg-background flex-1 cursor-not-allowed rounded-lg border p-2 text-sm"
               disabled
             >
               No
@@ -325,31 +325,31 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 flex items-center justify-between">
           <Button variant="ghost" asChild>
             <Link href="/experiments">
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Experiments
             </Link>
           </Button>
           <Link href="/" className="inline-flex items-center gap-2">
-            <FlaskConical className="w-6 h-6 text-second" />
-            <span className="font-bold text-foreground">Self-Lab</span>
+            <FlaskConical className="text-second h-6 w-6" />
+            <span className="text-foreground font-bold">Self-Lab</span>
           </Link>
         </div>
 
         {/* Experiment Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
+          <div className="mb-3 flex items-center gap-3">
             <Badge className={getStatusColor(experiment.status)}>
               {experiment.status.charAt(0).toUpperCase() + experiment.status.slice(1)}
             </Badge>
             {/* Org Badge - Mock: replace with real data */}
             {false && ( // TODO: Replace with experiment.orgId check
               <Badge className="bg-violet/10 text-violet border-violet/20">
-                <Building2 className="w-3 h-3 mr-1" />
+                <Building2 className="mr-1 h-3 w-3" />
                 Linked to Organisation
               </Badge>
             )}
@@ -359,7 +359,7 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
               onValueChange={handleStatusChange}
               disabled={isUpdating}
             >
-              <SelectTrigger className="w-[140px] h-7 text-xs rounded-xl border-border/50">
+              <SelectTrigger className="border-border/50 h-7 w-[140px] rounded-xl text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -369,21 +369,21 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
               </SelectContent>
             </Select>
           </div>
-          <h1 className="text-4xl font-bold text-foreground mb-4">{experiment.title}</h1>
+          <h1 className="text-foreground mb-4 text-4xl font-bold">{experiment.title}</h1>
 
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
+          <div className="text-muted-foreground mb-4 flex flex-wrap gap-4 text-sm">
             {experiment.startDate && (
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
+                <Calendar className="h-4 w-4" />
                 <span>Started {experiment.startDate}</span>
               </div>
             )}
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4" />
+              <Clock className="h-4 w-4" />
               <span>{experiment.duration} days total</span>
             </div>
             <div className="flex items-center gap-2">
-              <Target className="w-4 h-4" />
+              <Target className="h-4 w-4" />
               <span className="capitalize">{experiment.frequency} check-ins</span>
             </div>
           </div>
@@ -391,17 +391,18 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
           {/* Progress Bar - Only show for active experiments that have started */}
           {experiment.status === "active" && experiment.startDate && (
             <div>
-              <div className="flex justify-between text-sm mb-2">
+              <div className="mb-2 flex justify-between text-sm">
                 <span className="text-muted-foreground">Progress</span>
-                <span className="font-medium text-foreground">
+                <span className="text-foreground font-medium">
                   {experiment.daysCompleted}/{experiment.duration} days (
                   {getProgressPercentage(experiment.daysCompleted, experiment.duration)}
                   %)
                 </span>
               </div>
-              <div className="h-3 bg-muted rounded-full overflow-hidden">
+              <div className="bg-muted h-3 overflow-hidden rounded-full">
                 <div
-                  className="h-full bg-linear-to-r from-primary/80 to-primary/60 transition-all"
+                  className="from-primary/80 to-primary/60 h-full bg-linear-to-r
+                    transition-all"
                   style={{
                     width: `${getProgressPercentage(
                       experiment.daysCompleted,
@@ -435,7 +436,7 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
                       setIsCheckInDialogOpen(true);
                     }}
                     size="sm"
-                    className="bg-amber-600 hover:bg-amber-700 text-white"
+                    className="bg-amber-600 text-white hover:bg-amber-700"
                   >
                     Check in now
                   </Button>
@@ -445,32 +446,45 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
         )}
 
         {/* Experiment Details */}
-        <div className="space-y-6 mb-8">
+        <div className="mb-8 space-y-6">
           {experiment.whyMatters && (
-            <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-              <h3 className="text-lg font-semibold text-foreground mb-2">Why This Matters</h3>
-              <p className="text-muted-foreground leading-relaxed">{experiment.whyMatters}</p>
+            <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
+              <h3 className="text-foreground mb-2 text-lg font-semibold">
+                Why This Matters
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {experiment.whyMatters}
+              </p>
             </Card>
           )}
 
           {experiment.hypothesis && (
-            <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-              <h3 className="text-lg font-semibold text-foreground mb-2">My Hypothesis</h3>
-              <p className="text-muted-foreground leading-relaxed">{experiment.hypothesis}</p>
+            <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
+              <h3 className="text-foreground mb-2 text-lg font-semibold">
+                My Hypothesis
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {experiment.hypothesis}
+              </p>
             </Card>
           )}
 
           {experiment.faithEnabled && experiment.scriptureNotes && (
-            <Card className="p-6 bg-card/80 backdrop-blur border-accent/20 border">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <Book className="w-4 h-4 text-accent" />
+            <Card className="bg-card/80 border-accent/20 border p-6 backdrop-blur">
+              <div className="mb-4 flex items-center gap-2">
+                <div
+                  className="bg-accent/10 flex h-8 w-8 items-center justify-center
+                    rounded-lg"
+                >
+                  <Book className="text-accent h-4 w-4" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Faith Lens</h3>
+                <h3 className="text-foreground text-lg font-semibold">Faith Lens</h3>
               </div>
               <div>
-                <p className="text-sm font-medium text-foreground mb-1">Related Scriptures</p>
-                <p className="text-sm text-muted-foreground leading-relaxed italic">
+                <p className="text-foreground mb-1 text-sm font-medium">
+                  Related Scriptures
+                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed italic">
                   {experiment.scriptureNotes}
                 </p>
               </div>
@@ -482,30 +496,32 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
             <Button
               variant="outline"
               onClick={() => setIsPreviewDialogOpen(true)}
-              className="w-full py-6 rounded-2xl border-2 border-dashed border-primary/30 hover:border-primary hover:bg-primary/5 transition-all hover:scale-[1.02] bg-transparent"
+              className="border-primary/30 hover:border-primary hover:bg-primary/5 w-full
+                rounded-2xl border-2 border-dashed bg-transparent py-6 transition-all
+                hover:scale-[1.02]"
             >
-              <Eye className="w-4 h-4 mr-2" />
+              <Eye className="mr-2 h-4 w-4" />
               Preview Experiment Template
             </Button>
           )}
 
           {/* Org Linking Section */}
-          <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-foreground">Organisation</h3>
+          <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-foreground font-semibold">Organisation</h3>
               <Button variant="outline" size="sm" asChild>
                 <Link href={`/experiments/${experiment.id}/org-linking`}>Manage</Link>
               </Button>
             </div>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-muted-foreground text-sm">
               {false ? ( // TODO: Replace with experiment.orgId check
                 <div className="flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-violet" />
+                  <Building2 className="text-violet h-4 w-4" />
                   <span>Linked to organisation</span>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Home className="w-4 h-4" />
+                  <Home className="h-4 w-4" />
                   <span>Personal experiment</span>
                 </div>
               )}
@@ -522,14 +538,14 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
                 variant="outline"
                 onClick={handlePublish}
                 disabled={isUpdating}
-                className="flex-1 py-6 rounded-2xl"
+                className="flex-1 rounded-2xl py-6"
               >
                 Publish
               </Button>
               <Button
                 onClick={handleStart}
                 disabled={isUpdating}
-                className="flex-1 py-6 rounded-2xl bg-primary hover:bg-primary/90"
+                className="bg-primary hover:bg-primary/90 flex-1 rounded-2xl py-6"
               >
                 {isUpdating ? "Starting..." : "Start"}
               </Button>
@@ -541,7 +557,10 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
             <Button
               onClick={handleStart}
               disabled={isUpdating}
-              className="w-full py-6 rounded-3xl bg-linear-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="from-primary to-primary hover:from-primary/90 hover:to-primary/90
+                text-primary-foreground w-full rounded-3xl bg-linear-to-r py-6 text-base
+                font-semibold shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl
+                active:scale-[0.98]"
             >
               {isUpdating ? "Starting..." : "Start Experiment"}
             </Button>
@@ -557,17 +576,20 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
                     setSelectedDate(getTodayUTC());
                     setIsCheckInDialogOpen(true);
                   }}
-                  className="w-full py-6 rounded-3xl bg-linear-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground font-semibold text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="from-primary to-primary hover:from-primary/90
+                    hover:to-primary/90 text-primary-foreground w-full rounded-3xl
+                    bg-linear-to-r py-6 text-base font-semibold shadow-lg transition-all
+                    hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]"
                 >
-                  <Plus className="w-5 h-5 mr-2" />
+                  <Plus className="mr-2 h-5 w-5" />
                   Check-in
                 </Button>
 
                 {/* Phase C.2: Check-in by date */}
-                <Card className="p-6 bg-card/80 backdrop-blur border-border/50">
-                  <h3 className="font-semibold text-foreground mb-3">Check-in by date</h3>
-                  <div className="flex flex-col sm:flex-row gap-6">
-                    <div className="flex-1 min-w-0">
+                <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
+                  <h3 className="text-foreground mb-3 font-semibold">Check-in by date</h3>
+                  <div className="flex flex-col gap-6 sm:flex-row">
+                    <div className="min-w-0 flex-1">
                       <CheckInDatePicker
                         selectedDate={selectedDate}
                         onChange={(date) => {
@@ -575,14 +597,14 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
                           setIsCheckInDialogOpen(true);
                         }}
                       />
-                      <p className="text-xs text-muted-foreground mt-2">
-                        Pick any date to add or edit. Click a date below to view or edit a past
-                        check-in.
+                      <p className="text-muted-foreground mt-2 text-xs">
+                        Pick any date to add or edit. Click a date below to view or edit a
+                        past check-in.
                       </p>
                     </div>
                     {experiment.checkIns.length > 0 && (
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground mb-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-foreground mb-2 text-sm font-medium">
                           Past check-ins (click to edit)
                         </p>
                         <CheckInTimeline
@@ -603,7 +625,7 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
           {experiment.status === "completed" && (
             <Button
               variant="outline"
-              className="w-full py-6 rounded-2xl"
+              className="w-full rounded-2xl py-6"
               onClick={() => {
                 // TODO: Navigate to results page or show results in dialog
                 console.log("Show results");
@@ -616,7 +638,7 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
 
         {/* Check-In Dialog (Phase C.2: any date, create or edit) */}
         <Dialog open={isCheckInDialogOpen} onOpenChange={setIsCheckInDialogOpen}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl">
+          <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto rounded-3xl">
             <DialogHeader>
               <DialogTitle>
                 {experiment.checkIns.some((c) => c.checkInDate === selectedDate)
@@ -634,8 +656,12 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
             {/* Phase C.3: Already checked in today warning (soft) */}
             {getTodayUTC() === selectedDate &&
               experiment.checkIns.some((c) => c.checkInDate === selectedDate) && (
-                <div className="mb-4 rounded-xl bg-amber-500/10 border border-amber-500/30 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
-                  You&apos;ve already checked in today. Updating will overwrite today&apos;s entry.
+                <div
+                  className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10
+                    px-4 py-3 text-sm text-amber-800 dark:text-amber-200"
+                >
+                  You&apos;ve already checked in today. Updating will overwrite
+                  today&apos;s entry.
                 </div>
               )}
             <CheckInForm
@@ -655,20 +681,23 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
 
         {/* Preview Experiment Template Dialog */}
         <Dialog open={isPreviewDialogOpen} onOpenChange={setIsPreviewDialogOpen}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl">
+          <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto rounded-3xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Pencil className="w-5 h-5 text-primary" />
+                <Pencil className="text-primary h-5 w-5" />
                 Experiment Design
               </DialogTitle>
               <DialogDescription>
                 This is what your daily check-in will look like:
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-4 mt-4">
+            <div className="mt-4 space-y-4">
               {experiment.fields.map((field) => (
-                <div key={field.id} className="p-4 rounded-xl bg-muted/30 border border-border/30">
-                  <label className="text-sm font-medium text-foreground mb-2 block">
+                <div
+                  key={field.id}
+                  className="bg-muted/30 border-border/30 rounded-xl border p-4"
+                >
+                  <label className="text-foreground mb-2 block text-sm font-medium">
                     {field.label}
                     {field.required && <span className="text-primary ml-1">*</span>}
                   </label>
@@ -682,17 +711,20 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
         {/* Check-in History */}
         {experiment.checkIns.length > 0 && (
           <div>
-            <h3 className="text-2xl font-bold text-foreground mb-4">Check-in History</h3>
+            <h3 className="text-foreground mb-4 text-2xl font-bold">Check-in History</h3>
             <div className="space-y-4">
               {experiment.checkIns.map((checkIn) => {
                 const dayNumber = getDayNumber(checkIn.checkInDate);
 
                 return (
-                  <Card key={checkIn.id} className="p-6 bg-card/80 backdrop-blur border-border/50">
-                    <div className="flex justify-between items-start mb-4">
+                  <Card
+                    key={checkIn.id}
+                    className="bg-card/80 border-border/50 p-6 backdrop-blur"
+                  >
+                    <div className="mb-4 flex items-start justify-between">
                       <div>
-                        <p className="font-semibold text-foreground">Day {dayNumber}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-foreground font-semibold">Day {dayNumber}</p>
+                        <p className="text-muted-foreground text-sm">
                           {new Date(checkIn.checkInDate).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "long",
@@ -704,17 +736,17 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
 
                     {/* Field Responses */}
                     {checkIn.responses.length > 0 && (
-                      <div className="space-y-3 mb-4">
+                      <div className="mb-4 space-y-3">
                         {checkIn.responses.map((response) => (
                           <div
                             key={response.id}
-                            className="flex items-start gap-3 p-3 rounded-xl bg-muted/30"
+                            className="bg-muted/30 flex items-start gap-3 rounded-xl p-3"
                           >
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-foreground mb-1">
+                              <p className="text-foreground mb-1 text-sm font-medium">
                                 {response.field.label}
                               </p>
-                              <p className="text-base text-muted-foreground">
+                              <p className="text-muted-foreground text-base">
                                 {formatFieldResponse(response)}
                               </p>
                             </div>
@@ -725,9 +757,9 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
 
                     {/* Notes */}
                     {checkIn.notes && (
-                      <div className="pt-3 border-t border-border/50">
-                        <p className="text-sm font-medium text-foreground mb-1">Notes</p>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
+                      <div className="border-border/50 border-t pt-3">
+                        <p className="text-foreground mb-1 text-sm font-medium">Notes</p>
+                        <p className="text-muted-foreground text-sm leading-relaxed">
                           {checkIn.notes}
                         </p>
                       </div>
@@ -741,7 +773,7 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
 
         {/* Empty State */}
         {experiment.checkIns.length === 0 && experiment.status === "active" && (
-          <Card className="p-12 text-center bg-card/80 backdrop-blur border-border/50">
+          <Card className="bg-card/80 border-border/50 p-12 text-center backdrop-blur">
             <p className="text-muted-foreground">
               No check-ins yet. Add your first check-in above!
             </p>

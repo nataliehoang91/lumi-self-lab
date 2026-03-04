@@ -75,7 +75,7 @@ export function VersionChipButtons() {
   }
 
   return (
-    <div className="flex items-center gap-1.5 flex-wrap">
+    <div className="flex flex-wrap items-center gap-1.5">
       {TRANSLATIONS.map((trans) => (
         <NavigationButton
           key={trans.id}
@@ -86,7 +86,7 @@ export function VersionChipButtons() {
             <NavigationSubmitMessage>
               <span
                 className={cn(
-                  "shrink-0 border hover:text-muted-foreground",
+                  "hover:text-muted-foreground shrink-0 border",
                   chipSelectedStyle(trans.id, leftVersion, rightVersion)
                 )}
               >
@@ -96,7 +96,7 @@ export function VersionChipButtons() {
             <NavigationLoadingMessage>
               <span
                 className={cn(
-                  "shrink-0 border cursor-wait animate-pulse",
+                  "shrink-0 animate-pulse cursor-wait border",
                   chipSelectedStyle(trans.id, leftVersion, rightVersion)
                 )}
               >

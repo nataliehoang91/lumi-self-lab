@@ -93,23 +93,32 @@ export function EnWhatIsBiblePage() {
         ]}
       />
 
-      <blockquote className="mb-12 pl-6 pr-6 py-6 border-l-4 bg-primary-light/5 border-l-primary rounded-r-xl not-italic space-y-4">
-        <p className="text-lg font-semibold leading-snug">
+      <blockquote
+        className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
+          border-l-4 py-6 pr-6 pl-6 not-italic"
+      >
+        <p className="text-lg leading-snug font-semibold">
           The {TERM_BIBLE_EN} is a library, not a single book.
         </p>
-        <p className="leading-relaxed text-sm opacity-90">
-          The word <strong>&quot;Bible&quot;</strong> comes from the {LANG_GREEK_EN} <strong>&quot;biblia&quot;</strong>
-          , meaning “books.” Understanding this helps us avoid reading the {TERM_BIBLE_EN} as one uniform text,
-          and instead as a collection of interconnected writings.
+        <p className="text-sm leading-relaxed opacity-90">
+          The word <strong>&quot;Bible&quot;</strong> comes from the {LANG_GREEK_EN}{" "}
+          <strong>&quot;biblia&quot;</strong>, meaning “books.” Understanding this helps
+          us avoid reading the {TERM_BIBLE_EN} as one uniform text, and instead as a
+          collection of interconnected writings.
         </p>
-        <p className="leading-relaxed text-sm opacity-80 border-t border-border pt-4">
-          The {TERM_BIBLE_EN} includes multiple genres: history, poetry, law, letters, and apocalyptic vision.
-          Not every part should be read in the same way.
+        <p className="border-border border-t pt-4 text-sm leading-relaxed opacity-80">
+          The {TERM_BIBLE_EN} includes multiple genres: history, poetry, law, letters, and
+          apocalyptic vision. Not every part should be read in the same way.
         </p>
       </blockquote>
 
       <LearnWhatIsBibleStats
-        statLabels={["Books total", TERM_OLD_TESTAMENT_EN, TERM_NEW_TESTAMENT_EN, "Authors"]}
+        statLabels={[
+          "Books total",
+          TERM_OLD_TESTAMENT_EN,
+          TERM_NEW_TESTAMENT_EN,
+          "Authors",
+        ]}
       />
 
       <LearnWhatIsBibleTestamentSection
@@ -139,18 +148,19 @@ export function EnWhatIsBiblePage() {
       />
 
       <LearnWhyItMatters title="The Central Story — and Why It Matters">
-        <p className={cn(" leading-relaxed", bodyClass)}>
+        <p className={cn("leading-relaxed", bodyClass)}>
           {" "}
-          Though written across centuries by many voices, the {TERM_BIBLE_EN} presents one sweeping
-          narrative: {TERM_GOD_EN} creates the world, humanity turns away, and a long story of
-          promise, hope, and restoration unfolds. The {TERM_NEW_TESTAMENT_EN} presents{" "}
-          {NAME_JESUS_EN} {TERM_CHRIST_EN} as the climax of that story. If the {TERM_BIBLE_EN} is
-          merely a collection of ancient texts, it remains a valuable historical resource.{" "}
+          Though written across centuries by many voices, the {TERM_BIBLE_EN} presents one
+          sweeping narrative: {TERM_GOD_EN} creates the world, humanity turns away, and a
+          long story of promise, hope, and restoration unfolds. The{" "}
+          {TERM_NEW_TESTAMENT_EN} presents {NAME_JESUS_EN} {TERM_CHRIST_EN} as the climax
+          of that story. If the {TERM_BIBLE_EN} is merely a collection of ancient texts,
+          it remains a valuable historical resource.{" "}
         </p>
         <p className={cn("mt-4 leading-relaxed", bodyClass)}>
           {" "}
-          But if it truly tells a coherent story about {TERM_GOD_EN} and humanity, then its claims about life,
-          suffering, and hope deserve thoughtful consideration.
+          But if it truly tells a coherent story about {TERM_GOD_EN} and humanity, then
+          its claims about life, suffering, and hope deserve thoughtful consideration.
         </p>
       </LearnWhyItMatters>
       <LearnWhatIsBibleGlossary glossaryTitle="Quick Glossary" glossary={EN_GLOSSARY} />

@@ -53,7 +53,12 @@ export function SingleRead() {
 
   return (
     <>
-      <div className={cn("transition-all duration-300 min-w-0", rightVersionValue !== null && "w-full")}>
+      <div
+        className={cn(
+          "min-w-0 transition-all duration-300",
+          rightVersionValue !== null && "w-full"
+        )}
+      >
         <EnhancedReadingPanel
           side="left"
           version={leftVersionValue}
@@ -72,13 +77,15 @@ export function SingleRead() {
           fontSize={fontSize}
           t={t}
           testamentFilter={leftTestamentValue}
-          onTestamentFilterChange={!syncMode ? setLeftTestamentFilterAndAdjust : undefined}
+          onTestamentFilterChange={
+            !syncMode ? setLeftTestamentFilterAndAdjust : undefined
+          }
         />
       </div>
       {rightVersionValue !== null && (
         <div
           className={cn(
-            "transition-all duration-300 min-w-0",
+            "min-w-0 transition-all duration-300",
             isIndependentTwoPanels && "w-full md:w-(--read-right-width)"
           )}
           style={
@@ -105,7 +112,9 @@ export function SingleRead() {
             fontSize={fontSize}
             t={t}
             testamentFilter={rightTestamentValue}
-            onTestamentFilterChange={!syncMode ? setRightTestamentFilterAndAdjust : undefined}
+            onTestamentFilterChange={
+              !syncMode ? setRightTestamentFilterAndAdjust : undefined
+            }
           />
         </div>
       )}

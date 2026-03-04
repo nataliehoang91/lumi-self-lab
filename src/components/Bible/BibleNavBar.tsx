@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SquareMenu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +32,7 @@ import { useBibleApp } from "./BibleAppContext";
 import { useReadFocus } from "./ReadFocusContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { Container } from "../ui/container";
-import { BibleLogo } from "./BibleLogo";
+import { BibleLogo, MonotoneBibleLogo, WhiteBibleLogo } from "./BibleLogo";
 import { ThemeToggleButtonBibleApp } from "./theme-toggle-in-bible-app";
 import { ThemePaletteSwitch } from "@/components/GeneralComponents/ThemePaletteSwitch";
 
@@ -69,8 +69,7 @@ export function BibleNavBar() {
   const { readFocusMode } = useReadFocus();
   const { globalLanguage, setGlobalLanguage, fontSize, setFontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
-  const isLearn =
-    pathname?.includes("/bible/") && pathname?.includes("/learn");
+  const isLearn = pathname?.includes("/bible/") && pathname?.includes("/learn");
 
   function handleLanguageChange(lang: "EN" | "VI" | "ZH") {
     setGlobalLanguage(lang);
@@ -107,12 +106,12 @@ export function BibleNavBar() {
   }[] = [
     {
       href: `/bible/${learnLang}/learn`,
-      label: "Start Here",
+      label: intl.t("langPageCtaStart"),
       isActive: pathname === `/bible/${learnLang}/learn`,
     },
     {
       href: `/bible/${learnLang}/learn/bible-structure`,
-      label: "Bible Structure",
+      label: intl.t("langPageJ1Link1"),
       isActive:
         (pathname?.startsWith("/bible/") &&
           pathname?.includes("/learn/bible-structure")) ??
@@ -120,21 +119,21 @@ export function BibleNavBar() {
     },
     {
       href: `/bible/${learnLang}/learn/bible-origin`,
-      label: "Bible Origin",
+      label: intl.t("langPageJ1Link2"),
       isActive:
         (pathname?.startsWith("/bible/") && pathname?.includes("/learn/bible-origin")) ??
         false,
     },
     {
       href: `/bible/${learnLang}/learn/who-is-jesus`,
-      label: "Who is Jesus",
+      label: intl.t("langPageJ1Link3"),
       isActive:
         (pathname?.startsWith("/bible/") && pathname?.includes("/learn/who-is-jesus")) ??
         false,
     },
     {
       href: `/bible/${learnLang}/learn/what-is-faith`,
-      label: "What is Faith",
+      label: intl.t("langPageJ1Link4"),
       isActive:
         (pathname?.startsWith("/bible/") && pathname?.includes("/learn/what-is-faith")) ??
         false,
@@ -149,18 +148,18 @@ export function BibleNavBar() {
   }[] = [
     {
       href: `/bible/${langSegment}/read`,
-      label: "Read",
+      label: intl.t("langPageNavRead"),
       isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/read")) ?? false,
     },
     {
       href: `/bible/${langSegment}/book-overviews`,
-      label: "Book Overviews",
+      label: intl.t("navBookOverviews"),
       isActive: pathname?.includes("/book-overviews") ?? false,
       comingSoon: true,
     },
     {
       href: `/bible/${langSegment}/topics`,
-      label: "Topics Explorer",
+      label: intl.t("navTopicsExplorer"),
       isActive:
         (pathname?.includes("/topics") && !pathname?.includes("/topics-timeline")) ??
         false,
@@ -168,7 +167,7 @@ export function BibleNavBar() {
     },
     {
       href: `/bible/${langSegment}/topics-timeline`,
-      label: "Topics Timeline",
+      label: intl.t("navTopicsTimeline"),
       isActive: pathname?.includes("/topics-timeline") ?? false,
       comingSoon: true,
     },
@@ -188,19 +187,32 @@ export function BibleNavBar() {
   }[] = [
     {
       href: `/bible/${langSegment}/flashcard`,
-      label: "Flashcard",
+      label: intl.t("langPageNavFlashcards"),
       isActive:
         (pathname?.startsWith("/bible/") && pathname?.includes("/flashcard")) ?? false,
     },
     {
       href: `/bible/${langSegment}/glossary/other`,
-      label: "Other",
+      label: intl.t("navOther"),
       isActive: pathname?.includes("/glossary/other") ?? false,
       comingSoon: true,
     },
   ];
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   function renderDropdownLinks(links: typeof learnLinks, firstBold = false) {
     return links.map((link, index) => (
@@ -232,7 +244,7 @@ export function BibleNavBar() {
                 className="text-muted-foreground shrink-0 text-[10px] tracking-wide
                   uppercase"
               >
-                Soon
+                {intl.t("navSoon")}
               </span>
             )}
           </span>
@@ -240,16 +252,15 @@ export function BibleNavBar() {
       </NavigationMenuLink>
     ));
   }
-  console.log(isLearn);
 
   return (
     <nav
       className={cn(
-        `bg-background/95 fixed top-0 right-0 left-0 z-50 w-full border-b transition-all
-        duration-300`,
-        readFocusMode
-          ? "pointer-events-none h-0 overflow-hidden border-transparent opacity-0"
-          : "opacity-100"
+        "fixed top-0 right-0 left-0 z-100 w-full transition-all duration-300",
+        readFocusMode &&
+          "pointer-events-none h-0 overflow-hidden border-transparent opacity-0",
+        !readFocusMode && "opacity-100 bg-transparent",
+        !readFocusMode && scrolled && "border-b border-border/60 bg-card/95 shadow-sm"
       )}
     >
       <Container
@@ -257,9 +268,9 @@ export function BibleNavBar() {
           sm:px-6"
       >
         <div className="flex min-w-0 items-center gap-6">
-          <BibleLogo />
+          <WhiteBibleLogo />
           <h1 className="invisible truncate text-lg font-semibold xl:visible">
-            Scripture Memory
+            ScriptureSpace
           </h1>
         </div>
         <div
@@ -279,11 +290,14 @@ export function BibleNavBar() {
                   )}
                   style={
                     isLearn
-                      ? { backgroundColor: "var(--coral)", color: "var(--coral-foreground)" }
+                      ? {
+                          backgroundColor: "var(--coral)",
+                          color: "var(--coral-foreground)",
+                        }
                       : undefined
                   }
                 >
-                  Learn
+                  {intl.t("langPageNavLearn")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <NavigationMenuLink asChild>
@@ -345,11 +359,14 @@ export function BibleNavBar() {
                   )}
                   style={
                     isBible
-                      ? { backgroundColor: "var(--coral)", color: "var(--coral-foreground)" }
+                      ? {
+                          backgroundColor: "var(--coral)",
+                          color: "var(--coral-foreground)",
+                        }
                       : undefined
                   }
                 >
-                  Bible
+                  {intl.t("navBible")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   {renderDropdownLinks(bibleLinks, true)}
@@ -372,11 +389,14 @@ export function BibleNavBar() {
                   )}
                   style={
                     isGlossary
-                      ? { backgroundColor: "var(--coral)", color: "var(--coral-foreground)" }
+                      ? {
+                          backgroundColor: "var(--coral)",
+                          color: "var(--coral-foreground)",
+                        }
                       : undefined
                   }
                 >
-                  Glossary
+                  {intl.t("langPageNavGlossary")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   {renderDropdownLinks(glossaryLinks, true)}
@@ -409,8 +429,7 @@ export function BibleNavBar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="border-sky-blue/40 bg-sky-blue/10 min-w-14 rounded-lg border
-                p-1.5"
+              className="border-sky-blue/40 min-w-14 rounded-lg border bg-blue-50 p-1.5"
             >
               <DropdownMenuItem
                 onClick={() => setFontSize("small")}
@@ -470,7 +489,7 @@ export function BibleNavBar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="border-bible-lang/40 bg-bible-lang/10 min-w-14 rounded-lg border
+              className="border-bible-lang/40 min-w-14 rounded-lg border bg-emerald-50
                 p-1.5"
             >
               <DropdownMenuItem
@@ -544,7 +563,7 @@ export function BibleNavBar() {
                 >
                   <BibleLogo />
                   <SheetTitle className="truncate text-left text-lg font-semibold">
-                    Scripture Memory
+                    {intl.t("navAppName")}
                   </SheetTitle>
                   <div className="ml-auto flex items-center gap-1">
                     <ThemePaletteSwitch />
@@ -558,7 +577,7 @@ export function BibleNavBar() {
                         className="text-muted-foreground mb-2 text-xs font-semibold
                           tracking-wide uppercase"
                       >
-                        Learn
+                        {intl.t("langPageNavLearn")}
                       </h2>
                       <ul className="space-y-0.5">
                         {learnLinks.map((link) => (
@@ -584,7 +603,7 @@ export function BibleNavBar() {
                         className="text-muted-foreground mb-2 text-xs font-semibold
                           tracking-wide uppercase"
                       >
-                        Bible
+                        {intl.t("navBible")}
                       </h2>
                       <ul className="space-y-0.5">
                         {bibleLinks.map((link) => (
@@ -605,7 +624,7 @@ export function BibleNavBar() {
                                   className="text-muted-foreground text-[10px]
                                     tracking-wide uppercase"
                                 >
-                                  Soon
+                                  {intl.t("navSoon")}
                                 </span>
                               )}
                             </Link>
@@ -621,7 +640,7 @@ export function BibleNavBar() {
                           <li key={link.href}>
                             <Link href={link.href} onClick={() => setMobileNavOpen(false)} className={cn(...)}>
                               <span>{link.label}</span>
-                              {link.comingSoon && <span className="...">Soon</span>}
+                              {link.comingSoon && <span className="...">{intl.t("navSoon")}</span>}
                             </Link>
                           </li>
                         ))}
@@ -633,7 +652,7 @@ export function BibleNavBar() {
                         className="text-muted-foreground mb-2 text-xs font-semibold
                           tracking-wide uppercase"
                       >
-                        Glossary
+                        {intl.t("langPageNavGlossary")}
                       </h2>
                       <ul className="space-y-0.5">
                         {glossaryLinks.map((link) => (
@@ -654,7 +673,7 @@ export function BibleNavBar() {
                                   className="text-muted-foreground text-[10px]
                                     tracking-wide uppercase"
                                 >
-                                  Soon
+                                  {intl.t("navSoon")}
                                 </span>
                               )}
                             </Link>

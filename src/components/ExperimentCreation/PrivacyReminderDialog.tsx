@@ -51,17 +51,19 @@ export function PrivacyReminderDialog({
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Shield className="w-5 h-5 text-primary" />
+            <Shield className="text-primary h-5 w-5" />
             Privacy Protected
           </DialogTitle>
-          <DialogDescription>Before you link this experiment to an organisation</DialogDescription>
+          <DialogDescription>
+            Before you link this experiment to an organisation
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Organisation Selection (if multiple) */}
           {organisations.length > 1 && (
             <div>
-              <label className="text-sm font-medium text-foreground mb-2 block">
+              <label className="text-foreground mb-2 block text-sm font-medium">
                 Select Organisation
               </label>
               <Select value={selectedOrgId || ""} onValueChange={onOrgSelect}>
@@ -81,24 +83,27 @@ export function PrivacyReminderDialog({
 
           {/* What Org Will See */}
           <div className="space-y-3">
-            <h3 className="font-semibold text-foreground flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <h3 className="text-foreground flex items-center gap-2 font-semibold">
+              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
               Your organisation will see:
             </h3>
-            <ul className="space-y-2 text-sm text-muted-foreground ml-6">
+            <ul className="text-muted-foreground ml-6 space-y-2 text-sm">
               <li>• Aggregate patterns (e.g., &quot;Team mood averages 7.2/10&quot;)</li>
               <li>• Participation rates</li>
-              <li>• Trend insights (e.g., &quot;Focus scores are 15% higher on Tuesdays&quot;)</li>
+              <li>
+                • Trend insights (e.g., &quot;Focus scores are 15% higher on
+                Tuesdays&quot;)
+              </li>
             </ul>
           </div>
 
           {/* What Org Will NOT See */}
           <div className="space-y-3">
-            <h3 className="font-semibold text-foreground flex items-center gap-2">
-              <XCircle className="w-4 h-4 text-red-600" />
+            <h3 className="text-foreground flex items-center gap-2 font-semibold">
+              <XCircle className="h-4 w-4 text-red-600" />
               Your organisation will NOT see:
             </h3>
-            <ul className="space-y-2 text-sm text-muted-foreground ml-6">
+            <ul className="text-muted-foreground ml-6 space-y-2 text-sm">
               <li>• Your personal reflections</li>
               <li>• Your text responses</li>
               <li>• Your individual check-in data</li>
@@ -107,16 +112,20 @@ export function PrivacyReminderDialog({
           </div>
 
           {/* Privacy Note */}
-          <div className="p-4 rounded-xl bg-muted/50 border border-border">
-            <p className="text-sm text-muted-foreground">
-              Think of it like a weather report: useful patterns emerge, but no one knows if it
-              rained on your specific street.
+          <div className="bg-muted/50 border-border rounded-xl border p-4">
+            <p className="text-muted-foreground text-sm">
+              Think of it like a weather report: useful patterns emerge, but no one knows
+              if it rained on your specific street.
             </p>
           </div>
 
           {/* Actions */}
           <div className="flex gap-3">
-            <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              className="flex-1"
+            >
               Cancel
             </Button>
             <Button

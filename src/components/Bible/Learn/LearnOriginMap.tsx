@@ -55,7 +55,9 @@ function MapSvg({
   return (
     <svg
       viewBox="0 0 100 62"
-      className={variant === "inline" ? "w-full h-full" : "absolute inset-0 w-full h-full"}
+      className={
+        variant === "inline" ? "h-full w-full" : "absolute inset-0 h-full w-full"
+      }
     >
       <rect width="100" height="62" fill="oklch(0.89 0.03 215)" />
       <path
@@ -167,7 +169,10 @@ export function LearnMiniMap({
 }) {
   if (variant === "inline") {
     return (
-      <div className="relative w-full h-full rounded-xl overflow-hidden border border-border bg-card">
+      <div
+        className="border-border bg-card relative h-full w-full overflow-hidden rounded-xl
+          border"
+      >
         <MapSvg activeId={activeId} labels={labels} variant="inline" />
       </div>
     );
@@ -175,10 +180,10 @@ export function LearnMiniMap({
 
   return (
     <div
-      className="relative w-full rounded-xl overflow-hidden border border-border bg-card"
+      className="border-border bg-card relative w-full overflow-hidden rounded-xl border"
       style={{ paddingBottom: "62%" }}
     >
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 h-full w-full">
         <MapSvg activeId={activeId} labels={labels} variant="block" />
       </div>
     </div>
@@ -223,13 +228,20 @@ export function LearnMapPopover({
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full mt-2 z-50 w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200">
+        <div
+          className="bg-card border-border animate-in fade-in slide-in-from-top-1 absolute
+            top-full left-0 z-50 mt-2 w-80 overflow-hidden rounded-2xl border shadow-2xl
+            duration-200"
+        >
           <div className="p-3 pb-0">
             <LearnMiniMap activeId={locationId} labels={miniMapLabels} />
           </div>
           <div className="p-4">
-            <div className="flex items-start justify-between gap-2 mb-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-[0.2em]">
+            <div className="mb-1.5 flex items-start justify-between gap-2">
+              <p
+                className="text-foreground text-xs font-semibold tracking-[0.2em]
+                  uppercase"
+              >
                 {label}
               </p>
               <button
@@ -237,10 +249,10 @@ export function LearnMapPopover({
                 onClick={() => setOpen(false)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
+            <p className="text-muted-foreground text-xs leading-relaxed">{desc}</p>
           </div>
         </div>
       )}
@@ -265,8 +277,8 @@ function LocationDetailContent({
         <LearnMiniMap activeId={activeId} labels={labels} />
       </div>
       <div className="p-4">
-        <div className="flex items-start justify-between gap-2 mb-1.5">
-          <p className="text-xs font-semibold text-foreground uppercase tracking-[0.2em]">
+        <div className="mb-1.5 flex items-start justify-between gap-2">
+          <p className="text-foreground text-xs font-semibold tracking-[0.2em] uppercase">
             {active.label}
           </p>
           <button
@@ -274,10 +286,10 @@ function LocationDetailContent({
             onClick={onClose}
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="h-3.5 w-3.5" />
           </button>
         </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">{active.desc}</p>
+        <p className="text-muted-foreground text-xs leading-relaxed">{active.desc}</p>
       </div>
     </>
   );
@@ -321,7 +333,8 @@ export function LearnOriginMapFullWidth({
         {activeId && active && !isMobile && (
           <div
             ref={ref}
-            className="absolute z-50 w-72 sm:w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden animate-in fade-in duration-200"
+            className="bg-card border-border animate-in fade-in absolute z-50 w-72
+              overflow-hidden rounded-2xl border shadow-2xl duration-200 sm:w-80"
             style={{
               left: `${COORDS[activeId].x}%`,
               top: `${(COORDS[activeId].y / 62) * 100}%`,
@@ -338,35 +351,42 @@ export function LearnOriginMapFullWidth({
           </div>
         )}
       </div>
-      <div className="mt-3 flex flex-wrap gap-3 justify-center">
+      <div className="mt-3 flex flex-wrap justify-center gap-3">
         {MAP_LOCATION_IDS.map((id) => (
           <button
             key={id}
             type="button"
             onClick={() => onActiveChange(id)}
-            className="inline-flex items-center gap-1.5 text-muted-foreground bg-muted px-2.5 py-1 rounded-full hover:bg-muted/80 transition-colors cursor-pointer text-sm"
+            className="text-muted-foreground bg-muted hover:bg-muted/80 inline-flex
+              cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-sm
+              transition-colors"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-foreground/60 inline-block" />
+            <span className="bg-foreground/60 inline-block h-1.5 w-1.5 rounded-full" />
             {labels[id]}
           </button>
         ))}
       </div>
 
       {/* Below md: slide-in sheet keeps the map visible above */}
-      <Sheet open={activeId != null && isMobile} onOpenChange={(open) => !open && onActiveChange(null)}>
+      <Sheet
+        open={activeId != null && isMobile}
+        onOpenChange={(open) => !open && onActiveChange(null)}
+      >
         <SheetContent side="bottom" className="rounded-t-2xl border-t">
           {activeId && active && (
             <>
               <SheetHeader>
-                <SheetTitle className="text-left uppercase tracking-wider text-sm">
+                <SheetTitle className="text-left text-sm tracking-wider uppercase">
                   {active.label}
                 </SheetTitle>
               </SheetHeader>
-              <div className="px-4 pb-6 pt-0">
-                <div className="rounded-xl overflow-hidden border border-border bg-card">
+              <div className="px-4 pt-0 pb-6">
+                <div className="border-border bg-card overflow-hidden rounded-xl border">
                   <LearnMiniMap activeId={activeId} labels={labels} />
                 </div>
-                <p className="text-sm text-muted-foreground mt-4 leading-relaxed">{active.desc}</p>
+                <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
+                  {active.desc}
+                </p>
               </div>
             </>
           )}

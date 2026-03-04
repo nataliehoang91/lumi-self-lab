@@ -27,7 +27,9 @@ export function createPortalContext(displayName = "PortalContext") {
 
   Provider.displayName = `${displayName}.Provider`;
 
-  function Slot(divProps: Omit<React.HTMLAttributes<HTMLDivElement>, "ref" | "children">) {
+  function Slot(
+    divProps: Omit<React.HTMLAttributes<HTMLDivElement>, "ref" | "children">
+  ) {
     const dispatch = useDispatch();
 
     return (

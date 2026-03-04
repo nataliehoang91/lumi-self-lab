@@ -10,7 +10,11 @@ interface BibleMinimalLoaderProps {
   chapter?: number;
 }
 
-export function BibleMinimalLoader({ onComplete, book, chapter }: BibleMinimalLoaderProps) {
+export function BibleMinimalLoader({
+  onComplete,
+  book,
+  chapter,
+}: BibleMinimalLoaderProps) {
   useEffect(() => {
     if (!onComplete) return;
     const timeout = setTimeout(() => {
@@ -21,7 +25,7 @@ export function BibleMinimalLoader({ onComplete, book, chapter }: BibleMinimalLo
 
   return (
     <div className="flex min-h-screen min-w-full items-center justify-center">
-      <div className="space-y-4 text-center px-6">
+      <div className="space-y-4 px-6 text-center">
         <BookCircleIcon className="mx-auto mb-2" />
         <ProgressTextLoader book={book ?? undefined} chapter={chapter ?? undefined} />
       </div>

@@ -20,7 +20,10 @@ export async function POST(request: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return NextResponse.json({ error: "Error occurred -- no svix headers" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Error occurred -- no svix headers" },
+      { status: 400 }
+    );
   }
 
   // Get the body
@@ -68,7 +71,10 @@ export async function POST(request: Request) {
       }
 
       if (!clerkUserId) {
-        return NextResponse.json({ error: "Missing user ID in webhook payload" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Missing user ID in webhook payload" },
+          { status: 400 }
+        );
       }
 
       await prisma.user.upsert({
@@ -91,7 +97,10 @@ export async function POST(request: Request) {
     if (eventType === "user.deleted") {
       const clerkUserId = evt.data.id;
       if (!clerkUserId) {
-        return NextResponse.json({ error: "Missing user ID in webhook payload" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Missing user ID in webhook payload" },
+          { status: 400 }
+        );
       }
       // TODO: prefer soft delete when User.deletedAt exists; for now hard-delete
       await prisma.user.deleteMany({
@@ -110,7 +119,10 @@ export async function POST(request: Request) {
           ?.email_address ?? null;
 
       if (!clerkUserId) {
-        return NextResponse.json({ error: "Missing user ID in webhook payload" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Missing user ID in webhook payload" },
+          { status: 400 }
+        );
       }
 
       const user = await prisma.user.findUnique({

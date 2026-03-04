@@ -586,7 +586,7 @@ if (!experiment) return NextResponse.json({ error: "Not found" }, { status: 404 
 export default async function Page() {
   const { userId } = await auth();
   const data = await prisma.model.findMany({
-    where: { clerkUserId: userId }
+    where: { clerkUserId: userId },
   });
   return <ClientComponent data={data} />;
 }
@@ -804,9 +804,7 @@ const data = await prisma.model.findMany({
 
 ```typescript
 <ErrorBoundary fallbackRender={GeneralErrorFallback}>
-  <Suspense fallback={<LoadingSkeleton />}>
-    {children}
-  </Suspense>
+  <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
 </ErrorBoundary>
 ```
 

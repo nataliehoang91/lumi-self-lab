@@ -51,9 +51,12 @@ const EXAMPLES: {
     bookOrder: 43,
     chapter: 1,
     verse: 1,
-    contentVIE1923: "Ban đầu có Ngôi Lời, Ngôi Lời ở cùng Đức Chúa Trời, và Ngôi Lời là Đức Chúa Trời.",
-    contentKJV: "In the beginning was the Word, and the Word was with God, and the Word was God.",
-    contentNIV: "In the beginning was the Word, and the Word was with God, and the Word was God.",
+    contentVIE1923:
+      "Ban đầu có Ngôi Lời, Ngôi Lời ở cùng Đức Chúa Trời, và Ngôi Lời là Đức Chúa Trời.",
+    contentKJV:
+      "In the beginning was the Word, and the Word was with God, and the Word was God.",
+    contentNIV:
+      "In the beginning was the Word, and the Word was with God, and the Word was God.",
   },
 ];
 

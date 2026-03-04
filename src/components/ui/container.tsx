@@ -30,7 +30,7 @@ export function Container({
   return (
     <Component
       className={cn(
-        "w-full mx-auto",
+        "mx-auto w-full",
         {
           "max-w-sm": maxWidth === "sm",
           "max-w-md": maxWidth === "md",

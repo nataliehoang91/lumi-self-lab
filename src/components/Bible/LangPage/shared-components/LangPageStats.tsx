@@ -17,8 +17,8 @@ export function LangPageStats({ stats }: LangPageStatsProps) {
   const { statValueClass, subBodyClass } = useLearnFontClasses();
 
   return (
-    <section className="border-y border-border/50 py-16 px-6">
-      <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
+    <section className="border-border/50 border-y px-6 py-16">
+      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-10 md:grid-cols-4">
         {stats.map((item) => (
           <AnimatedStat
             key={item.label}

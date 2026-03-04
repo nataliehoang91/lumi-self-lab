@@ -21,8 +21,10 @@ function CheckboxRound({
         "data-[state=checked]:text-primary data-[state=checked]:border-primary",
         "dark:data-[state=checked]:border-od-bright-teal",
         "focus-visible:border-ring focus-visible:ring-ring/50",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        "size-4 shrink-0 rounded-full border shadow-xs transition-all outline-none focus-visible:ring-[3px]",
+        `aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40
+        aria-invalid:border-destructive`,
+        `size-4 shrink-0 rounded-full border shadow-xs transition-all outline-none
+        focus-visible:ring-[3px]`,
         "disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
@@ -31,11 +33,11 @@ function CheckboxRound({
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
         className={cn(
-          "flex items-center justify-center text-current transition-none font-bold",
+          "flex items-center justify-center font-bold text-current transition-none",
           indicatorClassName
         )}
       >
-        <CheckIcon className="size-3 stroke-4 dark:text-od-bright-teal" />
+        <CheckIcon className="dark:text-od-bright-teal size-3 stroke-4" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );

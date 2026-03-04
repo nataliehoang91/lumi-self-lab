@@ -25,19 +25,23 @@ export function WelcomeThemeToggle() {
         variant="ghost"
         size="icon"
         onClick={handleClick}
-        className="relative flex w-10 h-10 shrink-0 items-center justify-center gap-0 rounded-2xl bg-card/60 backdrop-blur border border-border/50 hover:bg-card hover:scale-105 transition-all duration-300 group overflow-hidden [&_svg]:!size-5"
+        className="bg-card/60 border-border/50 hover:bg-card group relative flex h-10 w-10
+          shrink-0 items-center justify-center gap-0 overflow-hidden rounded-2xl border
+          backdrop-blur transition-all duration-300 hover:scale-105 [&_svg]:!size-5"
         aria-label="Toggle theme"
       >
-        <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
+        <div className="relative flex h-5 w-5 shrink-0 items-center justify-center">
           <Sun
-            className={`theme-toggle-icon theme-toggle-sun absolute inset-0 !h-5 !w-5 text-foreground ${
-              displayDark ? "theme-toggle-hidden" : "theme-toggle-visible"
-            }`}
+            className={`theme-toggle-icon theme-toggle-sun text-foreground absolute
+              inset-0 !h-5 !w-5 ${
+                displayDark ? "theme-toggle-hidden" : "theme-toggle-visible"
+              }`}
           />
           <Moon
-            className={`theme-toggle-icon theme-toggle-moon absolute inset-0 !h-5 !w-5 text-foreground ${
-              displayDark ? "theme-toggle-visible" : "theme-toggle-hidden"
-            }`}
+            className={`theme-toggle-icon theme-toggle-moon text-foreground absolute
+              inset-0 !h-5 !w-5 ${
+                displayDark ? "theme-toggle-visible" : "theme-toggle-hidden"
+              }`}
           />
         </div>
         <span className="sr-only">Toggle theme</span>

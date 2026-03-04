@@ -11,7 +11,10 @@ import { NextResponse } from "next/server";
  * Personal only: get experiment by ID. Access only if current user owns it
  * (clerkUserId). No org/manager role grants access.
  */
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -69,7 +72,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
  *   fields?: Array<{...}> (upsert logic)
  * }
  */
-export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -92,7 +98,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (body.durationDays !== undefined) updateData.durationDays = body.durationDays;
     if (body.frequency !== undefined) updateData.frequency = body.frequency;
     if (body.faithEnabled !== undefined) updateData.faithEnabled = body.faithEnabled;
-    if (body.scriptureNotes !== undefined) updateData.scriptureNotes = body.scriptureNotes;
+    if (body.scriptureNotes !== undefined)
+      updateData.scriptureNotes = body.scriptureNotes;
 
     // Phase 1: enforce status lifecycle (draft → active → completed only)
     if (body.status !== undefined) {
@@ -105,7 +112,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         completed: [],
       };
       const allowed =
-        allowedTransitions[currentStatus]?.includes(newStatus) || newStatus === currentStatus;
+        allowedTransitions[currentStatus]?.includes(newStatus) ||
+        newStatus === currentStatus;
       if (!allowed) {
         return NextResponse.json(
           {
@@ -119,7 +127,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       updateData.status = newStatus;
 
       if (newStatus === "active" && currentStatus === "draft") {
-        updateData.startedAt = body.startedAt ? new Date(body.startedAt as string) : new Date();
+        updateData.startedAt = body.startedAt
+          ? new Date(body.startedAt as string)
+          : new Date();
       }
       if (newStatus === "completed" && currentStatus === "active") {
         updateData.completedAt = body.completedAt
@@ -209,7 +219,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
  * DELETE /api/experiments/[id]
  * Personal only: delete experiment. Cascade deletes fields and check-ins.
  */
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {

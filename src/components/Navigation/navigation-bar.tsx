@@ -21,9 +21,11 @@ const BASE_MOBILE = "w-full justify-start rounded-2xl gap-2";
 const ACTIVE_DESKTOP = "bg-primary-dark text-white hover:border hover:border-second";
 const ACTIVE_MOBILE = "bg-primary-dark text-white";
 const INACTIVE_DESKTOP = "border border-second text-foreground hover:border-primary";
-const INACTIVE_UPGRADE_DESKTOP = "border border-second text-amber-600 hover:border-primary";
+const INACTIVE_UPGRADE_DESKTOP =
+  "border border-second text-amber-600 hover:border-primary";
 const INACTIVE_UPGRADE_MOBILE = "text-amber-600";
-const INACTIVE_MANAGER_DESKTOP = "border border-second/50 text-second hover:border-primary";
+const INACTIVE_MANAGER_DESKTOP =
+  "border border-second/50 text-second hover:border-primary";
 const INACTIVE_MANAGER_MOBILE = "text-second";
 const BADGE_CLASS =
   "ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs";
@@ -344,20 +346,27 @@ export function NavigationBar() {
 
   const showNavLinks = !userLoading;
   const showManager =
-    userData?.accountType === "organisation" || userData?.isParticipant || userData?.hasManagerRole;
+    userData?.accountType === "organisation" ||
+    userData?.isParticipant ||
+    userData?.hasManagerRole;
   const closeMobile = () => setMobileMenuOpen(false);
 
   const showJoinedExperiments =
     userData?.accountType === "individual" || userData?.accountType === "organisation";
   const showUpgrade =
-    userData?.accountType === "individual" && !userData?.isUpgraded && !userData?.isSuperAdmin;
+    userData?.accountType === "individual" &&
+    !userData?.isUpgraded &&
+    !userData?.isSuperAdmin;
   const showOrganisations = userData?.isOrgAdmin === true;
   const pendingAssignments = userData?.pendingAssignments ?? 0;
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-card backdrop-blur-xl">
+    <nav
+      className="border-border/40 bg-card sticky top-0 z-50 w-full border-b
+        backdrop-blur-xl"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between shrink-0">
+        <div className="flex h-16 shrink-0 items-center justify-between">
           <Logo
             href="/dashboard"
             width={32}
@@ -383,7 +392,9 @@ export function NavigationBar() {
                   />
                 )}
                 {showUpgrade && <UpgradeButton pathname={pathname} variant="desktop" />}
-                {showOrganisations && <OrganisationsButton pathname={pathname} variant="desktop" />}
+                {showOrganisations && (
+                  <OrganisationsButton pathname={pathname} variant="desktop" />
+                )}
                 {showManager && <ManagerButton pathname={pathname} variant="desktop" />}
                 {userData?.isSuperAdmin && (
                   <SuperAdminButton pathname={pathname} variant="desktop" />
@@ -430,15 +441,21 @@ export function NavigationBar() {
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="overflow-hidden border-t border-border/40 bg-card/80 backdrop-blur-sm [&>*]:!mb-0"
+          className="border-border/40 bg-card/80 overflow-hidden border-t backdrop-blur-sm
+            [&>*]:!mb-0"
         >
-          <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">{secondaryContent}</div>
+          <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+            {secondaryContent}
+          </div>
         </motion.div>
       )}
 
       {mobileMenuOpen && (
-        <div className="border-t border-border/40 bg-background/95 backdrop-blur-xl md:hidden">
-          <div className="space-y-1 px-4 pb-3 pt-2">
+        <div
+          className="border-border/40 bg-background/95 border-t backdrop-blur-xl
+            md:hidden"
+        >
+          <div className="space-y-1 px-4 pt-2 pb-3">
             {!showNavLinks ? (
               <div className={LOADING_MOBILE}>
                 <Loader2 className={LOADING_SPINNER} />
@@ -446,8 +463,16 @@ export function NavigationBar() {
               </div>
             ) : (
               <>
-                <DashboardButton pathname={pathname} variant="mobile" onClick={closeMobile} />
-                <ExperimentsButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                <DashboardButton
+                  pathname={pathname}
+                  variant="mobile"
+                  onClick={closeMobile}
+                />
+                <ExperimentsButton
+                  pathname={pathname}
+                  variant="mobile"
+                  onClick={closeMobile}
+                />
                 {showJoinedExperiments && (
                   <JoinedExperimentsButton
                     pathname={pathname}
@@ -457,16 +482,32 @@ export function NavigationBar() {
                   />
                 )}
                 {showUpgrade && (
-                  <UpgradeButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                  <UpgradeButton
+                    pathname={pathname}
+                    variant="mobile"
+                    onClick={closeMobile}
+                  />
                 )}
                 {showOrganisations && (
-                  <OrganisationsButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                  <OrganisationsButton
+                    pathname={pathname}
+                    variant="mobile"
+                    onClick={closeMobile}
+                  />
                 )}
                 {showManager && (
-                  <ManagerButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                  <ManagerButton
+                    pathname={pathname}
+                    variant="mobile"
+                    onClick={closeMobile}
+                  />
                 )}
                 {userData?.isSuperAdmin && (
-                  <SuperAdminButton pathname={pathname} variant="mobile" onClick={closeMobile} />
+                  <SuperAdminButton
+                    pathname={pathname}
+                    variant="mobile"
+                    onClick={closeMobile}
+                  />
                 )}
               </>
             )}
@@ -476,7 +517,7 @@ export function NavigationBar() {
               <ThemeToggle variant="mobile" />
             </div>
 
-            <div className="border-t border-border/40 pt-2">
+            <div className="border-border/40 border-t pt-2">
               <SignedIn>
                 <div className="px-2 py-2">
                   <UserButton

@@ -42,20 +42,27 @@ export function ReadInsights({
     <>
       {/* Insights: full panel (bottom) */}
       {!insightMinimized && (
-        <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4 pointer-events-none">
-          <div className="mx-auto max-w-3xl pointer-events-auto bg-card/95 backdrop-blur border border-border rounded-2xl shadow-xl animate-in slide-in-from-bottom-4 duration-300">
-            <div className="px-6 pt-5 pb-4 border-b border-border/60 bg-gradient-to-r from-primary/5 via-primary/10 to-transparent">
-              <div className="flex items-center justify-between gap-3 mb-3">
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-4 pb-4">
+          <div
+            className="bg-card/95 border-border animate-in slide-in-from-bottom-4
+              pointer-events-auto mx-auto max-w-3xl rounded-2xl border shadow-xl
+              backdrop-blur duration-300"
+          >
+            <div
+              className="border-border/60 from-primary/5 via-primary/10 border-b
+                bg-gradient-to-r to-transparent px-6 pt-5 pb-4"
+            >
+              <div className="mb-3 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <Lightbulb className="w-5 h-5 text-primary" />
+                  <div className="bg-primary/10 rounded-lg p-2">
+                    <Lightbulb className="text-primary h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground">
+                    <h3 className="text-foreground font-semibold">
                       {t("readInsightsTitle") ?? "Chapter insights"}
                     </h3>
                     {leftBook && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {t("readInsightsFor", {
                           book: leftBook.nameEn,
                           n: leftChapter,
@@ -68,7 +75,7 @@ export function ReadInsights({
                   <button
                     type="button"
                     onClick={() => setInsightMinimized(true)}
-                    className="text-xs text-muted-foreground hover:text-foreground"
+                    className="text-muted-foreground hover:text-foreground text-xs"
                   >
                     {t("readInsightsMinimize") ?? "Minimize"}
                   </button>
@@ -78,18 +85,22 @@ export function ReadInsights({
                       setInsightMinimized(false);
                       onClose();
                     }}
-                    className="text-xs text-muted-foreground hover:text-foreground"
+                    className="text-muted-foreground hover:text-foreground text-xs"
                   >
                     {t("readInsightsClose") ?? "Close"}
                   </button>
                 </div>
               </div>
-              <div className="flex items-center justify-between gap-3 mt-1">
+              <div className="mt-1 flex items-center justify-between gap-3">
                 <div className="inline-flex items-center gap-2">
-                  <span className="inline-flex items-center rounded-full bg-second/15 text-second px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide">
+                  <span
+                    className="bg-second/15 text-second inline-flex items-center
+                      rounded-full px-2 py-0.5 text-[11px] font-semibold tracking-wide
+                      uppercase"
+                  >
                     {t("readInsightsBetaBadge") ?? "Beta"}
                   </span>
-                  <span className="hidden sm:inline text-[11px] text-muted-foreground">
+                  <span className="text-muted-foreground hidden text-[11px] sm:inline">
                     {t("readInsightsLanguagesNote") ??
                       "Insights are currently available in English and Vietnamese. More languages coming soon."}
                   </span>
@@ -100,7 +111,7 @@ export function ReadInsights({
                   type="button"
                   onClick={() => setActiveInsightTab("context")}
                   className={cn(
-                    "px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                    "rounded-md px-3 py-1.5 text-xs font-medium transition-all",
                     activeInsightTab === "context"
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/60"
@@ -112,7 +123,7 @@ export function ReadInsights({
                   type="button"
                   onClick={() => setActiveInsightTab("explanation")}
                   className={cn(
-                    "px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                    "rounded-md px-3 py-1.5 text-xs font-medium transition-all",
                     activeInsightTab === "explanation"
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/60"
@@ -124,7 +135,7 @@ export function ReadInsights({
                   type="button"
                   onClick={() => setActiveInsightTab("reflection")}
                   className={cn(
-                    "px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                    "rounded-md px-3 py-1.5 text-xs font-medium transition-all",
                     activeInsightTab === "reflection"
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/60"
@@ -134,20 +145,20 @@ export function ReadInsights({
                 </button>
               </div>
             </div>
-            <div className="px-6 py-5 space-y-4">
+            <div className="space-y-4 px-6 py-5">
               {loadingInsight ? (
-                <div className="text-center text-sm text-muted-foreground py-4">
+                <div className="text-muted-foreground py-4 text-center text-sm">
                   Loading insights...
                 </div>
               ) : currentInsight ? (
                 <>
                   {activeInsightTab === "context" && (
-                    <p className="text-sm text-foreground leading-relaxed text-pretty">
+                    <p className="text-foreground text-sm leading-relaxed text-pretty">
                       {currentInsight.context}
                     </p>
                   )}
                   {activeInsightTab === "explanation" && (
-                    <p className="text-sm text-foreground leading-relaxed text-pretty">
+                    <p className="text-foreground text-sm leading-relaxed text-pretty">
                       {currentInsight.explanation}
                     </p>
                   )}
@@ -156,12 +167,20 @@ export function ReadInsights({
                       {currentInsight.reflections.map((reflection, idx) => (
                         <div
                           key={idx}
-                          className="flex items-start gap-3 p-3 rounded-lg bg-accent/5 border border-accent/40"
+                          className="bg-accent/5 border-accent/40 flex items-start gap-3
+                            rounded-lg border p-3"
                         >
-                          <span className="shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-semibold mt-0.5 shadow-sm">
+                          <span
+                            className="bg-primary text-primary-foreground mt-0.5 flex h-6
+                              w-6 shrink-0 items-center justify-center rounded-full
+                              text-xs font-semibold shadow-sm"
+                          >
                             {idx + 1}
                           </span>
-                          <p className="text-sm text-foreground leading-relaxed text-pretty flex-1">
+                          <p
+                            className="text-foreground flex-1 text-sm leading-relaxed
+                              text-pretty"
+                          >
                             {reflection}
                           </p>
                         </div>
@@ -170,19 +189,26 @@ export function ReadInsights({
                   )}
                 </>
               ) : (
-                <div className="text-center text-sm text-muted-foreground py-4">
+                <div className="text-muted-foreground py-4 text-center text-sm">
                   {t("readInsightsComingSoon") ??
                     "Insights for this chapter are coming soon. Try John 3 for a preview."}
                 </div>
               )}
             </div>
-            <div className="px-6 pb-4 pt-2 border-t border-border/60 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
+            <div
+              className="border-border/60 text-muted-foreground flex items-center
+                justify-center gap-2 border-t px-6 pt-2 pb-4 text-[11px]"
+            >
               <span>{t("readInsightsDismissHint") ?? "Press"}</span>
-              <kbd className="px-1.5 py-0.5 bg-background border border-border rounded text-[10px] font-mono">
+              <kbd
+                className="bg-background border-border rounded border px-1.5 py-0.5
+                  font-mono text-[10px]"
+              >
                 ESC
               </kbd>
               <span>
-                {t("readInsightsDismissHintTail") ?? "or tap the lightbulb again to close"}
+                {t("readInsightsDismissHintTail") ??
+                  "or tap the lightbulb again to close"}
               </span>
             </div>
           </div>
@@ -191,20 +217,25 @@ export function ReadInsights({
 
       {/* Insights: minimized pill bottom-right */}
       {insightMinimized && (
-        <div className="fixed bottom-4 right-4 z-50 pointer-events-none">
+        <div className="pointer-events-none fixed right-4 bottom-4 z-50">
           <button
             type="button"
             onClick={() => setInsightMinimized(false)}
-            className="pointer-events-auto flex items-center gap-2 rounded-full bg-card/95 border border-border px-3 py-1.5 shadow-lg text-xs text-muted-foreground hover:bg-muted/80"
+            className="bg-card/95 border-border text-muted-foreground hover:bg-muted/80
+              pointer-events-auto flex items-center gap-2 rounded-full border px-3 py-1.5
+              text-xs shadow-lg"
           >
-            <span className="flex items-center justify-center rounded-full bg-primary/10 text-primary w-5 h-5">
-              <Lightbulb className="w-3 h-3" />
+            <span
+              className="bg-primary/10 text-primary flex h-5 w-5 items-center
+                justify-center rounded-full"
+            >
+              <Lightbulb className="h-3 w-3" />
             </span>
-            <span className="font-medium text-foreground">
+            <span className="text-foreground font-medium">
               {t("readInsightsTitle") ?? "Chapter insights"}
             </span>
             {leftBook && (
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-muted-foreground text-[11px]">
                 {leftBook.nameEn} {leftChapter}
               </span>
             )}
@@ -214,4 +245,3 @@ export function ReadInsights({
     </>
   );
 }
-

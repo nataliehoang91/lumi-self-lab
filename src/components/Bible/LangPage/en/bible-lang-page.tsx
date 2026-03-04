@@ -12,9 +12,15 @@ import type { StatAccent } from "../shared-components/AnimatedStat";
 import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
 
 const DAILY_VERSES_EN = [
-  { text: "Your word is a lamp to my feet and a light to my path.", ref: "Psalm 119:105" },
+  {
+    text: "Your word is a lamp to my feet and a light to my path.",
+    ref: "Psalm 119:105",
+  },
   { text: "Trust in the Lord with all your heart.", ref: "Proverbs 3:5" },
-  { text: "I can do all things through Christ who strengthens me.", ref: "Philippians 4:13" },
+  {
+    text: "I can do all things through Christ who strengthens me.",
+    ref: "Philippians 4:13",
+  },
 ];
 
 function getJourneyEn(base: string): JourneyItem[] {
@@ -32,7 +38,7 @@ function getJourneyEn(base: string): JourneyItem[] {
       ],
       cta: { label: "Start Learning", href: `${base}/learn` },
       icon: BookOpen,
-      accent: "primary",
+      accent: "coral",
     },
     {
       step: "02",
@@ -42,7 +48,7 @@ function getJourneyEn(base: string): JourneyItem[] {
       links: [{ label: "Split View", href: `${base}/read` }],
       cta: { label: "Open the Bible", href: `${base}/read` },
       icon: BookMarked,
-      accent: "sage",
+      accent: "gray",
     },
     {
       step: "03",
@@ -55,7 +61,7 @@ function getJourneyEn(base: string): JourneyItem[] {
       ],
       cta: { label: "Open Flashcards", href: `${base}/flashcard` },
       icon: Sparkles,
-      accent: "coral",
+      accent: "sage",
     },
   ];
 }
@@ -90,7 +96,7 @@ export function EnBibleLangPage({ lang }: EnBibleLangPageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
+    <div className="bg-body text-foreground min-h-screen font-sans">
       <LangPageHero
         eyebrow="A quiet, focused space to learn and read Scripture at your own pace."
         title1="Know yourself."
@@ -101,7 +107,7 @@ export function EnBibleLangPage({ lang }: EnBibleLangPageProps) {
         learnHref={`${base}/learn`}
         readHref={`${base}/read`}
       >
-        <div className="relative z-10 mt-20 w-full max-w-2xl mx-auto">
+        <div className="max-w-2x relative z-10 mx-auto mt-20">
           <DailyVerse
             label="Verse of the Day"
             text={verse.text}
@@ -116,7 +122,7 @@ export function EnBibleLangPage({ lang }: EnBibleLangPageProps) {
         </div>
       </LangPageHero>
 
-      <LangPageStats stats={stats} />
+      {/* <LangPageStats stats={stats} /> */}
 
       <LangPageJourney
         title="Your Journey"

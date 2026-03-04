@@ -84,7 +84,10 @@ function gridDataReducer(state: GridDataState, action: GridDataAction): GridData
   return state;
 }
 
-export function selectionReducer(state: SelectionState, action: SelectionAction): SelectionState {
+export function selectionReducer(
+  state: SelectionState,
+  action: SelectionAction
+): SelectionState {
   switch (action.type) {
     case "selectRow": {
       const newSelectedRows = new Set(state.selectedRows);
@@ -131,7 +134,9 @@ export function selectionReducer(state: SelectionState, action: SelectionAction)
         };
       }
 
-      const readOnlyRowIds = action.rows.filter((row) => row.readOnly).map((row) => row.rowId);
+      const readOnlyRowIds = action.rows
+        .filter((row) => row.readOnly)
+        .map((row) => row.rowId);
 
       const preservedReadOnlySelections = readOnlyRowIds.filter((rowId) =>
         state.selectedRows.has(rowId)
@@ -153,7 +158,9 @@ export function selectionReducer(state: SelectionState, action: SelectionAction)
       const newSelectedRows = new Set(selectableRowIds);
 
       // Get read-only rows and preserve their previous selections
-      const readOnlyRowIds = action.allRows.filter((row) => row.readOnly).map((row) => row.rowId);
+      const readOnlyRowIds = action.allRows
+        .filter((row) => row.readOnly)
+        .map((row) => row.rowId);
 
       // Add back any read-only rows that were previously selected
       for (const rowId of readOnlyRowIds) {
@@ -216,18 +223,16 @@ function gridLabelingReducer(
 }
 
 // Grid Data Provider
-export const [GridDataProvider, useGridDataState, useGridDataDispatch] = createReducerContext(
-  gridDataReducer,
-  defaultGridDataState
-);
+export const [GridDataProvider, useGridDataState, useGridDataDispatch] =
+  createReducerContext(gridDataReducer, defaultGridDataState);
 
 // Selection State Provider
 export const [SelectionStateProvider, useSelectionState, useSelectionDispatch] =
   createReducerContext(selectionReducer, defaultSelectionState);
 
 // Grid State Provider (focus and navigation only)
-export const [GridListStateProvider, useGridListState, useGridListDispatch] = createReducerContext(
-  (state: GridState, action: GridAction): GridState => {
+export const [GridListStateProvider, useGridListState, useGridListDispatch] =
+  createReducerContext((state: GridState, action: GridAction): GridState => {
     switch (action.type) {
       case "setLastFocusedRow":
         return {
@@ -245,9 +250,7 @@ export const [GridListStateProvider, useGridListState, useGridListDispatch] = cr
     }
 
     return state;
-  },
-  defaultGridState
-);
+  }, defaultGridState);
 
 export const ControlledValueContext = createContext<Set<string> | null>(null);
 
@@ -282,7 +285,8 @@ export function useSelectedRows() {
   const validRowIds = new Set(rows.map((row) => row.rowId));
 
   // Filter selected rows to only include those that still exist in the table
-  const actualSelectedRows = controlledValue == null ? selectedRows : new Set(controlledValue);
+  const actualSelectedRows =
+    controlledValue == null ? selectedRows : new Set(controlledValue);
   const filteredSelectedRows = new Set(
     Array.from(actualSelectedRows).filter((rowId) => validRowIds.has(rowId))
   );

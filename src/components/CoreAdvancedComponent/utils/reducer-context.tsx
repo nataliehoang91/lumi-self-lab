@@ -34,7 +34,9 @@ export function createReducerContext<Action, State>(
     }));
 
     const wrapped = useMemo(() => {
-      return middleware ? middleware(dispatch, (action) => reducer(state, action)) : dispatch;
+      return middleware
+        ? middleware(dispatch, (action) => reducer(state, action))
+        : dispatch;
     }, [middleware, state, reducer]);
 
     return (

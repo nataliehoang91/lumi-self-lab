@@ -22,23 +22,31 @@ export function ChapterSelectDesktop() {
 
   return (
     <div className="relative">
-      <Select value={String(leftChapter)} onValueChange={(v) => handleLeftChapterChange(Number(v))}>
-        <SelectTrigger className="w-auto min-w-20 rounded-lg border-primary bg-primary/5 h-10 shrink-0 hover:bg-primary/10 dark:border-primary dark:bg-primary/5 gap-1.5">
+      <Select
+        value={String(leftChapter)}
+        onValueChange={(v) => handleLeftChapterChange(Number(v))}
+      >
+        <SelectTrigger
+          className="border-primary bg-primary/5 hover:bg-primary/10 dark:border-primary
+            dark:bg-primary/5 h-10 w-auto min-w-20 shrink-0 gap-1.5 rounded-lg"
+        >
           <SelectValue placeholder={t("readChapterN", { n: 1 })}>
             {t("readChapterN", { n: leftChapter })}
           </SelectValue>
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="h-4 w-4" />
         </SelectTrigger>
         <SelectContent
           align="start"
-          className="rounded-lg max-h-80 w-auto [&_[data-state]>span:first-child]:invisible"
+          className="max-h-80 w-auto rounded-lg
+            [&_[data-state]>span:first-child]:invisible"
         >
           <div className="grid grid-cols-5 gap-1 p-2">
             {Array.from({ length: leftBook.chapterCount }, (_, i) => i + 1).map((ch) => (
               <SelectItem
                 key={ch}
                 value={String(ch)}
-                className="min-w-9 min-h-9 flex items-center justify-center rounded-md py-0 px-2 data-[highlighted]:bg-accent"
+                className="data-[highlighted]:bg-accent flex min-h-9 min-w-9 items-center
+                  justify-center rounded-md px-2 py-0"
               >
                 {ch}
               </SelectItem>

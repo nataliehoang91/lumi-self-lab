@@ -6,7 +6,10 @@ import { useMemo } from "react";
 import { useRead } from "../context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
-import { buildReadSearchParams, defaultVersionFromLanguage } from "@/app/(bible)/bible/[lang]/read/params";
+import {
+  buildReadSearchParams,
+  defaultVersionFromLanguage,
+} from "@/app/(bible)/bible/[lang]/read/params";
 import {
   NavigationButton,
   NavigationSubmitMessage,
@@ -75,10 +78,12 @@ export function InsightsButton({ variant = "desktop" }: { variant?: Variant }) {
         variant="ghost"
         size={isDesktop ? "sm" : "icon"}
         className={cn(
-          "rounded-lg gap-1.5",
+          "gap-1.5 rounded-lg",
           insightOpen
-            ? "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700"
-            : "bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200",
+            ? `bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600
+              dark:hover:bg-emerald-700`
+            : `bg-muted text-muted-foreground hover:bg-emerald-100 hover:text-emerald-800
+              dark:hover:bg-emerald-900/30 dark:hover:text-emerald-200`,
           !isDesktop && "rounded-md"
         )}
         title={t("readInsights") ?? "Insights"}
@@ -86,32 +91,40 @@ export function InsightsButton({ variant = "desktop" }: { variant?: Variant }) {
         <NavigationSubmitMessage>
           {isDesktop ? (
             <>
-              <Lightbulb className="w-4 h-4" />
-              <span className="hidden sm:inline text-sm font-medium">
+              <Lightbulb className="h-4 w-4" />
+              <span className="hidden text-sm font-medium sm:inline">
                 {t("readInsightsLabel") ?? "Insights"}
               </span>
-              <span className="hidden sm:inline-flex items-center rounded-full border border-dashed border-emerald-300 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
+              <span
+                className="hidden items-center rounded-full border border-dashed
+                  border-emerald-300 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold
+                  tracking-wide text-emerald-700 uppercase sm:inline-flex"
+              >
                 {t("readInsightsComingSoonTag") ?? "Coming soon"}
               </span>
             </>
           ) : (
-            <Lightbulb className="w-4 h-4" />
+            <Lightbulb className="h-4 w-4" />
           )}
         </NavigationSubmitMessage>
         <NavigationLoadingMessage>
           {isDesktop ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span className="hidden sm:inline text-sm font-medium">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="hidden text-sm font-medium sm:inline">
                 {t("readInsightsLabel") ?? "Insights"}
               </span>
-              <span className="hidden sm:inline-flex items-center rounded-full border border-dashed border-emerald-300 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
+              <span
+                className="hidden items-center rounded-full border border-dashed
+                  border-emerald-300 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold
+                  tracking-wide text-emerald-700 uppercase sm:inline-flex"
+              >
                 {t("readInsightsComingSoonTag") ?? "Coming soon"}
               </span>
             </>
           ) : (
-            <div className="opacity-60 cursor-wait animate-pulse">
-              <Lightbulb className="w-4 h-4" />
+            <div className="animate-pulse cursor-wait opacity-60">
+              <Lightbulb className="h-4 w-4" />
             </div>
           )}
         </NavigationLoadingMessage>

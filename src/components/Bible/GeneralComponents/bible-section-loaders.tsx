@@ -43,14 +43,14 @@ export function VerseSkeletonLoader({ verseCount = 6 }: { verseCount?: number })
   const items = Array.from({ length: verseCount }, (_, i) => i);
 
   return (
-    <div className="space-y-4 animate-pulse">
+    <div className="animate-pulse space-y-4">
       {items.map((i) => (
         <div key={i} className="flex gap-3">
-          <div className="h-4 w-5 rounded bg-muted shrink-0" />
-          <div className="space-y-2 flex-1">
-            <div className="h-3 w-[88%] rounded bg-muted" />
-            <div className="h-3 w-full rounded bg-muted" />
-            <div className="h-3 w-[72%] rounded bg-muted" />
+          <div className="bg-muted h-4 w-5 shrink-0 rounded" />
+          <div className="flex-1 space-y-2">
+            <div className="bg-muted h-3 w-[88%] rounded" />
+            <div className="bg-muted h-3 w-full rounded" />
+            <div className="bg-muted h-3 w-[72%] rounded" />
           </div>
         </div>
       ))}
@@ -76,23 +76,29 @@ export function ContentReveal({
 // 02. Minimal progress text loader
 // ---------------------------------------------------------------------------
 
-export function ProgressTextLoader({ book, chapter }: { book?: string; chapter?: number }) {
+export function ProgressTextLoader({
+  book,
+  chapter,
+}: {
+  book?: string;
+  chapter?: number;
+}) {
   const [replayKey] = useState(0);
   const { progress } = useSimulatedProgress(replayKey, 1800);
 
   return (
     <div className="space-y-1">
       <div className="flex items-baseline justify-between gap-3 text-xs">
-        <span className="font-medium text-muted-foreground">
+        <span className="text-muted-foreground font-medium">
           {book ?? undefined} {chapter ?? undefined}
         </span>
-        <span className="font-mono tabular-nums text-[11px] text-muted-foreground/80">
+        <span className="text-muted-foreground/80 font-mono text-[11px] tabular-nums">
           {progress}%
         </span>
       </div>
-      <div className="h-px w-full bg-border/40 overflow-hidden rounded-full">
+      <div className="bg-border/40 h-px w-full overflow-hidden rounded-full">
         <div
-          className="h-px bg-primary transition-all duration-200 ease-out"
+          className="bg-primary h-px transition-all duration-200 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -108,16 +114,19 @@ export function GradientShimmerLoader({ verseCount = 6 }: { verseCount?: number 
   const items = Array.from({ length: verseCount }, (_, i) => i);
 
   return (
-    <div className="space-y-4 overflow-hidden relative">
-      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent dark:via-white/10 animate-[shimmer_1.8s_infinite]" />
+    <div className="relative space-y-4 overflow-hidden">
+      <div
+        className="absolute inset-0 -translate-x-full animate-[shimmer_1.8s_infinite]
+          bg-gradient-to-r from-transparent via-white/60 to-transparent dark:via-white/10"
+      />
       <div className="space-y-4">
         {items.map((i) => (
           <div key={i} className="flex gap-3">
-            <div className="h-4 w-5 rounded bg-muted/70 shrink-0" />
-            <div className="space-y-2 flex-1">
-              <div className="h-3 w-[88%] rounded bg-muted/70" />
-              <div className="h-3 w-full rounded bg-muted/70" />
-              <div className="h-3 w-[72%] rounded bg-muted/70" />
+            <div className="bg-muted/70 h-4 w-5 shrink-0 rounded" />
+            <div className="flex-1 space-y-2">
+              <div className="bg-muted/70 h-3 w-[88%] rounded" />
+              <div className="bg-muted/70 h-3 w-full rounded" />
+              <div className="bg-muted/70 h-3 w-[72%] rounded" />
             </div>
           </div>
         ))}
@@ -142,15 +151,16 @@ export function MicroPanelLoader({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-medium",
-        "bg-muted/70 border-border/70 text-muted-foreground backdrop-blur-sm shadow-sm"
+        `inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px]
+        font-medium`,
+        "bg-muted/70 border-border/70 text-muted-foreground shadow-sm backdrop-blur-sm"
       )}
     >
-      <span className="inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-      <span className="uppercase tracking-[0.12em] font-semibold">
+      <span className="bg-primary inline-flex h-2 w-2 animate-pulse rounded-full" />
+      <span className="font-semibold tracking-[0.12em] uppercase">
         Loading {book ?? undefined} {chapter ?? undefined}
       </span>
-      <span className="hidden sm:inline text-[10px] opacity-80">({side} panel)</span>
+      <span className="hidden text-[10px] opacity-80 sm:inline">({side} panel)</span>
     </div>
   );
 }
@@ -171,7 +181,9 @@ export function SegmentedProgressBar({
   const items = Array.from({ length: segments }, (_, i) => i);
 
   return (
-    <div className="flex gap-[2px] h-[2px] w-full overflow-hidden rounded-full bg-border/40">
+    <div
+      className="bg-border/40 flex h-[2px] w-full gap-[2px] overflow-hidden rounded-full"
+    >
       {items.map((i) => (
         <div
           key={i}

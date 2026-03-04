@@ -23,7 +23,11 @@ function getTemplate(templateId: string | null) {
       fields: [
         { type: "emoji", label: "How focused did you feel today?" },
         { type: "number", label: "Hours of deep work" },
-        { type: "select", label: "Main distraction", options: ["Meetings", "Slack", "Email"] },
+        {
+          type: "select",
+          label: "Main distraction",
+          options: ["Meetings", "Slack", "Email"],
+        },
         { type: "text", label: "What helped you focus?" },
       ],
     },
@@ -50,15 +54,18 @@ export default function FromTemplatePage() {
   }, [searchParams]);
 
   const template = getTemplate(templateId);
-  const orgName = orgId === "org1" ? "Acme Corp" : orgId === "org2" ? "Design Team" : null;
+  const orgName =
+    orgId === "org1" ? "Acme Corp" : orgId === "org2" ? "Design Team" : null;
 
   if (!template) {
     return (
       <div className="min-h-screen">
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="container mx-auto max-w-4xl px-4 py-8">
           <Card className="p-12 text-center">
-            <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">Template not found</h3>
+            <FileText className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+            <h3 className="text-foreground mb-2 text-lg font-semibold">
+              Template not found
+            </h3>
             <Button asChild>
               <Link href="/templates">Browse Templates</Link>
             </Button>
@@ -79,26 +86,26 @@ export default function FromTemplatePage() {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
           <Link href="/experiments/new">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back
           </Link>
         </Button>
 
         {/* Context Banner */}
         {orgId && (
-          <Card className="p-4 mb-6 bg-violet/10 border-violet/20">
+          <Card className="bg-violet/10 border-violet/20 mb-6 p-4">
             <div className="flex items-center gap-3">
-              <Building2 className="w-5 h-5 text-violet" />
+              <Building2 className="text-violet h-5 w-5" />
               <div>
-                <p className="text-sm font-medium text-foreground">
+                <p className="text-foreground text-sm font-medium">
                   Starting from {orgName} template
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  This experiment will be linked to {orgName} for aggregate insights. Your personal
-                  data stays private.
+                <p className="text-muted-foreground text-xs">
+                  This experiment will be linked to {orgName} for aggregate insights. Your
+                  personal data stays private.
                 </p>
               </div>
               <Button
@@ -111,7 +118,7 @@ export default function FromTemplatePage() {
                 }}
                 className="ml-auto"
               >
-                <Home className="w-4 h-4 mr-2" />
+                <Home className="mr-2 h-4 w-4" />
                 Make Personal
               </Button>
             </div>
@@ -121,36 +128,43 @@ export default function FromTemplatePage() {
         {/* Template Preview */}
         <Card className="p-8">
           <div className="mb-6">
-            <Badge className="mb-4 bg-violet/10 text-violet">{template.category}</Badge>
-            <h1 className="text-3xl font-semibold text-foreground mb-2">{template.title}</h1>
+            <Badge className="bg-violet/10 text-violet mb-4">{template.category}</Badge>
+            <h1 className="text-foreground mb-2 text-3xl font-semibold">
+              {template.title}
+            </h1>
             <p className="text-muted-foreground">{template.description}</p>
           </div>
 
-          <div className="space-y-6 mb-8">
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <div className="mb-8 space-y-6">
+            <div className="text-muted-foreground flex items-center gap-4 text-sm">
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
+                <Calendar className="h-4 w-4" />
                 <span>{template.duration} days</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
+                <Clock className="h-4 w-4" />
                 <span className="capitalize">{template.frequency}</span>
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Tracking Fields</h3>
+              <h3 className="text-foreground mb-4 font-semibold">Tracking Fields</h3>
               <div className="space-y-3">
                 {template.fields.map((field: any, index: number) => (
-                  <div key={index} className="p-4 rounded-xl bg-muted/50 border border-border">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-sm font-medium text-foreground">{field.label}</span>
+                  <div
+                    key={index}
+                    className="bg-muted/50 border-border rounded-xl border p-4"
+                  >
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="text-foreground text-sm font-medium">
+                        {field.label}
+                      </span>
                       <Badge variant="outline" className="text-xs">
                         {field.type}
                       </Badge>
                     </div>
                     {field.options && (
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-muted-foreground text-xs">
                         Options: {field.options.join(", ")}
                       </div>
                     )}

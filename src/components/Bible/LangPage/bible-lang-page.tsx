@@ -18,7 +18,11 @@ const VERSE_KEYS = [
   { text: "langPageVerse3Text" as const, ref: "langPageVerse3Ref" as const },
 ] as const;
 
-function getJourney(lang: BibleLocale, base: string, t: (k: string) => string): JourneyItem[] {
+function getJourney(
+  lang: BibleLocale,
+  base: string,
+  t: (k: string) => string
+): JourneyItem[] {
   return [
     {
       step: "01",
@@ -96,7 +100,7 @@ export function BibleLangPage({ lang }: BibleLangPageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
+    <div className="bg-background text-foreground min-h-screen font-sans">
       <LangPageHero
         eyebrow={t("langPageHeroEyebrow")}
         title1={t("langPageHeroTitle1")}
@@ -107,7 +111,7 @@ export function BibleLangPage({ lang }: BibleLangPageProps) {
         learnHref={`${base}/learn`}
         readHref={`${base}/read`}
       >
-        <div className="relative z-10 mt-20 w-full max-w-2xl mx-auto">
+        <div className="relative z-10 mx-auto mt-20 w-full max-w-2xl">
           <DailyVerse
             label={t("langPageVerseOfDay")}
             text={verse.text}

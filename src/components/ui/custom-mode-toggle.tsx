@@ -80,7 +80,7 @@ export function CustomModeToggle<T extends string>({
   return (
     <div
       className={cn(
-        "relative inline-flex items-center bg-muted/80 shadow-sm",
+        "bg-muted/80 relative inline-flex items-center shadow-sm",
         sizeClass.container,
         roundedClass,
         className
@@ -111,11 +111,15 @@ export function CustomModeToggle<T extends string>({
           key={mode.value}
           onClick={() => handleToggle(mode.value)}
           className={cn(
-            "relative z-10 flex items-center font-medium transition-colors duration-200 justify-center",
+            `relative z-10 flex items-center justify-center font-medium transition-colors
+            duration-200`,
             sizeClass.button,
             roundedClass, // Apply rounded style to buttons
             activeMode === mode.value
-              ? cn("text-primary-foreground", activeTextClassName || "text-primary-foreground")
+              ? cn(
+                  "text-primary-foreground",
+                  activeTextClassName || "text-primary-foreground"
+                )
               : cn(
                   "text-muted-foreground hover:text-foreground",
                   inactiveTextClassName || "text-muted-foreground hover:text-foreground"

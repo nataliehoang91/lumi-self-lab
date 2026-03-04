@@ -40,39 +40,49 @@ export default async function OrganisationTemplatesPage({
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="flex items-center justify-between mb-8">
+      <div className="container mx-auto max-w-7xl px-4 py-8">
+        <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-semibold text-foreground mb-2">Organisation Templates</h1>
+            <h1 className="text-foreground mb-2 text-3xl font-semibold">
+              Organisation Templates
+            </h1>
             <p className="text-muted-foreground">
               Browse and start experiments from organisation templates
             </p>
           </div>
           <Button asChild>
             <Link href={`/org/${orgId}`}>
-              <ArrowRight className="w-4 h-4 mr-2" />
+              <ArrowRight className="mr-2 h-4 w-4" />
               Back to Dashboard
             </Link>
           </Button>
         </div>
 
         {templates.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {templates.map((template) => (
-              <Card key={template.id} className="p-6 hover:border-primary transition-all">
-                <div className="flex items-start justify-between mb-4">
+              <Card key={template.id} className="hover:border-primary p-6 transition-all">
+                <div className="mb-4 flex items-start justify-between">
                   <div>
-                    <Badge className="mb-2 bg-violet/10 text-violet">{template.category}</Badge>
-                    <h3 className="font-semibold text-foreground text-lg mb-2">{template.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-4">{template.description}</p>
+                    <Badge className="bg-violet/10 text-violet mb-2">
+                      {template.category}
+                    </Badge>
+                    <h3 className="text-foreground mb-2 text-lg font-semibold">
+                      {template.title}
+                    </h3>
+                    <p className="text-muted-foreground mb-4 text-sm">
+                      {template.description}
+                    </p>
                   </div>
                 </div>
 
-                <div className="space-y-2 mb-4 text-sm text-muted-foreground">
+                <div className="text-muted-foreground mb-4 space-y-2 text-sm">
                   <div>Duration: {template.duration} days</div>
                   <div>Frequency: {template.frequency}</div>
                   <div>{template.fields} tracking fields</div>
-                  {template.activeUsers > 0 && <div>{template.activeUsers} active users</div>}
+                  {template.activeUsers > 0 && (
+                    <div>{template.activeUsers} active users</div>
+                  )}
                 </div>
 
                 <Button className="w-full" asChild>
@@ -85,8 +95,8 @@ export default async function OrganisationTemplatesPage({
           </div>
         ) : (
           <Card className="p-12 text-center">
-            <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">No Templates</h3>
+            <FileText className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+            <h3 className="text-foreground mb-2 text-lg font-semibold">No Templates</h3>
             <p className="text-muted-foreground">
               This organisation doesn&apos;t have any templates yet.
             </p>

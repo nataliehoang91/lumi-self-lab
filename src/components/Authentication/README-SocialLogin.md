@@ -70,7 +70,11 @@ export default function SignInPage() {
     }
   };
 
-  return <Button onClick={() => handleSocialSignIn("oauth_google")}>Continue with Google</Button>;
+  return (
+    <Button onClick={() => handleSocialSignIn("oauth_google")}>
+      Continue with Google
+    </Button>
+  );
 }
 ```
 
@@ -113,7 +117,10 @@ To add more providers (e.g., Apple, Microsoft):
 Social buttons can be styled using Tailwind classes in the `className` prop:
 
 ```tsx
-<Button onClick={() => handleSocialSignIn("oauth_google")} className="custom-google-button-classes">
+<Button
+  onClick={() => handleSocialSignIn("oauth_google")}
+  className="custom-google-button-classes"
+>
   Continue with Google
 </Button>
 ```

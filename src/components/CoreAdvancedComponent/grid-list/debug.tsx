@@ -15,7 +15,8 @@ export const Debugger = memo(function Debugger() {
   return (
     <GridListRow disabled>
       <dl
-        className="text-sm bg-muted/50 p-1 rounded-md text-muted-foreground flex flex-row gap-8 col-span-full"
+        className="bg-muted/50 text-muted-foreground col-span-full flex flex-row gap-8
+          rounded-md p-1 text-sm"
         // eslint-disable-next-line jsx-a11y/use-semantic-elements
         role="gridcell"
         tabIndex={-1}
@@ -26,25 +27,34 @@ export const Debugger = memo(function Debugger() {
         <TextValue label="lastFocusedRowId" value={lastFocusedRowId} />
         <BooleanValue label="isFocusWithinContainer" value={isFocusWithinContainer} />
         <TextValue label="selectionMode" value={selectionMode} />
-        <TextValue label="selectedRows" value={Array.from(selectedRows).join(", ") || "none"} />
+        <TextValue
+          label="selectedRows"
+          value={Array.from(selectedRows).join(", ") || "none"}
+        />
       </dl>
     </GridListRow>
   );
 });
 
-function TextValue({ label, value }: { label: string; value: string | null | undefined }) {
+function TextValue({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | null | undefined;
+}) {
   if (value == null) {
     return (
-      <div className="flex flex-row gap-2 bg-muted items-center">
-        <dt className="tracking-tighter font-semibold">{label}</dt>
-        <dd className="italic font-mono">NULL</dd>
+      <div className="bg-muted flex flex-row items-center gap-2">
+        <dt className="font-semibold tracking-tighter">{label}</dt>
+        <dd className="font-mono italic">NULL</dd>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-row gap-2 bg-muted items-center">
-      <dt className="tracking-tighter font-semibold">{label}</dt>
+    <div className="bg-muted flex flex-row items-center gap-2">
+      <dt className="font-semibold tracking-tighter">{label}</dt>
       <dd className="font-mono">{JSON.stringify(value)}</dd>
     </div>
   );
@@ -52,12 +62,12 @@ function TextValue({ label, value }: { label: string; value: string | null | und
 
 function BooleanValue({ label, value }: { label: string; value: boolean }) {
   return (
-    <div className="flex flex-row gap-2 bg-muted items-center">
-      <dt className="tracking-tighter font-semibold">{label}</dt>
+    <div className="bg-muted flex flex-row items-center gap-2">
+      <dt className="font-semibold tracking-tighter">{label}</dt>
       <dd>
         <div
           className={cn(
-            "size-3 text-transparent overflow-hidden rounded-full",
+            "size-3 overflow-hidden rounded-full text-transparent",
             value ? "bg-green-500" : "bg-red-500"
           )}
         >

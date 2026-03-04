@@ -105,7 +105,10 @@ function isElementTabbable(element: HTMLElement): boolean {
 }
 
 // Performance cache for tabbable elements
-const tabbableCache = new WeakMap<Element, { elements: HTMLElement[]; timestamp: number }>();
+const tabbableCache = new WeakMap<
+  Element,
+  { elements: HTMLElement[]; timestamp: number }
+>();
 const CACHE_DURATION = 1000; // 1 second cache
 
 // Lightweight version for performance-critical scenarios

@@ -10,14 +10,18 @@ export async function GET(_request: NextRequest) {
   try {
     const books = await prisma.bibleBook.findMany({
       orderBy: { order: "asc" },
-      select: { id: true, nameEn: true, nameVi: true, nameZh: true, order: true, chapterCount: true },
+      select: {
+        id: true,
+        nameEn: true,
+        nameVi: true,
+        nameZh: true,
+        order: true,
+        chapterCount: true,
+      },
     });
     return NextResponse.json(books);
   } catch (e) {
     console.error("bible books list", e);
-    return NextResponse.json(
-      { error: "Failed to load books." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to load books." }, { status: 500 });
   }
 }

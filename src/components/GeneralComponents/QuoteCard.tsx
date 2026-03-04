@@ -3,39 +3,76 @@
 import { cn } from "@/lib/utils";
 import { QuoteIcon } from "lucide-react";
 
+export type QuoteCardAlign = "left" | "center" | "right";
+
 export interface QuoteCardProps {
   /** Main quote text, including any quotation marks you want rendered. */
   quote: string;
   /** Small label on the bottom right, e.g. reference or author. */
   footnote?: string;
+  /** Alignment for the quote icon. */
+  quoteIconAlign?: QuoteCardAlign;
+  /** Alignment for the verse/quote text. */
+  verseAlign?: QuoteCardAlign;
+  /** Alignment for the footnote. */
+  footnoteAlign?: QuoteCardAlign;
+  /** Shorthand: sets all three alignments when provided. */
+  align?: QuoteCardAlign;
   className?: string;
 }
 
-export function QuoteCard({ quote, footnote, className }: QuoteCardProps) {
+const LAYOUT_ROW: Record<QuoteCardAlign, string> = {
+  left: "flex flex-row items-start gap-2",
+  center: "flex flex-col items-center gap-1",
+  right: "flex flex-row-reverse items-start gap-2",
+};
+
+const TEXT_ALIGN: Record<QuoteCardAlign, string> = {
+  left: "text-left",
+  center: "items-center text-center",
+  right: "text-right",
+};
+
+export function QuoteCard({
+  quote,
+  footnote,
+  quoteIconAlign,
+  verseAlign,
+  footnoteAlign,
+  align = "left",
+  className,
+}: QuoteCardProps) {
+  const iconAlign = quoteIconAlign ?? align;
+  const verseAlignResolved = verseAlign ?? align;
+  const footnoteAlignResolved = footnoteAlign ?? align;
+
+  const isCenter = iconAlign === "center";
+  const layoutRow = LAYOUT_ROW[iconAlign];
+
   return (
-    <div
-      className={cn(
-        "bg-primary-light/5 border-primary relative rounded-xl border px-5 py-4",
-        className
-      )}
-    >
-      <span
-        className="text-primary absolute top-3 left-4 text-3xl leading-none select-none"
-        aria-hidden="true"
-      >
+    <div className={cn("flex gap-2", layoutRow, className)}>
+      <div className="text-primary text-3xl leading-none select-none" aria-hidden="true">
         <QuoteIcon className="h-6 w-6" aria-hidden="true" />
-      </span>
-      <p
-        className="font-bible-english md:text-md pt-4 pl-8 text-lg leading-relaxed
-          font-semibold"
-      >
-        {quote}
-      </p>
-      {footnote && (
-        <p className="text-muted-foreground mt-3 text-right font-mono text-sm">
-          {footnote}
+      </div>
+      <div className={cn("flex flex-col gap-0")}>
+        <p
+          className={cn(
+            "font-bible-english md:text-md text-lg leading-relaxed font-semibold"
+          )}
+        >
+          {quote}
         </p>
-      )}
+        {footnote && (
+          <p
+            className={cn(
+              "text-muted-foreground mt-0 font-mono text-sm",
+              TEXT_ALIGN[footnoteAlignResolved]
+            )}
+          >
+            {footnote}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

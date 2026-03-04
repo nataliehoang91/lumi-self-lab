@@ -144,10 +144,14 @@ export async function getDashboardData(): Promise<DashboardData> {
   }));
   const hasOrgMemberships = orgs.length > 0;
   const hasOrgLinkedExperiments =
-    "experiments" in user && Array.isArray(user.experiments) ? user.experiments.length > 0 : false;
+    "experiments" in user && Array.isArray(user.experiments)
+      ? user.experiments.length > 0
+      : false;
   const isParticipant = hasOrgMemberships || hasOrgLinkedExperiments;
   const isOrgAdmin =
-    isSuperAdmin || user.accountType === "organisation" || orgs.some((o) => o.role === "org_admin");
+    isSuperAdmin ||
+    user.accountType === "organisation" ||
+    orgs.some((o) => o.role === "org_admin");
   const hasManagerRole =
     isSuperAdmin || orgs.some((o) => o.role === "team_manager" || o.role === "org_admin");
   const teams = user.organisationMemberships
@@ -196,7 +200,9 @@ export async function getDashboardData(): Promise<DashboardData> {
     personalStats,
     activeExperiments,
     userData:
-      isParticipant || hasManagerRole || isOrgAdmin ? { pendingAssignments: 0, orgs } : null,
+      isParticipant || hasManagerRole || isOrgAdmin
+        ? { pendingAssignments: 0, orgs }
+        : null,
     teamStats: {
       teamName: teams[0]?.name ?? "Team",
       memberCount: 0,

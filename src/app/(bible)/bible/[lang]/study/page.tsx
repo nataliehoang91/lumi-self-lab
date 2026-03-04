@@ -10,15 +10,15 @@ function sleep(ms: number) {
 export default async function BibleStudyPage() {
   const lists = await getStudyListsForCurrentUser();
   return (
-    <Container maxWidth="7xl" className="min-h-screen flex flex-col py-6  lg:px-0 px-4">
+    <Container maxWidth="7xl" className="flex min-h-screen flex-col px-4 py-6 lg:px-0">
       {lists.length === 0 ? (
         <div className="mt-16 flex flex-col items-center gap-4 text-center">
           <BookCircleIcon size="lg" />
           <div className="space-y-1">
-            <h2 className="text-xl font-semibold text-foreground">Start Your Study</h2>
-            <p className="text-sm text-muted-foreground">
-              Add passages to compare translations, study verses in depth, and build your perfect
-              study session.
+            <h2 className="text-foreground text-xl font-semibold">Start Your Study</h2>
+            <p className="text-muted-foreground text-sm">
+              Add passages to compare translations, study verses in depth, and build your
+              perfect study session.
             </p>
           </div>
           <NewStudyListPlaceholderCard label="Create your first list" />
@@ -26,8 +26,8 @@ export default async function BibleStudyPage() {
       ) : (
         <>
           <div className="mt-4 mb-2 flex items-baseline justify-between">
-            <h2 className="text-sm font-semibold text-foreground">Your study lists</h2>
-            <span className="text-xs text-muted-foreground">
+            <h2 className="text-foreground text-sm font-semibold">Your study lists</h2>
+            <span className="text-muted-foreground text-xs">
               {lists.length} {lists.length === 1 ? "list" : "lists"}
             </span>
           </div>

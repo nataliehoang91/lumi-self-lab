@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { FadeIn } from "./FadeIn";
 import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { cn } from "@/lib/utils";
 
 export interface LangPageCtaBannerProps {
   title: string;
@@ -25,30 +26,46 @@ export function LangPageCtaBanner({
   const { h1Class, bodyClass, buttonClass } = useLearnFontClasses();
 
   return (
-    <section className="py-24 px-6">
+    <section className="px-6 py-24">
       <FadeIn>
-        <div className="max-w-3xl mx-auto text-center space-y-6">
+        <div className="mx-auto max-w-3xl space-y-6 text-center">
           <h2
-            className={`font-serif font-semibold text-foreground leading-tight text-balance ${h1Class}`}
+            className={`text-foreground font-serif leading-tight font-semibold
+              text-balance ${h1Class}`}
           >
             {title}
           </h2>
           <p
-            className={`text-muted-foreground leading-relaxed max-w-xl mx-auto text-pretty ${bodyClass}`}
+            className={`text-muted-foreground mx-auto max-w-xl leading-relaxed text-pretty
+              ${bodyClass}`}
           >
             {paragraph}
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <div
+            className="flex max-w-xs flex-col items-stretch justify-center gap-3
+              md:mx-auto md:px-12"
+          >
             <Link
               href={learnHref}
-              className={`px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 ${buttonClass}`}
+              className={cn(
+                `bg-primary-dark flex items-center justify-center gap-2 rounded-xl px-4
+                py-2.5 text-lg font-semibold text-white transition-opacity
+                hover:opacity-90`,
+                buttonClass
+              )}
             >
               {newLabel}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="h-4 w-4" />
             </Link>
+            <span className="text-muted-foreground text-base font-medium">or</span>
             <Link
               href={readHref}
-              className={`px-8 py-4 border border-second bg-transparent rounded-xl font-medium text-second hover:bg-second hover:text-second-foreground transition-colors ${buttonClass}`}
+              className={cn(
+                `bg-second-400/40 border-second-400 text-second-900 hover:bg-second-400/60
+                flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5
+                text-lg font-semibold transition-colors`,
+                buttonClass
+              )}
             >
               {bibleLabel}
             </Link>

@@ -11,7 +11,10 @@ import { NextResponse } from "next/server";
  * Query params:
  * - date: filter by specific date (YYYY-MM-DD format)
  */
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -62,7 +65,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
  * Personal only, owner only. If a check-in exists for that date → update (replace responses); else create.
  * Body: checkInDate (required), notes?, aiSummary?, responses.
  */
-export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {

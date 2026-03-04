@@ -42,10 +42,13 @@ export const LoginForm = ({
 }) => {
   return (
     <Card
-      className={cn("w-full max-w-lg sm:min-w-md  md:min-w-lg rounded-lg shadow-lg", cardClassName)}
+      className={cn(
+        "w-full max-w-lg rounded-lg shadow-lg sm:min-w-md md:min-w-lg",
+        cardClassName
+      )}
     >
       <CardHeader className={cn("text-center", cardHeaderClassName)}>
-        <CardTitle className="text-3xl font-bold mb-2">Welcome Back</CardTitle>
+        <CardTitle className="mb-2 text-3xl font-bold">Welcome Back</CardTitle>
         <CardDescription className="text-muted-foreground">
           Enter your credentials to access Self-Lab.
         </CardDescription>
@@ -89,7 +92,7 @@ export const LoginForm = ({
         </ReserveLayout>
       </InteractiveForm>
       <div className="block">
-        <p className="text-balance text-center text-sm text-muted-foreground px-4">
+        <p className="text-muted-foreground px-4 text-center text-sm text-balance">
           By Logging In, <br /> You Accept Self-Lab&apos;s
           <Link href="/terms" className="text-primary hover:underline">
             {" "}
@@ -98,7 +101,7 @@ export const LoginForm = ({
         </p>
         {/* Contact info */}
         <div className="my-4" />
-        <p className="text-balance text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-center text-sm text-balance">
           Don&apos;t have an account?{" "}
           <Link href="/sign-up" className="text-primary hover:underline">
             Sign up here

@@ -6,7 +6,6 @@ interface CardWithDataProps {
   verseId: string;
   lang: Language;
   horizontal?: boolean;
-  fontSize?: "small" | "medium" | "large";
   /** When true (e.g. grid layout), card fits container with no min width. */
   flexible?: boolean;
 }
@@ -16,7 +15,6 @@ export async function CardWithData({
   verseId,
   lang,
   horizontal = false,
-  fontSize = "medium",
   flexible = false,
 }: CardWithDataProps) {
   const verse = await getVerseById(verseId);
@@ -26,7 +24,6 @@ export async function CardWithData({
       initialVerse={verse}
       lang={lang}
       horizontal={horizontal}
-      fontSize={fontSize}
       flexible={flexible}
     />
   );

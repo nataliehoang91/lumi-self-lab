@@ -54,36 +54,53 @@ export default function ForgotPasswordPage() {
         refresh: true,
       };
     } catch (err: unknown) {
-      const errorMessage = getErrorMessage(err, "Failed to send reset email. Please try again.");
+      const errorMessage = getErrorMessage(
+        err,
+        "Failed to send reset email. Please try again."
+      );
       setError(errorMessage);
       return { error: errorMessage };
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo/Icon */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center justify-center mb-4">
+        <div className="mb-8 text-center">
+          <Link href="/" className="mb-4 inline-flex items-center justify-center">
             <div className="relative">
-              <Sparkles className="w-12 h-12 text-second animate-float" />
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse-glow" />
+              <Sparkles className="text-second animate-float h-12 w-12" />
+              <div
+                className="bg-primary/20 animate-pulse-glow absolute inset-0 rounded-full
+                  blur-xl"
+              />
             </div>
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Reset Password</h1>
+          <h1 className="text-foreground mb-2 text-3xl font-bold md:text-4xl">
+            Reset Password
+          </h1>
           <p className="text-muted-foreground">We&apos;ll send you a reset link</p>
         </div>
 
         {/* Forgot Password Card */}
-        <Card className="p-8 bg-card/90 backdrop-blur-sm border-border/50 rounded-3xl shadow-xl">
+        <Card
+          className="bg-card/90 border-border/50 rounded-3xl p-8 shadow-xl
+            backdrop-blur-sm"
+        >
           {error && (
-            <div className="mb-4 p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+            <div
+              className="bg-destructive/10 border-destructive/20 text-destructive mb-4
+                rounded-md border p-3 text-sm"
+            >
               {error}
             </div>
           )}
 
-          <InteractiveForm<ForgotPasswordFields> fields={["email"]} action={handleForgotPassword}>
+          <InteractiveForm<ForgotPasswordFields>
+            fields={["email"]}
+            action={handleForgotPassword}
+          >
             <div className="space-y-6">
               <FormField name="email">
                 <Label htmlFor="email" className="text-sm font-medium">
@@ -97,14 +114,17 @@ export default function ForgotPasswordPage() {
                     required
                     placeholder="you@example.com"
                     autoComplete="email"
-                    className="h-12 rounded-2xl bg-background/50 border! border-foreground/25! focus:border-primary! focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all"
+                    className="bg-background/50 border-foreground/25!
+                      focus:border-primary! focus-visible:ring-ring h-12 rounded-2xl
+                      border! transition-all focus-visible:ring-2
+                      focus-visible:ring-offset-2"
                   />
                 </InputControl>
                 <FormMessage match="valueMissing">Email is required</FormMessage>
                 <FormMessage match="typeMismatch">Please enter a valid email</FormMessage>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Enter the email associated with your account and we&apos;ll send you a link to
-                  reset your password.
+                <p className="text-muted-foreground mt-2 text-xs">
+                  Enter the email associated with your account and we&apos;ll send you a
+                  link to reset your password.
                 </p>
               </FormField>
 
@@ -113,7 +133,8 @@ export default function ForgotPasswordPage() {
                   type="submit"
                   size="lg"
                   disabled={!isLoaded}
-                  className="w-full text-lg py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full rounded-2xl py-6 text-lg shadow-lg transition-all
+                    hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]"
                 >
                   <LoadingMessage>Sending reset link...</LoadingMessage>
                   <SubmitMessage>Send Reset Link</SubmitMessage>
@@ -125,7 +146,7 @@ export default function ForgotPasswordPage() {
           {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border/50"></div>
+              <div className="border-border/50 w-full border-t"></div>
             </div>
           </div>
 
@@ -134,10 +155,11 @@ export default function ForgotPasswordPage() {
             variant="ghost"
             size="lg"
             asChild
-            className="w-full text-lg py-6 rounded-2xl hover:bg-background/50 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="hover:bg-background/50 w-full rounded-2xl py-6 text-lg
+              transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             <Link href="/sign-in">
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Sign In
             </Link>
           </Button>
@@ -147,7 +169,8 @@ export default function ForgotPasswordPage() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground text-sm
+              transition-colors"
           >
             Back to Home
           </Link>
