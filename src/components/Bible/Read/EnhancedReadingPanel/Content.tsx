@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Copy, Bookmark, StickyNote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,8 @@ export interface ReadingPanelContentProps {
   fontSize: FontSize;
   hoveredVerse: number | null;
   onVerseHover: (verse: number | null) => void;
+  targetVerse: number | null;
+  onVerseNumberClick?: (verse: number) => void;
   t: TFunction;
 }
 
@@ -46,11 +49,28 @@ export function ReadingPanelContent({
   fontSize,
   hoveredVerse,
   onVerseHover,
+  targetVerse,
+  onVerseNumberClick,
   t,
 }: ReadingPanelContentProps) {
   const isKJV = version === "kjv";
   const fontSizeClass = fontSizeToClass(fontSize, false);
   const fontSizeClassFocus = fontSizeToClass(fontSize, true);
+
+  // Auto-scroll to target verse after content is in the DOM (run when content + targetVerse available)
+  useEffect(() => {
+    if (!targetVerse || typeof window === "undefined" || !content?.verses?.length) return;
+    const hasVerse = content.verses.some((v) => v.number === targetVerse);
+    if (!hasVerse) return;
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(`verse-${targetVerse}`);
+        if (!el) return;
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [targetVerse, content?.verses]);
 
   if (!content || content.verses.length === 0) {
     return (
@@ -70,7 +90,7 @@ export function ReadingPanelContent({
   return (
     <div
       className={cn(
-        "space-y-6 leading-relaxed",
+        "space-y-3 leading-relaxed",
         focusMode ? fontSizeClassFocus : fontSizeClass
       )}
     >
@@ -78,29 +98,62 @@ export function ReadingPanelContent({
         const text = normalizeVerseTextForDisplay(verse.text || "", version);
         const showNotes = isKJV && hasKJVNotes(text);
         const parsed = showNotes ? parseKJVNotes(text) : null;
+        const isHovered = hoveredVerse === verse.number;
+        const isTarget = targetVerse === verse.number;
+
         return (
           <div
             key={verse.number}
-            className="group relative"
+            id={`verse-${verse.number}`}
+            className="group relative scroll-mt-28 transition-colors duration-300"
             onMouseEnter={() => onVerseHover(verse.number)}
             onMouseLeave={() => onVerseHover(null)}
           >
-            <div className="flex gap-4">
-              <span
-                className={cn(
-                  focusMode ? "text-base" : "text-sm",
-                  "text-muted-foreground shrink-0 font-medium transition-all",
-                  hoveredVerse === verse.number && "text-primary"
-                )}
-              >
-                {verse.number}
-              </span>
+            <div className="flex items-start gap-3">
+              {onVerseNumberClick ? (
+                <button
+                  type="button"
+                  onClick={() => onVerseNumberClick(verse.number)}
+                  aria-label={`Verse ${verse.number}`}
+                  aria-pressed={isTarget}
+                  className={cn(
+                    `mt-1 inline-flex min-w-7 shrink-0 items-start justify-center
+                      rounded-md px-1.5 py-1 font-medium tabular-nums transition-colors`,
+                    focusMode ? "text-md" : "text-sm",
+                    `bg-muted/80 text-primary-600 focus:ring-primary/40 focus:ring-2
+                      focus:outline-none`,
+                    isHovered &&
+                      !isTarget &&
+                      "bg-primary/10 text-primary dark:text-primary-dark",
+                    isTarget && "bg-second-600 dark:bg-second-700 text-white"
+                  )}
+                >
+                  {verse.number}
+                </button>
+              ) : (
+                <span
+                  className={cn(
+                    `bg-muted/80 mt-1 inline-flex min-w-7 shrink-0 items-start
+                      justify-center rounded-md px-1.5 py-1 font-medium tabular-nums
+                      transition-colors`,
+                    focusMode ? "text-sm" : "text-xs",
+                    "text-primary-dark",
+                    isHovered && !isTarget && "bg-primary/10 text-primary-dark",
+                    isTarget && "bg-second-100 dark:bg-second-200/90 text-primary"
+                  )}
+                >
+                  {verse.number}
+                </span>
+              )}
               <p
                 className={cn(
-                  "text-foreground text-pretty",
-                  version === "vi"
-                    ? "font-vietnamese [font-size:inherit]"
-                    : "font-bible-english text-[1.1em]"
+                  `text-foreground min-w-0 flex-1 px-1.5 py-1 text-pretty
+                  transition-colors duration-300`,
+                  (isHovered || isTarget) && "rounded-md",
+                  isHovered && !isTarget && "bg-primary/10",
+                  isTarget &&
+                    `bg-second-100 dark:bg-second-700/30 dark:border-second-700
+                    bible-verse--highlight font-semibold dark:border`
                 )}
               >
                 {parsed && parsed.notes.length > 0 ? (
@@ -125,7 +178,7 @@ export function ReadingPanelContent({
                 )}
               </p>
             </div>
-            {!focusMode && hoveredVerse === verse.number && (
+            {!focusMode && isHovered && (
               <div
                 className="absolute top-0 -right-2 flex gap-1 opacity-0 transition-opacity
                   group-hover:opacity-100"
