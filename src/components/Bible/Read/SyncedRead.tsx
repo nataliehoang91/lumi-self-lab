@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
 import { TRANSLATIONS } from "./constants";
@@ -36,9 +37,22 @@ export function SyncedRead() {
     focusMode,
     hoveredVerse,
     setHoveredVerse,
+    verse1,
+    setVerse1,
     leftBook,
     leftChapter,
   } = useRead();
+
+  const onVerseNumberClick = (num: number) => {
+    setVerse1(verse1 === num ? null : num);
+  };
+
+  useEffect(() => {
+    if (!verse1 || typeof window === "undefined") return;
+    const el = document.getElementById(`synced-verse-${verse1}`);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [verse1]);
 
   if (rightVersion === null) return null;
 
@@ -48,8 +62,8 @@ export function SyncedRead() {
   const fontSizeClassFocus =
     fontSize === "small" ? "text-base" : fontSize === "large" ? "text-xl" : "text-lg";
   const verseNumClass = cn(
-    focusMode ? "text-base" : "text-sm",
-    "text-muted-foreground font-medium shrink-0 transition-all"
+    focusMode ? "text-sm" : "text-xs",
+    "text-primary-dark font-medium shrink-0 transition-all"
   );
 
   if (loading) {
@@ -142,29 +156,45 @@ export function SyncedRead() {
           );
           const left = verseTextWithNotes(leftText, leftVersion);
           const right = verseTextWithNotes(rightText, rightVersion);
+          const isHighlighted = verse1 === num;
+          const isHovered = hoveredVerse === num;
 
           return (
             <div
               key={num}
-              className="group contents"
+              id={`synced-verse-${num}`}
+              className={cn(
+                "group contents scroll-mt-28 transition-colors",
+                isHighlighted && "bible-verse--highlight"
+              )}
               onMouseEnter={() => setHoveredVerse(num)}
               onMouseLeave={() => setHoveredVerse(null)}
             >
-              <span
+              <button
+                type="button"
+                onClick={() => onVerseNumberClick(num)}
+                aria-label={t("verseOf", { current: num, total: verseNumbers.length })}
+                aria-pressed={isHighlighted}
                 className={cn(
                   verseNumClass,
-                  "pt-0.5",
-                  hoveredVerse === num && "text-primary"
+                  "bg-muted/80 mt-1 inline-flex min-w-7 shrink-0 cursor-pointer items-start justify-center rounded-md px-1.5 py-1 tabular-nums transition-colors focus:ring-2 focus:ring-primary/40 focus:outline-none",
+                  isHovered && !isHighlighted && "bg-primary/10 text-primary-dark",
+                  isHighlighted && "bg-second-100 dark:bg-second-200/90 text-primary"
                 )}
               >
                 {num}
-              </span>
+              </button>
               <p
                 className={cn(
-                  "text-foreground min-h-[1.5em] pr-3 text-pretty",
+                  "text-foreground min-h-[1.5em] px-1.5 py-1 pr-3 text-pretty transition-colors duration-300",
                   leftVersion === "vi"
                     ? "font-vietnamese [font-size:inherit]"
-                    : left.fontClass
+                    : left.fontClass,
+                  (isHovered || isHighlighted) && "rounded-md",
+                  isHovered && !isHighlighted && "bg-primary/10",
+                  isHighlighted &&
+                    `bg-second-100 dark:bg-second-700/30 dark:border-second-700
+                    bible-verse--highlight font-semibold dark:border`
                 )}
               >
                 {left.parsed && left.parsed.notes.length > 0 ? (
@@ -188,21 +218,31 @@ export function SyncedRead() {
                   leftText
                 )}
               </p>
-              <span
+              <button
+                type="button"
+                onClick={() => onVerseNumberClick(num)}
+                aria-label={t("verseOf", { current: num, total: verseNumbers.length })}
+                aria-pressed={isHighlighted}
                 className={cn(
                   verseNumClass,
-                  "shrink-0 pt-0.5 pl-5",
-                  hoveredVerse === num && "text-primary"
+                  "bg-muted/80 mt-1 ml-3 inline-flex min-w-7 shrink-0 cursor-pointer items-start justify-center rounded-md px-1.5 py-1 tabular-nums transition-colors focus:ring-2 focus:ring-primary/40 focus:outline-none",
+                  isHovered && !isHighlighted && "bg-primary/10 text-primary-dark",
+                  isHighlighted && "bg-second-100 dark:bg-second-200/90 text-primary"
                 )}
               >
                 {num}
-              </span>
+              </button>
               <p
                 className={cn(
-                  "text-foreground min-h-[1.5em] pl-4 text-pretty",
+                  "text-foreground min-h-[1.5em] pl-2 pr-1.5 py-1 text-pretty transition-colors duration-300",
                   rightVersion === "vi"
                     ? "font-vietnamese [font-size:inherit]"
-                    : right.fontClass
+                    : right.fontClass,
+                  (isHovered || isHighlighted) && "rounded-md",
+                  isHovered && !isHighlighted && "bg-primary/10",
+                  isHighlighted &&
+                    `bg-second-100 dark:bg-second-700/30 dark:border-second-700
+                    bible-verse--highlight font-semibold dark:border`
                 )}
               >
                 {right.parsed && right.parsed.notes.length > 0 ? (
