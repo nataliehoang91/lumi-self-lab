@@ -137,6 +137,12 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         repentanceTitle="Repentance"
         repentanceBody="Repentance is more than feeling guilty. It is a genuine change of direction — turning away from a self-ruled life and turning toward God. When Jesus began his ministry, he said, 'Repent and believe the good news.'"
         repentanceRef="Mark 1:15"
+        repentanceRefHref={buildReadHrefEn(
+          findBookIdByEn(books, "Mark"),
+          1,
+          15,
+          "nt"
+        )}
       />
 
       <LearnWhatIsFaithPrayerSection

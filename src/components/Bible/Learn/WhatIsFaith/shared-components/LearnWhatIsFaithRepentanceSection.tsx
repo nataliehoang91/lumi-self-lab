@@ -7,12 +7,15 @@ export interface LearnWhatIsFaithRepentanceSectionProps {
   repentanceTitle: string;
   repentanceBody: string;
   repentanceRef: string;
+  /** When set, repentanceRef is rendered as a link to the verse (e.g. read page). */
+  repentanceRefHref?: string;
 }
 
 export function LearnWhatIsFaithRepentanceSection({
   repentanceTitle,
   repentanceBody,
   repentanceRef,
+  repentanceRefHref,
 }: LearnWhatIsFaithRepentanceSectionProps) {
   const { bodyClass } = useBibleFontClasses();
 
@@ -25,7 +28,17 @@ export function LearnWhatIsFaithRepentanceSection({
         {repentanceBody}
       </p>
       <p className="text-muted-foreground/60 mt-4 font-mono text-xs">
-        {repentanceRef}
+        {repentanceRefHref ? (
+          <a
+            href={repentanceRefHref}
+            className="text-second-600 hover:text-second-800 font-mono underline
+              underline-offset-4 transition-colors"
+          >
+            {repentanceRef}
+          </a>
+        ) : (
+          repentanceRef
+        )}
       </p>
     </section>
   );

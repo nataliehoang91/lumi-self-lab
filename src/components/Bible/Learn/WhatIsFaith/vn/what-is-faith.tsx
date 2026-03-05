@@ -146,6 +146,12 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         repentanceTitle="Sự Ăn Năn"
         repentanceBody='Ăn năn không chỉ là cảm giác hối lỗi. Đó là sự thay đổi hướng đi — quay khỏi con đường tự mình làm chủ để trở về với Đức Chúa Trời. Khi bắt đầu chức vụ, Chúa Giê-xu phán: "Hãy ăn năn và tin Tin Lành."'
         repentanceRef="Mác 1:15"
+        repentanceRefHref={buildReadHrefVi(
+          findBookIdByVi(books, "Mác", "Mark"),
+          1,
+          15,
+          "nt"
+        )}
       />
 
       <LearnWhatIsFaithPrayerSection
