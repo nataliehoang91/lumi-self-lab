@@ -619,11 +619,11 @@ function getFirstInvalidControl(form: HTMLFormElement): HTMLElement | undefined 
     return undefined;
   }
 
-  const firstInvalidControl = Array.from(elements)
+  const filtered = Array.from(elements)
     .filter(isHTMLElement)
     .filter(isInvalid)
-    .filter(isVisible)
-    .at(0);
+    .filter(isVisible);
+  const firstInvalidControl = filtered[0];
 
   return firstInvalidControl;
 }

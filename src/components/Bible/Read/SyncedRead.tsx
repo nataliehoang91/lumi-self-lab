@@ -82,8 +82,11 @@ export function SyncedRead() {
   const leftVerses = leftContent?.verses ?? [];
   const rightVerses = rightContent?.verses ?? [];
   const verseNumbers = [
-    ...new Set([...leftVerses.map((v) => v.number), ...rightVerses.map((v) => v.number)]),
-  ].sort((a, b) => a - b);
+    ...new Set([
+      ...leftVerses.map((v) => Number(v.number)),
+      ...rightVerses.map((v) => Number(v.number)),
+    ]),
+  ].filter((n) => Number.isFinite(n) && n >= 1).sort((a, b) => a - b);
 
   if (verseNumbers.length === 0) {
     return (
@@ -144,8 +147,8 @@ export function SyncedRead() {
           {rightLabel}
         </span>
         {verseNumbers.map((num) => {
-          const leftVerse = leftVerses.find((v) => v.number === num);
-          const rightVerse = rightVerses.find((v) => v.number === num);
+          const leftVerse = leftVerses.find((v) => Number(v.number) === num);
+          const rightVerse = rightVerses.find((v) => Number(v.number) === num);
           const leftText = normalizeVerseTextForDisplay(
             leftVerse?.text ?? "",
             leftVersion

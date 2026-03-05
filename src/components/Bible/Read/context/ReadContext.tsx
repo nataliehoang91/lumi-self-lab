@@ -292,19 +292,38 @@ export function ReadProvider({
   const [highlightedVersesRight, setHighlightedVersesRight] = useState<number[]>([]);
   const [panelWidth, setPanelWidth] = useState(50);
 
-  const toggleVerseHighlight = useCallback((verseNumber: number) => {
-    setHighlightedVerses((prev) => {
-      const next = prev.includes(verseNumber)
-        ? prev.filter((n) => n !== verseNumber)
-        : [...prev, verseNumber].sort((a, b) => a - b);
-      return next;
-    });
-  }, []);
+  const toggleVerseHighlight = useCallback(
+    (verseNumber: number) => {
+      const num = Number(verseNumber);
+      if (!Number.isFinite(num) || num < 1) return;
+      setHighlightedVerses((prev) => {
+        const next = prev.includes(num)
+          ? prev.filter((n) => n !== num)
+          : [...prev, num].sort((a, b) => a - b);
+
+        // Keep single-verse state in sync with multi-verse highlights so
+        // URL params and UI behave correctly when the last verse is toggled off.
+        if (next.length === 0) {
+          setVerse1(null);
+          setVerseEnd(null);
+        } else {
+          setVerse1(next[0] ?? null);
+          const last = next[next.length - 1];
+          setVerseEnd(next.length > 1 && last > next[0]! ? last : null);
+        }
+
+        return next;
+      });
+    },
+    [setVerse1, setVerseEnd]
+  );
   const toggleRightVerseHighlight = useCallback((verseNumber: number) => {
+    const num = Number(verseNumber);
+    if (!Number.isFinite(num) || num < 1) return;
     setHighlightedVersesRight((prev) => {
-      const next = prev.includes(verseNumber)
-        ? prev.filter((n) => n !== verseNumber)
-        : [...prev, verseNumber].sort((a, b) => a - b);
+      const next = prev.includes(num)
+        ? prev.filter((n) => n !== num)
+        : [...prev, num].sort((a, b) => a - b);
       return next;
     });
   }, []);
@@ -354,9 +373,94 @@ export function ReadProvider({
     }
   }, [pathname]);
 
-  // URL sync: keep state in sync with URL; when URL has no versions, stay in "empty" state
+  // Push URL first so that when user toggles last verse off, we update the URL before sync runs.
+  // Use current pathname so we only update search (no redirect on language switch → avoids re-render churn).
   useEffect(() => {
-    const raw = Object.fromEntries(searchParams.entries());
+    if (!initialUrlSynced.current) return;
+    if (typeof window === "undefined") return;
+    const hasAnyVersion = leftVersion !== null || rightVersion !== null;
+    const currentPath = pathname;
+
+    // If user has cleared all versions and insights is off, clear query string entirely
+    if (!hasAnyVersion && !insightOpen && !focusMode) {
+      if (!searchParamsEqual(window.location.search, "")) {
+        window.history.replaceState(null, "", currentPath);
+      }
+      return;
+    }
+
+    // No versions but insights open -> only keep insights in URL
+    if (!hasAnyVersion && (insightOpen || focusMode)) {
+      const qsInsightsOnly = buildReadSearchParams({
+        insights: insightOpen || undefined,
+        focus: focusMode || undefined,
+      });
+      const desiredSearchInsights = qsInsightsOnly ? `?${qsInsightsOnly}` : "";
+      if (!searchParamsEqual(window.location.search, desiredSearchInsights)) {
+        window.history.replaceState(null, "", `${currentPath}${desiredSearchInsights}`);
+      }
+      return;
+    }
+
+    // At least one version selected: update search only (stay on current path)
+    const v1 = leftVersion;
+    const leftTestament = syncMode ? testamentFilter : leftTestamentFilter;
+    const rightTestament = syncMode ? testamentFilter : rightTestamentFilter;
+    const qs = buildReadSearchParams({
+      version1: v1 ?? undefined,
+      version2: rightVersion,
+      sync: syncMode,
+      book1Id: leftBook?.id ?? undefined,
+      chapter1: leftChapter,
+      testament1: leftTestament,
+      book2Id: rightVersion && !syncMode ? (rightBook?.id ?? undefined) : undefined,
+      chapter2: rightVersion && !syncMode ? rightChapter : undefined,
+      testament2: rightVersion && !syncMode ? rightTestament : undefined,
+      insights: insightOpen || undefined,
+      focus: focusMode || undefined,
+      verse1: highlightedVerses[0] ?? verse1 ?? undefined,
+      verse2: verse2 || undefined,
+      verseEnd:
+        highlightedVerses.length > 1
+          ? highlightedVerses[highlightedVerses.length - 1]
+          : verseEnd ?? undefined,
+      verses: highlightedVerses.length > 0 ? highlightedVerses : undefined,
+    });
+    const desiredSearch = qs ? `?${qs}` : "";
+    if (desiredSearch === "") return;
+    const fullUrl = `${currentPath}${desiredSearch}`;
+    if (!searchParamsEqual(window.location.search, desiredSearch)) {
+      window.history.replaceState(null, "", fullUrl);
+    }
+  }, [
+    leftVersion,
+    rightVersion,
+    syncMode,
+    leftBook?.id,
+    leftChapter,
+    testamentFilter,
+    leftTestamentFilter,
+    rightBook?.id,
+    rightChapter,
+    rightTestamentFilter,
+    insightOpen,
+    focusMode,
+    pathname,
+    verse1,
+    verse2,
+    verseEnd,
+    // Stable primitive so dependency array size never changes (React requirement)
+    highlightedVerses.length,
+    highlightedVerses.join(","),
+  ]);
+
+  // URL sync: keep state in sync with URL; when URL has no versions, stay in "empty" state.
+  // On client, read from window.location so we see URL after push effect has updated it (e.g. user toggled last verse off).
+  useEffect(() => {
+    const raw =
+      typeof window !== "undefined"
+        ? Object.fromEntries(new URLSearchParams(window.location.search).entries())
+        : Object.fromEntries(searchParams.entries());
     const parsed = parseReadSearchParams(raw, effectiveLanguage);
     const hasAnyVersion = parsed.version1 !== null || parsed.version2 !== null;
 
@@ -491,86 +595,7 @@ export function ReadProvider({
       }
     }
     initialUrlSynced.current = true;
-  }, [searchParamsKey, pathname, effectiveLanguage, router, books]);
-
-  // Push URL when user changes version, sync, book, chapter, or testament.
-  // Use current pathname so we only update search (no redirect on language switch → avoids re-render churn).
-  useEffect(() => {
-    if (!initialUrlSynced.current) return;
-    if (typeof window === "undefined") return;
-    const hasAnyVersion = leftVersion !== null || rightVersion !== null;
-    const currentPath = pathname;
-
-    // If user has cleared all versions and insights is off, clear query string entirely
-    if (!hasAnyVersion && !insightOpen && !focusMode) {
-      if (!searchParamsEqual(window.location.search, "")) {
-        window.history.replaceState(null, "", currentPath);
-      }
-      return;
-    }
-
-    // No versions but insights open -> only keep insights in URL
-    if (!hasAnyVersion && (insightOpen || focusMode)) {
-      const qsInsightsOnly = buildReadSearchParams({
-        insights: insightOpen || undefined,
-        focus: focusMode || undefined,
-      });
-      const desiredSearchInsights = qsInsightsOnly ? `?${qsInsightsOnly}` : "";
-      if (!searchParamsEqual(window.location.search, desiredSearchInsights)) {
-        window.history.replaceState(null, "", `${currentPath}${desiredSearchInsights}`);
-      }
-      return;
-    }
-
-    // At least one version selected: update search only (stay on current path)
-    const v1 = leftVersion;
-    const leftTestament = syncMode ? testamentFilter : leftTestamentFilter;
-    const rightTestament = syncMode ? testamentFilter : rightTestamentFilter;
-    const qs = buildReadSearchParams({
-      version1: v1 ?? undefined,
-      version2: rightVersion,
-      sync: syncMode,
-      book1Id: leftBook?.id ?? undefined,
-      chapter1: leftChapter,
-      testament1: leftTestament,
-      book2Id: rightVersion && !syncMode ? (rightBook?.id ?? undefined) : undefined,
-      chapter2: rightVersion && !syncMode ? rightChapter : undefined,
-      testament2: rightVersion && !syncMode ? rightTestament : undefined,
-      insights: insightOpen || undefined,
-      focus: focusMode || undefined,
-      verse1: highlightedVerses[0] ?? verse1 ?? undefined,
-      verse2: verse2 || undefined,
-      verseEnd:
-        highlightedVerses.length > 1
-          ? highlightedVerses[highlightedVerses.length - 1]
-          : verseEnd ?? undefined,
-      verses: highlightedVerses.length > 0 ? highlightedVerses : undefined,
-    });
-    const desiredSearch = qs ? `?${qs}` : "";
-    if (desiredSearch === "") return;
-    const fullUrl = `${currentPath}${desiredSearch}`;
-    if (!searchParamsEqual(window.location.search, desiredSearch)) {
-      window.history.replaceState(null, "", fullUrl);
-    }
-  }, [
-    leftVersion,
-    rightVersion,
-    syncMode,
-    leftBook?.id,
-    leftChapter,
-    testamentFilter,
-    leftTestamentFilter,
-    rightBook?.id,
-    rightChapter,
-    rightTestamentFilter,
-    insightOpen,
-    focusMode,
-    pathname,
-    verse1,
-    verse2,
-    verseEnd,
-    highlightedVerses,
-  ]);
+  }, [searchParamsKey, pathname, effectiveLanguage, router, books.length]);
 
   const fetchChapter = useCallback(
     async (bookId: string, chapter: number, version: VersionId) => {

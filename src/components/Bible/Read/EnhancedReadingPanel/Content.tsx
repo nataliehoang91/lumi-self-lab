@@ -103,10 +103,11 @@ export function ReadingPanelContent({
         const text = normalizeVerseTextForDisplay(verse.text || "", version);
         const showNotes = isKJV && hasKJVNotes(text);
         const parsed = showNotes ? parseKJVNotes(text) : null;
-        const isHovered = hoveredVerse === verse.number;
+        const verseNum = Number(verse.number);
+        const isHovered = hoveredVerse === verseNum;
         const isTarget = highlightSet
-          ? highlightSet.has(verse.number)
-          : targetVerse === verse.number;
+          ? highlightSet.has(verseNum)
+          : targetVerse === verseNum;
 
         return (
           <div
@@ -120,7 +121,7 @@ export function ReadingPanelContent({
               {onVerseNumberClick ? (
                 <button
                   type="button"
-                  onClick={() => onVerseNumberClick(verse.number)}
+                  onClick={() => onVerseNumberClick(Number(verse.number))}
                   aria-label={`Verse ${verse.number}`}
                   aria-pressed={isTarget}
                   className={cn(
