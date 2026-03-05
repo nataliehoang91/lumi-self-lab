@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { LearnAccordion } from "@/components/Bible/Learn/LearnAccordion";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface GlossaryItem {
@@ -19,7 +19,7 @@ export function LearnWhatIsBibleGlossary({
   glossaryTitle,
   glossary,
 }: LearnWhatIsBibleGlossaryProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section className="mb-14">

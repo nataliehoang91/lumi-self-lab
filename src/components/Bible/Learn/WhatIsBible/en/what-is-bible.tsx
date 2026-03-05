@@ -42,7 +42,7 @@ import {
 } from "@/components/Bible/Learn/constants";
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "../../useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 const EN_GLOSSARY: readonly GlossaryItem[] = [
   {
@@ -76,7 +76,7 @@ const EN_GLOSSARY: readonly GlossaryItem[] = [
 ];
 
 export function EnWhatIsBiblePage() {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
   return (
     <article aria-label="What Is the Bible?">
       <LearnWhatIsBibleIntro
@@ -153,18 +153,18 @@ export function EnWhatIsBiblePage() {
 
       <LearnWhyItMatters title="The Central Story — and Why It Matters">
         <p className={cn("leading-relaxed", bodyClass)}>
-          {" "}
-          Though written across centuries by many voices, the {TERM_BIBLE_EN} presents one
-          sweeping narrative: {TERM_GOD_EN} creates the world, humanity turns away, and a
-          long story of promise, hope, and restoration unfolds. The{" "}
-          {TERM_NEW_TESTAMENT_EN} presents {NAME_JESUS_EN} {TERM_CHRIST_EN} as the climax
-          of that story. If the {TERM_BIBLE_EN} is merely a collection of ancient texts,
-          it remains a valuable historical resource.{" "}
+          Though written over many centuries by different authors, the {TERM_BIBLE_EN} is
+          not a random collection of books. It tells one central story:{" "}
+          <strong>{TERM_GOD_EN}</strong> creates humanity, humanity turns away, and{" "}
+          <strong>{TERM_GOD_EN}</strong> moves toward people with promise and hope. The{" "}
+          {TERM_NEW_TESTAMENT_EN} presents <strong>{NAME_JESUS_EN}</strong>{" "}
+          <strong>{TERM_CHRIST_EN}</strong> as the turning point of that story.
         </p>
+
         <p className={cn("mt-4 leading-relaxed", bodyClass)}>
-          {" "}
-          But if it truly tells a coherent story about {TERM_GOD_EN} and humanity, then
-          its claims about life, suffering, and hope deserve thoughtful consideration.
+          If the <strong>{TERM_BIBLE_EN}</strong> is only ancient literature, then it
+          belongs to the past. But if this story is true, it speaks directly to you — to
+          who you are, why the world feels broken, and where real hope might be found.
         </p>
       </LearnWhyItMatters>
       <LearnWhatIsBibleGlossary glossaryTitle="Quick Glossary" glossary={EN_GLOSSARY} />

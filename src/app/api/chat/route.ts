@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
   const systemMessage = {
     role: "system",
-    content: `You are a gentle, non-judgmental AI assistant for Self-Lab, a personal reflection app. Your role is to help users explore their thoughts, emotions, and behaviors through thoughtful experiments.
+    content: `You are a gentle, non-judgmental AI assistant for SelfWithin, a personal reflection app. Your role is to help users explore their thoughts, emotions, and behaviors through thoughtful experiments.
 
 Guidelines:
 - Be warm, empathetic, and reflective

@@ -22,7 +22,15 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
   const { testamentFilter, setTestamentFilterAndAdjustBook } = useRead();
 
   const isDesktop = variant === "desktop";
-  const label = testamentFilter === "ot" ? t("readOldShort") : t("readNewShort");
+  const useFullLabel = globalLanguage === "VI" && isDesktop;
+  const label =
+    testamentFilter === "ot"
+      ? useFullLabel
+        ? t("readOldTestament")
+        : t("readOldShort")
+      : useFullLabel
+        ? t("readNewTestament")
+        : t("readNewShort");
 
   return (
     <DropdownMenu>
@@ -65,7 +73,7 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
           ) : (
             <span className="w-4" />
           )}
-          {t("readOldShort")}
+          {useFullLabel ? t("readOldTestament") : t("readOldShort")}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTestamentFilterAndAdjustBook("nt")}
@@ -81,7 +89,7 @@ export function TestamentDropdown({ variant = "desktop" }: { variant?: Variant }
           ) : (
             <span className="w-4" />
           )}
-          {t("readNewShort")}
+          {useFullLabel ? t("readNewTestament") : t("readNewShort")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

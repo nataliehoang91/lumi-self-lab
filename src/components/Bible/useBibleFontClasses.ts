@@ -3,24 +3,49 @@
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 
 /**
- * Shared font-size classes for all bible/learn pages.
+ * Shared font-size classes for the Bible app (landing, learn, read, etc.).
  * Uses the app font size setting so body, headings, and verse scale consistently.
  */
-export function useLearnFontClasses() {
+export function useBibleFontClasses() {
   const { fontSize } = useBibleApp();
 
+  /** Mobile: one size up for readability; md+: nominal size. */
   const bodyTitleClass =
-    fontSize === "small" ? "text-md" : fontSize === "large" ? "text-xl" : "text-lg";
+    fontSize === "small"
+      ? "text-lg md:text-md"
+      : fontSize === "large"
+        ? "text-2xl md:text-xl"
+        : "text-xl md:text-lg";
 
   const bodyClass =
-    fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-md";
+    fontSize === "small"
+      ? "text-md md:text-sm"
+      : fontSize === "large"
+        ? "text-xl md:text-lg"
+        : "text-lg md:text-md";
 
   const subBodyClass =
     fontSize === "small"
-      ? "text-[0.6875rem]"
+      ? "text-xs md:text-[0.6875rem]"
       : fontSize === "large"
-        ? "text-sm"
-        : "text-xs";
+        ? "text-base md:text-sm"
+        : "text-sm md:text-xs";
+
+  /** One size up from bodyClass (e.g. for landing Journey section). */
+  const bodyClassUp =
+    fontSize === "small"
+      ? "text-lg md:text-md"
+      : fontSize === "large"
+        ? "text-2xl md:text-xl"
+        : "text-xl md:text-lg";
+
+  /** One size up from subBodyClass (e.g. for landing Journey section). */
+  const subBodyClassUp =
+    fontSize === "small"
+      ? "text-sm md:text-xs"
+      : fontSize === "large"
+        ? "text-lg md:text-base"
+        : "text-base md:text-sm";
 
   const h1Class =
     fontSize === "small"
@@ -30,7 +55,11 @@ export function useLearnFontClasses() {
         : "text-3xl md:text-4xl";
 
   const subtitleClass =
-    fontSize === "small" ? "text-base" : fontSize === "large" ? "text-xl" : "text-lg";
+    fontSize === "small"
+      ? "text-lg md:text-base"
+      : fontSize === "large"
+        ? "text-2xl md:text-xl"
+        : "text-xl md:text-lg";
 
   const verseClass =
     fontSize === "small"
@@ -43,7 +72,11 @@ export function useLearnFontClasses() {
   const introClass = bodyClass;
 
   const buttonClass =
-    fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-md" : "text-sm";
+    fontSize === "small"
+      ? "text-sm md:text-xs"
+      : fontSize === "large"
+        ? "text-lg md:text-md"
+        : "text-base md:text-sm";
 
   /** Large hero title (e.g. LangPage). */
   const heroTitleClass =
@@ -63,8 +96,10 @@ export function useLearnFontClasses() {
 
   return {
     bodyClass,
+    bodyClassUp,
     bodyTitleClass,
     subBodyClass,
+    subBodyClassUp,
     h1Class,
     subtitleClass,
     verseClass,

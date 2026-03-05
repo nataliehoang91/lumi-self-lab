@@ -92,7 +92,7 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
       className={`bg-body text-foreground fixed inset-0 z-50 flex min-h-screen min-w-full
         flex-col items-center justify-center overflow-hidden transition-all duration-700
         ${phase === "exit" ? "scale-[1.03] opacity-0" : "scale-100 opacity-100"}`}
-      aria-label="Loading Scripture Memory"
+      aria-label="Loading ScriptureSpace"
       role="status"
     >
       {/* Ambient glow — theme-aware */}
@@ -249,7 +249,7 @@ export function FullPageBibleLoader({ onComplete }: FullPageBibleLoaderProps) {
           }}
         >
           <span className="font-serif text-sm tracking-[0.25em] uppercase">
-            Scripture Memory
+            ScriptureSpace
           </span>
         </div>
 

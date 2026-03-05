@@ -22,6 +22,8 @@ import {
   GlossaryItem,
   LearnWhatIsBibleGlossary,
 } from "../../WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
+import type { BibleBook } from "@/components/Bible/Read/types";
+import Link from "next/link";
 
 const EN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
   {
@@ -89,7 +91,12 @@ const PROPHECY_ITEMS = [
   },
 ];
 
-export function EnWhoIsJesus() {
+function findBookIdByEn(books: BibleBook[], nameEn: string): string | null {
+  const book = books.find((b) => b.nameEn === nameEn);
+  return book?.id ?? null;
+}
+
+export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
   return (
     <article aria-label={`Who Is ${NAME_JESUS_EN}? lesson`}>
       <LearnLessonIntro
@@ -123,7 +130,31 @@ export function EnWhoIsJesus() {
             but from within.
           </>
         }
-        leftRef="John 11:35 · Hebrews 4:15"
+        leftRef={
+          <>
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, "John")}
+              chapter={11}
+              verse={35}
+              testament="nt"
+            >
+              John 11:35
+            </BibleVerseLink>
+            {" · "}
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, "Hebrews")}
+              chapter={4}
+              verse={15}
+              testament="nt"
+            >
+              Hebrews 4:15
+            </BibleVerseLink>
+          </>
+        }
         rightTitle="Fully Divine"
         rightBody={
           <>
@@ -133,7 +164,31 @@ export function EnWhoIsJesus() {
             {TERM_GOD_EN} in human form.
           </>
         }
-        rightRef="John 1:1 · Colossians 2:9"
+        rightRef={
+          <>
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, "John")}
+              chapter={1}
+              verse={1}
+              testament="nt"
+            >
+              John 1:1
+            </BibleVerseLink>
+            {" · "}
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, "Colossians")}
+              chapter={2}
+              verse={9}
+              testament="nt"
+            >
+              Colossians 2:9
+            </BibleVerseLink>
+          </>
+        }
       />
 
       <LearnCrossSection
@@ -198,5 +253,46 @@ export function EnWhoIsJesus() {
         glossary={EN_JESUS_GLOSSARY}
       />
     </article>
+  );
+}
+
+interface BibleVerseLinkProps {
+  langSegment: "en" | "vi" | "zh";
+  version1?: "vi" | "niv" | "kjv" | "zh";
+  bookId: string | null;
+  chapter: number;
+  verse: number;
+  testament: "ot" | "nt";
+  children: React.ReactNode;
+}
+
+function BibleVerseLink({
+  langSegment,
+  version1,
+  bookId,
+  chapter,
+  verse,
+  testament,
+  children,
+}: BibleVerseLinkProps) {
+  if (!bookId) return <span className="text-muted-foreground/80">{children}</span>;
+
+  const sp = new URLSearchParams();
+  if (version1) sp.set("version1", version1);
+  sp.set("sync", "true");
+  sp.set("book1", bookId);
+  sp.set("chapter1", String(chapter));
+  sp.set("testament1", testament);
+  sp.set("verse1", String(verse));
+
+  const href = `/bible/${langSegment}/read?${sp.toString()}`;
+
+  return (
+    <Link
+      href={href}
+      className="text-foreground/80 underline-offset-4 transition-colors hover:text-primary hover:underline"
+    >
+      {children}
+    </Link>
   );
 }

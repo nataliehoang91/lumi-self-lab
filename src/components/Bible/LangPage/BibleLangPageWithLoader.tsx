@@ -11,9 +11,19 @@ export interface BibleLangPageWithLoaderProps {
 }
 
 const LOCALE_TO_LANGUAGE = { en: "EN", vi: "VI", zh: "ZH" } as const;
+const LOADER_DONE_KEY = "bible-lang-page-loader-done";
+
+function getLoaderAlreadyDone(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return sessionStorage.getItem(LOADER_DONE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
 
 export function BibleLangPageWithLoader({ locale }: BibleLangPageWithLoaderProps) {
-  const [showContent, setShowContent] = useState(false);
+  const [showContent, setShowContent] = useState(() => getLoaderAlreadyDone());
   const { setGlobalLanguage } = useBibleApp();
 
   // Persist selected language to localStorage (syncs with BibleAppContext / navbar)
@@ -22,13 +32,20 @@ export function BibleLangPageWithLoader({ locale }: BibleLangPageWithLoaderProps
     setGlobalLanguage(lang);
   }, [locale, setGlobalLanguage]);
 
+  const handleLoaderComplete = () => {
+    try {
+      sessionStorage.setItem(LOADER_DONE_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+    setShowContent(true);
+  };
+
   return (
     <>
       {!showContent && (
         <LandingLoader
-          onComplete={() => {
-            setShowContent(true);
-          }}
+          onComplete={handleLoaderComplete}
         />
       )}
       {showContent &&

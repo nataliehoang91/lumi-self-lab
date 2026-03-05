@@ -4,7 +4,7 @@ import Link from "next/link";
 import { type ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LearnPageModuleCardProps {
   num: string;
@@ -27,7 +27,7 @@ export function LearnPageModuleCard({
   href,
   ariaLabel,
 }: LearnPageModuleCardProps) {
-  const { bodyClass, bodyTitleClass, subBodyClass, buttonClass } = useLearnFontClasses();
+  const { bodyClass, bodyTitleClass, subBodyClass, buttonClass } = useBibleFontClasses();
 
   return (
     <Link

@@ -7,7 +7,7 @@ import { LangPageJourney } from "../shared-components/LangPageJourney";
 import { LangPageCtaBanner } from "../shared-components/LangPageCtaBanner";
 import { LangPageFooter } from "../shared-components/LangPageFooter";
 import type { JourneyItem, NavLink } from "../shared-components/types";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 const DAILY_VERSES_VN = [
   {
@@ -79,7 +79,7 @@ export interface VnBibleLangPageProps {
 
 export function VnBibleLangPage({ lang }: VnBibleLangPageProps) {
   const base = `/bible/${lang}`;
-  const { subBodyClass, verseClass, bodyClass } = useLearnFontClasses();
+  const { subBodyClass, verseClass, bodyClass } = useBibleFontClasses();
 
   const verseIdx = new Date().getDate() % DAILY_VERSES_VN.length;
   const verse = DAILY_VERSES_VN[verseIdx];
@@ -92,7 +92,7 @@ export function VnBibleLangPage({ lang }: VnBibleLangPageProps) {
         eyebrow="Nơi bình yên để biết Chúa"
         title1="Biết chính mình."
         title2="Biết Kinh Thánh."
-        subtitle="Một không gian yên tĩnh để học và đọc Kinh thánh."
+        subtitle="Một không gian yên tĩnh để tìm hiểu và đọc Kinh thánh."
         ctaStartLabel="Bắt đầu tại đây"
         ctaBibleLabel="Mở Kinh thánh"
         learnHref={`${base}/learn`}

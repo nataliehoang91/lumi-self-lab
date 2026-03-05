@@ -1,7 +1,7 @@
 "use client";
 
 import { BibleHeading } from "@/components/Bible/BibleHeading";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import { LANG_SCRIPT } from "./constants";
 
@@ -16,7 +16,7 @@ export function LearnBibleOriginLanguages({
   lang,
   langNote,
 }: LearnBibleOriginLanguagesProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section className="mb-10">

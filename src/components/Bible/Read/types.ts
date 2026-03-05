@@ -36,6 +36,8 @@ export interface ReadingPanelProps {
   books: BibleBook[];
   hoveredVerse: number | null;
   onVerseHover: (verse: number | null) => void;
+  highlightedVerse?: number | null;
+  onVerseNumberClick?: (verse: number) => void;
   focusMode: boolean;
   showControls: boolean;
   showBookChapterSelectors: boolean;

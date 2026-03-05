@@ -10,7 +10,7 @@ import type { JourneyItem, NavLink } from "./shared-components/types";
 import type { StatAccent } from "./shared-components/AnimatedStat";
 import { getBibleIntlByLocale, type BibleLocale } from "@/lib/bible-intl";
 import { BookOpen, BookMarked, Sparkles } from "lucide-react";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 const VERSE_KEYS = [
   { text: "langPageVerse1Text" as const, ref: "langPageVerse1Ref" as const },
@@ -82,7 +82,7 @@ export function BibleLangPage({ lang }: BibleLangPageProps) {
   const locale: BibleLocale = lang === "vi" ? "vi" : lang === "zh" ? "zh" : "en";
   const intl = getBibleIntlByLocale(locale);
   const t = intl.t;
-  const { subBodyClass, verseClass, bodyClass } = useLearnFontClasses();
+  const { subBodyClass, verseClass, bodyClass } = useBibleFontClasses();
 
   const base = `/bible/${lang}`;
   const journey = getJourney(locale, base, t);

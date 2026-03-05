@@ -2,7 +2,7 @@
 
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LearnProphecyItem {
   prophecy: string;
@@ -17,7 +17,7 @@ export interface LearnProphecySectionProps {
 }
 
 export function LearnProphecySection({ title, intro, items }: LearnProphecySectionProps) {
-  const { bodyClass, subBodyClass } = useLearnFontClasses();
+  const { bodyClass, subBodyClass } = useBibleFontClasses();
 
   return (
     <section className="mb-10" aria-labelledby="prophecy-section-title">

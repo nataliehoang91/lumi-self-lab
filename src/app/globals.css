@@ -126,6 +126,28 @@
   font-family: var(--font-bible-serif), ui-serif, Georgia, serif;
 }
 
+@keyframes verseHighlight {
+  0% {
+    background-color: color-mix(in oklch, var(--primary-200) 90%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--primary-400) 60%, transparent);
+    transform: scale(1.01);
+  }
+  40% {
+    background-color: color-mix(in oklch, var(--primary-100) 70%, transparent);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary-400) 50%, transparent);
+    transform: scale(1.005);
+  }
+  100% {
+    background-color: color-mix(in oklch, var(--primary-50) 50%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary-400) 40%, transparent);
+    transform: scale(1);
+  }
+}
+
+.bible-verse--highlight {
+  animation: verseHighlight 1.2s ease-out 1;
+}
+
 .dark {
   /* Dark mode: Tailwind zinc-950 style (black/dark) */
   --background: oklch(0.141 0.005 285.823); /* zinc-950 */

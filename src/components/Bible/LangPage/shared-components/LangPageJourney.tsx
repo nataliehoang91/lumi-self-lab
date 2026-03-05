@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { FadeIn } from "./FadeIn";
 import { JOURNEY_STRIP_CLASS, JOURNEY_ICON_CLASS } from "./constants";
 import type { JourneyItem } from "./types";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LangPageJourneyProps {
   title: string;
@@ -15,8 +15,8 @@ export interface LangPageJourneyProps {
 }
 
 export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps) {
-  const { subBodyClass, h1Class, bodyTitleClass, bodyClass, buttonClass } =
-    useLearnFontClasses();
+  const { subBodyClassUp, h1Class, bodyTitleClass, bodyClassUp, buttonClass } =
+    useBibleFontClasses();
 
   return (
     <section className="border-border/50 border-t px-6 py-4">
@@ -25,7 +25,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
           <div className="mb-16">
             <p
               className={`text-muted-foreground mb-3 font-semibold tracking-[0.2em]
-                uppercase dark:text-white ${subBodyClass}`}
+                uppercase dark:text-white ${subBodyClassUp}`}
             >
               {title}
             </p>
@@ -38,7 +38,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
           </div>
         </FadeIn>
 
-        <div className="space-y-4">
+        <div className="space-y-4 md:space-y-8">
           {items.map((item, i) => {
             const Icon = item.icon;
             return (
@@ -68,7 +68,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                       <div>
                         <p
                           className={`text-muted-foreground/60 font-mono
-                          dark:text-gray-400 ${subBodyClass}`}
+                          dark:text-gray-400 ${subBodyClassUp}`}
                         >
                           {item.step}
                         </p>
@@ -86,7 +86,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                       </p>
                       <p
                         className={`text-muted-foreground leading-relaxed
-                        dark:text-gray-400 ${bodyClass}`}
+                        dark:text-gray-400 ${bodyClassUp}`}
                       >
                         {item.body}
                       </p>
@@ -97,7 +97,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                             href={l.href}
                             className={`border-border text-muted-foreground
                             hover:text-foreground hover:bg-primary-50 rounded-lg border
-                            px-3 py-1 transition-colors dark:text-white ${subBodyClass}`}
+                            px-3 py-1 transition-colors dark:text-white ${subBodyClassUp}`}
                           >
                             {l.label}
                           </Link>

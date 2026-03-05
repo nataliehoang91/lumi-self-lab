@@ -8,11 +8,11 @@ import { Container } from "@/components/ui/container";
 import { LearnLessonFooter } from "@/components/Bible/Learn/LearnLessonFooter";
 import { LearnDeepDiveCta } from "@/components/Bible/Learn/LearnDeepDiveCta";
 import { getBibleIntl } from "@/lib/bible-intl";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export default function LearnLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
   const parts = pathname?.split("/") ?? [];
   // pathname: /bible/en/learn or /bible/en/learn/bible-origin
   const lang = parts[2] === "vi" ? "vi" : "en";
@@ -43,7 +43,7 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
                 href={`/bible/${lang}/learn`}
                 className="hover:text-foreground font-medium transition-colors"
               >
-                Learn
+                {intl.t("langPageNavLearn")}
               </Link>
               {currentLabel && (
                 <>

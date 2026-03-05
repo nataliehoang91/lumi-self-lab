@@ -222,7 +222,7 @@ export function BibleLogo() {
       className="bible-logo-shell logo-brand-colors border-primary-light flex size-8
         shrink-0 items-center justify-center overflow-hidden rounded-xl border
         text-stone-800 shadow-sm sm:size-10"
-      aria-label="Scripture Memory home"
+      aria-label="ScriptureSpace home"
     >
       <WhiteBibleLogo />
     </Link>
@@ -233,7 +233,7 @@ export function MonotoneBibleLogo() {
   return (
     <Link
       href="/bible"
-      aria-label="Scripture Memory home"
+      aria-label="ScriptureSpace home"
       className="group relative flex size-8 shrink-0 items-center justify-center
         overflow-visible rounded-xl border-none sm:size-10"
     >

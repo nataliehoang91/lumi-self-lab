@@ -244,7 +244,7 @@ export default function UpgradePage() {
             Even with team & organisation features, you&apos;ll only see aggregate data.
             Individual responses, personal reflections, and text entries are never shared
             with organisation admins or other members. Trust is the foundation of
-            Self-Lab.
+            SelfWithin.
           </p>
         </Card>
       </div>

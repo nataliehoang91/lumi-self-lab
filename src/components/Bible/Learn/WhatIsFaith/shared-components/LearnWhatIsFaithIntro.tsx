@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LearnWhatIsFaithIntroProps {
@@ -15,7 +15,7 @@ export function LearnWhatIsFaithIntro({
   title,
   intro,
 }: LearnWhatIsFaithIntroProps) {
-  const { bodyClass, h1Class } = useLearnFontClasses();
+  const { bodyClass, h1Class } = useBibleFontClasses();
 
   return (
     <div className="mb-12">

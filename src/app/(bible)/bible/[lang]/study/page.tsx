@@ -1,9 +1,17 @@
+import type { Metadata } from "next";
 import { getStudyListsForCurrentUser } from "@/app/actions/bible/study";
 import { NewStudyListPlaceholderCard } from "@/components/Bible/Study/NewStudyListPlaceholderCard";
 import { StudyListCard } from "@/components/Bible/Study/StudyListCard";
 import { BookCircleIcon } from "@/components/Bible/GeneralComponents/book-circle-icon";
 import { Container } from "@/components/ui/container";
 import type { BibleStudyList } from "@/types/bible-study";
+
+export const metadata: Metadata = {
+  title: "Study",
+  description:
+    "Create study lists, compare translations, and study Bible verses in depth.",
+};
+
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

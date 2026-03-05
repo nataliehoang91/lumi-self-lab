@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardFooter } from "@/components/ui/card";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 const LESSON_SEGMENTS = [
   "bible-structure",
@@ -33,7 +33,7 @@ export function LearnDeepDiveCta() {
   const result = getSegmentAndLang(pathname);
   const { globalLanguage } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
-  const { bodyClass, bodyTitleClass, subBodyClass, buttonClass } = useLearnFontClasses();
+  const { bodyClass, bodyTitleClass, subBodyClass, buttonClass } = useBibleFontClasses();
 
   if (!result) return null;
   const { lang } = result;

@@ -33,6 +33,8 @@ export interface ReadSearchParams {
   testament2: TestamentParam;
   insights: boolean;
   focus: boolean;
+  verse1: number | null;
+  verse2: number | null;
 }
 
 function parsePositiveInt(value: string | undefined, fallback: number): number {
@@ -67,6 +69,13 @@ export function parseReadSearchParams(
   const insights = searchParams.insights === "true";
   const focus = searchParams.focus === "true";
 
+  // verse1/verse2; allow shorthand "verse" as alias for verse1
+  const verse1Raw =
+    parsePositiveInt(searchParams.verse1, 0) || parsePositiveInt(searchParams.verse, 0);
+  const verse2Raw = parsePositiveInt(searchParams.verse2, 0);
+  const verse1 = verse1Raw >= 1 ? verse1Raw : null;
+  const verse2 = verse2Raw >= 1 ? verse2Raw : null;
+
   return {
     version1,
     version2,
@@ -79,6 +88,8 @@ export function parseReadSearchParams(
     testament2,
     insights,
     focus,
+    verse1,
+    verse2,
   };
 }
 
@@ -94,6 +105,8 @@ export function buildReadSearchParams(params: {
   testament2?: TestamentParam;
   insights?: boolean;
   focus?: boolean;
+   verse1?: number | null;
+   verse2?: number | null;
 }): string {
   const sp = new URLSearchParams();
   if (params.version1 != null) sp.set("version1", params.version1);
@@ -109,5 +122,9 @@ export function buildReadSearchParams(params: {
   if (params.testament2) sp.set("testament2", params.testament2);
   if (params.insights === true) sp.set("insights", "true");
   if (params.focus === true) sp.set("focus", "true");
+  if (params.verse1 != null && params.verse1 >= 1)
+    sp.set("verse1", String(params.verse1));
+  if (params.verse2 != null && params.verse2 >= 1)
+    sp.set("verse2", String(params.verse2));
   return sp.toString();
 }

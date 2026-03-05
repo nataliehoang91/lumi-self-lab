@@ -2,16 +2,16 @@
 
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LearnFullyGodManSectionProps {
   sectionTitle: string;
   leftTitle: string;
   leftBody: ReactNode;
-  leftRef: string;
+  leftRef: ReactNode;
   rightTitle: string;
   rightBody: ReactNode;
-  rightRef: string;
+  rightRef: ReactNode;
 }
 
 export function LearnFullyGodManSection({
@@ -23,7 +23,7 @@ export function LearnFullyGodManSection({
   rightBody,
   rightRef,
 }: LearnFullyGodManSectionProps) {
-  const { bodyClass, subBodyClass } = useLearnFontClasses();
+  const { bodyClass, subBodyClass } = useBibleFontClasses();
 
   return (
     <section className="mb-10" aria-labelledby="fully-section-title">

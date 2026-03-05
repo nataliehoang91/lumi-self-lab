@@ -2,7 +2,7 @@
 
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LearnPageIntroProps {
   eyebrow: string;
@@ -11,7 +11,7 @@ export interface LearnPageIntroProps {
 }
 
 export function LearnPageIntro({ eyebrow, title, subtitle }: LearnPageIntroProps) {
-  const { h1Class, subtitleClass } = useLearnFontClasses();
+  const { h1Class, subtitleClass } = useBibleFontClasses();
 
   return (
     <div className="mb-16">

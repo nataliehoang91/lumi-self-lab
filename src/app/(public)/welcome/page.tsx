@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import {
   WelcomeHeader,
@@ -9,9 +10,13 @@ import {
 
 /**
  * Welcome page. Route: /welcome (public).
- * Sign in and create account entry point.
+ * On Vercel production, redirects to /waitlist.
  */
 export default function WelcomePage() {
+  if (process.env.VERCEL_ENV === "production") {
+    redirect("/waitlist");
+  }
+
   return (
     <div className="welcome-page-background relative">
       <WelcomeThemeToggle />

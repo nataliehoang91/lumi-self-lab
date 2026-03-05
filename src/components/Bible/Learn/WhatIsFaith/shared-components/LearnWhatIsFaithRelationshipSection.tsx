@@ -1,6 +1,6 @@
 "use client";
 
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LearnWhatIsFaithRelationshipSectionProps {
@@ -14,7 +14,7 @@ export function LearnWhatIsFaithRelationshipSection({
   relationshipP1,
   relationshipP2,
 }: LearnWhatIsFaithRelationshipSectionProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section className="bg-foreground text-background mb-12 rounded-2xl p-6">

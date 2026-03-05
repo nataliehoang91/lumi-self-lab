@@ -2,7 +2,7 @@
 
 import { BibleHeading } from "@/components/Bible/BibleHeading";
 import { LearnOriginMapFullWidth } from "@/components/Bible/Learn/LearnOriginMap";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import type { MapLocationId } from "@/components/Bible/Learn/LearnOriginMap";
 
@@ -23,7 +23,7 @@ export function LearnBibleOriginMapSection({
   labels,
   renderPopover,
 }: LearnBibleOriginMapSectionProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section className="mb-10">

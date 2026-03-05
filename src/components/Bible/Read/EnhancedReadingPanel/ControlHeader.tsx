@@ -12,6 +12,7 @@ import { useReadPanel } from "../context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { getBookDisplayName } from "../utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 /**
  * Control header for the reading panel. Renders when not in focus mode:
@@ -23,6 +24,8 @@ export function ReadingPanelControlHeader({ side }: { side: "left" | "right" }) 
   const { globalLanguage } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
+  const isMobile = useIsMobile();
+  const useFullTestamentLabel = globalLanguage === "VI" && !isMobile;
 
   const {
     focusMode,
@@ -58,11 +61,19 @@ export function ReadingPanelControlHeader({ side }: { side: "left" | "right" }) 
                 className="border-second bg-second/5 hover:bg-second/10 h-10 w-auto
                   min-w-24 shrink-0 rounded-lg"
               >
-                <SelectValue placeholder={t("readOldShort")} />
+                <SelectValue
+                placeholder={
+                  useFullTestamentLabel ? t("readOldTestament") : t("readOldShort")
+                }
+              />
               </SelectTrigger>
               <SelectContent align="start" className="rounded-lg">
-                <SelectItem value="ot">{t("readOldShort")}</SelectItem>
-                <SelectItem value="nt">{t("readNewShort")}</SelectItem>
+                <SelectItem value="ot">
+                  {useFullTestamentLabel ? t("readOldTestament") : t("readOldShort")}
+                </SelectItem>
+                <SelectItem value="nt">
+                  {useFullTestamentLabel ? t("readNewTestament") : t("readNewShort")}
+                </SelectItem>
               </SelectContent>
             </Select>
           )}

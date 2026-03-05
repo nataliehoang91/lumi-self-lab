@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LearnPageVerseCtaProps {
   verseText: string;
@@ -22,7 +22,7 @@ export function LearnPageVerseCta({
   ctaLabel,
   readHref,
 }: LearnPageVerseCtaProps) {
-  const { bodyClass, verseClass, buttonClass } = useLearnFontClasses();
+  const { bodyClass, verseClass, buttonClass } = useBibleFontClasses();
 
   return (
     <div

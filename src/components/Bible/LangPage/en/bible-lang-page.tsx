@@ -9,7 +9,7 @@ import { LangPageCtaBanner } from "../shared-components/LangPageCtaBanner";
 import { LangPageFooter } from "../shared-components/LangPageFooter";
 import type { JourneyItem, NavLink } from "../shared-components/types";
 import type { StatAccent } from "../shared-components/AnimatedStat";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 const DAILY_VERSES_EN = [
   {
@@ -81,7 +81,7 @@ export interface EnBibleLangPageProps {
 
 export function EnBibleLangPage({ lang }: EnBibleLangPageProps) {
   const base = `/bible/${lang}`;
-  const { subBodyClass, verseClass, bodyClass } = useLearnFontClasses();
+  const { subBodyClass, verseClass, bodyClass } = useBibleFontClasses();
 
   const verseIdx = new Date().getDate() % DAILY_VERSES_EN.length;
   const verse = DAILY_VERSES_EN[verseIdx];
@@ -94,7 +94,7 @@ export function EnBibleLangPage({ lang }: EnBibleLangPageProps) {
         eyebrow="A quiet, focused space to learn and read Scripture at your own pace."
         title1="Know yourself."
         title2="Know Scripture."
-        subtitle="A calm space to learn and read the Bible."
+        subtitle="A calm space to understand and read the Bible."
         ctaStartLabel="Start Here"
         ctaBibleLabel="Open Bible"
         learnHref={`${base}/learn`}

@@ -9,7 +9,7 @@ import {
 } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithPrayerSection";
 import { LearnWhyItMatters } from "../../WhatIsBible/shared-components/why-it-matters";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "../../useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import {
   type GlossaryItem,
   LearnWhatIsFaithGlossary,
@@ -66,7 +66,7 @@ const EN_GLOSSARY: readonly GlossaryItem[] = [
 ];
 
 export function EnWhatIsFaithPage() {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <div>

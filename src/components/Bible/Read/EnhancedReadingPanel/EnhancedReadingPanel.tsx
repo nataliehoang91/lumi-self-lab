@@ -11,8 +11,18 @@ import { ReadingPanelContent } from "./Content";
  * 2. Content — verse list or empty state
  */
 export function EnhancedReadingPanel(props: ReadingPanelProps) {
-  const { side, version, content, hoveredVerse, onVerseHover, focusMode, fontSize, t } =
-    props;
+  const {
+    side,
+    version,
+    content,
+    hoveredVerse,
+    onVerseHover,
+    highlightedVerse,
+    onVerseNumberClick,
+    focusMode,
+    fontSize,
+    t,
+  } = props;
 
   if (!version) {
     return (
@@ -33,6 +43,8 @@ export function EnhancedReadingPanel(props: ReadingPanelProps) {
         fontSize={fontSize}
         hoveredVerse={hoveredVerse}
         onVerseHover={onVerseHover}
+        targetVerse={highlightedVerse ?? null}
+        onVerseNumberClick={onVerseNumberClick}
         t={t}
       />
     </div>

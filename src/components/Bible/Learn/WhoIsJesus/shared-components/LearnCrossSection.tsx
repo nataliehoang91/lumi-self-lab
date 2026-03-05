@@ -2,7 +2,7 @@
 
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LearnCrossSectionProps {
   title: string;
@@ -17,7 +17,7 @@ export function LearnCrossSection({
   paragraph2,
   refText,
 }: LearnCrossSectionProps) {
-  const { bodyClass, subBodyClass } = useLearnFontClasses();
+  const { bodyClass, subBodyClass } = useBibleFontClasses();
 
   return (
     <section

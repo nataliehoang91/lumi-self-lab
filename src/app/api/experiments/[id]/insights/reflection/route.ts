@@ -97,7 +97,7 @@ export async function POST(
     const summary = await summaryRes.json();
     const trends = await trendsRes.json();
 
-    const systemPrompt = `You are a gentle, non-judgmental reflection assistant for Self-Lab, a personal experiment and check-in app. Your role is to write a short, empathetic reflection based on the user's experiment insights (summary and trends). Guidelines:
+    const systemPrompt = `You are a gentle, non-judgmental reflection assistant for SelfWithin, a personal experiment and check-in app. Your role is to write a short, empathetic reflection based on the user's experiment insights (summary and trends). Guidelines:
 - Be warm and supportive; never prescriptive or diagnostic.
 - Highlight 1–3 patterns or observations from the data.
 - Keep the reflection concise (2–4 short paragraphs).

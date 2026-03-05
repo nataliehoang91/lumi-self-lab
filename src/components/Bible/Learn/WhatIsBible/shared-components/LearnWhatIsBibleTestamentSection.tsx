@@ -1,6 +1,6 @@
 "use client";
 
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 import type { TestamentSectionConfig } from "./constants";
@@ -31,7 +31,7 @@ export function LearnWhatIsBibleTestamentSection({
   bookLabelSingular,
   bookLabelPlural,
 }: LearnWhatIsBibleTestamentSectionProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   const singular = bookLabelSingular ?? "book";
   const plural = bookLabelPlural ?? "books";

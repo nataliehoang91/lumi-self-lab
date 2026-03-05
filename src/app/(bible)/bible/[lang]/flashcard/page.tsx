@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { parseSearchParams } from "../../flashcard/params";
@@ -7,6 +8,12 @@ import { FlashCardShell } from "@/components/Bible/FlashCard/FlashCardShell";
 import type { Language } from "@/components/Bible/BibleAppContext";
 
 const MAX_IDS = 500;
+
+export const metadata: Metadata = {
+  title: "Flashcards",
+  description:
+    "Memorise and review Bible verses. Use flashcards and the glossary to deepen your understanding.",
+};
 
 function routeLangToLanguage(lang: string): Language {
   if (lang === "vi") return "VI";

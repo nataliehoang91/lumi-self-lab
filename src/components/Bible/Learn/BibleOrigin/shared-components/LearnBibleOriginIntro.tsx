@@ -1,7 +1,7 @@
 "use client";
 
 import { BibleHeading } from "@/components/Bible/BibleHeading";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LearnBibleOriginIntroProps {
@@ -15,7 +15,7 @@ export function LearnBibleOriginIntro({
   title,
   intro,
 }: LearnBibleOriginIntroProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <div className="mb-12">

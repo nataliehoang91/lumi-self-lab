@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { BibleLocaleRedirect } from "@/components/Bible/BibleLocaleRedirect";
 
 const DEFAULT_LOCALE = "en" as const;
+
+export const metadata: Metadata = {
+  title: "ScriptureSpace",
+  description:
+    "A quiet place to learn and read Scripture. Explore the Bible at your own pace.",
+};
 
 /** Prefer vi if Accept-Language suggests Vietnamese; else zh; else en. */
 async function getLocaleFromHeaders(): Promise<"en" | "vi" | "zh"> {

@@ -260,28 +260,28 @@ export function BibleNavBar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 right-0 left-0 z-100 w-full transition-all duration-300",
+        "fixed top-0 right-0 left-0 z-50 w-full transition-all duration-300",
         readFocusMode &&
           "pointer-events-none h-0 overflow-hidden border-transparent opacity-0",
         !readFocusMode && "opacity-100",
         !readFocusMode &&
           (isLangLanding
             ? scrolled
-              ? "border-b border-border/60 bg-card/95 shadow-sm"
+              ? "border-border/60 bg-card/95 border-b shadow-sm"
               : "bg-transparent"
-            : "border-b border-border/60 bg-card/95 shadow-sm")
+            : "border-border/60 bg-card/95 border-b shadow-sm")
       )}
     >
       <Container
         className="relative flex h-14 w-full items-center justify-between gap-2 px-4 py-3
           sm:px-6"
       >
-        <div className="flex min-w-0 items-center gap-6">
+        <Link href="/bible" className="flex min-w-0 items-center gap-6">
           <WhiteBibleLogo />
           <h1 className="invisible truncate text-lg font-semibold xl:visible">
             ScriptureSpace
           </h1>
-        </div>
+        </Link>
         <div
           className={cn(
             `absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2

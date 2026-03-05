@@ -13,18 +13,19 @@ import {
   BOOK_MARK_VN,
   BOOK_ACTS_VN,
   BOOK_ISAIAH_VN,
-  LANG_HEBREW_VN,
   TERM_GOD_VN,
   TERM_BIBLE_VN,
   TERM_OLD_TESTAMENT_VN,
   TERM_NEW_TESTAMENT_VN,
 } from "@/components/Bible/Learn/constants";
-import { useLearnFontClasses } from "../../useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import {
   LearnWhatIsBibleGlossary,
   type GlossaryItem,
 } from "../../WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
+import type { BibleBook } from "@/components/Bible/Read/types";
+import Link from "next/link";
 
 const VN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
   {
@@ -92,8 +93,13 @@ const PROPHECY_ITEMS = [
   },
 ];
 
-export function VnWhoIsJesus() {
-  const { bodyClass } = useLearnFontClasses();
+function findBookIdByVi(books: BibleBook[], nameVi: string): string | null {
+  const book = books.find((b) => b.nameVi === nameVi);
+  return book?.id ?? null;
+}
+
+export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
+  const { bodyClass } = useBibleFontClasses();
   return (
     <article aria-label={`Bài học Chúa ${NAME_JESUS_VN} Là Ai?`}>
       <LearnLessonIntro
@@ -129,12 +135,35 @@ export function VnWhoIsJesus() {
           <>
             <strong>Chúa {NAME_JESUS_VN}</strong> được sinh ra như một con người thật.
             Ngài lớn lên trong một gia đình bình thường, biết đói, biết mệt, từng buồn và
-            đã khóc. Ngài cũng chịu đau đớn và đối diện với sự chết.
-            <strong>Ngài</strong> không đứng ngoài cuộc sống con người — Ngài sống trọn
-            vẹn trong đó.
+            đã khóc. Ngài cũng chịu đau đớn và đối diện với sự chết. <strong>Ngài</strong>{" "}
+            không đứng ngoài cuộc sống con người — Ngài sống trọn vẹn trong đó.
           </>
         }
-        leftRef="Giăng 11:35 · Hê-bơ-rơ 4:15"
+        leftRef={
+          <>
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, "Giăng")}
+              chapter={11}
+              verse={35}
+              testament="nt"
+            >
+              Giăng 11:35
+            </BibleVerseLink>
+            {" · "}
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, "Hê-bơ-rơ")}
+              chapter={4}
+              verse={15}
+              testament="nt"
+            >
+              Hê-bơ-rơ 4:15
+            </BibleVerseLink>
+          </>
+        }
         rightTitle={`Hoàn Toàn Là Con ${TERM_GOD_VN}`}
         rightBody={
           <>
@@ -144,7 +173,31 @@ export function VnWhoIsJesus() {
             <strong>{TERM_GOD_VN}</strong> — Ngôi Hai trong Ba Ngôi.
           </>
         }
-        rightRef="Giăng 1:1 · Cô-lô-se 2:9"
+        rightRef={
+          <>
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, "Giăng")}
+              chapter={1}
+              verse={1}
+              testament="nt"
+            >
+              Giăng 1:1
+            </BibleVerseLink>
+            {" · "}
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, "Cô-lô-se")}
+              chapter={2}
+              verse={9}
+              testament="nt"
+            >
+              Cô-lô-se 2:9
+            </BibleVerseLink>
+          </>
+        }
       />
 
       <LearnCrossSection
@@ -209,5 +262,46 @@ export function VnWhoIsJesus() {
         glossary={VN_JESUS_GLOSSARY}
       />
     </article>
+  );
+}
+
+interface BibleVerseLinkProps {
+  langSegment: "en" | "vi" | "zh";
+  version1?: "vi" | "niv" | "kjv" | "zh";
+  bookId: string | null;
+  chapter: number;
+  verse: number;
+  testament: "ot" | "nt";
+  children: React.ReactNode;
+}
+
+function BibleVerseLink({
+  langSegment,
+  version1,
+  bookId,
+  chapter,
+  verse,
+  testament,
+  children,
+}: BibleVerseLinkProps) {
+  if (!bookId) return <span className="text-muted-foreground/80">{children}</span>;
+
+  const sp = new URLSearchParams();
+  if (version1) sp.set("version1", version1);
+  sp.set("sync", "true");
+  sp.set("book1", bookId);
+  sp.set("chapter1", String(chapter));
+  sp.set("testament1", testament);
+  sp.set("verse1", String(verse));
+
+  const href = `/bible/${langSegment}/read?${sp.toString()}`;
+
+  return (
+    <Link
+      href={href}
+      className="text-foreground/80 underline-offset-4 transition-colors hover:text-primary hover:underline"
+    >
+      {children}
+    </Link>
   );
 }

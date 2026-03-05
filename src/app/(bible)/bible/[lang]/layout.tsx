@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 const SUPPORTED_LOCALES = ["en", "vi", "zh"] as const;
@@ -11,6 +12,26 @@ export function isBibleLocale(lang: string): lang is BibleLocale {
 /** Pre-render all locale routes so /bible/vi/read, /bible/en/read etc. work (Next.js i18n). */
 export async function generateStaticParams() {
   return SUPPORTED_LOCALES.map((lang) => ({ lang }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const locale = lang?.toLowerCase();
+  if (!locale || !isBibleLocale(locale)) {
+    return { title: "ScriptureSpace" };
+  }
+  return {
+    title: {
+      default: "ScriptureSpace",
+      template: "%s | ScriptureSpace",
+    },
+    description:
+      "A quiet place to learn and read Scripture. Explore the Bible, study foundations, and grow at your own pace.",
+  };
 }
 
 export default async function BibleLangLayout({

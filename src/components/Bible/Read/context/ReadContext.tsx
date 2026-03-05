@@ -41,6 +41,8 @@ interface ReadState {
   loadingLeft: boolean;
   loadingRight: boolean;
   hoveredVerse: number | null;
+   verse1: number | null;
+   verse2: number | null;
   panelWidth: number;
   isDragging: boolean;
   subNavBookOpen: boolean;
@@ -64,6 +66,8 @@ interface ReadContextValue extends ReadState {
   setLeftTestamentFilterAndAdjust: (filter: TestamentFilter) => void;
   setRightTestamentFilterAndAdjust: (filter: TestamentFilter) => void;
   setHoveredVerse: (verse: number | null) => void;
+  setVerse1: (verse: number | null) => void;
+  setVerse2: (verse: number | null) => void;
   setPanelWidth: (v: number) => void;
   setIsDragging: (v: boolean) => void;
   setSubNavBookOpen: (v: boolean) => void;
@@ -271,6 +275,8 @@ export function ReadProvider({
   const [loadingLeft, setLoadingLeft] = useState(false);
   const [loadingRight, setLoadingRight] = useState(false);
   const [hoveredVerse, setHoveredVerse] = useState<number | null>(null);
+  const [verse1, setVerse1] = useState<number | null>(initialParsed.verse1);
+  const [verse2, setVerse2] = useState<number | null>(initialParsed.verse2);
   const [panelWidth, setPanelWidth] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const [subNavBookOpen, setSubNavBookOpen] = useState(false);
@@ -312,6 +318,8 @@ export function ReadProvider({
       setSyncMode(parsed.sync);
       setFocusMode(parsed.focus);
       setInsightOpen(false);
+      setVerse1(null);
+      setVerse2(null);
       initialUrlSynced.current = true;
       return;
     }
@@ -336,10 +344,13 @@ export function ReadProvider({
           testament2: hasRight ? parsed.testament2 : undefined,
           insights: parsed.insights || undefined,
           focus: parsed.focus || undefined,
+          verse1: parsed.verse1 || undefined,
+          verse2: hasRight ? parsed.verse2 || undefined : undefined,
         });
         const desiredSearch = qs ? `?${qs}` : "";
+        const fullUrl = desiredSearch ? `${pathname}${desiredSearch}` : pathname;
         if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
-          router.replace(desiredSearch ? `${pathname}${desiredSearch}` : pathname);
+          window.history.replaceState(null, "", fullUrl);
         }
       }
       if (!initFromUrlRunOnce.current) {
@@ -359,6 +370,8 @@ export function ReadProvider({
       setLeftTestamentFilter(parsed.testament1);
       setRightTestamentFilter(hasRight ? parsed.testament2 : parsed.testament1);
       setInsightOpen(parsed.insights);
+      setVerse1(parsed.verse1);
+      setVerse2(parsed.verse2);
     } else {
       if (hasAnyVersion || parsed.insights) {
         const qs = buildReadSearchParams({
@@ -367,10 +380,13 @@ export function ReadProvider({
           sync: hasAnyVersion ? parsed.sync : undefined,
           insights: parsed.insights || undefined,
           focus: parsed.focus || undefined,
+          verse1: parsed.verse1 || undefined,
+          verse2: parsed.verse2 || undefined,
         });
         const desiredSearch = qs ? `?${qs}` : "";
+        const fullUrl = desiredSearch ? `${pathname}${desiredSearch}` : pathname;
         if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
-          router.replace(desiredSearch ? `${pathname}${desiredSearch}` : pathname);
+          window.history.replaceState(null, "", fullUrl);
         }
       }
       if (!initFromUrlRunOnce.current) {
@@ -383,6 +399,8 @@ export function ReadProvider({
       setSyncMode(parsed.sync);
       setFocusMode(parsed.focus);
       setInsightOpen(parsed.insights);
+      setVerse1(parsed.verse1);
+      setVerse2(parsed.verse2);
     }
     initialUrlSynced.current = true;
   }, [searchParams, pathname, effectiveLanguage, router, books]);
@@ -398,7 +416,8 @@ export function ReadProvider({
     if (!hasAnyVersion && !insightOpen && !focusMode) {
       if (typeof window === "undefined") return;
       if (pathname !== readPath || window.location.search !== "") {
-        router.replace(readPath);
+        if (pathname !== readPath) router.replace(readPath);
+        else window.history.replaceState(null, "", readPath);
       }
       return;
     }
@@ -410,9 +429,11 @@ export function ReadProvider({
         focus: focusMode || undefined,
       });
       const desiredSearchInsights = qsInsightsOnly ? `?${qsInsightsOnly}` : "";
+      const fullUrl = `${readPath}${desiredSearchInsights}`;
       if (typeof window === "undefined") return;
       if (pathname !== readPath || window.location.search !== desiredSearchInsights) {
-        router.replace(`${readPath}${desiredSearchInsights}`);
+        if (pathname !== readPath) router.replace(fullUrl);
+        else window.history.replaceState(null, "", fullUrl);
       }
       return;
     }
@@ -433,12 +454,20 @@ export function ReadProvider({
       testament2: rightVersion && !syncMode ? rightTestament : undefined,
       insights: insightOpen || undefined,
       focus: focusMode || undefined,
+      verse1: verse1 || undefined,
+      verse2: verse2 || undefined,
     });
     const desiredSearch = qs ? `?${qs}` : "";
     if (desiredSearch === "") return;
     if (typeof window === "undefined") return;
+    const fullUrl = `${readPath}${desiredSearch}`;
     if (pathname !== readPath || window.location.search !== desiredSearch) {
-      router.replace(`${readPath}${desiredSearch}`);
+      // Same path: update URL with replaceState to avoid router navigation (preserves scroll)
+      if (pathname === readPath) {
+        window.history.replaceState(null, "", fullUrl);
+      } else {
+        router.replace(fullUrl);
+      }
     }
   }, [
     leftVersion,
@@ -456,6 +485,8 @@ export function ReadProvider({
     pathname,
     effectiveLanguage,
     router,
+    verse1,
+    verse2,
   ]);
 
   const fetchChapter = useCallback(
@@ -634,6 +665,10 @@ export function ReadProvider({
     loadingRight,
     hoveredVerse,
     setHoveredVerse,
+    verse1,
+    verse2,
+    setVerse1,
+    setVerse2,
     panelWidth,
     setPanelWidth,
     isDragging,

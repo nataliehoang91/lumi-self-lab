@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LearnWhatIsFaithCtaSectionProps {
@@ -18,7 +18,7 @@ export function LearnWhatIsFaithCtaSection({
   ctaButton,
   ctaHref = "/bible/plans",
 }: LearnWhatIsFaithCtaSectionProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { NavLink } from "./types";
 import { BibleLogo, MonotoneBibleLogo, WhiteBibleLogo } from "../../BibleLogo";
 
@@ -12,7 +12,7 @@ export interface LangPageFooterProps {
 }
 
 export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterProps) {
-  const { bodyClass, subBodyClass } = useLearnFontClasses();
+  const { bodyClass, subBodyClass } = useBibleFontClasses();
 
   return (
     <footer className="border-border/50 relative mt-12 border-t">

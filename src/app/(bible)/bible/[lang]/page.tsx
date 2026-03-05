@@ -1,6 +1,22 @@
+import type { Metadata } from "next";
 import { isBibleLocale } from "./layout";
 import { redirect } from "next/navigation";
 import { BibleLangPageWithLoader } from "@/components/Bible/LangPage/BibleLangPageWithLoader";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const locale = lang?.toLowerCase();
+  if (!locale || !isBibleLocale(locale)) return { title: "ScriptureSpace" };
+  return {
+    title: "ScriptureSpace",
+    description:
+      "A quiet place to know God. Learn the Bible, read Scripture, and explore faith at your own pace.",
+  };
+}
 
 export default async function BibleLangRoute({
   params,

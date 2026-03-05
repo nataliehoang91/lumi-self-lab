@@ -1,6 +1,6 @@
 "use client";
 
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LearnWhyItMattersProps {
@@ -10,7 +10,7 @@ export interface LearnWhyItMattersProps {
 }
 
 export function LearnWhyItMatters({ title, body, children }: LearnWhyItMattersProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section

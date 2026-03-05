@@ -1,6 +1,6 @@
 "use client";
 
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LearnWhatIsBibleCentralProps {
@@ -12,7 +12,7 @@ export function LearnWhatIsBibleCentral({
   centralTitle,
   centralBody,
 }: LearnWhatIsBibleCentralProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section

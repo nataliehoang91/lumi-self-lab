@@ -2,7 +2,7 @@
 
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LearnLessonIntroProps {
   moduleNum: string;
@@ -20,7 +20,7 @@ export function LearnLessonIntro({
   intro1Quote,
   children,
 }: LearnLessonIntroProps) {
-  const { h1Class, introClass } = useLearnFontClasses();
+  const { h1Class, introClass } = useBibleFontClasses();
 
   return (
     <div className="mb-12 space-y-6">

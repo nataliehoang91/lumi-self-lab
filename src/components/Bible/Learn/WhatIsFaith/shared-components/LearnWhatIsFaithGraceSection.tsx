@@ -1,6 +1,6 @@
 "use client";
 
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import { QuoteCard } from "@/components/GeneralComponents/QuoteCard";
 
@@ -17,7 +17,7 @@ export function LearnWhatIsFaithGraceSection({
   graceQuote,
   graceRef,
 }: LearnWhatIsFaithGraceSectionProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section className="mb-10">

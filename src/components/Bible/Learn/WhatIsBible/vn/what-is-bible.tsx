@@ -39,7 +39,7 @@ import {
   TERM_NEW_TESTAMENT_VN,
 } from "@/components/Bible/Learn/constants";
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
-import { useLearnFontClasses } from "../../useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 const VN_GLOSSARY: readonly GlossaryItem[] = [
@@ -74,7 +74,7 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
 ];
 
 export function VnWhatIsBiblePage() {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
   return (
     <article aria-label="Kinh thánh là gì?">
       <LearnWhatIsBibleIntro
@@ -266,23 +266,23 @@ export function VnWhatIsBiblePage() {
 
       <LearnWhyItMatters title="Câu chuyện trung tâm — và vì sao nó quan trọng">
         <p className={cn("leading-relaxed", bodyClass)}>
-          Dù được viết bởi nhiều tác giả khác nhau qua nhiều thế kỷ,{" "}
-          <strong>{TERM_BIBLE_VN}</strong> kể một câu chuyện xuyên suốt:{" "}
-          <strong>{TERM_GOD_VN}</strong> tạo dựng con người với mục đích, con người xa
-          cách Ngài, và một hành trình dài của lời hứa, hy vọng và sự phục hồi. Câu chuyện
-          đó đạt đến đỉnh điểm nơi <strong>Đức Chúa {NAME_JESUS_VN} Christ</strong>.
+          Dù được viết bởi nhiều người trong nhiều thế kỷ khác nhau,
+          <strong>{TERM_BIBLE_VN}</strong> không phải là những câu chuyện rời rạc. Nó kể
+          một câu chuyện lớn: <strong>{TERM_GOD_VN}</strong> tạo dựng con người, con người
+          rời xa Ngài, và Ngài tìm cách đưa họ trở lại. Câu chuyện đó tập trung vào{" "}
+          <strong>Đức Chúa {NAME_JESUS_VN}</strong>.
         </p>
 
         <p className={cn("mt-4 leading-relaxed", bodyClass)}>
-          Nếu <strong>{TERM_BIBLE_VN}</strong> chỉ là những văn bản cổ đại, nó đơn thuần
-          là tài liệu lịch sử. Nhưng nếu câu chuyện này là thật, thì nó chạm đến chính đời
-          sống của bạn — đến câu hỏi bạn là ai, vì sao thế giới đầy đổ vỡ, và hy vọng thật
-          sự nằm ở đâu.
+          Nếu <strong>{TERM_BIBLE_VN}</strong> chỉ là sách cổ, thì nó chỉ thuộc về quá
+          khứ. Nhưng nếu câu chuyện này là thật, thì nó liên quan trực tiếp đến bạn — đến
+          việc bạn là ai, vì sao thế giới có quá nhiều đổ vỡ, và liệu còn hy vọng nào cho
+          con người hay không.
         </p>
 
         <p className={cn("mt-4 leading-relaxed", bodyClass)}>
-          Điều này quan trọng bởi vì đức tin Cơ Đốc không chỉ là một hệ thống đạo đức, mà
-          là lời mời bước vào một câu chuyện lớn hơn chính mình.
+          Vì thế, tin theo Chúa Giê-xu không chỉ là sống tốt hơn, mà là bước vào mối quan
+          hệ với Đức Chúa Trời.
         </p>
       </LearnWhyItMatters>
       <LearnWhatIsBibleGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} />

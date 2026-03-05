@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LangPageHeroProps {
@@ -29,7 +29,7 @@ export function LangPageHero({
   children,
 }: LangPageHeroProps) {
   const { subBodyClass, heroTitleClass, subtitleClass, buttonClass } =
-    useLearnFontClasses();
+    useBibleFontClasses();
 
   return (
     <section
@@ -72,7 +72,7 @@ export function LangPageHero({
         </p>
 
         <div
-          className="flex max-w-xs flex-col items-stretch justify-center gap-3 md:mx-auto
+          className="mx-auto flex max-w-xs flex-col items-stretch justify-center gap-3
             md:px-12"
         >
           <Link

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatedStat, type StatAccent } from "./AnimatedStat";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LangPageStatItem {
   value: string;
@@ -14,7 +14,7 @@ export interface LangPageStatsProps {
 }
 
 export function LangPageStats({ stats }: LangPageStatsProps) {
-  const { statValueClass, subBodyClass } = useLearnFontClasses();
+  const { statValueClass, subBodyClass } = useBibleFontClasses();
 
   return (
     <section className="border-border/50 border-y px-6 py-16">

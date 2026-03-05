@@ -86,7 +86,7 @@ export function ExperimentDetail() {
           </Button>
           <Link href="/" className="inline-flex items-center gap-2">
             <FlaskConical className="text-second h-6 w-6" />
-            <span className="text-foreground font-bold">Self-Lab</span>
+            <span className="text-foreground font-bold">SelfWithin</span>
           </Link>
         </div>
 

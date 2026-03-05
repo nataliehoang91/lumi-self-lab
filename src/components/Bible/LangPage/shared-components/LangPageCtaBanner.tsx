@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { FadeIn } from "./FadeIn";
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LangPageCtaBannerProps {
@@ -23,7 +23,7 @@ export function LangPageCtaBanner({
   learnHref,
   readHref,
 }: LangPageCtaBannerProps) {
-  const { h1Class, bodyClass, buttonClass } = useLearnFontClasses();
+  const { h1Class, bodyClass, buttonClass } = useBibleFontClasses();
 
   return (
     <section className="px-6 py-24">

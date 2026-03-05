@@ -1,6 +1,6 @@
 "use client";
 
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LearnWhatIsFaithRepentanceSectionProps {
@@ -14,7 +14,7 @@ export function LearnWhatIsFaithRepentanceSection({
   repentanceBody,
   repentanceRef,
 }: LearnWhatIsFaithRepentanceSectionProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <section className="bg-card border-sage-dark/20 mb-10 rounded-2xl border p-6">

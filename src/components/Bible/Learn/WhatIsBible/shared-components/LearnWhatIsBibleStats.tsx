@@ -1,6 +1,6 @@
 "use client";
 
-import { useLearnFontClasses } from "@/components/Bible/Learn/useLearnFontClasses";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import { STATS } from "./constants";
 
@@ -9,7 +9,7 @@ export interface LearnWhatIsBibleStatsProps {
 }
 
 export function LearnWhatIsBibleStats({ statLabels }: LearnWhatIsBibleStatsProps) {
-  const { bodyClass } = useLearnFontClasses();
+  const { bodyClass } = useBibleFontClasses();
 
   return (
     <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
