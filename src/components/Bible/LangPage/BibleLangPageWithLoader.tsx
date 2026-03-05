@@ -5,9 +5,11 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { LandingLoader } from "./LandingLoader";
 import { EnBibleLangPage } from "./en/bible-lang-page";
 import { VnBibleLangPage } from "./vn/bible-lang-page";
+import type { BibleBook } from "@/components/Bible/Read/types";
 
 export interface BibleLangPageWithLoaderProps {
   locale: string;
+  books: BibleBook[];
 }
 
 const LOCALE_TO_LANGUAGE = { en: "EN", vi: "VI", zh: "ZH" } as const;
@@ -22,7 +24,10 @@ function getLoaderAlreadyDone(): boolean {
   }
 }
 
-export function BibleLangPageWithLoader({ locale }: BibleLangPageWithLoaderProps) {
+export function BibleLangPageWithLoader({
+  locale,
+  books,
+}: BibleLangPageWithLoaderProps) {
   const [showContent, setShowContent] = useState(() => getLoaderAlreadyDone());
   const { setGlobalLanguage } = useBibleApp();
 
@@ -50,9 +55,9 @@ export function BibleLangPageWithLoader({ locale }: BibleLangPageWithLoaderProps
       )}
       {showContent &&
         (locale === "vi" ? (
-          <VnBibleLangPage lang={locale} />
+          <VnBibleLangPage lang={locale} books={books} />
         ) : (
-          <EnBibleLangPage lang={locale} />
+          <EnBibleLangPage lang={locale} books={books} />
         ))}
     </>
   );

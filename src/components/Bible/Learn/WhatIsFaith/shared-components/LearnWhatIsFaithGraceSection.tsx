@@ -11,6 +11,8 @@ export interface LearnWhatIsFaithGraceSectionProps {
   graceRef: string;
   /** When set, footnote (graceRef) is rendered as a link to the verse (e.g. read page). */
   graceFootnoteHref?: string;
+  /** When "vi", use Vietnamese flashcard font. */
+  locale?: "en" | "vi";
 }
 
 export function LearnWhatIsFaithGraceSection({
@@ -19,15 +21,18 @@ export function LearnWhatIsFaithGraceSection({
   graceQuote,
   graceRef,
   graceFootnoteHref,
+  locale,
 }: LearnWhatIsFaithGraceSectionProps) {
   const { bodyClass } = useBibleFontClasses();
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <section className="mb-10">
-      <h2 className="font-bible-english text-foreground mb-3 text-2xl font-semibold">
+      <h2 className={cn("text-foreground mb-3 text-2xl font-semibold", titleFont)}>
         {graceTitle}
       </h2>
-      <p className={cn("text-muted-foreground mb-3 leading-relaxed", bodyClass)}>
+      <p className={cn("text-muted-foreground mb-3 leading-relaxed", bodyClass, bodyFont)}>
         {graceBody}
       </p>
       <div
@@ -39,7 +44,7 @@ export function LearnWhatIsFaithGraceSection({
           footnoteAlign="center"
           footnote={graceRef}
           footnoteHref={graceFootnoteHref}
-          className="mt-4"
+          className={cn("mt-4", locale === "vi" && "font-vietnamese-flashcard")}
         />
       </div>
     </section>

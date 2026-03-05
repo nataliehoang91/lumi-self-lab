@@ -36,7 +36,8 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
             <div
               className={cn(
                 "text-muted-foreground mb-8 flex items-center gap-2",
-                bodyClass
+                bodyClass,
+                lang === "vi" && "font-vietnamese-flashcard"
               )}
             >
               <Link

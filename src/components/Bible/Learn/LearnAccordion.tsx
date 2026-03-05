@@ -19,12 +19,15 @@ interface LearnAccordionProps {
   items: readonly LearnAccordionItem[];
   className?: string;
   itemClassName?: string;
+  /** When "vi", use Vietnamese flashcard font for term and definition. */
+  locale?: "en" | "vi";
 }
 
-export function LearnAccordion({ items, className, itemClassName }: LearnAccordionProps) {
+export function LearnAccordion({ items, className, itemClassName, locale }: LearnAccordionProps) {
   const { fontSize } = useBibleApp();
   const bodyClass =
     fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-md";
+  const contentFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <Accordion
@@ -44,9 +47,9 @@ export function LearnAccordion({ items, className, itemClassName }: LearnAccordi
             className="data-[state=open]:text-primary-dark px-5 py-3.5 hover:no-underline
               [&[data-state=open]>svg]:rotate-180"
           >
-            <span className={cn("text-left font-bold", bodyClass)}>{item.term}</span>
+            <span className={cn("text-left font-bold", bodyClass, contentFont)}>{item.term}</span>
           </AccordionTrigger>
-          <AccordionContent className={cn("px-5 pt-3 pb-4 leading-relaxed", bodyClass)}>
+          <AccordionContent className={cn("px-5 pt-3 pb-4 leading-relaxed", bodyClass, contentFont)}>
             {item.def}
           </AccordionContent>
         </AccordionItem>

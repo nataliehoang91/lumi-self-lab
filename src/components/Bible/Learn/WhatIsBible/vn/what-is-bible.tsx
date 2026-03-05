@@ -131,11 +131,15 @@ function findBookIdByVi(
   return null;
 }
 
+const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
+
 export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass, subBodyClassUp } = useBibleFontClasses();
+  const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
   return (
     <article aria-label="Kinh thánh là gì?">
       <LearnWhatIsBibleIntro
+        locale="vi"
         moduleNum="01 / 04"
         title="Kinh thánh là gì?"
         introParts={[
@@ -158,10 +162,10 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className={cn("font-vietnamese leading-snug font-semibold", bodyTitleClass)}>
+        <p className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}>
           Kinh Thánh là thư viện, không phải một cuốn sách đơn lẻ.
         </p>
-        <p className={cn("leading-relaxed opacity-90", bodyClass)}>
+        <p className={cn("leading-relaxed opacity-90", vnBodyClass)}>
           Từ <strong>&ldquo;Bible&rdquo;</strong> bắt nguồn từ tiếng Hy Lạp{" "}
           <strong>&ldquo;biblia&rdquo;</strong>, nghĩa là &ldquo;những cuốn sách&rdquo;.
           Hiểu điều này giúp chúng ta tránh việc đọc <strong>{TERM_BIBLE_VN}</strong> như
@@ -171,7 +175,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         <p
           className={cn(
             "border-border border-t pt-4 leading-relaxed opacity-80",
-            bodyClass
+            vnBodyClass
           )}
         >
           <strong>{TERM_BIBLE_VN}</strong> bao gồm nhiều thể loại: lịch sử, thơ ca, luật
@@ -293,7 +297,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </div>,
         ]}
         conclusion={
-          <p className={cn("mt-6 leading-relaxed", bodyClass)}>
+          <p className={cn("mt-6 leading-relaxed", vnBodyClass)}>
             Dù được viết bởi nhiều người trong nhiều thời đại khác nhau, người tin Chúa
             tin rằng Đức Chúa Trời đã hướng dẫn họ khi viết.
           </p>
@@ -319,7 +323,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       <LearnWhatIsBibleTestamentSection
         title={TERM_OLD_TESTAMENT_VN}
         intro={
-          <p className={cn("mb-5 leading-relaxed", bodyClass)}>
+          <p className={cn("mb-5 leading-relaxed", vnBodyClass)}>
             Được viết chủ yếu bằng tiếng{" "}
             <strong>
               <em>{LANG_HEBREW_VN}</em>
@@ -390,7 +394,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       <LearnWhatIsBibleTestamentSection
         title={TERM_NEW_TESTAMENT_VN}
         intro={
-          <p className={cn("mb-5 leading-relaxed", bodyClass)}>
+          <p className={cn("mb-5 leading-relaxed", vnBodyClass)}>
             Được viết bằng tiếng{" "}
             <strong>
               <em>{LANG_GREEK_VN}</em>
@@ -461,7 +465,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhyItMatters title="Câu chuyện trung tâm — và vì sao nó quan trọng">
-        <p className={cn("leading-relaxed", bodyClass)}>
+        <p className={cn("leading-relaxed", vnBodyClass)}>
           Dù được viết bởi nhiều người trong nhiều thế kỷ khác nhau,
           <strong>{TERM_BIBLE_VN}</strong> không phải là những câu chuyện rời rạc. Nó kể
           một câu chuyện lớn: <strong>{TERM_GOD_VN}</strong> tạo dựng con người, con người
@@ -469,19 +473,19 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           <strong>Đức Chúa {NAME_JESUS_VN}</strong>.
         </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+        <p className={cn("mt-4 leading-relaxed", vnBodyClass)}>
           Nếu <strong>{TERM_BIBLE_VN}</strong> chỉ là sách cổ, thì nó chỉ thuộc về quá
           khứ. Nhưng nếu câu chuyện này là thật, thì nó liên quan trực tiếp đến bạn — đến
           việc bạn là ai, vì sao thế giới có quá nhiều đổ vỡ, và liệu còn hy vọng nào cho
           con người hay không.
         </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+        <p className={cn("mt-4 leading-relaxed", vnBodyClass)}>
           Vì thế, tin theo Chúa Giê-xu không chỉ là sống tốt hơn, mà là bước vào mối quan
           hệ với Đức Chúa Trời.
         </p>
       </LearnWhyItMatters>
-      <LearnWhatIsBibleGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} />
+      <LearnWhatIsBibleGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} locale="vi" />
     </article>
   );
 }

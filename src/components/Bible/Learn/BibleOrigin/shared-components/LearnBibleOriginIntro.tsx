@@ -8,26 +8,37 @@ export interface LearnBibleOriginIntroProps {
   moduleNum: string;
   title: string;
   intro: string;
+  /** When "vi", use Vietnamese flashcard font. */
+  locale?: "en" | "vi";
 }
 
 export function LearnBibleOriginIntro({
   moduleNum,
   title,
   intro,
+  locale,
 }: LearnBibleOriginIntroProps) {
-  const { bodyClass } = useBibleFontClasses();
+  const { bodyClass, subBodyClassUp } = useBibleFontClasses();
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <div className="mb-12">
-      <p className="text-second mb-3 font-mono text-xs">{moduleNum}</p>
+      <p className={cn("text-second mb-3 font-mono font-medium", subBodyClassUp)}>
+        {moduleNum}
+      </p>
       <BibleHeading
         level="h1"
-        className="font-bible-english text-foreground leading-tight font-semibold
-          text-balance"
+        className={cn(
+          "text-foreground leading-tight font-semibold text-balance",
+          titleFont
+        )}
       >
         {title}
       </BibleHeading>
-      <p className={cn("text-muted-foreground mt-4 leading-relaxed", bodyClass)}>
+      <p
+        className={cn("text-muted-foreground mt-4 leading-relaxed", bodyClass, bodyFont)}
+      >
         {intro}
       </p>
     </div>

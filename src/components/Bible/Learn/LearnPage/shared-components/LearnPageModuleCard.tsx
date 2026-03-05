@@ -15,6 +15,8 @@ export interface LearnPageModuleCardProps {
   readLabel: string;
   href: string;
   ariaLabel: string;
+  /** When "vi", use Vietnamese flashcard font for title, desc, labels. */
+  locale?: "en" | "vi";
 }
 
 export function LearnPageModuleCard({
@@ -26,8 +28,10 @@ export function LearnPageModuleCard({
   readLabel,
   href,
   ariaLabel,
+  locale,
 }: LearnPageModuleCardProps) {
   const { bodyClass, bodyTitleClass, subBodyClass, buttonClass } = useBibleFontClasses();
+  const contentFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <Link
@@ -38,23 +42,24 @@ export function LearnPageModuleCard({
       aria-label={ariaLabel}
     >
       <div className="flex items-start gap-6">
-        <span className={cn("text-second w-6 pt-0.5 font-mono font-semibold", bodyClass)}>
+        <span className={cn("text-second w-6 pt-0.5 font-mono font-semibold", bodyClass, contentFont)}>
           {num}
         </span>
         <div className="min-w-0 flex-1">
           <p
             className={cn(
               "group-hover:text-foreground font-bold transition-colors",
-              bodyTitleClass
+              bodyTitleClass,
+              contentFont
             )}
           >
             {title}
           </p>
-          <p className={cn("mt-2 max-w-prose leading-relaxed", bodyClass)}>{desc}</p>
+          <p className={cn("mt-2 max-w-prose leading-relaxed", bodyClass, contentFont)}>{desc}</p>
         </div>
       </div>
       <div className="mt-4 flex justify-between">
-        <p className={cn("text-muted-foreground pl-12 font-light", subBodyClass)}>
+        <p className={cn("text-muted-foreground pl-12 font-light", subBodyClass, contentFont)}>
           {min} {minLabel}
         </p>
         <span
@@ -62,7 +67,8 @@ export function LearnPageModuleCard({
             `bg-primary-light/80 text-foreground group-hover:bg-primary/25
             group-hover:border-primary/70 flex shrink-0 items-center gap-1.5 rounded-lg
             px-3 py-1.5 font-medium transition-all`,
-            buttonClass
+            buttonClass,
+            contentFont
           )}
         >
           {readLabel}

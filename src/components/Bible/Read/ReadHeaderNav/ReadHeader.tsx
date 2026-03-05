@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Link2, Unlink2 } from "lucide-react";
+import { BookPlus, Link2, Unlink2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
@@ -39,7 +39,7 @@ export function ReadHeader() {
         {/* Desktop */}
         <div className="hidden flex-wrap items-center justify-between gap-4 md:flex">
           <div className="flex min-w-0 items-center gap-3">
-            <BookOpen className="text-primary h-5 w-5 shrink-0" />
+            <BookPlus className="text-primary h-5 w-5 shrink-0" />
             <h1 className="text-foreground shrink-0 text-sm font-medium">
               {t("readVersion")}
             </h1>

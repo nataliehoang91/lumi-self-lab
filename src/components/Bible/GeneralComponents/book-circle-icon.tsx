@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpenIcon } from "lucide-react";
+import { BookPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type BookCircleIconSize = "sm" | "md" | "lg";
@@ -26,7 +26,7 @@ export function BookCircleIcon({ size = "md", className }: BookCircleIconProps) 
         className
       )}
     >
-      <BookOpenIcon className="text-primary h-5 w-5" aria-hidden />
+      <BookPlus className="text-primary h-5 w-5" aria-hidden />
     </div>
   );
 }

@@ -13,22 +13,26 @@ export interface GlossaryItem {
 export interface LearnWhatIsBibleGlossaryProps {
   glossaryTitle: string;
   glossary: readonly GlossaryItem[];
+  /** When "vi", use Vietnamese flashcard font. */
+  locale?: "en" | "vi";
 }
 
 export function LearnWhatIsBibleGlossary({
   glossaryTitle,
   glossary,
+  locale,
 }: LearnWhatIsBibleGlossaryProps) {
   const { bodyClass } = useBibleFontClasses();
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
 
   return (
     <section className="mb-14">
       <h2
-        className={cn("font-bible-english text-foreground mb-4 font-semibold", bodyClass)}
+        className={cn("text-foreground mb-4 font-semibold", titleFont, bodyClass)}
       >
         {glossaryTitle}
       </h2>
-      <LearnAccordion items={glossary} />
+      <LearnAccordion items={glossary} locale={locale} />
     </section>
   );
 }

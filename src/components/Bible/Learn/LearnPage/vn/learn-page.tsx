@@ -53,6 +53,7 @@ export function VnLearnPage() {
   return (
     <article aria-label="Học - Bắt đầu tại đây">
       <LearnPageIntro
+        locale="vi"
         eyebrow="Bắt đầu tại đây"
         title="Bắt đầu từ nền tảng."
         subtitle={
@@ -64,7 +65,7 @@ export function VnLearnPage() {
         }
       />
 
-      <p className="mb-4 text-sm opacity-70">
+      <p className="font-vietnamese-flashcard mb-4 text-sm opacity-70">
         Bạn có thể đọc theo thứ tự, hoặc bắt đầu từ câu hỏi bạn quan tâm nhất.
       </p>
 
@@ -72,6 +73,7 @@ export function VnLearnPage() {
         {MODULES.map((m, i) => (
           <LearnPageModuleCard
             key={m.num}
+            locale="vi"
             num={m.num}
             title={m.title}
             desc={m.desc}
@@ -85,6 +87,7 @@ export function VnLearnPage() {
       </div>
 
       <LearnPageVerseCta
+        locale="vi"
         verseText="Lời Chúa là ngọn đèn cho chân tôi, Ánh sáng cho đường lối tôi."
         verseRef="THI THIÊN 119:105"
         ctaTitle="Bạn đã có nền tảng?"

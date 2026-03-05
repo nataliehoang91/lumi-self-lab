@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 export interface LearnWhatIsBibleIntroProps {
   moduleNum: string;
   title: string;
+  /** When "vi", use Vietnamese flashcard font for title and intro. */
+  locale?: "en" | "vi";
   /** 7 parts: [0] text, [1] strong, [2] text, [3] strong, [4] text, [5] strong, [6] text or ReactNode */
   introParts: readonly [
     string,
@@ -22,22 +24,30 @@ export interface LearnWhatIsBibleIntroProps {
 export function LearnWhatIsBibleIntro({
   moduleNum,
   title,
+  locale,
   introParts,
 }: LearnWhatIsBibleIntroProps) {
-  const { bodyClass, h1Class } = useBibleFontClasses();
+  const { bodyClass, h1Class, subBodyClassUp } = useBibleFontClasses();
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <div className="mb-12">
-      <p className="text-second mb-3 font-mono text-sm">{moduleNum}</p>
+      <p className={cn("text-second mb-3 font-mono font-medium", subBodyClassUp)}>
+        {moduleNum}
+      </p>{" "}
       <h1
         className={cn(
-          "font-bible-english text-foreground leading-tight font-semibold text-balance",
+          "text-foreground leading-tight font-semibold text-balance",
+          titleFont,
           h1Class
         )}
       >
         {title}
       </h1>
-      <p className={cn("text-muted-foreground mt-4 leading-relaxed", bodyClass)}>
+      <p
+        className={cn("text-muted-foreground mt-4 leading-relaxed", bodyClass, introFont)}
+      >
         {introParts[0]}
         <strong className="text-foreground font-semibold">{introParts[1]}</strong>
         {introParts[2]}

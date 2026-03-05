@@ -9,20 +9,25 @@ export interface LearnBibleOriginLanguagesProps {
   originalLanguages: string;
   lang: readonly [string, string, string];
   langNote: readonly [string, string, string];
+  /** When "vi", use Vietnamese flashcard font. */
+  locale?: "en" | "vi";
 }
 
 export function LearnBibleOriginLanguages({
   originalLanguages,
   lang,
   langNote,
+  locale,
 }: LearnBibleOriginLanguagesProps) {
   const { bodyClass } = useBibleFontClasses();
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <section className="mb-10">
       <BibleHeading
         level="h2"
-        className="font-bible-english text-foreground mb-4 font-semibold"
+        className={cn("text-foreground mb-4 font-semibold", titleFont)}
       >
         {originalLanguages}
       </BibleHeading>
@@ -34,16 +39,18 @@ export function LearnBibleOriginLanguages({
               text-center"
           >
             <p
-              className="font-bible-english text-muted-foreground text-xl leading-none
-                select-none"
+              className={cn(
+                "text-muted-foreground text-xl leading-none select-none",
+                titleFont
+              )}
             >
               {l.script}
             </p>
-            <p className="font-bible-english text-foreground mt-1 text-3xl font-semibold">
+            <p className={cn("text-foreground mt-1 text-3xl font-semibold", titleFont)}>
               {l.pct}
             </p>
-            <p className={cn("text-foreground mt-1 font-medium", bodyClass)}>{lang[i]}</p>
-            <p className={cn("text-muted-foreground mt-0.5 leading-snug", bodyClass)}>
+            <p className={cn("text-foreground mt-1 font-medium", bodyClass, bodyFont)}>{lang[i]}</p>
+            <p className={cn("text-muted-foreground mt-0.5 leading-snug", bodyClass, bodyFont)}>
               {langNote[i]}
             </p>
           </div>

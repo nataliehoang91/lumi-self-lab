@@ -70,11 +70,15 @@ export function LearnLessonFooter() {
 
   const readHref = `/bible/${lang}/read`;
   const startReadingLabel = intl.t("learnFooterStartReading");
+  const contentFont = lang === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <div
-      className="border-sage-dark/20 flex flex-col justify-between gap-4 border-t pt-6
-        sm:flex-row sm:items-center"
+      className={cn(
+        "border-sage-dark/20 flex flex-col justify-between gap-4 border-t pt-6",
+        "sm:flex-row sm:items-center",
+        contentFont
+      )}
     >
       <div className="order-1 flex flex-wrap items-center gap-3">
         {prevHref && prevLabel ? (

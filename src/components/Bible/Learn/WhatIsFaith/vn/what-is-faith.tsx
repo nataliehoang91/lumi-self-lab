@@ -100,11 +100,15 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
   },
 ];
 
+const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
+
 export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass } = useBibleFontClasses();
+  const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
   return (
     <div>
       <LearnWhatIsFaithIntro
+        locale="vi"
         moduleNum="04 / 04"
         title="Đức tin là gì?"
         intro="Đức tin không phải là sự lạc quan mù quáng hay một nỗ lực tôn giáo để trở nên tốt hơn. Trong Kinh Thánh, đức tin là sự tin cậy đặt nơi Đức Chúa Trời — tin rằng điều Ngài phán là thật và Chúa Giê-xu đúng là Đấng Ngài bày tỏ."
@@ -114,22 +118,23 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className={cn("font-vietnamese leading-snug font-semibold", bodyTitleClass)}>
+        <p className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}>
           Mối Quan Hệ, Không Phải Tôn Giáo
         </p>
-        <p className={cn("leading-relaxed opacity-90", bodyClass)}>
+        <p className={cn("leading-relaxed opacity-90", vnBodyClass)}>
           Cơ Đốc giáo không chỉ là một hệ thống luật lệ để tuân theo, mà là một mối quan
           hệ để bước vào. Chúa Giê-xu phán Ngài đến để con người &quot;được sự sống, và sự
           sống dư dật&quot; (Giăng 10:10). Mục đích không phải là đạt đến sự hoàn hảo, mà
           là bước đi trong mối quan hệ thật với Đức Chúa Trời.
         </p>
-        <p className={cn("border-border border-t pt-4 leading-relaxed opacity-80", bodyClass)}>
+        <p className={cn("border-border border-t pt-4 leading-relaxed opacity-80", vnBodyClass)}>
           Đọc Kinh Thánh, cầu nguyện và sinh hoạt cùng Hội Thánh là những cách để lớn lên
           trong mối quan hệ đó — không phải điều kiện để được chấp nhận.
         </p>
       </blockquote>
 
       <LearnWhatIsFaithGraceSection
+        locale="vi"
         graceTitle="Sự Cứu Rỗi Bởi Ân Điển"
         graceBody="Sứ điệp trung tâm của Cơ Đốc giáo là sự cứu rỗi — được hòa giải với Đức Chúa Trời. Điều này không đạt được bởi việc lành, mà được nhận như một món quà, qua đức tin nơi điều Chúa Giê-xu đã làm."
         graceQuote="Ấy là nhờ ân điển, bởi đức tin, mà anh em được cứu, điều đó không phải đến từ anh em, bèn là sự ban cho của Đức Chúa Trời."
@@ -143,6 +148,7 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhatIsFaithRepentanceSection
+        locale="vi"
         repentanceTitle="Sự Ăn Năn"
         repentanceBody='Ăn năn không chỉ là cảm giác hối lỗi. Đó là sự thay đổi hướng đi — quay khỏi con đường tự mình làm chủ để trở về với Đức Chúa Trời. Khi bắt đầu chức vụ, Chúa Giê-xu phán: "Hãy ăn năn và tin Tin Lành."'
         repentanceRef="Mác 1:15"
@@ -155,6 +161,7 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhatIsFaithPrayerSection
+        locale="vi"
         prayerTitle="Đức tin bắt đầu từ đâu?"
         prayerIntro="Đức tin không bắt đầu bằng việc làm cho mình trở nên tốt hơn. Nó bắt đầu bằng sự tin cậy — tin rằng Đức Chúa Trời là thật và Chúa Giê-xu là Đấng Ngài bày tỏ."
         steps={[
@@ -181,26 +188,26 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         ]}
       />
 
-      <LearnWhyItMatters title="Vì sao đức tin quan trọng?">
-        <p className={cn("leading-relaxed", bodyClass)}>
+      <LearnWhyItMatters locale="vi" title="Vì sao đức tin quan trọng?">
+        <p className={cn("leading-relaxed", vnBodyClass)}>
           Mỗi người đều đang tin điều gì đó — về giá trị của mình, về điều gì đem lại hy
           vọng, về điều gì có thể giữ mình đứng vững khi mọi thứ rung chuyển. Câu hỏi
           không phải là bạn có đức tin hay không, mà là bạn đang đặt đức tin nơi đâu.
         </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+        <p className={cn("mt-4 leading-relaxed", vnBodyClass)}>
           Nếu đức tin chỉ là suy nghĩ tích cực, nó sẽ sụp đổ khi hoàn cảnh thay đổi. Nhưng
           nếu đức tin đặt nơi Đức Chúa Trời — Đấng không thay đổi — thì nó trở thành một
           nền tảng vững chắc giữa những lo âu, thất bại và những ngày không chắc chắn.
         </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+        <p className={cn("mt-4 leading-relaxed", vnBodyClass)}>
           Đức tin Cơ Đốc không chỉ trả lời câu hỏi “Tôi phải làm gì?” mà còn trả lời “Tôi
           là ai?” và “Tôi thuộc về ai?”. Vì thế, nó không chỉ thay đổi hành vi — mà thay
           đổi cả nền tảng bạn đang sống trên đó.
         </p>
       </LearnWhyItMatters>
-      <LearnWhatIsFaithGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} />
+      <LearnWhatIsFaithGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} locale="vi" />
     </div>
   );
 }

@@ -37,6 +37,7 @@ export function LearnDeepDiveCta() {
 
   if (!result) return null;
   const { lang } = result;
+  const contentFont = lang === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <Card className="border-l-second/80 overflow-hidden rounded-2xl border-l-4 px-2 py-2">
@@ -45,7 +46,8 @@ export function LearnDeepDiveCta() {
           className={cn(
             `text-foreground text-center font-serif leading-relaxed text-balance
             sm:text-left`,
-            bodyTitleClass
+            bodyTitleClass,
+            contentFont
           )}
         >
           {intl.t("learnDeepDiveTitle")}
@@ -54,7 +56,8 @@ export function LearnDeepDiveCta() {
           className={cn(
             `text-second mt-2 text-center font-medium tracking-[0.2em] uppercase
             sm:text-left`,
-            subBodyClass
+            subBodyClass,
+            contentFont
           )}
         >
           {intl.t("learnDeepDiveLabel")}
@@ -67,7 +70,8 @@ export function LearnDeepDiveCta() {
         <p
           className={cn(
             "text-muted-foreground text-center leading-relaxed sm:text-left",
-            bodyClass
+            bodyClass,
+            contentFont
           )}
         >
           {intl.t("learnDeepDiveDescription")}
@@ -78,7 +82,8 @@ export function LearnDeepDiveCta() {
             `group flex shrink-0 items-center gap-2 rounded-xl px-5 py-2.5
             font-semibold whitespace-nowrap transition-all`,
             "bg-second text-second-foreground hover:bg-second/90",
-            buttonClass
+            buttonClass,
+            contentFont
           )}
         >
           <Sparkles className="h-3.5 w-3.5 shrink-0" />

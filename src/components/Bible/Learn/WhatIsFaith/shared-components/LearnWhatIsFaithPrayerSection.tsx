@@ -13,21 +13,26 @@ export interface LearnWhatIsFaithPrayerSectionProps {
   prayerTitle: string;
   prayerIntro: string;
   steps: readonly PrayerStep[];
+  /** When "vi", use Vietnamese flashcard font. */
+  locale?: "en" | "vi";
 }
 
 export function LearnWhatIsFaithPrayerSection({
   prayerTitle,
   prayerIntro,
   steps,
+  locale,
 }: LearnWhatIsFaithPrayerSectionProps) {
   const { bodyClass } = useBibleFontClasses();
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <section className="mb-10">
-      <h2 className="font-bible-english text-foreground mb-2 text-2xl font-semibold">
+      <h2 className={cn("text-foreground mb-2 text-2xl font-semibold", titleFont)}>
         {prayerTitle}
       </h2>
-      <p className={cn("text-muted-foreground mb-5", bodyClass)}>
+      <p className={cn("text-muted-foreground mb-5", bodyClass, bodyFont)}>
         {prayerIntro}
       </p>
       <div className="space-y-2">
@@ -43,13 +48,14 @@ export function LearnWhatIsFaithPrayerSection({
               {p.letter}
             </div>
             <div>
-              <p className={cn("text-foreground font-medium", bodyClass)}>
+              <p className={cn("text-foreground font-medium", bodyClass, bodyFont)}>
                 {p.stepName}
               </p>
               <p
                 className={cn(
                   "text-muted-foreground mt-0.5 leading-relaxed",
-                  bodyClass
+                  bodyClass,
+                  bodyFont
                 )}
               >
                 {p.desc}

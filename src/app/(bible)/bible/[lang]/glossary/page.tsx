@@ -8,6 +8,9 @@ export const metadata: Metadata = {
 
 export default function GlossaryOtherPage() {
   return (
-    <ComingSoonPage title="Other" description="More glossary features are coming soon." />
+    <ComingSoonPage
+      title="Glossary"
+      description="More glossary features are coming soon."
+    />
   );
 }

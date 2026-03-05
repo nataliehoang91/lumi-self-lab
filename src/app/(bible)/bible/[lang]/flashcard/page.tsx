@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
+import { getBooks } from "@/app/actions/bible/read";
 import { parseSearchParams } from "../../flashcard/params";
 import { CardSkeleton } from "@/components/Bible/FlashCard/CardSkeleton";
 import { CardWithData } from "@/components/Bible/FlashCard/CardWithData";
 import { FlashCardShell } from "@/components/Bible/FlashCard/FlashCardShell";
+import { FlashcardBooksProvider } from "@/components/Bible/FlashCard/FlashcardBooksContext";
 import type { Language } from "@/components/Bible/BibleAppContext";
 
 const MAX_IDS = 500;
@@ -56,6 +58,7 @@ export default async function FlashcardPage({
   const collections = await getCollections();
   const effectiveCollection = parsed.collection?.trim() || collections[0]?.id;
   const ids = await getFlashcardIds(effectiveCollection || undefined);
+  const books = await getBooks();
 
   const isAll = parsed.layout === "all";
   const visibleCount = isAll ? Math.min(parsed.limit, ids.length) : 1;
@@ -66,7 +69,8 @@ export default async function FlashcardPage({
   return (
     <div className="flex min-h-screen w-full flex-col">
       <div className="flex w-full flex-1 flex-col">
-        <FlashCardShell
+        <FlashcardBooksProvider books={books} lang={lang}>
+          <FlashCardShell
           ids={ids}
           index={parsed.index}
           layout={parsed.layout}
@@ -87,7 +91,8 @@ export default async function FlashcardPage({
               </Suspense>
             </div>
           ))}
-        </FlashCardShell>
+          </FlashCardShell>
+        </FlashcardBooksProvider>
       </div>
     </div>
   );

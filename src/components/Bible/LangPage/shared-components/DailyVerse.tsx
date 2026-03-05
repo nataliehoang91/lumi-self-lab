@@ -10,6 +10,8 @@ export interface DailyVerseProps {
   label: string;
   text: string;
   verseRef: string;
+  /** When set, verseRef is rendered as a link to this verse (e.g. read page). */
+  verseRefHref?: string;
   readHref: string;
   readLabel: string;
   labelClassName?: string;
@@ -22,6 +24,7 @@ export function DailyVerse({
   label,
   text,
   verseRef,
+  verseRefHref,
   readHref,
   readLabel,
   labelClassName,
@@ -46,6 +49,7 @@ export function DailyVerse({
         quoteIconAlign="left"
         quote={text}
         footnote={verseRef}
+        footnoteHref={verseRefHref}
         className="justify-center"
       />
       <Link

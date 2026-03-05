@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, BookMarked, Sparkles } from "lucide-react";
+import { BookOpen, BookMarked, Sparkles, BookPlus } from "lucide-react";
 import { DailyVerse } from "../shared-components/DailyVerse";
 import { LangPageHero } from "../shared-components/LangPageHero";
 import { LangPageStats } from "../shared-components/LangPageStats";
@@ -10,16 +10,55 @@ import { LangPageFooter } from "../shared-components/LangPageFooter";
 import type { JourneyItem, NavLink } from "../shared-components/types";
 import type { StatAccent } from "../shared-components/AnimatedStat";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
+import type { BibleBook } from "@/components/Bible/Read/types";
+
+function buildReadHrefEn(
+  bookId: string | null,
+  chapter: number,
+  verse: number,
+  testament: "ot" | "nt"
+): string {
+  if (!bookId) return "#";
+  const sp = new URLSearchParams();
+  sp.set("version1", "niv");
+  sp.set("sync", "true");
+  sp.set("book1", bookId);
+  sp.set("chapter1", String(chapter));
+  sp.set("testament1", testament);
+  sp.set("verse1", String(verse));
+  return `/bible/en/read?${sp.toString()}`;
+}
+
+function findBookIdByEn(books: BibleBook[] | undefined, nameEn: string): string | null {
+  if (!books?.length) return null;
+  const book = books.find((b) => b.nameEn === nameEn);
+  return book?.id ?? null;
+}
 
 const DAILY_VERSES_EN = [
   {
     text: "Your word is a lamp to my feet and a light to my path.",
     ref: "Psalm 119:105",
+    bookEn: "Psalms",
+    chapter: 119,
+    verse: 105,
+    testament: "ot" as const,
   },
-  { text: "Trust in the Lord with all your heart.", ref: "Proverbs 3:5" },
+  {
+    text: "Trust in the Lord with all your heart.",
+    ref: "Proverbs 3:5",
+    bookEn: "Proverbs",
+    chapter: 3,
+    verse: 5,
+    testament: "ot" as const,
+  },
   {
     text: "I can do all things through Christ who strengthens me.",
     ref: "Philippians 4:13",
+    bookEn: "Philippians",
+    chapter: 4,
+    verse: 13,
+    testament: "nt" as const,
   },
 ];
 
@@ -36,7 +75,7 @@ function getJourneyEn(base: string): JourneyItem[] {
         { label: "Who is Jesus?", href: `${base}/learn/who-is-jesus` },
         { label: "What is Faith?", href: `${base}/learn/what-is-faith` },
       ],
-      cta: { label: "Start Learning", href: `${base}/learn` },
+      cta: { label: "Start Exploring", href: `${base}/learn` },
       icon: BookOpen,
       accent: "coral",
     },
@@ -47,7 +86,7 @@ function getJourneyEn(base: string): JourneyItem[] {
       body: "Side-by-side translations and a clean reading space designed for focus.",
       links: [{ label: "Split View", href: `${base}/read` }],
       cta: { label: "Open the Bible", href: `${base}/read` },
-      icon: BookMarked,
+      icon: BookPlus,
       accent: "gray",
     },
     {
@@ -77,14 +116,21 @@ function getNavLinksEn(base: string): NavLink[] {
 
 export interface EnBibleLangPageProps {
   lang: string;
+  books: BibleBook[];
 }
 
-export function EnBibleLangPage({ lang }: EnBibleLangPageProps) {
+export function EnBibleLangPage({ lang, books }: EnBibleLangPageProps) {
   const base = `/bible/${lang}`;
   const { subBodyClass, verseClass, bodyClass } = useBibleFontClasses();
 
   const verseIdx = new Date().getDate() % DAILY_VERSES_EN.length;
   const verse = DAILY_VERSES_EN[verseIdx];
+  const verseRefHref = buildReadHrefEn(
+    findBookIdByEn(books, verse.bookEn),
+    verse.chapter,
+    verse.verse,
+    verse.testament
+  );
   const journey = getJourneyEn(base);
   const navLinks = getNavLinksEn(base);
 
@@ -105,6 +151,7 @@ export function EnBibleLangPage({ lang }: EnBibleLangPageProps) {
             label="Verse of the Day"
             text={verse.text}
             verseRef={verse.ref}
+            verseRefHref={verseRefHref}
             readHref={`${base}/read`}
             readLabel="Read in context"
             labelClassName={subBodyClass}

@@ -121,6 +121,13 @@
   font-family: var(--font-vietnamese), var(--font-bible-serif), ui-serif, Georgia, serif;
 }
 
+/* Flashcard Vietnamese: Noto Serif for clearer diacritics + relaxed line-height */
+.font-vietnamese-flashcard {
+  font-family: var(--font-vietnamese-flashcard), var(--font-vietnamese), var(--font-bible-serif), ui-serif, Georgia, serif;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
 /* English / non-Vietnamese verse text – Lora serif (literary, warm, for scripture) */
 .font-bible-english {
   font-family: var(--font-bible-serif), ui-serif, Georgia, serif;

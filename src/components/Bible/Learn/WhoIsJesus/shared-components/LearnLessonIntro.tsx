@@ -11,6 +11,8 @@ export interface LearnLessonIntroProps {
   intro1Quote: string | ReactNode;
   /** Intro paragraph after the quote (e.g. with <strong>Jesus</strong> inline). */
   children: string | ReactNode;
+  /** When "vi", use Vietnamese flashcard font. */
+  locale?: "en" | "vi";
 }
 
 export function LearnLessonIntro({
@@ -19,20 +21,21 @@ export function LearnLessonIntro({
   intro1,
   intro1Quote,
   children,
+  locale,
 }: LearnLessonIntroProps) {
-  const { h1Class, introClass } = useBibleFontClasses();
+  const { h1Class, introClass, subBodyClassUp } = useBibleFontClasses();
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <div className="mb-12 space-y-6">
-      <p
-        className="text-second mb-3 font-mono text-xs"
-        aria-label={moduleNum.replace(" / ", " of ")}
-      >
+      <p className={cn("text-second mb-3 font-mono font-medium", subBodyClassUp)}>
         {moduleNum}
       </p>
       <h1
         className={cn(
-          "font-bible-english text-foreground leading-tight font-semibold text-balance",
+          "text-foreground leading-tight font-semibold text-balance",
+          titleFont,
           h1Class
         )}
       >
@@ -40,7 +43,13 @@ export function LearnLessonIntro({
       </h1>
 
       {typeof intro1 === "string" ? (
-        <p className={cn("text-muted-foreground mt-4 leading-relaxed", introClass)}>
+        <p
+          className={cn(
+            "text-muted-foreground mt-4 leading-relaxed",
+            introClass,
+            introFont
+          )}
+        >
           {intro1}
         </p>
       ) : (
@@ -48,13 +57,25 @@ export function LearnLessonIntro({
       )}
 
       <blockquote className="border-primary/40 mt-3 border-l-2 pl-4 not-italic" cite="">
-        <p className={cn("text-foreground leading-relaxed font-semibold", introClass)}>
+        <p
+          className={cn(
+            "text-foreground leading-relaxed font-semibold",
+            introClass,
+            introFont
+          )}
+        >
           &ldquo;{intro1Quote}&rdquo;
         </p>
       </blockquote>
 
       {typeof children === "string" ? (
-        <p className={cn("text-muted-foreground mt-4 leading-relaxed", introClass)}>
+        <p
+          className={cn(
+            "text-muted-foreground mt-4 leading-relaxed",
+            introClass,
+            introFont
+          )}
+        >
           {children}
         </p>
       ) : (

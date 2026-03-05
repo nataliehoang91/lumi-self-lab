@@ -120,12 +120,14 @@ export function VnBibleOriginPage() {
   return (
     <article aria-label="Nguồn gốc Kinh Thánh & Sự hình thành chính điển">
       <LearnBibleOriginIntro
+        locale="vi"
         moduleNum="02 / 04"
         title="Nguồn gốc Kinh Thánh & Sự hình thành chính điển"
         intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả trong khoảng 1.500 năm, được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, sự sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
       />
 
       <LearnBibleOriginLanguages
+        locale="vi"
         originalLanguages="Ngôn ngữ gốc"
         lang={["Hê-bơ-rơ", "Hy Lạp", "A-ram"]}
         langNote={[
@@ -136,6 +138,7 @@ export function VnBibleOriginPage() {
       />
 
       <LearnBibleOriginTimeline
+        locale="vi"
         timeline="Dòng thời gian bản thảo"
         timelineItems={VN_TIMELINE}
         mapLocations={VN_MAP_LOCATIONS}
@@ -143,6 +146,7 @@ export function VnBibleOriginPage() {
       />
 
       <LearnBibleOriginMapSection
+        locale="vi"
         mapTitle="Bản đồ bản thảo Kinh thánh"
         mapBody="Một vài địa điểm trọng yếu nơi Kinh thánh được viết, sao chép, dịch và được gìn giữ qua nhiều thế kỷ."
         activeId={mapActiveLocation}
@@ -152,12 +156,13 @@ export function VnBibleOriginPage() {
       />
 
       <LearnBibleOriginReliable
+        locale="vi"
         reliableTitle="Tại sao Kinh thánh được xem là đáng tin?"
         reliableP1="Tân Ước có nhiều bằng chứng bản thảo hơn bất kỳ tài liệu cổ đại nào — hơn 5.800 bản thảo Hy Lạp, so với chưa đến 650 bản cho Iliad của Homer. Khoảng cách thời gian giữa bản gốc và bản thảo còn lại sớm nhất cũng rất ngắn (vài thập kỷ, không phải thế kỷ)."
         reliableP2="Cuộn Sách Biển Chết xác nhận văn bản Cựu Ước được bảo tồn với độ chính xác phi thường qua hơn một ngàn năm sao chép. Dù tồn tại một số khác biệt nhỏ giữa các bản chép tay, phần lớn chỉ là sai biệt chính tả hoặc cách diễn đạt, không ảnh hưởng đến nội dung cốt lõi của đức tin."
       />
 
-      <LearnBibleOriginFaq faqTitle="Câu hỏi thường gặp" faq={VN_FAQ} />
+      <LearnBibleOriginFaq locale="vi" faqTitle="Câu hỏi thường gặp" faq={VN_FAQ} />
     </article>
   );
 }

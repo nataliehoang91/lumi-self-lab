@@ -12,6 +12,8 @@ export interface LearnPageVerseCtaProps {
   ctaSubtitle: string;
   ctaLabel: string;
   readHref: string;
+  /** When "vi", use Vietnamese flashcard font for verse and body text. */
+  locale?: "en" | "vi";
 }
 
 export function LearnPageVerseCta({
@@ -21,8 +23,11 @@ export function LearnPageVerseCta({
   ctaSubtitle,
   ctaLabel,
   readHref,
+  locale,
 }: LearnPageVerseCtaProps) {
   const { bodyClass, verseClass, buttonClass } = useBibleFontClasses();
+  const verseFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <div
@@ -32,7 +37,8 @@ export function LearnPageVerseCta({
       <div className="text-left">
         <p
           className={cn(
-            "font-bible-english leading-relaxed font-normal text-balance",
+            "leading-relaxed font-normal text-balance",
+            verseFont,
             verseClass
           )}
         >
@@ -44,8 +50,8 @@ export function LearnPageVerseCta({
         className="flex flex-col justify-between gap-4 pt-2 sm:flex-row sm:items-center"
       >
         <div>
-          <p className={cn("font-medium", bodyClass)}>{ctaTitle}</p>
-          <p className={cn("text-muted-foreground mt-0.5", bodyClass)}>{ctaSubtitle}</p>
+          <p className={cn("font-medium", bodyClass, bodyFont)}>{ctaTitle}</p>
+          <p className={cn("text-muted-foreground mt-0.5", bodyClass, bodyFont)}>{ctaSubtitle}</p>
         </div>
         <Link
           href={readHref}
@@ -54,7 +60,8 @@ export function LearnPageVerseCta({
             items-center gap-2 rounded-xl px-5 py-2.5 font-semibold whitespace-nowrap
             transition-all hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2
             focus-visible:outline-none`,
-            buttonClass
+            buttonClass,
+            bodyFont
           )}
         >
           {ctaLabel}{" "}

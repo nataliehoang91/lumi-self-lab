@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Volume2 } from "lucide-react";
@@ -14,6 +15,10 @@ import {
   parseKJVNotes,
   speakText,
 } from "./flashCardShared";
+import {
+  useFlashcardBooks,
+  buildVerseReadHref,
+} from "./FlashcardBooksContext";
 
 export function FlashCardVertical({
   verse,
@@ -27,6 +32,17 @@ export function FlashCardVertical({
   const [enVersion, setEnVersion] = useState<EnVersion>("NIV");
   const displayContent = getDisplayContent(verse, cardLanguage, enVersion);
   const displayTitle = getDisplayTitle(verse, cardLanguage);
+  const flashcardBooks = useFlashcardBooks();
+  const verseReadHref =
+    flashcardBooks &&
+    buildVerseReadHref(
+      flashcardBooks.books,
+      flashcardBooks.lang,
+      verse.book,
+      verse.chapter,
+      verse.verse,
+      verse.verseEnd
+    );
   const showKJVNotes =
     cardLanguage === "EN" && enVersion === "KJV" && hasKJVNotes(displayContent ?? "");
   const kjvParsed = showKJVNotes && displayContent ? parseKJVNotes(displayContent) : null;
@@ -58,8 +74,11 @@ export function FlashCardVertical({
             {cardLanguage === "VI" ? "VI" : cardLanguage === "ZH" ? "中" : "EN"}
           </Badge>
           <h2
-            className="text-foreground mt-2 min-w-0 px-2 text-center text-base font-bold
-              break-words sm:mt-3 sm:text-xl md:text-2xl"
+            className={cn(
+              "text-foreground mt-2 min-w-0 px-2 text-center text-base font-bold",
+              "break-words sm:mt-3 sm:text-xl md:text-2xl",
+              cardLanguage === "VI" && "font-vietnamese-flashcard"
+            )}
           >
             {displayTitle}
           </h2>
@@ -79,7 +98,7 @@ export function FlashCardVertical({
                 <p
                   className={cn(
                     "text-center [font-size:inherit] leading-relaxed text-pretty",
-                    cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
+                    cardLanguage === "VI" ? "font-vietnamese-flashcard" : "font-serif"
                   )}
                 >
                   {kjvParsed.parts.map((p, i) =>
@@ -102,7 +121,7 @@ export function FlashCardVertical({
                   className={cn(
                     `line-clamp-6 text-center [font-size:inherit] leading-relaxed
                       text-pretty`,
-                    cardLanguage === "VI" ? "font-vietnamese" : "font-serif"
+                    cardLanguage === "VI" ? "font-vietnamese-flashcard" : "font-serif"
                   )}
                 >
                   {displayContent || "—"}
@@ -121,6 +140,23 @@ export function FlashCardVertical({
                   </div>
                 ))}
               </div>
+            )}
+            {verseReadHref && verseReadHref !== "#" && (
+              <p
+                className={cn(
+                  "text-muted-foreground/80 mt-2 mb-3 shrink-0 text-center text-sm",
+                  cardLanguage === "VI" ? "font-vietnamese-flashcard" : "font-mono"
+                )}
+              >
+                <Link
+                  href={verseReadHref}
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-second-600 hover:text-second-800 underline
+                    underline-offset-2 transition-colors"
+                >
+                  {displayTitle}
+                </Link>
+              </p>
             )}
           </div>
           <div

@@ -1,6 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Inter, Geist_Mono, Lora, Merriweather } from "next/font/google";
+import { Inter, Geist_Mono, Lora, Merriweather, Noto_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -26,6 +26,13 @@ const loraSerif = Lora({
 
 const vietnameseScripture = Merriweather({
   variable: "--font-vietnamese",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "700"],
+});
+
+/* Noto Serif: strong Vietnamese diacritic support for flashcards (clearer than Merriweather at card sizes) */
+const notoSerifVietnamese = Noto_Serif({
+  variable: "--font-vietnamese-flashcard",
   subsets: ["latin", "vietnamese"],
   weight: ["400", "700"],
 });
@@ -63,7 +70,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${geistMono.variable}
-          ${vietnameseScripture.variable} ${loraSerif.variable} font-sans antialiased`}
+          ${vietnameseScripture.variable} ${loraSerif.variable}
+          ${notoSerifVietnamese.variable} font-sans antialiased`}
       >
         <Suspense
           fallback={

@@ -13,6 +13,8 @@ export interface LearnBibleOriginMapSectionProps {
   onActiveChange: (id: MapLocationId | null) => void;
   labels: Record<MapLocationId, string>;
   renderPopover: (id: MapLocationId) => { label: string; desc: string };
+  /** When "vi", use Vietnamese flashcard font. */
+  locale?: "en" | "vi";
 }
 
 export function LearnBibleOriginMapSection({
@@ -22,18 +24,21 @@ export function LearnBibleOriginMapSection({
   onActiveChange,
   labels,
   renderPopover,
+  locale,
 }: LearnBibleOriginMapSectionProps) {
   const { bodyClass } = useBibleFontClasses();
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <section className="mb-10">
       <BibleHeading
         level="h2"
-        className="font-bible-english text-foreground mb-2 font-semibold"
+        className={cn("text-foreground mb-2 font-semibold", titleFont)}
       >
         {mapTitle}
       </BibleHeading>
-      <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass)}>
+      <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass, bodyFont)}>
         {mapBody}
       </p>
       <LearnOriginMapFullWidth

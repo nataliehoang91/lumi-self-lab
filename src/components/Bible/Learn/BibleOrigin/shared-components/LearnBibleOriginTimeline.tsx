@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { BibleHeading } from "@/components/Bible/BibleHeading";
 import { LearnMiniMap, LearnMapPopover } from "@/components/Bible/Learn/LearnOriginMap";
 import type { MapLocationId } from "@/components/Bible/Learn/LearnOriginMap";
+import { cn } from "@/lib/utils";
 import { TIMELINE_LOCATION_IDS } from "./constants";
 
 export interface TimelineItem {
@@ -25,6 +26,8 @@ export interface LearnBibleOriginTimelineProps {
   timelineItems: readonly TimelineItem[];
   mapLocations: Record<MapLocationId, MapLocationInfo>;
   mapLabels: Record<MapLocationId, string>;
+  /** When "vi", use Vietnamese flashcard font for title and item text. */
+  locale?: "en" | "vi";
 }
 
 export function LearnBibleOriginTimeline({
@@ -32,14 +35,17 @@ export function LearnBibleOriginTimeline({
   timelineItems,
   mapLocations,
   mapLabels,
+  locale,
 }: LearnBibleOriginTimelineProps) {
   const [mapSheetLocationId, setMapSheetLocationId] = useState<MapLocationId | null>(
     null
   );
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-serif";
+  const itemFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <section className="mb-14">
-      <BibleHeading level="h2" className="text-foreground mb-6 font-serif font-semibold">
+      <BibleHeading level="h2" className={cn("text-foreground mb-6 font-semibold", titleFont)}>
         {timeline}
       </BibleHeading>
       <div className="relative">
@@ -78,10 +84,10 @@ export function LearnBibleOriginTimeline({
                 >
                   <div className="flex h-full items-center gap-0">
                     <div className="min-w-0 flex-1 px-4 py-4">
-                      <p className="text-foreground text-sm leading-snug font-semibold">
+                      <p className={cn("text-foreground text-sm leading-snug font-semibold", itemFont)}>
                         {t.event}
                       </p>
-                      <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">
+                      <p className={cn("text-muted-foreground mt-1.5 text-sm leading-relaxed", itemFont)}>
                         {t.desc}
                       </p>
                       <div className="mt-3 flex items-center gap-0">

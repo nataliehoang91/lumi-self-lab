@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getBooks } from "@/app/actions/bible/read";
 import { isBibleLocale } from "./layout";
 import { redirect } from "next/navigation";
 import { BibleLangPageWithLoader } from "@/components/Bible/LangPage/BibleLangPageWithLoader";
@@ -27,5 +28,6 @@ export default async function BibleLangRoute({
   const locale = lang?.toLowerCase();
   if (!locale || !isBibleLocale(locale)) redirect("/bible/en");
 
-  return <BibleLangPageWithLoader locale={locale} />;
+  const books = await getBooks();
+  return <BibleLangPageWithLoader locale={locale} books={books} />;
 }

@@ -317,15 +317,19 @@ function findBookIdByVi(
   return null;
 }
 
+const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
+
 export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
   const { bodyClass, subBodyClassUp } = useBibleFontClasses();
+  const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
   return (
     <article aria-label={`Bài học Chúa ${NAME_JESUS_VN} Là Ai?`}>
       <LearnLessonIntro
+        locale="vi"
         moduleNum="03 / 04"
         title={`Chúa ${NAME_JESUS_VN} Là Ai?`}
         intro1={
-          <p className={cn("text-muted-foreground my-4 leading-relaxed", bodyClass)}>
+          <p className={cn("text-muted-foreground my-4 leading-relaxed", vnBodyClass)}>
             Trong suốt hơn hai nghìn năm, con người vẫn tranh luận về thân vị của{" "}
             <strong>Chúa {NAME_JESUS_VN}</strong>.{" "}
           </p>
@@ -338,7 +342,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
           </>
         }
       >
-        <p className={cn("text-muted-foreground my-4 leading-relaxed", bodyClass)}>
+        <p className={cn("text-muted-foreground my-4 leading-relaxed", vnBodyClass)}>
           <strong>Chúa {NAME_JESUS_VN}</strong> người Na-xa-rét là nhân vật trung tâm của{" "}
           {TERM_NEW_TESTAMENT_VN} và giữ vị trí đặc biệt trong toàn bộ {TERM_BIBLE_VN}.
           Nhiều người tin rằng các sách {TERM_OLD_TESTAMENT_VN} chuẩn bị cho sự xuất hiện
@@ -348,13 +352,14 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       </LearnLessonIntro>
 
       <LearnFullyGodManSection
+        locale="vi"
         sectionTitle={`Vừa Là ${TERM_GOD_VN}, Vừa Là Con Người`}
         leftTitle="Hoàn Toàn Là Con Người"
         leftBody={
           <>
             <strong>Chúa {NAME_JESUS_VN}</strong> sống như một con người thật. Ngài trải
             nghiệm những điều rất quen thuộc với đời sống con người:
-            <ul className={cn("mt-3 space-y-1", bodyClass)}>
+            <ul className={cn("mt-3 space-y-1", vnBodyClass)}>
               <li>
                 • Khóc vì đau buồn
                 <span className="px-1">-</span>
@@ -404,7 +409,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
                 </BibleVerseLink>
               </li>
             </ul>
-            <p className={cn("mt-3", bodyClass)}>
+            <p className={cn("mt-3", vnBodyClass)}>
               Những điều này cho thấy <strong>Ngài</strong> thật sự bước vào đời sống con
               người, chứ không đứng bên ngoài nó.
             </p>
@@ -415,7 +420,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
           <>
             Đồng thời, <strong>Chúa {NAME_JESUS_VN}</strong> cũng làm những điều vượt quá
             khả năng của con người:
-            <ul className={cn("mt-3 space-y-1", bodyClass)}>
+            <ul className={cn("mt-3 space-y-1", vnBodyClass)}>
               <li>
                 • Làm phép lạ và khiến thiên nhiên vâng lời
                 <span className="px-1">-</span>
@@ -466,7 +471,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
                 </BibleVerseLink>
               </li>
             </ul>
-            <p className={cn("mt-3", bodyClass)}>
+            <p className={cn("mt-3", vnBodyClass)}>
               Vì vậy nhiều người tin rằng Ngài không chỉ là một giáo sư hay tiên tri, mà
               là Con của <strong>{TERM_GOD_VN}</strong>.
             </p>
@@ -475,6 +480,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       />
 
       <LearnCrossSection
+        locale="vi"
         title="Thập Tự Giá & Sự Phục Sinh"
         paragraph1={
           <>
@@ -512,6 +518,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       />
 
       <LearnProphecySection
+        locale="vi"
         title="Sự Ứng Nghiệm Lời Tiên Tri"
         intro={
           <>
@@ -527,6 +534,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhyCtaSection
+        locale="vi"
         title={`Vì Sao Chúa ${NAME_JESUS_VN} Vẫn Quan Trọng Ngày Nay?`}
         paragraph1={
           <>
@@ -548,6 +556,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       <LearnWhatIsBibleGlossary
         glossaryTitle="Từ vựng nhanh"
         glossary={VN_JESUS_GLOSSARY}
+        locale="vi"
       />
     </article>
   );
