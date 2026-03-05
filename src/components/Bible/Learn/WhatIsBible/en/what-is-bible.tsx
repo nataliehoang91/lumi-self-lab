@@ -303,7 +303,7 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           />,
         ]}
       />
-
+      <div className="my-8 h-px" />
 
       <LearnWhatIsBibleTestamentSection
         title={TERM_OLD_TESTAMENT_EN}

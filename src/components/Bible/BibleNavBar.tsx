@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { SquareMenu } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Search, SquareMenu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -32,9 +32,294 @@ import { useBibleApp } from "./BibleAppContext";
 import { useReadFocus } from "./ReadFocusContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { Container } from "../ui/container";
-import { BibleLogo, MonotoneBibleLogo, WhiteBibleLogo } from "./BibleLogo";
+import { BibleLogo, WhiteBibleLogo } from "./BibleLogo";
 import { ThemeToggleButtonBibleApp } from "./theme-toggle-in-bible-app";
 import { ThemePaletteSwitch } from "@/components/GeneralComponents/ThemePaletteSwitch";
+import { Kbd } from "@/components/ui/kbd";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import Fuse from "fuse.js";
+import type { BibleBook } from "@/components/Bible/Read/types";
+import { OT_ORDER_MAX } from "@/components/Bible/Read/constants";
+import {
+  buildReadSearchParams,
+  defaultVersionFromLanguage,
+} from "@/app/(bible)/bible/[lang]/read/params";
+
+interface BibleQuickSuggestion {
+  id: string;
+  label: string;
+  secondary: string;
+  href: string;
+}
+
+
+const BOOK_QUERY_ALIASES: Record<string, string> = {
+  // English shortcuts
+  jn: "john",
+  jhn: "john",
+  jon: "john",
+  jo: "john",
+  // Vietnamese transliterations without hyphens/accents
+  mathio: "ma-thi-ơ",
+  mati: "ma-thi-ơ",
+  matio: "ma-thi-ơ",
+};
+
+function normalizeForSearch(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[-·]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildBookSearchKey(book: BibleBook): string {
+  const parts = [book.nameEn, book.nameVi, book.nameZh ?? ""]
+    .filter(Boolean)
+    .map((p) => normalizeForSearch(p));
+  return Array.from(new Set(parts)).join(" ");
+}
+
+function getBookLabelForLanguage(book: BibleBook, lang: "EN" | "VI" | "ZH"): string {
+  if (lang === "VI") return book.nameVi;
+  if (lang === "ZH") return book.nameZh ?? book.nameEn;
+  return book.nameEn;
+}
+
+function parseBibleQuery(raw: string): {
+  bookQuery: string;
+  chapterHint?: number;
+  verse?: number;
+} {
+  const lower = raw.toLowerCase();
+  const numberMatches = Array.from(lower.matchAll(/\d+/g)).map((m) => parseInt(m[0], 10));
+
+  let chapterHint: number | undefined;
+  let verse: number | undefined;
+
+  if (numberMatches.length === 1) {
+    chapterHint = numberMatches[0];
+  } else if (numberMatches.length >= 2) {
+    chapterHint = numberMatches[0];
+    verse = numberMatches[numberMatches.length - 1];
+  }
+
+  let bookQuery = lower
+    .replace(/\d+/g, " ")
+    .replace(/\b(chapter|chap|ch|verse|vers|v|câu)\b/g, " ")
+    .replace(/[^\p{L}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // Try alias on the full compacted key (e.g. "ma thi o" -> "mathio").
+  if (bookQuery) {
+    const compact = bookQuery.replace(/\s+/g, "");
+    const alias = BOOK_QUERY_ALIASES[compact];
+    if (alias) {
+      bookQuery = alias;
+    }
+  }
+
+  return { bookQuery, chapterHint, verse };
+}
+
+function BibleReferenceSearch({
+  langSegment,
+  globalLanguage,
+}: {
+  langSegment: "en" | "vi" | "zh";
+  globalLanguage: "EN" | "VI" | "ZH";
+}) {
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+  const [books, setBooks] = useState<BibleBook[]>([]);
+
+  const suggestions = useMemo<BibleQuickSuggestion[]>(() => {
+    if (!query.trim() || books.length === 0) return [];
+    const { bookQuery, chapterHint, verse } = parseBibleQuery(query);
+    if (!bookQuery) return [];
+
+    const normalizedQuery = normalizeForSearch(bookQuery);
+    const indexedBooks = books.map((b) => ({
+      ...b,
+      searchKey: buildBookSearchKey(b),
+    }));
+
+    const fuse = new Fuse(indexedBooks, {
+      keys: ["nameEn", "nameVi", "nameZh", "searchKey"],
+      threshold: 0.35,
+      includeScore: true,
+    });
+
+    let results = fuse.search(normalizedQuery);
+
+    // If Fuse is too strict (common for Vietnamese without accents / hyphens),
+    // fall back to a simple "contains" match on the normalized searchKey.
+    if (!results.length) {
+      const fallbackMatches = indexedBooks.filter((b) =>
+        b.searchKey.includes(normalizedQuery)
+      );
+      if (fallbackMatches.length) {
+        // Shape this like Fuse's result type enough for our usage.
+        results = fallbackMatches.map((b, idx) => ({
+          item: b,
+          score: 0.5,
+          refIndex: idx,
+        }));
+      }
+    }
+
+    if (!results.length) return [];
+    const book = results[0]!.item;
+    const baseLabel = getBookLabelForLanguage(book, globalLanguage);
+    const totalChapters = book.chapterCount;
+    const startChapter =
+      chapterHint && chapterHint >= 1 && chapterHint <= totalChapters ? chapterHint : 1;
+    const maxSuggestions = 5;
+    const items: BibleQuickSuggestion[] = [];
+    const defaultVersion = defaultVersionFromLanguage(globalLanguage);
+    const testament = book.order <= OT_ORDER_MAX ? "ot" : "nt";
+
+    for (
+      let ch = startChapter;
+      ch <= totalChapters && items.length < maxSuggestions;
+      ch++
+    ) {
+      const versesParam = verse && verse >= 1 ? [verse] : undefined;
+      const qs = buildReadSearchParams({
+        version1: defaultVersion,
+        sync: true,
+        book1Id: book.id,
+        chapter1: ch,
+        testament1: testament,
+        verses: versesParam,
+      });
+      const href = `/bible/${langSegment}/read?${qs}`;
+      const main =
+        verse && verse >= 1 ? `${baseLabel} ${ch}:${verse}` : `${baseLabel} ${ch}`;
+      const secondary =
+        verse && verse >= 1 ? `Chapter ${ch}, verse ${verse}` : `Chapter ${ch}`;
+      items.push({
+        id: `${book.id}-${ch}-${verse ?? "all"}`,
+        label: main,
+        secondary,
+        href,
+      });
+    }
+    return items;
+  }, [query, books, globalLanguage, langSegment]);
+
+  useEffect(() => {
+    if (books.length > 0) return;
+    let cancelled = false;
+    fetch("/api/bible/books")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data: BibleBook[]) => {
+        if (cancelled) return;
+        setBooks(data);
+      })
+      .catch(() => {
+        /* ignore */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [books.length]);
+
+  const [open, setOpen] = useState(false);
+
+  // Support ⌘K / Ctrl+K to toggle the search palette
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const isCmdOrCtrlK =
+        (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
+      if (!isCmdOrCtrlK) return;
+      event.preventDefault();
+      setOpen((prev) => !prev);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          setOpen(true);
+        }}
+        className={cn(
+          `border-border hover:bg-muted/80 bg-card text-muted-foreground flex h-8
+          items-center justify-center rounded-full border px-2 text-xs transition-colors
+          gap-1.5`
+        )}
+        aria-label="Open Bible search"
+      >
+        <Search className="h-4 w-4" />
+        <span className="hidden lg:inline">Search</span>
+        <Kbd className="hidden xl:inline-flex">⌘K</Kbd>
+      </button>
+      {open && (
+        <div
+          className="bg-background/70 fixed inset-0 z-50 flex items-center justify-center
+            backdrop-blur-sm"
+          onClick={() => {
+            setOpen(false);
+            setQuery("");
+          }}
+        >
+          <div
+            className="bg-card border-border w-full max-w-xl rounded-xl border shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Command>
+              <CommandInput
+                placeholder="Search book, chapter, verse…"
+                value={query}
+                onValueChange={setQuery}
+              />
+              <CommandList>
+                <CommandEmpty>No results. Try “John 3 16”.</CommandEmpty>
+                <CommandGroup heading="Go to">
+                  {suggestions.map((s) => (
+                    <CommandItem
+                      key={s.id}
+                      value={s.label}
+                      onSelect={() => {
+                        router.push(s.href);
+                        setOpen(false);
+                        setQuery("");
+                      }}
+                      className="hover:bg-primary/20 text-black dark:text-white"
+                    >
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium">{s.label}</span>
+                        <span className="text-muted-foreground text-xs">
+                          {s.secondary}
+                        </span>
+                      </div>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 
 /** Shared nav menu trigger classes so Learn, Bible, Glossary match (outline, px, hover, etc.) */
 const NAV_MENU_TRIGGER_BASE =
@@ -279,7 +564,7 @@ export function BibleNavBar() {
         <Link href="/bible" className="flex min-w-0 items-center gap-6">
           <WhiteBibleLogo />
           <h1 className="invisible truncate text-lg font-semibold xl:visible">
-            ScriptureSpace
+            Scripture·Space
           </h1>
         </Link>
         <div
@@ -416,6 +701,12 @@ export function BibleNavBar() {
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+          {/* 0. Quick Bible reference search (desktop) */}
+          <BibleReferenceSearch
+            langSegment={langSegment as "en" | "vi" | "zh"}
+            globalLanguage={globalLanguage}
+          />
+
           {/* 1. Font size – single trigger + vertical dropdown (all screen sizes) */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

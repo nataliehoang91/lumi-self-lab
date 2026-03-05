@@ -579,7 +579,7 @@
   }
 
   .dark .bg-read {
-    background-color: oklch(0.18 0.008 85);
+    background-color: lab(5.28892% 0.234269 2.16256);
   }
 
   .theme-warm .bg-read,
