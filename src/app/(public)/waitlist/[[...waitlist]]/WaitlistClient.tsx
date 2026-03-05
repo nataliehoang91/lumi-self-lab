@@ -247,7 +247,7 @@ export function WaitlistClient({ showMarketing }: WaitlistClientProps) {
                               accent-primary h-4 w-4 rounded"
                           />
                           <span className="text-muted-foreground text-sm">
-                            Send me updates about Self-Lab
+                            Send me updates about SelfWithin
                           </span>
                         </label>
                       </div>
@@ -329,14 +329,20 @@ export function WaitlistClient({ showMarketing }: WaitlistClientProps) {
 
       <footer className="border-border/30 mt-8 py-8 backdrop-blur">
         <Container maxWidth="7xl" className="px-4 md:px-6">
-          <div className="border-border/30 flex flex-col items-center gap-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
+          <div
+            className="border-border/30 flex flex-col items-center gap-6 text-center
+              md:flex-row md:items-center md:justify-between md:text-left"
+          >
             <p className="text-muted-foreground text-sm">
               © 2026 SelfWithin. All rights reserved.
             </p>
-            <div className="flex flex-col items-center gap-4 md:flex-row md:items-center md:gap-6">
+            <div
+              className="flex flex-col items-center gap-4 md:flex-row md:items-center
+                md:gap-6"
+            >
               {/* Trust Badge */}
               <div className="text-center md:text-left">
-                <p className="text-muted-foreground text-sm max-w-sm">
+                <p className="text-muted-foreground max-w-sm text-sm">
                   All your reflections are private and encrypted. We never sell your data.
                 </p>
               </div>
