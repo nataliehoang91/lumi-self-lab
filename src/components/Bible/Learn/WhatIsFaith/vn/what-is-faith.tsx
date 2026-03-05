@@ -15,6 +15,40 @@ import {
   LearnWhatIsFaithGlossary,
 } from "../shared-components/LearnWhatIsFaithGlossary";
 import { NAME_JESUS_VN, TERM_GOD_VN } from "../../constants";
+import type { BibleBook } from "@/components/Bible/Read/types";
+
+function buildReadHrefVi(
+  bookId: string | null,
+  chapter: number,
+  verse: number,
+  testament: "ot" | "nt"
+): string {
+  if (!bookId) return "#";
+  const sp = new URLSearchParams();
+  sp.set("version1", "vi");
+  sp.set("sync", "true");
+  sp.set("book1", bookId);
+  sp.set("chapter1", String(chapter));
+  sp.set("testament1", testament);
+  sp.set("verse1", String(verse));
+  return `/bible/vi/read?${sp.toString()}`;
+}
+
+function findBookIdByVi(
+  books: BibleBook[] | undefined,
+  nameVi: string,
+  nameEn?: string
+): string | null {
+  if (!books?.length) return null;
+  const v = nameVi.trim().toLowerCase();
+  const byVi = books.find((b) => b.nameVi.trim().toLowerCase() === v);
+  if (byVi) return byVi.id;
+  if (nameEn) {
+    const byEn = books.find((b) => b.nameEn === nameEn);
+    if (byEn) return byEn.id;
+  }
+  return null;
+}
 
 const PRAYER_STEPS_VN: readonly PrayerStep[] = [
   {
@@ -66,7 +100,7 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
   },
 ];
 
-export function VnWhatIsFaithPage() {
+export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass } = useBibleFontClasses();
   return (
     <div>
@@ -100,6 +134,12 @@ export function VnWhatIsFaithPage() {
         graceBody="Sứ điệp trung tâm của Cơ Đốc giáo là sự cứu rỗi — được hòa giải với Đức Chúa Trời. Điều này không đạt được bởi việc lành, mà được nhận như một món quà, qua đức tin nơi điều Chúa Giê-xu đã làm."
         graceQuote="Ấy là nhờ ân điển, bởi đức tin, mà anh em được cứu, điều đó không phải đến từ anh em, bèn là sự ban cho của Đức Chúa Trời."
         graceRef="Ê-phê-sô 2:8"
+        graceFootnoteHref={buildReadHrefVi(
+          findBookIdByVi(books, "Ê-phê-sô", "Ephesians"),
+          2,
+          8,
+          "nt"
+        )}
       />
 
       <LearnWhatIsFaithRepentanceSection

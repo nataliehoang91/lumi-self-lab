@@ -28,6 +28,7 @@ import {
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
+import { cn } from "@/lib/utils";
 import type { LearnProphecyItem } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnProphecySection";
 
 /** NIV verse previews for popover (Who Is Jesus lesson). Fixed content, no API. */
@@ -39,6 +40,11 @@ const VERSE_PREVIEW_EN: Record<string, string> = {
     "In the beginning was the Word, and the Word was with God, and the Word was God.",
   "Colossians 2:9":
     "For in Christ all the fullness of the Deity lives in bodily form.",
+  "Mark 3:5": "...He looked around at them in anger and, deeply distressed at their stubborn hearts...",
+  "John 19:28": "...Jesus said, “I am thirsty.”",
+  "Mark 4:39": "He got up, rebuked the wind and said to the waves, “Quiet! Be still!” Then the wind died down and it was completely calm.",
+  "Luke 5:20": "...Jesus said, “Friend, your sins are forgiven.”",
+  "John 11:43-44": "Jesus called in a loud voice, “Lazarus, come out!” The dead man came out...",
   // Prophecy section
   "Micah 5:2":
     "But you, Bethlehem Ephrathah... out of you will come for me one who will be ruler over Israel.",
@@ -279,7 +285,7 @@ function findBookIdByEn(books: BibleBook[], nameEn: string): string | null {
 }
 
 export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
-  const { subBodyClass } = useBibleFontClasses();
+  const { bodyClass, subBodyClassUp } = useBibleFontClasses();
   return (
     <article aria-label={`Who Is ${NAME_JESUS_EN}? lesson`}>
       <LearnLessonIntro
@@ -307,69 +313,124 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
         leftTitle="Fully Human"
         leftBody={
           <>
-            <strong>{NAME_JESUS_EN}</strong> was born, grew up in an ordinary family, felt
-            hunger and exhaustion, experienced sorrow, and ultimately faced death.{" "}
-            <strong>He</strong> entered the human condition fully — not from a distance,
-            but from within.
-          </>
-        }
-        leftRef={
-          <>
-            <BibleVerseLink
-              langSegment="en"
-              bookId={findBookIdByEn(books, "John")}
-              chapter={11}
-              verse={35}
-              testament="nt"
-              previewText={VERSE_PREVIEW_EN["John 11:35"]}
-            >
-              John 11:35
-            </BibleVerseLink>
-            {" · "}
-            <BibleVerseLink
-              langSegment="en"
-              bookId={findBookIdByEn(books, "Hebrews")}
-              chapter={4}
-              verse={15}
-              testament="nt"
-              previewText={VERSE_PREVIEW_EN["Hebrews 4:15"]}
-            >
-              Hebrews 4:15
-            </BibleVerseLink>
+            <strong>{NAME_JESUS_EN}</strong> lived as a real human. He experienced things
+            familiar to human life:
+            <ul className={cn("mt-3 space-y-1", bodyClass)}>
+              <li>
+                • Wept with grief
+                <span className="px-1">—</span>
+                <BibleVerseLink
+                  langSegment="en"
+                  version1="niv"
+                  bookId={findBookIdByEn(books, "John")}
+                  chapter={11}
+                  verse={35}
+                  testament="nt"
+                  previewText={VERSE_PREVIEW_EN["John 11:35"]}
+                  triggerClassName={subBodyClassUp}
+                >
+                  John 11:35
+                </BibleVerseLink>
+              </li>
+              <li>
+                • Angry at what was wrong
+                <span className="px-1">—</span>
+                <BibleVerseLink
+                  langSegment="en"
+                  version1="niv"
+                  bookId={findBookIdByEn(books, "Mark")}
+                  chapter={3}
+                  verse={5}
+                  testament="nt"
+                  previewText={VERSE_PREVIEW_EN["Mark 3:5"]}
+                  triggerClassName={subBodyClassUp}
+                >
+                  Mark 3:5
+                </BibleVerseLink>
+              </li>
+              <li>
+                • Thirsty in suffering
+                <span className="px-1">—</span>
+                <BibleVerseLink
+                  langSegment="en"
+                  version1="niv"
+                  bookId={findBookIdByEn(books, "John")}
+                  chapter={19}
+                  verse={28}
+                  testament="nt"
+                  previewText={VERSE_PREVIEW_EN["John 19:28"]}
+                  triggerClassName={subBodyClassUp}
+                >
+                  John 19:28
+                </BibleVerseLink>
+              </li>
+            </ul>
+            <p className={cn("mt-3", bodyClass)}>
+              These show that <strong>He</strong> truly entered human life, not stood
+              outside it.
+            </p>
           </>
         }
         rightTitle="Fully Divine"
         rightBody={
           <>
-            Yet <strong>He</strong> also forgave sins, commanded the wind and waves,
-            received worship, and rose from the dead. The {TERM_NEW_TESTAMENT_EN} presents{" "}
-            <strong>Him</strong> not merely as a messenger of {TERM_GOD_EN}, but as{" "}
-            {TERM_GOD_EN} in human form.
-          </>
-        }
-        rightRef={
-          <>
-            <BibleVerseLink
-              langSegment="en"
-              bookId={findBookIdByEn(books, "John")}
-              chapter={1}
-              verse={1}
-              testament="nt"
-              previewText={VERSE_PREVIEW_EN["John 1:1"]}
-            >
-              John 1:1
-            </BibleVerseLink>
-            {" · "}
-            <BibleVerseLink
-              langSegment="en"
-              bookId={findBookIdByEn(books, "Colossians")}
-              chapter={2}
-              verse={9}
-              testament="nt"
-              previewText={VERSE_PREVIEW_EN["Colossians 2:9"]}
-            >
-              Colossians 2:9
-            </BibleVerseLink>
+            At the same time, <strong>{NAME_JESUS_EN}</strong> did things beyond human
+            ability:
+            <ul className={cn("mt-3 space-y-1", bodyClass)}>
+              <li>
+                • Performed miracles and commanded nature
+                <span className="px-1">—</span>
+                <BibleVerseLink
+                  langSegment="en"
+                  version1="niv"
+                  bookId={findBookIdByEn(books, "Mark")}
+                  chapter={4}
+                  verse={39}
+                  testament="nt"
+                  previewText={VERSE_PREVIEW_EN["Mark 4:39"]}
+                  triggerClassName={subBodyClassUp}
+                >
+                  Mark 4:39
+                </BibleVerseLink>
+              </li>
+              <li>
+                • Had authority to forgive sins
+                <span className="px-1">—</span>
+                <BibleVerseLink
+                  langSegment="en"
+                  version1="niv"
+                  bookId={findBookIdByEn(books, "Luke")}
+                  chapter={5}
+                  verse={20}
+                  testament="nt"
+                  previewText={VERSE_PREVIEW_EN["Luke 5:20"]}
+                  triggerClassName={subBodyClassUp}
+                >
+                  Luke 5:20
+                </BibleVerseLink>
+              </li>
+              <li>
+                • Raised the dead
+                <span className="px-1">—</span>
+                <BibleVerseLink
+                  langSegment="en"
+                  version1="niv"
+                  bookId={findBookIdByEn(books, "John")}
+                  chapter={11}
+                  verse={43}
+                  verseEnd={44}
+                  testament="nt"
+                  previewText={VERSE_PREVIEW_EN["John 11:43-44"]}
+                  triggerClassName={subBodyClassUp}
+                >
+                  John 11:43-44
+                </BibleVerseLink>
+              </li>
+            </ul>
+            <p className={cn("mt-3", bodyClass)}>
+              So many believe <strong>He</strong> was not only a teacher or prophet, but
+              the Son of {TERM_GOD_EN}.
+            </p>
           </>
         }
       />
@@ -401,7 +462,7 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
             verse={3}
             verseEnd={8}
             testament="nt"
-            triggerClassName={subBodyClass}
+            triggerClassName={subBodyClassUp}
             previewText={VERSE_PREVIEW_EN["1 Corinthians 15:3–8"]}
           >
             1 Corinthians 15:3–8
@@ -421,7 +482,7 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
             debated for centuries.
           </>
         }
-        items={getProphecyItems(books, findBookIdByEn, subBodyClass)}
+        items={getProphecyItems(books, findBookIdByEn, subBodyClassUp)}
       />
 
       <LearnWhyCtaSection

@@ -14,6 +14,30 @@ import {
   type GlossaryItem,
   LearnWhatIsFaithGlossary,
 } from "../shared-components/LearnWhatIsFaithGlossary";
+import type { BibleBook } from "@/components/Bible/Read/types";
+
+function buildReadHrefEn(
+  bookId: string | null,
+  chapter: number,
+  verse: number,
+  testament: "ot" | "nt"
+): string {
+  if (!bookId) return "#";
+  const sp = new URLSearchParams();
+  sp.set("version1", "niv");
+  sp.set("sync", "true");
+  sp.set("book1", bookId);
+  sp.set("chapter1", String(chapter));
+  sp.set("testament1", testament);
+  sp.set("verse1", String(verse));
+  return `/bible/en/read?${sp.toString()}`;
+}
+
+function findBookIdByEn(books: BibleBook[] | undefined, nameEn: string): string | null {
+  if (!books?.length) return null;
+  const book = books.find((b) => b.nameEn === nameEn);
+  return book?.id ?? null;
+}
 
 const PRAYER_STEPS_EN: readonly PrayerStep[] = [
   {
@@ -65,7 +89,7 @@ const EN_GLOSSARY: readonly GlossaryItem[] = [
   },
 ];
 
-export function EnWhatIsFaithPage() {
+export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass } = useBibleFontClasses();
 
   return (
@@ -101,6 +125,12 @@ export function EnWhatIsFaithPage() {
         graceBody="The central message of Christianity is salvation — being reconciled to God. This is not achieved by good works, but received as a gift through faith in what Jesus has done."
         graceQuote="For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God."
         graceRef="Ephesians 2:8"
+        graceFootnoteHref={buildReadHrefEn(
+          findBookIdByEn(books, "Ephesians"),
+          2,
+          8,
+          "nt"
+        )}
       />
 
       <LearnWhatIsFaithRepentanceSection

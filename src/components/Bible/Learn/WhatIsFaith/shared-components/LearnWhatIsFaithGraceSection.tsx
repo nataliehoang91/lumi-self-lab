@@ -9,6 +9,8 @@ export interface LearnWhatIsFaithGraceSectionProps {
   graceBody: string;
   graceQuote: string;
   graceRef: string;
+  /** When set, footnote (graceRef) is rendered as a link to the verse (e.g. read page). */
+  graceFootnoteHref?: string;
 }
 
 export function LearnWhatIsFaithGraceSection({
@@ -16,6 +18,7 @@ export function LearnWhatIsFaithGraceSection({
   graceBody,
   graceQuote,
   graceRef,
+  graceFootnoteHref,
 }: LearnWhatIsFaithGraceSectionProps) {
   const { bodyClass } = useBibleFontClasses();
 
@@ -35,6 +38,7 @@ export function LearnWhatIsFaithGraceSection({
           quote={graceQuote}
           footnoteAlign="center"
           footnote={graceRef}
+          footnoteHref={graceFootnoteHref}
           className="mt-4"
         />
       </div>

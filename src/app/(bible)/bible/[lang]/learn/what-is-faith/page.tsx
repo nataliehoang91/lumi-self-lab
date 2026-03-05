@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getBooks } from "@/app/actions/bible/read";
 import { EnWhatIsFaithPage } from "@/components/Bible/Learn/WhatIsFaith/en/what-is-faith";
 import { VnWhatIsFaithPage } from "@/components/Bible/Learn/WhatIsFaith/vn/what-is-faith";
 
@@ -15,10 +16,11 @@ export default async function WhatIsFaithPage({
 }) {
   const finalParams = await params;
   const lang = finalParams.lang.toLowerCase();
+  const books = await getBooks();
 
   if (lang === "vi") {
-    return <VnWhatIsFaithPage />;
+    return <VnWhatIsFaithPage books={books} />;
   } else {
-    return <EnWhatIsFaithPage />;
+    return <EnWhatIsFaithPage books={books} />;
   }
 }
