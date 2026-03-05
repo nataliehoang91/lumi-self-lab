@@ -49,7 +49,7 @@ const MODULES = [
   },
 ] as const;
 
-export function EnLearnPage() {
+export function EnLearnPage({ verseHref }: { verseHref: string }) {
   return (
     <article aria-label="Learn - Start here">
       <LearnPageIntro
@@ -92,6 +92,7 @@ export function EnLearnPage() {
         ctaSubtitle="Don't just learn about the Bible — open it and read for yourself."
         ctaLabel="Open the Bible"
         readHref="/bible/en/read"
+        verseHref={verseHref}
       />
     </article>
   );

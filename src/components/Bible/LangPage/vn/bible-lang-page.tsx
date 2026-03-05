@@ -77,7 +77,7 @@ function getJourneyVn(base: string): JourneyItem[] {
   return [
     {
       step: "01",
-      label: "Học",
+      label: "Tìm hiểu",
       headline: "Bắt đầu từ nền tảng.",
       body: "Hiểu Kinh thánh là gì, Chúa Giê-xu là ai và đức tin nghĩa là gì.",
       links: [

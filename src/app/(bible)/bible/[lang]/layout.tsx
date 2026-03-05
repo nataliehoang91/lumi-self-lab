@@ -22,12 +22,12 @@ export async function generateMetadata({
   const { lang } = await params;
   const locale = lang?.toLowerCase();
   if (!locale || !isBibleLocale(locale)) {
-    return { title: "ScriptureSpace" };
+    return { title: "Scripture·Space" };
   }
   return {
     title: {
-      default: "ScriptureSpace",
-      template: "%s | ScriptureSpace",
+      default: "Scripture·Space",
+      template: "%s | Scripture·Space",
     },
     description:
       "A quiet place to learn and read Scripture. Explore the Bible, study foundations, and grow at your own pace.",

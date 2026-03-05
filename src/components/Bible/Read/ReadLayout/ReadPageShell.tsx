@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect } from "react";
 import { ReadProvider, useRead } from "@/components/Bible/Read/context/ReadContext";
 import { ReadInsightsContainer } from "@/components/Bible/Read/ReadInsightsContainer";
 import { ReadContentContainer, ReadShellContainer } from "./ReadContentContainer";
@@ -11,7 +11,6 @@ import { usePathname } from "next/navigation";
 import type { Language } from "@/components/Bible/BibleAppContext";
 import { ReadHeader } from "../ReadHeaderNav/ReadHeader";
 import { ReadMain } from "../ReadMain";
-import { FullPageBibleLoader } from "../../GeneralComponents/full-page-bible-loader";
 
 function ReadFocusSync() {
   const { focusMode } = useRead();
@@ -39,23 +38,6 @@ export function ReadPageShell({
 }) {
   const initialBooks = use(booksPromise);
   const pathname = usePathname();
-  const [entryLoaderDone, setEntryLoaderDone] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.sessionStorage.getItem("bible-read-entry-loader-done") === "true";
-  });
-
-  if (!entryLoaderDone) {
-    return (
-      <FullPageBibleLoader
-        onComplete={() => {
-          if (typeof window !== "undefined") {
-            window.sessionStorage.setItem("bible-read-entry-loader-done", "true");
-          }
-          setEntryLoaderDone(true);
-        }}
-      />
-    );
-  }
 
   return (
     <NavigationForm action={pathname} preventReset>

@@ -5,7 +5,7 @@ import { BibleLocaleRedirect } from "@/components/Bible/BibleLocaleRedirect";
 const DEFAULT_LOCALE = "en" as const;
 
 export const metadata: Metadata = {
-  title: "ScriptureSpace",
+  title: "Scripture·Space",
   description:
     "A quiet place to learn and read Scripture. Explore the Bible at your own pace.",
 };

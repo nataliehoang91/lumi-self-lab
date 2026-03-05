@@ -30,8 +30,18 @@ export default async function ReadPage({
   const newSearchParams = (await searchParams) ?? {};
   const initialLanguage = routeLangToLanguage(lang);
 
+  // Force the client-side read shell to remount when coming from different
+  // sources (e.g. flashcards) or when query params change, so it never reuses
+  // stale state from a previous visit.
+  const key = `${lang}:${new URLSearchParams(
+    Object.entries(newSearchParams).filter(
+      ([, value]) => typeof value === "string" && value !== undefined
+    ) as [string, string][]
+  ).toString()}`;
+
   return (
     <ReadPageShell
+      key={key}
       booksPromise={booksPromise}
       searchParams={newSearchParams}
       initialLanguage={initialLanguage}

@@ -66,7 +66,7 @@ function getJourneyEn(base: string): JourneyItem[] {
   return [
     {
       step: "01",
-      label: "Learn",
+      label: "Explore",
       headline: "Begin with the foundations.",
       body: "Explore what the Bible is, who Jesus is, and what faith means — before you start reading.",
       links: [

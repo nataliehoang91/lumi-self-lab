@@ -12,6 +12,8 @@ export interface LearnPageVerseCtaProps {
   ctaSubtitle: string;
   ctaLabel: string;
   readHref: string;
+  /** Optional direct link for the verse reference (defaults to readHref). */
+  verseHref?: string;
   /** When "vi", use Vietnamese flashcard font for verse and body text. */
   locale?: "en" | "vi";
 }
@@ -23,6 +25,7 @@ export function LearnPageVerseCta({
   ctaSubtitle,
   ctaLabel,
   readHref,
+  verseHref,
   locale,
 }: LearnPageVerseCtaProps) {
   const { bodyClass, verseClass, buttonClass } = useBibleFontClasses();
@@ -44,22 +47,32 @@ export function LearnPageVerseCta({
         >
           &ldquo;{verseText}&rdquo;
         </p>
-        <p className="mt-3 font-sans text-xs tracking-[0.2em] uppercase">{verseRef}</p>
+        <p className="mt-3 font-sans text-xs tracking-[0.2em] uppercase">
+          <Link
+            href={verseHref ?? readHref}
+            className="inline-flex items-center gap-1 underline underline-offset-4
+              hover:underline"
+          >
+            {verseRef}
+          </Link>
+        </p>
       </div>
       <div
         className="flex flex-col justify-between gap-4 pt-2 sm:flex-row sm:items-center"
       >
         <div>
           <p className={cn("font-medium", bodyClass, bodyFont)}>{ctaTitle}</p>
-          <p className={cn("text-muted-foreground mt-0.5", bodyClass, bodyFont)}>{ctaSubtitle}</p>
+          <p className={cn("text-muted-foreground mt-0.5", bodyClass, bodyFont)}>
+            {ctaSubtitle}
+          </p>
         </div>
         <Link
           href={readHref}
           className={cn(
             `bg-primary text-primary-foreground focus-visible:ring-ring group flex
-            items-center gap-2 rounded-xl px-5 py-2.5 font-semibold whitespace-nowrap
-            transition-all hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2
-            focus-visible:outline-none`,
+            items-center justify-end gap-2 rounded-xl px-5 py-2.5 font-semibold
+            whitespace-nowrap transition-all hover:opacity-90 focus-visible:ring-2
+            focus-visible:ring-offset-2 focus-visible:outline-none lg:justify-center`,
             buttonClass,
             bodyFont
           )}

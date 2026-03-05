@@ -49,7 +49,7 @@ const MODULES = [
   },
 ] as const;
 
-export function VnLearnPage() {
+export function VnLearnPage({ verseHref }: { verseHref: string }) {
   return (
     <article aria-label="Học - Bắt đầu tại đây">
       <LearnPageIntro
@@ -94,6 +94,7 @@ export function VnLearnPage() {
         ctaSubtitle="Đừng chỉ học về Kinh Thánh — hãy tự mình khám phá."
         ctaLabel="Mở Kinh thánh"
         readHref="/bible/vi/read"
+        verseHref={verseHref}
       />
     </article>
   );

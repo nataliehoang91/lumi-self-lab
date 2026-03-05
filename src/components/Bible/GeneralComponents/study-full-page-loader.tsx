@@ -434,7 +434,7 @@ export function StudyFullPageLoader({
             className="font-serif text-xs tracking-widest uppercase"
             style={{ color: "oklch(0.50 0.015 85)", letterSpacing: "0.25em" }}
           >
-            ScriptureSpace
+            Scripture·Space
           </span>
           <span
             className="font-sans text-xs"

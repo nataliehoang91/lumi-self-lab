@@ -39,7 +39,7 @@ export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterP
               <WhiteBibleLogo />
               <div>
                 <span className={`text-foreground font-serif font-semibold ${bodyClass}`}>
-                  ScriptureSpace
+                  Scripture·Space
                 </span>
                 <p
                   className={`text-muted-foreground max-w-[220px] text-xs leading-relaxed

@@ -170,7 +170,7 @@ export function LandingLoader({ onComplete }: LandingLoaderProps) {
               className="font-serif text-xs tracking-[0.38em] uppercase"
               style={{ color: "var(--loader-wordmark)" }}
             >
-              ScriptureSpace
+              Scripture·Space
             </span>
             <div className="h-px w-10" style={{ background: "var(--loader-hairline)" }} />
           </div>
