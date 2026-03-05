@@ -36,7 +36,10 @@ export interface ReadingPanelProps {
   books: BibleBook[];
   hoveredVerse: number | null;
   onVerseHover: (verse: number | null) => void;
+  /** Single verse for backward compat; prefer highlightedVerses for multiple. */
   highlightedVerse?: number | null;
+  /** Multiple verse numbers to highlight (e.g. [3, 5, 7]). */
+  highlightedVerses?: number[];
   onVerseNumberClick?: (verse: number) => void;
   focusMode: boolean;
   showControls: boolean;

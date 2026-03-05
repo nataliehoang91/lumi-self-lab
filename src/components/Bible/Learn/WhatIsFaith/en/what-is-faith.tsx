@@ -66,7 +66,7 @@ const EN_GLOSSARY: readonly GlossaryItem[] = [
 ];
 
 export function EnWhatIsFaithPage() {
-  const { bodyClass } = useBibleFontClasses();
+  const { bodyClass, bodyTitleClass } = useBibleFontClasses();
 
   return (
     <div>
@@ -81,16 +81,16 @@ export function EnWhatIsFaithPage() {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className="text-lg leading-snug font-semibold">
+        <p className={cn("font-bible-english leading-snug font-semibold", bodyTitleClass)}>
           A Relationship, Not a Religion
         </p>
-        <p className="text-sm leading-relaxed opacity-90">
+        <p className={cn("leading-relaxed opacity-90", bodyClass)}>
           Christianity is not simply a system of rules to follow, but a relationship to
           enter. Jesus said he came so that people “may have life, and have it to the
           full” (John 10:10). The goal is not perfection, but walking in a real
           relationship with God.
         </p>
-        <p className="border-border border-t pt-4 text-sm leading-relaxed opacity-80">
+        <p className={cn("border-border border-t pt-4 leading-relaxed opacity-80", bodyClass)}>
           Reading Scripture, praying, and gathering with other believers are ways of
           growing in that relationship — not conditions for being accepted.
         </p>

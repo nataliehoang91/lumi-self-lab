@@ -29,10 +29,10 @@ function IndependentReadPanel({ side }: { side: "left" | "right" }) {
     books,
     hoveredVerse,
     setHoveredVerse,
-    verse1,
-    verse2,
-    setVerse1,
-    setVerse2,
+    highlightedVerses,
+    highlightedVersesRight,
+    toggleVerseHighlight,
+    toggleRightVerseHighlight,
     focusMode,
     leftTestamentFilter,
     rightTestamentFilter,
@@ -56,7 +56,12 @@ function IndependentReadPanel({ side }: { side: "left" | "right" }) {
   const onTestamentFilterChange =
     side === "left" ? setLeftTestamentFilterAndAdjust : setRightTestamentFilterAndAdjust;
 
-  const highlightedVerse = side === "left" ? verse1 : verse2;
+  const highlightedVersesProp =
+    side === "left" ? highlightedVerses : highlightedVersesRight;
+  const onVerseClick =
+    side === "left"
+      ? toggleVerseHighlight
+      : toggleRightVerseHighlight;
 
   return (
     <EnhancedReadingPanel
@@ -71,12 +76,8 @@ function IndependentReadPanel({ side }: { side: "left" | "right" }) {
       books={books}
       hoveredVerse={hoveredVerse}
       onVerseHover={setHoveredVerse}
-      highlightedVerse={highlightedVerse ?? null}
-      onVerseNumberClick={
-        side === "left"
-          ? (n) => setVerse1(verse1 === n ? null : n)
-          : (n) => setVerse2(verse2 === n ? null : n)
-      }
+      highlightedVerses={highlightedVersesProp}
+      onVerseNumberClick={onVerseClick}
       focusMode={focusMode}
       showControls
       showBookChapterSelectors

@@ -18,11 +18,16 @@ export function EnhancedReadingPanel(props: ReadingPanelProps) {
     hoveredVerse,
     onVerseHover,
     highlightedVerse,
+    highlightedVerses,
     onVerseNumberClick,
     focusMode,
     fontSize,
     t,
   } = props;
+
+  const scrollTarget =
+    (highlightedVerses && highlightedVerses[0]) ?? highlightedVerse ?? null;
+  const versesToHighlight = highlightedVerses ?? (highlightedVerse != null ? [highlightedVerse] : []);
 
   if (!version) {
     return (
@@ -43,7 +48,8 @@ export function EnhancedReadingPanel(props: ReadingPanelProps) {
         fontSize={fontSize}
         hoveredVerse={hoveredVerse}
         onVerseHover={onVerseHover}
-        targetVerse={highlightedVerse ?? null}
+        targetVerse={scrollTarget}
+        highlightedVerses={versesToHighlight}
         onVerseNumberClick={onVerseNumberClick}
         t={t}
       />

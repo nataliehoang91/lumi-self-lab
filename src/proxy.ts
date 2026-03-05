@@ -48,10 +48,11 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.redirect(new URL("/waitlist", req.url));
   }
 
-  // Root: redirect without rendering MainPage to avoid Performance API / negative timestamp errors
+  // Root: redirect without rendering MainPage to avoid Performance API / negative timestamp errors.
+  // Unauthenticated → /waitlist (not /welcome). /bible/* is public and not affected (pathname !== "/").
   if (pathname === "/") {
     const { isAuthenticated } = await auth();
-    const target = isAuthenticated ? "/dashboard" : "/welcome";
+    const target = isAuthenticated ? "/dashboard" : "/waitlist";
     return NextResponse.redirect(new URL(target, req.url));
   }
 

@@ -41,8 +41,13 @@ interface ReadState {
   loadingLeft: boolean;
   loadingRight: boolean;
   hoveredVerse: number | null;
-   verse1: number | null;
-   verse2: number | null;
+  verse1: number | null;
+  verse2: number | null;
+  verseEnd: number | null;
+  /** Multiple verse numbers to highlight (left/sync panel). URL param: verses=3,5,7 */
+  highlightedVerses: number[];
+  /** Multiple verse numbers to highlight in independent right panel (not URL-synced). */
+  highlightedVersesRight: number[];
   panelWidth: number;
   isDragging: boolean;
   subNavBookOpen: boolean;
@@ -68,6 +73,13 @@ interface ReadContextValue extends ReadState {
   setHoveredVerse: (verse: number | null) => void;
   setVerse1: (verse: number | null) => void;
   setVerse2: (verse: number | null) => void;
+  setVerseEnd: (verse: number | null) => void;
+  setHighlightedVerses: (verses: number[] | ((prev: number[]) => number[])) => void;
+  toggleVerseHighlight: (verseNumber: number) => void;
+  setHighlightedVersesRight: (
+    verses: number[] | ((prev: number[]) => number[])
+  ) => void;
+  toggleRightVerseHighlight: (verseNumber: number) => void;
   setPanelWidth: (v: number) => void;
   setIsDragging: (v: boolean) => void;
   setSubNavBookOpen: (v: boolean) => void;
@@ -277,7 +289,29 @@ export function ReadProvider({
   const [hoveredVerse, setHoveredVerse] = useState<number | null>(null);
   const [verse1, setVerse1] = useState<number | null>(initialParsed.verse1);
   const [verse2, setVerse2] = useState<number | null>(initialParsed.verse2);
+  const [verseEnd, setVerseEnd] = useState<number | null>(initialParsed.verseEnd ?? null);
+  const [highlightedVerses, setHighlightedVerses] = useState<number[]>(
+    initialParsed.verses ?? []
+  );
+  const [highlightedVersesRight, setHighlightedVersesRight] = useState<number[]>([]);
   const [panelWidth, setPanelWidth] = useState(50);
+
+  const toggleVerseHighlight = useCallback((verseNumber: number) => {
+    setHighlightedVerses((prev) => {
+      const next = prev.includes(verseNumber)
+        ? prev.filter((n) => n !== verseNumber)
+        : [...prev, verseNumber].sort((a, b) => a - b);
+      return next;
+    });
+  }, []);
+  const toggleRightVerseHighlight = useCallback((verseNumber: number) => {
+    setHighlightedVersesRight((prev) => {
+      const next = prev.includes(verseNumber)
+        ? prev.filter((n) => n !== verseNumber)
+        : [...prev, verseNumber].sort((a, b) => a - b);
+      return next;
+    });
+  }, []);
   const [isDragging, setIsDragging] = useState(false);
   const [subNavBookOpen, setSubNavBookOpen] = useState(false);
   const [subNavChapterOpen, setSubNavChapterOpen] = useState(false);
@@ -320,6 +354,9 @@ export function ReadProvider({
       setInsightOpen(false);
       setVerse1(null);
       setVerse2(null);
+      setVerseEnd(null);
+      setHighlightedVerses([]);
+      setHighlightedVersesRight([]);
       initialUrlSynced.current = true;
       return;
     }
@@ -346,6 +383,8 @@ export function ReadProvider({
           focus: parsed.focus || undefined,
           verse1: parsed.verse1 || undefined,
           verse2: hasRight ? parsed.verse2 || undefined : undefined,
+          verseEnd: parsed.verseEnd || undefined,
+          verses: parsed.verses?.length ? parsed.verses : undefined,
         });
         const desiredSearch = qs ? `?${qs}` : "";
         const fullUrl = desiredSearch ? `${pathname}${desiredSearch}` : pathname;
@@ -372,6 +411,8 @@ export function ReadProvider({
       setInsightOpen(parsed.insights);
       setVerse1(parsed.verse1);
       setVerse2(parsed.verse2);
+      setVerseEnd(parsed.verseEnd);
+      setHighlightedVerses(parsed.verses ?? []);
     } else {
       if (hasAnyVersion || parsed.insights) {
         const qs = buildReadSearchParams({
@@ -382,6 +423,8 @@ export function ReadProvider({
           focus: parsed.focus || undefined,
           verse1: parsed.verse1 || undefined,
           verse2: parsed.verse2 || undefined,
+          verseEnd: parsed.verseEnd || undefined,
+          verses: parsed.verses?.length ? parsed.verses : undefined,
         });
         const desiredSearch = qs ? `?${qs}` : "";
         const fullUrl = desiredSearch ? `${pathname}${desiredSearch}` : pathname;
@@ -401,6 +444,8 @@ export function ReadProvider({
       setInsightOpen(parsed.insights);
       setVerse1(parsed.verse1);
       setVerse2(parsed.verse2);
+      setVerseEnd(parsed.verseEnd);
+      setHighlightedVerses(parsed.verses ?? []);
     }
     initialUrlSynced.current = true;
   }, [searchParams, pathname, effectiveLanguage, router, books]);
@@ -454,8 +499,13 @@ export function ReadProvider({
       testament2: rightVersion && !syncMode ? rightTestament : undefined,
       insights: insightOpen || undefined,
       focus: focusMode || undefined,
-      verse1: verse1 || undefined,
+      verse1: highlightedVerses[0] ?? verse1 ?? undefined,
       verse2: verse2 || undefined,
+      verseEnd:
+        highlightedVerses.length > 1
+          ? highlightedVerses[highlightedVerses.length - 1]
+          : verseEnd ?? undefined,
+      verses: highlightedVerses.length > 0 ? highlightedVerses : undefined,
     });
     const desiredSearch = qs ? `?${qs}` : "";
     if (desiredSearch === "") return;
@@ -487,6 +537,8 @@ export function ReadProvider({
     router,
     verse1,
     verse2,
+    verseEnd,
+    highlightedVerses,
   ]);
 
   const fetchChapter = useCallback(
@@ -667,8 +719,16 @@ export function ReadProvider({
     setHoveredVerse,
     verse1,
     verse2,
+    verseEnd,
+    highlightedVerses,
+    highlightedVersesRight,
+    setHighlightedVerses,
+    toggleVerseHighlight,
+    setHighlightedVersesRight,
+    toggleRightVerseHighlight,
     setVerse1,
     setVerse2,
+    setVerseEnd,
     panelWidth,
     setPanelWidth,
     isDragging,

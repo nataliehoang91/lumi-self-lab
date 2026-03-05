@@ -39,10 +39,19 @@ import {
   TERM_CHRIST_EN,
   TERM_OLD_TESTAMENT_EN,
   TERM_NEW_TESTAMENT_EN,
+  BOOK_2_SAMUEL_EN,
+  BOOK_2_TIMOTHY_EN,
+  BOOK_AMOS_EN,
+  BOOK_COLOSSIANS_EN,
+  BOOK_DANIEL_EN,
 } from "@/components/Bible/Learn/constants";
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
+import { QuoteCard } from "@/components/GeneralComponents/QuoteCard";
+import { LearnWhatIsBibleAuthorsSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleAuthorsSection";
+import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
+import type { BibleBook } from "@/components/Bible/Read/types";
 
 const EN_GLOSSARY: readonly GlossaryItem[] = [
   {
@@ -75,8 +84,45 @@ const EN_GLOSSARY: readonly GlossaryItem[] = [
   },
 ];
 
-export function EnWhatIsBiblePage() {
-  const { bodyClass } = useBibleFontClasses();
+const VERSE_PREVIEW_EN_AUTHORS: Record<string, string> = {
+  "2 Samuel 5:4-5":
+    "David was thirty years old when he became king, and he reigned forty years. In Hebron he reigned over Judah seven years and six months, and in Jerusalem he reigned over all Israel and Judah thirty-three years.",
+  "Amos 1:1": "The words of Amos, one of the shepherds of Tekoa...",
+  "Daniel 2:48":
+    "Then the king placed Daniel in a high position and lavished many gifts on him... He made him ruler over the entire province of Babylon.",
+  "Colossians 4:14": "Our dear friend Luke, the doctor, and Demas send greetings.",
+  "Matthew 4:18-21":
+    "As Jesus was walking beside the Sea of Galilee... he saw two brothers, Simon called Peter and his brother Andrew... He said to them, “Come, follow me.”",
+  "Matthew 10:3": "Philip and Bartholomew; Thomas and Matthew the tax collector...",
+  "2 Timothy 3:16":
+    "All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness.",
+};
+
+function buildReadHrefEn(
+  bookId: string | null,
+  chapter: number,
+  verse: number,
+  testament: "ot" | "nt"
+): string {
+  if (!bookId) return "#";
+  const sp = new URLSearchParams();
+  sp.set("version1", "niv");
+  sp.set("sync", "true");
+  sp.set("book1", bookId);
+  sp.set("chapter1", String(chapter));
+  sp.set("testament1", testament);
+  sp.set("verse1", String(verse));
+  return `/bible/en/read?${sp.toString()}`;
+}
+
+function findBookIdByEn(books: BibleBook[] | undefined, nameEn: string): string | null {
+  if (!books?.length) return null;
+  const book = books.find((b) => b.nameEn === nameEn);
+  return book?.id ?? null;
+}
+
+export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
+  const { bodyClass, bodyTitleClass } = useBibleFontClasses();
   return (
     <article aria-label="What Is the Bible?">
       <LearnWhatIsBibleIntro
@@ -97,16 +143,23 @@ export function EnWhatIsBiblePage() {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className="text-lg leading-snug font-semibold">
+        <p
+          className={cn("font-bible-english leading-snug font-semibold", bodyTitleClass)}
+        >
           The {TERM_BIBLE_EN} is a library, not a single book.
         </p>
-        <p className="text-sm leading-relaxed opacity-90">
+        <p className={cn("leading-relaxed opacity-90", bodyClass)}>
           The word <strong>&quot;Bible&quot;</strong> comes from the {LANG_GREEK_EN}{" "}
           <strong>&quot;biblia&quot;</strong>, meaning “books.” Understanding this helps
           us avoid reading the {TERM_BIBLE_EN} as one uniform text, and instead as a
           collection of interconnected writings.
         </p>
-        <p className="border-border border-t pt-4 text-sm leading-relaxed opacity-80">
+        <p
+          className={cn(
+            "border-border border-t pt-4 leading-relaxed opacity-80",
+            bodyClass
+          )}
+        >
           The {TERM_BIBLE_EN} includes multiple genres: history, poetry, law, letters, and
           apocalyptic vision. Not every part should be read in the same way.
         </p>
@@ -120,6 +173,137 @@ export function EnWhatIsBiblePage() {
           "Authors",
         ]}
       />
+
+      <LearnWhatIsBibleAuthorsSection
+        title="Written by people from many different backgrounds"
+        intro={
+          <>
+            The writings of the {TERM_BIBLE_EN} were not produced by a single type of
+            author. They came from people in very different roles and stages of life.
+          </>
+        }
+        bulletItems={[
+          <div key="1" className="flex items-baseline gap-x-2">
+            <span className="">• Kings — such as David</span>
+            <span className="shrink-0">—</span>
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, BOOK_2_SAMUEL_EN)}
+              chapter={5}
+              verse={4}
+              verseEnd={5}
+              testament="ot"
+              triggerClassName={bodyClass}
+              previewText={VERSE_PREVIEW_EN_AUTHORS["2 Samuel 5:4-5"]}
+            >
+              2 Samuel 5:4–5
+            </BibleVerseLink>
+          </div>,
+          <div key="2" className="flex items-baseline gap-x-2">
+            <span className="">• Shepherds — such as Amos</span>
+            <span className="shrink-0">—</span>
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, BOOK_AMOS_EN)}
+              chapter={1}
+              verse={1}
+              testament="ot"
+              triggerClassName={bodyClass}
+              previewText={VERSE_PREVIEW_EN_AUTHORS["Amos 1:1"]}
+            >
+              Amos 1:1
+            </BibleVerseLink>
+          </div>,
+          <div key="3" className="flex items-baseline gap-x-2">
+            <span className="">• Government officials — such as Daniel</span>
+            <span className="shrink-0">—</span>
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, BOOK_DANIEL_EN)}
+              chapter={2}
+              verse={48}
+              testament="ot"
+              triggerClassName={bodyClass}
+              previewText={VERSE_PREVIEW_EN_AUTHORS["Daniel 2:48"]}
+            >
+              Daniel 2:48
+            </BibleVerseLink>
+          </div>,
+          <div key="4" className="flex items-baseline gap-x-2">
+            <span className="">• Physicians — such as Luke</span>
+            <span className="shrink-0">—</span>
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, BOOK_COLOSSIANS_EN)}
+              chapter={4}
+              verse={14}
+              testament="nt"
+              triggerClassName={bodyClass}
+              previewText={VERSE_PREVIEW_EN_AUTHORS["Colossians 4:14"]}
+            >
+              Colossians 4:14
+            </BibleVerseLink>
+          </div>,
+          <div key="5" className="flex items-baseline gap-x-2">
+            <span className="">• Fishermen — such as Peter</span>
+            <span className="shrink-0">—</span>
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, BOOK_MATTHEW_EN)}
+              chapter={4}
+              verse={18}
+              verseEnd={21}
+              testament="nt"
+              triggerClassName={bodyClass}
+              previewText={VERSE_PREVIEW_EN_AUTHORS["Matthew 4:18-21"]}
+            >
+              Matthew 4:18–21
+            </BibleVerseLink>
+          </div>,
+          <div key="6" className="flex items-baseline gap-x-2">
+            <span className="">• Tax collectors — such as Matthew</span>
+            <span className="shrink-0">—</span>
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, BOOK_MATTHEW_EN)}
+              chapter={10}
+              verse={3}
+              testament="nt"
+              triggerClassName={bodyClass}
+              previewText={VERSE_PREVIEW_EN_AUTHORS["Matthew 10:3"]}
+            >
+              Matthew 10:3
+            </BibleVerseLink>
+          </div>,
+        ]}
+        conclusion={
+          <p className={cn("mt-6 leading-relaxed", bodyClass)}>
+            Despite their different backgrounds, many readers believe these writings
+            together form a coherent story about {TERM_GOD_EN} and humanity.
+          </p>
+        }
+        quoteBlocks={[
+          <QuoteCard
+            key="2tim316"
+            quote="All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness."
+            footnote="2 Timothy 3:16"
+            footnoteAlign="center"
+            footnoteHref={buildReadHrefEn(
+              findBookIdByEn(books, BOOK_2_TIMOTHY_EN),
+              3,
+              16,
+              "nt"
+            )}
+          />,
+        ]}
+      />
+
 
       <LearnWhatIsBibleTestamentSection
         title={TERM_OLD_TESTAMENT_EN}

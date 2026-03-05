@@ -35,6 +35,10 @@ export interface ReadSearchParams {
   focus: boolean;
   verse1: number | null;
   verse2: number | null;
+  /** End verse for range highlight (e.g. verse1=43, verseEnd=44 → highlight 43–44). */
+  verseEnd: number | null;
+  /** Multiple verse numbers to highlight (e.g. verses=3,5,7). Takes precedence over verse1/verseEnd when present. */
+  verses: number[];
 }
 
 function parsePositiveInt(value: string | undefined, fallback: number): number {
@@ -50,8 +54,19 @@ export function parseReadSearchParams(
   const v2Raw = (searchParams.version2 ?? searchParams.v2 ?? "").trim().toLowerCase();
   const syncRaw = searchParams.sync;
 
-  const version1: ReadVersionId | null = isReadVersionId(v1Raw) ? v1Raw : null;
-  const version2: ReadVersionId | null = v2Raw && isReadVersionId(v2Raw) ? v2Raw : null;
+  // Map language-like "en" to default English version so links with version1=en work
+  const version1: ReadVersionId | null = isReadVersionId(v1Raw)
+    ? v1Raw
+    : v1Raw === "en"
+      ? "niv"
+      : null;
+  const version2: ReadVersionId | null = !v2Raw
+    ? null
+    : isReadVersionId(v2Raw)
+      ? v2Raw
+      : v2Raw === "en"
+        ? "niv"
+        : null;
   const sync = syncRaw === "true" ? true : syncRaw === "false" ? false : true;
 
   const book1Id = (searchParams.book1 ?? searchParams.book ?? "").trim() || null;
@@ -69,12 +84,34 @@ export function parseReadSearchParams(
   const insights = searchParams.insights === "true";
   const focus = searchParams.focus === "true";
 
-  // verse1/verse2; allow shorthand "verse" as alias for verse1
+  // verses (comma-separated) for multiple highlights; else verse1/verseEnd range or single verse
+  const versesRaw = (searchParams.verses ?? "").trim();
+  let verses: number[] = [];
+  if (versesRaw) {
+    verses = versesRaw
+      .split(",")
+      .map((s) => parsePositiveInt(s.trim(), 0))
+      .filter((n) => n >= 1);
+    verses = [...new Set(verses)].sort((a, b) => a - b);
+  }
   const verse1Raw =
     parsePositiveInt(searchParams.verse1, 0) || parsePositiveInt(searchParams.verse, 0);
   const verse2Raw = parsePositiveInt(searchParams.verse2, 0);
-  const verse1 = verse1Raw >= 1 ? verse1Raw : null;
+  const verseEndRaw = parsePositiveInt(searchParams.verseEnd, 0);
+  let verse1: number | null = verse1Raw >= 1 ? verse1Raw : null;
   const verse2 = verse2Raw >= 1 ? verse2Raw : null;
+  let verseEnd: number | null =
+    verseEndRaw >= 1 && verse1 != null && verseEndRaw >= verse1 ? verseEndRaw : null;
+  if (verses.length > 0) {
+    verse1 = verses[0];
+    verseEnd = verses.length > 1 && verses[verses.length - 1]! > verse1 ? verses[verses.length - 1]! : null;
+  } else if (verse1 != null && verseEnd != null) {
+    const start = verse1;
+    const end = verseEnd;
+    verses = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  } else if (verse1 != null) {
+    verses = [verse1];
+  }
 
   return {
     version1,
@@ -90,6 +127,8 @@ export function parseReadSearchParams(
     focus,
     verse1,
     verse2,
+    verseEnd,
+    verses,
   };
 }
 
@@ -105,8 +144,10 @@ export function buildReadSearchParams(params: {
   testament2?: TestamentParam;
   insights?: boolean;
   focus?: boolean;
-   verse1?: number | null;
-   verse2?: number | null;
+  verse1?: number | null;
+  verse2?: number | null;
+  verseEnd?: number | null;
+  verses?: number[];
 }): string {
   const sp = new URLSearchParams();
   if (params.version1 != null) sp.set("version1", params.version1);
@@ -122,8 +163,20 @@ export function buildReadSearchParams(params: {
   if (params.testament2) sp.set("testament2", params.testament2);
   if (params.insights === true) sp.set("insights", "true");
   if (params.focus === true) sp.set("focus", "true");
-  if (params.verse1 != null && params.verse1 >= 1)
-    sp.set("verse1", String(params.verse1));
+  if (params.verses != null && params.verses.length > 0) {
+    sp.set("verses", params.verses.join(","));
+    if (params.verses[0] != null) sp.set("verse1", String(params.verses[0]));
+  } else {
+    if (params.verse1 != null && params.verse1 >= 1)
+      sp.set("verse1", String(params.verse1));
+    if (
+      params.verseEnd != null &&
+      params.verseEnd >= 1 &&
+      params.verse1 != null &&
+      params.verseEnd >= params.verse1
+    )
+      sp.set("verseEnd", String(params.verseEnd));
+  }
   if (params.verse2 != null && params.verse2 >= 1)
     sp.set("verse2", String(params.verse2));
   return sp.toString();

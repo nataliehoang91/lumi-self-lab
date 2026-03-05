@@ -50,14 +50,19 @@ export function LearnPageVerseCta({
         <Link
           href={readHref}
           className={cn(
-            `bg-primary text-primary-foreground focus-visible:ring-ring flex items-center
-            gap-2 rounded-xl px-5 py-2.5 font-semibold whitespace-nowrap transition-all
-            hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2
+            `bg-primary text-primary-foreground focus-visible:ring-ring group flex
+            items-center gap-2 rounded-xl px-5 py-2.5 font-semibold whitespace-nowrap
+            transition-all hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2
             focus-visible:outline-none`,
             buttonClass
           )}
         >
-          {ctaLabel} <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          {ctaLabel}{" "}
+          <ArrowRight
+            className="h-3.5 w-3.5 shrink-0 transition-transform duration-200
+              group-hover:translate-x-0.5"
+            aria-hidden
+          />
         </Link>
       </div>
     </div>

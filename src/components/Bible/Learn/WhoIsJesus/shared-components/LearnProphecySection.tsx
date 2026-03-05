@@ -6,8 +6,10 @@ import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 export interface LearnProphecyItem {
   prophecy: string;
-  ref: string;
-  fulfilled: string;
+  /** OT reference (string or e.g. <BibleVerseLink>). */
+  ref: ReactNode;
+  /** Fulfilment reference (string or e.g. <BibleVerseLink>). */
+  fulfilled: ReactNode;
 }
 
 export interface LearnProphecySectionProps {

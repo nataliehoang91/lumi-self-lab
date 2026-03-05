@@ -2,13 +2,20 @@ import { OT_ORDER_MAX, type TestamentFilter } from "./constants";
 import type { BibleBook } from "./types";
 import type { VersionId } from "./constants";
 
+/**
+ * Leading parenthetical refs like "(4:14)" or "(5:1)" appear in some sources (e.g. Vietnamese)
+ * when a verse continues from another chapter or has editorial markers. Strip them for display.
+ */
+const LEADING_VERSE_REF = /^\s*\(\d+:\d+(?:-\d+)?\)\s*/;
+
 /** Replace backtick with apostrophe in English verse text (source often uses ` for '). */
 export function normalizeVerseTextForDisplay(
   text: string,
   version: VersionId | null
 ): string {
-  if (!version || version === "vi" || version === "zh") return text;
-  return text.replace(/`/g, "'");
+  let out = text.replace(LEADING_VERSE_REF, "");
+  if (!version || version === "vi" || version === "zh") return out;
+  return out.replace(/`/g, "'");
 }
 
 export function getOtBooks(books: BibleBook[]): BibleBook[] {

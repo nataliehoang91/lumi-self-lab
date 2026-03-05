@@ -10,6 +10,8 @@ export interface QuoteCardProps {
   quote: string;
   /** Small label on the bottom right, e.g. reference or author. */
   footnote?: string;
+  /** When set, footnote is rendered as a link opening in a new tab (e.g. to verse). */
+  footnoteHref?: string;
   /** Alignment for the quote icon. */
   quoteIconAlign?: QuoteCardAlign;
   /** Alignment for the verse/quote text. */
@@ -36,17 +38,15 @@ const TEXT_ALIGN: Record<QuoteCardAlign, string> = {
 export function QuoteCard({
   quote,
   footnote,
+  footnoteHref,
   quoteIconAlign,
-  verseAlign,
   footnoteAlign,
   align = "left",
   className,
 }: QuoteCardProps) {
   const iconAlign = quoteIconAlign ?? align;
-  const verseAlignResolved = verseAlign ?? align;
   const footnoteAlignResolved = footnoteAlign ?? align;
 
-  const isCenter = iconAlign === "center";
   const layoutRow = LAYOUT_ROW[iconAlign];
 
   return (
@@ -69,7 +69,17 @@ export function QuoteCard({
               TEXT_ALIGN[footnoteAlignResolved]
             )}
           >
-            {footnote}
+            {footnoteHref ? (
+              <a
+                href={footnoteHref}
+                className="text-second-600 hover:text-second-800 font-mono underline
+                  underline-offset-4 transition-colors"
+              >
+                {footnote}
+              </a>
+            ) : (
+              footnote
+            )}
           </p>
         )}
       </div>

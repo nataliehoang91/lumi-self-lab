@@ -30,10 +30,11 @@ export function LearnBibleOriginLanguages({
         {LANG_SCRIPT.map((l, i) => (
           <div
             key={i}
-            className="bg-card border-sage-dark/20 rounded-xl border p-4 text-center"
+            className="bg-card border-sage-dark/20 space-y-3 rounded-xl border p-4
+              text-center"
           >
             <p
-              className="font-bible-english text-muted-foreground/30 text-xl leading-none
+              className="font-bible-english text-muted-foreground text-xl leading-none
                 select-none"
             >
               {l.script}

@@ -24,15 +24,15 @@ export function SingleRead() {
     books,
     hoveredVerse,
     setHoveredVerse,
-    setVerse1,
     setVerse2,
     focusMode,
     syncMode,
     testamentFilter,
     leftTestamentFilter,
     rightTestamentFilter,
-    verse1,
     verse2,
+    highlightedVerses,
+    toggleVerseHighlight,
     handleLeftBookChange,
     handleLeftChapterChange,
     handleRightBookChange,
@@ -75,8 +75,8 @@ export function SingleRead() {
           books={books}
           hoveredVerse={hoveredVerse}
           onVerseHover={setHoveredVerse}
-          highlightedVerse={verse1 ?? null}
-          onVerseNumberClick={(n) => setVerse1(verse1 === n ? null : n)}
+          highlightedVerses={highlightedVerses}
+          onVerseNumberClick={toggleVerseHighlight}
           focusMode={focusMode}
           showControls={showLeftControls}
           showBookChapterSelectors={showLeftSelectors}
@@ -112,10 +112,11 @@ export function SingleRead() {
             books={books}
             hoveredVerse={hoveredVerse}
             onVerseHover={setHoveredVerse}
-            highlightedVerse={syncMode ? (verse1 ?? null) : (verse2 ?? null)}
+            highlightedVerses={syncMode ? highlightedVerses : undefined}
+            highlightedVerse={syncMode ? null : (verse2 ?? null)}
             onVerseNumberClick={
               syncMode
-                ? (n) => setVerse1(verse1 === n ? null : n)
+                ? toggleVerseHighlight
                 : (n) => setVerse2(verse2 === n ? null : n)
             }
             focusMode={focusMode}

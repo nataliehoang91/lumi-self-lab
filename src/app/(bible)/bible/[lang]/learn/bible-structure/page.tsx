@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getBooks } from "@/app/actions/bible/read";
 import { EnWhatIsBiblePage } from "@/components/Bible/Learn/WhatIsBible/en/what-is-bible";
 import { VnWhatIsBiblePage } from "@/components/Bible/Learn/WhatIsBible/vn/what-is-bible";
 
@@ -15,10 +16,11 @@ export default async function BibleStructurePage({
 }) {
   const finalParams = await params;
   const lang = finalParams.lang.toLowerCase();
+  const books = await getBooks();
 
   if (lang === "vi") {
-    return <VnWhatIsBiblePage />;
+    return <VnWhatIsBiblePage books={books} />;
   } else {
-    return <EnWhatIsBiblePage />;
+    return <EnWhatIsBiblePage books={books} />;
   }
 }

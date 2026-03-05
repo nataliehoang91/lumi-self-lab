@@ -8,7 +8,8 @@ export interface LearnCrossSectionProps {
   title: string;
   paragraph1: ReactNode;
   paragraph2: ReactNode;
-  refText: string;
+  /** Reference(s), e.g. string "1 Cor 15:3–8" or <BibleVerseLink>…</BibleVerseLink>. */
+  refText: ReactNode;
 }
 
 export function LearnCrossSection({

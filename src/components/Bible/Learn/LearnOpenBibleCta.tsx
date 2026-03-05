@@ -24,11 +24,16 @@ export function LearnOpenBibleCta() {
       </div>
       <Link
         href={`/bible/${globalLanguage === "VI" ? "vi" : "en"}/read`}
-        className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold
-          whitespace-nowrap transition-all hover:opacity-90"
+        className="group flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm
+          font-semibold whitespace-nowrap transition-all hover:opacity-90"
         style={{ background: "oklch(0.92 0.006 85)", color: "oklch(0.22 0.01 85)" }}
       >
-        {intl.t("learnOpenBible")} <ArrowRight className="h-3.5 w-3.5" />
+        {intl.t("learnOpenBible")}{" "}
+        <ArrowRight
+          className="h-3.5 w-3.5 shrink-0 transition-transform duration-200
+            group-hover:translate-x-0.5"
+          aria-hidden
+        />
       </Link>
     </div>
   );

@@ -38,21 +38,21 @@ export function SyncedRead() {
     hoveredVerse,
     setHoveredVerse,
     verse1,
-    setVerse1,
+    highlightedVerses,
+    toggleVerseHighlight,
     leftBook,
     leftChapter,
   } = useRead();
 
-  const onVerseNumberClick = (num: number) => {
-    setVerse1(verse1 === num ? null : num);
-  };
+  const onVerseNumberClick = toggleVerseHighlight;
+  const scrollTarget = highlightedVerses[0] ?? verse1;
 
   useEffect(() => {
-    if (!verse1 || typeof window === "undefined") return;
-    const el = document.getElementById(`synced-verse-${verse1}`);
+    if (!scrollTarget || typeof window === "undefined") return;
+    const el = document.getElementById(`synced-verse-${scrollTarget}`);
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [verse1]);
+  }, [scrollTarget]);
 
   if (rightVersion === null) return null;
 
@@ -156,7 +156,8 @@ export function SyncedRead() {
           );
           const left = verseTextWithNotes(leftText, leftVersion);
           const right = verseTextWithNotes(rightText, rightVersion);
-          const isHighlighted = verse1 === num;
+          const isHighlighted =
+            highlightedVerses.includes(num);
           const isHovered = hoveredVerse === num;
 
           return (

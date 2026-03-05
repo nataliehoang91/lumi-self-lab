@@ -32,6 +32,11 @@ import {
   BOOK_ROMANS_VN,
   BOOK_JUDE_VN,
   BOOK_REVELATION_VN,
+  BOOK_2_SAMUEL_VN,
+  BOOK_AMOS_VN,
+  BOOK_DANIEL_VN,
+  BOOK_COLOSSIANS_VN,
+  BOOK_2_TIMOTHY_VN,
   TERM_GOD_VN,
   TERM_BIBLE_VN,
   TERM_CHRIST_VN,
@@ -41,6 +46,10 @@ import {
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
+import type { BibleBook } from "@/components/Bible/Read/types";
+import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
+import { LearnWhatIsBibleAuthorsSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleAuthorsSection";
+import { QuoteCard } from "@/components/GeneralComponents/QuoteCard";
 
 const VN_GLOSSARY: readonly GlossaryItem[] = [
   {
@@ -73,8 +82,57 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
   },
 ];
 
-export function VnWhatIsBiblePage() {
-  const { bodyClass } = useBibleFontClasses();
+const VERSE_PREVIEW_VN_AUTHORS: Record<string, string> = {
+  "II Sa-mu-ên 5:4-5":
+    "Đa-vít đã được ba mươi tuổi khi lên làm vua; người cai trị bốn mươi năm. Tại Hếp-rôn, người cai trị Giu-đa bảy năm sáu tháng; rồi tại Giê-ru-sa-lem, người cai trị cả Y-sơ-ra-ên và Giu-đa ba mươi ba năm.",
+  "A-mốt 1:1": "Lời của A-mốt, người trong bọn chăn chiên ở Thê-cô-a...",
+  "Đa-ni-ên 2:48":
+    "Vua tôn Đa-ni-ên lên chức trọng, ban cho nhiều quà lớn... lập người làm quan cai trị cả tỉnh Ba-by-lôn.",
+  "Cô-lô-se 4:14": "Lu-ca, thầy thuốc rất yêu dấu, và Đê-ma chào thăm anh em.",
+  "Ma-thi-ơ 4:18-21":
+    "Đức Chúa Jêsus đi dọc theo biển Ga-li-lê... thấy hai anh em là Si-môn gọi là Phi-e-rơ, và Anh-rê em người, đương quăng lưới xuống biển... Ngài phán cùng họ rằng: Hãy theo ta.",
+  "Ma-thi-ơ 10:3": "Phi-líp với Ba-tô-lô-my; Thô-ma với Ma-thi-ơ là người thâu thuế...",
+  "II Ti-mô-thê 3:16":
+    "Cả Kinh Thánh đều là bởi Đức Chúa Trời cảm động mà viết ra, có ích cho sự dạy dỗ, bẻ trách, sửa trị, dạy người trong sự công bình.",
+  "II Phi-e-rơ 1:21":
+    "Vì chẳng hề có lời tiên tri nào bởi ý riêng người ta mà ra; nhưng người ta đã được Đức Thánh Linh cảm động mà nói bởi Đức Chúa Trời.",
+};
+
+function buildReadHrefVi(
+  bookId: string | null,
+  chapter: number,
+  verse: number,
+  testament: "ot" | "nt"
+): string {
+  if (!bookId) return "#";
+  const sp = new URLSearchParams();
+  sp.set("version1", "vi");
+  sp.set("sync", "true");
+  sp.set("book1", bookId);
+  sp.set("chapter1", String(chapter));
+  sp.set("testament1", testament);
+  sp.set("verse1", String(verse));
+  return `/bible/vi/read?${sp.toString()}`;
+}
+
+function findBookIdByVi(
+  books: BibleBook[] | undefined,
+  nameVi: string,
+  nameEn?: string
+): string | null {
+  if (!books?.length) return null;
+  const v = nameVi.trim().toLowerCase();
+  const byVi = books.find((b) => b.nameVi.trim().toLowerCase() === v);
+  if (byVi) return byVi.id;
+  if (nameEn) {
+    const byEn = books.find((b) => b.nameEn === nameEn);
+    if (byEn) return byEn.id;
+  }
+  return null;
+}
+
+export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
+  const { bodyClass, bodyTitleClass, subBodyClassUp } = useBibleFontClasses();
   return (
     <article aria-label="Kinh thánh là gì?">
       <LearnWhatIsBibleIntro
@@ -100,17 +158,22 @@ export function VnWhatIsBiblePage() {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className="font-bible-english text-lg leading-snug font-semibold">
+        <p className={cn("font-vietnamese leading-snug font-semibold", bodyTitleClass)}>
           Kinh Thánh là thư viện, không phải một cuốn sách đơn lẻ.
         </p>
-        <p className="text-sm leading-relaxed opacity-90">
+        <p className={cn("leading-relaxed opacity-90", bodyClass)}>
           Từ <strong>&ldquo;Bible&rdquo;</strong> bắt nguồn từ tiếng Hy Lạp{" "}
           <strong>&ldquo;biblia&rdquo;</strong>, nghĩa là &ldquo;những cuốn sách&rdquo;.
           Hiểu điều này giúp chúng ta tránh việc đọc <strong>{TERM_BIBLE_VN}</strong> như
           một cuốn sách đồng nhất, mà thay vào đó là một thư viện gồm nhiều tác phẩm liên
           kết với nhau.
         </p>
-        <p className="border-border border-t pt-4 text-sm leading-relaxed opacity-80">
+        <p
+          className={cn(
+            "border-border border-t pt-4 leading-relaxed opacity-80",
+            bodyClass
+          )}
+        >
           <strong>{TERM_BIBLE_VN}</strong> bao gồm nhiều thể loại: lịch sử, thơ ca, luật
           pháp, thư tín, khải tượng. Vì vậy, không thể đọc mọi phần theo cùng một cách.
         </p>
@@ -119,6 +182,139 @@ export function VnWhatIsBiblePage() {
       <LearnWhatIsBibleStats
         statLabels={["Sách tổng cộng", "Cựu Ước", "Tân Ước", "Tác giả"]}
       />
+
+      <LearnWhatIsBibleAuthorsSection
+        title="Ai đã viết Kinh Thánh?"
+        intro={
+          <>
+            Kinh Thánh được viết bởi khoảng <strong>40 tác giả</strong> khác nhau trong
+            suốt hơn 1.500 năm. Những người này đến từ nhiều nghề nghiệp và hoàn cảnh khác
+            nhau.
+          </>
+        }
+        bulletItems={[
+          <div key="1" className="flex items-baseline gap-x-2">
+            <span className="">• Vua - như Đa-vít</span>
+            <span className="shrink-0">-</span>
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, BOOK_2_SAMUEL_VN, "2 Samuel")}
+              chapter={5}
+              verse={4}
+              verseEnd={5}
+              testament="ot"
+              triggerClassName={subBodyClassUp}
+              previewText={VERSE_PREVIEW_VN_AUTHORS["II Sa-mu-ên 5:4-5"]}
+            >
+              II Sa-mu-ên 5:4-5
+            </BibleVerseLink>
+          </div>,
+          <div key="2" className="flex items-baseline gap-x-2">
+            <span className="">• Người chăn chiên - như A-mốt</span>
+            <span className="shrink-0">-</span>
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, BOOK_AMOS_VN, "Amos")}
+              chapter={1}
+              verse={1}
+              testament="ot"
+              triggerClassName={subBodyClassUp}
+              previewText={VERSE_PREVIEW_VN_AUTHORS["A-mốt 1:1"]}
+            >
+              A-mốt 1:1
+            </BibleVerseLink>
+          </div>,
+          <div key="3" className="flex items-baseline gap-x-2">
+            <span className="">• Quan chức triều đình - như Đa-ni-ên</span>
+            <span className="shrink-0">-</span>
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, BOOK_DANIEL_VN, "Daniel")}
+              chapter={2}
+              verse={48}
+              testament="ot"
+              triggerClassName={subBodyClassUp}
+              previewText={VERSE_PREVIEW_VN_AUTHORS["Đa-ni-ên 2:48"]}
+            >
+              Đa-ni-ên 2:48
+            </BibleVerseLink>
+          </div>,
+          <div key="4" className="flex items-baseline gap-x-2">
+            <span className="">• Bác sĩ - như Lu-ca</span>
+            <span className="shrink-0">-</span>
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, BOOK_COLOSSIANS_VN, "Colossians")}
+              chapter={4}
+              verse={14}
+              testament="nt"
+              triggerClassName={subBodyClassUp}
+              previewText={VERSE_PREVIEW_VN_AUTHORS["Cô-lô-se 4:14"]}
+            >
+              Cô-lô-se 4:14
+            </BibleVerseLink>
+          </div>,
+          <div key="5" className="flex items-baseline gap-x-2">
+            <span className="">• Người đánh cá - như Phi-e-rơ</span>
+            <span className="shrink-0">-</span>
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, BOOK_MATTHEW_VN, "Matthew")}
+              chapter={4}
+              verse={18}
+              verseEnd={21}
+              testament="nt"
+              triggerClassName={subBodyClassUp}
+              previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 4:18-21"]}
+            >
+              Ma-thi-ơ 4:18-21
+            </BibleVerseLink>
+          </div>,
+          <div key="6" className="flex items-baseline gap-x-2">
+            <span className="">• Người thu thuế - như Ma-thi-ơ</span>
+            <span className="shrink-0">-</span>
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, BOOK_MATTHEW_VN, "Matthew")}
+              chapter={10}
+              verse={3}
+              testament="nt"
+              triggerClassName={subBodyClassUp}
+              previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 10:3"]}
+            >
+              Ma-thi-ơ 10:3
+            </BibleVerseLink>
+          </div>,
+        ]}
+        conclusion={
+          <p className={cn("mt-6 leading-relaxed", bodyClass)}>
+            Dù được viết bởi nhiều người trong nhiều thời đại khác nhau, người tin Chúa
+            tin rằng Đức Chúa Trời đã hướng dẫn họ khi viết.
+          </p>
+        }
+        quoteBlocks={[
+          <QuoteCard
+            key="2tim316"
+            quote="Cả Kinh Thánh đều là bởi Đức Chúa Trời soi dẫn...."
+            footnote="II Ti-mô-thê 3:16"
+            footnoteAlign="center"
+            footnoteHref={buildReadHrefVi(
+              findBookIdByVi(books, BOOK_2_TIMOTHY_VN, "2 Timothy"),
+              3,
+              16,
+              "nt"
+            )}
+          />,
+        ]}
+      />
+
+      <div className="my-8 h-px" />
 
       <LearnWhatIsBibleTestamentSection
         title={TERM_OLD_TESTAMENT_VN}

@@ -67,7 +67,7 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
 ];
 
 export function VnWhatIsFaithPage() {
-  const { bodyClass } = useBibleFontClasses();
+  const { bodyClass, bodyTitleClass } = useBibleFontClasses();
   return (
     <div>
       <LearnWhatIsFaithIntro
@@ -80,16 +80,16 @@ export function VnWhatIsFaithPage() {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className="font-bible-english text-lg leading-snug font-semibold">
+        <p className={cn("font-vietnamese leading-snug font-semibold", bodyTitleClass)}>
           Mối Quan Hệ, Không Phải Tôn Giáo
         </p>
-        <p className="text-sm leading-relaxed opacity-90">
+        <p className={cn("leading-relaxed opacity-90", bodyClass)}>
           Cơ Đốc giáo không chỉ là một hệ thống luật lệ để tuân theo, mà là một mối quan
           hệ để bước vào. Chúa Giê-xu phán Ngài đến để con người &quot;được sự sống, và sự
           sống dư dật&quot; (Giăng 10:10). Mục đích không phải là đạt đến sự hoàn hảo, mà
           là bước đi trong mối quan hệ thật với Đức Chúa Trời.
         </p>
-        <p className="border-border border-t pt-4 text-sm leading-relaxed opacity-80">
+        <p className={cn("border-border border-t pt-4 leading-relaxed opacity-80", bodyClass)}>
           Đọc Kinh Thánh, cầu nguyện và sinh hoạt cùng Hội Thánh là những cách để lớn lên
           trong mối quan hệ đó — không phải điều kiện để được chấp nhận.
         </p>

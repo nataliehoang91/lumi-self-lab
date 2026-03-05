@@ -24,7 +24,7 @@ interface LearnAccordionProps {
 export function LearnAccordion({ items, className, itemClassName }: LearnAccordionProps) {
   const { fontSize } = useBibleApp();
   const bodyClass =
-    fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
+    fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-md";
 
   return (
     <Accordion

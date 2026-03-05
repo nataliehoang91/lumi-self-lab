@@ -19,7 +19,10 @@ export interface ReadingPanelContentProps {
   fontSize: FontSize;
   hoveredVerse: number | null;
   onVerseHover: (verse: number | null) => void;
+  /** Scroll target (e.g. first highlighted verse). */
   targetVerse: number | null;
+  /** Verse numbers to highlight. When set, overrides single-verse highlight. */
+  highlightedVerses?: number[];
   onVerseNumberClick?: (verse: number) => void;
   t: TFunction;
 }
@@ -50,12 +53,14 @@ export function ReadingPanelContent({
   hoveredVerse,
   onVerseHover,
   targetVerse,
+  highlightedVerses = [],
   onVerseNumberClick,
   t,
 }: ReadingPanelContentProps) {
   const isKJV = version === "kjv";
   const fontSizeClass = fontSizeToClass(fontSize, false);
   const fontSizeClassFocus = fontSizeToClass(fontSize, true);
+  const highlightSet = highlightedVerses.length > 0 ? new Set(highlightedVerses) : null;
 
   // Auto-scroll to target verse after content is in the DOM (run when content + targetVerse available)
   useEffect(() => {
@@ -99,7 +104,9 @@ export function ReadingPanelContent({
         const showNotes = isKJV && hasKJVNotes(text);
         const parsed = showNotes ? parseKJVNotes(text) : null;
         const isHovered = hoveredVerse === verse.number;
-        const isTarget = targetVerse === verse.number;
+        const isTarget = highlightSet
+          ? highlightSet.has(verse.number)
+          : targetVerse === verse.number;
 
         return (
           <div
@@ -117,7 +124,7 @@ export function ReadingPanelContent({
                   aria-label={`Verse ${verse.number}`}
                   aria-pressed={isTarget}
                   className={cn(
-                    `mt-1 inline-flex min-w-7 shrink-0 items-start justify-center
+                    `mt-0.5 inline-flex min-w-7 shrink-0 items-start justify-center
                       rounded-md px-1.5 py-1 font-medium tabular-nums transition-colors`,
                     focusMode ? "text-md" : "text-sm",
                     `bg-muted/80 text-primary-600 focus:ring-primary/40 focus:ring-2

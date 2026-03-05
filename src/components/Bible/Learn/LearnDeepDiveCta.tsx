@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardFooter } from "@/components/ui/card";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
@@ -75,14 +75,19 @@ export function LearnDeepDiveCta() {
         <Link
           href={`/bible/${lang}/learn/deep-dive`}
           className={cn(
-            `flex shrink-0 items-center gap-2 rounded-xl px-5 py-2.5 font-semibold
-            whitespace-nowrap transition-all`,
+            `group flex shrink-0 items-center gap-2 rounded-xl px-5 py-2.5
+            font-semibold whitespace-nowrap transition-all`,
             "bg-second text-second-foreground hover:bg-second/90",
             buttonClass
           )}
         >
-          <Sparkles className="h-3.5 w-3.5" />
+          <Sparkles className="h-3.5 w-3.5 shrink-0" />
           {intl.t("learnDeepDiveButton")}
+          <ArrowRight
+            className="h-3.5 w-3.5 shrink-0 transition-transform duration-200
+              group-hover:translate-x-0.5"
+            aria-hidden
+          />
         </Link>
       </CardFooter>
     </Card>
