@@ -61,7 +61,7 @@ export function WaitlistClient({ showMarketing }: WaitlistClientProps) {
     <div className="waitlist-background">
       <nav
         className="border-border/40 bg-gradient-peach/90 sticky top-0 z-40 border-b
-          backdrop-blur-lg"
+          backdrop-blur-lg dark:bg-black"
       >
         <div
           className="container mx-auto flex max-w-7xl items-center justify-between px-4
@@ -329,20 +329,20 @@ export function WaitlistClient({ showMarketing }: WaitlistClientProps) {
 
       <footer className="border-border/30 mt-8 py-8 backdrop-blur">
         <Container maxWidth="7xl" className="px-4 md:px-6">
-          <div className="border-border/30 flex items-center justify-between">
+          <div className="border-border/30 flex flex-col items-center gap-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
             <p className="text-muted-foreground text-sm">
               © 2026 SelfWithin. All rights reserved.
             </p>
-            <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+            <div className="flex flex-col items-center gap-4 md:flex-row md:items-center md:gap-6">
               {/* Trust Badge */}
               <div className="text-center md:text-left">
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-sm max-w-sm">
                   All your reflections are private and encrypted. We never sell your data.
                 </p>
               </div>
 
               {/* Social Links */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <a
                   href="https://facebook.com"
                   target="_blank"
