@@ -634,9 +634,7 @@ export function FreezableGridProvider({
       stickyTopOffset: normalizedStickyTopOffset,
     }),
     [
-      state.frozenColumns,
-      state.columnOrder,
-      state.maxFrozenColumns,
+      state,
       columns,
       columnWidths,
       toggleFreeze,
@@ -707,6 +705,7 @@ export function FreezableGridContent({
         className={cn(
           "relative grid w-full transition-opacity duration-150",
           context?.isMeasuring ? "opacity-50" : "opacity-100",
+          gridContainerClassName,
           className
         )}
         style={{ gridTemplateColumns: inlineGridTemplate }}
@@ -728,7 +727,7 @@ export function FreezableGridHeader({
 }: {
   children: React.ReactNode;
   className?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }) {
   const context = useFreezeGrid();
   const topOffset = context?.stickyTopOffset || "0";
@@ -752,7 +751,7 @@ export function FreezableGridHeaderRow({
 }: {
   children: React.ReactNode;
   className?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }) {
   const context = useFreezeGrid();
 
@@ -823,14 +822,15 @@ export function FreezableGridBody({
 export function FreezableGridRow({
   children,
   className,
-  rowData: _rowData,
+  rowData,
   ...props
 }: {
   children: React.ReactNode;
   className?: string;
-  rowData?: any;
-  [key: string]: any;
+  rowData?: unknown;
+  [key: string]: unknown;
 }) {
+  void rowData; // accepted for API but not passed to DOM
   const context = useFreezeGrid();
 
   // Reorder children based on column order

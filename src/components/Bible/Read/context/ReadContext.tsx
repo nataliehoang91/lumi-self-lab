@@ -14,7 +14,6 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import {
   parseReadSearchParams,
   buildReadSearchParams,
-  type ReadSearchParams,
 } from "@/app/(bible)/bible/[lang]/read/params";
 import { getChapterContent } from "@/app/actions/bible/read";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
@@ -179,30 +178,13 @@ function hasVersionInParams(params: Record<string, string | undefined>): boolean
   return (params.version1 ?? params.v1 ?? "").trim() !== "";
 }
 
-/** Route segment for /bible/[lang]/read from version id. */
-function versionToRouteLang(version: VersionId): "en" | "vi" | "zh" {
-  if (version === "vi") return "vi";
-  if (version === "zh") return "zh";
-  return "en";
-}
-
-/** Route segment from Language (used when no version selected). */
-function languageToRouteSegment(lang: Language): "en" | "vi" | "zh" {
-  if (lang === "VI") return "vi";
-  if (lang === "ZH") return "zh";
-  return "en";
-}
-
-/** Canonical read path with lang segment so URL stays in sync when user picks VI/EN/中文. */
-function getReadPathForState(
-  leftVersion: VersionId | null,
-  effectiveLanguage: Language
-): string {
-  const segment =
-    leftVersion !== null
-      ? versionToRouteLang(leftVersion)
-      : languageToRouteSegment(effectiveLanguage);
-  return `/bible/${segment}/read`;
+/** Compare two query strings by params (order-independent) to avoid replaceState loops. */
+function searchParamsEqual(a: string, b: string): boolean {
+  const pa = new URLSearchParams(a.startsWith("?") ? a.slice(1) : a);
+  const pb = new URLSearchParams(b.startsWith("?") ? b.slice(1) : b);
+  if (pa.size !== pb.size) return false;
+  for (const [k, v] of pa) if (pb.get(k) !== v) return false;
+  return true;
 }
 
 export function ReadProvider({
@@ -224,7 +206,21 @@ export function ReadProvider({
   const pathname = usePathname();
   const initialUrlSynced = useRef(false);
   const initFromUrlRunOnce = useRef(false);
+  const prevPathnameRef = useRef<string | null>(null);
+  const clearVersesOnNextSyncRef = useRef(false);
   const effectiveLanguage = initialLanguage ?? globalLanguage;
+
+  // Stable serialization so effect only runs when params actually change (avoids loop from useSearchParams() new refs)
+  const searchParamsKey = useMemo(
+    () =>
+      typeof window === "undefined"
+        ? ""
+        : [...searchParams.entries()]
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([k, v]) => `${k}=${v ?? ""}`)
+            .join("&"),
+    [searchParams]
+  );
 
   const initialParsed = useMemo(
     () =>
@@ -234,7 +230,7 @@ export function ReadProvider({
             Object.fromEntries(searchParams.entries()),
             effectiveLanguage
           ),
-    [initialSearchParams, searchParams, effectiveLanguage]
+    [initialSearchParams, searchParamsKey, effectiveLanguage]
   );
 
   const [books, setBooks] = useState<BibleBook[]>(initialBooks);
@@ -312,6 +308,15 @@ export function ReadProvider({
       return next;
     });
   }, []);
+
+  const clearVerseHighlights = useCallback(() => {
+    setVerse1(null);
+    setVerse2(null);
+    setVerseEnd(null);
+    setHighlightedVerses([]);
+    setHighlightedVersesRight([]);
+  }, []);
+
   const [isDragging, setIsDragging] = useState(false);
   const [subNavBookOpen, setSubNavBookOpen] = useState(false);
   const [subNavChapterOpen, setSubNavChapterOpen] = useState(false);
@@ -334,6 +339,20 @@ export function ReadProvider({
     if (books.length > 0 && !leftBook) setLeftBook(books[0]);
     if (books.length > 0 && !rightBook) setRightBook(books[0]);
   }, [books, leftBook, rightBook]);
+
+  // When language (pathname) changes, clear verse highlights to avoid URL/state churn and glitching
+  useEffect(() => {
+    const prev = prevPathnameRef.current;
+    prevPathnameRef.current = pathname;
+    if (prev !== null && prev !== pathname) {
+      clearVersesOnNextSyncRef.current = true;
+      setVerse1(null);
+      setVerse2(null);
+      setVerseEnd(null);
+      setHighlightedVerses([]);
+      setHighlightedVersesRight([]);
+    }
+  }, [pathname]);
 
   // URL sync: keep state in sync with URL; when URL has no versions, stay in "empty" state
   useEffect(() => {
@@ -368,6 +387,7 @@ export function ReadProvider({
         ? resolveBookFromParams(books, parsed.book2Id, parsed.testament2)
         : left;
       const rightCh = hasRight ? clampChapter(parsed.chapter2, right) : leftCh;
+      const skipVerses = clearVersesOnNextSyncRef.current;
       if (hasAnyVersion) {
         const qs = buildReadSearchParams({
           version1: parsed.version1 ?? undefined,
@@ -381,14 +401,17 @@ export function ReadProvider({
           testament2: hasRight ? parsed.testament2 : undefined,
           insights: parsed.insights || undefined,
           focus: parsed.focus || undefined,
-          verse1: parsed.verse1 || undefined,
-          verse2: hasRight ? parsed.verse2 || undefined : undefined,
-          verseEnd: parsed.verseEnd || undefined,
-          verses: parsed.verses?.length ? parsed.verses : undefined,
+          verse1: skipVerses ? undefined : parsed.verse1 || undefined,
+          verse2: skipVerses ? undefined : (hasRight ? parsed.verse2 || undefined : undefined),
+          verseEnd: skipVerses ? undefined : parsed.verseEnd || undefined,
+          verses: skipVerses ? undefined : parsed.verses?.length ? parsed.verses : undefined,
         });
         const desiredSearch = qs ? `?${qs}` : "";
         const fullUrl = desiredSearch ? `${pathname}${desiredSearch}` : pathname;
-        if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
+        if (
+          typeof window !== "undefined" &&
+          !searchParamsEqual(window.location.search, desiredSearch)
+        ) {
           window.history.replaceState(null, "", fullUrl);
         }
       }
@@ -409,11 +432,20 @@ export function ReadProvider({
       setLeftTestamentFilter(parsed.testament1);
       setRightTestamentFilter(hasRight ? parsed.testament2 : parsed.testament1);
       setInsightOpen(parsed.insights);
-      setVerse1(parsed.verse1);
-      setVerse2(parsed.verse2);
-      setVerseEnd(parsed.verseEnd);
-      setHighlightedVerses(parsed.verses ?? []);
+      if (skipVerses) {
+        clearVersesOnNextSyncRef.current = false;
+        setVerse1(null);
+        setVerse2(null);
+        setVerseEnd(null);
+        setHighlightedVerses([]);
+      } else {
+        setVerse1(parsed.verse1);
+        setVerse2(parsed.verse2);
+        setVerseEnd(parsed.verseEnd);
+        setHighlightedVerses(parsed.verses ?? []);
+      }
     } else {
+      const skipVersesElse = clearVersesOnNextSyncRef.current;
       if (hasAnyVersion || parsed.insights) {
         const qs = buildReadSearchParams({
           version1: parsed.version1 ?? undefined,
@@ -421,14 +453,17 @@ export function ReadProvider({
           sync: hasAnyVersion ? parsed.sync : undefined,
           insights: parsed.insights || undefined,
           focus: parsed.focus || undefined,
-          verse1: parsed.verse1 || undefined,
-          verse2: parsed.verse2 || undefined,
-          verseEnd: parsed.verseEnd || undefined,
-          verses: parsed.verses?.length ? parsed.verses : undefined,
+          verse1: skipVersesElse ? undefined : parsed.verse1 || undefined,
+          verse2: skipVersesElse ? undefined : parsed.verse2 || undefined,
+          verseEnd: skipVersesElse ? undefined : parsed.verseEnd || undefined,
+          verses: skipVersesElse ? undefined : parsed.verses?.length ? parsed.verses : undefined,
         });
         const desiredSearch = qs ? `?${qs}` : "";
         const fullUrl = desiredSearch ? `${pathname}${desiredSearch}` : pathname;
-        if (typeof window !== "undefined" && window.location.search !== desiredSearch) {
+        if (
+          typeof window !== "undefined" &&
+          !searchParamsEqual(window.location.search, desiredSearch)
+        ) {
           window.history.replaceState(null, "", fullUrl);
         }
       }
@@ -442,27 +477,34 @@ export function ReadProvider({
       setSyncMode(parsed.sync);
       setFocusMode(parsed.focus);
       setInsightOpen(parsed.insights);
-      setVerse1(parsed.verse1);
-      setVerse2(parsed.verse2);
-      setVerseEnd(parsed.verseEnd);
-      setHighlightedVerses(parsed.verses ?? []);
+      if (skipVersesElse) {
+        clearVersesOnNextSyncRef.current = false;
+        setVerse1(null);
+        setVerse2(null);
+        setVerseEnd(null);
+        setHighlightedVerses([]);
+      } else {
+        setVerse1(parsed.verse1);
+        setVerse2(parsed.verse2);
+        setVerseEnd(parsed.verseEnd);
+        setHighlightedVerses(parsed.verses ?? []);
+      }
     }
     initialUrlSynced.current = true;
-  }, [searchParams, pathname, effectiveLanguage, router, books]);
+  }, [searchParamsKey, pathname, effectiveLanguage, router, books]);
 
   // Push URL when user changes version, sync, book, chapter, or testament.
-  // Use path with correct [lang] segment so selecting VI updates route to /bible/vi/read.
+  // Use current pathname so we only update search (no redirect on language switch → avoids re-render churn).
   useEffect(() => {
     if (!initialUrlSynced.current) return;
+    if (typeof window === "undefined") return;
     const hasAnyVersion = leftVersion !== null || rightVersion !== null;
-    const readPath = getReadPathForState(leftVersion, effectiveLanguage);
+    const currentPath = pathname;
 
     // If user has cleared all versions and insights is off, clear query string entirely
     if (!hasAnyVersion && !insightOpen && !focusMode) {
-      if (typeof window === "undefined") return;
-      if (pathname !== readPath || window.location.search !== "") {
-        if (pathname !== readPath) router.replace(readPath);
-        else window.history.replaceState(null, "", readPath);
+      if (!searchParamsEqual(window.location.search, "")) {
+        window.history.replaceState(null, "", currentPath);
       }
       return;
     }
@@ -474,16 +516,13 @@ export function ReadProvider({
         focus: focusMode || undefined,
       });
       const desiredSearchInsights = qsInsightsOnly ? `?${qsInsightsOnly}` : "";
-      const fullUrl = `${readPath}${desiredSearchInsights}`;
-      if (typeof window === "undefined") return;
-      if (pathname !== readPath || window.location.search !== desiredSearchInsights) {
-        if (pathname !== readPath) router.replace(fullUrl);
-        else window.history.replaceState(null, "", fullUrl);
+      if (!searchParamsEqual(window.location.search, desiredSearchInsights)) {
+        window.history.replaceState(null, "", `${currentPath}${desiredSearchInsights}`);
       }
       return;
     }
 
-    // At least one version selected: leftVersion is the primary
+    // At least one version selected: update search only (stay on current path)
     const v1 = leftVersion;
     const leftTestament = syncMode ? testamentFilter : leftTestamentFilter;
     const rightTestament = syncMode ? testamentFilter : rightTestamentFilter;
@@ -509,15 +548,9 @@ export function ReadProvider({
     });
     const desiredSearch = qs ? `?${qs}` : "";
     if (desiredSearch === "") return;
-    if (typeof window === "undefined") return;
-    const fullUrl = `${readPath}${desiredSearch}`;
-    if (pathname !== readPath || window.location.search !== desiredSearch) {
-      // Same path: update URL with replaceState to avoid router navigation (preserves scroll)
-      if (pathname === readPath) {
-        window.history.replaceState(null, "", fullUrl);
-      } else {
-        router.replace(fullUrl);
-      }
+    const fullUrl = `${currentPath}${desiredSearch}`;
+    if (!searchParamsEqual(window.location.search, desiredSearch)) {
+      window.history.replaceState(null, "", fullUrl);
     }
   }, [
     leftVersion,
@@ -533,8 +566,6 @@ export function ReadProvider({
     insightOpen,
     focusMode,
     pathname,
-    effectiveLanguage,
-    router,
     verse1,
     verse2,
     verseEnd,
@@ -629,33 +660,44 @@ export function ReadProvider({
 
   const handleLeftBookChange = useCallback(
     (book: BibleBook) => {
+      clearVerseHighlights();
       setLeftBook(book);
       if (syncMode) setRightBook(book);
       setLeftChapter(1);
       if (syncMode) setRightChapter(1);
     },
-    [syncMode]
+    [syncMode, clearVerseHighlights]
   );
 
   const handleLeftChapterChange = useCallback(
     (chapter: number) => {
+      clearVerseHighlights();
       setLeftChapter(chapter);
       if (syncMode) setRightChapter(chapter);
     },
-    [syncMode]
+    [syncMode, clearVerseHighlights]
   );
 
-  const handleRightBookChange = useCallback((book: BibleBook) => {
-    setRightBook(book);
-    setRightChapter(1);
-  }, []);
+  const handleRightBookChange = useCallback(
+    (book: BibleBook) => {
+      clearVerseHighlights();
+      setRightBook(book);
+      setRightChapter(1);
+    },
+    [clearVerseHighlights]
+  );
 
-  const handleRightChapterChange = useCallback((chapter: number) => {
-    setRightChapter(chapter);
-  }, []);
+  const handleRightChapterChange = useCallback(
+    (chapter: number) => {
+      clearVerseHighlights();
+      setRightChapter(chapter);
+    },
+    [clearVerseHighlights]
+  );
 
   const setTestamentFilterAndAdjustBook = useCallback(
     (filter: TestamentFilter) => {
+      clearVerseHighlights();
       setTestamentFilter(filter);
       const list = filter === "ot" ? otBooks : ntBooks;
       if (list.length === 0) return;
@@ -667,11 +709,12 @@ export function ReadProvider({
         if (syncMode) setRightChapter(1);
       }
     },
-    [otBooks, ntBooks, leftBook, syncMode]
+    [otBooks, ntBooks, leftBook, syncMode, clearVerseHighlights]
   );
 
   const setLeftTestamentFilterAndAdjust = useCallback(
     (filter: TestamentFilter) => {
+      clearVerseHighlights();
       setLeftTestamentFilter(filter);
       const list = filter === "ot" ? otBooks : ntBooks;
       if (list.length === 0) return;
@@ -681,11 +724,12 @@ export function ReadProvider({
         setLeftChapter(1);
       }
     },
-    [otBooks, ntBooks, leftBook]
+    [otBooks, ntBooks, leftBook, clearVerseHighlights]
   );
 
   const setRightTestamentFilterAndAdjust = useCallback(
     (filter: TestamentFilter) => {
+      clearVerseHighlights();
       setRightTestamentFilter(filter);
       const list = filter === "ot" ? otBooks : ntBooks;
       if (list.length === 0) return;
@@ -695,7 +739,7 @@ export function ReadProvider({
         setRightChapter(1);
       }
     },
-    [otBooks, ntBooks, rightBook]
+    [otBooks, ntBooks, rightBook, clearVerseHighlights]
   );
 
   const value: ReadContextValue = {

@@ -13,7 +13,7 @@ export function normalizeVerseTextForDisplay(
   text: string,
   version: VersionId | null
 ): string {
-  let out = text.replace(LEADING_VERSE_REF, "");
+  const out = text.replace(LEADING_VERSE_REF, "");
   if (!version || version === "vi" || version === "zh") return out;
   return out.replace(/`/g, "'");
 }
