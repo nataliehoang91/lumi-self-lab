@@ -179,7 +179,7 @@ export function SyncedRead() {
                   verseNumClass,
                   "bg-muted/80 mt-1 inline-flex min-w-7 shrink-0 cursor-pointer items-start justify-center rounded-md px-1.5 py-1 tabular-nums transition-colors focus:ring-2 focus:ring-primary/40 focus:outline-none",
                   isHovered && !isHighlighted && "bg-primary/10 text-primary-dark",
-                  isHighlighted && "bg-second-100 dark:bg-second-200/90 text-primary"
+                  isHighlighted && "bg-second-600 dark:bg-second-700 text-white"
                 )}
               >
                 {num}
@@ -227,7 +227,7 @@ export function SyncedRead() {
                   verseNumClass,
                   "bg-muted/80 mt-1 ml-3 inline-flex min-w-7 shrink-0 cursor-pointer items-start justify-center rounded-md px-1.5 py-1 tabular-nums transition-colors focus:ring-2 focus:ring-primary/40 focus:outline-none",
                   isHovered && !isHighlighted && "bg-primary/10 text-primary-dark",
-                  isHighlighted && "bg-second-100 dark:bg-second-200/90 text-primary"
+                  isHighlighted && "bg-second-600 dark:bg-second-700 text-white"
                 )}
               >
                 {num}
