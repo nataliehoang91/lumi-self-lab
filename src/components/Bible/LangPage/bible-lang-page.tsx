@@ -108,6 +108,7 @@ export function BibleLangPage({ lang }: BibleLangPageProps) {
         subtitle={t("langPageHeroSubtitle")}
         ctaStartLabel={t("langPageCtaStart")}
         ctaBibleLabel={t("langPageCtaBible")}
+        orLabel={t("langPageHeroOr")}
         learnHref={`${base}/learn`}
         readHref={`${base}/read`}
       >

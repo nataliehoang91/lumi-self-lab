@@ -12,6 +12,7 @@ export interface LangPageHeroProps {
   subtitle: string;
   ctaStartLabel: string;
   ctaBibleLabel: string;
+  orLabel: string;
   learnHref: string;
   readHref: string;
   children?: React.ReactNode;
@@ -24,6 +25,7 @@ export function LangPageHero({
   subtitle,
   ctaStartLabel,
   ctaBibleLabel,
+  orLabel,
   learnHref,
   readHref,
   children,
@@ -86,7 +88,7 @@ export function LangPageHero({
             {ctaStartLabel}
             <ArrowRight className="h-4 w-4" />
           </Link>
-          <span className="text-muted-foreground text-base font-medium">or</span>
+          <span className="text-muted-foreground text-base font-medium">{orLabel}</span>
           <Link
             href={readHref}
             className={cn(

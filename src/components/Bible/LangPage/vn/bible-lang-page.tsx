@@ -154,12 +154,13 @@ export function VnBibleLangPage({ lang, books }: VnBibleLangPageProps) {
         subtitle="Một không gian yên tĩnh để tìm hiểu và đọc Kinh thánh."
         ctaStartLabel="Bắt đầu tại đây"
         ctaBibleLabel="Mở Kinh thánh"
+        orLabel="hoặc"
         learnHref={`${base}/learn`}
         readHref={`${base}/read`}
       >
         <div className="relative z-10 mx-auto mt-20 w-full max-w-2xl">
           <DailyVerse
-            label="Câu của ngày"
+            label="Câu Kinh thánh của ngày"
             text={verse.text}
             verseRef={verse.ref}
             verseRefHref={verseRefHref}

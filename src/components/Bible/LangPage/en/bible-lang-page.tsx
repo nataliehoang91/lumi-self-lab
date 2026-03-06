@@ -143,6 +143,7 @@ export function EnBibleLangPage({ lang, books }: EnBibleLangPageProps) {
         subtitle="A calm space to understand and read the Bible."
         ctaStartLabel="Start Here"
         ctaBibleLabel="Open Bible"
+        orLabel="or"
         learnHref={`${base}/learn`}
         readHref={`${base}/read`}
       >
