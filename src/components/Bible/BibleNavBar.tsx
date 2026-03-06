@@ -280,7 +280,7 @@ export function BibleNavBar() {
         <Link href="/bible" className="flex min-w-0 items-center gap-6">
           <WhiteBibleLogo />
           <h1 className="invisible truncate text-lg font-semibold xl:visible">
-            Scripture·Space
+            ScriptureSpace
           </h1>
         </Link>
         <div
