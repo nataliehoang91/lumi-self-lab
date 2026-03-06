@@ -5,6 +5,12 @@ import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -126,8 +132,43 @@ const CommandShortcut = ({
 };
 CommandShortcut.displayName = "CommandShortcut";
 
+/**
+ * CommandDialog – command palette in a dialog. Use for ⌘K-style search.
+ * Prevents Dialog from stealing focus so CommandInput receives it (onOpenAutoFocus=false).
+ * @see https://ui.shadcn.com/docs/components/command
+ */
+function CommandDialog({
+  open,
+  onOpenChange,
+  children,
+  className,
+  ...props
+}: React.ComponentProps<typeof Dialog> & {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  className?: string;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange} {...props}>
+      <DialogContent
+        showCloseButton={false}
+        className={cn("overflow-hidden p-0", className)}
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
+        <DialogTitle className="sr-only">Command palette</DialogTitle>
+        <DialogDescription className="sr-only">
+          Search and select an option
+        </DialogDescription>
+        {children}
+      </DialogContent>
+    </Dialog>
+  );
+}
+CommandDialog.displayName = "CommandDialog";
+
 export {
   Command,
+  CommandDialog,
   CommandInput,
   CommandList,
   CommandEmpty,
