@@ -12,6 +12,8 @@ export interface LearnCrossSectionProps {
   refText: ReactNode;
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnCrossSection({
@@ -20,10 +22,12 @@ export function LearnCrossSection({
   paragraph2,
   refText,
   locale,
+  bodyBright,
 }: LearnCrossSectionProps) {
   const { bodyClass, subBodyClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <section
@@ -36,13 +40,13 @@ export function LearnCrossSection({
       >
         {title}
       </h2>
-      <p className={cn("text-muted-foreground mb-3 leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "mb-3 leading-relaxed", bodyClass, bodyFont)}>
         {paragraph1}
       </p>
-      <p className={cn("text-muted-foreground leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "leading-relaxed", bodyClass, bodyFont)}>
         {paragraph2}
       </p>
-      <p className={cn("text-muted-foreground/60 mt-4 font-mono", subBodyClass)}>
+      <p className={cn(bodyBright ? "text-foreground/70" : "text-muted-foreground/60", "mt-4 font-mono", subBodyClass)}>
         {refText}
       </p>
     </section>

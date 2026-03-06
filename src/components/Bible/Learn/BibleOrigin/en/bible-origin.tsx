@@ -118,8 +118,9 @@ export function EnBibleOriginPage() {
   const mapLabels = getMapLabels(EN_MAP_LOCATIONS);
 
   return (
-    <article aria-label="Bible Origin & Canon Formation">
+    <article aria-label="Bible Origin & Canon Formation" className="text-foreground">
       <LearnBibleOriginIntro
+        bodyBright
         moduleNum="02 / 04"
         title="Bible Origin & Canon Formation"
         intro="How did 66 books, written by more than 40 authors across 1,500 years and three continents, come to be recognised as the Bible? The story spans ancient Israel, the early church, manuscript transmission, and archaeological discoveries that continue to shape our understanding today."
@@ -143,6 +144,7 @@ export function EnBibleOriginPage() {
       />
 
       <LearnBibleOriginMapSection
+        bodyBright
         mapTitle="Biblical Manuscript Map"
         mapBody="A few of the key locations where Scripture was written, copied, translated, and preserved."
         activeId={mapActiveLocation}

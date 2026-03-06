@@ -10,6 +10,8 @@ export interface LearnWhatIsFaithIntroProps {
   intro: ReactNode;
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnWhatIsFaithIntro({
@@ -17,10 +19,12 @@ export function LearnWhatIsFaithIntro({
   title,
   intro,
   locale,
+  bodyBright,
 }: LearnWhatIsFaithIntroProps) {
   const { bodyClass, h1Class, subBodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <div className="mb-12">
@@ -37,7 +41,7 @@ export function LearnWhatIsFaithIntro({
         {title}
       </h1>
       <p
-        className={cn("text-muted-foreground mt-4 leading-relaxed", bodyClass, introFont)}
+        className={cn(bodyColor, "mt-4 leading-relaxed", bodyClass, introFont)}
       >
         {intro}
       </p>

@@ -124,8 +124,9 @@ function findBookIdByEn(books: BibleBook[] | undefined, nameEn: string): string 
 export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass } = useBibleFontClasses();
   return (
-    <article aria-label="What Is the Bible?">
+    <article aria-label="What Is the Bible?" className="text-foreground">
       <LearnWhatIsBibleIntro
+        bodyBright
         moduleNum="01 / 04"
         title="What Is the Bible?"
         introParts={[
@@ -148,7 +149,7 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         >
           The {TERM_BIBLE_EN} is a library, not a single book.
         </p>
-        <p className={cn("leading-relaxed opacity-90", bodyClass)}>
+        <p className={cn("leading-relaxed", bodyClass)}>
           The word <strong>&quot;Bible&quot;</strong> comes from the {LANG_GREEK_EN}{" "}
           <strong>&quot;biblia&quot;</strong>, meaning “books.” Understanding this helps
           us avoid reading the {TERM_BIBLE_EN} as one uniform text, and instead as a
@@ -156,7 +157,7 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         </p>
         <p
           className={cn(
-            "border-border border-t pt-4 leading-relaxed opacity-80",
+            "border-border border-t pt-4 leading-relaxed",
             bodyClass
           )}
         >
@@ -306,6 +307,7 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       <div className="my-8 h-px" />
 
       <LearnWhatIsBibleTestamentSection
+        bodyBright
         title={TERM_OLD_TESTAMENT_EN}
         intro={`Written primarily in ${LANG_HEBREW_EN} (with portions in ${LANG_ARAMAIC_EN}), the ${TERM_OLD_TESTAMENT_EN} records ${PLACE_ISRAEL_EN}'s history, law, poetry, and prophetic writings. It begins with creation and traces the unfolding relationship between ${TERM_GOD_EN} and His people, including the long-standing promise of a coming Messiah.`}
         sectionNames={["Law", "History", "Poetry & Wisdom", "Prophets"]}
@@ -321,6 +323,7 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhatIsBibleTestamentSection
+        bodyBright
         title={TERM_NEW_TESTAMENT_EN}
         intro={`Written in Koine ${LANG_GREEK_EN}, the ${TERM_NEW_TESTAMENT_EN} begins with four Gospel accounts of ${NAME_JESUS_EN}'s life, ministry, death, and resurrection. It continues with the growth of the early church and concludes with a vision of history's ultimate restoration in ${TERM_CHRIST_EN}.`}
         sectionNames={["Gospels", "History", "Letters", "Prophecy"]}

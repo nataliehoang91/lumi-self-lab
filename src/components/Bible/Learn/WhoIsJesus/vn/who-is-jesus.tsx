@@ -323,13 +323,14 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
   const { bodyClass, subBodyClassUp } = useBibleFontClasses();
   const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
   return (
-    <article aria-label={`Bài học Chúa ${NAME_JESUS_VN} Là Ai?`}>
+    <article aria-label={`Bài học Chúa ${NAME_JESUS_VN} Là Ai?`} className="text-foreground">
       <LearnLessonIntro
+        bodyBright
         locale="vi"
         moduleNum="03 / 04"
         title={`Chúa ${NAME_JESUS_VN} Là Ai?`}
         intro1={
-          <p className={cn("text-muted-foreground my-4 leading-relaxed", vnBodyClass)}>
+          <p className={cn("my-4 leading-relaxed", vnBodyClass)}>
             Trong suốt hơn hai nghìn năm, con người vẫn tranh luận về thân vị của{" "}
             <strong>Chúa {NAME_JESUS_VN}</strong>.{" "}
           </p>
@@ -342,7 +343,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
           </>
         }
       >
-        <p className={cn("text-muted-foreground my-4 leading-relaxed", vnBodyClass)}>
+        <p className={cn("my-4 leading-relaxed", vnBodyClass)}>
           <strong>Chúa {NAME_JESUS_VN}</strong> người Na-xa-rét là nhân vật trung tâm của{" "}
           {TERM_NEW_TESTAMENT_VN} và giữ vị trí đặc biệt trong toàn bộ {TERM_BIBLE_VN}.
           Nhiều người tin rằng các sách {TERM_OLD_TESTAMENT_VN} chuẩn bị cho sự xuất hiện
@@ -352,6 +353,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       </LearnLessonIntro>
 
       <LearnFullyGodManSection
+        bodyBright
         locale="vi"
         sectionTitle={`Vừa Là ${TERM_GOD_VN}, Vừa Là Con Người`}
         leftTitle="Hoàn Toàn Là Con Người"
@@ -480,6 +482,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       />
 
       <LearnCrossSection
+        bodyBright
         locale="vi"
         title="Thập Tự Giá & Sự Phục Sinh"
         paragraph1={
@@ -518,6 +521,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       />
 
       <LearnProphecySection
+        bodyBright
         locale="vi"
         title="Sự Ứng Nghiệm Lời Tiên Tri"
         intro={

@@ -10,6 +10,8 @@ export interface LearnWhatIsFaithCtaSectionProps {
   ctaBody: string;
   ctaButton: string;
   ctaHref?: string;
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnWhatIsFaithCtaSection({
@@ -17,15 +19,17 @@ export function LearnWhatIsFaithCtaSection({
   ctaBody,
   ctaButton,
   ctaHref = "/bible/plans",
+  bodyBright,
 }: LearnWhatIsFaithCtaSectionProps) {
   const { bodyClass } = useBibleFontClasses();
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <section
       className="bg-card border-sage-dark/20 mb-8 space-y-3 rounded-2xl border p-6"
     >
       <p className="text-foreground font-semibold">{ctaTitle}</p>
-      <p className={cn("text-muted-foreground", bodyClass)}>{ctaBody}</p>
+      <p className={cn(bodyColor, bodyClass)}>{ctaBody}</p>
       <Link
         href={ctaHref}
         className="bg-foreground text-background inline-flex items-center gap-2

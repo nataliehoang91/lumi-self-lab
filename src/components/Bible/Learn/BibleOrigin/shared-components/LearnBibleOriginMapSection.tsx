@@ -15,6 +15,8 @@ export interface LearnBibleOriginMapSectionProps {
   renderPopover: (id: MapLocationId) => { label: string; desc: string };
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnBibleOriginMapSection({
@@ -25,10 +27,12 @@ export function LearnBibleOriginMapSection({
   labels,
   renderPopover,
   locale,
+  bodyBright,
 }: LearnBibleOriginMapSectionProps) {
   const { bodyClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <section className="mb-10">
@@ -38,7 +42,7 @@ export function LearnBibleOriginMapSection({
       >
         {mapTitle}
       </BibleHeading>
-      <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClass, bodyFont)}>
         {mapBody}
       </p>
       <LearnOriginMapFullWidth

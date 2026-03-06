@@ -20,6 +20,8 @@ export interface LearnWhatIsBibleTestamentSectionProps {
   bookLabelSingular?: string;
   /** Localised label for multiple books (e.g. "books", "sách"). Defaults to "books". */
   bookLabelPlural?: string;
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnWhatIsBibleTestamentSection({
@@ -30,8 +32,10 @@ export function LearnWhatIsBibleTestamentSection({
   sections,
   bookLabelSingular,
   bookLabelPlural,
+  bodyBright,
 }: LearnWhatIsBibleTestamentSectionProps) {
   const { bodyClass } = useBibleFontClasses();
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   const singular = bookLabelSingular ?? "book";
   const plural = bookLabelPlural ?? "books";
@@ -42,7 +46,7 @@ export function LearnWhatIsBibleTestamentSection({
         {title}
       </h2>
       {typeof intro === "string" ? (
-        <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass)}>
+        <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClass)}>
           {intro}
         </p>
       ) : (
@@ -66,7 +70,7 @@ export function LearnWhatIsBibleTestamentSection({
                 {sectionNames[s.nameKey]}
               </p>
               <p
-                className={cn("text-muted-foreground mt-0.5 leading-relaxed", bodyClass)}
+                className={cn(bodyColor, "mt-0.5 leading-relaxed", bodyClass)}
               >
                 {sectionDescs[s.descKey]}
               </p>

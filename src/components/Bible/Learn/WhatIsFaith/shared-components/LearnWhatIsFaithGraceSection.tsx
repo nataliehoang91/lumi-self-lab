@@ -13,6 +13,8 @@ export interface LearnWhatIsFaithGraceSectionProps {
   graceFootnoteHref?: string;
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnWhatIsFaithGraceSection({
@@ -22,17 +24,19 @@ export function LearnWhatIsFaithGraceSection({
   graceRef,
   graceFootnoteHref,
   locale,
+  bodyBright,
 }: LearnWhatIsFaithGraceSectionProps) {
   const { bodyClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <section className="mb-10">
       <h2 className={cn("text-foreground mb-3 text-2xl font-semibold", titleFont)}>
         {graceTitle}
       </h2>
-      <p className={cn("text-muted-foreground mb-3 leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "mb-3 leading-relaxed", bodyClass, bodyFont)}>
         {graceBody}
       </p>
       <div

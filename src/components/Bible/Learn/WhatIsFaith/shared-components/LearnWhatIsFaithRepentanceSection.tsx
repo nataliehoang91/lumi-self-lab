@@ -11,6 +11,8 @@ export interface LearnWhatIsFaithRepentanceSectionProps {
   repentanceRefHref?: string;
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnWhatIsFaithRepentanceSection({
@@ -19,20 +21,23 @@ export function LearnWhatIsFaithRepentanceSection({
   repentanceRef,
   repentanceRefHref,
   locale,
+  bodyBright,
 }: LearnWhatIsFaithRepentanceSectionProps) {
   const { bodyClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
+  const refColor = bodyBright ? "text-foreground/70" : "text-muted-foreground/60";
 
   return (
     <section className="bg-card border-sage-dark/20 mb-10 rounded-2xl border p-6">
       <h2 className={cn("text-foreground mb-3 text-xl font-semibold", titleFont)}>
         {repentanceTitle}
       </h2>
-      <p className={cn("text-muted-foreground leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "leading-relaxed", bodyClass, bodyFont)}>
         {repentanceBody}
       </p>
-      <p className="text-muted-foreground/60 mt-4 font-mono text-xs">
+      <p className={cn(refColor, "mt-4 font-mono text-xs")}>
         {repentanceRefHref ? (
           <a
             href={repentanceRefHref}

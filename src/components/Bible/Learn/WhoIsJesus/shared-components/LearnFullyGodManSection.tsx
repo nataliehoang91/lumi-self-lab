@@ -14,6 +14,8 @@ export interface LearnFullyGodManSectionProps {
   rightRef?: ReactNode;
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnFullyGodManSection({
@@ -25,10 +27,13 @@ export function LearnFullyGodManSection({
   rightBody,
   rightRef,
   locale,
+  bodyBright,
 }: LearnFullyGodManSectionProps) {
   const { bodyClass, subBodyClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
+  const refColor = bodyBright ? "text-foreground/70" : "text-muted-foreground/60";
 
   return (
     <section className="mb-10" aria-labelledby="fully-section-title">
@@ -41,22 +46,22 @@ export function LearnFullyGodManSection({
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div className="bg-card border-sage-dark/20 rounded-2xl border p-5">
           <p className={cn("text-foreground mb-2 font-semibold", bodyFont)}>{leftTitle}</p>
-          <div className={cn("text-muted-foreground leading-relaxed", bodyClass, bodyFont)}>
+          <div className={cn(bodyColor, "leading-relaxed", bodyClass, bodyFont)}>
             {leftBody}
           </div>
           {leftRef != null && leftRef !== undefined && (
-            <p className={cn("text-muted-foreground/60 mt-3 font-mono", subBodyClass)}>
+            <p className={cn(refColor, "mt-3 font-mono", subBodyClass)}>
               {leftRef}
             </p>
           )}
         </div>
         <div className="bg-card border-sage-dark/20 rounded-2xl border p-5">
           <p className={cn("text-foreground mb-2 font-semibold", bodyFont)}>{rightTitle}</p>
-          <div className={cn("text-muted-foreground leading-relaxed", bodyClass, bodyFont)}>
+          <div className={cn(bodyColor, "leading-relaxed", bodyClass, bodyFont)}>
             {rightBody}
           </div>
           {rightRef != null && rightRef !== undefined && (
-            <p className={cn("text-muted-foreground/60 mt-3 font-mono", subBodyClass)}>
+            <p className={cn(refColor, "mt-3 font-mono", subBodyClass)}>
               {rightRef}
             </p>
           )}

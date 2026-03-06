@@ -137,13 +137,14 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass, subBodyClassUp } = useBibleFontClasses();
   const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
   return (
-    <article aria-label="Kinh thánh là gì?">
+    <article aria-label="Kinh thánh là gì?" className="text-foreground">
       <LearnWhatIsBibleIntro
         locale="vi"
         moduleNum="01 / 04"
         title="Kinh thánh là gì?"
+        bodyBright
         introParts={[
-          "Kinh Thánh không chỉ là một quyển sách — đó là một tuyển tập gồm ",
+          "Kinh Thánh không chỉ là một quyển sách, đó là một tuyển tập gồm ",
           "66 sách",
           " được viết trong suốt khoảng ",
           "1.500 năm",
@@ -162,22 +163,19 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}>
+        <p
+          className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}
+        >
           Kinh Thánh là thư viện, không phải một cuốn sách đơn lẻ.
         </p>
-        <p className={cn("leading-relaxed opacity-90", vnBodyClass)}>
+        <p className={cn("leading-relaxed", vnBodyClass)}>
           Từ <strong>&ldquo;Bible&rdquo;</strong> bắt nguồn từ tiếng Hy Lạp{" "}
           <strong>&ldquo;biblia&rdquo;</strong>, nghĩa là &ldquo;những cuốn sách&rdquo;.
           Hiểu điều này giúp chúng ta tránh việc đọc <strong>{TERM_BIBLE_VN}</strong> như
           một cuốn sách đồng nhất, mà thay vào đó là một thư viện gồm nhiều tác phẩm liên
           kết với nhau.
         </p>
-        <p
-          className={cn(
-            "border-border border-t pt-4 leading-relaxed opacity-80",
-            vnBodyClass
-          )}
-        >
+        <p className={cn("border-border border-t pt-4 leading-relaxed", vnBodyClass)}>
           <strong>{TERM_BIBLE_VN}</strong> bao gồm nhiều thể loại: lịch sử, thơ ca, luật
           pháp, thư tín, khải tượng. Vì vậy, không thể đọc mọi phần theo cùng một cách.
         </p>
@@ -197,103 +195,115 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </>
         }
         bulletItems={[
-          <div key="1" className="flex items-baseline gap-x-2">
+          <div key="1" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
             <span className="">• Vua - như Đa-vít</span>
-            <span className="shrink-0">-</span>
-            <BibleVerseLink
-              langSegment="vi"
-              version1="vi"
-              bookId={findBookIdByVi(books, BOOK_2_SAMUEL_VN, "2 Samuel")}
-              chapter={5}
-              verse={4}
-              verseEnd={5}
-              testament="ot"
-              triggerClassName={subBodyClassUp}
-              previewText={VERSE_PREVIEW_VN_AUTHORS["II Sa-mu-ên 5:4-5"]}
-            >
-              II Sa-mu-ên 5:4-5
-            </BibleVerseLink>
+            <span className="hidden shrink-0 md:block">-</span>
+            <div className="flex justify-end gap-x-2 text-right">
+              <BibleVerseLink
+                langSegment="vi"
+                version1="vi"
+                bookId={findBookIdByVi(books, BOOK_2_SAMUEL_VN, "2 Samuel")}
+                chapter={5}
+                verse={4}
+                verseEnd={5}
+                testament="ot"
+                triggerClassName={subBodyClassUp}
+                previewText={VERSE_PREVIEW_VN_AUTHORS["II Sa-mu-ên 5:4-5"]}
+              >
+                II Sa-mu-ên 5:4-5
+              </BibleVerseLink>
+            </div>
           </div>,
-          <div key="2" className="flex items-baseline gap-x-2">
+          <div key="2" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
             <span className="">• Người chăn chiên - như A-mốt</span>
-            <span className="shrink-0">-</span>
-            <BibleVerseLink
-              langSegment="vi"
-              version1="vi"
-              bookId={findBookIdByVi(books, BOOK_AMOS_VN, "Amos")}
-              chapter={1}
-              verse={1}
-              testament="ot"
-              triggerClassName={subBodyClassUp}
-              previewText={VERSE_PREVIEW_VN_AUTHORS["A-mốt 1:1"]}
-            >
-              A-mốt 1:1
-            </BibleVerseLink>
+            <span className="hidden shrink-0 md:block">-</span>
+            <div className="flex justify-end gap-x-2 text-right">
+              <BibleVerseLink
+                langSegment="vi"
+                version1="vi"
+                bookId={findBookIdByVi(books, BOOK_AMOS_VN, "Amos")}
+                chapter={1}
+                verse={1}
+                testament="ot"
+                triggerClassName={subBodyClassUp}
+                previewText={VERSE_PREVIEW_VN_AUTHORS["A-mốt 1:1"]}
+              >
+                A-mốt 1:1
+              </BibleVerseLink>
+            </div>
           </div>,
-          <div key="3" className="flex items-baseline gap-x-2">
+          <div key="3" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
             <span className="">• Quan chức triều đình - như Đa-ni-ên</span>
-            <span className="shrink-0">-</span>
-            <BibleVerseLink
-              langSegment="vi"
-              version1="vi"
-              bookId={findBookIdByVi(books, BOOK_DANIEL_VN, "Daniel")}
-              chapter={2}
-              verse={48}
-              testament="ot"
-              triggerClassName={subBodyClassUp}
-              previewText={VERSE_PREVIEW_VN_AUTHORS["Đa-ni-ên 2:48"]}
-            >
-              Đa-ni-ên 2:48
-            </BibleVerseLink>
+            <span className="hidden shrink-0 md:block">-</span>
+            <div className="flex justify-end gap-x-2 text-right">
+              <BibleVerseLink
+                langSegment="vi"
+                version1="vi"
+                bookId={findBookIdByVi(books, BOOK_DANIEL_VN, "Daniel")}
+                chapter={2}
+                verse={48}
+                testament="ot"
+                triggerClassName={subBodyClassUp}
+                previewText={VERSE_PREVIEW_VN_AUTHORS["Đa-ni-ên 2:48"]}
+              >
+                Đa-ni-ên 2:48
+              </BibleVerseLink>
+            </div>
           </div>,
-          <div key="4" className="flex items-baseline gap-x-2">
+          <div key="4" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
             <span className="">• Bác sĩ - như Lu-ca</span>
-            <span className="shrink-0">-</span>
-            <BibleVerseLink
-              langSegment="vi"
-              version1="vi"
-              bookId={findBookIdByVi(books, BOOK_COLOSSIANS_VN, "Colossians")}
-              chapter={4}
-              verse={14}
-              testament="nt"
-              triggerClassName={subBodyClassUp}
-              previewText={VERSE_PREVIEW_VN_AUTHORS["Cô-lô-se 4:14"]}
-            >
-              Cô-lô-se 4:14
-            </BibleVerseLink>
+            <span className="hidden shrink-0 md:block">-</span>
+            <div className="flex justify-end gap-x-2 text-right">
+              <BibleVerseLink
+                langSegment="vi"
+                version1="vi"
+                bookId={findBookIdByVi(books, BOOK_COLOSSIANS_VN, "Colossians")}
+                chapter={4}
+                verse={14}
+                testament="nt"
+                triggerClassName={subBodyClassUp}
+                previewText={VERSE_PREVIEW_VN_AUTHORS["Cô-lô-se 4:14"]}
+              >
+                Cô-lô-se 4:14
+              </BibleVerseLink>
+            </div>
           </div>,
-          <div key="5" className="flex items-baseline gap-x-2">
+          <div key="5" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
             <span className="">• Người đánh cá - như Phi-e-rơ</span>
-            <span className="shrink-0">-</span>
-            <BibleVerseLink
-              langSegment="vi"
-              version1="vi"
-              bookId={findBookIdByVi(books, BOOK_MATTHEW_VN, "Matthew")}
-              chapter={4}
-              verse={18}
-              verseEnd={21}
-              testament="nt"
-              triggerClassName={subBodyClassUp}
-              previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 4:18-21"]}
-            >
-              Ma-thi-ơ 4:18-21
-            </BibleVerseLink>
+            <span className="hidden shrink-0 md:block">-</span>
+            <div className="flex justify-end gap-x-2 text-right">
+              <BibleVerseLink
+                langSegment="vi"
+                version1="vi"
+                bookId={findBookIdByVi(books, BOOK_MATTHEW_VN, "Matthew")}
+                chapter={4}
+                verse={18}
+                verseEnd={21}
+                testament="nt"
+                triggerClassName={subBodyClassUp}
+                previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 4:18-21"]}
+              >
+                Ma-thi-ơ 4:18-21
+              </BibleVerseLink>
+            </div>
           </div>,
-          <div key="6" className="flex items-baseline gap-x-2">
+          <div key="6" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
             <span className="">• Người thu thuế - như Ma-thi-ơ</span>
-            <span className="shrink-0">-</span>
-            <BibleVerseLink
-              langSegment="vi"
-              version1="vi"
-              bookId={findBookIdByVi(books, BOOK_MATTHEW_VN, "Matthew")}
-              chapter={10}
-              verse={3}
-              testament="nt"
-              triggerClassName={subBodyClassUp}
-              previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 10:3"]}
-            >
-              Ma-thi-ơ 10:3
-            </BibleVerseLink>
+            <span className="hidden shrink-0 md:block">-</span>
+            <div className="flex justify-end gap-x-2 text-right">
+              <BibleVerseLink
+                langSegment="vi"
+                version1="vi"
+                bookId={findBookIdByVi(books, BOOK_MATTHEW_VN, "Matthew")}
+                chapter={10}
+                verse={3}
+                testament="nt"
+                triggerClassName={subBodyClassUp}
+                previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 10:3"]}
+              >
+                Ma-thi-ơ 10:3
+              </BibleVerseLink>
+            </div>
           </div>,
         ]}
         conclusion={
@@ -321,6 +331,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       <div className="my-8 h-px" />
 
       <LearnWhatIsBibleTestamentSection
+        bodyBright
         title={TERM_OLD_TESTAMENT_VN}
         intro={
           <p className={cn("mb-5 leading-relaxed", vnBodyClass)}>
@@ -392,6 +403,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhatIsBibleTestamentSection
+        bodyBright
         title={TERM_NEW_TESTAMENT_VN}
         intro={
           <p className={cn("mb-5 leading-relaxed", vnBodyClass)}>
@@ -403,7 +415,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             cuộc đời, chức vụ, sự chết và sự sống lại của{" "}
             <strong>Chúa {NAME_JESUS_VN}</strong>. Sau đó là câu chuyện về Hội Thánh đầu
             tiên lan rộng ra khắp thế giới, và kết thúc bằng khải tượng về sự hoàn tất của
-            lịch sử trong <strong>{TERM_CHRIST_VN}</strong>.
+            lịch sử trong <strong>Chúa {NAME_JESUS_VN}</strong>.
           </p>
         }
         sectionNames={["Phúc âm", "Lịch sử", "Thư tín", "Khải tượng"]}
@@ -456,7 +468,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
               <em>{BOOK_REVELATION_VN}</em>
             </strong>{" "}
             — khải tượng về sự kết thúc lịch sử và sự chiến thắng của{" "}
-            <strong>{TERM_CHRIST_VN}</strong>.
+            <strong>{NAME_JESUS_VN}</strong>.
           </>,
         ]}
         sections={NT_SECTIONS}
@@ -466,11 +478,11 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
 
       <LearnWhyItMatters title="Câu chuyện trung tâm — và vì sao nó quan trọng">
         <p className={cn("leading-relaxed", vnBodyClass)}>
-          Dù được viết bởi nhiều người trong nhiều thế kỷ khác nhau,
+          Dù được viết bởi nhiều người trong nhiều thế kỷ khác nhau,{" "}
           <strong>{TERM_BIBLE_VN}</strong> không phải là những câu chuyện rời rạc. Nó kể
           một câu chuyện lớn: <strong>{TERM_GOD_VN}</strong> tạo dựng con người, con người
-          rời xa Ngài, và Ngài tìm cách đưa họ trở lại. Câu chuyện đó tập trung vào{" "}
-          <strong>Đức Chúa {NAME_JESUS_VN}</strong>.
+          rời xa <strong>Ngài</strong>, và <strong>Ngài</strong> tìm cách đưa họ trở lại.
+          Câu chuyện đó tập trung vào <strong>Chúa {NAME_JESUS_VN}</strong>.
         </p>
 
         <p className={cn("mt-4 leading-relaxed", vnBodyClass)}>
@@ -481,11 +493,15 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         </p>
 
         <p className={cn("mt-4 leading-relaxed", vnBodyClass)}>
-          Vì thế, tin theo Chúa Giê-xu không chỉ là sống tốt hơn, mà là bước vào mối quan
-          hệ với Đức Chúa Trời.
+          Vì thế, tin theo <strong>Chúa {NAME_JESUS_VN}</strong> không chỉ là sống tốt
+          hơn, mà là bước vào mối quan hệ với Đức Chúa Trời.
         </p>
       </LearnWhyItMatters>
-      <LearnWhatIsBibleGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} locale="vi" />
+      <LearnWhatIsBibleGlossary
+        glossaryTitle="Từ vựng nhanh"
+        glossary={VN_GLOSSARY}
+        locale="vi"
+      />
     </article>
   );
 }

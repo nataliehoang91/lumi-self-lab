@@ -93,8 +93,9 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass } = useBibleFontClasses();
 
   return (
-    <div>
+    <article className="text-foreground" aria-label="What Is Faith?">
       <LearnWhatIsFaithIntro
+        bodyBright
         moduleNum="04 / 04"
         title="What Is Faith?"
         intro="Faith is not blind optimism or religious effort to become better. In the Bible, faith means trusting God — trusting that what he says is true and that Jesus is who he revealed himself to be."
@@ -108,19 +109,20 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         <p className={cn("font-bible-english leading-snug font-semibold", bodyTitleClass)}>
           A Relationship, Not a Religion
         </p>
-        <p className={cn("leading-relaxed opacity-90", bodyClass)}>
+        <p className={cn("leading-relaxed", bodyClass)}>
           Christianity is not simply a system of rules to follow, but a relationship to
           enter. Jesus said he came so that people “may have life, and have it to the
           full” (John 10:10). The goal is not perfection, but walking in a real
           relationship with God.
         </p>
-        <p className={cn("border-border border-t pt-4 leading-relaxed opacity-80", bodyClass)}>
+        <p className={cn("border-border border-t pt-4 leading-relaxed", bodyClass)}>
           Reading Scripture, praying, and gathering with other believers are ways of
           growing in that relationship — not conditions for being accepted.
         </p>
       </blockquote>
 
       <LearnWhatIsFaithGraceSection
+        bodyBright
         graceTitle="Salvation by Grace"
         graceBody="The central message of Christianity is salvation — being reconciled to God. This is not achieved by good works, but received as a gift through faith in what Jesus has done."
         graceQuote="For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God."
@@ -134,6 +136,7 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhatIsFaithRepentanceSection
+        bodyBright
         repentanceTitle="Repentance"
         repentanceBody="Repentance is more than feeling guilty. It is a genuine change of direction — turning away from a self-ruled life and turning toward God. When Jesus began his ministry, he said, 'Repent and believe the good news.'"
         repentanceRef="Mark 1:15"
@@ -146,6 +149,7 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhatIsFaithPrayerSection
+        bodyBright
         prayerTitle="Where does faith begin?"
         prayerIntro="Faith does not begin with trying to become a better person. It begins with trust — trusting that God is real and that Jesus is who he revealed himself to be."
         steps={[
@@ -193,6 +197,6 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       </LearnWhyItMatters>
 
       <LearnWhatIsFaithGlossary glossaryTitle="Quick Glossary" glossary={EN_GLOSSARY} />
-    </div>
+    </article>
   );
 }

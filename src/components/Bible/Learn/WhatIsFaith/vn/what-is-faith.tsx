@@ -106,8 +106,9 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass } = useBibleFontClasses();
   const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
   return (
-    <div>
+    <article className="text-foreground" aria-label="Đức tin là gì?">
       <LearnWhatIsFaithIntro
+        bodyBright
         locale="vi"
         moduleNum="04 / 04"
         title="Đức tin là gì?"
@@ -121,19 +122,20 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         <p className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}>
           Mối Quan Hệ, Không Phải Tôn Giáo
         </p>
-        <p className={cn("leading-relaxed opacity-90", vnBodyClass)}>
+        <p className={cn("leading-relaxed", vnBodyClass)}>
           Cơ Đốc giáo không chỉ là một hệ thống luật lệ để tuân theo, mà là một mối quan
           hệ để bước vào. Chúa Giê-xu phán Ngài đến để con người &quot;được sự sống, và sự
           sống dư dật&quot; (Giăng 10:10). Mục đích không phải là đạt đến sự hoàn hảo, mà
           là bước đi trong mối quan hệ thật với Đức Chúa Trời.
         </p>
-        <p className={cn("border-border border-t pt-4 leading-relaxed opacity-80", vnBodyClass)}>
+        <p className={cn("border-border border-t pt-4 leading-relaxed", vnBodyClass)}>
           Đọc Kinh Thánh, cầu nguyện và sinh hoạt cùng Hội Thánh là những cách để lớn lên
           trong mối quan hệ đó — không phải điều kiện để được chấp nhận.
         </p>
       </blockquote>
 
       <LearnWhatIsFaithGraceSection
+        bodyBright
         locale="vi"
         graceTitle="Sự Cứu Rỗi Bởi Ân Điển"
         graceBody="Sứ điệp trung tâm của Cơ Đốc giáo là sự cứu rỗi — được hòa giải với Đức Chúa Trời. Điều này không đạt được bởi việc lành, mà được nhận như một món quà, qua đức tin nơi điều Chúa Giê-xu đã làm."
@@ -148,6 +150,7 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhatIsFaithRepentanceSection
+        bodyBright
         locale="vi"
         repentanceTitle="Sự Ăn Năn"
         repentanceBody='Ăn năn không chỉ là cảm giác hối lỗi. Đó là sự thay đổi hướng đi — quay khỏi con đường tự mình làm chủ để trở về với Đức Chúa Trời. Khi bắt đầu chức vụ, Chúa Giê-xu phán: "Hãy ăn năn và tin Tin Lành."'
@@ -161,6 +164,7 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhatIsFaithPrayerSection
+        bodyBright
         locale="vi"
         prayerTitle="Đức tin bắt đầu từ đâu?"
         prayerIntro="Đức tin không bắt đầu bằng việc làm cho mình trở nên tốt hơn. Nó bắt đầu bằng sự tin cậy — tin rằng Đức Chúa Trời là thật và Chúa Giê-xu là Đấng Ngài bày tỏ."
@@ -208,6 +212,6 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         </p>
       </LearnWhyItMatters>
       <LearnWhatIsFaithGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} locale="vi" />
-    </div>
+    </article>
   );
 }

@@ -175,7 +175,7 @@ export function VnBibleLangPage({ lang, books }: VnBibleLangPageProps) {
 
       <LangPageJourney
         title="Hành trình của bạn"
-        subtitle="Con đường từ câu hỏi đầu tiên đến đức tin sâu nhiệm."
+        subtitle="Con đường từ câu hỏi đầu tiên đến đức tin."
         items={journey}
       />
 

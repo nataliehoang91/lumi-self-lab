@@ -19,6 +19,8 @@ export interface LearnWhatIsBibleIntroProps {
     string,
     string | ReactNode,
   ];
+  /** Use full-contrast text for intro body (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnWhatIsBibleIntro({
@@ -26,10 +28,12 @@ export function LearnWhatIsBibleIntro({
   title,
   locale,
   introParts,
+  bodyBright,
 }: LearnWhatIsBibleIntroProps) {
   const { bodyClass, h1Class, subBodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <div className="mb-12">
@@ -46,7 +50,7 @@ export function LearnWhatIsBibleIntro({
         {title}
       </h1>
       <p
-        className={cn("text-muted-foreground mt-4 leading-relaxed", bodyClass, introFont)}
+        className={cn(bodyColor, "mt-4 leading-relaxed", bodyClass, introFont)}
       >
         {introParts[0]}
         <strong className="text-foreground font-semibold">{introParts[1]}</strong>

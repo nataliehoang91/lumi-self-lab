@@ -33,7 +33,10 @@ export function LearnWhatIsBibleAuthorsSection({
 
       <ul className="mt-4 space-y-2">
         {bulletItems.map((item, idx) => (
-          <li key={idx} className={cn("leading-relaxed", bodyClass)}>
+          <li
+            key={idx}
+            className={cn("space-y-4 leading-relaxed md:space-y-0", bodyClass)}
+          >
             {item}
           </li>
         ))}

@@ -80,16 +80,19 @@ export function BibleAppProvider({ children }: { children: ReactNode }) {
     return null;
   })();
 
-  // Sync state: flashcard from searchParams; under /bible/[lang] from URL segment; else localStorage.
+  // Sync state: flashcard from searchParams, then path segment so /bible/vi/flashcard shows VI; under /bible/[lang] from URL segment; else localStorage.
   useEffect(() => {
     if (!searchParams) return;
 
     Promise.resolve().then(() => {
       if (isFlashcardPage) {
-        const lang = searchParams.get("lang");
+        const langFromQuery = searchParams.get("lang");
+        const lang =
+          langFromQuery && LANGS.includes(langFromQuery as Language)
+            ? (langFromQuery as Language)
+            : langFromPath;
+        if (lang) setGlobalLanguageState(lang);
         const font = searchParams.get("font");
-        if (lang && LANGS.includes(lang as Language))
-          setGlobalLanguageState(lang as Language);
         if (font && FONTS.includes(font as FontSize)) setFontSizeState(font as FontSize);
         setLayoutModeState("all");
       } else {

@@ -13,6 +13,8 @@ export interface LearnLessonIntroProps {
   children: string | ReactNode;
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
 export function LearnLessonIntro({
@@ -22,10 +24,12 @@ export function LearnLessonIntro({
   intro1Quote,
   children,
   locale,
+  bodyBright,
 }: LearnLessonIntroProps) {
   const { h1Class, introClass, subBodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <div className="mb-12 space-y-6">
@@ -44,11 +48,7 @@ export function LearnLessonIntro({
 
       {typeof intro1 === "string" ? (
         <p
-          className={cn(
-            "text-muted-foreground mt-4 leading-relaxed",
-            introClass,
-            introFont
-          )}
+          className={cn(bodyColor, "mt-4 leading-relaxed", introClass, introFont)}
         >
           {intro1}
         </p>
@@ -70,11 +70,7 @@ export function LearnLessonIntro({
 
       {typeof children === "string" ? (
         <p
-          className={cn(
-            "text-muted-foreground mt-4 leading-relaxed",
-            introClass,
-            introFont
-          )}
+          className={cn(bodyColor, "mt-4 leading-relaxed", introClass, introFont)}
         >
           {children}
         </p>

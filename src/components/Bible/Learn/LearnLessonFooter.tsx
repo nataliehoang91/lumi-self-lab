@@ -85,7 +85,7 @@ export function LearnLessonFooter() {
           <Link
             href={prevHref}
             className={cn(
-              `text-muted-foreground hover:text-foreground flex items-center gap-1.5
+              `text-foreground hover:text-foreground flex items-center gap-1.5
                 transition-colors`,
               bodyClass
             )}
@@ -101,9 +101,9 @@ export function LearnLessonFooter() {
         <Link
           href={nextHref}
           className={cn(
-            `bg-primary-light order-2 flex w-full items-center justify-end gap-2
-              rounded-xl px-5 py-2.5 font-medium transition-opacity hover:opacity-90
-              sm:w-auto sm:justify-center`,
+            `bg-primary-light dark:bg-primary-dark order-2 flex w-full items-center
+              justify-end gap-2 rounded-xl px-5 py-2.5 font-medium text-black
+              transition-opacity hover:opacity-90 sm:w-auto sm:justify-center`,
             bodyClass
           )}
         >
@@ -121,9 +121,9 @@ export function LearnLessonFooter() {
         <Link
           href={readHref}
           className={cn(
-            `bg-primary-light order-2 flex w-full items-center justify-end gap-2
-              rounded-xl px-5 py-2.5 font-medium transition-opacity hover:opacity-90
-              sm:w-auto sm:justify-center`,
+            `bg-primary-light dark:bg-primary-dark order-2 flex w-full items-center
+              justify-end gap-2 rounded-xl px-5 py-2.5 font-medium text-black
+              transition-opacity hover:opacity-90 sm:w-auto sm:justify-center`,
             bodyClass
           )}
         >

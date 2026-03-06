@@ -18,12 +18,16 @@ export interface LearnProphecySectionProps {
   items: LearnProphecyItem[];
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
+  /** Use full-contrast body text (Bible learn read). Default muted. */
+  bodyBright?: boolean;
 }
 
-export function LearnProphecySection({ title, intro, items, locale }: LearnProphecySectionProps) {
+export function LearnProphecySection({ title, intro, items, locale, bodyBright }: LearnProphecySectionProps) {
   const { bodyClass, subBodyClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
+  const refColor = bodyBright ? "text-foreground/70" : "text-muted-foreground/70";
 
   return (
     <section className="mb-10" aria-labelledby="prophecy-section-title">
@@ -33,7 +37,7 @@ export function LearnProphecySection({ title, intro, items, locale }: LearnProph
       >
         {title}
       </h2>
-      <p className={cn("text-muted-foreground mb-5 leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClass, bodyFont)}>
         {intro}
       </p>
       <ul className="m-0 list-none space-y-2 p-0">
@@ -50,7 +54,7 @@ export function LearnProphecySection({ title, intro, items, locale }: LearnProph
             <div className="min-w-0 flex-1">
               <p className={cn("text-foreground", bodyClass, bodyFont)}>{item.prophecy}</p>
               <p
-                className={cn("text-muted-foreground/70 mt-0.5 font-mono", subBodyClass)}
+                className={cn(refColor, "mt-0.5 font-mono", subBodyClass)}
               >
                 {item.ref} → {item.fulfilled}
               </p>

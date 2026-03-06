@@ -287,8 +287,9 @@ function findBookIdByEn(books: BibleBook[], nameEn: string): string | null {
 export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
   const { bodyClass, subBodyClassUp } = useBibleFontClasses();
   return (
-    <article aria-label={`Who Is ${NAME_JESUS_EN}? lesson`}>
+    <article aria-label={`Who Is ${NAME_JESUS_EN}? lesson`} className="text-foreground">
       <LearnLessonIntro
+        bodyBright
         moduleNum="03 / 04"
         title={`Who Is ${NAME_JESUS_EN}?`}
         intro1={
@@ -309,6 +310,7 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
       </LearnLessonIntro>
 
       <LearnFullyGodManSection
+        bodyBright
         sectionTitle={`Fully ${TERM_GOD_EN}. Fully Man.`}
         leftTitle="Fully Human"
         leftBody={
@@ -436,6 +438,7 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
       />
 
       <LearnCrossSection
+        bodyBright
         title="The Cross & Resurrection"
         paragraph1={
           <>
@@ -471,6 +474,7 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
       />
 
       <LearnProphecySection
+        bodyBright
         title="Fulfilment of Prophecy"
         intro={
           <>

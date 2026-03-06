@@ -118,8 +118,9 @@ export function VnBibleOriginPage() {
   const mapLabels = getMapLabels(VN_MAP_LOCATIONS);
 
   return (
-    <article aria-label="Nguồn gốc Kinh Thánh & Sự hình thành chính điển">
+    <article aria-label="Nguồn gốc Kinh Thánh & Sự hình thành chính điển" className="text-foreground">
       <LearnBibleOriginIntro
+        bodyBright
         locale="vi"
         moduleNum="02 / 04"
         title="Nguồn gốc Kinh Thánh & Sự hình thành chính điển"
@@ -146,6 +147,7 @@ export function VnBibleOriginPage() {
       />
 
       <LearnBibleOriginMapSection
+        bodyBright
         locale="vi"
         mapTitle="Bản đồ bản thảo Kinh thánh"
         mapBody="Một vài địa điểm trọng yếu nơi Kinh thánh được viết, sao chép, dịch và được gìn giữ qua nhiều thế kỷ."
