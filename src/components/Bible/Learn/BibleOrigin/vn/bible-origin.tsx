@@ -64,7 +64,7 @@ const VN_TIMELINE: readonly TimelineItem[] = [
   },
   {
     year: "~450 TCN",
-    event: "Canon Cựu Ước cơ bản hoàn chỉnh",
+    event: "Các sách Cựu Ước được xác lập",
     desc: "Luật pháp và các sách Tiên tri được xác lập vững chắc trong đời sống thờ phượng Do Thái, hình thành cốt lõi của chính điển Hê-bơ-rơ.",
   },
   {
@@ -97,7 +97,7 @@ const VN_TIMELINE: readonly TimelineItem[] = [
 const VN_FAQ: readonly FaqItem[] = [
   {
     q: "Tại sao Kinh thánh Tin Lành và Công giáo khác nhau về độ dài?",
-    a: "Kinh thánh Công giáo gồm thêm 7 sách gọi là Deuterocanonical (hoặc Apocrypha), viết giữa thời Cựu Ước và Tân Ước. Các nhà Cải chính Tin Lành theo canon Hê-bơ-rơ, loại trừ các sách này, nên hầu hết Kinh thánh Tin Lành có 66 sách còn Kinh thánh Công giáo có 73.",
+    a: "Kinh thánh Công giáo bao gồm thêm 7 sách thường được gọi là Deuterocanonical (hoặc Apocrypha). Các sách này được viết trong giai đoạn giữa Cựu Ước và Tân Ước. Truyền thống Tin Lành theo danh sách các sách Cựu Ước của Do Thái giáo, nên không bao gồm các sách này. Vì vậy Kinh thánh Tin Lành có 66 sách, còn Kinh thánh Công giáo có 73.",
   },
   {
     q: "Cuộn Sách Biển Chết là gì và tại sao quan trọng?",
@@ -118,13 +118,17 @@ export function VnBibleOriginPage() {
   const mapLabels = getMapLabels(VN_MAP_LOCATIONS);
 
   return (
-    <article aria-label="Nguồn gốc Kinh Thánh & Sự hình thành chính điển" className="text-foreground">
+    <article
+      aria-label="Nguồn gốc Kinh Thánh & Sự hình thành chính điển"
+      className="text-foreground"
+    >
       <LearnBibleOriginIntro
         bodyBright
         locale="vi"
         moduleNum="02 / 04"
         title="Nguồn gốc Kinh Thánh & Sự hình thành chính điển"
-        intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả trong khoảng 1.500 năm, được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, sự sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
+        intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả trong khoảng 1.500 năm và đã được đọc, sao chép, truyền lại
+qua hơn 2.000 năm lịch sử, và được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, sự sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
       />
 
       <LearnBibleOriginLanguages
@@ -160,7 +164,7 @@ export function VnBibleOriginPage() {
       <LearnBibleOriginReliable
         locale="vi"
         reliableTitle="Tại sao Kinh thánh được xem là đáng tin?"
-        reliableP1="Tân Ước có nhiều bằng chứng bản thảo hơn bất kỳ tài liệu cổ đại nào — hơn 5.800 bản thảo Hy Lạp, so với chưa đến 650 bản cho Iliad của Homer. Khoảng cách thời gian giữa bản gốc và bản thảo còn lại sớm nhất cũng rất ngắn (vài thập kỷ, không phải thế kỷ)."
+        reliableP1="Các sách Tân Ước được bảo tồn qua số lượng bản thảo rất lớn — hơn 5.800 bản tiếng Hy Lạp, chưa kể hàng nghìn bản dịch cổ. Con số này nhiều hơn hầu hết các tác phẩm cổ đại khác mà chúng ta biết ngày nay. Nhờ vậy các học giả có thể so sánh các bản chép tay và xác định văn bản với độ chính xác rất cao."
         reliableP2="Cuộn Sách Biển Chết xác nhận văn bản Cựu Ước được bảo tồn với độ chính xác phi thường qua hơn một ngàn năm sao chép. Dù tồn tại một số khác biệt nhỏ giữa các bản chép tay, phần lớn chỉ là sai biệt chính tả hoặc cách diễn đạt, không ảnh hưởng đến nội dung cốt lõi của đức tin."
       />
 

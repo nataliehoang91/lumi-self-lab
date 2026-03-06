@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { LearnWhatIsFaithIntro } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithIntro";
 import { LearnWhatIsFaithGraceSection } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithGraceSection";
 import { LearnWhatIsFaithRepentanceSection } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithRepentanceSection";
@@ -105,6 +106,7 @@ const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
 export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass } = useBibleFontClasses();
   const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
+  const johnHref = buildReadHrefVi(findBookIdByVi(books, "Giăng", "John"), 10, 10, "nt");
   return (
     <article className="text-foreground" aria-label="Đức tin là gì?">
       <LearnWhatIsFaithIntro
@@ -119,14 +121,24 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}>
+        <p
+          className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}
+        >
           Mối Quan Hệ, Không Phải Tôn Giáo
         </p>
         <p className={cn("leading-relaxed", vnBodyClass)}>
           Cơ Đốc giáo không chỉ là một hệ thống luật lệ để tuân theo, mà là một mối quan
           hệ để bước vào. Chúa Giê-xu phán Ngài đến để con người &quot;được sự sống, và sự
-          sống dư dật&quot; (Giăng 10:10). Mục đích không phải là đạt đến sự hoàn hảo, mà
-          là bước đi trong mối quan hệ thật với Đức Chúa Trời.
+          sống dư dật&quot;{" "}
+          <Link
+            href={johnHref}
+            className="text-second-600 hover:text-second-800 font-mono underline
+              underline-offset-4 transition-colors"
+          >
+            (Giăng 10:10)
+          </Link>
+          . Mục đích không phải là đạt đến sự hoàn hảo, mà là bước đi trong mối quan hệ
+          thật với Đức Chúa Trời.
         </p>
         <p className={cn("border-border border-t pt-4 leading-relaxed", vnBodyClass)}>
           Đọc Kinh Thánh, cầu nguyện và sinh hoạt cùng Hội Thánh là những cách để lớn lên
@@ -211,7 +223,11 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
           đổi cả nền tảng bạn đang sống trên đó.
         </p>
       </LearnWhyItMatters>
-      <LearnWhatIsFaithGlossary glossaryTitle="Từ vựng nhanh" glossary={VN_GLOSSARY} locale="vi" />
+      <LearnWhatIsFaithGlossary
+        glossaryTitle="Từ vựng nhanh"
+        glossary={VN_GLOSSARY}
+        locale="vi"
+      />
     </article>
   );
 }

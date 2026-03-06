@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { LearnWhatIsFaithIntro } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithIntro";
 import { LearnWhatIsFaithGraceSection } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithGraceSection";
 import { LearnWhatIsFaithRepentanceSection } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithRepentanceSection";
@@ -92,6 +93,8 @@ const EN_GLOSSARY: readonly GlossaryItem[] = [
 export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
   const { bodyClass, bodyTitleClass } = useBibleFontClasses();
 
+  const johnHref = buildReadHrefEn(findBookIdByEn(books, "John"), 10, 10, "nt");
+
   return (
     <article className="text-foreground" aria-label="What Is Faith?">
       <LearnWhatIsFaithIntro
@@ -106,14 +109,23 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p className={cn("font-bible-english leading-snug font-semibold", bodyTitleClass)}>
+        <p
+          className={cn("font-bible-english leading-snug font-semibold", bodyTitleClass)}
+        >
           A Relationship, Not a Religion
         </p>
         <p className={cn("leading-relaxed", bodyClass)}>
           Christianity is not simply a system of rules to follow, but a relationship to
           enter. Jesus said he came so that people “may have life, and have it to the
-          full” (John 10:10). The goal is not perfection, but walking in a real
-          relationship with God.
+          full”{" "}
+          <Link
+            href={johnHref}
+            className="text-second-600 hover:text-second-800 font-mono underline
+              underline-offset-4 transition-colors"
+          >
+            (John 10:10)
+          </Link>
+          . The goal is not perfection, but walking in a real relationship with God.
         </p>
         <p className={cn("border-border border-t pt-4 leading-relaxed", bodyClass)}>
           Reading Scripture, praying, and gathering with other believers are ways of
@@ -140,12 +152,7 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         repentanceTitle="Repentance"
         repentanceBody="Repentance is more than feeling guilty. It is a genuine change of direction — turning away from a self-ruled life and turning toward God. When Jesus began his ministry, he said, 'Repent and believe the good news.'"
         repentanceRef="Mark 1:15"
-        repentanceRefHref={buildReadHrefEn(
-          findBookIdByEn(books, "Mark"),
-          1,
-          15,
-          "nt"
-        )}
+        repentanceRefHref={buildReadHrefEn(findBookIdByEn(books, "Mark"), 1, 15, "nt")}
       />
 
       <LearnWhatIsFaithPrayerSection

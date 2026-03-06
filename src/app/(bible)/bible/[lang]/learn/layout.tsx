@@ -29,7 +29,7 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
   const currentLabel = titleKey ? intl.t(titleKey) : null;
 
   return (
-    <div className="bg-read min-h-screen font-sans">
+    <div className="bg-read dark:bg-[#050408] min-h-screen font-sans">
       <main>
         <Container maxWidth="5xl" className={cn("px-4 py-16")}>
           {pathname?.includes("/learn") && segment != null && (

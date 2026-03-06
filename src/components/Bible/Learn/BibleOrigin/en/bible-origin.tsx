@@ -123,7 +123,7 @@ export function EnBibleOriginPage() {
         bodyBright
         moduleNum="02 / 04"
         title="Bible Origin & Canon Formation"
-        intro="How did 66 books, written by more than 40 authors across 1,500 years and three continents, come to be recognised as the Bible? The story spans ancient Israel, the early church, manuscript transmission, and archaeological discoveries that continue to shape our understanding today."
+        intro="How did 66 books, written by about 40 authors over 1,500 years, become what we now call the Bible? The answer unfolds across more than 2,000 years of history — from ancient Israel to the early church, and through centuries of careful copying and preservation."
       />
 
       <LearnBibleOriginLanguages
@@ -155,7 +155,7 @@ export function EnBibleOriginPage() {
 
       <LearnBibleOriginReliable
         reliableTitle="Why Is the Bible Considered Reliable?"
-        reliableP1="The New Testament is supported by more manuscript evidence than any other work of ancient literature — over 5,800 Greek manuscripts and more than 25,000 in total across ancient languages. The time gap between the original writings and our earliest surviving copies is comparatively short, often within a few generations."
+        reliableP1="The New Testament is preserved in more ancient manuscripts than any other work from the ancient world — over 5,800 Greek copies and more than 25,000 in total across early languages. Some of these copies appear only a few decades after the original writings, allowing scholars to compare them and confirm the text with a high level of confidence."
         reliableP2="The discovery of the Dead Sea Scrolls demonstrated that the Hebrew Scriptures had been preserved with extraordinary consistency over centuries of careful copying. Jewish scribal tradition was highly meticulous, contributing to the stability of the biblical text over time."
       />
 
