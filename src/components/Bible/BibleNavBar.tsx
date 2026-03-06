@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, SquareMenu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,7 +44,6 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import Fuse from "fuse.js";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { OT_ORDER_MAX } from "@/components/Bible/Read/constants";
 import {
@@ -59,78 +58,43 @@ interface BibleQuickSuggestion {
   href: string;
 }
 
-
-const BOOK_QUERY_ALIASES: Record<string, string> = {
-  // English shortcuts
-  jn: "john",
-  jhn: "john",
-  jon: "john",
-  jo: "john",
-  // Vietnamese transliterations without hyphens/accents
-  mathio: "ma-thi-ơ",
-  mati: "ma-thi-ơ",
-  matio: "ma-thi-ơ",
-};
-
-function normalizeForSearch(value: string): string {
-  return value
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/[-·]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function buildBookSearchKey(book: BibleBook): string {
-  const parts = [book.nameEn, book.nameVi, book.nameZh ?? ""]
-    .filter(Boolean)
-    .map((p) => normalizeForSearch(p));
-  return Array.from(new Set(parts)).join(" ");
-}
-
 function getBookLabelForLanguage(book: BibleBook, lang: "EN" | "VI" | "ZH"): string {
   if (lang === "VI") return book.nameVi;
   if (lang === "ZH") return book.nameZh ?? book.nameEn;
   return book.nameEn;
 }
 
+/**
+ * Parse raw input into book query + optional chapter/verse.
+ * Normalizes (lowercase, NFD, strip diacritics), then: book = compact string with trailing digits removed; chapter/verse from first two number groups.
+ */
 function parseBibleQuery(raw: string): {
   bookQuery: string;
   chapterHint?: number;
   verse?: number;
 } {
-  const lower = raw.toLowerCase();
-  const numberMatches = Array.from(lower.matchAll(/\d+/g)).map((m) => parseInt(m[0], 10));
-
-  let chapterHint: number | undefined;
-  let verse: number | undefined;
-
-  if (numberMatches.length === 1) {
-    chapterHint = numberMatches[0];
-  } else if (numberMatches.length >= 2) {
-    chapterHint = numberMatches[0];
-    verse = numberMatches[numberMatches.length - 1];
-  }
-
-  let bookQuery = lower
-    .replace(/\d+/g, " ")
-    .replace(/\b(chapter|chap|ch|verse|vers|v|câu)\b/g, " ")
-    .replace(/[^\p{L}\s]/gu, " ")
+  const normalized = raw
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^\p{L}\d]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
 
-  // Try alias on the full compacted key (e.g. "ma thi o" -> "mathio").
-  if (bookQuery) {
-    const compact = bookQuery.replace(/\s+/g, "");
-    const alias = BOOK_QUERY_ALIASES[compact];
-    if (alias) {
-      bookQuery = alias;
-    }
-  }
+  const compact = normalized.replace(/\s+/g, "");
+  const book = compact.replace(/\d+$/, "");
+  const numbers = normalized.match(/\d+/g) ?? [];
+  const chapter = numbers[0] ? Number(numbers[0]) : undefined;
+  const verse = numbers[1] ? Number(numbers[1]) : undefined;
 
-  return { bookQuery, chapterHint, verse };
+  return {
+    bookQuery: book,
+    chapterHint: chapter,
+    verse,
+  };
 }
+
+const SEARCH_DEBOUNCE_MS = 180;
 
 function BibleReferenceSearch({
   langSegment,
@@ -141,45 +105,91 @@ function BibleReferenceSearch({
 }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [books, setBooks] = useState<BibleBook[]>([]);
+  const [searchBook, setSearchBook] = useState<BibleBook | null>(null);
+  const [searching, setSearching] = useState(false);
+  const lastRequestRef = useRef<string>("");
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-  const suggestions = useMemo<BibleQuickSuggestion[]>(() => {
-    if (!query.trim() || books.length === 0) return [];
-    const { bookQuery, chapterHint, verse } = parseBibleQuery(query);
-    if (!bookQuery) return [];
+  const { bookQuery, chapterHint, verse } = parseBibleQuery(query);
+  // Prefer global language so "gia" searches VI keys when user has Vietnamese selected
+  const searchLang =
+    globalLanguage === "VI"
+      ? "vi"
+      : globalLanguage === "EN"
+        ? "en"
+        : langSegment === "vi" || langSegment === "en"
+          ? langSegment
+          : "en";
 
-    const normalizedQuery = normalizeForSearch(bookQuery);
-    const indexedBooks = books.map((b) => ({
-      ...b,
-      searchKey: buildBookSearchKey(b),
-    }));
+  // Debounced API search. Abort in-flight requests so only the latest response applies.
+  useEffect(() => {
+    const raw = bookQuery ?? "";
+    // Re-normalise to match what the API's parseQuery will receive
+    const q = raw
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .replace(/[^\p{L}\d]/gu, " ")
+      .replace(/\s+/g, "")
+      .trim();
 
-    const fuse = new Fuse(indexedBooks, {
-      keys: ["nameEn", "nameVi", "nameZh", "searchKey"],
-      threshold: 0.35,
-      includeScore: true,
-    });
-
-    let results = fuse.search(normalizedQuery);
-
-    // If Fuse is too strict (common for Vietnamese without accents / hyphens),
-    // fall back to a simple "contains" match on the normalized searchKey.
-    if (!results.length) {
-      const fallbackMatches = indexedBooks.filter((b) =>
-        b.searchKey.includes(normalizedQuery)
-      );
-      if (fallbackMatches.length) {
-        // Shape this like Fuse's result type enough for our usage.
-        results = fallbackMatches.map((b, idx) => ({
-          item: b,
-          score: 0.5,
-          refIndex: idx,
-        }));
-      }
+    if (!q) {
+      // Clear immediately — no debounce needed for empty input
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = null;
+      lastRequestRef.current = "";
+      setSearchBook(null);
+      setSearching(false);
+      return;
     }
 
-    if (!results.length) return [];
-    const book = results[0]!.item;
+    const t = setTimeout(() => {
+      // Abort any previous in-flight request before starting a new one
+      abortControllerRef.current?.abort();
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+
+      const requested = q;
+      lastRequestRef.current = requested;
+      setSearching(true);
+
+      const params = new URLSearchParams({ q: requested, lang: searchLang });
+
+      fetch(`/api/bible/search?${params}`, { signal: controller.signal })
+        .then(async (res) => {
+          // Parse body first, then check ok — avoids double-consume of the stream
+          let data: { book: BibleBook | null } = { book: null };
+          try {
+            data = await res.json();
+          } catch {
+            // non-JSON body (e.g. 500 HTML error page) — treat as no result
+          }
+          if (!res.ok) return { book: null };
+          return data;
+        })
+        .then((data) => {
+          // Stale response guard: discard if a newer request has already been issued
+          if (lastRequestRef.current !== requested) return;
+          setSearchBook(data?.book ?? null);
+          setSearching(false);
+        })
+        .catch((err: unknown) => {
+          // AbortError is expected when a newer keystroke cancels this request — ignore silently
+          if (err instanceof Error && err.name === "AbortError") return;
+          if (lastRequestRef.current !== requested) return;
+          setSearchBook(null);
+          setSearching(false);
+        });
+      // Note: no .finally — setSearching(false) is handled in .then and .catch above
+      // so aborted requests never accidentally clear the "searching" state for the live request
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => clearTimeout(t);
+  }, [bookQuery, searchLang]);
+
+  const suggestions = useMemo<BibleQuickSuggestion[]>(() => {
+    if (!searchBook) return [];
+    const book = searchBook;
     const baseLabel = getBookLabelForLanguage(book, globalLanguage);
     const totalChapters = book.chapterCount;
     const startChapter =
@@ -216,24 +226,7 @@ function BibleReferenceSearch({
       });
     }
     return items;
-  }, [query, books, globalLanguage, langSegment]);
-
-  useEffect(() => {
-    if (books.length > 0) return;
-    let cancelled = false;
-    fetch("/api/bible/books")
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data: BibleBook[]) => {
-        if (cancelled) return;
-        setBooks(data);
-      })
-      .catch(() => {
-        /* ignore */
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [books.length]);
+  }, [searchBook, chapterHint, verse, globalLanguage, langSegment]);
 
   const [open, setOpen] = useState(false);
 
@@ -261,8 +254,8 @@ function BibleReferenceSearch({
         }}
         className={cn(
           `border-border hover:bg-muted/80 bg-card text-muted-foreground flex h-8
-          items-center justify-center rounded-full border px-2 text-xs transition-colors
-          gap-1.5`
+          items-center justify-center gap-1.5 rounded-full border px-2 text-xs
+          transition-colors`
         )}
         aria-label="Open Bible search"
       >
@@ -283,14 +276,19 @@ function BibleReferenceSearch({
             className="bg-card border-border w-full max-w-xl rounded-xl border shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <Command>
+            <Command shouldFilter={false}>
               <CommandInput
                 placeholder="Search book, chapter, verse…"
                 value={query}
                 onValueChange={setQuery}
+                autoFocus
               />
               <CommandList>
-                <CommandEmpty>No results. Try “John 3 16”.</CommandEmpty>
+                <CommandEmpty>
+                  {searching
+                    ? "Searching…"
+                    : 'No results. Try "John 3 16" or "Ma-thi-ơ 1".'}
+                </CommandEmpty>
                 <CommandGroup heading="Go to">
                   {suggestions.map((s) => (
                     <CommandItem

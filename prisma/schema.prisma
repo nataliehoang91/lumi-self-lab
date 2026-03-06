@@ -375,9 +375,22 @@ model BibleBook {
   verses       FlashVerse[]
   verseContent BibleVerseContent[]
   insights     BibleInsight[]
+  searchKeys   BibleBookSearchKey[]
 
   @@unique([order])
   @@index([order])
+}
+
+// Search keys for smart book search (EN/VI only). One row per key; one book has many keys.
+model BibleBookSearchKey {
+  id     String @id @default(cuid())
+  bookId String
+  book   BibleBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  lang   String    // "en" | "vi"
+  key    String    // normalized key (lowercase, no diacritics; spaces or compact)
+
+  @@unique([bookId, lang, key])
+  @@index([lang, key])
 }
 
 // Verse count per chapter (KJV standard). Admin selects chapter then verse from this.

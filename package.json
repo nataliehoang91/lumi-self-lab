@@ -27,6 +27,7 @@
     "db:migrate": "prisma migrate deploy",
     "db:generate": "prisma generate",
     "db:seed": "prisma db seed",
+    "db:seed-search-keys": "npx tsx prisma/seed/run-bible-search-keys-only.ts",
     "db:seed-bible-content": "npx tsx prisma/seed/download-kjv-into-verse-content.ts",
     "db:seed-bible-content-vi": "npx tsx prisma/seed/download-vietnamese-into-verse-content.ts",
     "db:seed-bible-content-niv": "npx tsx prisma/seed/download-niv-into-verse-content.ts",
