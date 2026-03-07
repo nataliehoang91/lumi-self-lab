@@ -47,11 +47,13 @@ export function ReadInsightsContainer() {
         onClose={() => setInsightOpen(false)}
       />
 
-      {/* Read nav (sync/single): at top when Insights open, at bottom otherwise */}
+      {/* Read nav (sync/single): at bottom (or at top when Insights open, except in focus mode) */}
       {showFloatingNav && (
         <ReadScrollNav
           variant="floating"
-          floatingPosition={insightOpen && !insightMinimized ? "top" : "bottom"}
+          floatingPosition={
+            !focusMode && insightOpen && !insightMinimized ? "top" : "bottom"
+          }
         />
       )}
 

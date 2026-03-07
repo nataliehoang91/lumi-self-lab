@@ -89,12 +89,13 @@ function IndependentReadPanel({
         showBookChapterSelectors
         fontSize={fontSize}
         t={t}
-      testamentFilter={testamentFilter}
-      onTestamentFilterChange={onTestamentFilterChange}
-    />
-      <div className="pb-20" aria-hidden />
+        testamentFilter={testamentFilter}
+        onTestamentFilterChange={onTestamentFilterChange}
+      />
+      <div className="pb-6" aria-hidden />
       <div
-        className="border-border/60 bg-read sticky bottom-0 z-20 flex justify-center border-t pt-3 pb-1.5 dark:bg-[#050408]"
+        className="border-border/60 bg-read sticky bottom-0 z-20 flex justify-center
+          border-t pt-3 pb-1.5 dark:bg-[#050408]"
       >
         <ReadScrollNav
           variant="panel"

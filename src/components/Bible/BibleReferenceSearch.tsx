@@ -1,16 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, X } from "lucide-react";
+import { Lightbulb, Loader2, Search, X } from "lucide-react";
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
+  CommandGroup,
   CommandInput,
+  CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Kbd } from "@/components/ui/kbd";
 import { cn } from "@/lib/utils";
 import { getBibleIntl } from "@/lib/bible-intl";
@@ -35,33 +42,53 @@ function getBookLabelForLanguage(book: BibleBook, lang: "EN" | "VI" | "ZH"): str
 }
 
 /**
- * Parse raw input into book query + optional chapter/verse.
- * Normalizes (lowercase, NFD, strip diacritics), then: book = compact string with trailing digits removed; chapter/verse from first two number groups.
+ * Parse raw input into book query + optional chapter + verses.
+ * Simple rules: "book ch v1 v2" = separate verses; "book ch v1-v2" or "v1:v2" = continuous range.
+ * Normalizes (lowercase, NFD, strip diacritics) but keeps hyphen and colon for range.
  */
 function parseBibleQuery(raw: string): {
   bookQuery: string;
   chapterHint?: number;
-  verse?: number;
+  verses: number[];
 } {
   const normalized = raw
     .toLowerCase()
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")
-    .replace(/[^\p{L}\d]/gu, " ")
+    .replace(/[^\p{L}\d\-:]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
 
-  const compact = normalized.replace(/\s+/g, "");
-  const book = compact.replace(/\d+$/, "");
-  const numbers = normalized.match(/\d+/g) ?? [];
-  const chapter = numbers[0] ? Number(numbers[0]) : undefined;
-  const verse = numbers[1] ? Number(numbers[1]) : undefined;
+  // Verse specs: "12", "12-34", or "12:34" (range). Match in order.
+  const verseSpecs = normalized.match(/\d+(?:[-\:]\d+)?/g) ?? [];
+  const chapterHint = verseSpecs[0] ? Number(verseSpecs[0]) : undefined;
+  const specs = verseSpecs.slice(1);
 
-  return {
-    bookQuery: book,
-    chapterHint: chapter,
-    verse,
-  };
+  const isRangeSpec = (s: string) => s.includes("-") || s.includes(":");
+  const verses: number[] = [];
+  for (const spec of specs) {
+    if (isRangeSpec(spec)) {
+      const [a, b] = spec.split(/[-:]/).map(Number).filter((n) => n >= 1);
+      if (a != null && b != null && b >= a) {
+        for (let i = a; i <= b; i++) verses.push(i);
+      }
+    } else {
+      const n = Number(spec);
+      if (n >= 1) verses.push(n);
+    }
+  }
+  if (verses.length > 1 && verseSpecs.slice(1).every((s) => !isRangeSpec(s))) {
+    verses.sort((a, b) => a - b);
+  }
+
+  // Book: remove all number and number-range tokens, then compact
+  const bookPart = normalized
+    .replace(/\d+(?:[-\:]\d+)?/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const bookQuery = bookPart.replace(/\s+/g, "");
+
+  return { bookQuery, chapterHint, verses };
 }
 
 const SEARCH_DEBOUNCE_MS = 180;
@@ -78,12 +105,10 @@ export function BibleReferenceSearch({
   const [query, setQuery] = useState("");
   const [searchBook, setSearchBook] = useState<BibleBook | null>(null);
   const [searching, setSearching] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const lastRequestRef = useRef<string>("");
   const abortControllerRef = useRef<AbortController | null>(null);
-  const itemRefsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  const { bookQuery, chapterHint, verse } = parseBibleQuery(query);
+  const { bookQuery, chapterHint, verses } = parseBibleQuery(query);
   // Prefer global language so "gia" searches VI keys when user has Vietnamese selected
   const searchLang =
     globalLanguage === "VI"
@@ -177,7 +202,8 @@ export function BibleReferenceSearch({
       ch <= totalChapters && items.length < maxSuggestions;
       ch++
     ) {
-      const versesParam = verse && verse >= 1 ? [verse] : undefined;
+      const versesParam =
+        verses.length > 0 ? verses : undefined;
       const qs = buildReadSearchParams({
         version1: defaultVersion,
         sync: true,
@@ -187,68 +213,35 @@ export function BibleReferenceSearch({
         verses: versesParam,
       });
       const href = `/bible/${langSegment}/read?${qs}`;
+      const isContiguousRange =
+        verses.length > 1 &&
+        verses[verses.length - 1]! - verses[0]! === verses.length - 1;
+      const verseLabel =
+        verses.length === 0
+          ? ""
+          : verses.length === 1
+            ? `:${verses[0]}`
+            : isContiguousRange
+              ? `:${verses[0]}-${verses[verses.length - 1]}`
+              : `:${verses.join(",")}`;
       const main =
-        verse && verse >= 1 ? `${baseLabel} ${ch}:${verse}` : `${baseLabel} ${ch}`;
+        verseLabel ? `${baseLabel} ${ch}${verseLabel}` : `${baseLabel} ${ch}`;
       const secondary =
-        verse && verse >= 1
-          ? intl.t("readChapterVerse", { ch, v: verse })
+        verses.length > 0
+          ? intl.t("readChapterVerse", { ch, v: verses[0]! }) +
+            (verses.length > 1 ? `–${verses[verses.length - 1]}` : "")
           : intl.t("readChapterN", { n: ch });
       items.push({
-        id: `${book.id}-${ch}-${verse ?? "all"}`,
+        id: `${book.id}-${ch}-${verses.join(",") || "all"}`,
         label: main,
         secondary,
         href,
       });
     }
     return items;
-  }, [searchBook, chapterHint, verse, globalLanguage, langSegment, intl]);
+  }, [searchBook, chapterHint, verses, globalLanguage, langSegment, intl]);
 
   const [open, setOpen] = useState(false);
-
-  const clampedIndex =
-    suggestions.length > 0 ? Math.min(selectedIndex, suggestions.length - 1) : 0;
-
-  // Reset selection to first item when suggestions change (defer to avoid setState-in-effect lint)
-  const suggestionsKey = suggestions.map((s) => s.id).join(",");
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setSelectedIndex(0));
-    return () => cancelAnimationFrame(id);
-  }, [suggestionsKey]);
-
-  // Scroll selected item into view when selection changes
-  useEffect(() => {
-    if (suggestions.length === 0) return;
-    const el = itemRefsRef.current[clampedIndex];
-    el?.scrollIntoView({ block: "nearest", behavior: "smooth" });
-  }, [clampedIndex, suggestions.length]);
-
-  // Keyboard: Arrow Up/Down to move selection, Enter to open selected suggestion
-  useEffect(() => {
-    if (!open || suggestions.length === 0) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setSelectedIndex((i) => Math.min(i + 1, suggestions.length - 1));
-        return;
-      }
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setSelectedIndex((i) => Math.max(0, i - 1));
-        return;
-      }
-      if (e.key === "Enter" && !e.repeat) {
-        const s = suggestions[clampedIndex];
-        if (s) {
-          e.preventDefault();
-          router.push(s.href);
-          setOpen(false);
-          setQuery("");
-        }
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown, true);
-    return () => document.removeEventListener("keydown", handleKeyDown, true);
-  }, [open, suggestions, clampedIndex, router]);
 
   // Support ⌘K / Ctrl+K to toggle the search palette
   useEffect(() => {
@@ -269,105 +262,111 @@ export function BibleReferenceSearch({
     <>
       <button
         type="button"
-        onClick={() => {
-          setOpen(true);
-        }}
+        onClick={() => setOpen(true)}
         className={cn(
-          `border-border hover:bg-muted/80 bg-card text-muted-foreground flex h-8
-          items-center justify-center gap-1.5 rounded-full border px-2 text-xs
-          transition-colors`
+          "border-border bg-card text-muted-foreground hover:bg-muted/80 hover:border-foreground/20",
+          "flex h-9 items-center justify-center gap-2 rounded-lg border px-3 text-xs",
+          "transition-all duration-200 shadow-sm hover:shadow-md hover:text-foreground"
         )}
         aria-label="Open Bible search"
       >
         <Search className="h-4 w-4" />
-        <span className="hidden lg:inline">Search</span>
-        <Kbd className="hidden xl:inline-flex">⌘K</Kbd>
+        <span className="hidden sm:inline font-medium">Search Bible</span>
+        <Kbd className="hidden sm:inline ml-auto text-[10px]">⌘K</Kbd>
       </button>
-      <CommandDialog
-        open={open}
-        onOpenChange={(next) => {
-          setOpen(next);
-          if (!next) setQuery("");
-        }}
-        className="w-full max-w-xl rounded-xl"
-      >
-        <Command
-          shouldFilter={false}
-          className="rounded-lg border-0"
-          aria-label="Search Bible"
+      <Dialog open={open} onOpenChange={(next) => { setOpen(next); if (!next) setQuery(""); }}>
+        <DialogContent
+          showCloseButton={false}
+          className="w-full max-w-xl rounded-xl p-0 gap-0"
+          onEscapeKeyDown={() => setQuery("")}
         >
-          <div className="flex w-full items-center border-b">
-            <div className="min-w-0 flex-1">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Search Bible</DialogTitle>
+            <DialogDescription>Search for a book, chapter, or verse</DialogDescription>
+          </DialogHeader>
+          <Command shouldFilter={false} className="rounded-lg border-0" aria-label="Search Bible">
+            <div className="flex items-center border-b">
               <CommandInput
                 placeholder={intl.t("searchPlaceholder")}
                 value={query}
                 onValueChange={setQuery}
                 autoFocus
               />
+              {query ? (
+                <button
+                  type="button"
+                  aria-label="Clear search"
+                  onMouseDown={(e) => { e.preventDefault(); setQuery(""); }}
+                  className="text-muted-foreground hover:text-foreground ml-2 shrink-0 rounded p-1.5 transition-colors outline-none"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              ) : null}
             </div>
-            {query ? (
-              <button
-                type="button"
-                aria-label="Clear search"
-                tabIndex={0}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setQuery("");
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setQuery("");
-                }}
-                className="text-foreground hover:bg-muted hover:text-foreground
-                  focus-visible:ring-ring pointer-events-auto shrink-0 cursor-pointer
-                  rounded p-1.5 transition-colors outline-none focus-visible:ring-2
-                  focus-visible:ring-offset-2"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            ) : null}
-          </div>
-          <CommandList>
-            {suggestions.length === 0 ? (
-              <CommandEmpty>
-                {searching ? intl.t("searchSearching") : intl.t("searchNoResults")}
-              </CommandEmpty>
-            ) : (
-              <div className="p-1">
-                <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
-                  {intl.t("searchGoTo")}
-                </div>
-                {suggestions.map((s, index) => (
-                  <Link
-                    key={s.id}
-                    ref={(el) => {
-                      itemRefsRef.current[index] = el;
-                    }}
-                    href={s.href}
-                    onClick={() => {
-                      setOpen(false);
-                      setQuery("");
-                    }}
-                    className={cn(
-                      `flex w-full cursor-pointer flex-col items-start rounded-sm px-2
-                        py-1.5 text-left transition-colors outline-none`,
-                      `hover:bg-primary-100 dark:hover:bg-primary-dark/10
-                        focus-visible:ring-ring focus-visible:ring-2
-                        focus-visible:ring-offset-2`,
-                      index === clampedIndex && "bg-primary-50 dark:bg-primary-dark/10"
-                    )}
+            <CommandList className="max-h-[450px]">
+              {!query.trim() ? (
+                <CommandEmpty className="flex flex-col items-center gap-4 px-6 py-10">
+                  <div
+                    className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+                    aria-hidden
                   >
-                    <span className="text-foreground text-sm font-medium">{s.label}</span>
-                    <span className="text-foreground/70 text-xs">{s.secondary}</span>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </CommandList>
-        </Command>
-      </CommandDialog>
+                    <Lightbulb className="h-5 w-5" strokeWidth={1.75} />
+                  </div>
+                  <div className="w-full max-w-sm text-left">
+                    <p className="text-foreground mb-2 text-xs font-medium uppercase tracking-wide">
+                      {intl.t("searchHintTitle")}
+                    </p>
+                    <ul className="text-muted-foreground list-inside space-y-1.5 text-sm leading-relaxed">
+                      <li>{intl.t("searchHintSingle")}</li>
+                      <li>{intl.t("searchHintTwo")}</li>
+                      <li>{intl.t("searchHintRange")}</li>
+                    </ul>
+                  </div>
+                </CommandEmpty>
+              ) : searching ? (
+                <CommandEmpty className="flex flex-col items-center justify-center gap-3 py-12">
+                  <Loader2 className="h-5 w-5 text-primary animate-spin" aria-hidden />
+                  <p className="text-sm text-muted-foreground">{intl.t("searchSearching")}</p>
+                </CommandEmpty>
+              ) : suggestions.length === 0 ? (
+                <CommandEmpty className="py-8 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    {intl.t("searchNoResultsFor")}{" "}
+                    <span className="text-foreground font-semibold">&quot;{query}&quot;</span>
+                  </p>
+                  <p className="text-muted-foreground/60 mt-1 text-xs">
+                    {intl.t("searchNoResultsTry")}
+                  </p>
+                </CommandEmpty>
+              ) : (
+                <div className="p-1">
+                  <CommandGroup heading={intl.t("searchGoTo")} className="overflow-hidden">
+                    {suggestions.map((s) => (
+                      <CommandItem
+                        key={s.id}
+                        value={s.label}
+                        onSelect={() => {
+                          router.push(s.href);
+                          setOpen(false);
+                          setQuery("");
+                        }}
+                        className="group flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5 transition-colors hover:bg-primary/15 focus-visible:bg-primary/15 focus-visible:ring-0 data-[disabled]:opacity-50"
+                      >
+                        <span className="text-foreground text-sm font-semibold transition-colors group-hover:text-primary">
+                          {s.label}
+                        </span>
+                        <span className="text-muted-foreground/70 text-xs transition-colors group-hover:text-muted-foreground">
+                          {s.secondary}
+                        </span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </div>
+              )}
+            </CommandList>
+          </Command>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

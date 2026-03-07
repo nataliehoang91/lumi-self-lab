@@ -7,10 +7,12 @@ import { Container } from "@/components/ui/container";
 
 /** Wrapper that receives children; when insights are open, adds bottom padding so content is pushed up and not hidden by the fixed insights panel. When read nav is at bottom (sync/single), add padding so nav does not cover last lines. */
 export function ReadContentContainer({ children }: { children: ReactNode }) {
-  const { insightOpen, insightMinimized, leftVersion, rightVersion, syncMode } = useRead();
+  const { focusMode, insightOpen, insightMinimized, leftVersion, rightVersion, syncMode } =
+    useRead();
   const hasContent = leftVersion !== null || rightVersion !== null;
   const isIndependent = rightVersion !== null && !syncMode;
-  const navAtBottom = hasContent && !isIndependent && !(insightOpen && !insightMinimized);
+  const navAtBottom =
+    hasContent && !isIndependent && (focusMode || !(insightOpen && !insightMinimized));
   return (
     <Container
       maxWidth="full"

@@ -20,7 +20,7 @@ const MODULES = [
   },
   {
     num: "02",
-    title: "Nguồn gốc & Chính điển Kinh thánh",
+    title: "Nguồn gốc & Danh sách sách Kinh thánh",
     desc: "Kinh Thánh được viết và lưu truyền qua hàng ngàn năm. Làm sao chúng ta biết nội dung ngày nay phản ánh trung thực bản gốc?",
     min: 8,
   },
