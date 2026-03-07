@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRead } from "./context/ReadContext";
 import type { BibleBook } from "./types";
 import type { TFunction } from "./types";
 
@@ -34,7 +35,7 @@ export function ReadInsights({
   const [activeInsightTab, setActiveInsightTab] = useState<
     "context" | "explanation" | "reflection"
   >("context");
-  const [insightMinimized, setInsightMinimized] = useState(false);
+  const { insightMinimized, setInsightMinimized } = useRead();
 
   if (!insightOpen || focusMode) return null;
 
@@ -215,33 +216,7 @@ export function ReadInsights({
         </div>
       )}
 
-      {/* Insights: minimized pill bottom-right */}
-      {insightMinimized && (
-        <div className="pointer-events-none fixed right-4 bottom-4 z-50">
-          <button
-            type="button"
-            onClick={() => setInsightMinimized(false)}
-            className="bg-card/95 border-border text-muted-foreground hover:bg-muted/80
-              pointer-events-auto flex items-center gap-2 rounded-full border px-3 py-1.5
-              text-xs shadow-lg"
-          >
-            <span
-              className="bg-primary/10 text-primary flex h-5 w-5 items-center
-                justify-center rounded-full"
-            >
-              <Lightbulb className="h-3 w-3" />
-            </span>
-            <span className="text-foreground font-medium">
-              {t("readInsightsTitle") ?? "Chapter insights"}
-            </span>
-            {leftBook && (
-              <span className="text-muted-foreground text-[11px]">
-                {leftBook.nameEn} {leftChapter}
-              </span>
-            )}
-          </button>
-        </div>
-      )}
+      {/* Minimized pill is rendered by ReadInsightsContainer alongside read nav */}
     </>
   );
 }

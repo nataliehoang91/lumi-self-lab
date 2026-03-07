@@ -55,6 +55,8 @@ interface ReadState {
   leftTestamentFilter: TestamentFilter;
   rightTestamentFilter: TestamentFilter;
   insightOpen: boolean;
+  /** When true, Insights panel is minimized to a pill; read nav sits next to it. */
+  insightMinimized: boolean;
 }
 
 interface ReadContextValue extends ReadState {
@@ -84,6 +86,7 @@ interface ReadContextValue extends ReadState {
   setSubNavBookOpen: (v: boolean) => void;
   setSubNavChapterOpen: (v: boolean) => void;
   setInsightOpen: (v: boolean) => void;
+  setInsightMinimized: (v: boolean) => void;
   otBooks: BibleBook[];
   ntBooks: BibleBook[];
   filteredBooks: BibleBook[];
@@ -349,6 +352,7 @@ export function ReadProvider({
     initialBookChapter.rightTestamentFilter
   );
   const [insightOpen, setInsightOpen] = useState(initialParsed.insights);
+  const [insightMinimized, setInsightMinimized] = useState(false);
 
   const otBooks = getOtBooks(books);
   const ntBooks = getNtBooks(books);
@@ -810,6 +814,7 @@ export function ReadProvider({
     leftTestamentFilter,
     rightTestamentFilter,
     insightOpen,
+    insightMinimized,
     handleVersionChipClick,
     handleLeftBookChange,
     handleLeftChapterChange,
@@ -819,6 +824,7 @@ export function ReadProvider({
     setLeftTestamentFilterAndAdjust,
     setRightTestamentFilterAndAdjust,
     setInsightOpen,
+    setInsightMinimized,
     otBooks,
     ntBooks,
     filteredBooks,

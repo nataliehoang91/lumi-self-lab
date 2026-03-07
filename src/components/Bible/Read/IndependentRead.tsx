@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { cn } from "@/lib/utils";
 import {
   ResizablePanelGroup,
@@ -10,8 +11,15 @@ import { useRead } from "./context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { EnhancedReadingPanel } from "./EnhancedReadingPanel/EnhancedReadingPanel";
+import { ReadScrollNav } from "./ReadScrollNav";
 
-function IndependentReadPanel({ side }: { side: "left" | "right" }) {
+function IndependentReadPanel({
+  side,
+  scrollContainerRef,
+}: {
+  side: "left" | "right";
+  scrollContainerRef: React.RefObject<HTMLDivElement | null>;
+}) {
   const { globalLanguage, fontSize } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
@@ -58,38 +66,50 @@ function IndependentReadPanel({ side }: { side: "left" | "right" }) {
 
   const highlightedVersesProp =
     side === "left" ? highlightedVerses : highlightedVersesRight;
-  const onVerseClick =
-    side === "left"
-      ? toggleVerseHighlight
-      : toggleRightVerseHighlight;
+  const onVerseClick = side === "left" ? toggleVerseHighlight : toggleRightVerseHighlight;
 
   return (
-    <EnhancedReadingPanel
-      side={side}
-      version={version}
-      book={book}
-      chapter={chapter}
-      onBookChange={onBookChange}
-      onChapterChange={onChapterChange}
-      content={content}
-      loading={loading}
-      books={books}
-      hoveredVerse={hoveredVerse}
-      onVerseHover={setHoveredVerse}
-      highlightedVerses={highlightedVersesProp}
-      onVerseNumberClick={onVerseClick}
-      focusMode={focusMode}
-      showControls
-      showBookChapterSelectors
-      fontSize={fontSize}
-      t={t}
+    <>
+      <EnhancedReadingPanel
+        side={side}
+        version={version}
+        book={book}
+        chapter={chapter}
+        onBookChange={onBookChange}
+        onChapterChange={onChapterChange}
+        content={content}
+        loading={loading}
+        books={books}
+        hoveredVerse={hoveredVerse}
+        onVerseHover={setHoveredVerse}
+        highlightedVerses={highlightedVersesProp}
+        onVerseNumberClick={onVerseClick}
+        focusMode={focusMode}
+        showControls
+        showBookChapterSelectors
+        fontSize={fontSize}
+        t={t}
       testamentFilter={testamentFilter}
       onTestamentFilterChange={onTestamentFilterChange}
     />
+      <div className="pb-20" aria-hidden />
+      <div
+        className="border-border/60 bg-read sticky bottom-0 z-20 flex justify-center border-t pt-3 pb-1.5 dark:bg-[#050408]"
+      >
+        <ReadScrollNav
+          variant="panel"
+          side={side}
+          scrollContainerRef={scrollContainerRef}
+        />
+      </div>
+    </>
   );
 }
 
 export function IndependentRead() {
+  const leftScrollRef = useRef<HTMLDivElement>(null);
+  const rightScrollRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="flex min-h-0 w-full flex-col md:h-[calc(100vh-12rem)]">
       <ResizablePanelGroup
@@ -102,8 +122,8 @@ export function IndependentRead() {
           maxSize={75}
           className="min-h-0 min-w-0 overflow-hidden"
         >
-          <div className="h-full min-h-0 overflow-auto">
-            <IndependentReadPanel side="left" />
+          <div ref={leftScrollRef} className="h-full min-h-0 overflow-auto">
+            <IndependentReadPanel side="left" scrollContainerRef={leftScrollRef} />
           </div>
         </ResizablePanel>
         <ResizableHandle
@@ -116,8 +136,8 @@ export function IndependentRead() {
           maxSize={75}
           className="min-h-0 min-w-0 overflow-hidden"
         >
-          <div className="h-full min-h-0 overflow-auto">
-            <IndependentReadPanel side="right" />
+          <div ref={rightScrollRef} className="h-full min-h-0 overflow-auto">
+            <IndependentReadPanel side="right" scrollContainerRef={rightScrollRef} />
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
