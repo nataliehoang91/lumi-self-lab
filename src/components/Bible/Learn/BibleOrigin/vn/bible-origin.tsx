@@ -60,12 +60,12 @@ const VN_TIMELINE: readonly TimelineItem[] = [
   {
     year: "~1400 TCN",
     event: "Các sách Cựu Ước sớm nhất được viết (Ngũ Kinh)",
-    desc: "Ngũ Kinh đặt nền tảng cho đức tin Israel — bao gồm luật pháp, lịch sử khởi nguyên và giao ước giữa Đức Chúa Trời với dân Ngài.",
+    desc: "Ngũ Kinh đặt nền tảng cho đức tin Y-sơ-ra-ên — bao gồm luật pháp, lịch sử khởi nguyên và giao ước giữa Đức Chúa Trời với dân Ngài.",
   },
   {
     year: "~450 TCN",
     event: "Các sách Cựu Ước được xác lập",
-    desc: "Luật pháp và các sách Tiên tri được xác lập vững chắc trong đời sống thờ phượng Do Thái, hình thành cốt lõi của chính điển Hê-bơ-rơ.",
+    desc: "Luật pháp và các sách Tiên tri được xác lập vững chắc trong đời sống thờ phượng Do Thái, hình thành cốt lõi của danh sách Cựu Ước Hê-bơ-rơ.",
   },
   {
     year: "~250 TCN",
@@ -108,7 +108,7 @@ const VN_FAQ: readonly FaqItem[] = [
     a: "Cựu Ước chủ yếu viết bằng tiếng Hê-bơ-rơ, một phần nhỏ bằng tiếng A-ram. Tân Ước viết bằng tiếng Hy Lạp Koine — ngôn ngữ phổ thông của thế giới Địa Trung Hải thế kỷ nhất.",
   },
   {
-    q: "Canon Tân Ước được quyết định như thế nào?",
+    q: "Danh sách 27 sách Tân Ước được quyết định như thế nào?",
     a: "Hội thánh sơ khai kiểm tra các tác phẩm theo ba tiêu chí: tác giả sứ đồ (viết bởi sứ đồ hoặc người gần gũi), nhất quán với giáo lý đã được thiết lập, và được sử dụng rộng rãi trong các Hội thánh. Đến thế kỷ 4, 27 sách Tân Ước đã được công nhận rộng rãi.",
   },
 ];
@@ -119,16 +119,16 @@ export function VnBibleOriginPage() {
 
   return (
     <article
-      aria-label="Nguồn gốc Kinh Thánh & Sự hình thành chính điển"
+      aria-label="Nguồn gốc & Sự hình thành Kinh Thánh"
       className="text-foreground"
     >
       <LearnBibleOriginIntro
         bodyBright
         locale="vi"
         moduleNum="02 / 04"
-        title="Nguồn gốc Kinh Thánh & Sự hình thành chính điển"
+        title="Nguồn gốc & Sự hình thành Kinh Thánh"
         intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả trong khoảng 1.500 năm và đã được đọc, sao chép, truyền lại
-qua hơn 2.000 năm lịch sử, và được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, sự sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
+qua hơn 2.000 năm lịch sử, và được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, được sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
       />
 
       <LearnBibleOriginLanguages

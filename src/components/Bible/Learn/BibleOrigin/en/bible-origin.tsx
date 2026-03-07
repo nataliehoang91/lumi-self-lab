@@ -64,8 +64,8 @@ const EN_TIMELINE: readonly TimelineItem[] = [
   },
   {
     year: "~450 BC",
-    event: "Old Testament Canon Largely Established",
-    desc: "The Law and the Prophets were firmly established in Jewish worship and community life, forming the core of the Hebrew canon.",
+    event: "Old Testament Books Established",
+    desc: "The Law and the Prophets were firmly established in Jewish worship and community life, forming the core of the Hebrew Books.",
   },
   {
     year: "~250 BC",
@@ -97,7 +97,7 @@ const EN_TIMELINE: readonly TimelineItem[] = [
 const EN_FAQ: readonly FaqItem[] = [
   {
     q: "Why do Protestant and Catholic Bibles differ in length?",
-    a: "Catholic Bibles include seven additional books often called the Deuterocanonical books, written during the intertestamental period. Protestant Reformers followed the traditional Hebrew canon, which did not include these writings — resulting in 66 books in most Protestant Bibles and 73 in Catholic editions.",
+    a: "Catholic Bibles include seven additional books often called the Deuterocanonical books, written during the intertestamental period. Protestant Reformers followed the traditional Hebrew Books, which did not include these writings — resulting in 66 books in most Protestant Bibles and 73 in Catholic editions.",
   },
   {
     q: "What are the Dead Sea Scrolls and why do they matter?",
@@ -108,7 +108,7 @@ const EN_FAQ: readonly FaqItem[] = [
     a: "The Old Testament was written primarily in Hebrew, with portions in Aramaic. The New Testament was written in Koine Greek, the widely spoken language of the eastern Roman Empire in the first century.",
   },
   {
-    q: "How was the New Testament canon recognised?",
+    q: "How was the New Testament Books recognised?",
     a: "Early Christian communities evaluated writings based on apostolic connection, consistency with established teaching, and widespread usage in churches. By the fourth century, the 27 books of the New Testament were broadly recognised across the Christian world. Church councils later affirmed what had already become widely accepted.",
   },
 ];
@@ -118,11 +118,11 @@ export function EnBibleOriginPage() {
   const mapLabels = getMapLabels(EN_MAP_LOCATIONS);
 
   return (
-    <article aria-label="Bible Origin & Canon Formation" className="text-foreground">
+    <article aria-label="Bible Origin & Books Formation" className="text-foreground">
       <LearnBibleOriginIntro
         bodyBright
         moduleNum="02 / 04"
-        title="Bible Origin & Canon Formation"
+        title="Bible Origin & Books Formation"
         intro="How did 66 books, written by about 40 authors over 1,500 years, become what we now call the Bible? The answer unfolds across more than 2,000 years of history — from ancient Israel to the early church, and through centuries of careful copying and preservation."
       />
 
