@@ -184,19 +184,19 @@ export function ReadScrollNav({
   }
 
   // floating: top when Insights open (no overlap), bottom otherwise — scroll to end then tap next
+  // Wrapper is pointer-events-none so it doesn't block clicks on content; only the bar is clickable.
   const atTop = floatingPosition === "top";
   return (
     <div
       className={cn(
-        "pointer-events-none fixed left-1/2 z-50 -translate-x-1/2",
+        "pointer-events-none fixed left-1/2 z-50 flex justify-center -translate-x-1/2",
         atTop ? "top-30 sm:top-32" : "bottom-4",
-        "pointer-events-auto flex justify-center",
         className
       )}
       role="navigation"
       aria-label="Read navigation"
     >
-      <div className="flex items-center gap-1 rounded-lg border border-border/60 bg-card/95 px-1.5 py-1 shadow-md backdrop-blur dark:bg-muted/50">
+      <div className="pointer-events-auto flex items-center gap-1 rounded-lg border border-border/60 bg-card/95 px-1.5 py-1 shadow-md backdrop-blur dark:bg-muted/50">
         {buttons}
       </div>
     </div>
