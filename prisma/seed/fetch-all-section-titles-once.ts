@@ -105,16 +105,15 @@ function buildBookIdMap(
   ourBooksInOrder.forEach((our, i) => {
     if (apiBooks[i]) byOrder.set(our.nameEn.toLowerCase(), apiBooks[i]!.id);
   });
-  return (nameEn: string) => {
-    let id = byName.get(nameEn.toLowerCase());
-    if (id) return id;
+  return (nameEn: string): string | null => {
+    const fromName = byName.get(nameEn.toLowerCase());
+    if (fromName) return fromName;
     const abbrev = NAME_EN_TO_ABBREV[nameEn];
     if (abbrev) {
       const found = apiBooks.find((b) => b.id.toUpperCase() === abbrev.toUpperCase());
       if (found) return found.id;
     }
-    id = byOrder.get(nameEn.toLowerCase()) ?? null;
-    return id;
+    return byOrder.get(nameEn.toLowerCase()) ?? null;
   };
 }
 

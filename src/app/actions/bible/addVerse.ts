@@ -63,6 +63,13 @@ export async function addVerse(formData: FormData): Promise<AddVerseResult> {
   const trimKJV = (formData.get("contentKJV") as string)?.trim() ?? "";
   const trimNIV = (formData.get("contentNIV") as string)?.trim() ?? "";
   const trimZH = (formData.get("contentZH") as string)?.trim() ?? "";
+  const referenceLabelEn = (formData.get("referenceLabelEn") as string)?.trim() || null;
+  const referenceLabelVi = (formData.get("referenceLabelVi") as string)?.trim() || null;
+  const referenceLabelZh = (formData.get("referenceLabelZh") as string)?.trim() || null;
+  const contentDisplayVIE = (formData.get("contentDisplayVIE") as string)?.trim() || null;
+  const contentDisplayKJV = (formData.get("contentDisplayKJV") as string)?.trim() || null;
+  const contentDisplayNIV = (formData.get("contentDisplayNIV") as string)?.trim() || null;
+  const contentDisplayZH = (formData.get("contentDisplayZH") as string)?.trim() || null;
   const hasContent = trimVI !== "" || trimKJV !== "" || trimNIV !== "" || trimZH !== "";
 
   if (!hasContent) {
@@ -108,10 +115,17 @@ export async function addVerse(formData: FormData): Promise<AddVerseResult> {
         titleEn: `${bibleBook.nameEn} ${verseRef}`,
         titleVi: `${bibleBook.nameVi} ${verseRef}`,
         titleZh: bibleBook.nameZh ? `${bibleBook.nameZh} ${verseRef}` : null,
+        referenceLabelEn,
+        referenceLabelVi,
+        referenceLabelZh,
         contentVIE1923: trimVI || null,
         contentKJV: trimKJV || null,
         contentNIV: trimNIV || null,
         contentZH: trimZH || null,
+        contentDisplayVIE,
+        contentDisplayKJV,
+        contentDisplayNIV,
+        contentDisplayZH,
         content: contentFallback,
       },
     });

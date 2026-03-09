@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
       include: {
         flashCardSet: { select: { id: true, name: true } },
         flashCardCollection: { select: { id: true, name: true } },
+        bibleBook: { select: { id: true, nameEn: true, nameVi: true, nameZh: true, order: true } },
       },
     });
     return NextResponse.json(verses);

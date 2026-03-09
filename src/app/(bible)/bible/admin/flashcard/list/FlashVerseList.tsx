@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
 type Verse = {
   id: string;
@@ -19,7 +20,10 @@ type Verse = {
   createdAt: string;
   flashCardSet?: { id: string; name: string } | null;
   flashCardCollection?: { id: string; name: string } | null;
+  bibleBook?: { id: string; nameEn: string; nameVi: string; nameZh: string | null; order: number } | null;
 };
+
+type SortKey = "book" | "chapter" | "verse" | "set" | "collection" | "createdAt";
 
 function snippet(text: string | null, max = 40): string {
   if (!text || !text.trim()) return "—";
@@ -32,6 +36,8 @@ export function FlashVerseList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [sortKey, setSortKey] = useState<SortKey>("createdAt");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
   const fetchVerses = () => {
     setLoading(true);
@@ -49,6 +55,53 @@ export function FlashVerseList() {
   useEffect(() => {
     fetchVerses();
   }, []);
+
+  const sortedVerses = useMemo(() => {
+    const list = [...verses];
+    list.sort((a, b) => {
+      let cmp = 0;
+      switch (sortKey) {
+        case "book":
+          cmp =
+            (a.bibleBook?.order ?? 999) - (b.bibleBook?.order ?? 999) ||
+            a.book.localeCompare(b.book);
+          break;
+        case "chapter":
+          cmp = a.chapter - b.chapter || a.verse - b.verse;
+          break;
+        case "verse":
+          cmp = a.verse - b.verse || (a.chapter - b.chapter) * 1000;
+          break;
+        case "set":
+          cmp = (a.flashCardSet?.name ?? "").localeCompare(b.flashCardSet?.name ?? "");
+          break;
+        case "collection":
+          cmp = (a.flashCardCollection?.name ?? "").localeCompare(
+            b.flashCardCollection?.name ?? ""
+          );
+          break;
+        case "createdAt":
+          cmp = a.createdAt.localeCompare(b.createdAt);
+          break;
+      }
+      return sortDir === "asc" ? cmp : -cmp;
+    });
+    return list;
+  }, [verses, sortKey, sortDir]);
+
+  const toggleSort = (key: SortKey) => {
+    setSortKey(key);
+    setSortDir((d) => (sortKey === key && d === "desc" ? "asc" : "desc"));
+  };
+
+  const SortIcon = ({ column }: { column: SortKey }) =>
+    sortKey !== column ? (
+      <ArrowUpDown className="ml-0.5 inline h-3.5 w-3.5 opacity-50" />
+    ) : sortDir === "asc" ? (
+      <ArrowUp className="ml-0.5 inline h-3.5 w-3.5" />
+    ) : (
+      <ArrowDown className="ml-0.5 inline h-3.5 w-3.5" />
+    );
 
   const handleDelete = (id: string) => {
     if (!confirm("Delete this verse?")) return;
@@ -104,18 +157,73 @@ export function FlashVerseList() {
       <table className="w-full text-left text-sm">
         <thead>
           <tr className="border-b border-stone-200 bg-stone-50">
-            <th className="p-3 font-medium text-stone-700">Set</th>
-            <th className="p-3 font-medium text-stone-700">Collection</th>
-            <th className="p-3 font-medium text-stone-700">Book (EN)</th>
+            <th className="p-3 font-medium text-stone-700">
+              <button
+                type="button"
+                onClick={() => toggleSort("set")}
+                className="flex items-center hover:text-stone-900"
+              >
+                Set
+                <SortIcon column="set" />
+              </button>
+            </th>
+            <th className="p-3 font-medium text-stone-700">
+              <button
+                type="button"
+                onClick={() => toggleSort("collection")}
+                className="flex items-center hover:text-stone-900"
+              >
+                Collection
+                <SortIcon column="collection" />
+              </button>
+            </th>
+            <th className="p-3 font-medium text-stone-700">
+              <button
+                type="button"
+                onClick={() => toggleSort("book")}
+                className="flex items-center hover:text-stone-900"
+              >
+                Book (EN)
+                <SortIcon column="book" />
+              </button>
+            </th>
             <th className="p-3 font-medium text-stone-700">Book (VI)</th>
-            <th className="p-3 font-medium text-stone-700">Ch</th>
-            <th className="p-3 font-medium text-stone-700">Verse(s)</th>
+            <th className="p-3 font-medium text-stone-700">
+              <button
+                type="button"
+                onClick={() => toggleSort("chapter")}
+                className="flex items-center hover:text-stone-900"
+              >
+                Ch
+                <SortIcon column="chapter" />
+              </button>
+            </th>
+            <th className="p-3 font-medium text-stone-700">
+              <button
+                type="button"
+                onClick={() => toggleSort("verse")}
+                className="flex items-center hover:text-stone-900"
+              >
+                Verse(s)
+                <SortIcon column="verse" />
+              </button>
+            </th>
             <th className="max-w-[200px] p-3 font-medium text-stone-700">Snippet</th>
+            <th className="p-3 font-medium text-stone-700">
+              <button
+                type="button"
+                onClick={() => toggleSort("createdAt")}
+                className="flex items-center hover:text-stone-900"
+              >
+                Date
+                <SortIcon column="createdAt" />
+              </button>
+            </th>
             <th className="p-3 text-right font-medium text-stone-700">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {verses.map((v) => (
+          {sortedVerses.map((v) => (
             <tr key={v.id} className="border-b border-stone-100 hover:bg-stone-50/50">
               <td className="p-3 text-stone-700">{v.flashCardSet?.name ?? "—"}</td>
               <td className="p-3 text-stone-700">{v.flashCardCollection?.name ?? "—"}</td>
@@ -138,6 +246,15 @@ export function FlashVerseList() {
                     v.contentZH ||
                     v.content
                 )}
+              </td>
+              <td className="whitespace-nowrap p-3 text-stone-500">
+                {v.createdAt
+                  ? new Date(v.createdAt).toLocaleDateString(undefined, {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : "—"}
               </td>
               <td className="p-3 text-right">
                 <Link

@@ -481,10 +481,17 @@ model FlashVerse {
   titleEn            String?              // e.g. "John 3:16" or "Luke 1:21-22"
   titleVi            String?              // e.g. "Giăng 3:16"
   titleZh            String?              // e.g. "約翰福音 3:16"
-  contentVIE1923     String?              // Vietnamese traditional
-  contentKJV         String?              // English KJV
-  contentNIV         String?              // English NIV
-  contentZH          String?              // Chinese (CUV)
+  referenceLabelEn   String?              // optional display label e.g. "Isaiah 50:4b" (link still to chapter:verse)
+  referenceLabelVi   String?
+  referenceLabelZh   String?
+  contentVIE1923     String?              // Vietnamese traditional (full verse)
+  contentKJV         String?              // English KJV (full verse)
+  contentNIV         String?              // English NIV (full verse)
+  contentZH          String?              // Chinese (CUV) (full verse)
+  contentDisplayVIE  String?              // optional excerpt to show on card (e.g. part of verse)
+  contentDisplayKJV  String?
+  contentDisplayNIV  String?
+  contentDisplayZH   String?
   // Legacy single-version (for backward compat)
   content            String?
   version            String?

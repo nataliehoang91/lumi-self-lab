@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   InteractiveForm,
   SubmitButton,
@@ -34,10 +34,17 @@ type VerseResponse = {
   chapter: number;
   verse: number;
   verseEnd?: number | null;
+  referenceLabelEn?: string | null;
+  referenceLabelVi?: string | null;
+  referenceLabelZh?: string | null;
   contentVIE1923?: string | null;
   contentKJV?: string | null;
   contentNIV?: string | null;
   contentZH?: string | null;
+  contentDisplayVIE?: string | null;
+  contentDisplayKJV?: string | null;
+  contentDisplayNIV?: string | null;
+  contentDisplayZH?: string | null;
 };
 
 type EditVerseFields =
@@ -47,10 +54,17 @@ type EditVerseFields =
   | "chapter"
   | "verse"
   | "verseEnd"
+  | "referenceLabelEn"
+  | "referenceLabelVi"
+  | "referenceLabelZh"
   | "contentVIE1923"
   | "contentKJV"
   | "contentNIV"
   | "contentZH"
+  | "contentDisplayVIE"
+  | "contentDisplayKJV"
+  | "contentDisplayNIV"
+  | "contentDisplayZH"
   | "general";
 
 export function EditVerseForm({ verseId }: { verseId: string }) {
@@ -70,10 +84,17 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
   const [chapter, setChapter] = useState("");
   const [verse, setVerse] = useState("");
   const [verseEnd, setVerseEnd] = useState("");
+  const [referenceLabelEn, setReferenceLabelEn] = useState("");
+  const [referenceLabelVi, setReferenceLabelVi] = useState("");
+  const [referenceLabelZh, setReferenceLabelZh] = useState("");
   const [contentVIE1923, setContentVIE1923] = useState("");
   const [contentKJV, setContentKJV] = useState("");
   const [contentNIV, setContentNIV] = useState("");
   const [contentZH, setContentZH] = useState("");
+  const [contentDisplayVIE, setContentDisplayVIE] = useState("");
+  const [contentDisplayKJV, setContentDisplayKJV] = useState("");
+  const [contentDisplayNIV, setContentDisplayNIV] = useState("");
+  const [contentDisplayZH, setContentDisplayZH] = useState("");
 
   useEffect(() => {
     fetch("/api/bible/admin/books", { credentials: "include" })
@@ -119,16 +140,41 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
       })
       .then((v: VerseResponse) => {
         const id = v.bookId ?? books.find((b) => b.nameEn === v.book)?.id ?? "";
+        const book = v.bibleBook ?? books.find((b) => b.id === id) ?? null;
         setBookId(id);
         setFlashCardSetId(v.flashCardSetId ?? "");
         setCollectionId(v.collectionId ?? "");
         setChapter(String(v.chapter));
         setVerse(String(v.verse));
         setVerseEnd(v.verseEnd != null && v.verseEnd > v.verse ? String(v.verseEnd) : "");
+        const refEn = (v.referenceLabelEn ?? "").trim();
+        const refVi = (v.referenceLabelVi ?? "").trim();
+        const refZh = (v.referenceLabelZh ?? "").trim();
+        const verseRef =
+          v.verseEnd != null && v.verseEnd > v.verse
+            ? `${v.chapter}:${v.verse}-${v.verseEnd}`
+            : `${v.chapter}:${v.verse}`;
+        if (refEn || refVi || refZh) {
+          setReferenceLabelEn(v.referenceLabelEn ?? "");
+          setReferenceLabelVi(v.referenceLabelVi ?? "");
+          setReferenceLabelZh(v.referenceLabelZh ?? "");
+        } else if (book) {
+          setReferenceLabelEn(`${book.nameEn} ${verseRef}`);
+          setReferenceLabelVi(`${book.nameVi} ${verseRef}`);
+          setReferenceLabelZh(book.nameZh ? `${book.nameZh} ${verseRef}` : "");
+        } else {
+          setReferenceLabelEn(`${v.book} ${verseRef}`);
+          setReferenceLabelVi(`${v.book} ${verseRef}`);
+          setReferenceLabelZh("");
+        }
         setContentVIE1923(v.contentVIE1923 ?? "");
         setContentKJV(v.contentKJV ?? "");
         setContentNIV(v.contentNIV ?? "");
         setContentZH(v.contentZH ?? "");
+        setContentDisplayVIE(v.contentDisplayVIE ?? "");
+        setContentDisplayKJV(v.contentDisplayKJV ?? "");
+        setContentDisplayNIV(v.contentDisplayNIV ?? "");
+        setContentDisplayZH(v.contentDisplayZH ?? "");
       })
       .catch(() => setLoadError("Verse not found."))
       .finally(() => setLoading(false));
@@ -138,6 +184,25 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
   const verseCount = selectedChapterRow?.verseCount ?? 0;
   const chapterOptions = chapters;
   const verseOptions = Array.from({ length: verseCount }, (_, i) => i + 1);
+
+  const skipAutoFillRef = useRef(true);
+  useEffect(() => {
+    if (skipAutoFillRef.current) {
+      skipAutoFillRef.current = false;
+      return;
+    }
+    if (!bookId || !chapter || !verse || books.length === 0) return;
+    const book = books.find((b) => b.id === bookId);
+    if (!book) return;
+    const ch = parseInt(chapter, 10);
+    const v = parseInt(verse, 10);
+    const vEnd = verseEnd ? parseInt(verseEnd, 10) : null;
+    const verseRef =
+      vEnd != null && vEnd > v ? `${ch}:${v}-${vEnd}` : `${ch}:${v}`;
+    setReferenceLabelEn(`${book.nameEn} ${verseRef}`);
+    setReferenceLabelVi(`${book.nameVi} ${verseRef}`);
+    setReferenceLabelZh(book.nameZh ? `${book.nameZh} ${verseRef}` : "");
+  }, [bookId, chapter, verse, verseEnd, books]);
 
   const handleUpdate = useCallback(
     (formData: FormData) => updateVerse(verseId, formData),
@@ -173,10 +238,18 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
           "bookId",
           "chapter",
           "verse",
+          "verseEnd",
+          "referenceLabelEn",
+          "referenceLabelVi",
+          "referenceLabelZh",
           "contentVIE1923",
           "contentKJV",
           "contentNIV",
           "contentZH",
+          "contentDisplayVIE",
+          "contentDisplayKJV",
+          "contentDisplayNIV",
+          "contentDisplayZH",
           "general",
         ]}
         action={handleUpdate}
@@ -344,6 +417,47 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
             </select>
           </div>
         </div>
+        <div className="rounded-lg border border-amber-200 bg-amber-50/80 p-3">
+          <p className="mb-2 text-sm font-medium text-stone-700">
+            Reference label (optional)
+          </p>
+          <p className="mb-2 text-xs text-stone-500">
+            Custom label for the card, e.g. &quot;Isaiah 50:4b&quot;. Link still goes to the verse above.
+          </p>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+            <div>
+              <label className="mb-0.5 block text-xs text-stone-600">EN</label>
+              <input
+                type="text"
+                name="referenceLabelEn"
+                value={referenceLabelEn}
+                onChange={(e) => setReferenceLabelEn(e.target.value)}
+                placeholder="e.g. Isaiah 50:4b"
+                className="w-full rounded border border-stone-300 px-2 py-1.5 text-sm text-stone-800"
+              />
+            </div>
+            <div>
+              <label className="mb-0.5 block text-xs text-stone-600">VI</label>
+              <input
+                type="text"
+                name="referenceLabelVi"
+                value={referenceLabelVi}
+                onChange={(e) => setReferenceLabelVi(e.target.value)}
+                className="w-full rounded border border-stone-300 px-2 py-1.5 text-sm text-stone-800"
+              />
+            </div>
+            <div>
+              <label className="mb-0.5 block text-xs text-stone-600">中</label>
+              <input
+                type="text"
+                name="referenceLabelZh"
+                value={referenceLabelZh}
+                onChange={(e) => setReferenceLabelZh(e.target.value)}
+                className="w-full rounded border border-stone-300 px-2 py-1.5 text-sm text-stone-800"
+              />
+            </div>
+          </div>
+        </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-stone-700">
             Content (Vietnamese – traditional)
@@ -354,6 +468,17 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
             onChange={(e) => setContentVIE1923(e.target.value)}
             rows={3}
             className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800"
+          />
+          <label className="mt-1 block text-xs text-stone-500">
+            Display on card (optional) – only this part is shown if set
+          </label>
+          <textarea
+            name="contentDisplayVIE"
+            value={contentDisplayVIE}
+            onChange={(e) => setContentDisplayVIE(e.target.value)}
+            rows={2}
+            placeholder="Leave empty to show full content above"
+            className="mt-0.5 w-full rounded border border-stone-200 px-2 py-1.5 text-sm text-stone-700"
           />
         </div>
         <div>
@@ -367,6 +492,17 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
             rows={3}
             className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800"
           />
+          <label className="mt-1 block text-xs text-stone-500">
+            Display on card (optional)
+          </label>
+          <textarea
+            name="contentDisplayKJV"
+            value={contentDisplayKJV}
+            onChange={(e) => setContentDisplayKJV(e.target.value)}
+            rows={2}
+            placeholder="e.g. only the second sentence"
+            className="mt-0.5 w-full rounded border border-stone-200 px-2 py-1.5 text-sm text-stone-700"
+          />
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-stone-700">
@@ -379,6 +515,16 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
             rows={3}
             className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800"
           />
+          <label className="mt-1 block text-xs text-stone-500">
+            Display on card (optional)
+          </label>
+          <textarea
+            name="contentDisplayNIV"
+            value={contentDisplayNIV}
+            onChange={(e) => setContentDisplayNIV(e.target.value)}
+            rows={2}
+            className="mt-0.5 w-full rounded border border-stone-200 px-2 py-1.5 text-sm text-stone-700"
+          />
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-stone-700">
@@ -390,6 +536,16 @@ export function EditVerseForm({ verseId }: { verseId: string }) {
             onChange={(e) => setContentZH(e.target.value)}
             rows={3}
             className="w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-800"
+          />
+          <label className="mt-1 block text-xs text-stone-500">
+            Display on card (optional)
+          </label>
+          <textarea
+            name="contentDisplayZH"
+            value={contentDisplayZH}
+            onChange={(e) => setContentDisplayZH(e.target.value)}
+            rows={2}
+            className="mt-0.5 w-full rounded border border-stone-200 px-2 py-1.5 text-sm text-stone-700"
           />
         </div>
         <SubmitButton

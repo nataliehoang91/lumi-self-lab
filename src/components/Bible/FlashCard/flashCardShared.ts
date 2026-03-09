@@ -17,10 +17,17 @@ export interface VerseLike {
   titleEn?: string | null;
   titleVi?: string | null;
   titleZh?: string | null;
+  referenceLabelEn?: string | null;
+  referenceLabelVi?: string | null;
+  referenceLabelZh?: string | null;
   contentVIE1923?: string | null;
   contentKJV?: string | null;
   contentNIV?: string | null;
   contentZH?: string | null;
+  contentDisplayVIE?: string | null;
+  contentDisplayKJV?: string | null;
+  contentDisplayNIV?: string | null;
+  contentDisplayZH?: string | null;
   content?: string | null;
 }
 
@@ -53,18 +60,34 @@ export function getDisplayContent(
   enVersion: EnVersion
 ): string {
   if (cardLanguage === "VI") {
-    const raw = verse.contentVIE1923?.trim() || verse.content?.trim() || "";
+    const raw =
+      verse.contentDisplayVIE?.trim() ||
+      verse.contentVIE1923?.trim() ||
+      verse.content?.trim() ||
+      "";
     return capitalizeFirstLetterVi(normalizeQuotes(raw));
   }
   if (cardLanguage === "ZH") {
-    const raw = verse.contentZH?.trim() || verse.content?.trim() || "";
+    const raw =
+      verse.contentDisplayZH?.trim() ||
+      verse.contentZH?.trim() ||
+      verse.content?.trim() ||
+      "";
     return normalizeQuotes(raw);
   }
   if (enVersion === "KJV") {
-    const raw = verse.contentKJV?.trim() || verse.content?.trim() || "";
+    const raw =
+      verse.contentDisplayKJV?.trim() ||
+      verse.contentKJV?.trim() ||
+      verse.content?.trim() ||
+      "";
     return normalizeQuotes(raw);
   }
-  const raw = verse.contentNIV?.trim() || verse.content?.trim() || "";
+  const raw =
+    verse.contentDisplayNIV?.trim() ||
+    verse.contentNIV?.trim() ||
+    verse.content?.trim() ||
+    "";
   return normalizeQuotes(raw);
 }
 
@@ -73,6 +96,9 @@ export function getDisplayTitle(verse: VerseLike, cardLanguage: Language): strin
     verse.verseEnd != null && verse.verseEnd > verse.verse
       ? `${verse.chapter}:${verse.verse}-${verse.verseEnd}`
       : `${verse.chapter}:${verse.verse}`;
+  if (cardLanguage === "VI" && verse.referenceLabelVi?.trim()) return verse.referenceLabelVi.trim();
+  if (cardLanguage === "ZH" && verse.referenceLabelZh?.trim()) return verse.referenceLabelZh.trim();
+  if (cardLanguage === "EN" && verse.referenceLabelEn?.trim()) return verse.referenceLabelEn.trim();
   if (cardLanguage === "VI" && verse.titleVi?.trim()) return verse.titleVi.trim();
   if (cardLanguage === "ZH" && verse.titleZh?.trim()) return verse.titleZh.trim();
   if (cardLanguage === "EN" && verse.titleEn?.trim()) return verse.titleEn.trim();

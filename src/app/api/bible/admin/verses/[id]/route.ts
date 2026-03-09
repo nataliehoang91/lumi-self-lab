@@ -46,19 +46,35 @@ export async function PUT(
       bookId,
       chapter,
       verse,
+      verseEnd,
+      referenceLabelEn,
+      referenceLabelVi,
+      referenceLabelZh,
       contentVIE1923,
       contentKJV,
       contentNIV,
       contentZH,
+      contentDisplayVIE,
+      contentDisplayKJV,
+      contentDisplayNIV,
+      contentDisplayZH,
       flashCardSetId,
     } = body as {
       bookId?: string;
       chapter?: number;
       verse?: number;
+      verseEnd?: number | null;
+      referenceLabelEn?: string | null;
+      referenceLabelVi?: string | null;
+      referenceLabelZh?: string | null;
       contentVIE1923?: string;
       contentKJV?: string;
       contentNIV?: string;
       contentZH?: string;
+      contentDisplayVIE?: string | null;
+      contentDisplayKJV?: string | null;
+      contentDisplayNIV?: string | null;
+      contentDisplayZH?: string | null;
       flashCardSetId?: string | null;
     };
 
@@ -119,6 +135,10 @@ export async function PUT(
     }
 
     const contentFallback = trimNIV || trimKJV || trimVI || trimZH;
+    const verseRef =
+      verseEnd != null && verseEnd > verse
+        ? `${chapter}:${verse}-${verseEnd}`
+        : `${chapter}:${verse}`;
 
     await prisma.flashVerse.update({
       where: { id },
@@ -128,13 +148,43 @@ export async function PUT(
         book: bibleBook.nameEn,
         chapter,
         verse,
-        titleEn: `${bibleBook.nameEn} ${chapter}:${verse}`,
-        titleVi: `${bibleBook.nameVi} ${chapter}:${verse}`,
-        titleZh: bibleBook.nameZh ? `${bibleBook.nameZh} ${chapter}:${verse}` : null,
+        verseEnd:
+          verseEnd != null && Number.isFinite(verseEnd) && verseEnd > verse ? verseEnd : null,
+        titleEn: `${bibleBook.nameEn} ${verseRef}`,
+        titleVi: `${bibleBook.nameVi} ${verseRef}`,
+        titleZh: bibleBook.nameZh ? `${bibleBook.nameZh} ${verseRef}` : null,
+        referenceLabelEn:
+          referenceLabelEn !== undefined
+            ? (typeof referenceLabelEn === "string" ? referenceLabelEn.trim() || null : null)
+            : undefined,
+        referenceLabelVi:
+          referenceLabelVi !== undefined
+            ? (typeof referenceLabelVi === "string" ? referenceLabelVi.trim() || null : null)
+            : undefined,
+        referenceLabelZh:
+          referenceLabelZh !== undefined
+            ? (typeof referenceLabelZh === "string" ? referenceLabelZh.trim() || null : null)
+            : undefined,
         contentVIE1923: trimVI || null,
         contentKJV: trimKJV || null,
         contentNIV: trimNIV || null,
         contentZH: trimZH || null,
+        contentDisplayVIE:
+          contentDisplayVIE !== undefined
+            ? (typeof contentDisplayVIE === "string" ? contentDisplayVIE.trim() || null : null)
+            : undefined,
+        contentDisplayKJV:
+          contentDisplayKJV !== undefined
+            ? (typeof contentDisplayKJV === "string" ? contentDisplayKJV.trim() || null : null)
+            : undefined,
+        contentDisplayNIV:
+          contentDisplayNIV !== undefined
+            ? (typeof contentDisplayNIV === "string" ? contentDisplayNIV.trim() || null : null)
+            : undefined,
+        contentDisplayZH:
+          contentDisplayZH !== undefined
+            ? (typeof contentDisplayZH === "string" ? contentDisplayZH.trim() || null : null)
+            : undefined,
         content: contentFallback,
       },
     });
