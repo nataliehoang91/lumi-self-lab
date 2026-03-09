@@ -395,11 +395,15 @@ model BibleBookSearchKey {
 
 // Verse count per chapter (KJV standard). Admin selects chapter then verse from this.
 model BibleChapter {
-  id          String   @id @default(cuid())
-  bookId      String
-  book        BibleBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  chapterNumber Int     // 1-based
-  verseCount  Int      // e.g. Genesis 1 = 31
+  id                  String   @id @default(cuid())
+  bookId              String
+  book                BibleBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapterNumber       Int      // 1-based
+  verseCount          Int      // e.g. Genesis 1 = 31
+  sectionTitle        String?  // fallback / VI: optional chapter heading; shown when version-specific is null
+  sectionTitleKJV     String?  // KJV chapter/section heading
+  sectionTitleNIV     String?  // NIV chapter/section heading
+  subtitleSearchTerms String[] @default([]) // searchable variants (different spellings/phrasings) for matching by context
 
   @@unique([bookId, chapterNumber])
   @@index([bookId])

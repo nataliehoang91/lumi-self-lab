@@ -99,6 +99,11 @@ export function ReadingPanelContent({
         focusMode ? fontSizeClassFocus : fontSizeClass
       )}
     >
+      {content.sectionTitle?.trim() ? (
+        <p className="text-muted-foreground mb-2 text-sm font-medium italic">
+          {content.sectionTitle.trim()}
+        </p>
+      ) : null}
       {content.verses.map((verse) => {
         const text = normalizeVerseTextForDisplay(verse.text || "", version);
         const showNotes = isKJV && hasKJVNotes(text);

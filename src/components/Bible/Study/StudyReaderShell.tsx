@@ -358,6 +358,11 @@ export function StudyReaderShell({
                     </span>
                   </header>
                   <div className="space-y-2 text-sm leading-relaxed">
+                    {content.sectionTitle?.trim() ? (
+                      <p className="text-muted-foreground mb-1 text-xs font-medium italic">
+                        {content.sectionTitle.trim()}
+                      </p>
+                    ) : null}
                     {content.verses.map((v) => (
                       <p key={v.number} className="text-foreground flex gap-2">
                         <span

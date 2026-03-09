@@ -2,6 +2,19 @@ import type { BibleBook } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+type ContextSearchRow = {
+  bookId: string;
+  chapterNumber: number;
+  sectionTitle: string | null;
+  sectionTitleKJV: string | null;
+  sectionTitleNIV: string | null;
+  nameEn: string;
+  nameVi: string;
+  nameZh: string | null;
+  order: number;
+  chapterCount: number;
+};
+
 /** Normalize, compact (no spaces), strip trailing digits. "gia"→gia, "gia co"→giaco, "giang11"→giang. */
 function parseQuery(input: string): string {
   const normalized = input
@@ -15,56 +28,123 @@ function parseQuery(input: string): string {
   return compact.replace(/\d+$/, "");
 }
 
+/** Trim and normalize for context (subtitle) search; keep spaces for phrase search. */
+function contextQuery(raw: string): string {
+  return raw.trim().replace(/\s+/g, " ");
+}
+
+export type BibleSearchContextMatch = {
+  bookId: string;
+  nameEn: string;
+  nameVi: string;
+  nameZh: string | null;
+  order: number;
+  chapterCount: number;
+  chapterNumber: number;
+  subtitle: string | null;
+};
+
 /**
  * GET /api/bible/search?q=...&lang=en|vi|zh
- * Returns one matching book (best of multiple matches, deduped) for chapter/verse suggestions.
- * ZH is not supported for search keys; we fall back to EN. Requires BibleBookSearchKey to be seeded.
+ * Returns:
+ * - book: one matching book (from BibleBookSearchKey) for "go to book" suggestions.
+ * - contextMatches: chapters whose section title contains the query (search by context).
+ * Subtitles are stored on BibleChapter (sectionTitle for VI, sectionTitleKJV/sectionTitleNIV for EN).
  */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const q = (searchParams.get("q") ?? "").trim();
     const langParam = (searchParams.get("lang") ?? "en").toLowerCase();
-    // ZH not supported for search keys yet; fallback to en
     const lang = langParam === "zh" ? "en" : langParam === "vi" ? "vi" : "en";
 
     const bookQuery = parseQuery(q);
-    if (!bookQuery) {
-      return NextResponse.json({ book: null });
-    }
+    const contextQ = contextQuery(q);
 
-    // Use full bookQuery for both conditions (no prefix truncation) so "gia" and "timo" match correctly.
-    const matches = await prisma.bibleBookSearchKey.findMany({
-      where: {
-        lang,
-        OR: [{ key: { startsWith: bookQuery } }, { key: { contains: bookQuery } }],
-      },
-      include: { book: true },
-      orderBy: { book: { order: "asc" } },
-      take: 10,
-    });
+    // Run book search and context search in parallel (2–3 DB calls total, same latency as the slowest)
+    const [bookResult, contextResult] = await Promise.all([
+      // 1) Book search (by key) — for "go to Genesis 1" style suggestions
+      bookQuery
+        ? prisma.bibleBookSearchKey
+            .findMany({
+              where: {
+                lang,
+                OR: [{ key: { startsWith: bookQuery } }, { key: { contains: bookQuery } }],
+              },
+              include: { book: true },
+              orderBy: { book: { order: "asc" } },
+              take: 10,
+            })
+            .then((keyMatches) => {
+              const bookMap = new Map<string, BibleBook>();
+              for (const m of keyMatches) {
+                if (!bookMap.has(m.book.id)) bookMap.set(m.book.id, m.book);
+              }
+              const first = Array.from(bookMap.values())[0];
+              return first
+                ? {
+                    id: first.id,
+                    nameEn: first.nameEn,
+                    nameVi: first.nameVi,
+                    nameZh: first.nameZh ?? null,
+                    order: first.order,
+                    chapterCount: first.chapterCount,
+                  }
+                : null;
+            })
+        : Promise.resolve(null),
 
-    const bookMap = new Map<string, BibleBook>();
-    for (const m of matches) {
-      if (!bookMap.has(m.book.id)) bookMap.set(m.book.id, m.book);
-    }
-    const uniqueBooks = Array.from(bookMap.values());
-    const book = uniqueBooks[0] ?? null;
+      // 2) Context search — match against BibleChapter.subtitleSearchTerms (array of variants per chapter)
+      contextQ.length >= 2
+        ? (async (): Promise<BibleSearchContextMatch[]> => {
+            const pattern = `%${contextQ}%`;
+            const rows = await prisma.$queryRaw<ContextSearchRow[]>`
+              SELECT c."bookId", c."chapterNumber", c."sectionTitle", c."sectionTitleKJV", c."sectionTitleNIV",
+                     b."nameEn", b."nameVi", b."nameZh", b."order", b."chapterCount"
+              FROM "BibleChapter" c
+              INNER JOIN "BibleBook" b ON b.id = c."bookId"
+              WHERE EXISTS (
+                SELECT 1 FROM unnest(c."subtitleSearchTerms") AS t(term)
+                WHERE t.term ILIKE ${pattern}
+              )
+              ORDER BY b."order", c."chapterNumber"
+              LIMIT 20
+            `;
+            return rows.map((row) => {
+              const subtitle =
+                lang === "vi"
+                  ? row.sectionTitle
+                  : row.sectionTitleNIV ?? row.sectionTitleKJV ?? row.sectionTitle;
+              return {
+                bookId: row.bookId,
+                nameEn: row.nameEn,
+                nameVi: row.nameVi,
+                nameZh: row.nameZh ?? null,
+                order: row.order,
+                chapterCount: row.chapterCount,
+                chapterNumber: row.chapterNumber,
+                subtitle,
+              };
+            });
+          })()
+        : Promise.resolve([]),
+    ]);
 
-    if (!book) {
-      return NextResponse.json({ book: null });
-    }
-    console.log("book", book);
+    const book = bookResult;
+    const contextMatches = contextResult;
 
     return NextResponse.json({
-      book: {
-        id: book.id,
-        nameEn: book.nameEn,
-        nameVi: book.nameVi,
-        nameZh: book.nameZh ?? null,
-        order: book.order,
-        chapterCount: book.chapterCount,
-      },
+      book: book
+        ? {
+            id: book.id,
+            nameEn: book.nameEn,
+            nameVi: book.nameVi,
+            nameZh: book.nameZh ?? null,
+            order: book.order,
+            chapterCount: book.chapterCount,
+          }
+        : null,
+      contextMatches,
     });
   } catch (e) {
     console.error("bible/search", e);

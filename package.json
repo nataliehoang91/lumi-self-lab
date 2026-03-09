@@ -31,7 +31,12 @@
     "db:seed-bible-content": "npx tsx prisma/seed/download-kjv-into-verse-content.ts",
     "db:seed-bible-content-vi": "npx tsx prisma/seed/download-vietnamese-into-verse-content.ts",
     "db:seed-bible-content-niv": "npx tsx prisma/seed/download-niv-into-verse-content.ts",
-    "db:seed-bible-content-zh": "npx tsx prisma/seed/download-chinese-into-verse-content.ts"
+    "db:seed-bible-content-zh": "npx tsx prisma/seed/download-chinese-into-verse-content.ts",
+    "db:seed-section-titles": "npx tsx prisma/seed/load-section-titles-from-file.ts",
+    "db:seed-section-titles-all": "npx tsx prisma/seed/fetch-all-section-titles-once.ts",
+    "db:seed-section-titles-austin": "npx tsx prisma/seed/seed-bible-chapter-titles-austin.ts",
+    "db:seed-section-titles-full": "npx tsx prisma/seed/seed-section-titles-full-niv-kjv-vi.ts",
+    "db:seed-subtitle-search-terms": "npx tsx prisma/seed/backfill-subtitle-search-terms.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.37.1",

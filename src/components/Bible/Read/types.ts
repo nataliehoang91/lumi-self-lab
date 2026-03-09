@@ -20,6 +20,8 @@ export interface ChapterContent {
   book: BibleBook;
   chapter: number;
   verses: VerseRow[];
+  /** Optional chapter/section heading (e.g. "The Sermon on the Mount"). */
+  sectionTitle?: string | null;
 }
 
 export type TFunction = (key: string, params?: Record<string, number | string>) => string;

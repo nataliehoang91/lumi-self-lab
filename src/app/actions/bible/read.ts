@@ -39,18 +39,31 @@ export async function getChapterContent(
   const lang = versionToApiLang(version);
   if (!LANGS.includes(lang)) return null;
 
-  const book = await prisma.bibleBook.findUnique({
-    where: { id: bookId },
-    select: {
-      id: true,
-      nameEn: true,
-      nameVi: true,
-      nameZh: true,
-      order: true,
-      chapterCount: true,
-    },
-  });
+  const [book, chapterRow] = await Promise.all([
+    prisma.bibleBook.findUnique({
+      where: { id: bookId },
+      select: {
+        id: true,
+        nameEn: true,
+        nameVi: true,
+        nameZh: true,
+        order: true,
+        chapterCount: true,
+      },
+    }),
+    prisma.bibleChapter.findUnique({
+      where: { bookId_chapterNumber: { bookId, chapterNumber: chapter } },
+      select: { sectionTitle: true, sectionTitleKJV: true, sectionTitleNIV: true },
+    }),
+  ]);
   if (!book) return null;
+
+  const effectiveSectionTitle =
+    lang === "kjv"
+      ? (chapterRow?.sectionTitleKJV ?? chapterRow?.sectionTitle) ?? null
+      : lang === "niv"
+        ? (chapterRow?.sectionTitleNIV ?? chapterRow?.sectionTitle) ?? null
+        : chapterRow?.sectionTitle ?? null;
 
   const rows = await prisma.bibleVerseContent.findMany({
     where: { bookId, chapter },
@@ -89,5 +102,6 @@ export async function getChapterContent(
     },
     chapter,
     verses,
+    sectionTitle: effectiveSectionTitle,
   };
 }

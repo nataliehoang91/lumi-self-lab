@@ -35,6 +35,18 @@ interface BibleQuickSuggestion {
   href: string;
 }
 
+/** Match from API when searching by chapter subtitle (context). */
+interface ContextMatch {
+  bookId: string;
+  nameEn: string;
+  nameVi: string;
+  nameZh: string | null;
+  order: number;
+  chapterCount: number;
+  chapterNumber: number;
+  subtitle: string | null;
+}
+
 function getBookLabelForLanguage(book: BibleBook, lang: "EN" | "VI" | "ZH"): string {
   if (lang === "VI") return book.nameVi;
   if (lang === "ZH") return book.nameZh ?? book.nameEn;
@@ -107,12 +119,12 @@ export function BibleReferenceSearch({
   const intl = useMemo(() => getBibleIntl(globalLanguage), [globalLanguage]);
   const [query, setQuery] = useState("");
   const [searchBook, setSearchBook] = useState<BibleBook | null>(null);
+  const [contextMatches, setContextMatches] = useState<ContextMatch[]>([]);
   const [searching, setSearching] = useState(false);
   const lastRequestRef = useRef<string>("");
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const { bookQuery, chapterHint, verses } = parseBibleQuery(query);
-  // Prefer global language so "gia" searches VI keys when user has Vietnamese selected
+  const { chapterHint, verses } = parseBibleQuery(query);
   const searchLang =
     globalLanguage === "VI"
       ? "vi"
@@ -122,35 +134,28 @@ export function BibleReferenceSearch({
           ? langSegment
           : "en";
 
-  // Debounced API search. Abort in-flight requests so only the latest response applies.
+  // Debounced API search. Send raw query so API can search by book key and by chapter subtitle (context).
   useEffect(() => {
-    const raw = bookQuery ?? "";
-    // Re-normalise to match what the API's parseQuery will receive
-    const q = raw
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/\p{Diacritic}/gu, "")
-      .replace(/[^\p{L}\d]/gu, " ")
-      .replace(/\s+/g, "")
-      .trim();
+    const raw = query.trim();
 
-    if (!q) {
-      // Clear immediately — no debounce needed for empty input
+    if (!raw) {
       abortControllerRef.current?.abort();
       abortControllerRef.current = null;
       lastRequestRef.current = "";
-      setSearchBook(null);
       setSearching(false);
+      void Promise.resolve().then(() => {
+        setSearchBook(null);
+        setContextMatches([]);
+      });
       return;
     }
 
     const t = setTimeout(() => {
-      // Abort any previous in-flight request before starting a new one
       abortControllerRef.current?.abort();
       const controller = new AbortController();
       abortControllerRef.current = controller;
 
-      const requested = q;
+      const requested = raw;
       lastRequestRef.current = requested;
       setSearching(true);
 
@@ -158,35 +163,38 @@ export function BibleReferenceSearch({
 
       fetch(`/api/bible/search?${params}`, { signal: controller.signal })
         .then(async (res) => {
-          // Parse body first, then check ok — avoids double-consume of the stream
-          let data: { book: BibleBook | null } = { book: null };
+          let data: { book: BibleBook | null; contextMatches?: ContextMatch[] } = {
+            book: null,
+            contextMatches: [],
+          };
           try {
             data = await res.json();
           } catch {
-            // non-JSON body (e.g. 500 HTML error page) — treat as no result
+            // non-JSON body — treat as no result
           }
-          if (!res.ok) return { book: null };
-          return data;
+          if (!res.ok) return { book: null, contextMatches: [] };
+          return {
+            book: data?.book ?? null,
+            contextMatches: data?.contextMatches ?? [],
+          };
         })
         .then((data) => {
-          // Stale response guard: discard if a newer request has already been issued
           if (lastRequestRef.current !== requested) return;
-          setSearchBook(data?.book ?? null);
+          setSearchBook(data.book ?? null);
+          setContextMatches(data.contextMatches ?? []);
           setSearching(false);
         })
         .catch((err: unknown) => {
-          // AbortError is expected when a newer keystroke cancels this request — ignore silently
           if (err instanceof Error && err.name === "AbortError") return;
           if (lastRequestRef.current !== requested) return;
           setSearchBook(null);
+          setContextMatches([]);
           setSearching(false);
         });
-      // Note: no .finally — setSearching(false) is handled in .then and .catch above
-      // so aborted requests never accidentally clear the "searching" state for the live request
     }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(t);
-  }, [bookQuery, searchLang]);
+  }, [query, searchLang]);
 
   const suggestions = useMemo<BibleQuickSuggestion[]>(() => {
     if (!searchBook) return [];
@@ -241,6 +249,29 @@ export function BibleReferenceSearch({
     }
     return items;
   }, [searchBook, chapterHint, verses, globalLanguage, langSegment, intl]);
+
+  const contextSuggestions = useMemo<BibleQuickSuggestion[]>(() => {
+    if (contextMatches.length === 0) return [];
+    const defaultVersion = defaultVersionFromLanguage(globalLanguage);
+    return contextMatches.map((m) => {
+      const testament = m.order <= OT_ORDER_MAX ? "ot" : "nt";
+      const bookLabel =
+        globalLanguage === "VI" ? m.nameVi : globalLanguage === "ZH" ? m.nameZh ?? m.nameEn : m.nameEn;
+      const qs = buildReadSearchParams({
+        version1: defaultVersion,
+        sync: true,
+        book1Id: m.bookId,
+        chapter1: m.chapterNumber,
+        testament1: testament,
+      });
+      return {
+        id: `ctx-${m.bookId}-${m.chapterNumber}`,
+        label: `${bookLabel} ${m.chapterNumber}`,
+        secondary: m.subtitle ?? intl.t("readChapterN", { n: m.chapterNumber }),
+        href: `/bible/${langSegment}/read?${qs}`,
+      };
+    });
+  }, [contextMatches, globalLanguage, langSegment, intl]);
 
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -351,6 +382,7 @@ export function BibleReferenceSearch({
                       <li>{intl.t("searchHintSingle")}</li>
                       <li>{intl.t("searchHintTwo")}</li>
                       <li>{intl.t("searchHintRange")}</li>
+                      <li>{intl.t("searchHintContext")}</li>
                     </ul>
                   </div>
                 </CommandEmpty>
@@ -363,7 +395,7 @@ export function BibleReferenceSearch({
                     {intl.t("searchSearching")}
                   </p>
                 </CommandEmpty>
-              ) : suggestions.length === 0 ? (
+              ) : suggestions.length === 0 && contextSuggestions.length === 0 ? (
                 <CommandEmpty className="py-8 text-center">
                   <p className="text-muted-foreground text-sm">
                     {intl.t("searchNoResultsFor")}{" "}
@@ -376,40 +408,77 @@ export function BibleReferenceSearch({
                   </p>
                 </CommandEmpty>
               ) : (
-                <div className="p-1">
-                  <CommandGroup
-                    heading={intl.t("searchGoTo")}
-                    className="overflow-hidden"
-                  >
-                    {suggestions.map((s) => (
-                      <CommandItem
-                        key={s.id}
-                        value={s.label}
-                        onSelect={() => {
-                          router.push(s.href);
-                          setOpen(false);
-                          setQuery("");
-                        }}
-                        className="group hover:bg-primary/15 focus-visible:bg-primary/15
-                          flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
-                          transition-colors focus-visible:ring-0 data-disabled:opacity-50"
-                      >
-                        <span
-                          className="text-sm font-semibold text-slate-900
-                            transition-colors group-hover:text-gray-900
-                            hover:text-gray-900 dark:text-white"
+                <div className="p-1 space-y-1">
+                  {contextSuggestions.length > 0 ? (
+                    <CommandGroup
+                      heading={intl.t("searchContextHeading")}
+                      className="overflow-hidden"
+                    >
+                      {contextSuggestions.map((s) => (
+                        <CommandItem
+                          key={s.id}
+                          value={s.label}
+                          onSelect={() => {
+                            router.push(s.href);
+                            setOpen(false);
+                            setQuery("");
+                          }}
+                          className="group hover:bg-primary/15 focus-visible:bg-primary/15
+                            flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
+                            transition-colors focus-visible:ring-0 data-disabled:opacity-50"
                         >
-                          {s.label}
-                        </span>
-                        <span
-                          className="group-hover:text-foreground text-xs
-                            transition-colors"
+                          <span
+                            className="text-sm font-semibold text-slate-900
+                              transition-colors group-hover:text-gray-900
+                              hover:text-gray-900 dark:text-white"
+                          >
+                            {s.label}
+                          </span>
+                          <span
+                            className="group-hover:text-foreground text-xs
+                              transition-colors"
+                          >
+                            {s.secondary}
+                          </span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  ) : null}
+                  {suggestions.length > 0 ? (
+                    <CommandGroup
+                      heading={intl.t("searchGoTo")}
+                      className="overflow-hidden"
+                    >
+                      {suggestions.map((s) => (
+                        <CommandItem
+                          key={s.id}
+                          value={s.label}
+                          onSelect={() => {
+                            router.push(s.href);
+                            setOpen(false);
+                            setQuery("");
+                          }}
+                          className="group hover:bg-primary/15 focus-visible:bg-primary/15
+                            flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
+                            transition-colors focus-visible:ring-0 data-disabled:opacity-50"
                         >
-                          {s.secondary}
-                        </span>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
+                          <span
+                            className="text-sm font-semibold text-slate-900
+                              transition-colors group-hover:text-gray-900
+                              hover:text-gray-900 dark:text-white"
+                          >
+                            {s.label}
+                          </span>
+                          <span
+                            className="group-hover:text-foreground text-xs
+                              transition-colors"
+                          >
+                            {s.secondary}
+                          </span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  ) : null}
                 </div>
               )}
             </CommandList>

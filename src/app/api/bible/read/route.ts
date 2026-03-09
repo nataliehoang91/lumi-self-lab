@@ -23,10 +23,16 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const book = await prisma.bibleBook.findUnique({
-      where: { id: bookId },
-      select: { id: true, nameEn: true, nameVi: true, nameZh: true, chapterCount: true },
-    });
+    const [book, chapterRow] = await Promise.all([
+      prisma.bibleBook.findUnique({
+        where: { id: bookId },
+        select: { id: true, nameEn: true, nameVi: true, nameZh: true, chapterCount: true },
+      }),
+      prisma.bibleChapter.findUnique({
+        where: { bookId_chapterNumber: { bookId, chapterNumber: chapter } },
+        select: { sectionTitle: true, sectionTitleKJV: true, sectionTitleNIV: true },
+      }),
+    ]);
     if (!book) {
       return NextResponse.json({ error: "Book not found." }, { status: 404 });
     }
@@ -52,6 +58,13 @@ export async function GET(request: NextRequest) {
             ? "contentNIV"
             : "contentZH";
 
+    const effectiveSectionTitle =
+      lang === "kjv"
+        ? (chapterRow?.sectionTitleKJV ?? chapterRow?.sectionTitle) ?? null
+        : lang === "niv"
+          ? (chapterRow?.sectionTitleNIV ?? chapterRow?.sectionTitle) ?? null
+          : chapterRow?.sectionTitle ?? null;
+
     const verses = rows.map((r) => ({
       number: r.verse,
       text: (r[col as keyof typeof r] as string | null)?.trim() ?? "",
@@ -67,6 +80,7 @@ export async function GET(request: NextRequest) {
       },
       chapter,
       verses,
+      sectionTitle: effectiveSectionTitle,
     });
   } catch (e) {
     console.error("bible/read", e);

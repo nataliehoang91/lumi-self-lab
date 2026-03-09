@@ -146,6 +146,14 @@ export function SyncedRead() {
         >
           {rightLabel}
         </span>
+        {(leftContent?.sectionTitle?.trim() ?? rightContent?.sectionTitle?.trim()) ? (
+          <span
+            className="text-muted-foreground col-span-4 mb-1 text-sm font-medium italic"
+            style={{ gridColumn: "1 / -1" }}
+          >
+            {leftContent?.sectionTitle?.trim() || rightContent?.sectionTitle?.trim()}
+          </span>
+        ) : null}
         {verseNumbers.map((num) => {
           const leftVerse = leftVerses.find((v) => Number(v.number) === num);
           const rightVerse = rightVerses.find((v) => Number(v.number) === num);
