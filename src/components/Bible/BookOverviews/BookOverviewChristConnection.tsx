@@ -23,7 +23,7 @@ export function BookOverviewChristConnection({
   const titleFont = isVi ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = isVi ? "font-vietnamese-flashcard" : undefined;
 
-  const title = isVi ? "Trọng tâm về Đấng Christ" : "Christ Connection";
+  const title = isVi ? "Tóm tắt nội dung" : "Book Summary";
   const ctaLabel = isVi ? "Đọc sách trong Kinh Thánh" : `Go read ${bookDisplayName}`;
 
   return (
@@ -31,13 +31,7 @@ export function BookOverviewChristConnection({
       className="bg-primary-light/10 border-primary-dark/30 mb-12 gap-4 rounded-xl border
         p-6"
     >
-      <h2
-        className={cn(
-          "text-foreground mb-2 font-semibold",
-          bodyTitleClass,
-          titleFont
-        )}
-      >
+      <h2 className={cn("text-foreground mb-2 font-semibold", bodyTitleClass, titleFont)}>
         {title}
       </h2>
       <p
@@ -63,4 +57,3 @@ export function BookOverviewChristConnection({
     </section>
   );
 }
-
