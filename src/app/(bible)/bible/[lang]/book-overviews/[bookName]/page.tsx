@@ -55,6 +55,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
   if (!normalizedLang || !isBibleLocale(normalizedLang)) {
     notFound();
   }
+  const isVi = normalizedLang === "vi";
   const overviewLang: BookOverviewLang = normalizedLang === "vi" ? "vi" : "en";
   const data = await getBookOverviewBySlug(bookName, overviewLang);
   if (!data) notFound();
@@ -150,7 +151,10 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
             <h2 className="text-foreground mb-4 font-serif text-xl font-semibold">
               Chapter Outline
             </h2>
-            <div className="mx-auto grid grid-cols-1 gap-2 lg:grid-cols-2">
+            <div
+              className="mx-auto grid grid-cols-1 space-y-3 gap-x-3 gap-y-2
+                lg:grid-cols-2"
+            >
               {data.outline.map((o, idx) => {
                 const chapterLabel = formatChapterRange(o.chapter, langSegment);
                 return (
@@ -169,11 +173,20 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                     >
                       {idx + 1}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-foreground text-base">{o.title}</p>
+                    <div className="min-w-0 flex-1 space-y-2">
                       <p
-                        className="mt-0.5 flex items-center justify-between font-mono
-                          text-sm opacity-90"
+                        className={cn(
+                          "text-foreground text-base",
+                          isVi && "font-vietnamese-flashcard"
+                        )}
+                      >
+                        {o.title}
+                      </p>
+                      <p
+                        className={cn(
+                          "mt-0.5 flex items-center justify-between text-sm opacity-90",
+                          isVi ? "font-vietnamese-flashcard" : "font-mono"
+                        )}
                       >
                         <span>{chapterLabel}</span>
                         {(() => {
@@ -241,9 +254,10 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                           verse={loc.verse}
                           testament={testament}
                           linkOnly
-                          triggerClassName="inline-flex items-center gap-1 rounded-full
-                            bg-primary-100  px-2 py-1 text-sm font-medium text-slate-900
-                            hover:text-primary/90"
+                          triggerClassName={cn(
+                            "inline-flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm font-medium text-slate-900 hover:text-primary/90",
+                            langSegment === "vi" && "font-vietnamese-flashcard"
+                          )}
                         >
                           <BookOpen className="h-3 w-3" />
                           {label}

@@ -42,16 +42,18 @@ export async function getBookOverviewBySlug(
   const slug = bookSlug.trim().toLowerCase().replace(/\s+/g, "-");
   const book = await prisma.bibleBook.findFirst({
     where: { slugEn: slug },
-    include: {
-      bookOverviews: {
-        where: { language: lang },
-        take: 1,
-      },
-    },
   });
   if (!book) return null;
 
-  const overview = book.bookOverviews[0];
+  // Use 'any' here to avoid type mismatch if the generated Prisma client
+  // is out of date with the schema for BibleBookOverview.
+  const overview = await (prisma as any).bibleBookOverview.findFirst({
+    where: {
+      bookId: book.id,
+      language: lang,
+    },
+  });
+
   const themes = (overview?.themes ?? []) as string[];
   const keyVerses = (overview?.keyVerses ?? []) as KeyVerseRow[];
   const outline = (overview?.outline ?? []) as OutlineRow[];
@@ -87,7 +89,14 @@ export interface BookForToc {
 export async function getBooksWithSlug(): Promise<BookForToc[]> {
   const rows = await prisma.bibleBook.findMany({
     orderBy: { order: "asc" },
-    select: { slugEn: true, nameEn: true, nameVi: true, order: true, chapterCount: true },
+    // Cast select as any to avoid TS complaints if Prisma types lag behind schema.
+    select: {
+      slugEn: true,
+      nameEn: true,
+      nameVi: true,
+      order: true,
+      chapterCount: true,
+    } as any,
   });
-  return rows;
+  return rows as unknown as BookForToc[];
 }
