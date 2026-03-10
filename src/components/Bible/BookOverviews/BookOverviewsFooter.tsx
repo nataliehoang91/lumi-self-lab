@@ -20,7 +20,7 @@ const BOOK_SLUGS_ORDER = [
 ] as const;
 
 // Display names by order index (0–65), same order as BOOK_SLUGS_ORDER
-const BOOK_NAMES_EN = [
+export const BOOK_NAMES_EN = [
   "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy", "Joshua", "Judges", "Ruth",
   "1 Samuel", "2 Samuel", "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Ezra", "Nehemiah",
   "Esther", "Job", "Psalms", "Proverbs", "Ecclesiastes", "Song of Solomon", "Isaiah", "Jeremiah",
@@ -30,7 +30,7 @@ const BOOK_NAMES_EN = [
   "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy", "2 Timothy", "Titus", "Philemon",
   "Hebrews", "James", "1 Peter", "2 Peter", "1 John", "2 John", "3 John", "Jude", "Revelation",
 ];
-const BOOK_NAMES_VI = [
+export const BOOK_NAMES_VI = [
   "Sáng thế ký", "Xuất Ê-díp-tô ký", "Lê-vi ký", "Dân số ký", "Phục truyền luật lệ ký", "Giô-suê", "Các quan xét", "Ru-tơ",
   "1 Sa-mu-ên", "2 Sa-mu-ên", "1 Các vua", "2 Các vua", "1 Sử ký", "2 Sử ký", "E-xơ-ra", "Nê-hê-mi",
   "Ê-xơ-tê", "Gióp", "Thi thiên", "Châm ngôn", "Truyền đạo", "Nhã ca", "Ê-sai", "Giê-rê-mi",

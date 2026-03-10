@@ -7,6 +7,7 @@ import {
   type BookOverviewLang,
 } from "@/app/actions/bible/book-overview";
 import { isBibleLocale } from "@/app/(bible)/bible/[lang]/layout";
+import { Container } from "@/components/ui/container";
 
 type Params = Promise<{ lang: string; bookName: string }>;
 
@@ -34,8 +35,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
   if (!normalizedLang || !isBibleLocale(normalizedLang)) {
     notFound();
   }
-  const overviewLang: BookOverviewLang =
-    normalizedLang === "vi" ? "vi" : "en";
+  const overviewLang: BookOverviewLang = normalizedLang === "vi" ? "vi" : "en";
   const data = await getBookOverviewBySlug(bookName, overviewLang);
   if (!data) notFound();
 
@@ -50,36 +50,28 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
   const readHref = `/bible/${normalizedLang}/read?book1=${encodeURIComponent(data.bookId)}`;
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <main className="max-w-2xl mx-auto px-6 pt-32 pb-24">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-10">
-          <Link
-            href={`/bible/${normalizedLang}/book-overviews`}
-            className="hover:text-foreground transition-colors"
-          >
-            Book Overviews
-          </Link>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-foreground">{displayName}</span>
-        </div>
-
+    <main>
+      <Container maxWidth="7xl">
         <div className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-3">
+          <p
+            className="text-muted-foreground mb-3 text-xs font-semibold tracking-[0.2em]
+              uppercase"
+          >
             Book Overview
           </p>
-          <h1 className="font-serif text-4xl md:text-5xl font-semibold text-foreground leading-tight">
+          <h1
+            className="text-foreground font-serif text-4xl leading-tight font-semibold
+              md:text-5xl"
+          >
             {data.order}. {displayName}
           </h1>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+        <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {meta.map((m) => (
-            <div
-              key={m.l}
-              className="p-4 bg-card border border-border rounded-xl"
-            >
-              <p className="text-xs text-muted-foreground">{m.l}</p>
-              <p className="text-sm font-medium text-foreground mt-1 leading-snug">
+            <div key={m.l} className="bg-card border-border rounded-xl border p-4">
+              <p className="text-muted-foreground text-xs">{m.l}</p>
+              <p className="text-foreground mt-1 text-sm leading-snug font-medium">
                 {m.v}
               </p>
             </div>
@@ -88,14 +80,15 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
 
         {data.themes.length > 0 && (
           <section className="mb-10">
-            <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
+            <h2 className="text-foreground mb-4 font-serif text-xl font-semibold">
               Main Themes
             </h2>
             <div className="flex flex-wrap gap-2">
               {data.themes.map((t) => (
                 <span
                   key={t}
-                  className="px-3 py-1.5 bg-card border border-border rounded-lg text-sm text-foreground"
+                  className="bg-card border-border text-foreground rounded-lg border px-3
+                    py-1.5 text-sm"
                 >
                   {t}
                 </span>
@@ -106,19 +99,23 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
 
         {data.outline.length > 0 && (
           <section className="mb-10">
-            <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
+            <h2 className="text-foreground mb-4 font-serif text-xl font-semibold">
               Chapter Outline
             </h2>
             <div className="space-y-2">
               {data.outline.map((o) => (
                 <div
                   key={`${o.chapter}-${o.title}`}
-                  className="flex items-start gap-4 px-4 py-3 bg-card border border-border rounded-xl"
+                  className="bg-card border-border flex items-start gap-4 rounded-xl
+                    border px-4 py-3"
                 >
-                  <span className="font-mono text-xs text-muted-foreground/60 w-12 shrink-0 pt-0.5">
+                  <span
+                    className="text-muted-foreground/60 w-12 shrink-0 pt-0.5 font-mono
+                      text-xs"
+                  >
                     {o.chapter}
                   </span>
-                  <span className="text-sm text-foreground">{o.title}</span>
+                  <span className="text-foreground text-sm">{o.title}</span>
                 </div>
               ))}
             </div>
@@ -127,21 +124,24 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
 
         {data.keyVerses.length > 0 && (
           <section className="mb-10">
-            <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
+            <h2 className="text-foreground mb-4 font-serif text-xl font-semibold">
               Key Verses
             </h2>
             <div className="space-y-3">
               {data.keyVerses.map((v) => (
-                <div
-                  key={v.ref}
-                  className="p-5 bg-card border border-border rounded-xl"
-                >
-                  <p className="font-serif text-base text-foreground leading-relaxed italic">
+                <div key={v.ref} className="bg-card border-border rounded-xl border p-5">
+                  <p
+                    className="text-foreground font-serif text-base leading-relaxed
+                      italic"
+                  >
                     &quot;{v.text}&quot;
                   </p>
-                  <p className="mt-2 text-muted-foreground/80">
+                  <p className="text-muted-foreground/80 mt-2">
                     <span className="text-sm font-medium">{displayName}</span>
-                    <span className="font-mono text-xs text-muted-foreground/60"> {v.ref}</span>
+                    <span className="text-muted-foreground/60 font-mono text-xs">
+                      {" "}
+                      {v.ref}
+                    </span>
                   </p>
                 </div>
               ))}
@@ -150,29 +150,30 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
         )}
 
         {data.christConnection && (
-          <section className="mb-12 p-6 bg-foreground text-background rounded-2xl">
-            <h2 className="font-serif text-xl font-semibold mb-3">
-              Christ Connection
-            </h2>
-            <p className="text-sm leading-relaxed opacity-80">
-              {data.christConnection}
-            </p>
+          <section className="bg-foreground text-background mb-12 rounded-2xl p-6">
+            <h2 className="mb-3 font-serif text-xl font-semibold">Christ Connection</h2>
+            <p className="text-sm leading-relaxed opacity-80">{data.christConnection}</p>
           </section>
         )}
 
         <Link
           href={readHref}
-          className="flex items-center justify-between gap-4 p-5 bg-card border border-border rounded-2xl hover:border-foreground/30 hover:shadow-sm transition-all group"
+          className="bg-card border-border hover:border-foreground/30 group flex
+            items-center justify-between gap-4 rounded-2xl border p-5 transition-all
+            hover:shadow-sm"
         >
           <div>
-            <p className="font-medium text-foreground">Read {displayName}</p>
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="text-foreground font-medium">Read {displayName}</p>
+            <p className="text-muted-foreground mt-0.5 text-sm">
               Open in the Bible reader
             </p>
           </div>
-          <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
+          <ArrowRight
+            className="text-muted-foreground group-hover:text-foreground h-4 w-4
+              transition-all group-hover:translate-x-0.5"
+          />
         </Link>
-      </main>
-    </div>
+      </Container>
+    </main>
   );
 }

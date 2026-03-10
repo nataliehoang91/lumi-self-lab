@@ -7,7 +7,11 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
-import { BookOverviewsFooter } from "@/components/Bible/BookOverviews/BookOverviewsFooter";
+import {
+  BookOverviewsFooter,
+  BOOK_NAMES_EN,
+  BOOK_NAMES_VI,
+} from "@/components/Bible/BookOverviews/BookOverviewsFooter";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { GeneralErrorFallback } from "@/components/GeneralErrorFallback";
 import { SimpleLoader } from "@/components/Bible/GeneralComponents/simple-loader";
@@ -20,6 +24,23 @@ function slugToTitle(slug: string): string {
     .join(" ");
 }
 
+/** Map URL slug (based on English name) to localized book name using fixed arrays. */
+function getBookNameFromSlug(slug: string, lang: "en" | "vi"): string {
+  const normalized = slug.replace(/-/g, " ").toLowerCase();
+
+  const index = BOOK_NAMES_EN.findIndex((name) => {
+    const key = name.toLowerCase().replace(/\s+/g, " ");
+    return key === normalized;
+  });
+
+  if (index === -1) {
+    // Fallback so we never break the breadcrumb.
+    return slugToTitle(slug);
+  }
+
+  return lang === "vi" ? BOOK_NAMES_VI[index] : BOOK_NAMES_EN[index];
+}
+
 export default function BookOverviewsLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { subBodyClass } = useBibleFontClasses();
@@ -28,6 +49,9 @@ export default function BookOverviewsLayout({ children }: { children: React.Reac
   const isBookPage =
     pathname?.includes("/book-overviews/") && parts[parts.indexOf("book-overviews") + 1];
   const bookSlug = isBookPage ? parts[parts.indexOf("book-overviews") + 1] : null;
+
+  const bookTitle =
+    bookSlug != null ? getBookNameFromSlug(bookSlug, lang === "vi" ? "vi" : "en") : null;
 
   return (
     <div className="bg-read min-h-screen font-sans dark:bg-[#050408]">
@@ -48,23 +72,25 @@ export default function BookOverviewsLayout({ children }: { children: React.Reac
               href={`/bible/${lang}`}
               className="hover:text-foreground font-medium transition-colors"
             >
-              Bible
+              {lang === "vi" ? "Kinh Thánh" : "Bible"}
             </Link>
             <ChevronRight className="h-3 w-3" />
             {!bookSlug ? (
-              <span className="text-foreground font-bold">Books & Overview</span>
+              <span className="text-foreground font-bold">
+                {lang === "vi" ? "Sách & Giới thiệu" : "Books & Overview"}
+              </span>
             ) : (
               <Link
                 href={`/bible/${lang}/book-overviews`}
                 className="hover:text-foreground font-medium transition-colors"
               >
-                Books & Overview
+                {lang === "vi" ? "Sách & Giới thiệu" : "Books & Overview"}
               </Link>
             )}
             {bookSlug && (
               <>
                 <ChevronRight className="h-3 w-3" />
-                <span className="text-foreground font-bold">{slugToTitle(bookSlug)}</span>
+                <span className="text-foreground font-bold">{bookTitle}</span>
               </>
             )}
           </div>
