@@ -12,6 +12,7 @@ import { Container } from "@/components/ui/container";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import { cn } from "@/lib/utils";
 import { BookOverviewChristConnection } from "@/components/Bible/BookOverviews/BookOverviewChristConnection";
+import { BookOverviewReadMarker } from "@/components/Bible/BookOverviews/BookOverviewReadMarker";
 
 function formatChapterRange(raw: string, lang: "en" | "vi"): string {
   const nums = raw.match(/\d+/g) ?? [];
@@ -97,6 +98,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
 
   return (
     <main>
+      <BookOverviewReadMarker lang={langSegment} slugEn={bookName} />
       <Container maxWidth="7xl">
         <div className="mb-10">
           <p
@@ -160,18 +162,18 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                     )}
                   >
                     <div
-                      className="bg-muted-foreground/10 text-muted-foreground flex h-7 w-7
-                        shrink-0 items-center justify-center rounded-full text-xs
-                        font-medium"
+                      className="bg-second dark:bg-second-800 text-second-foreground
+                        text-md flex h-7 w-7 shrink-0 items-center justify-center
+                        rounded-full font-medium"
                       aria-hidden
                     >
                       {idx + 1}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-foreground text-sm">{o.title}</p>
+                      <p className="text-foreground text-base">{o.title}</p>
                       <p
-                        className="text-muted-foreground/80 mt-0.5 flex items-center
-                          justify-between font-mono text-xs"
+                        className="mt-0.5 flex items-center justify-between font-mono
+                          text-sm opacity-90"
                       >
                         <span>{chapterLabel}</span>
                         {(() => {
@@ -186,7 +188,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                           return (
                             <Link
                               href={buildReadChapterHref(startChapter)}
-                              className="text-second-600 hover:text-second-800 text-xs font-medium underline underline-offset-4"
+                              className="text-second-800 dark:text-second-200 hover:text-second-800 text-xs font-medium underline underline-offset-4"
                             >
                               {normalizedLang === "vi"
                                 ? "Đọc trong Kinh Thánh"
@@ -208,7 +210,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
             <h2 className="text-foreground mb-4 font-serif text-xl font-semibold">
               Key Verses
             </h2>
-            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {data.keyVerses.map((v) => (
                 <div
                   key={v.ref}
@@ -216,7 +218,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                     transition-shadow hover:shadow-md"
                 >
                   <div className="mb-2 flex items-start justify-between gap-3">
-                    <p className="text-foreground flex-1 text-sm italic">
+                    <p className="text-foreground flex-1 text-base italic">
                       &quot;{v.text}&quot;
                     </p>
                     {(() => {
@@ -224,7 +226,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                       const loc = getKeyVerseLocation(v);
                       if (!loc) {
                         return (
-                          <span className="bg-primary/10 text-primary inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium">
+                          <span className="bg-primary/10 text-primary inline-flex items-center gap-1 rounded-full px-2 py-1 text-sm font-medium">
                             <BookOpen className="h-3 w-3" />
                             {label}
                           </span>
@@ -238,8 +240,10 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                           chapter={loc.chapter}
                           verse={loc.verse}
                           testament={testament}
+                          linkOnly
                           triggerClassName="inline-flex items-center gap-1 rounded-full
-                            bg-primary/10 px-2 py-1 text-xs font-medium text-primary-700"
+                            bg-primary-100  px-2 py-1 text-sm font-medium text-slate-900
+                            hover:text-primary/90"
                         >
                           <BookOpen className="h-3 w-3" />
                           {label}

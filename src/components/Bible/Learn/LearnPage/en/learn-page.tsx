@@ -81,6 +81,7 @@ export function EnLearnPage({ verseHref }: { verseHref: string }) {
             readLabel="Read"
             href={`/bible/en/learn/${SEGMENTS[i]}`}
             ariaLabel={`${m.title}, ${m.min} min read`}
+            segmentKey={SEGMENTS[i]}
           />
         ))}
       </div>

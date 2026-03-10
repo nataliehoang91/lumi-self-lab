@@ -19,6 +19,8 @@ export interface BibleVerseLinkProps {
   readLabel?: string;
   /** Optional extra class for the trigger (e.g. smaller text: subBodyClass or "text-sm"). */
   triggerClassName?: string;
+  /** When true, render as a direct link (no popover). */
+  linkOnly?: boolean;
   children: React.ReactNode;
 }
 
@@ -54,6 +56,7 @@ export function BibleVerseLink({
   previewText,
   readLabel,
   triggerClassName,
+  linkOnly,
   children,
 }: BibleVerseLinkProps) {
   if (!bookId) {
@@ -81,6 +84,14 @@ export function BibleVerseLink({
     "transition-colors hover:text-primary/90 hover:decoration-primary/90 " +
     "focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2 rounded " +
     (triggerClassName ?? "");
+
+  if (linkOnly) {
+    return (
+      <Link href={href} className={triggerClass}>
+        {children}
+      </Link>
+    );
+  }
 
   return (
     <Popover>

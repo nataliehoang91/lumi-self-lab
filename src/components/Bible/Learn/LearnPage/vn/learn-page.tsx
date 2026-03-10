@@ -82,6 +82,7 @@ export function VnLearnPage({ verseHref }: { verseHref: string }) {
             readLabel="Đọc"
             href={`/bible/vi/learn/${SEGMENTS[i]}`}
             ariaLabel={`${m.title}, ${m.min} phút đọc`}
+            segmentKey={SEGMENTS[i]}
           />
         ))}
       </div>

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode } from "react";
-import { ChevronRight } from "lucide-react";
+import { type ReactNode, useState } from "react";
+import { BadgeCheck, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
@@ -17,6 +17,8 @@ export interface LearnPageModuleCardProps {
   ariaLabel: string;
   /** When "vi", use Vietnamese flashcard font for title, desc, labels. */
   locale?: "en" | "vi";
+  /** Stable key for this module (e.g. 'bible-structure'). */
+  segmentKey: string;
 }
 
 export function LearnPageModuleCard({
@@ -29,9 +31,34 @@ export function LearnPageModuleCard({
   href,
   ariaLabel,
   locale,
+  segmentKey,
 }: LearnPageModuleCardProps) {
   const { bodyClass, bodyTitleClass, subBodyClass, buttonClass } = useBibleFontClasses();
   const contentFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const [isRead, setIsRead] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const key = `learn-module-read:${locale === "vi" ? "vi" : "en"}:${segmentKey}`;
+      return window.localStorage.getItem(key) === "1";
+    } catch {
+      return false;
+    }
+  });
+
+  const storageKey =
+    typeof window === "undefined"
+      ? null
+      : `learn-module-read:${locale === "vi" ? "vi" : "en"}:${segmentKey}`;
+
+  const handleClick = () => {
+    if (!storageKey) return;
+    try {
+      window.localStorage.setItem(storageKey, "1");
+      setIsRead(true);
+    } catch {
+      // ignore
+    }
+  };
 
   return (
     <Link
@@ -40,9 +67,16 @@ export function LearnPageModuleCard({
         flex-col rounded-2xl border px-6 py-4 transition-all hover:shadow-sm
         focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
       aria-label={ariaLabel}
+      onClick={handleClick}
     >
       <div className="flex items-start gap-6">
-        <span className={cn("text-second w-6 pt-0.5 font-mono font-semibold", bodyClass, contentFont)}>
+        <span
+          className={cn(
+            "text-second w-6 pt-0.5 font-mono font-semibold",
+            bodyClass,
+            contentFont
+          )}
+        >
           {num}
         </span>
         <div className="min-w-0 flex-1">
@@ -55,11 +89,19 @@ export function LearnPageModuleCard({
           >
             {title}
           </p>
-          <p className={cn("mt-2 max-w-prose leading-relaxed", bodyClass, contentFont)}>{desc}</p>
+          <p className={cn("mt-2 max-w-prose leading-relaxed", bodyClass, contentFont)}>
+            {desc}
+          </p>
         </div>
       </div>
       <div className="mt-4 flex justify-between">
-        <p className={cn("text-muted-foreground pl-12 font-light", subBodyClass, contentFont)}>
+        <p
+          className={cn(
+            "text-muted-foreground pl-12 font-light",
+            subBodyClass,
+            contentFont
+          )}
+        >
           {min} {minLabel}
         </p>
         <span
@@ -71,6 +113,7 @@ export function LearnPageModuleCard({
             contentFont
           )}
         >
+          {isRead && <BadgeCheck className="h-4 w-4" aria-hidden />}
           {readLabel}
           <ChevronRight
             className="h-5 w-5 shrink-0 transition-transform duration-200

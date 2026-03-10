@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { BadgeCheck, ChevronRight } from "lucide-react";
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import {
@@ -44,9 +45,18 @@ interface BookCardProps {
   segment: string;
   subBodyClassUp: string;
   hoverBorderClass?: string;
+  isRead?: boolean;
+  readLabel?: string;
 }
 
-function BookCard({ book, segment, subBodyClassUp, hoverBorderClass }: BookCardProps) {
+function BookCard({
+  book,
+  segment,
+  subBodyClassUp,
+  hoverBorderClass,
+  isRead,
+  readLabel,
+}: BookCardProps) {
   const name = segment === "vi" ? book.nameVi : book.nameEn;
   const chapterLabel =
     segment === "vi" ? "chương" : book.chapterCount === 1 ? "chapter" : "chapters";
@@ -73,10 +83,21 @@ function BookCard({ book, segment, subBodyClassUp, hoverBorderClass }: BookCardP
             </p>
           </div>
         </div>
-        <ChevronRight
-          className="group-hover:text-second-700 size-5 shrink-0 opacity-50 transition-all
-            group-hover:translate-x-0.5 group-hover:opacity-100"
-        />
+        <div className="flex items-center gap-2">
+          {isRead && (
+            <span
+              className="text-foreground bg-primary-100 inline-flex items-center gap-1
+                rounded-full px-2 py-0.5 text-xs font-medium"
+            >
+              <BadgeCheck className="h-3 w-3" />
+              {readLabel}
+            </span>
+          )}
+          <ChevronRight
+            className="group-hover:text-second-700 size-5 shrink-0 opacity-50
+              transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
+          />
+        </div>
       </div>
     </Link>
   );
@@ -98,6 +119,18 @@ export function BookOverviewsPageContent({
   const { bodyClass, h1Class, subBodyClassUp, statValueClassDown } =
     useBibleFontClasses();
   const isVi = segment === "vi";
+  const readMap = useMemo(() => {
+    if (typeof window === "undefined") return {};
+    const all = [...otBooks, ...ntBooks];
+    const map: Record<string, boolean> = {};
+    for (const b of all) {
+      const key = `book-overview-read:${isVi ? "vi" : "en"}:${b.slugEn.toLowerCase()}`;
+      if (window.localStorage.getItem(key) === "1") {
+        map[b.slugEn] = true;
+      }
+    }
+    return map;
+  }, [isVi, otBooks, ntBooks]);
 
   const otSectionGroups = chunkBooksBySections(
     otBooks,
@@ -267,6 +300,8 @@ export function BookOverviewsPageContent({
                               segment={segment}
                               subBodyClassUp={subBodyClassUp}
                               hoverBorderClass="hover:border-second"
+                              isRead={readMap[left.slugEn]}
+                              readLabel={isVi ? "Đã đọc" : "Read"}
                             />
                             {right && (
                               <BookCard
@@ -274,6 +309,8 @@ export function BookOverviewsPageContent({
                                 segment={segment}
                                 subBodyClassUp={subBodyClassUp}
                                 hoverBorderClass="hover:border-second"
+                                isRead={readMap[right.slugEn]}
+                                readLabel={isVi ? "Đã đọc" : "Read"}
                               />
                             )}
                           </div>
@@ -388,12 +425,16 @@ export function BookOverviewsPageContent({
                               book={left}
                               segment={segment}
                               subBodyClassUp={subBodyClassUp}
+                              isRead={readMap[left.slugEn]}
+                              readLabel={isVi ? "Đã đọc" : "Read"}
                             />
                             {right && (
                               <BookCard
                                 book={right}
                                 segment={segment}
                                 subBodyClassUp={subBodyClassUp}
+                                isRead={readMap[right.slugEn]}
+                                readLabel={isVi ? "Đã đọc" : "Read"}
                               />
                             )}
                           </div>

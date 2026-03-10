@@ -134,7 +134,7 @@ export const SingleLoader = ({ size = "md" }: { size?: "sm" | "md" | "lg" }) => 
 );
 
 export function SimpleLoader() {
-  return <Loader size="md" variant="dots" fullHeight text="Loading..." />;
+  return <Loader size="lg" variant="dots" fullHeight text="Loading..." />;
 }
 
 // Alias used by existing code in SyncedRead
