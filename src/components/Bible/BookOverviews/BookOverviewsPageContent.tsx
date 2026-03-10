@@ -49,11 +49,7 @@ interface BookCardProps {
 function BookCard({ book, segment, subBodyClassUp, hoverBorderClass }: BookCardProps) {
   const name = segment === "vi" ? book.nameVi : book.nameEn;
   const chapterLabel =
-    segment === "vi"
-      ? "chương"
-      : book.chapterCount === 1
-        ? "chapter"
-        : "chapters";
+    segment === "vi" ? "chương" : book.chapterCount === 1 ? "chapter" : "chapters";
 
   return (
     <Link
@@ -174,8 +170,8 @@ export function BookOverviewsPageContent({
             className={cn(
               `border-primary bg-card rounded-lg border-l-4 px-4 font-serif font-semibold
               hover:no-underline data-[state=open]:border-l-0
-              data-[state=open]:bg-transparent data-[state=open]:font-extrabold
-              [&[data-state=open]>svg]:rotate-180`,
+              data-[state=open]:bg-transparent data-[state=open]:pl-0
+              data-[state=open]:font-extrabold [&[data-state=open]>svg]:rotate-180`,
               bodyClass
             )}
           >
@@ -296,8 +292,8 @@ export function BookOverviewsPageContent({
             className={cn(
               `border-primary bg-card rounded-lg border-l-4 px-4 font-serif font-semibold
               hover:no-underline data-[state=open]:border-l-0
-              data-[state=open]:bg-transparent data-[state=open]:font-extrabold
-              [&[data-state=open]>svg]:rotate-180`,
+              data-[state=open]:bg-transparent data-[state=open]:pl-0
+              data-[state=open]:font-extrabold [&[data-state=open]>svg]:rotate-180`,
               bodyClass
             )}
           >
