@@ -11,6 +11,72 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import type { BookForToc } from "@/app/actions/bible/book-overview";
+import { OT_SECTIONS, NT_SECTIONS } from "./bookOverviewSections";
+
+type BookWithSlug = BookForToc & { slugEn: string };
+
+/** Split books into chunks by section book counts (e.g. [5, 12, 5, 17] for OT). */
+function chunkBooksBySections(books: BookWithSlug[], counts: number[]): BookWithSlug[][] {
+  const result: BookWithSlug[][] = [];
+  let offset = 0;
+  for (const count of counts) {
+    result.push(books.slice(offset, offset + count));
+    offset += count;
+  }
+  return result;
+}
+
+/** Arrange books into visual rows so that numbers run 1,2,3… down the first column, then continue in the second. */
+function toTwoColumnRows(items: BookWithSlug[]): [BookWithSlug, BookWithSlug | null][] {
+  const midpoint = Math.ceil(items.length / 2);
+  const left = items.slice(0, midpoint);
+  const right = items.slice(midpoint);
+
+  return left.map((item, index) => [item, right[index] ?? null]);
+}
+
+function slugifySection(prefix: "ot" | "nt", title: string): string {
+  return `${prefix}-${title.toLowerCase().replace(/\s+/g, "-")}`;
+}
+
+interface BookCardProps {
+  book: BookWithSlug;
+  segment: string;
+  subBodyClassUp: string;
+  hoverBorderClass?: string;
+}
+
+function BookCard({ book, segment, subBodyClassUp, hoverBorderClass }: BookCardProps) {
+  const name = segment === "vi" ? book.nameVi : book.nameEn;
+
+  return (
+    <Link
+      key={book.slugEn}
+      href={`/bible/${segment}/book-overviews/${book.slugEn}`}
+      className={cn(
+        `group border-border/50 bg-card hover:bg-card/80 rounded-lg border p-4
+        transition-all`,
+        hoverBorderClass ?? "hover:border-second-700/50"
+      )}
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex items-baseline gap-2">
+          <span className="text-sm font-normal">{book.order}.</span>
+          <div className="flex flex-col gap-1">
+            <span className={cn("text-foreground font-bold", subBodyClassUp)}>
+              {name}
+            </span>
+            <p className={cn("", subBodyClassUp)}>{book.chapterCount} chapters</p>
+          </div>
+        </div>
+        <ChevronRight
+          className="group-hover:text-second-700 size-5 shrink-0 opacity-50 transition-all
+            group-hover:translate-x-0.5 group-hover:opacity-100"
+        />
+      </div>
+    </Link>
+  );
+}
 
 interface BookOverviewsPageContentProps {
   segment: string;
@@ -28,13 +94,22 @@ export function BookOverviewsPageContent({
   const { bodyClass, h1Class, subBodyClassUp, statValueClassDown } =
     useBibleFontClasses();
 
+  const otSectionGroups = chunkBooksBySections(
+    otBooks,
+    OT_SECTIONS.map((s) => s.bookCount)
+  );
+  const ntSectionGroups = chunkBooksBySections(
+    ntBooks,
+    NT_SECTIONS.map((s) => s.bookCount)
+  );
+
   return (
     <>
       {/* Header */}
-      <div className="mb-12">
+      <div className="mb-12 space-y-5">
         <p
           className={cn(
-            "text-muted-foreground mb-3 font-semibold tracking-[0.2em] uppercase",
+            "text-muted-foreground font-semibold tracking-[0.2em] uppercase",
             subBodyClassUp
           )}
         >
@@ -48,7 +123,7 @@ export function BookOverviewsPageContent({
         >
           The 66 Books of the Bible
         </h1>
-        <p className={cn("text-muted-foreground mt-4 leading-relaxed", bodyClass)}>
+        <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
           Explore each book with detailed overviews, themes, key verses, and connections
           to Christ.
         </p>
@@ -79,14 +154,14 @@ export function BookOverviewsPageContent({
       </div>
 
       {/* Collapsible: Old Testament & New Testament */}
-      <Accordion type="multiple" defaultValue={["ot", "nt"]} className="mb-16 space-y-6">
+      <Accordion type="multiple" defaultValue={["ot", "nt"]} className="my-6 space-y-8">
         <AccordionItem value="ot" className="rounded-lg border-0 bg-transparent px-0">
           <AccordionTrigger
             className={cn(
-              `border-primary bg-card data-[state=open]:text-primary-600 rounded-lg
-              border-l-4 px-4 font-serif font-semibold hover:no-underline
-              data-[state=open]:border-l-0 data-[state=open]:bg-transparent
-              data-[state=open]:font-extrabold [&[data-state=open]>svg]:rotate-180`,
+              `border-primary bg-card rounded-lg border-l-4 px-4 font-serif font-semibold
+              hover:no-underline data-[state=open]:border-l-0
+              data-[state=open]:bg-transparent data-[state=open]:font-extrabold
+              [&[data-state=open]>svg]:rotate-180`,
               bodyClass
             )}
           >
@@ -97,53 +172,107 @@ export function BookOverviewsPageContent({
               </span>
             </span>
           </AccordionTrigger>
-          <AccordionContent className="bg-transparent px-0 pt-4 pb-4">
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              {otBooks.map((book) => {
-                const name = segment === "vi" ? book.nameVi : book.nameEn;
+          <AccordionContent className="bg-transparent px-0 py-0">
+            <p
+              className={cn("text-muted-foreground mb-4 leading-relaxed", subBodyClassUp)}
+            >
+              Written primarily in Hebrew (with portions in Aramaic), the Old Testament
+              records Israel&apos;s history, law, poetry, and prophetic writings. It
+              begins with creation and traces the unfolding relationship between God and
+              His people, including the long-standing promise of a coming Messiah.
+            </p>
+            <Accordion
+              type="multiple"
+              className="py-0"
+              defaultValue={OT_SECTIONS.map((s) => slugifySection("ot", s.title))}
+            >
+              {otSectionGroups.map((sectionBooks, idx) => {
+                const section = OT_SECTIONS[idx];
+                if (!section || sectionBooks.length === 0) return null;
+                const value = slugifySection("ot", section.title);
                 return (
-                  <Link
-                    key={book.slugEn}
-                    href={`/bible/${segment}/book-overviews/${book.slugEn}`}
-                    className="group border-border/50 bg-card hover:border-second
-                      hover:bg-card/80 rounded-lg border p-4 transition-all"
+                  <AccordionItem
+                    key={section.title}
+                    value={value}
+                    className="border-0 bg-transparent px-0 py-0"
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-baseline gap-2">
-                        <p
-                          className={cn(
-                            "font-medium transition-colors group-hover:font-bold",
-                            bodyClass
-                          )}
-                        >
-                          <span className="text-second-600 font-mono">
-                            {book.order}.
-                          </span>{" "}
-                        </p>
-                        <div className="flex flex-col justify-start gap-1">
-                          <p
-                            className={cn(
-                              "font-medium transition-colors group-hover:font-bold",
-                              bodyClass
-                            )}
+                    <AccordionTrigger
+                      className={cn(
+                        "group px-0 hover:no-underline [&>svg]:hidden",
+                        "[&[data-state=open]>div]:bg-second-50/50 py-2",
+                        bodyClass
+                      )}
+                    >
+                      <div
+                        className="border-border/50 bg-card flex w-full items-center
+                          justify-between gap-4 rounded-xl border p-4 text-left
+                          transition-colors"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div
+                            className="bg-second/30 flex h-14 w-14 shrink-0 flex-col
+                              items-center justify-center rounded-full font-mono text-xs
+                              leading-tight font-semibold"
                           >
-                            <span className="text-foreground font-semibold">{name}</span>
-                          </p>
-                          <p className={cn("", subBodyClassUp)}>
-                            {book.chapterCount} chapters
-                          </p>
+                            <span className="font-mono">{section.bookCount}</span>
+                            <span className="opacity-80">
+                              {section.bookCount === 1 ? "book" : "books"}
+                            </span>
+                          </div>
+                          <div className="min-w-0">
+                            <p className={cn("font-semibold", subBodyClassUp)}>
+                              {section.title}
+                            </p>
+                            <p className={cn("mt-0.5 leading-relaxed", subBodyClassUp)}>
+                              {section.description}
+                            </p>
+                          </div>
                         </div>
+                        <span
+                          className="text-muted-foreground/80 font-mono text-xl
+                            leading-none group-data-[state=open]:hidden"
+                          aria-hidden="true"
+                        >
+                          +
+                        </span>
+                        <span
+                          className="text-muted-foreground/80 hidden font-mono text-xl
+                            leading-none group-data-[state=open]:inline"
+                          aria-hidden="true"
+                        >
+                          -
+                        </span>
                       </div>
-                      <ChevronRight
-                        className="group-hover:text-second-700 size-5 shrink-0 opacity-50
-                          transition-all group-hover:translate-x-0.5
-                          group-hover:opacity-100"
-                      />
-                    </div>
-                  </Link>
+                    </AccordionTrigger>
+                    <AccordionContent className="bg-transparent px-0 pt-1.5 pb-1">
+                      <div className="space-y-1">
+                        {toTwoColumnRows(sectionBooks).map(([left, right], rowIndex) => (
+                          <div
+                            key={`${section.title}-row-${rowIndex}`}
+                            className="grid grid-cols-1 gap-x-3 gap-y-2 md:grid-cols-2"
+                          >
+                            <BookCard
+                              book={left}
+                              segment={segment}
+                              subBodyClassUp={subBodyClassUp}
+                              hoverBorderClass="hover:border-second"
+                            />
+                            {right && (
+                              <BookCard
+                                book={right}
+                                segment={segment}
+                                subBodyClassUp={subBodyClassUp}
+                                hoverBorderClass="hover:border-second"
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
                 );
               })}
-            </div>
+            </Accordion>
           </AccordionContent>
         </AccordionItem>
 
@@ -165,52 +294,104 @@ export function BookOverviewsPageContent({
             </span>
           </AccordionTrigger>
           <AccordionContent className="bg-transparent px-0 pt-4 pb-4">
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              {ntBooks.map((book) => {
-                const name = segment === "vi" ? book.nameVi : book.nameEn;
+            <p
+              className={cn("text-muted-foreground mb-6 leading-relaxed", subBodyClassUp)}
+            >
+              Written in Koine Greek, the New Testament begins with four Gospel accounts
+              of Jesus&apos; life, ministry, death, and resurrection. It continues with
+              the growth of the early church and concludes with a vision of history&apos;s
+              ultimate restoration in Christ.
+            </p>
+            <Accordion
+              type="multiple"
+              defaultValue={NT_SECTIONS.map((s) => slugifySection("nt", s.title))}
+              className="space-y-1"
+            >
+              {ntSectionGroups.map((sectionBooks, idx) => {
+                const section = NT_SECTIONS[idx];
+                if (!section || sectionBooks.length === 0) return null;
+                const value = slugifySection("nt", section.title);
                 return (
-                  <Link
-                    key={book.slugEn}
-                    href={`/bible/${segment}/book-overviews/${book.slugEn}`}
-                    className="group border-border/50 bg-card hover:border-second-700/50
-                      hover:bg-card/80 rounded-lg border p-4 transition-all"
+                  <AccordionItem
+                    key={section.title}
+                    value={value}
+                    className="border-0 bg-transparent px-0 py-0"
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-baseline gap-2">
-                        <p
-                          className={cn(
-                            "font-medium transition-colors group-hover:font-bold",
-                            bodyClass
-                          )}
-                        >
-                          <span className="text-second-600 font-mono">
-                            {book.order}.
-                          </span>{" "}
-                        </p>
-                        <div className="flex flex-col justify-start gap-1">
-                          <p
-                            className={cn(
-                              "font-medium transition-colors group-hover:font-bold",
-                              bodyClass
-                            )}
+                    <AccordionTrigger
+                      className={cn(
+                        "group px-0 hover:no-underline [&>svg]:hidden",
+                        "[&[data-state=open]>div]:bg-second-50/50 py-2",
+                        bodyClass
+                      )}
+                    >
+                      <div
+                        className="border-border/50 bg-card flex w-full items-center
+                          justify-between gap-4 rounded-xl border p-4 text-left
+                          transition-colors"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div
+                            className="bg-second/30 flex h-14 w-14 shrink-0 flex-col
+                              items-center justify-center rounded-full font-mono text-xs
+                              leading-tight font-semibold"
                           >
-                            <span className="text-foreground font-semibold">{name}</span>
-                          </p>
-                          <p className={cn("", subBodyClassUp)}>
-                            {book.chapterCount} chapters
-                          </p>
+                            <span className="font-mono">{section.bookCount}</span>
+                            <span className="opacity-80">
+                              {section.bookCount === 1 ? "book" : "books"}
+                            </span>
+                          </div>
+                          <div className="min-w-0">
+                            <p className={cn("font-semibold", subBodyClassUp)}>
+                              {section.title}
+                            </p>
+                            <p className={cn("mt-0.5 leading-relaxed", subBodyClassUp)}>
+                              {section.description}
+                            </p>
+                          </div>
                         </div>
+                        <span
+                          className="text-muted-foreground/80 font-mono text-xl
+                            leading-none group-data-[state=open]:hidden"
+                          aria-hidden="true"
+                        >
+                          +
+                        </span>
+                        <span
+                          className="text-muted-foreground/80 hidden font-mono text-xl
+                            leading-none group-data-[state=open]:inline"
+                          aria-hidden="true"
+                        >
+                          -
+                        </span>
                       </div>
-                      <ChevronRight
-                        className="group-hover:text-second-700 size-5 shrink-0 opacity-50
-                          transition-all group-hover:translate-x-0.5
-                          group-hover:opacity-100"
-                      />
-                    </div>
-                  </Link>
+                    </AccordionTrigger>
+                    <AccordionContent className="bg-transparent px-0 pt-1.5 pb-1">
+                      <div className="space-y-6">
+                        {toTwoColumnRows(sectionBooks).map(([left, right], rowIndex) => (
+                          <div
+                            key={`${section.title}-row-${rowIndex}`}
+                            className="grid grid-cols-1 gap-x-3 gap-y-2 md:grid-cols-2"
+                          >
+                            <BookCard
+                              book={left}
+                              segment={segment}
+                              subBodyClassUp={subBodyClassUp}
+                            />
+                            {right && (
+                              <BookCard
+                                book={right}
+                                segment={segment}
+                                subBodyClassUp={subBodyClassUp}
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
                 );
               })}
-            </div>
+            </Accordion>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

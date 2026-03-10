@@ -2,11 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { BookOverviewsFooter } from "@/components/Bible/BookOverviews/BookOverviewsFooter";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
+import { GeneralErrorFallback } from "@/components/GeneralErrorFallback";
+import { SimpleLoader } from "@/components/Bible/GeneralComponents/simple-loader";
 
 /** Format slug for breadcrumb: "1-corinthians" → "1 Corinthians" */
 function slugToTitle(slug: string): string {
@@ -18,7 +22,7 @@ function slugToTitle(slug: string): string {
 
 export default function BookOverviewsLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { bodyClass } = useBibleFontClasses();
+  const { subBodyClass } = useBibleFontClasses();
   const parts = pathname?.split("/") ?? [];
   const lang = parts[2] === "vi" ? "vi" : "en";
   const isBookPage =
@@ -36,7 +40,7 @@ export default function BookOverviewsLayout({ children }: { children: React.Reac
           <div
             className={cn(
               "text-muted-foreground mb-8 flex items-center gap-2",
-              bodyClass,
+              subBodyClass,
               lang === "vi" && "font-vietnamese-flashcard"
             )}
           >
@@ -65,7 +69,17 @@ export default function BookOverviewsLayout({ children }: { children: React.Reac
             )}
           </div>
 
-          {children}
+          <ErrorBoundary
+            fallbackRender={(props) => (
+              <GeneralErrorFallback
+                {...props}
+                defaultDescription="We couldn't load Books & Overview. Please try again or go back to the Bible page."
+                homeUrl="/bible"
+              />
+            )}
+          >
+            <Suspense fallback={<SimpleLoader />}>{children}</Suspense>
+          </ErrorBoundary>
 
           <div className="my-10" />
           <BookOverviewsFooter />
