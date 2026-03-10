@@ -116,6 +116,13 @@ export function BookOverviewsFooter() {
       ? (lang === "vi" ? `Đọc tổng quan ${nextBookName}` : `Read ${nextBookName} overview`)
       : null;
 
+  const prevBookName =
+    currentIndex > 0 && currentIndex - 1 < BOOK_NAMES_EN.length
+      ? lang === "vi"
+        ? BOOK_NAMES_VI[currentIndex - 1]
+        : BOOK_NAMES_EN[currentIndex - 1]
+      : null;
+
   return (
     <div
       className={cn(
@@ -131,15 +138,22 @@ export function BookOverviewsFooter() {
             "text-foreground hover:text-foreground flex items-center gap-1.5 transition-colors",
             bodyClass
           )}
-        >
+          >
           <ArrowLeft className="h-3.5 w-3.5 shrink-0" />
           {currentIndex > 0 ? (
             <>
-              {intl.t("learnStructurePrevious")}: <span className="font-semibold">Previous book</span>
+              {intl.t("learnStructurePrevious")}:{" "}
+              <span className="font-semibold">
+                {prevBookName ??
+                  (lang === "vi" ? "Sách & Giới thiệu" : "Books & Overview")}
+              </span>
             </>
           ) : (
             <>
-              {intl.t("learnStructurePrevious")}: <span className="font-semibold">Books & Overview</span>
+              {intl.t("learnStructurePrevious")}:{" "}
+              <span className="font-semibold">
+                {lang === "vi" ? "Sách & Giới thiệu" : "Books & Overview"}
+              </span>
             </>
           )}
         </Link>

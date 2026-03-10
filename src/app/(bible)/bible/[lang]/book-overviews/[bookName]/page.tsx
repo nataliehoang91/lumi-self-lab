@@ -65,12 +65,24 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
   const testament: "ot" | "nt" = data.order <= 39 ? "ot" : "nt";
   const langSegment: "en" | "vi" = normalizedLang === "vi" ? "vi" : "en";
   const defaultVersion: "vi" | "niv" | undefined = langSegment === "vi" ? "vi" : "niv";
-  const meta = [
-    { l: "Author", v: data.author ?? "—" },
-    { l: "Written", v: data.date ?? "—" },
-    { l: "Chapters", v: String(chapters) },
-    { l: "Audience", v: data.audience ?? "—" },
-  ];
+  const hasOverviewContent =
+    (data.outline?.length ?? 0) > 0 ||
+    (data.keyVerses?.length ?? 0) > 0 ||
+    !!data.christConnection;
+  const meta =
+    langSegment === "vi"
+      ? [
+          { l: "Tác giả", v: data.author ?? "—" },
+          { l: "Thời gian biên soạn", v: data.date ?? "—" },
+          { l: "Số chương", v: String(chapters) },
+          { l: "Đối tượng độc giả", v: data.audience ?? "—" },
+        ]
+      : [
+          { l: "Author", v: data.author ?? "—" },
+          { l: "Written", v: data.date ?? "—" },
+          { l: "Chapters", v: String(chapters) },
+          { l: "Audience", v: data.audience ?? "—" },
+        ];
   const buildReadChapterHref = (chapter: number) => {
     const sp = new URLSearchParams();
     if (defaultVersion) sp.set("version1", defaultVersion);
@@ -106,7 +118,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
             className="text-muted-foreground mb-3 text-xs font-semibold tracking-[0.2em]
               uppercase"
           >
-            Book Overview
+            {langSegment === "vi" ? "TỔNG QUAN SÁCH" : "BOOK OVERVIEW"}
           </p>
           <h1
             className="text-foreground font-serif text-4xl leading-tight font-semibold
@@ -130,7 +142,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
         {data.themes.length > 0 && (
           <section className="mb-10 w-full">
             <h2 className="text-foreground mb-4 font-serif text-xl font-semibold">
-              Main Themes
+              {langSegment === "vi" ? "Các chủ đề chính" : "Main Themes"}
             </h2>
             <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-2">
               {data.themes.map((t) => (
@@ -149,7 +161,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
         {data.outline.length > 0 && (
           <section className="mb-10">
             <h2 className="text-foreground mb-4 font-serif text-xl font-semibold">
-              Chapter Outline
+              {langSegment === "vi" ? "Dàn ý các chương" : "Chapter Outline"}
             </h2>
             <div
               className="mx-auto grid grid-cols-1 space-y-3 gap-x-3 gap-y-2
@@ -221,7 +233,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
         {data.keyVerses.length > 0 && (
           <section className="mb-10">
             <h2 className="text-foreground mb-4 font-serif text-xl font-semibold">
-              Key Verses
+              {langSegment === "vi" ? "Các câu Kinh Thánh trọng tâm" : "Key Verses"}
             </h2>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {data.keyVerses.map((v) => (
@@ -278,6 +290,14 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
             readHref={readHref}
             bookDisplayName={displayName}
           />
+        )}
+
+        {!hasOverviewContent && (
+          <div className="mt-8 text-center text-sm text-muted-foreground">
+            {langSegment === "vi"
+              ? "Tổng quan cho sách này đang được cập nhật."
+              : "This book overview is being updated."}
+          </div>
         )}
       </Container>
     </main>
