@@ -82,6 +82,7 @@ function getJourneyVn(base: string): JourneyItem[] {
       body: "Hiểu Kinh thánh là gì, Chúa Giê-xu là ai và đức tin nghĩa là gì.",
       links: [
         { label: "Cấu trúc Kinh thánh", href: `${base}/learn/bible-structure` },
+        { label: "Tổng quan sách", href: `${base}/book-overviews` },
         { label: "Nguồn gốc Kinh thánh", href: `${base}/learn/bible-origin` },
         { label: "Chúa Giê-xu là ai", href: `${base}/learn/who-is-jesus` },
         { label: "Đức tin là gì", href: `${base}/learn/what-is-faith` },

@@ -159,7 +159,6 @@ export function BibleNavBar() {
       href: `/bible/${langSegment}/book-overviews`,
       label: intl.t("navBookOverviews"),
       isActive: pathname?.includes("/book-overviews") ?? false,
-      comingSoon: true,
     },
     {
       href: `/bible/${langSegment}/topics`,

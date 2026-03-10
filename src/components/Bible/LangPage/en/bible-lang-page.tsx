@@ -71,6 +71,7 @@ function getJourneyEn(base: string): JourneyItem[] {
       body: "Explore what the Bible is, who Jesus is, and what faith means — before you start reading.",
       links: [
         { label: "Bible Structure", href: `${base}/learn/bible-structure` },
+        { label: "Book Overviews", href: `${base}/book-overviews` },
         { label: "Bible Origin", href: `${base}/learn/bible-origin` },
         { label: "Who is Jesus?", href: `${base}/learn/who-is-jesus` },
         { label: "What is Faith?", href: `${base}/learn/what-is-faith` },
