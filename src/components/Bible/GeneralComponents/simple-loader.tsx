@@ -37,7 +37,7 @@ export function Loader({
 
   const containerClass = cn(
     "flex flex-col items-center justify-center gap-3",
-    fullHeight && "min-h-[calc(100vh-24rem)]",
+    fullHeight && "min-h-[calc(100vh-5rem)]",
     className
   );
 
