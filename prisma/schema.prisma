@@ -368,17 +368,43 @@ model BibleBook {
   nameEn       String   // e.g. "John", "1 Corinthians"
   nameVi       String   // e.g. "Giăng", "1 Cô-rinh-tô"
   nameZh       String?  // e.g. "約翰福音", "創世記" (CUV)
+  slugEn       String?  @unique // URL segment for book-overviews: "genesis", "1-corinthians"
   order        Int      // 1–66 (canonical order)
   chapterCount Int      // 1–150 (for chapter dropdown)
 
-  chapters     BibleChapter[]
-  verses       FlashVerse[]
-  verseContent BibleVerseContent[]
-  insights     BibleInsight[]
-  searchKeys   BibleBookSearchKey[]
+  chapters       BibleChapter[]
+  verses         FlashVerse[]
+  verseContent   BibleVerseContent[]
+  insights       BibleInsight[]
+  searchKeys     BibleBookSearchKey[]
+  bookOverviews  BibleBookOverview[]
 
   @@unique([order])
   @@index([order])
+  @@index([slugEn])
+}
+
+// Book overview content per language (en | vi). One row per book per lang.
+model BibleBookOverview {
+  id               String   @id @default(cuid())
+  bookId           String
+  book             BibleBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  language         String   // "en" | "vi"
+
+  author           String?
+  date             String?  // e.g. "1440–1400 BC", "c. 85–90 AD"
+  audience         String?
+  themes           String[] @default([]) // e.g. ["Creation", "Covenant"]
+  christConnection String?  @db.Text
+  keyVerses        Json?    // [{ ref: "1:1", text: "...", chapter?: number, verse?: number }]
+  outline          Json?    // [{ chapter: "1–2", title: "Creation" }, ...]
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([bookId, language])
+  @@index([bookId])
+  @@index([language])
 }
 
 // Search keys for smart book search (EN/VI only). One row per key; one book has many keys.

@@ -1,5 +1,10 @@
 import type { PrismaClient } from "@prisma/client";
 
+/** URL slug from English name: "1 Corinthians" → "1-corinthians" */
+function slugFromNameEn(nameEn: string): string {
+  return nameEn.trim().toLowerCase().replace(/\s+/g, "-");
+}
+
 // 66 Protestant Bible books: EN, VI, ZH (CUV), order, chapter count
 const BOOKS: {
   nameEn: string;
@@ -331,19 +336,29 @@ const BOOKS: {
 export async function seedBibleBooks(prisma: PrismaClient) {
   const count = await prisma.bibleBook.count();
   if (count === 0) {
-    await prisma.bibleBook.createMany({ data: BOOKS });
+    const data = BOOKS.map((b) => ({
+      ...b,
+      slugEn: slugFromNameEn(b.nameEn),
+    }));
+    await prisma.bibleBook.createMany({ data });
     console.log(`Seeded ${BOOKS.length} Bible books.`);
     return;
   }
-  // Existing DB: ensure nameZh is set (e.g. after adding Chinese support)
+  // Existing DB: ensure nameZh and slugEn are set
   const books = await prisma.bibleBook.findMany({ orderBy: { order: "asc" } });
   for (let i = 0; i < books.length && i < BOOKS.length; i++) {
-    if (books[i]!.nameZh !== BOOKS[i]!.nameZh) {
+    const row = books[i]!;
+    const def = BOOKS[i]!;
+    const updates: { nameZh?: string; slugEn?: string } = {};
+    if (row.nameZh !== def.nameZh) updates.nameZh = def.nameZh;
+    const slug = slugFromNameEn(def.nameEn);
+    if (row.slugEn !== slug) updates.slugEn = slug;
+    if (Object.keys(updates).length > 0) {
       await prisma.bibleBook.update({
-        where: { id: books[i]!.id },
-        data: { nameZh: BOOKS[i]!.nameZh },
+        where: { id: row.id },
+        data: updates,
       });
     }
   }
-  console.log("BibleBook table already has data; nameZh synced.");
+  console.log("BibleBook table already has data; nameZh and slugEn synced.");
 }

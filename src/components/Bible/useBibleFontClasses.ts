@@ -94,6 +94,14 @@ export function useBibleFontClasses() {
         ? "text-5xl md:text-6xl"
         : "text-4xl md:text-5xl";
 
+  /** Stat value one size smaller. */
+  const statValueClassDown =
+    fontSize === "small"
+      ? "text-2xl md:text-3xl"
+      : fontSize === "large"
+        ? "text-4xl md:text-5xl"
+        : "text-3xl md:text-4xl";
+
   return {
     bodyClass,
     bodyClassUp,
@@ -107,5 +115,6 @@ export function useBibleFontClasses() {
     buttonClass,
     heroTitleClass,
     statValueClass,
+    statValueClassDown,
   };
 }
