@@ -48,6 +48,12 @@ interface BookCardProps {
 
 function BookCard({ book, segment, subBodyClassUp, hoverBorderClass }: BookCardProps) {
   const name = segment === "vi" ? book.nameVi : book.nameEn;
+  const chapterLabel =
+    segment === "vi"
+      ? "chương"
+      : book.chapterCount === 1
+        ? "chapter"
+        : "chapters";
 
   return (
     <Link
@@ -66,7 +72,9 @@ function BookCard({ book, segment, subBodyClassUp, hoverBorderClass }: BookCardP
             <span className={cn("text-foreground font-bold", subBodyClassUp)}>
               {name}
             </span>
-            <p className={cn("", subBodyClassUp)}>{book.chapterCount} chapters</p>
+            <p className={cn("", subBodyClassUp)}>
+              {book.chapterCount} {chapterLabel}
+            </p>
           </div>
         </div>
         <ChevronRight
@@ -93,6 +101,7 @@ export function BookOverviewsPageContent({
 }: BookOverviewsPageContentProps) {
   const { bodyClass, h1Class, subBodyClassUp, statValueClassDown } =
     useBibleFontClasses();
+  const isVi = segment === "vi";
 
   const otSectionGroups = chunkBooksBySections(
     otBooks,
@@ -113,7 +122,7 @@ export function BookOverviewsPageContent({
             subBodyClassUp
           )}
         >
-          Table of Contents
+          {isVi ? "Mục lục" : "Table of Contents"}
         </p>
         <h1
           className={cn(
@@ -121,11 +130,12 @@ export function BookOverviewsPageContent({
             h1Class
           )}
         >
-          The 66 Books of the Bible
+          {isVi ? "66 Sách trong Kinh Thánh" : "The 66 Books of the Bible"}
         </h1>
         <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
-          Explore each book with detailed overviews, themes, key verses, and connections
-          to Christ.
+          {isVi
+            ? "Khám phá từng sách với phần giới thiệu, chủ đề chính, câu gốc và cách mỗi sách trỏ về Đấng Christ."
+            : "Explore each book with detailed overviews, themes, key verses, and connections to Christ."}
         </p>
       </div>
 
@@ -135,20 +145,24 @@ export function BookOverviewsPageContent({
       >
         <div className="text-center">
           <p className={cn("text-foreground font-semibold", statValueClassDown)}>66</p>
-          <p className={cn("text-muted-foreground mt-1", subBodyClassUp)}>Total Books</p>
+          <p className={cn("text-muted-foreground mt-1", subBodyClassUp)}>
+            {isVi ? "Tổng số sách" : "Total Books"}
+          </p>
         </div>
         <div className="border-border/30 border-r border-l text-center">
           <p className={cn("text-foreground font-semibold", statValueClassDown)}>
             {otBooks.length + ntBooks.length}
           </p>
-          <p className={cn("text-muted-foreground mt-1", subBodyClassUp)}>Books Listed</p>
+          <p className={cn("text-muted-foreground mt-1", subBodyClassUp)}>
+            {isVi ? "Sách đang hiển thị" : "Books Listed"}
+          </p>
         </div>
         <div className="text-center">
           <p className={cn("text-foreground font-semibold", statValueClassDown)}>
             {totalChapters.toLocaleString()}
           </p>
           <p className={cn("text-muted-foreground mt-1", subBodyClassUp)}>
-            Total Chapters
+            {isVi ? "Tổng số chương" : "Total Chapters"}
           </p>
         </div>
       </div>
@@ -166,8 +180,8 @@ export function BookOverviewsPageContent({
             )}
           >
             <span className="text-left">
-              <span className="block">Old Testament</span>
-              <span className={cn("font-normal opacity-70", subBodyClassUp)}>
+              <span className="block">{isVi ? "Cựu Ước" : "Old Testament"}</span>
+              <span className={cn("font-normal", subBodyClassUp)}>
                 ({otBooks.length} books)
               </span>
             </span>
@@ -176,10 +190,9 @@ export function BookOverviewsPageContent({
             <p
               className={cn("text-muted-foreground mb-4 leading-relaxed", subBodyClassUp)}
             >
-              Written primarily in Hebrew (with portions in Aramaic), the Old Testament
-              records Israel&apos;s history, law, poetry, and prophetic writings. It
-              begins with creation and traces the unfolding relationship between God and
-              His people, including the long-standing promise of a coming Messiah.
+              {isVi
+                ? "Được viết chủ yếu bằng tiếng Hê-bơ-rơ (và một phần A-ram), Cựu Ước kể lại lịch sử, luật pháp, thi ca và các lời tiên tri dành cho dân Ít-ra-ên, từ sự sáng tạo cho đến trước khi Chúa Jêsus giáng sinh."
+                : "Written primarily in Hebrew (with portions in Aramaic), the Old Testament records Israel's history, law, poetry, and prophetic writings. It begins with creation and traces the unfolding relationship between God and His people, including the long-standing promise of a coming Messiah."}
             </p>
             <Accordion
               type="multiple"
@@ -215,16 +228,18 @@ export function BookOverviewsPageContent({
                               leading-tight font-semibold"
                           >
                             <span className="font-mono">{section.bookCount}</span>
-                            <span className="opacity-80">
+                            <span className="">
                               {section.bookCount === 1 ? "book" : "books"}
                             </span>
                           </div>
                           <div className="min-w-0">
                             <p className={cn("font-semibold", subBodyClassUp)}>
-                              {section.title}
+                              {isVi && section.titleVi ? section.titleVi : section.title}
                             </p>
                             <p className={cn("mt-0.5 leading-relaxed", subBodyClassUp)}>
-                              {section.description}
+                              {isVi && section.descriptionVi
+                                ? section.descriptionVi
+                                : section.description}
                             </p>
                           </div>
                         </div>
@@ -287,8 +302,8 @@ export function BookOverviewsPageContent({
             )}
           >
             <span className="text-left">
-              <span className="block">New Testament</span>
-              <span className={cn("font-normal opacity-70", subBodyClassUp)}>
+              <span className="block">{isVi ? "Tân Ước" : "New Testament"}</span>
+              <span className={cn("font-normal", subBodyClassUp)}>
                 ({ntBooks.length} books)
               </span>
             </span>
@@ -297,10 +312,9 @@ export function BookOverviewsPageContent({
             <p
               className={cn("text-muted-foreground mb-6 leading-relaxed", subBodyClassUp)}
             >
-              Written in Koine Greek, the New Testament begins with four Gospel accounts
-              of Jesus&apos; life, ministry, death, and resurrection. It continues with
-              the growth of the early church and concludes with a vision of history&apos;s
-              ultimate restoration in Christ.
+              {isVi
+                ? "Được viết bằng tiếng Hy Lạp (Koine), Tân Ước mở đầu bằng bốn sách Phúc Âm kể về cuộc đời, chức vụ, sự chết và sự sống lại của Chúa Jêsus; tiếp theo là câu chuyện Hội Thánh đầu tiên lan rộng và kết thúc bằng khải tượng về sự hoàn tất của lịch sử trong Đấng Christ."
+                : "Written in Koine Greek, the New Testament begins with four Gospel accounts of Jesus' life, ministry, death, and resurrection. It continues with the growth of the early church and concludes with a vision of history's ultimate restoration in Christ."}
             </p>
             <Accordion
               type="multiple"
@@ -336,16 +350,18 @@ export function BookOverviewsPageContent({
                               leading-tight font-semibold"
                           >
                             <span className="font-mono">{section.bookCount}</span>
-                            <span className="opacity-80">
+                            <span className="">
                               {section.bookCount === 1 ? "book" : "books"}
                             </span>
                           </div>
                           <div className="min-w-0">
                             <p className={cn("font-semibold", subBodyClassUp)}>
-                              {section.title}
+                              {isVi && section.titleVi ? section.titleVi : section.title}
                             </p>
                             <p className={cn("mt-0.5 leading-relaxed", subBodyClassUp)}>
-                              {section.description}
+                              {isVi && section.descriptionVi
+                                ? section.descriptionVi
+                                : section.description}
                             </p>
                           </div>
                         </div>
