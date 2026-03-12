@@ -163,8 +163,8 @@ export function BookOverviewsPageContent({
         </h1>
         <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
           {isVi
-            ? "Khám phá từng sách với phần giới thiệu, chủ đề chính, câu gốc và cách mỗi sách trỏ về Đấng Christ."
-            : "Explore each book with detailed overviews, themes, key verses, and connections to Christ."}
+            ? "Khám phá từng sách với phần giới thiệu, chủ đề chính, câu gốc và nội dung chính."
+            : "Explore each book with detailed overviews, themes, key verses, and main content."}
         </p>
       </div>
 

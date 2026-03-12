@@ -127,8 +127,8 @@ export function VnBibleOriginPage() {
         locale="vi"
         moduleNum="02 / 04"
         title="Nguồn gốc & Sự hình thành Kinh Thánh"
-        intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả trong khoảng 1.500 năm và đã được đọc, sao chép, truyền lại
-qua hơn 2.000 năm lịch sử, và được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, được sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
+        intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả trong khoảng 2000 năm và đã được đọc, sao chép, truyền lại
+        qua hơn 2.000 năm lịch sử, và được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, được sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
       />
 
       <LearnBibleOriginLanguages

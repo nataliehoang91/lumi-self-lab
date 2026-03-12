@@ -242,8 +242,8 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                   className="border-border/50 bg-card rounded-lg border p-4
                     transition-shadow hover:shadow-md"
                 >
-                  <div className="mb-2 flex items-start justify-between gap-3">
-                    <p className="text-foreground flex-1 text-base italic">
+                  <div className="mb-2 flex flex-col gap-3 md:flex-row">
+                    <p className="text-foreground text-base italic">
                       &quot;{v.text}&quot;
                     </p>
                     {(() => {
@@ -267,7 +267,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                           testament={testament}
                           linkOnly
                           triggerClassName={cn(
-                            "inline-flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm font-medium text-slate-900 hover:text-primary/90",
+                            "inline-flex items-center gap-1 rounded-full ml-auto bg-primary-100 px-2 py-1 text-sm font-medium text-slate-900 hover:text-primary/90",
                             langSegment === "vi" && "font-vietnamese-flashcard"
                           )}
                         >
@@ -293,7 +293,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
         )}
 
         {!hasOverviewContent && (
-          <div className="mt-8 text-center text-sm text-muted-foreground">
+          <div className="text-muted-foreground mt-8 text-center text-sm">
             {langSegment === "vi"
               ? "Tổng quan cho sách này đang được cập nhật."
               : "This book overview is being updated."}

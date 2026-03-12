@@ -147,7 +147,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           "Kinh Thánh không chỉ là một quyển sách, đó là một tuyển tập gồm ",
           "66 sách",
           " được viết trong suốt khoảng ",
-          "1.500 năm",
+          "2000 năm",
           " bởi gần ",
           "40 tác giả khác nhau",
           <>
@@ -190,7 +190,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         intro={
           <>
             Kinh Thánh được viết bởi khoảng <strong>40 tác giả</strong> khác nhau trong
-            suốt hơn 1.500 năm. Những người này đến từ nhiều nghề nghiệp và hoàn cảnh khác
+            suốt hơn 2000 năm. Những người này đến từ nhiều nghề nghiệp và hoàn cảnh khác
             nhau.
           </>
         }
