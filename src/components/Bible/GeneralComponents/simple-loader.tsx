@@ -23,10 +23,16 @@ export function Loader({
   fullHeight = false,
   className,
 }: LoaderProps) {
+  const dotSizeMap = {
+    sm: "h-1.5 w-1.5",
+    md: "h-2 w-2",
+    lg: "h-3 w-3",
+  };
+
   const sizeMap = {
-    sm: "h-6 w-6",
-    md: "h-10 w-10",
-    lg: "h-16 w-16",
+    sm: "h-12 w-12",
+    md: "h-16 w-16",
+    lg: "h-24 w-24",
   };
 
   const textSizeMap = {
@@ -97,7 +103,7 @@ export function Loader({
               return [...Array(5)].map((_, i) => (
                 <div
                   key={i}
-                  className="h-1.5 w-1.5 rounded-full"
+                  className={cn(dotSizeMap[size], "rounded-full")}
                   style={{
                     background: dotColors[i % dotColors.length],
                     animation: `pulse 1.5s ease-in-out infinite`,
@@ -134,7 +140,7 @@ export const SingleLoader = ({ size = "md" }: { size?: "sm" | "md" | "lg" }) => 
 );
 
 export function SimpleLoader() {
-  return <Loader size="lg" variant="dots" fullHeight text="Loading..." />;
+  return <Loader size="lg" variant="dots" fullHeight text="" />;
 }
 
 // Alias used by existing code in SyncedRead

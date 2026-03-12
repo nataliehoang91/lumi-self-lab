@@ -9,61 +9,61 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 export function useBibleFontClasses() {
   const { fontSize } = useBibleApp();
 
-  /** Mobile: one size up for readability; md+: nominal size. */
+  /** Prominent labels / small section headings. */
   const bodyTitleClass =
     fontSize === "small"
-      ? "text-lg md:text-md"
+      ? "text-[15px] md:text-sm"
       : fontSize === "large"
-        ? "text-2xl md:text-xl"
-        : "text-xl md:text-lg";
+        ? "text-lg md:text-[18px]"
+        : "text-base md:text-[15px]";
 
   const bodyClass =
     fontSize === "small"
-      ? "text-md md:text-sm"
+      ? "text-sm md:text-[13px]"
       : fontSize === "large"
-        ? "text-xl md:text-lg"
-        : "text-lg md:text-md";
+        ? "text-lg md:text-[17px]"
+        : "text-base md:text-[15px]";
 
   const subBodyClass =
     fontSize === "small"
-      ? "text-xs md:text-[0.6875rem]"
+      ? "text-[11px] md:text-[11px]"
       : fontSize === "large"
-        ? "text-base md:text-sm"
-        : "text-sm md:text-xs";
+        ? "text-sm md:text-[13px]"
+        : "text-xs md:text-[12px]";
 
   /** One size up from bodyClass (e.g. for landing Journey section). */
   const bodyClassUp =
     fontSize === "small"
-      ? "text-lg md:text-md"
+      ? "text-base md:text-sm"
       : fontSize === "large"
-        ? "text-2xl md:text-xl"
-        : "text-xl md:text-lg";
+        ? "text-xl md:text-lg"
+        : "text-lg md:text-base";
 
   /** One size up from subBodyClass (e.g. for landing Journey section). */
   const subBodyClassUp =
     fontSize === "small"
-      ? "text-sm md:text-xs"
+      ? "text-xs md:text-[11px]"
       : fontSize === "large"
-        ? "text-lg md:text-base"
-        : "text-base md:text-sm";
+        ? "text-base md:text-sm"
+        : "text-sm md:text-xs";
 
   const h1Class =
     fontSize === "small"
-      ? "text-2xl md:text-3xl"
+      ? "text-[26px] md:text-3xl"
       : fontSize === "large"
-        ? "text-4xl md:text-5xl"
-        : "text-3xl md:text-4xl";
+        ? "text-4xl md:text-[40px]"
+        : "text-[32px] md:text-[34px]";
 
   const subtitleClass =
     fontSize === "small"
-      ? "text-lg md:text-base"
+      ? "text-base md:text-[17px]"
       : fontSize === "large"
-        ? "text-2xl md:text-xl"
-        : "text-xl md:text-lg";
+        ? "text-2xl md:text-[22px]"
+        : "text-xl md:text-[20px]";
 
   const verseClass =
     fontSize === "small"
-      ? "text-md md:text-lg"
+      ? "text-base md:text-lg"
       : fontSize === "large"
         ? "text-xl md:text-2xl"
         : "text-lg md:text-xl";
@@ -73,34 +73,34 @@ export function useBibleFontClasses() {
 
   const buttonClass =
     fontSize === "small"
-      ? "text-sm md:text-xs"
+      ? "text-xs md:text-[11px]"
       : fontSize === "large"
-        ? "text-lg md:text-md"
-        : "text-base md:text-sm";
+        ? "text-base md:text-[15px]"
+        : "text-sm md:text-[13px]";
 
   /** Large hero title (e.g. LangPage). */
   const heroTitleClass =
     fontSize === "small"
-      ? "text-4xl md:text-5xl lg:text-6xl"
+      ? "text-[32px] md:text-5xl lg:text-6xl"
       : fontSize === "large"
-        ? "text-6xl md:text-8xl lg:text-9xl"
-        : "text-5xl md:text-7xl lg:text-8xl";
+        ? "text-6xl md:text-7xl lg:text-[80px]"
+        : "text-5xl md:text-[52px] lg:text-[60px]";
 
   /** Stat value (big number). */
   const statValueClass =
-    fontSize === "small"
-      ? "text-3xl md:text-4xl"
-      : fontSize === "large"
-        ? "text-5xl md:text-6xl"
-        : "text-4xl md:text-5xl";
-
-  /** Stat value one size smaller. */
-  const statValueClassDown =
     fontSize === "small"
       ? "text-2xl md:text-3xl"
       : fontSize === "large"
         ? "text-4xl md:text-5xl"
         : "text-3xl md:text-4xl";
+
+  /** Stat value one size smaller. */
+  const statValueClassDown =
+    fontSize === "small"
+      ? "text-xl md:text-2xl"
+      : fontSize === "large"
+        ? "text-3xl md:text-4xl"
+        : "text-2xl md:text-3xl";
 
   return {
     bodyClass,

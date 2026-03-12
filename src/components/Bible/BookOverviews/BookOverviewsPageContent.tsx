@@ -49,14 +49,8 @@ interface BookCardProps {
   readLabel?: string;
 }
 
-function BookCard({
-  book,
-  segment,
-  subBodyClassUp,
-  hoverBorderClass,
-  isRead,
-  readLabel,
-}: BookCardProps) {
+function BookCard({ book, segment, hoverBorderClass, isRead, readLabel }: BookCardProps) {
+  const { subBodyClassUp, bodyClass } = useBibleFontClasses();
   const name = segment === "vi" ? book.nameVi : book.nameEn;
   const chapterLabel =
     segment === "vi" ? "chương" : book.chapterCount === 1 ? "chapter" : "chapters";
@@ -75,9 +69,7 @@ function BookCard({
         <div className="flex items-baseline gap-2">
           <span className="text-sm font-normal">{book.order}.</span>
           <div className="flex flex-col gap-1">
-            <span className={cn("text-foreground font-bold", subBodyClassUp)}>
-              {name}
-            </span>
+            <span className={cn("text-foreground font-bold", bodyClass)}>{name}</span>
             <p className={cn("", subBodyClassUp)}>
               {book.chapterCount} {chapterLabel}
             </p>
@@ -116,8 +108,13 @@ export function BookOverviewsPageContent({
   ntBooks,
   totalChapters,
 }: BookOverviewsPageContentProps) {
-  const { bodyClass, h1Class, subBodyClassUp, statValueClassDown } =
-    useBibleFontClasses();
+  const {
+    bodyClass,
+    h1Class,
+    subBodyClassUp,
+    statValueClassDown,
+    bodyClassUp,
+  } = useBibleFontClasses();
   const isVi = segment === "vi";
   const readMap = useMemo(() => {
     if (typeof window === "undefined") return {};
@@ -205,7 +202,7 @@ export function BookOverviewsPageContent({
               hover:no-underline data-[state=open]:border-l-0
               data-[state=open]:bg-transparent data-[state=open]:pl-0
               data-[state=open]:font-extrabold [&[data-state=open]>svg]:rotate-180`,
-              bodyClass
+              bodyClassUp
             )}
           >
             <span className="text-left">
@@ -216,9 +213,7 @@ export function BookOverviewsPageContent({
             </span>
           </AccordionTrigger>
           <AccordionContent className="bg-transparent px-0 py-0">
-            <p
-              className={cn("text-muted-foreground mb-4 leading-relaxed", subBodyClassUp)}
-            >
+            <p className={cn("text-muted-foreground mb-4 leading-relaxed", bodyClass)}>
               {isVi
                 ? "Được viết chủ yếu bằng tiếng Hê-bơ-rơ (và một phần A-ram), Cựu Ước kể lại lịch sử, luật pháp, thi ca và các lời tiên tri dành cho dân Ít-ra-ên, từ sự sáng tạo cho đến trước khi Chúa Jêsus giáng sinh."
                 : "Written primarily in Hebrew (with portions in Aramaic), the Old Testament records Israel's history, law, poetry, and prophetic writings. It begins with creation and traces the unfolding relationship between God and His people, including the long-standing promise of a coming Messiah."}
@@ -262,7 +257,7 @@ export function BookOverviewsPageContent({
                             </span>
                           </div>
                           <div className="min-w-0">
-                            <p className={cn("font-semibold", subBodyClassUp)}>
+                            <p className={cn("font-semibold", bodyClass)}>
                               {isVi && section.titleVi ? section.titleVi : section.title}
                             </p>
                             <p className={cn("mt-0.5 leading-relaxed", subBodyClassUp)}>
@@ -298,7 +293,7 @@ export function BookOverviewsPageContent({
                             <BookCard
                               book={left}
                               segment={segment}
-                              subBodyClassUp={subBodyClassUp}
+                              subBodyClassUp={bodyClassUp}
                               hoverBorderClass="hover:border-second"
                               isRead={readMap[left.slugEn]}
                               readLabel={isVi ? "Đã đọc" : "Read"}
@@ -331,20 +326,18 @@ export function BookOverviewsPageContent({
               hover:no-underline data-[state=open]:border-l-0
               data-[state=open]:bg-transparent data-[state=open]:pl-0
               data-[state=open]:font-extrabold [&[data-state=open]>svg]:rotate-180`,
-              bodyClass
+              bodyClassUp
             )}
           >
             <span className="text-left">
               <span className="block">{isVi ? "Tân Ước" : "New Testament"}</span>
-              <span className={cn("font-normal", subBodyClassUp)}>
+              <span className={cn("font-normal", bodyClass)}>
                 ({ntBooks.length} books)
               </span>
             </span>
           </AccordionTrigger>
           <AccordionContent className="bg-transparent px-0 pt-4 pb-4">
-            <p
-              className={cn("text-muted-foreground mb-6 leading-relaxed", subBodyClassUp)}
-            >
+            <p className={cn("text-muted-foreground mb-6 leading-relaxed", bodyClass)}>
               {isVi
                 ? "Được viết bằng tiếng Hy Lạp (Koine), Tân Ước mở đầu bằng bốn sách Phúc Âm kể về cuộc đời, chức vụ, sự chết và sự sống lại của Chúa Jêsus; tiếp theo là câu chuyện Hội Thánh đầu tiên lan rộng và kết thúc bằng khải tượng về sự hoàn tất của lịch sử trong Đấng Christ."
                 : "Written in Koine Greek, the New Testament begins with four Gospel accounts of Jesus' life, ministry, death, and resurrection. It continues with the growth of the early church and concludes with a vision of history's ultimate restoration in Christ."}
@@ -368,7 +361,7 @@ export function BookOverviewsPageContent({
                       className={cn(
                         "group px-0 hover:no-underline [&>svg]:hidden",
                         "[&[data-state=open]>div]:bg-second-50/50 py-2",
-                        bodyClass
+                        bodyClassUp
                       )}
                     >
                       <div
@@ -388,7 +381,7 @@ export function BookOverviewsPageContent({
                             </span>
                           </div>
                           <div className="min-w-0">
-                            <p className={cn("font-semibold", subBodyClassUp)}>
+                            <p className={cn("font-semibold", bodyClass)}>
                               {isVi && section.titleVi ? section.titleVi : section.title}
                             </p>
                             <p className={cn("mt-0.5 leading-relaxed", subBodyClassUp)}>
