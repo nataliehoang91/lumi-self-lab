@@ -23,6 +23,7 @@ export interface BookOverviewData {
   order: number;
   chapterCount: number;
   author: string | null;
+  authorOccupation: string | null;
   date: string | null;
   audience: string | null;
   themes: string[];
@@ -65,6 +66,7 @@ export async function getBookOverviewBySlug(
     order: book.order,
     chapterCount: book.chapterCount,
     author: overview?.author ?? null,
+    authorOccupation: overview?.authorOccupation ?? null,
     date: overview?.date ?? null,
     audience: overview?.audience ?? null,
     themes,

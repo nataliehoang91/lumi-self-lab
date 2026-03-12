@@ -4,6 +4,7 @@ const OVERVIEWS: {
   nameEn: string;
   language: "en" | "vi";
   author: string | null;
+  authorOccupation?: string | null;
   date: string | null;
   audience: string | null;
   themes: string[];
@@ -17,6 +18,7 @@ const OVERVIEWS: {
     nameEn: "Exodus",
     language: "en",
     author: "Moses",
+    authorOccupation: "The Prophet and Leader of Israel",
     date: "c. 1440–1400 BC",
     audience: "The nation of Israel",
     themes: [
@@ -102,6 +104,7 @@ const OVERVIEWS: {
     nameEn: "Exodus",
     language: "vi",
     author: "Môi-se",
+    authorOccupation: "lãnh đạo và nhà tiên tri của dân Y-sơ-ra-ên",
     date: "khoảng 1440–1400 TCN",
     audience: "Dân tộc Y-sơ-ra-ên",
     themes: ["Giải Cứu", "Giao Ước", "Luật Pháp", "Sự Hiện Diện", "Thờ Phượng"],
@@ -198,6 +201,7 @@ export async function seedBookOverviews(prisma: PrismaClient) {
         bookId,
         language: row.language,
         author: row.author,
+        authorOccupation: row.authorOccupation ?? null,
         date: row.date,
         audience: row.audience,
         themes: row.themes,
@@ -207,6 +211,7 @@ export async function seedBookOverviews(prisma: PrismaClient) {
       },
       update: {
         author: row.author,
+        authorOccupation: row.authorOccupation ?? null,
         date: row.date,
         audience: row.audience,
         themes: row.themes,

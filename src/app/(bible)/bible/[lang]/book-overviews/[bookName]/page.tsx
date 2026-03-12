@@ -12,6 +12,7 @@ import { Container } from "@/components/ui/container";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import { cn } from "@/lib/utils";
 import { BookOverviewChristConnection } from "@/components/Bible/BookOverviews/BookOverviewChristConnection";
+import { BookOverviewMeta } from "@/components/Bible/BookOverviews/BookOverviewMeta";
 import { BookOverviewReadMarker } from "@/components/Bible/BookOverviews/BookOverviewReadMarker";
 
 function formatChapterRange(raw: string, lang: "en" | "vi"): string {
@@ -65,24 +66,11 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
   const testament: "ot" | "nt" = data.order <= 39 ? "ot" : "nt";
   const langSegment: "en" | "vi" = normalizedLang === "vi" ? "vi" : "en";
   const defaultVersion: "vi" | "niv" | undefined = langSegment === "vi" ? "vi" : "niv";
+  const authorOccupation = (data as any).authorOccupation ?? null;
   const hasOverviewContent =
     (data.outline?.length ?? 0) > 0 ||
     (data.keyVerses?.length ?? 0) > 0 ||
     !!data.christConnection;
-  const meta =
-    langSegment === "vi"
-      ? [
-          { l: "Tác giả", v: data.author ?? "—" },
-          { l: "Thời gian biên soạn", v: data.date ?? "—" },
-          { l: "Số chương", v: String(chapters) },
-          { l: "Đối tượng độc giả", v: data.audience ?? "—" },
-        ]
-      : [
-          { l: "Author", v: data.author ?? "—" },
-          { l: "Written", v: data.date ?? "—" },
-          { l: "Chapters", v: String(chapters) },
-          { l: "Audience", v: data.audience ?? "—" },
-        ];
   const buildReadChapterHref = (chapter: number) => {
     const sp = new URLSearchParams();
     if (defaultVersion) sp.set("version1", defaultVersion);
@@ -108,16 +96,12 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
     if (!Number.isFinite(chapterNum) || !Number.isFinite(verseNum)) return null;
     return { chapter: chapterNum, verse: verseNum };
   };
-
   return (
     <main>
       <BookOverviewReadMarker lang={langSegment} slugEn={bookName} />
       <Container maxWidth="7xl">
         <div className="mb-10">
-          <p
-            className="text-muted-foreground mb-3 text-xs font-semibold tracking-[0.2em]
-              uppercase"
-          >
+          <p className="mb-3 text-xs font-semibold tracking-[0.2em] uppercase">
             {langSegment === "vi" ? "TỔNG QUAN SÁCH" : "BOOK OVERVIEW"}
           </p>
           <h1
@@ -128,16 +112,14 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
           </h1>
         </div>
 
-        <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {meta.map((m) => (
-            <div key={m.l} className="bg-card border-border rounded-xl border p-4">
-              <p className="text-muted-foreground text-xs">{m.l}</p>
-              <p className="text-foreground mt-1 text-sm leading-snug font-medium">
-                {m.v}
-              </p>
-            </div>
-          ))}
-        </div>
+        <BookOverviewMeta
+          lang={langSegment}
+          author={data.author}
+          authorOccupation={authorOccupation}
+          date={data.date}
+          audience={data.audience}
+          chapters={chapters}
+        />
 
         {data.themes.length > 0 && (
           <section className="mb-10 w-full">
@@ -242,7 +224,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                   className="border-border/50 bg-card rounded-lg border p-4
                     transition-shadow hover:shadow-md"
                 >
-                  <div className="mb-2 flex flex-col gap-3 md:flex-row">
+                  <div className="mb-2 flex flex-col gap-3">
                     <p className="text-foreground text-base italic">
                       &quot;{v.text}&quot;
                     </p>
@@ -267,7 +249,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
                           testament={testament}
                           linkOnly
                           triggerClassName={cn(
-                            "inline-flex items-center gap-1 rounded-full ml-auto bg-primary-100 px-2 py-1 text-sm font-medium text-slate-900 hover:text-primary/90",
+                            "inline-flex items-center gap-1 self-end rounded-full bg-primary-100 px-2 py-1 text-sm font-medium text-slate-900 hover:text-primary/90",
                             langSegment === "vi" && "font-vietnamese-flashcard"
                           )}
                         >
@@ -293,7 +275,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
         )}
 
         {!hasOverviewContent && (
-          <div className="text-muted-foreground mt-8 text-center text-sm">
+          <div className="mt-8 text-center text-sm">
             {langSegment === "vi"
               ? "Tổng quan cho sách này đang được cập nhật."
               : "This book overview is being updated."}

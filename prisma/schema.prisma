@@ -392,6 +392,7 @@ model BibleBookOverview {
   language         String   // "en" | "vi"
 
   author           String?
+  authorOccupation String?  // NEW
   date             String?  // e.g. "1440–1400 BC", "c. 85–90 AD"
   audience         String?
   themes           String[] @default([]) // e.g. ["Creation", "Covenant"]

@@ -4,6 +4,7 @@ const OVERVIEWS: {
   nameEn: string;
   language: "en" | "vi";
   author: string | null;
+  authorOccupation?: string | null;
   date: string | null;
   audience: string | null;
   themes: string[];
@@ -16,15 +17,10 @@ const OVERVIEWS: {
     nameEn: "Leviticus",
     language: "vi",
     author: "Môi-se",
+    authorOccupation: "lãnh đạo và nhà tiên tri của dân Y-sơ-ra-ên",
     date: "khoảng 1440–1400 TCN",
     audience: "Dân tộc Y-sơ-ra-ên",
-    themes: [
-      "Sự Thánh Khiết",
-      "Của Lễ",
-      "Chức Tế Lễ",
-      "Chuộc Tội",
-      "Thờ Phượng",
-    ],
+    themes: ["Sự Thánh Khiết", "Của Lễ", "Chức Tế Lễ", "Chuộc Tội", "Thờ Phượng"],
     outline: [
       {
         chapter: "1–7",
@@ -100,6 +96,7 @@ const OVERVIEWS: {
     nameEn: "Leviticus",
     language: "en",
     author: "Moses",
+    authorOccupation: "prophet and leader of Israel",
     date: "c. 1440–1400 BC",
     audience: "The nation of Israel",
     themes: ["Holiness", "Sacrifices", "Priesthood", "Atonement", "Worship"],
@@ -185,9 +182,7 @@ export async function seedBookOverviews(prisma: PrismaClient) {
   for (const row of OVERVIEWS) {
     const bookId = byName.get(row.nameEn);
     if (!bookId) {
-      console.warn(
-        `[BookOverview] No book found for nameEn: ${row.nameEn}, skipping.`,
-      );
+      console.warn(`[BookOverview] No book found for nameEn: ${row.nameEn}, skipping.`);
       continue;
     }
     await prisma.bibleBookOverview.upsert({
@@ -198,6 +193,7 @@ export async function seedBookOverviews(prisma: PrismaClient) {
         bookId,
         language: row.language,
         author: row.author,
+        authorOccupation: row.authorOccupation ?? null,
         date: row.date,
         audience: row.audience,
         themes: row.themes,
@@ -207,6 +203,7 @@ export async function seedBookOverviews(prisma: PrismaClient) {
       },
       update: {
         author: row.author,
+        authorOccupation: row.authorOccupation ?? null,
         date: row.date,
         audience: row.audience,
         themes: row.themes,
@@ -233,4 +230,3 @@ void main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-
