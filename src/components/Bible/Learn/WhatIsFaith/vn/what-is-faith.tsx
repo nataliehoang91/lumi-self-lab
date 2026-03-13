@@ -104,8 +104,8 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
 const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
 
 export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
-  const { bodyClass, bodyTitleClass } = useBibleFontClasses();
-  const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
+  const { bodyClass, bodyClassUp } = useBibleFontClasses();
+  const vnBodyClass = cn(bodyClassUp, VN_FLASHCARD_FONT);
   const johnHref = buildReadHrefVi(findBookIdByVi(books, "Giăng", "John"), 10, 10, "nt");
   return (
     <article className="text-foreground" aria-label="Đức tin là gì?">
@@ -121,12 +121,10 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p
-          className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}
-        >
+        <p className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyClassUp)}>
           Mối Quan Hệ, Không Phải Tôn Giáo
         </p>
-        <p className={cn("leading-relaxed", vnBodyClass)}>
+        <p className={cn("leading-relaxed", bodyClassUp)}>
           Cơ Đốc giáo không chỉ là một hệ thống luật lệ để tuân theo, mà là một mối quan
           hệ để bước vào. Chúa Giê-xu phán Ngài đến để con người &quot;được sự sống, và sự
           sống dư dật&quot;{" "}
@@ -140,7 +138,7 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
           . Mục đích không phải là đạt đến sự hoàn hảo, mà là bước đi trong mối quan hệ
           thật với Đức Chúa Trời.
         </p>
-        <p className={cn("border-border border-t pt-4 leading-relaxed", vnBodyClass)}>
+        <p className={cn("border-border border-t pt-4 leading-relaxed", bodyClassUp)}>
           Đọc Kinh Thánh, cầu nguyện và sinh hoạt cùng Hội Thánh là những cách để lớn lên
           trong mối quan hệ đó — không phải điều kiện để được chấp nhận.
         </p>

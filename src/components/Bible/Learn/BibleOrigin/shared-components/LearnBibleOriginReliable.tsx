@@ -18,7 +18,7 @@ export function LearnBibleOriginReliable({
   reliableP2,
   locale,
 }: LearnBibleOriginReliableProps) {
-  const { bodyClass } = useBibleFontClasses();
+  const { bodyClass, bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
@@ -33,8 +33,8 @@ export function LearnBibleOriginReliable({
       >
         {reliableTitle}
       </BibleHeading>
-      <p className={cn("leading-relaxed", bodyClass, bodyFont)}>{reliableP1}</p>
-      <p className={cn("leading-relaxed", bodyClass, bodyFont)}>{reliableP2}</p>
+      <p className={cn("leading-relaxed", bodyFont, bodyClassUp)}>{reliableP1}</p>
+      <p className={cn("leading-relaxed", bodyFont, bodyClassUp)}>{reliableP2}</p>
     </section>
   );
 }

@@ -11,8 +11,13 @@ export interface LearnWhyItMattersProps {
   locale?: "en" | "vi";
 }
 
-export function LearnWhyItMatters({ title, body, children, locale }: LearnWhyItMattersProps) {
-  const { bodyClass } = useBibleFontClasses();
+export function LearnWhyItMatters({
+  title,
+  body,
+  children,
+  locale,
+}: LearnWhyItMattersProps) {
+  const { bodyClass, bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
@@ -24,7 +29,7 @@ export function LearnWhyItMatters({ title, body, children, locale }: LearnWhyItM
       <h2 className={cn("text-foreground mb-3 text-xl font-semibold", titleFont)}>
         {title}
       </h2>
-      {body && <p className={cn("leading-relaxed", bodyClass, bodyFont)}>{body}</p>}
+      {body && <p className={cn("leading-relaxed", bodyClassUp, bodyFont)}>{body}</p>}
       {children}
     </section>
   );

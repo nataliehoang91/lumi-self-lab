@@ -79,7 +79,7 @@ export function VnLearnPage({ verseHref }: { verseHref: string }) {
             desc={m.desc}
             min={m.min}
             minLabel="phút đọc"
-            readLabel="Đọc"
+            readLabel="Đã đọc"
             href={`/bible/vi/learn/${SEGMENTS[i]}`}
             ariaLabel={`${m.title}, ${m.min} phút đọc`}
             segmentKey={SEGMENTS[i]}

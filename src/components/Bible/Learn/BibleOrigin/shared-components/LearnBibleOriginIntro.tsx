@@ -21,14 +21,14 @@ export function LearnBibleOriginIntro({
   locale,
   bodyBright,
 }: LearnBibleOriginIntroProps) {
-  const { bodyClass, subBodyClassUp } = useBibleFontClasses();
+  const { bodyClass, subBodyClassUp, bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <div className="mb-12">
-      <p className={cn("text-second mb-3 font-mono font-medium", subBodyClassUp)}>
+      <p className={cn("text-second mb-3 font-mono font-medium", bodyClass)}>
         {moduleNum}
       </p>
       <BibleHeading
@@ -40,9 +40,7 @@ export function LearnBibleOriginIntro({
       >
         {title}
       </BibleHeading>
-      <p
-        className={cn(bodyColor, "mt-4 leading-relaxed", bodyClass, bodyFont)}
-      >
+      <p className={cn(bodyColor, "mt-4 leading-relaxed", bodyFont, bodyClassUp)}>
         {intro}
       </p>
     </div>

@@ -3,10 +3,7 @@
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
 
-import type {
-  BookOverviewData,
-  KeyVerseRow,
-} from "@/app/actions/bible/book-overview";
+import type { BookOverviewData, KeyVerseRow } from "@/app/actions/bible/book-overview";
 import { Container } from "@/components/ui/container";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import { BookOverviewChristConnection } from "@/components/Bible/BookOverviews/BookOverviewChristConnection";
@@ -29,9 +26,7 @@ function formatChapterRange(raw: string, lang: "en" | "vi"): string {
   return start === end ? `Chapter ${start}` : `Chapter ${start} → Chapter ${end}`;
 }
 
-function getKeyVerseLocation(
-  v: KeyVerseRow
-): { chapter: number; verse: number } | null {
+function getKeyVerseLocation(v: KeyVerseRow): { chapter: number; verse: number } | null {
   if (v.chapter != null && v.verse != null) {
     return { chapter: v.chapter, verse: v.verse };
   }
@@ -65,13 +60,8 @@ export function BookOverviewPageClient({
   hasOverviewContent,
 }: Props) {
   const isVi = langSegment === "vi";
-  const {
-    h1Class,
-    bodyClass,
-    subBodyClass,
-    subBodyClassUp,
-    subtitleClass,
-  } = useBibleFontClasses();
+  const { h1Class, bodyClass, subBodyClass, subBodyClassUp, subtitleClass, bodyClassUp } =
+    useBibleFontClasses();
 
   const buildReadChapterHref = (chapter: number) => {
     const sp = new URLSearchParams();
@@ -93,7 +83,7 @@ export function BookOverviewPageClient({
           <p
             className={cn(
               "mb-3 font-semibold tracking-[0.2em] uppercase",
-              subBodyClassUp,
+              bodyClass,
               isVi && "font-vietnamese-flashcard"
             )}
           >
@@ -136,7 +126,7 @@ export function BookOverviewPageClient({
                   key={t}
                   className={cn(
                     "bg-card border-border text-foreground rounded-lg border px-3 py-1.5",
-                    subBodyClass,
+                    bodyClass,
                     isVi && "font-vietnamese-flashcard"
                   )}
                 >
@@ -158,7 +148,10 @@ export function BookOverviewPageClient({
             >
               {langSegment === "vi" ? "Dàn ý các chương" : "Chapter Outline"}
             </h2>
-            <div className="mx-auto grid grid-cols-1 space-y-3 gap-x-3 gap-y-2 lg:grid-cols-2">
+            <div
+              className="mx-auto grid grid-cols-1 space-y-3 gap-x-3 gap-y-2
+                lg:grid-cols-2"
+            >
               {data.outline.map((o, idx) => {
                 const chapterLabel = formatChapterRange(o.chapter, langSegment);
                 const firstNumberMatch = o.chapter.match(/\d+/);
@@ -171,11 +164,14 @@ export function BookOverviewPageClient({
                   <div
                     key={`${o.chapter}-${o.title}`}
                     className={cn(
-                      "bg-card border-sage-dark/20 flex items-start gap-4 rounded-xl border px-4 py-3"
+                      `bg-card border-sage-dark/20 flex items-start gap-4 rounded-xl
+                      border px-4 py-3`
                     )}
                   >
                     <div
-                      className="bg-second dark:bg-second-800 text-second-foreground text-md flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-medium"
+                      className="bg-second dark:bg-second-800 text-second-foreground
+                        text-md flex h-7 w-7 shrink-0 items-center justify-center
+                        rounded-full font-medium"
                       aria-hidden
                     >
                       {idx + 1}
@@ -184,7 +180,7 @@ export function BookOverviewPageClient({
                       <p
                         className={cn(
                           "text-foreground",
-                          bodyClass,
+                          bodyClassUp,
                           isVi && "font-vietnamese-flashcard"
                         )}
                       >
@@ -192,11 +188,10 @@ export function BookOverviewPageClient({
                       </p>
                       <p
                         className={cn(
-                          "mt-0.5 flex items-center justify-between opacity-90",
-                          subBodyClass,
-                          isVi
-                            ? "font-vietnamese-flashcard"
-                            : "font-mono"
+                          `mt-0.5 flex flex-col items-center justify-between opacity-90
+                          md:flex-row`,
+                          bodyClass,
+                          isVi ? "font-vietnamese-flashcard" : "font-mono"
                         )}
                       >
                         <span>{chapterLabel}</span>
@@ -204,8 +199,9 @@ export function BookOverviewPageClient({
                           <Link
                             href={buildReadChapterHref(startChapter)}
                             className={cn(
-                              "text-second-800 dark:text-second-200 hover:text-second-800 font-medium underline underline-offset-4",
-                              subBodyClass
+                              `text-second-800 dark:text-second-200 hover:text-second-800
+                              font-medium underline underline-offset-4`,
+                              bodyClass
                             )}
                           >
                             {normalizedLang === "vi"
@@ -241,13 +237,14 @@ export function BookOverviewPageClient({
                 return (
                   <div
                     key={v.ref}
-                    className="border-border/50 bg-card rounded-lg border p-4 transition-shadow hover:shadow-md"
+                    className="border-border/50 bg-card rounded-lg border p-4
+                      transition-shadow hover:shadow-md"
                   >
                     <div className="mb-2 flex flex-col gap-3">
                       <p
                         className={cn(
                           "text-foreground italic",
-                          bodyClass,
+                          bodyClassUp,
                           isVi && "font-vietnamese-flashcard"
                         )}
                       >
@@ -256,7 +253,8 @@ export function BookOverviewPageClient({
                       {!loc ? (
                         <span
                           className={cn(
-                            "bg-primary/10 text-primary inline-flex items-center gap-1 rounded-full px-2 py-1 font-medium",
+                            `bg-primary/10 text-primary inline-flex items-center gap-1
+                              rounded-full px-2 py-1 font-medium`,
                             subBodyClass,
                             isVi && "font-vietnamese-flashcard"
                           )}
@@ -274,8 +272,8 @@ export function BookOverviewPageClient({
                           testament={testament}
                           linkOnly
                           triggerClassName={cn(
-                            "inline-flex items-center gap-1 self-end rounded-full bg-primary-100 px-2 py-1 font-medium text-slate-900 hover:text-primary/90",
-                            subBodyClass,
+                            "inline-flex items-center  dark:bg-primary-900/30 dark:text-primary-400 gap-1 self-end rounded-full bg-primary-100 px-2 py-1 font-medium text-slate-900 hover:text-primary/90",
+                            bodyClass,
                             langSegment === "vi" && "font-vietnamese-flashcard"
                           )}
                         >
@@ -304,7 +302,7 @@ export function BookOverviewPageClient({
           <div
             className={cn(
               "mt-8 text-center",
-              subBodyClass,
+              bodyClass,
               isVi && "font-vietnamese-flashcard"
             )}
           >
@@ -317,4 +315,3 @@ export function BookOverviewPageClient({
     </main>
   );
 }
-

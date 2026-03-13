@@ -101,11 +101,7 @@ const VERSE_PREVIEW_VN: Record<string, string> = {
 
 function getProphecyItems(
   books: BibleBook[],
-  findBookId: (
-    books: BibleBook[],
-    nameVi: string,
-    nameEn?: string
-  ) => string | null,
+  findBookId: (books: BibleBook[], nameVi: string, nameEn?: string) => string | null,
   subBodyClassUp: string
 ) {
   return [
@@ -320,10 +316,13 @@ function findBookIdByVi(
 const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
 
 export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
-  const { bodyClass, subBodyClassUp } = useBibleFontClasses();
-  const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
+  const { bodyClass, subBodyClassUp, bodyClassUp } = useBibleFontClasses();
+  const vnBodyClass = cn(bodyClassUp, VN_FLASHCARD_FONT);
   return (
-    <article aria-label={`Bài học Chúa ${NAME_JESUS_VN} Là Ai?`} className="text-foreground">
+    <article
+      aria-label={`Bài học Chúa ${NAME_JESUS_VN} Là Ai?`}
+      className="text-foreground"
+    >
       <LearnLessonIntro
         bodyBright
         locale="vi"

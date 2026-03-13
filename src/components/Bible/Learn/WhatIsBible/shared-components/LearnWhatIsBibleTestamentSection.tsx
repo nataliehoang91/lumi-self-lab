@@ -34,7 +34,7 @@ export function LearnWhatIsBibleTestamentSection({
   bookLabelPlural,
   bodyBright,
 }: LearnWhatIsBibleTestamentSectionProps) {
-  const { bodyClass } = useBibleFontClasses();
+  const { bodyClassUp, bodyClass } = useBibleFontClasses();
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   const singular = bookLabelSingular ?? "book";
@@ -46,9 +46,7 @@ export function LearnWhatIsBibleTestamentSection({
         {title}
       </h2>
       {typeof intro === "string" ? (
-        <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClass)}>
-          {intro}
-        </p>
+        <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClassUp)}>{intro}</p>
       ) : (
         intro
       )}
@@ -66,12 +64,10 @@ export function LearnWhatIsBibleTestamentSection({
               <span className="opacity-80">{s.books === 1 ? singular : plural}</span>
             </div>
             <div className="min-w-0">
-              <p className={cn("text-foreground font-medium", bodyClass)}>
+              <p className={cn("text-foreground font-medium", bodyClassUp)}>
                 {sectionNames[s.nameKey]}
               </p>
-              <p
-                className={cn(bodyColor, "mt-0.5 leading-relaxed", bodyClass)}
-              >
+              <p className={cn(bodyColor, "mt-0.5 leading-relaxed", bodyClassUp)}>
                 {sectionDescs[s.descKey]}
               </p>
             </div>

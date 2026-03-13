@@ -21,14 +21,14 @@ export function LearnWhatIsFaithIntro({
   locale,
   bodyBright,
 }: LearnWhatIsFaithIntroProps) {
-  const { bodyClass, h1Class, subBodyClassUp } = useBibleFontClasses();
+  const { bodyClass, h1Class, subBodyClassUp, bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <div className="mb-12">
-      <p className={cn("text-second mb-3 font-mono font-medium", subBodyClassUp)}>
+      <p className={cn("text-second mb-3 font-mono font-medium", bodyClass)}>
         {moduleNum}
       </p>{" "}
       <h1
@@ -40,9 +40,7 @@ export function LearnWhatIsFaithIntro({
       >
         {title}
       </h1>
-      <p
-        className={cn(bodyColor, "mt-4 leading-relaxed", bodyClass, introFont)}
-      >
+      <p className={cn(bodyColor, "mt-4 leading-relaxed", bodyClassUp, introFont)}>
         {intro}
       </p>
     </div>

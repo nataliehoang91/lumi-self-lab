@@ -21,7 +21,7 @@ export function BookOverviewMeta({
   chapters,
 }: BookOverviewMetaProps) {
   const isVi = lang === "vi";
-  const { bodyClass, subBodyClass, subBodyClassUp } = useBibleFontClasses();
+  const { bodyClass, bodyClassUp } = useBibleFontClasses();
 
   return (
     <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -30,7 +30,7 @@ export function BookOverviewMeta({
         <p
           className={cn(
             "text-muted-foreground",
-            subBodyClassUp,
+            bodyClass,
             isVi && "font-vietnamese-flashcard"
           )}
         >
@@ -40,7 +40,7 @@ export function BookOverviewMeta({
           <p
             className={cn(
               "text-foreground font-medium",
-              bodyClass,
+              bodyClassUp,
               isVi && "font-vietnamese-flashcard"
             )}
           >
@@ -50,7 +50,7 @@ export function BookOverviewMeta({
             <p
               className={cn(
                 "text-muted-foreground/90",
-                subBodyClassUp,
+                bodyClass,
                 isVi && "font-vietnamese-flashcard"
               )}
             >
@@ -65,7 +65,7 @@ export function BookOverviewMeta({
         <p
           className={cn(
             "text-muted-foreground",
-            subBodyClassUp,
+            bodyClass,
             isVi && "font-vietnamese-flashcard"
           )}
         >
@@ -75,7 +75,7 @@ export function BookOverviewMeta({
           <p
             className={cn(
               "text-foreground font-medium",
-              subBodyClassUp,
+              bodyClass,
               isVi && "font-vietnamese-flashcard"
             )}
           >
@@ -89,7 +89,7 @@ export function BookOverviewMeta({
         <p
           className={cn(
             "text-muted-foreground",
-            subBodyClassUp,
+            bodyClass,
             isVi && "font-vietnamese-flashcard"
           )}
         >
@@ -113,7 +113,7 @@ export function BookOverviewMeta({
         <p
           className={cn(
             "text-muted-foreground",
-            subBodyClassUp,
+            bodyClass,
             isVi && "font-vietnamese-flashcard"
           )}
         >
@@ -123,7 +123,7 @@ export function BookOverviewMeta({
           <p
             className={cn(
               "text-foreground font-medium",
-              subBodyClassUp,
+              bodyClassUp,
               isVi && "font-vietnamese-flashcard"
             )}
           >

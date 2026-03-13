@@ -26,14 +26,14 @@ export function LearnLessonIntro({
   locale,
   bodyBright,
 }: LearnLessonIntroProps) {
-  const { h1Class, introClass, subBodyClassUp } = useBibleFontClasses();
+  const { h1Class, bodyClassUp, bodyClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <div className="mb-12 space-y-6">
-      <p className={cn("text-second mb-3 font-mono font-medium", subBodyClassUp)}>
+      <p className={cn("text-second mb-3 font-mono font-medium", bodyClass)}>
         {moduleNum}
       </p>
       <h1
@@ -47,9 +47,7 @@ export function LearnLessonIntro({
       </h1>
 
       {typeof intro1 === "string" ? (
-        <p
-          className={cn(bodyColor, "mt-4 leading-relaxed", introClass, introFont)}
-        >
+        <p className={cn(bodyColor, "mt-4 leading-relaxed", bodyClassUp, introFont)}>
           {intro1}
         </p>
       ) : (
@@ -60,7 +58,7 @@ export function LearnLessonIntro({
         <p
           className={cn(
             "text-foreground leading-relaxed font-semibold",
-            introClass,
+            bodyClassUp,
             introFont
           )}
         >
@@ -69,9 +67,7 @@ export function LearnLessonIntro({
       </blockquote>
 
       {typeof children === "string" ? (
-        <p
-          className={cn(bodyColor, "mt-4 leading-relaxed", introClass, introFont)}
-        >
+        <p className={cn(bodyColor, "mt-4 leading-relaxed", bodyClassUp, introFont)}>
           {children}
         </p>
       ) : (

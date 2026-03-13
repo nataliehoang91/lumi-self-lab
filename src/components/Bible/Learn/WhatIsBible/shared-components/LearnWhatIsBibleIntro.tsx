@@ -30,14 +30,14 @@ export function LearnWhatIsBibleIntro({
   introParts,
   bodyBright,
 }: LearnWhatIsBibleIntroProps) {
-  const { bodyClass, h1Class, subBodyClassUp } = useBibleFontClasses();
+  const { bodyClassUp, h1Class, subBodyClassUp, bodyClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
     <div className="mb-12">
-      <p className={cn("text-second mb-3 font-mono font-medium", subBodyClassUp)}>
+      <p className={cn("text-second mb-3 font-mono font-medium", bodyClass)}>
         {moduleNum}
       </p>{" "}
       <h1
@@ -49,9 +49,7 @@ export function LearnWhatIsBibleIntro({
       >
         {title}
       </h1>
-      <p
-        className={cn(bodyColor, "mt-4 leading-relaxed", bodyClass, introFont)}
-      >
+      <p className={cn(bodyColor, "mt-4 leading-relaxed", bodyClassUp, introFont)}>
         {introParts[0]}
         <strong className="text-foreground font-semibold">{introParts[1]}</strong>
         {introParts[2]}

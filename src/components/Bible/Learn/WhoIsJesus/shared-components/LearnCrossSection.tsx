@@ -24,7 +24,7 @@ export function LearnCrossSection({
   locale,
   bodyBright,
 }: LearnCrossSectionProps) {
-  const { bodyClass, subBodyClass } = useBibleFontClasses();
+  const { bodyClass, subBodyClass, bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
@@ -40,13 +40,19 @@ export function LearnCrossSection({
       >
         {title}
       </h2>
-      <p className={cn(bodyColor, "mb-3 leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "mb-3 leading-relaxed", bodyClassUp, bodyFont)}>
         {paragraph1}
       </p>
-      <p className={cn(bodyColor, "leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "leading-relaxed", bodyClassUp, bodyFont)}>
         {paragraph2}
       </p>
-      <p className={cn(bodyBright ? "text-foreground/70" : "text-muted-foreground/60", "mt-4 font-mono", subBodyClass)}>
+      <p
+        className={cn(
+          bodyBright ? "text-foreground/70" : "text-muted-foreground/60",
+          "mt-4 font-mono",
+          bodyClass
+        )}
+      >
         {refText}
       </p>
     </section>

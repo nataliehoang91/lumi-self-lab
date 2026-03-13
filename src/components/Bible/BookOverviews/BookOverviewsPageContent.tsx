@@ -50,7 +50,7 @@ interface BookCardProps {
 }
 
 function BookCard({ book, segment, hoverBorderClass, isRead, readLabel }: BookCardProps) {
-  const { subBodyClassUp, bodyClass } = useBibleFontClasses();
+  const { subBodyClassUp, bodyClass, bodyClassUp } = useBibleFontClasses();
   const name = segment === "vi" ? book.nameVi : book.nameEn;
   const chapterLabel =
     segment === "vi" ? "chương" : book.chapterCount === 1 ? "chapter" : "chapters";
@@ -69,8 +69,8 @@ function BookCard({ book, segment, hoverBorderClass, isRead, readLabel }: BookCa
         <div className="flex items-baseline gap-2">
           <span className="text-sm font-normal">{book.order}.</span>
           <div className="flex flex-col gap-1">
-            <span className={cn("text-foreground font-bold", bodyClass)}>{name}</span>
-            <p className={cn("", subBodyClassUp)}>
+            <span className={cn("text-foreground font-bold", bodyClassUp)}>{name}</span>
+            <p className={cn("", bodyClass)}>
               {book.chapterCount} {chapterLabel}
             </p>
           </div>
@@ -78,8 +78,12 @@ function BookCard({ book, segment, hoverBorderClass, isRead, readLabel }: BookCa
         <div className="flex items-center gap-2">
           {isRead && (
             <span
-              className="text-foreground bg-primary-100 inline-flex items-center gap-1
-                rounded-full px-2 py-0.5 text-xs font-medium"
+              className={cn(
+                `text-foreground bg-primary-100 dark:bg-primary-900/30
+                dark:text-primary-300 inline-flex items-center gap-1 rounded-full px-2
+                py-0.5 text-xs font-medium`,
+                subBodyClassUp
+              )}
             >
               <BadgeCheck className="h-3 w-3" />
               {readLabel}
@@ -114,6 +118,9 @@ export function BookOverviewsPageContent({
     subBodyClassUp,
     statValueClassDown,
     bodyClassUp,
+    titleFont,
+    bodyTitleClass,
+    langBodyTitleClass,
   } = useBibleFontClasses();
   const isVi = segment === "vi";
   const readMap = useMemo(() => {
@@ -145,7 +152,7 @@ export function BookOverviewsPageContent({
         <p
           className={cn(
             "text-muted-foreground font-semibold tracking-[0.2em] uppercase",
-            subBodyClassUp
+            bodyClass
           )}
         >
           {isVi ? "Mục lục" : "Table of Contents"}
@@ -158,7 +165,7 @@ export function BookOverviewsPageContent({
         >
           {isVi ? "66 Sách trong Kinh Thánh" : "The 66 Books of the Bible"}
         </h1>
-        <p className={cn("text-muted-foreground leading-relaxed", bodyClass)}>
+        <p className={cn("text-muted-foreground leading-relaxed", bodyClassUp)}>
           {isVi
             ? "Khám phá từng sách với phần giới thiệu, chủ đề chính, câu gốc và nội dung chính."
             : "Explore each book with detailed overviews, themes, key verses, and main content."}
@@ -171,7 +178,7 @@ export function BookOverviewsPageContent({
       >
         <div className="text-center">
           <p className={cn("text-foreground font-semibold", statValueClassDown)}>66</p>
-          <p className={cn("text-muted-foreground mt-1", subBodyClassUp)}>
+          <p className={cn("text-muted-foreground mt-1", bodyClass)}>
             {isVi ? "Tổng số sách" : "Total Books"}
           </p>
         </div>
@@ -179,7 +186,7 @@ export function BookOverviewsPageContent({
           <p className={cn("text-foreground font-semibold", statValueClassDown)}>
             {otBooks.length + ntBooks.length}
           </p>
-          <p className={cn("text-muted-foreground mt-1", subBodyClassUp)}>
+          <p className={cn("text-muted-foreground mt-1", bodyClass)}>
             {isVi ? "Sách đang hiển thị" : "Books Listed"}
           </p>
         </div>
@@ -187,7 +194,7 @@ export function BookOverviewsPageContent({
           <p className={cn("text-foreground font-semibold", statValueClassDown)}>
             {totalChapters.toLocaleString()}
           </p>
-          <p className={cn("text-muted-foreground mt-1", subBodyClassUp)}>
+          <p className={cn("text-muted-foreground mt-1", bodyClass)}>
             {isVi ? "Tổng số chương" : "Total Chapters"}
           </p>
         </div>
@@ -202,18 +209,18 @@ export function BookOverviewsPageContent({
               hover:no-underline data-[state=open]:border-l-0
               data-[state=open]:bg-transparent data-[state=open]:pl-0
               data-[state=open]:font-extrabold [&[data-state=open]>svg]:rotate-180`,
-              bodyClassUp
+              langBodyTitleClass
             )}
           >
             <span className="text-left">
               <span className="block">{isVi ? "Cựu Ước" : "Old Testament"}</span>
-              <span className={cn("font-normal", subBodyClassUp)}>
+              <span className={cn("font-normal", bodyClass)}>
                 ({otBooks.length} books)
               </span>
             </span>
           </AccordionTrigger>
           <AccordionContent className="bg-transparent px-0 py-0">
-            <p className={cn("text-muted-foreground mb-4 leading-relaxed", bodyClass)}>
+            <p className={cn("text-muted-foreground mb-4 leading-relaxed", bodyClassUp)}>
               {isVi
                 ? "Được viết chủ yếu bằng tiếng Hê-bơ-rơ (và một phần A-ram), Cựu Ước kể lại lịch sử, luật pháp, thi ca và các lời tiên tri dành cho dân Ít-ra-ên, từ sự sáng tạo cho đến trước khi Chúa Jêsus giáng sinh."
                 : "Written primarily in Hebrew (with portions in Aramaic), the Old Testament records Israel's history, law, poetry, and prophetic writings. It begins with creation and traces the unfolding relationship between God and His people, including the long-standing promise of a coming Messiah."}
@@ -236,8 +243,9 @@ export function BookOverviewsPageContent({
                     <AccordionTrigger
                       className={cn(
                         "group px-0 hover:no-underline [&>svg]:hidden",
-                        "[&[data-state=open]>div]:bg-second-50/50 py-2",
-                        bodyClass
+                        `[&[data-state=open]>div]:bg-second-50/50
+                        [&[data-state=open]>div]:dark:bg-second-900/30 py-2`,
+                        bodyClassUp
                       )}
                     >
                       <div
@@ -257,10 +265,10 @@ export function BookOverviewsPageContent({
                             </span>
                           </div>
                           <div className="min-w-0">
-                            <p className={cn("font-semibold", bodyClass)}>
+                            <p className={cn("font-semibold", bodyClassUp)}>
                               {isVi && section.titleVi ? section.titleVi : section.title}
                             </p>
-                            <p className={cn("mt-0.5 leading-relaxed", subBodyClassUp)}>
+                            <p className={cn("mt-0.5 leading-relaxed", bodyClass)}>
                               {isVi && section.descriptionVi
                                 ? section.descriptionVi
                                 : section.description}
@@ -284,7 +292,7 @@ export function BookOverviewsPageContent({
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="bg-transparent px-0 pt-1.5 pb-1">
-                      <div className="space-y-1">
+                      <div className="mb-8 space-y-1">
                         {toTwoColumnRows(sectionBooks).map(([left, right], rowIndex) => (
                           <div
                             key={`${section.title}-row-${rowIndex}`}
@@ -293,7 +301,7 @@ export function BookOverviewsPageContent({
                             <BookCard
                               book={left}
                               segment={segment}
-                              subBodyClassUp={bodyClassUp}
+                              subBodyClassUp={bodyClass}
                               hoverBorderClass="hover:border-second"
                               isRead={readMap[left.slugEn]}
                               readLabel={isVi ? "Đã đọc" : "Read"}
@@ -302,7 +310,7 @@ export function BookOverviewsPageContent({
                               <BookCard
                                 book={right}
                                 segment={segment}
-                                subBodyClassUp={subBodyClassUp}
+                                subBodyClassUp={bodyClass}
                                 hoverBorderClass="hover:border-second"
                                 isRead={readMap[right.slugEn]}
                                 readLabel={isVi ? "Đã đọc" : "Read"}
@@ -326,7 +334,7 @@ export function BookOverviewsPageContent({
               hover:no-underline data-[state=open]:border-l-0
               data-[state=open]:bg-transparent data-[state=open]:pl-0
               data-[state=open]:font-extrabold [&[data-state=open]>svg]:rotate-180`,
-              bodyClassUp
+              langBodyTitleClass
             )}
           >
             <span className="text-left">
@@ -337,7 +345,7 @@ export function BookOverviewsPageContent({
             </span>
           </AccordionTrigger>
           <AccordionContent className="bg-transparent px-0 pt-4 pb-4">
-            <p className={cn("text-muted-foreground mb-6 leading-relaxed", bodyClass)}>
+            <p className={cn("text-muted-foreground mb-6 leading-relaxed", bodyClassUp)}>
               {isVi
                 ? "Được viết bằng tiếng Hy Lạp (Koine), Tân Ước mở đầu bằng bốn sách Phúc Âm kể về cuộc đời, chức vụ, sự chết và sự sống lại của Chúa Jêsus; tiếp theo là câu chuyện Hội Thánh đầu tiên lan rộng và kết thúc bằng khải tượng về sự hoàn tất của lịch sử trong Đấng Christ."
                 : "Written in Koine Greek, the New Testament begins with four Gospel accounts of Jesus' life, ministry, death, and resurrection. It continues with the growth of the early church and concludes with a vision of history's ultimate restoration in Christ."}
@@ -360,7 +368,8 @@ export function BookOverviewsPageContent({
                     <AccordionTrigger
                       className={cn(
                         "group px-0 hover:no-underline [&>svg]:hidden",
-                        "[&[data-state=open]>div]:bg-second-50/50 py-2",
+                        `[&[data-state=open]>div]:bg-second-50/50
+                        [&[data-state=open]>div]:dark:bg-second-900/30 py-2`,
                         bodyClassUp
                       )}
                     >
@@ -381,10 +390,10 @@ export function BookOverviewsPageContent({
                             </span>
                           </div>
                           <div className="min-w-0">
-                            <p className={cn("font-semibold", bodyClass)}>
+                            <p className={cn("font-semibold", bodyClassUp)}>
                               {isVi && section.titleVi ? section.titleVi : section.title}
                             </p>
-                            <p className={cn("mt-0.5 leading-relaxed", subBodyClassUp)}>
+                            <p className={cn("mt-0.5 leading-relaxed", bodyClass)}>
                               {isVi && section.descriptionVi
                                 ? section.descriptionVi
                                 : section.description}
@@ -408,7 +417,7 @@ export function BookOverviewsPageContent({
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="bg-transparent px-0 pt-1.5 pb-1">
-                      <div className="space-y-6">
+                      <div className="mb-8 space-y-6">
                         {toTwoColumnRows(sectionBooks).map(([left, right], rowIndex) => (
                           <div
                             key={`${section.title}-row-${rowIndex}`}
@@ -417,7 +426,7 @@ export function BookOverviewsPageContent({
                             <BookCard
                               book={left}
                               segment={segment}
-                              subBodyClassUp={subBodyClassUp}
+                              subBodyClassUp={bodyClass}
                               isRead={readMap[left.slugEn]}
                               readLabel={isVi ? "Đã đọc" : "Read"}
                             />
@@ -425,7 +434,7 @@ export function BookOverviewsPageContent({
                               <BookCard
                                 book={right}
                                 segment={segment}
-                                subBodyClassUp={subBodyClassUp}
+                                subBodyClassUp={bodyClass}
                                 isRead={readMap[right.slugEn]}
                                 readLabel={isVi ? "Đã đọc" : "Read"}
                               />

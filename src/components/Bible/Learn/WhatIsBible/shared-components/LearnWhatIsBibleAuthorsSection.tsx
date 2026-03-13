@@ -19,14 +19,14 @@ export function LearnWhatIsBibleAuthorsSection({
   conclusion,
   quoteBlocks,
 }: LearnWhatIsBibleAuthorsSectionProps) {
-  const { bodyClass } = useBibleFontClasses();
+  const { bodyClassUp } = useBibleFontClasses();
 
   return (
     <section className="mt-12">
       <h3 className="mb-4 text-xl font-semibold">{title}</h3>
 
       {typeof intro === "string" ? (
-        <p className={cn("leading-relaxed", bodyClass)}>{intro}</p>
+        <p className={cn("leading-relaxed", bodyClassUp)}>{intro}</p>
       ) : (
         intro
       )}
@@ -35,7 +35,7 @@ export function LearnWhatIsBibleAuthorsSection({
         {bulletItems.map((item, idx) => (
           <li
             key={idx}
-            className={cn("space-y-4 leading-relaxed md:space-y-0", bodyClass)}
+            className={cn("space-y-4 leading-relaxed md:space-y-0", bodyClassUp)}
           >
             {item}
           </li>
@@ -43,7 +43,7 @@ export function LearnWhatIsBibleAuthorsSection({
       </ul>
 
       {typeof conclusion === "string" ? (
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>{conclusion}</p>
+        <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>{conclusion}</p>
       ) : (
         conclusion
       )}

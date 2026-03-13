@@ -91,7 +91,7 @@ const EN_GLOSSARY: readonly GlossaryItem[] = [
 ];
 
 export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
-  const { bodyClass, bodyTitleClass } = useBibleFontClasses();
+  const { bodyClass, bodyClassUp } = useBibleFontClasses();
 
   const johnHref = buildReadHrefEn(findBookIdByEn(books, "John"), 10, 10, "nt");
 
@@ -109,12 +109,10 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
         className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
           border-l-4 py-6 pr-6 pl-6 not-italic"
       >
-        <p
-          className={cn("font-bible-english leading-snug font-semibold", bodyTitleClass)}
-        >
+        <p className={cn("font-bible-english leading-snug font-semibold", bodyClassUp)}>
           A Relationship, Not a Religion
         </p>
-        <p className={cn("leading-relaxed", bodyClass)}>
+        <p className={cn("leading-relaxed", bodyClassUp)}>
           Christianity is not simply a system of rules to follow, but a relationship to
           enter. Jesus said he came so that people “may have life, and have it to the
           full”{" "}
@@ -127,7 +125,7 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
           </Link>
           . The goal is not perfection, but walking in a real relationship with God.
         </p>
-        <p className={cn("border-border border-t pt-4 leading-relaxed", bodyClass)}>
+        <p className={cn("border-border border-t pt-4 leading-relaxed", bodyClassUp)}>
           Reading Scripture, praying, and gathering with other believers are ways of
           growing in that relationship — not conditions for being accepted.
         </p>
@@ -184,19 +182,19 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       />
 
       <LearnWhyItMatters title="Why does faith matter?">
-        <p className={cn("leading-relaxed", bodyClass)}>
+        <p className={cn("leading-relaxed", bodyClassUp)}>
           Everyone places trust in something — in their own strength, in relationships, in
           success, or in ideas about meaning and hope. The question is not whether you
           have faith, but where you place it.
         </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+        <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
           If faith is only positive thinking, it collapses when circumstances change. But
           if faith rests in God — who does not change — it becomes a steady foundation in
           the middle of anxiety, failure, and uncertainty.
         </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+        <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
           Christian faith does not only answer “What should I do?” It answers “Who am I?”
           and “To whom do I belong?” It does not merely adjust behaviour — it reshapes the
           foundation of your life.

@@ -33,7 +33,8 @@ export function LearnPageModuleCard({
   locale,
   segmentKey,
 }: LearnPageModuleCardProps) {
-  const { bodyClass, bodyTitleClass, subBodyClass, buttonClass } = useBibleFontClasses();
+  const { bodyClass, bodyTitleClass, subBodyClass, buttonClass, bodyClassUp } =
+    useBibleFontClasses();
   const contentFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const [isRead, setIsRead] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -73,7 +74,7 @@ export function LearnPageModuleCard({
         <span
           className={cn(
             "text-second w-6 pt-0.5 font-mono font-semibold",
-            bodyClass,
+            bodyClassUp,
             contentFont
           )}
         >
@@ -89,26 +90,23 @@ export function LearnPageModuleCard({
           >
             {title}
           </p>
-          <p className={cn("mt-2 max-w-prose leading-relaxed", bodyClass, contentFont)}>
+          <p className={cn("mt-2 max-w-prose leading-relaxed", bodyClassUp, contentFont)}>
             {desc}
           </p>
         </div>
       </div>
       <div className="mt-4 flex justify-between">
         <p
-          className={cn(
-            "text-muted-foreground pl-12 font-light",
-            subBodyClass,
-            contentFont
-          )}
+          className={cn("text-muted-foreground pl-12 font-light", bodyClass, contentFont)}
         >
           {min} {minLabel}
         </p>
         <span
           className={cn(
             `bg-primary-light/80 text-foreground group-hover:bg-primary/25
-            group-hover:border-primary/70 flex shrink-0 items-center gap-1.5 rounded-lg
-            px-3 py-1.5 font-medium transition-all`,
+            dark:bg-primary-900/30 dark:text-primary-400 group-hover:border-primary/70
+            flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 font-medium
+            transition-all`,
             buttonClass,
             contentFont
           )}

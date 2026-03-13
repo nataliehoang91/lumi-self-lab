@@ -134,8 +134,9 @@ function findBookIdByVi(
 const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
 
 export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
-  const { bodyClass, bodyTitleClass, subBodyClassUp } = useBibleFontClasses();
-  const vnBodyClass = cn(bodyClass, VN_FLASHCARD_FONT);
+  const { bodyClass, bodyTitleClass, subBodyClassUp, bodyClassUp } =
+    useBibleFontClasses();
+  const vnBodyClass = cn(bodyClassUp, VN_FLASHCARD_FONT);
   return (
     <article aria-label="Kinh thánh là gì?" className="text-foreground">
       <LearnWhatIsBibleIntro
@@ -196,7 +197,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         }
         bulletItems={[
           <div key="1" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className="">• Vua - như Đa-vít</span>
+            <span className={cn(bodyClassUp)}>• Vua - như Đa-vít</span>
             <span className="hidden shrink-0 md:block">-</span>
             <div className="flex justify-end gap-x-2 text-right">
               <BibleVerseLink
@@ -207,7 +208,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
                 verse={4}
                 verseEnd={5}
                 testament="ot"
-                triggerClassName={subBodyClassUp}
+                triggerClassName={bodyClass}
                 previewText={VERSE_PREVIEW_VN_AUTHORS["II Sa-mu-ên 5:4-5"]}
               >
                 II Sa-mu-ên 5:4-5
@@ -215,7 +216,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             </div>
           </div>,
           <div key="2" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className="">• Người chăn chiên - như A-mốt</span>
+            <span className={cn(bodyClassUp)}>• Người chăn chiên - như A-mốt</span>
             <span className="hidden shrink-0 md:block">-</span>
             <div className="flex justify-end gap-x-2 text-right">
               <BibleVerseLink
@@ -225,7 +226,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
                 chapter={1}
                 verse={1}
                 testament="ot"
-                triggerClassName={subBodyClassUp}
+                triggerClassName={bodyClass}
                 previewText={VERSE_PREVIEW_VN_AUTHORS["A-mốt 1:1"]}
               >
                 A-mốt 1:1
@@ -233,7 +234,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             </div>
           </div>,
           <div key="3" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className="">• Quan chức triều đình - như Đa-ni-ên</span>
+            <span className={cn(bodyClassUp)}>• Quan chức triều đình - như Đa-ni-ên</span>
             <span className="hidden shrink-0 md:block">-</span>
             <div className="flex justify-end gap-x-2 text-right">
               <BibleVerseLink
@@ -243,7 +244,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
                 chapter={2}
                 verse={48}
                 testament="ot"
-                triggerClassName={subBodyClassUp}
+                triggerClassName={bodyClass}
                 previewText={VERSE_PREVIEW_VN_AUTHORS["Đa-ni-ên 2:48"]}
               >
                 Đa-ni-ên 2:48
@@ -251,7 +252,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             </div>
           </div>,
           <div key="4" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className="">• Bác sĩ - như Lu-ca</span>
+            <span className={cn(bodyClassUp)}>• Bác sĩ - như Lu-ca</span>
             <span className="hidden shrink-0 md:block">-</span>
             <div className="flex justify-end gap-x-2 text-right">
               <BibleVerseLink
@@ -261,7 +262,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
                 chapter={4}
                 verse={14}
                 testament="nt"
-                triggerClassName={subBodyClassUp}
+                triggerClassName={bodyClass}
                 previewText={VERSE_PREVIEW_VN_AUTHORS["Cô-lô-se 4:14"]}
               >
                 Cô-lô-se 4:14
@@ -269,7 +270,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             </div>
           </div>,
           <div key="5" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className="">• Người đánh cá - như Phi-e-rơ</span>
+            <span className={cn(bodyClassUp)}>• Người đánh cá - như Phi-e-rơ</span>
             <span className="hidden shrink-0 md:block">-</span>
             <div className="flex justify-end gap-x-2 text-right">
               <BibleVerseLink
@@ -280,7 +281,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
                 verse={18}
                 verseEnd={21}
                 testament="nt"
-                triggerClassName={subBodyClassUp}
+                triggerClassName={bodyClass}
                 previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 4:18-21"]}
               >
                 Ma-thi-ơ 4:18-21
@@ -288,7 +289,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             </div>
           </div>,
           <div key="6" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className="">• Người thu thuế - như Ma-thi-ơ</span>
+            <span className={cn(bodyClassUp)}>• Người thu thuế - như Ma-thi-ơ</span>
             <span className="hidden shrink-0 md:block">-</span>
             <div className="flex justify-end gap-x-2 text-right">
               <BibleVerseLink
@@ -298,7 +299,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
                 chapter={10}
                 verse={3}
                 testament="nt"
-                triggerClassName={subBodyClassUp}
+                triggerClassName={bodyClass}
                 previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 10:3"]}
               >
                 Ma-thi-ơ 10:3
@@ -307,7 +308,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </div>,
         ]}
         conclusion={
-          <p className={cn("mt-6 leading-relaxed", vnBodyClass)}>
+          <p className={cn("mt-6 leading-relaxed", bodyClassUp, vnBodyClass)}>
             Dù được viết bởi nhiều người trong nhiều thời đại khác nhau, người tin Chúa
             tin rằng Đức Chúa Trời đã hướng dẫn họ khi viết.
           </p>

@@ -122,7 +122,7 @@ function findBookIdByEn(books: BibleBook[] | undefined, nameEn: string): string 
 }
 
 export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
-  const { bodyClass, bodyTitleClass } = useBibleFontClasses();
+  const { bodyClass, bodyClassUp, bodyTitleClass } = useBibleFontClasses();
   return (
     <article aria-label="What Is the Bible?" className="text-foreground">
       <LearnWhatIsBibleIntro
@@ -149,18 +149,13 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         >
           The {TERM_BIBLE_EN} is a library, not a single book.
         </p>
-        <p className={cn("leading-relaxed", bodyClass)}>
+        <p className={cn("leading-relaxed", bodyClassUp)}>
           The word <strong>&quot;Bible&quot;</strong> comes from the {LANG_GREEK_EN}{" "}
           <strong>&quot;biblia&quot;</strong>, meaning “books.” Understanding this helps
           us avoid reading the {TERM_BIBLE_EN} as one uniform text, and instead as a
           collection of interconnected writings.
         </p>
-        <p
-          className={cn(
-            "border-border border-t pt-4 leading-relaxed",
-            bodyClass
-          )}
-        >
+        <p className={cn("border-border border-t pt-4 leading-relaxed", bodyClassUp)}>
           The {TERM_BIBLE_EN} includes multiple genres: history, poetry, law, letters, and
           apocalyptic vision. Not every part should be read in the same way.
         </p>
@@ -284,7 +279,7 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </div>,
         ]}
         conclusion={
-          <p className={cn("mt-6 leading-relaxed", bodyClass)}>
+          <p className={cn("mt-6 leading-relaxed", bodyClassUp)}>
             Despite their different backgrounds, many readers believe these writings
             together form a coherent story about {TERM_GOD_EN} and humanity.
           </p>

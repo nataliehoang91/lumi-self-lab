@@ -22,8 +22,14 @@ export interface LearnProphecySectionProps {
   bodyBright?: boolean;
 }
 
-export function LearnProphecySection({ title, intro, items, locale, bodyBright }: LearnProphecySectionProps) {
-  const { bodyClass, subBodyClass } = useBibleFontClasses();
+export function LearnProphecySection({
+  title,
+  intro,
+  items,
+  locale,
+  bodyBright,
+}: LearnProphecySectionProps) {
+  const { bodyClass, subBodyClass, bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
@@ -37,7 +43,7 @@ export function LearnProphecySection({ title, intro, items, locale, bodyBright }
       >
         {title}
       </h2>
-      <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClassUp, bodyFont)}>
         {intro}
       </p>
       <ul className="m-0 list-none space-y-2 p-0">
@@ -52,10 +58,10 @@ export function LearnProphecySection({ title, intro, items, locale, bodyBright }
               aria-hidden
             />
             <div className="min-w-0 flex-1">
-              <p className={cn("text-foreground", bodyClass, bodyFont)}>{item.prophecy}</p>
-              <p
-                className={cn(refColor, "mt-0.5 font-mono", subBodyClass)}
-              >
+              <p className={cn("text-foreground", bodyClassUp, bodyFont)}>
+                {item.prophecy}
+              </p>
+              <p className={cn(refColor, "mt-0.5 font-mono", bodyClass)}>
                 {item.ref} → {item.fulfilled}
               </p>
             </div>

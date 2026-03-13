@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { BibleHeading } from "@/components/Bible/BibleHeading";
 import { LearnMiniMap, LearnMapPopover } from "@/components/Bible/Learn/LearnOriginMap";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { MapLocationId } from "@/components/Bible/Learn/LearnOriginMap";
 import { cn } from "@/lib/utils";
 import { TIMELINE_LOCATION_IDS } from "./constants";
@@ -42,10 +43,14 @@ export function LearnBibleOriginTimeline({
   );
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-serif";
   const itemFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const { bodyTitleClass, bodyClass, subBodyClass, subBodyClassUp } = useBibleFontClasses();
 
   return (
     <section className="mb-14">
-      <BibleHeading level="h2" className={cn("text-foreground mb-6 font-semibold", titleFont)}>
+      <BibleHeading
+        level="h2"
+        className={cn("text-foreground mb-6 font-semibold", bodyTitleClass, titleFont)}
+      >
         {timeline}
       </BibleHeading>
       <div className="relative">
@@ -56,9 +61,10 @@ export function LearnBibleOriginTimeline({
             const loc = mapLocations[locationId];
             const chipContent = (
               <span
-                className="text-muted-foreground bg-muted hover:bg-muted/80 inline-flex
-                  cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-xs
-                  transition-colors"
+                className={cn(
+                  "text-muted-foreground bg-muted hover:bg-muted/80 inline-flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors",
+                  subBodyClass
+                )}
               >
                 <MapPin className="h-3 w-3" />
                 {loc.label}
@@ -68,8 +74,10 @@ export function LearnBibleOriginTimeline({
               <div key={i} className="flex items-start gap-4">
                 <div className="w-24 shrink-0 pt-4 text-right">
                   <span
-                    className="text-muted-foreground/70 block font-mono text-xs
-                      whitespace-nowrap"
+                    className={cn(
+                      "text-muted-foreground/70 block font-mono whitespace-nowrap",
+                      subBodyClass
+                    )}
                   >
                     {t.year}
                   </span>
@@ -84,10 +92,22 @@ export function LearnBibleOriginTimeline({
                 >
                   <div className="flex h-full items-center gap-0">
                     <div className="min-w-0 flex-1 px-4 py-4">
-                      <p className={cn("text-foreground text-sm leading-snug font-semibold", itemFont)}>
+                      <p
+                        className={cn(
+                          "text-foreground leading-snug font-semibold",
+                          bodyTitleClass,
+                          itemFont
+                        )}
+                      >
                         {t.event}
                       </p>
-                      <p className={cn("text-muted-foreground mt-1.5 text-sm leading-relaxed", itemFont)}>
+                      <p
+                        className={cn(
+                          "text-muted-foreground mt-1.5 leading-relaxed",
+                          bodyClass,
+                          itemFont
+                        )}
+                      >
                         {t.desc}
                       </p>
                       <div className="mt-3 flex items-center gap-0">
@@ -154,7 +174,13 @@ export function LearnBibleOriginTimeline({
           {mapSheetLocationId != null && (
             <>
               <SheetHeader>
-                <SheetTitle className="text-left text-sm tracking-wider uppercase">
+                <SheetTitle
+                  className={cn(
+                    "text-left tracking-wider uppercase",
+                    subBodyClassUp,
+                    itemFont
+                  )}
+                >
                   {mapLocations[mapSheetLocationId].label}
                 </SheetTitle>
               </SheetHeader>
@@ -162,7 +188,13 @@ export function LearnBibleOriginTimeline({
                 <div className="border-border bg-card overflow-hidden rounded-xl border">
                   <LearnMiniMap activeId={mapSheetLocationId} labels={mapLabels} />
                 </div>
-                <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
+                <p
+                  className={cn(
+                    "text-muted-foreground mt-4 leading-relaxed",
+                    bodyClass,
+                    itemFont
+                  )}
+                >
                   {mapLocations[mapSheetLocationId].desc}
                 </p>
               </div>

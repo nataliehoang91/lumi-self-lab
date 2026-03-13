@@ -26,7 +26,7 @@ export function LearnWhatIsFaithGraceSection({
   locale,
   bodyBright,
 }: LearnWhatIsFaithGraceSectionProps) {
-  const { bodyClass } = useBibleFontClasses();
+  const { bodyClass, bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
@@ -36,7 +36,7 @@ export function LearnWhatIsFaithGraceSection({
       <h2 className={cn("text-foreground mb-3 text-2xl font-semibold", titleFont)}>
         {graceTitle}
       </h2>
-      <p className={cn(bodyColor, "mb-3 leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "mb-3 leading-relaxed", bodyClassUp, bodyFont)}>
         {graceBody}
       </p>
       <div
@@ -48,7 +48,11 @@ export function LearnWhatIsFaithGraceSection({
           footnoteAlign="center"
           footnote={graceRef}
           footnoteHref={graceFootnoteHref}
-          className={cn("mt-4", locale === "vi" && "font-vietnamese-flashcard")}
+          className={cn(
+            "mt-4",
+            bodyClass,
+            locale === "vi" && "font-vietnamese-flashcard"
+          )}
         />
       </div>
     </section>

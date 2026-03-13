@@ -43,7 +43,7 @@ function getBookNameFromSlug(slug: string, lang: "en" | "vi"): string {
 
 export default function BookOverviewsLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { subBodyClassUp } = useBibleFontClasses();
+  const { bodyClass } = useBibleFontClasses();
   const parts = pathname?.split("/") ?? [];
   const lang = parts[2] === "vi" ? "vi" : "en";
   const isBookPage =
@@ -64,7 +64,7 @@ export default function BookOverviewsLayout({ children }: { children: React.Reac
           <div
             className={cn(
               "text-muted-foreground mb-8 flex items-center gap-2",
-              subBodyClassUp,
+              bodyClass,
               lang === "vi" && "font-vietnamese-flashcard"
             )}
           >

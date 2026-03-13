@@ -23,7 +23,7 @@ export function LearnWhatIsFaithRepentanceSection({
   locale,
   bodyBright,
 }: LearnWhatIsFaithRepentanceSectionProps) {
-  const { bodyClass } = useBibleFontClasses();
+  const { bodyClass, bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
@@ -34,10 +34,10 @@ export function LearnWhatIsFaithRepentanceSection({
       <h2 className={cn("text-foreground mb-3 text-xl font-semibold", titleFont)}>
         {repentanceTitle}
       </h2>
-      <p className={cn(bodyColor, "leading-relaxed", bodyClass, bodyFont)}>
+      <p className={cn(bodyColor, "leading-relaxed", bodyClassUp, bodyFont)}>
         {repentanceBody}
       </p>
-      <p className={cn(refColor, "mt-4 font-mono text-xs")}>
+      <p className={cn(refColor, "mt-4 font-mono text-xs", bodyClass)}>
         {repentanceRefHref ? (
           <a
             href={repentanceRefHref}
