@@ -19,7 +19,6 @@ export interface LangPageHeroProps {
 }
 
 export function LangPageHero({
-  eyebrow,
   title1,
   title2,
   subtitle,
@@ -30,8 +29,7 @@ export function LangPageHero({
   readHref,
   children,
 }: LangPageHeroProps) {
-  const { subBodyClass, heroTitleClass, subtitleClass, buttonClass } =
-    useBibleFontClasses();
+  const { heroTitleClass, subtitleClass, langButtonClass } = useBibleFontClasses();
 
   return (
     <section
@@ -80,9 +78,9 @@ export function LangPageHero({
           <Link
             href={learnHref}
             className={cn(
-              `bg-primary-dark flex items-center justify-center gap-2 rounded-xl px-4
-              py-2.5 text-lg font-semibold text-white transition-opacity hover:opacity-90`,
-              buttonClass
+              `bg-primary-dark flex items-center justify-center gap-2 rounded-xl px-2
+              py-2.5 font-semibold text-white transition-opacity hover:opacity-90`,
+              langButtonClass
             )}
           >
             {ctaStartLabel}
@@ -93,9 +91,9 @@ export function LangPageHero({
             href={readHref}
             className={cn(
               `bg-second-400/40 border-second-400 text-second-900 hover:bg-second-400/60
-              flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-lg
+              flex items-center justify-center gap-2 rounded-xl border px-2 py-2.5
               font-semibold transition-colors dark:text-white`,
-              buttonClass
+              langButtonClass
             )}
           >
             {ctaBibleLabel}

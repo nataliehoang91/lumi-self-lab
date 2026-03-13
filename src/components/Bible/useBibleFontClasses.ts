@@ -17,6 +17,14 @@ export function useBibleFontClasses() {
         ? "text-lg md:text-[18px]"
         : "text-base md:text-[15px]";
 
+  /** One step up from bodyTitleClass, for key Lang journey headings. */
+  const langBodyTitleClass =
+    fontSize === "small"
+      ? "text-base md:text-[15px]"
+      : fontSize === "large"
+        ? "text-xl md:text-[20px]"
+        : "text-lg md:text-[17px]";
+
   const bodyClass =
     fontSize === "small"
       ? "text-sm md:text-[13px]"
@@ -78,13 +86,21 @@ export function useBibleFontClasses() {
         ? "text-base md:text-[15px]"
         : "text-sm md:text-[13px]";
 
+  /** Slightly larger buttons for Lang hero primary CTAs. */
+  const langButtonClass =
+    fontSize === "small"
+      ? "text-sm md:text-[13px]"
+      : fontSize === "large"
+        ? "text-lg md:text-[17px]"
+        : "text-base md:text-[15px]";
+
   /** Large hero title (e.g. LangPage). */
   const heroTitleClass =
     fontSize === "small"
-      ? "text-[32px] md:text-5xl lg:text-6xl"
+      ? "text-[36px] md:text-5xl lg:text-6xl"
       : fontSize === "large"
-        ? "text-6xl md:text-7xl lg:text-[80px]"
-        : "text-5xl md:text-[52px] lg:text-[60px]";
+        ? "text-6xl md:text-7xl lg:text-[84px]"
+        : "text-5xl md:text-[56px] lg:text-[64px]";
 
   /** Stat value (big number). */
   const statValueClass =
@@ -106,6 +122,7 @@ export function useBibleFontClasses() {
     bodyClass,
     bodyClassUp,
     bodyTitleClass,
+    langBodyTitleClass,
     subBodyClass,
     subBodyClassUp,
     h1Class,
@@ -113,6 +130,7 @@ export function useBibleFontClasses() {
     verseClass,
     introClass,
     buttonClass,
+    langButtonClass,
     heroTitleClass,
     statValueClass,
     statValueClassDown,

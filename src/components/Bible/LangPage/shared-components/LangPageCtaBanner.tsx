@@ -23,7 +23,7 @@ export function LangPageCtaBanner({
   learnHref,
   readHref,
 }: LangPageCtaBannerProps) {
-  const { h1Class, bodyClass, buttonClass } = useBibleFontClasses();
+  const { h1Class, subtitleClass, langButtonClass } = useBibleFontClasses();
 
   return (
     <section className="px-6 py-24">
@@ -37,7 +37,7 @@ export function LangPageCtaBanner({
           </h2>
           <p
             className={`text-muted-foreground mx-auto max-w-xl leading-relaxed text-pretty
-              ${bodyClass}`}
+              ${subtitleClass}`}
           >
             {paragraph}
           </p>
@@ -48,10 +48,9 @@ export function LangPageCtaBanner({
             <Link
               href={learnHref}
               className={cn(
-                `bg-primary-dark flex items-center justify-center gap-2 rounded-xl px-4
-                py-2.5 text-lg font-semibold text-white transition-opacity
-                hover:opacity-90`,
-                buttonClass
+                `bg-primary-dark flex items-center justify-center gap-2 rounded-xl px-2
+                py-2 text-lg font-semibold text-white transition-opacity hover:opacity-90`,
+                langButtonClass
               )}
             >
               {newLabel}
@@ -62,9 +61,9 @@ export function LangPageCtaBanner({
               href={readHref}
               className={cn(
                 `bg-second-400/40 border-second-400 text-second-900 hover:bg-second-400/60
-                flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5
-                text-lg font-semibold transition-colors dark:text-white`,
-                buttonClass
+                flex items-center justify-center gap-2 rounded-xl border px-2 py-2 text-lg
+                font-semibold transition-colors dark:text-white`,
+                langButtonClass
               )}
             >
               {bibleLabel}

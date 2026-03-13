@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { NavLink } from "./types";
-import { BibleLogo, MonotoneBibleLogo, WhiteBibleLogo } from "../../BibleLogo";
+import { WhiteBibleLogo } from "../../BibleLogo";
 
 export interface LangPageFooterProps {
   tagline: string;
@@ -12,7 +12,8 @@ export interface LangPageFooterProps {
 }
 
 export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterProps) {
-  const { bodyClass, subBodyClass } = useBibleFontClasses();
+  const { bodyClass, subBodyClass, subtitleClass, bodyClassUp, langBodyTitleClass } =
+    useBibleFontClasses();
 
   return (
     <footer className="border-border/50 relative mt-12 border-t">
@@ -38,12 +39,15 @@ export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterP
               {/* Mini cross mark */}
               <WhiteBibleLogo />
               <div>
-                <span className={`text-foreground font-serif font-semibold ${bodyClass}`}>
+                <span
+                  className={`text-foreground font-serif font-semibold
+                    ${langBodyTitleClass}`}
+                >
                   Scripture·Space
                 </span>
                 <p
                   className={`text-muted-foreground max-w-[220px] text-xs leading-relaxed
-                    ${subBodyClass}`}
+                    ${bodyClassUp}`}
                 >
                   {tagline}
                 </p>
@@ -62,7 +66,7 @@ export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterP
                 key={l.href}
                 href={l.href}
                 className={`text-muted-foreground hover:text-foreground text-center
-                text-xs leading-relaxed transition-colors ${subBodyClass}`}
+                text-xs leading-relaxed transition-colors ${bodyClass}`}
               >
                 {l.label}
               </Link>
@@ -89,7 +93,7 @@ export function LangPageFooter({ tagline, copyright, navLinks }: LangPageFooterP
               style={{ background: "oklch(0.72 0.14 25 / 0.5)" }}
             />
           </div>
-          <p className={`text-muted-foreground/50 text-xs ${subBodyClass}`}>
+          <p className={`text-muted-foreground/50 text-xs ${bodyClass}`}>
             &copy; {new Date().getFullYear()} Powered by SelfWithin. {copyright}
           </p>
           {/* Tiny accent dots using brand colors */}

@@ -15,8 +15,15 @@ export interface LangPageJourneyProps {
 }
 
 export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps) {
-  const { subBodyClassUp, h1Class, bodyTitleClass, bodyClassUp, buttonClass } =
-    useBibleFontClasses();
+  const {
+    subBodyClassUp,
+    h1Class,
+    bodyTitleClass,
+    langBodyTitleClass,
+    bodyClassUp,
+    langButtonClass,
+    bodyClass,
+  } = useBibleFontClasses();
 
   return (
     <section className="border-border/50 border-t px-6 py-4">
@@ -68,11 +75,13 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                       <div>
                         <p
                           className={`text-muted-foreground/60 font-mono
-                          dark:text-gray-400 ${subBodyClassUp}`}
+                          dark:text-gray-400 ${bodyClass}`}
                         >
                           {item.step}
                         </p>
-                        <p className={`text-foreground font-semibold ${bodyTitleClass}`}>
+                        <p
+                          className={`text-foreground font-semibold ${langBodyTitleClass}`}
+                        >
                           {item.label}
                         </p>
                       </div>
@@ -80,7 +89,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                     <div className="min-w-0 flex-1">
                       <p
                         className={`text-foreground mb-1 font-medium dark:text-white
-                        ${bodyTitleClass}`}
+                        ${langBodyTitleClass}`}
                       >
                         {item.headline}
                       </p>
@@ -97,7 +106,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                             href={l.href}
                             className={`border-border text-muted-foreground
                             hover:text-foreground hover:bg-primary-50 rounded-lg border
-                            px-3 py-1 transition-colors dark:text-white ${subBodyClassUp}`}
+                            px-3 py-1 transition-colors dark:text-white ${bodyClass}`}
                           >
                             {l.label}
                           </Link>
@@ -110,7 +119,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                         className={`bg-second-400/40 border-second-400 flex items-center
                         justify-center gap-2 rounded-xl border px-5 py-2.5 font-medium
                         whitespace-nowrap transition-opacity hover:opacity-90
-                        dark:text-white ${buttonClass}`}
+                        dark:text-white ${langButtonClass}`}
                       >
                         {item.cta.label}
                         <ArrowRight className="h-3.5 w-3.5" />
