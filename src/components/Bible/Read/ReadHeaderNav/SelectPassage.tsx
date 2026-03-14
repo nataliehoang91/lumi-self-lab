@@ -117,7 +117,7 @@ export function SelectPassage({
           )}
           aria-label={t("readSelectPassage")}
         >
-          <span className="max-w-[140px] truncate text-lg sm:max-w-[200px] lg:max-w-none">
+          <span className="max-w-md truncate text-lg sm:max-w-[200px] lg:max-w-none">
             <span className="lg:hidden">{labelShort}</span>
             <span className="hidden lg:inline">{labelFull}</span>
           </span>

@@ -47,7 +47,7 @@ export const READ_FONT_FACES_EN: ReadFontFaceOption[] = [
 export const READ_FONT_FACES_VI: ReadFontFaceOption[] = [
   {
     id: "be-vietnam-pro",
-    label: "Be Vietnam Pro",
+    label: "Vietnam Pro",
     fontFamily: "var(--font-be-vietnam-pro), sans-serif",
   },
   { id: "roboto", label: "Roboto", fontFamily: "var(--font-roboto), sans-serif" },
@@ -62,6 +62,6 @@ export const READ_FONT_FACES_VI: ReadFontFaceOption[] = [
     fontFamily: "var(--font-open-sans), sans-serif",
   },
   { id: "inter", label: "Inter", fontFamily: "var(--font-inter), sans-serif" },
-  { id: "merriweather", label: "Merriweather", className: "font-vietnamese" },
+  { id: "merriweather", label: "Merri", className: "font-vietnamese" },
   { id: "noto-serif", label: "Noto Serif", className: "font-vietnamese-flashcard" },
 ];
