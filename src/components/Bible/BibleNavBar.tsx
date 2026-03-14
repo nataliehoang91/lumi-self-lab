@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SquareMenu } from "lucide-react";
+import { SquareMenu, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -415,142 +415,294 @@ export function BibleNavBar() {
           </NavigationMenu>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-          {/* 0. Quick Bible reference search (desktop) */}
-          <BibleReferenceSearch
-            langSegment={langSegment as "en" | "vi" | "zh"}
-            globalLanguage={globalLanguage}
-          />
+        <div className="flex shrink-0 items-center gap-2">
+          {/* Desktop: Search + Settings dropdown */}
+          <div className="hidden items-center gap-2 md:flex">
+            {/* Smart Search */}
+            <BibleReferenceSearch
+              langSegment={langSegment as "en" | "vi" | "zh"}
+              globalLanguage={globalLanguage}
+            />
 
-          {/* 1. Font size – single trigger + vertical dropdown (all screen sizes) */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="border-sky-blue/40 bg-sky-blue text-sky-blue-foreground h-8
-                  rounded-md border px-3 text-sm transition-all"
-                aria-label={intl.t("navFontMedium")}
-                title={
-                  fontSize === "small"
-                    ? intl.t("navFontSmall")
-                    : fontSize === "large"
-                      ? intl.t("navFontLarge")
-                      : intl.t("navFontMedium")
-                }
-              >
-                {fontSize === "small" ? "A-" : fontSize === "large" ? "A+" : "A"}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              className="border-sky-blue/40 min-w-14 rounded-lg border bg-blue-50 p-1.5"
-            >
-              <DropdownMenuItem
-                onClick={() => setFontSize("small")}
-                className={cn(
-                  "h-8 cursor-pointer rounded-lg px-3 py-1.5 text-sm transition-colors",
-                  fontSize === "small"
-                    ? "bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue"
-                    : `text-muted-foreground hover:bg-primary/20 hover:text-foreground
-                      focus:bg-primary/20 focus:text-foreground`
-                )}
-              >
-                A-
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => setFontSize("medium")}
-                className={cn(
-                  "h-8 cursor-pointer rounded-lg px-3 py-1.5 text-sm transition-colors",
-                  fontSize === "medium"
-                    ? "bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue"
-                    : `text-muted-foreground hover:bg-primary/20 hover:text-foreground
-                      focus:bg-primary/20 focus:text-foreground`
-                )}
-              >
-                A
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => setFontSize("large")}
-                className={cn(
-                  "h-8 cursor-pointer rounded-lg px-3 py-1.5 text-sm transition-colors",
-                  fontSize === "large"
-                    ? "bg-sky-blue text-sky-blue-foreground hover:bg-sky-blue"
-                    : `text-muted-foreground hover:bg-primary/20 hover:text-foreground
-                      focus:bg-primary/20 focus:text-foreground`
-                )}
-              >
-                A+
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* 3. Language – single trigger + vertical dropdown (all screen sizes) */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="border-bible-lang/40 bg-bible-lang text-bible-lang-foreground
-                  h-8 rounded-md border px-3 text-sm transition-all"
-                aria-label="Language"
-              >
-                {globalLanguage === "ZH" && !showZhLanguage
-                  ? "EN"
-                  : globalLanguage === "ZH"
-                    ? "中"
-                    : globalLanguage}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              className="border-bible-lang/40 min-w-14 rounded-lg border bg-emerald-50
-                p-1.5"
-            >
-              <DropdownMenuItem
-                onClick={() => handleLanguageChange("EN")}
-                className={cn(
-                  "h-8 cursor-pointer rounded-lg px-3 py-1.5 text-sm transition-colors",
-                  globalLanguage === "EN" || (globalLanguage === "ZH" && !showZhLanguage)
-                    ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang"
-                    : `text-muted-foreground hover:bg-primary/20 hover:text-foreground
-                      focus:bg-primary/20 focus:text-foreground`
-                )}
-              >
-                EN
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleLanguageChange("VI")}
-                className={cn(
-                  "h-8 cursor-pointer rounded-lg px-3 py-1.5 text-sm transition-colors",
-                  globalLanguage === "VI"
-                    ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang"
-                    : `text-muted-foreground hover:bg-primary/20 hover:text-foreground
-                      focus:bg-primary/20 focus:text-foreground`
-                )}
-              >
-                VI
-              </DropdownMenuItem>
-              {showZhLanguage && (
+            {/* All settings in one dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  aria-label="Settings"
+                >
+                  <Settings className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                {/* Font Size Section */}
+                <div
+                  className="text-muted-foreground px-2 py-1.5 text-xs font-semibold
+                    tracking-wide uppercase"
+                >
+                  Font Size
+                </div>
                 <DropdownMenuItem
-                  onClick={() => handleLanguageChange("ZH")}
+                  onClick={() => setFontSize("small")}
                   className={cn(
-                    "h-8 cursor-pointer rounded-lg px-3 py-1.5 text-sm transition-colors",
-                    globalLanguage === "ZH"
-                      ? "bg-bible-lang text-bible-lang-foreground hover:bg-bible-lang"
-                      : `text-muted-foreground hover:bg-primary/20 hover:text-foreground
-                        focus:bg-primary/20 focus:text-foreground`
+                    "cursor-pointer text-sm hover:bg-sky-blue/20 focus:bg-sky-blue/20",
+                    fontSize === "small" && "bg-sky-blue/20"
                   )}
                 >
-                  中
+                  <span className="w-6">A-</span>
+                  <span className="text-muted-foreground">Small</span>
                 </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem
+                  onClick={() => setFontSize("medium")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sky-blue/20 focus:bg-sky-blue/20",
+                    fontSize === "medium" && "bg-sky-blue/20"
+                  )}
+                >
+                  <span className="w-6">A</span>
+                  <span className="text-muted-foreground">Normal</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setFontSize("large")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sky-blue/20 focus:bg-sky-blue/20",
+                    fontSize === "large" && "bg-sky-blue/20"
+                  )}
+                >
+                  <span className="w-6">A+</span>
+                  <span className="text-muted-foreground">Large</span>
+                </DropdownMenuItem>
 
-          {/* 4. Palette + Theme */}
-          <ThemePaletteSwitch />
-          <ThemeToggleButtonBibleApp variant="desktop" />
+                <div className="bg-border my-1 h-px" />
+
+                {/* Language Section */}
+                <div
+                  className="text-muted-foreground px-2 py-1.5 text-xs font-semibold
+                    tracking-wide uppercase"
+                >
+                  Language
+                </div>
+                <DropdownMenuItem
+                  onClick={() => handleLanguageChange("EN")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sage/20 focus:bg-sage/20",
+                    (globalLanguage === "EN" ||
+                      (globalLanguage === "ZH" && !showZhLanguage)) &&
+                      "bg-emerald-100/50"
+                  )}
+                >
+                  <span
+                    className="mr-2 flex h-5 w-6 shrink-0 items-center justify-center
+                      rounded bg-muted text-[10px] font-semibold tabular-nums
+                      text-muted-foreground"
+                    aria-hidden
+                  >
+                    EN
+                  </span>
+                  <span>English</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleLanguageChange("VI")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sage/20 focus:bg-sage/20",
+                    globalLanguage === "VI" && "bg-emerald-100/50"
+                  )}
+                >
+                  <span
+                    className="mr-2 flex h-5 w-6 shrink-0 items-center justify-center
+                      rounded bg-muted text-[10px] font-semibold tabular-nums
+                      text-muted-foreground"
+                    aria-hidden
+                  >
+                    VI
+                  </span>
+                  <span>Tiếng Việt</span>
+                </DropdownMenuItem>
+                {showZhLanguage && (
+                  <DropdownMenuItem
+                    onClick={() => handleLanguageChange("ZH")}
+                    className={cn(
+                      "cursor-pointer text-sm hover:bg-sage/20 focus:bg-sage/20",
+                      globalLanguage === "ZH" && "bg-emerald-100/50"
+                    )}
+                  >
+                    <span
+                      className="mr-2 flex h-5 w-6 shrink-0 items-center justify-center
+                        rounded bg-muted text-[10px] font-semibold tabular-nums
+                        text-muted-foreground"
+                      aria-hidden
+                    >
+                      ZH
+                    </span>
+                    <span>中文</span>
+                  </DropdownMenuItem>
+                )}
+
+                <div className="bg-border my-1 h-px" />
+
+                {/* Theme Palette + Appearance Section - Compact flex row */}
+                <div
+                  className="text-muted-foreground flex items-center justify-between px-2
+                    py-1.5 text-xs font-semibold tracking-wide uppercase"
+                >
+                  <p>Theme</p>
+                  <span className="flex items-center gap-2">
+                    <ThemePaletteSwitch />
+                    <ThemeToggleButtonBibleApp variant="desktop" />
+                  </span>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          {/* Mobile: Compact settings menu + theme toggles */}
+          <div className="flex items-center gap-2 md:hidden">
+            {/* Search (compact) */}
+            <div className="max-w-[160px]">
+              <BibleReferenceSearch
+                langSegment={langSegment as "en" | "vi" | "zh"}
+                globalLanguage={globalLanguage}
+              />
+            </div>
+
+            {/* Settings dropdown for mobile */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  aria-label="Settings"
+                >
+                  <Settings className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {/* Font Size Section */}
+                <div
+                  className="text-muted-foreground px-2 py-1.5 text-xs font-semibold
+                    tracking-wide uppercase"
+                >
+                  Font Size
+                </div>
+                <DropdownMenuItem
+                  onClick={() => setFontSize("small")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sky-blue/20 focus:bg-sky-blue/20",
+                    fontSize === "small" && "bg-sky-blue/20"
+                  )}
+                >
+                  <span className="w-6">A-</span>
+                  <span className="text-muted-foreground">Small</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setFontSize("medium")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sky-blue/20 focus:bg-sky-blue/20",
+                    fontSize === "medium" && "bg-sky-blue/20"
+                  )}
+                >
+                  <span className="w-6">A</span>
+                  <span className="text-muted-foreground">Normal</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setFontSize("large")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sky-blue/20 focus:bg-sky-blue/20",
+                    fontSize === "large" && "bg-sky-blue/20"
+                  )}
+                >
+                  <span className="w-6">A+</span>
+                  <span className="text-muted-foreground">Large</span>
+                </DropdownMenuItem>
+
+                <div className="bg-border my-1 h-px" />
+
+                {/* Language Section */}
+                <div
+                  className="text-muted-foreground px-2 py-1.5 text-xs font-semibold
+                    tracking-wide uppercase"
+                >
+                  Language
+                </div>
+                <DropdownMenuItem
+                  onClick={() => handleLanguageChange("EN")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sage/20 focus:bg-sage/20",
+                    (globalLanguage === "EN" ||
+                      (globalLanguage === "ZH" && !showZhLanguage)) &&
+                      "bg-emerald-100/50"
+                  )}
+                >
+                  <span
+                    className="mr-2 flex h-5 w-6 shrink-0 items-center justify-center
+                      rounded bg-muted text-[10px] font-semibold tabular-nums
+                      text-muted-foreground"
+                    aria-hidden
+                  >
+                    EN
+                  </span>
+                  English
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleLanguageChange("VI")}
+                  className={cn(
+                    "cursor-pointer text-sm hover:bg-sage/20 focus:bg-sage/20",
+                    globalLanguage === "VI" && "bg-emerald-100/50"
+                  )}
+                >
+                  <span
+                    className="mr-2 flex h-5 w-6 shrink-0 items-center justify-center
+                      rounded bg-muted text-[10px] font-semibold tabular-nums
+                      text-muted-foreground"
+                    aria-hidden
+                  >
+                    VI
+                  </span>
+                  Tiếng Việt
+                </DropdownMenuItem>
+                {showZhLanguage && (
+                  <DropdownMenuItem
+                    onClick={() => handleLanguageChange("ZH")}
+                    className={cn(
+                      "cursor-pointer text-sm hover:bg-sage/20 focus:bg-sage/20",
+                      globalLanguage === "ZH" && "bg-emerald-100/50"
+                    )}
+                  >
+                    <span
+                      className="mr-2 flex h-5 w-6 shrink-0 items-center justify-center
+                        rounded bg-muted text-[10px] font-semibold tabular-nums
+                        text-muted-foreground"
+                      aria-hidden
+                    >
+                      ZH
+                    </span>
+                    中文
+                  </DropdownMenuItem>
+                )}
+
+                <div className="bg-border my-1 h-px" />
+
+                {/* Theme Section */}
+                <div
+                  className="text-muted-foreground px-2 py-1.5 text-xs font-semibold
+                    tracking-wide uppercase"
+                >
+                  Theme
+                </div>
+                <div className="flex items-center justify-between gap-2 px-2 py-2">
+                  <span className="text-foreground text-sm">Palette</span>
+                  <ThemePaletteSwitch />
+                </div>
+                <div className="flex items-center justify-between gap-2 px-2 py-2">
+                  <span className="text-foreground text-sm">Dark Mode</span>
+                  <ThemeToggleButtonBibleApp variant="desktop" />
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
           {/* 5. Mobile nav: sheet after theme toggle */}
           <div className="xl:hidden">

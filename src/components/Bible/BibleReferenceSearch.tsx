@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Lightbulb, Loader2, Search, X } from "lucide-react";
+import { Search, X, Lightbulb, Loader2, Sparkles } from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -14,13 +14,12 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Kbd } from "@/components/ui/kbd";
 import { cn } from "@/lib/utils";
-import { getBibleIntl } from "@/lib/bible-intl";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { OT_ORDER_MAX } from "@/components/Bible/Read/constants";
 import {
@@ -35,18 +34,6 @@ interface BibleQuickSuggestion {
   href: string;
 }
 
-/** Match from API when searching by chapter subtitle (context). */
-interface ContextMatch {
-  bookId: string;
-  nameEn: string;
-  nameVi: string;
-  nameZh: string | null;
-  order: number;
-  chapterCount: number;
-  chapterNumber: number;
-  subtitle: string | null;
-}
-
 function getBookLabelForLanguage(book: BibleBook, lang: "EN" | "VI" | "ZH"): string {
   if (lang === "VI") return book.nameVi;
   if (lang === "ZH") return book.nameZh ?? book.nameEn;
@@ -54,56 +41,33 @@ function getBookLabelForLanguage(book: BibleBook, lang: "EN" | "VI" | "ZH"): str
 }
 
 /**
- * Parse raw input into book query + optional chapter + verses.
- * Simple rules: "book ch v1 v2" = separate verses; "book ch v1-v2" or "v1:v2" = continuous range.
- * Normalizes (lowercase, NFD, strip diacritics) but keeps hyphen and colon for range.
+ * Parse raw input into book query + optional chapter/verse.
+ * Normalizes (lowercase, NFD, strip diacritics), then: book = compact string with trailing digits removed; chapter/verse from first two number groups.
  */
 function parseBibleQuery(raw: string): {
   bookQuery: string;
   chapterHint?: number;
-  verses: number[];
+  verse?: number;
 } {
   const normalized = raw
     .toLowerCase()
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")
-    .replace(/[^\p{L}\d\-:]/gu, " ")
+    .replace(/[^\p{L}\d]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
 
-  // Verse specs: "12", "12-34", or "12:34" (range). Match in order.
-  const verseSpecs = normalized.match(/\d+(?:[-\:]\d+)?/g) ?? [];
-  const chapterHint = verseSpecs[0] ? Number(verseSpecs[0]) : undefined;
-  const specs = verseSpecs.slice(1);
+  const compact = normalized.replace(/\s+/g, "");
+  const book = compact.replace(/\d+$/, "");
+  const numbers = normalized.match(/\d+/g) ?? [];
+  const chapter = numbers[0] ? Number(numbers[0]) : undefined;
+  const verse = numbers[1] ? Number(numbers[1]) : undefined;
 
-  const isRangeSpec = (s: string) => s.includes("-") || s.includes(":");
-  const verses: number[] = [];
-  for (const spec of specs) {
-    if (isRangeSpec(spec)) {
-      const [a, b] = spec
-        .split(/[-:]/)
-        .map(Number)
-        .filter((n) => n >= 1);
-      if (a != null && b != null && b >= a) {
-        for (let i = a; i <= b; i++) verses.push(i);
-      }
-    } else {
-      const n = Number(spec);
-      if (n >= 1) verses.push(n);
-    }
-  }
-  if (verses.length > 1 && verseSpecs.slice(1).every((s) => !isRangeSpec(s))) {
-    verses.sort((a, b) => a - b);
-  }
-
-  // Book: remove all number and number-range tokens, then compact
-  const bookPart = normalized
-    .replace(/\d+(?:[-\:]\d+)?/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-  const bookQuery = bookPart.replace(/\s+/g, "");
-
-  return { bookQuery, chapterHint, verses };
+  return {
+    bookQuery: book,
+    chapterHint: chapter,
+    verse,
+  };
 }
 
 const SEARCH_DEBOUNCE_MS = 180;
@@ -116,15 +80,14 @@ export function BibleReferenceSearch({
   globalLanguage: "EN" | "VI" | "ZH";
 }) {
   const router = useRouter();
-  const intl = useMemo(() => getBibleIntl(globalLanguage), [globalLanguage]);
   const [query, setQuery] = useState("");
   const [searchBook, setSearchBook] = useState<BibleBook | null>(null);
-  const [contextMatches, setContextMatches] = useState<ContextMatch[]>([]);
   const [searching, setSearching] = useState(false);
   const lastRequestRef = useRef<string>("");
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const { chapterHint, verses } = parseBibleQuery(query);
+  const { bookQuery, chapterHint, verse } = parseBibleQuery(query);
+  // Prefer global language so "gia" searches VI keys when user has Vietnamese selected
   const searchLang =
     globalLanguage === "VI"
       ? "vi"
@@ -134,28 +97,35 @@ export function BibleReferenceSearch({
           ? langSegment
           : "en";
 
-  // Debounced API search. Send raw query so API can search by book key and by chapter subtitle (context).
+  // Debounced API search. Abort in-flight requests so only the latest response applies.
   useEffect(() => {
-    const raw = query.trim();
+    const raw = bookQuery ?? "";
+    // Re-normalise to match what the API's parseQuery will receive
+    const q = raw
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .replace(/[^\p{L}\d]/gu, " ")
+      .replace(/\s+/g, "")
+      .trim();
 
-    if (!raw) {
+    if (!q) {
+      // Clear immediately — no debounce needed for empty input
       abortControllerRef.current?.abort();
       abortControllerRef.current = null;
       lastRequestRef.current = "";
+      setSearchBook(null);
       setSearching(false);
-      void Promise.resolve().then(() => {
-        setSearchBook(null);
-        setContextMatches([]);
-      });
       return;
     }
 
     const t = setTimeout(() => {
+      // Abort any previous in-flight request before starting a new one
       abortControllerRef.current?.abort();
       const controller = new AbortController();
       abortControllerRef.current = controller;
 
-      const requested = raw;
+      const requested = q;
       lastRequestRef.current = requested;
       setSearching(true);
 
@@ -163,38 +133,35 @@ export function BibleReferenceSearch({
 
       fetch(`/api/bible/search?${params}`, { signal: controller.signal })
         .then(async (res) => {
-          let data: { book: BibleBook | null; contextMatches?: ContextMatch[] } = {
-            book: null,
-            contextMatches: [],
-          };
+          // Parse body first, then check ok — avoids double-consume of the stream
+          let data: { book: BibleBook | null } = { book: null };
           try {
             data = await res.json();
           } catch {
-            // non-JSON body — treat as no result
+            // non-JSON body (e.g. 500 HTML error page) — treat as no result
           }
-          if (!res.ok) return { book: null, contextMatches: [] };
-          return {
-            book: data?.book ?? null,
-            contextMatches: data?.contextMatches ?? [],
-          };
+          if (!res.ok) return { book: null };
+          return data;
         })
         .then((data) => {
+          // Stale response guard: discard if a newer request has already been issued
           if (lastRequestRef.current !== requested) return;
-          setSearchBook(data.book ?? null);
-          setContextMatches(data.contextMatches ?? []);
+          setSearchBook(data?.book ?? null);
           setSearching(false);
         })
         .catch((err: unknown) => {
+          // AbortError is expected when a newer keystroke cancels this request — ignore silently
           if (err instanceof Error && err.name === "AbortError") return;
           if (lastRequestRef.current !== requested) return;
           setSearchBook(null);
-          setContextMatches([]);
           setSearching(false);
         });
+      // Note: no .finally — setSearching(false) is handled in .then and .catch above
+      // so aborted requests never accidentally clear the "searching" state for the live request
     }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(t);
-  }, [query, searchLang]);
+  }, [bookQuery, searchLang]);
 
   const suggestions = useMemo<BibleQuickSuggestion[]>(() => {
     if (!searchBook) return [];
@@ -213,7 +180,7 @@ export function BibleReferenceSearch({
       ch <= totalChapters && items.length < maxSuggestions;
       ch++
     ) {
-      const versesParam = verses.length > 0 ? verses : undefined;
+      const versesParam = verse && verse >= 1 ? [verse] : undefined;
       const qs = buildReadSearchParams({
         version1: defaultVersion,
         sync: true,
@@ -223,58 +190,21 @@ export function BibleReferenceSearch({
         verses: versesParam,
       });
       const href = `/bible/${langSegment}/read?${qs}`;
-      const isContiguousRange =
-        verses.length > 1 &&
-        verses[verses.length - 1]! - verses[0]! === verses.length - 1;
-      const verseLabel =
-        verses.length === 0
-          ? ""
-          : verses.length === 1
-            ? `:${verses[0]}`
-            : isContiguousRange
-              ? `:${verses[0]}-${verses[verses.length - 1]}`
-              : `:${verses.join(",")}`;
-      const main = verseLabel ? `${baseLabel} ${ch}${verseLabel}` : `${baseLabel} ${ch}`;
+      const main =
+        verse && verse >= 1 ? `${baseLabel} ${ch}:${verse}` : `${baseLabel} ${ch}`;
       const secondary =
-        verses.length > 0
-          ? intl.t("readChapterVerse", { ch, v: verses[0]! }) +
-            (verses.length > 1 ? `–${verses[verses.length - 1]}` : "")
-          : intl.t("readChapterN", { n: ch });
+        verse && verse >= 1 ? `Chapter ${ch}, verse ${verse}` : `Chapter ${ch}`;
       items.push({
-        id: `${book.id}-${ch}-${verses.join(",") || "all"}`,
+        id: `${book.id}-${ch}-${verse ?? "all"}`,
         label: main,
         secondary,
         href,
       });
     }
     return items;
-  }, [searchBook, chapterHint, verses, globalLanguage, langSegment, intl]);
-
-  const contextSuggestions = useMemo<BibleQuickSuggestion[]>(() => {
-    if (contextMatches.length === 0) return [];
-    const defaultVersion = defaultVersionFromLanguage(globalLanguage);
-    return contextMatches.map((m) => {
-      const testament = m.order <= OT_ORDER_MAX ? "ot" : "nt";
-      const bookLabel =
-        globalLanguage === "VI" ? m.nameVi : globalLanguage === "ZH" ? m.nameZh ?? m.nameEn : m.nameEn;
-      const qs = buildReadSearchParams({
-        version1: defaultVersion,
-        sync: true,
-        book1Id: m.bookId,
-        chapter1: m.chapterNumber,
-        testament1: testament,
-      });
-      return {
-        id: `ctx-${m.bookId}-${m.chapterNumber}`,
-        label: `${bookLabel} ${m.chapterNumber}`,
-        secondary: m.subtitle ?? intl.t("readChapterN", { n: m.chapterNumber }),
-        href: `/bible/${langSegment}/read?${qs}`,
-      };
-    });
-  }, [contextMatches, globalLanguage, langSegment, intl]);
+  }, [searchBook, chapterHint, verse, globalLanguage, langSegment]);
 
   const [open, setOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // Support ⌘K / Ctrl+K to toggle the search palette
   useEffect(() => {
@@ -295,53 +225,74 @@ export function BibleReferenceSearch({
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
-        className={cn(
-          `border-border bg-card text-muted-foreground hover:bg-muted/80
-          hover:border-foreground/20`,
-          `relative z-[60] flex h-9 items-center justify-center gap-2 rounded-lg border
-          px-3 text-xs`,
-          "hover:text-foreground shadow-sm transition-all duration-200 hover:shadow-md"
-        )}
-        aria-label="Open Bible search"
-      >
-        <Search className="h-4 w-4" />
-        <span className="hidden font-medium sm:inline">Search Bible</span>
-        <Kbd className="ml-auto hidden text-[10px] sm:inline">⌘K</Kbd>
-      </button>
-      <Dialog
-        open={open}
-        onOpenChange={(next) => {
-          setOpen(next);
-          if (!next) setQuery("");
+        onClick={() => {
+          setOpen(true);
         }}
+        className={cn(
+          `group relative z-60 flex h-8 items-center justify-center gap-1.5 rounded-lg
+          border px-2.5 text-xs font-medium transition-all duration-300 shadow-sm
+          hover:shadow-md`,
+          "border-second-200 bg-second-50/80 dark:bg-second-900/30 dark:border-second-700",
+          "hover:bg-second-100 hover:border-second-300 dark:hover:bg-second-800/50 dark:hover:border-second-600",
+          "text-second-800 dark:text-second-200",
+          "theme-warm:border-border theme-warm:bg-muted/70 theme-warm:text-foreground",
+          "theme-warm:hover:bg-muted theme-warm:hover:border-foreground/20",
+          "theme-warm-dark:border-muted-foreground/30 theme-warm-dark:bg-muted/40",
+          "theme-warm-dark:text-foreground theme-warm-dark:hover:bg-muted/60",
+          "theme-warm-dark:hover:border-muted-foreground/50"
+        )}
+        aria-label="Open smart Bible search"
       >
+        {/* Search icon with hover effect */}
+        <Search
+          className="text-second-500 dark:text-second-400 group-hover:text-second-700
+            dark:group-hover:text-second-300 h-3.5 w-3.5 shrink-0 transition-colors
+            theme-warm:text-muted-foreground theme-warm:group-hover:text-foreground
+            theme-warm-dark:text-foreground/80 theme-warm-dark:group-hover:text-foreground"
+        />
+
+        {/* Smart label */}
+        <span
+          className="text-second-800 dark:text-second-200 hidden text-[11px] font-semibold
+            tracking-tight sm:inline theme-warm:text-foreground theme-warm-dark:text-foreground"
+        >
+          Smart Search
+        </span>
+
+        {/* Keyboard hint */}
+        <Kbd
+          className="border-second-300 bg-second-100/80 text-second-700
+            group-hover:border-second-400 group-hover:bg-second-200/80
+            dark:border-second-600 dark:bg-second-800/60 dark:text-second-300
+            dark:group-hover:border-second-500 dark:group-hover:bg-second-700/80
+            theme-warm:border-border theme-warm:bg-muted theme-warm:text-muted-foreground
+            theme-warm:group-hover:bg-muted theme-warm:group-hover:text-foreground
+            theme-warm-dark:border-muted-foreground/40 theme-warm-dark:bg-muted/50
+            theme-warm-dark:text-foreground/90 theme-warm-dark:group-hover:bg-muted/70
+            hidden text-[14px] font-medium transition-all sm:inline"
+        >
+          ⌘K
+        </Kbd>
+      </button>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           showCloseButton={false}
           className="w-full max-w-xl gap-0 rounded-xl p-0"
-          onEscapeKeyDown={() => setQuery("")}
+          onEscapeKeyDown={() => {
+            setQuery("");
+          }}
         >
           <DialogHeader className="sr-only">
             <DialogTitle>Search Bible</DialogTitle>
             <DialogDescription>Search for a book, chapter, or verse</DialogDescription>
           </DialogHeader>
-          <Command
-            shouldFilter={false}
-            className="w-full rounded-lg border-0"
-            aria-label="Search Bible"
-          >
-            <div
-              className="flex w-full cursor-text items-center border-b"
-              role="presentation"
-              onClick={() => inputRef.current?.focus()}
-            >
+          <Command shouldFilter={false} className="rounded-lg border-0">
+            <div className="flex items-center border-b">
               <CommandInput
-                ref={inputRef}
-                placeholder={intl.t("searchPlaceholder")}
+                placeholder="Search book, chapter, verse…"
                 value={query}
                 onValueChange={setQuery}
                 autoFocus
-                className="w-full flex-1"
               />
               {query ? (
                 <button
@@ -351,8 +302,8 @@ export function BibleReferenceSearch({
                     e.preventDefault();
                     setQuery("");
                   }}
-                  className="text-muted-foreground hover:text-foreground ml-2 shrink-0
-                    rounded p-1.5 transition-colors outline-none"
+                  className="text-muted-foreground hover:text-foreground shrink-0 rounded
+                    p-1.5 transition-colors outline-none"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -362,27 +313,40 @@ export function BibleReferenceSearch({
               {!query.trim() ? (
                 <CommandEmpty className="flex flex-col items-center gap-4 px-6 py-10">
                   <div
-                    className="bg-primary/10 text-primary flex h-10 w-10 shrink-0
-                      items-center justify-center rounded-full"
+                    className="bg-primary/10 text-primary flex h-10 w-10 items-center
+                      justify-center rounded-full"
                     aria-hidden
                   >
                     <Lightbulb className="h-5 w-5" strokeWidth={1.75} />
                   </div>
-                  <div className="w-full max-w-sm text-left">
+                  <div className="w-full max-w-sm text-center">
                     <p
-                      className="text-foreground mb-2 text-xs font-medium tracking-wide
+                      className="text-foreground mb-3 text-xs font-semibold tracking-wide
                         uppercase"
                     >
-                      {intl.t("searchHintTitle")}
+                      Try searching for
                     </p>
                     <ul
-                      className="text-muted-foreground list-inside space-y-1.5 text-sm
-                        leading-relaxed"
+                      className="text-muted-foreground space-y-2 text-sm leading-relaxed"
                     >
-                      <li>{intl.t("searchHintSingle")}</li>
-                      <li>{intl.t("searchHintTwo")}</li>
-                      <li>{intl.t("searchHintRange")}</li>
-                      <li>{intl.t("searchHintContext")}</li>
+                      <li>
+                        A single book:{" "}
+                        <span className="text-foreground font-mono text-xs">
+                          &quot;John&quot;
+                        </span>
+                      </li>
+                      <li>
+                        Book + chapter:{" "}
+                        <span className="text-foreground font-mono text-xs">
+                          &quot;Psalm 119&quot;
+                        </span>
+                      </li>
+                      <li>
+                        Book + verse:{" "}
+                        <span className="text-foreground font-mono text-xs">
+                          &quot;Gen 1:1&quot;
+                        </span>
+                      </li>
                     </ul>
                   </div>
                 </CommandEmpty>
@@ -390,95 +354,52 @@ export function BibleReferenceSearch({
                 <CommandEmpty
                   className="flex flex-col items-center justify-center gap-3 py-12"
                 >
-                  <Loader2 className="text-primary h-5 w-5 animate-spin" aria-hidden />
-                  <p className="text-muted-foreground text-sm">
-                    {intl.t("searchSearching")}
-                  </p>
+                  <Loader2 className="text-primary h-5 w-5 animate-spin" />
+                  <p className="text-muted-foreground text-sm">Searching…</p>
                 </CommandEmpty>
-              ) : suggestions.length === 0 && contextSuggestions.length === 0 ? (
+              ) : suggestions.length === 0 ? (
                 <CommandEmpty className="py-8 text-center">
                   <p className="text-muted-foreground text-sm">
-                    {intl.t("searchNoResultsFor")}{" "}
+                    No results for{" "}
                     <span className="text-foreground font-semibold">
                       &quot;{query}&quot;
                     </span>
                   </p>
                   <p className="text-muted-foreground/60 mt-1 text-xs">
-                    {intl.t("searchNoResultsTry")}
+                    Try a different book name or abbreviation
                   </p>
                 </CommandEmpty>
               ) : (
-                <div className="p-1 space-y-1">
-                  {contextSuggestions.length > 0 ? (
-                    <CommandGroup
-                      heading={intl.t("searchContextHeading")}
-                      className="overflow-hidden"
-                    >
-                      {contextSuggestions.map((s) => (
-                        <CommandItem
-                          key={s.id}
-                          value={s.label}
-                          onSelect={() => {
-                            router.push(s.href);
-                            setOpen(false);
-                            setQuery("");
-                          }}
-                          className="group hover:bg-primary/15 focus-visible:bg-primary/15
-                            flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
-                            transition-colors focus-visible:ring-0 data-disabled:opacity-50"
+                <div className="p-1">
+                  <CommandGroup heading="Quick jump to" className="overflow-hidden">
+                    {suggestions.map((s, idx) => (
+                      <CommandItem
+                        key={s.id}
+                        value={s.label}
+                        onSelect={() => {
+                          router.push(s.href);
+                          setOpen(false);
+                          setQuery("");
+                        }}
+                        className="group hover:bg-primary/15 focus-visible:bg-primary/15
+                          flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
+                          transition-colors focus-visible:ring-0 data-disabled:opacity-50"
+                      >
+                        <span
+                          className="text-foreground group-hover:text-primary text-sm
+                            font-semibold transition-colors"
                         >
-                          <span
-                            className="text-sm font-semibold text-slate-900
-                              transition-colors group-hover:text-gray-900
-                              hover:text-gray-900 dark:text-white"
-                          >
-                            {s.label}
-                          </span>
-                          <span
-                            className="group-hover:text-foreground text-xs
-                              transition-colors"
-                          >
-                            {s.secondary}
-                          </span>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  ) : null}
-                  {suggestions.length > 0 ? (
-                    <CommandGroup
-                      heading={intl.t("searchGoTo")}
-                      className="overflow-hidden"
-                    >
-                      {suggestions.map((s) => (
-                        <CommandItem
-                          key={s.id}
-                          value={s.label}
-                          onSelect={() => {
-                            router.push(s.href);
-                            setOpen(false);
-                            setQuery("");
-                          }}
-                          className="group hover:bg-primary/15 focus-visible:bg-primary/15
-                            flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
-                            transition-colors focus-visible:ring-0 data-disabled:opacity-50"
+                          {s.label}
+                        </span>
+                        <span
+                          className="text-muted-foreground/70
+                            group-hover:text-muted-foreground text-xs transition-colors"
                         >
-                          <span
-                            className="text-sm font-semibold text-slate-900
-                              transition-colors group-hover:text-gray-900
-                              hover:text-gray-900 dark:text-white"
-                          >
-                            {s.label}
-                          </span>
-                          <span
-                            className="group-hover:text-foreground text-xs
-                              transition-colors"
-                          >
-                            {s.secondary}
-                          </span>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  ) : null}
+                          {s.secondary}
+                        </span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
                 </div>
               )}
             </CommandList>

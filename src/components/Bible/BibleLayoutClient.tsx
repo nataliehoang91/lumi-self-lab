@@ -36,11 +36,17 @@ export function BibleLayoutClient({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
-  const [landingDone, setLandingDone] = useState<boolean>(() =>
-    getLandingLoaderAlreadyDone()
-  );
+  // Start false so server and client match (avoid hydration error); then sync from cookie in useEffect.
+  const [landingDone, setLandingDone] = useState<boolean>(false);
 
   const isProtected = pathname != null && PROTECTED_BIBLE_STUDY_REGEX.test(pathname);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      if (getLandingLoaderAlreadyDone()) setLandingDone(true);
+    }, 0);
+    return () => clearTimeout(id);
+  }, []);
 
   useEffect(() => {
     if (!isLoaded) return;

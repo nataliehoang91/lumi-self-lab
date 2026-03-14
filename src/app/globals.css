@@ -1228,3 +1228,37 @@
     rgb(24, 24, 27) 100%
   );
 }
+
+/* Palette Toggle Animations - similar to theme toggle */
+.palette-toggle-icon {
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out,
+    filter 0.5s ease-in-out;
+}
+
+/* Colorful icon - for default/normal palette */
+.palette-toggle-colorful.palette-toggle-visible {
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+  filter: hue-rotate(0deg) saturate(1);
+}
+
+.palette-toggle-colorful.palette-toggle-hidden {
+  transform: rotate(180deg) scale(0);
+  opacity: 0;
+  filter: hue-rotate(0deg) saturate(0);
+}
+
+/* B&W Grayscale icon - for warm palette */
+.palette-toggle-bw.palette-toggle-visible {
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+  filter: saturate(0) brightness(1.1);
+}
+
+.palette-toggle-bw.palette-toggle-hidden {
+  transform: rotate(-180deg) scale(0);
+  opacity: 0;
+  filter: saturate(0) brightness(1.1);
+}

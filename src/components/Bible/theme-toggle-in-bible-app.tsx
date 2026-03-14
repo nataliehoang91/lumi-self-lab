@@ -13,27 +13,37 @@ export function ThemeToggleButtonBibleApp({
   const { theme, toggleTheme } = useTheme();
   const isLight = theme === "light";
 
+  const iconColor = isLight ? "text-amber-800" : "text-blue-900";
+
+  const bgColor = isLight
+    ? "bg-amber-100 theme-warm:bg-card"
+    : "bg-blue-200/80 theme-warm:bg-card";
+
   return (
     <Button
       variant="outline"
       size="icon"
       onClick={toggleTheme}
       data-variant={variant}
-      className="border-border bg-background hover:bg-muted h-8 w-8 shrink-0
-        overflow-hidden rounded-full"
+      className={cn(
+        "border-border hover:bg-muted h-8 w-8 shrink-0 overflow-hidden rounded-full",
+        bgColor
+      )}
       aria-label="Toggle theme"
     >
       <div className="relative flex h-4 w-4 shrink-0 items-center justify-center">
         <Sun
           className={cn(
             "theme-toggle-icon theme-toggle-sun text-foreground absolute inset-0 h-4 w-4",
-            isLight ? "theme-toggle-visible" : "theme-toggle-hidden"
+            isLight ? "theme-toggle-visible" : "theme-toggle-hidden",
+            iconColor
           )}
         />
         <Moon
           className={cn(
             "theme-toggle-icon theme-toggle-moon text-foreground absolute inset-0 h-4 w-4",
-            isLight ? "theme-toggle-hidden" : "theme-toggle-visible"
+            isLight ? "theme-toggle-hidden" : "theme-toggle-visible",
+            iconColor
           )}
         />
       </div>

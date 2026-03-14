@@ -51,7 +51,10 @@ export function QuoteCard({
 
   return (
     <div className={cn("flex gap-2", layoutRow, className)}>
-      <div className="text-primary dark:text-foreground/75 text-3xl leading-none select-none" aria-hidden="true">
+      <div
+        className="text-primary dark:text-foreground/75 text-3xl leading-none select-none"
+        aria-hidden="true"
+      >
         <QuoteIcon className="h-6 w-6" aria-hidden="true" />
       </div>
       <div className={cn("flex flex-col gap-4")}>
@@ -72,7 +75,9 @@ export function QuoteCard({
             {footnoteHref ? (
               <a
                 href={footnoteHref}
-                className="text-second-600 hover:text-second-800 dark:text-second-400 dark:hover:text-second-300
+                className="text-second-600 hover:text-second-800 dark:text-second-400
+                  dark:hover:text-second-300 theme-warm:text-second-500
+                  dark:theme-warm:text-second-600 theme-warm:hover:text-second-700
                   font-mono underline underline-offset-4 transition-colors"
               >
                 {footnote}
