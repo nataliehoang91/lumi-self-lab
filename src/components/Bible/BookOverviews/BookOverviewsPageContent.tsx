@@ -201,9 +201,9 @@ function TestamentSection({
                     <div className="flex items-start gap-4">
                       <div
                         className="bg-second/30 theme-warm:bg-second-900
-                          theme-warm:text-second-foreground flex h-14 w-14 shrink-0
-                          flex-col items-center justify-center rounded-full font-mono
-                          text-xs leading-tight font-semibold"
+                          theme-warm:text-second-foreground theme-warm:dark:text-gray-900
+                          flex h-14 w-14 shrink-0 flex-col items-center justify-center
+                          rounded-full font-mono text-xs leading-tight font-semibold"
                       >
                         <span className="font-mono">{section.bookCount}</span>
                         <span className="">
