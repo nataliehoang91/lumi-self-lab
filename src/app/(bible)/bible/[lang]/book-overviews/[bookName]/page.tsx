@@ -5,7 +5,7 @@ import {
   type BookOverviewLang,
 } from "@/app/actions/bible/book-overview";
 import { isBibleLocale } from "@/app/(bible)/bible/[lang]/layout";
-import { BookOverviewPageClient } from "./BookOverviewPageClient";
+import { BookOverviewPageClient } from "@/components/Bible/BookOverviews/BookOverviewPageClient";
 
 type Params = Promise<{ lang: string; bookName: string }>;
 
@@ -44,7 +44,7 @@ export default async function BookOverviewPage({ params }: { params: Params }) {
   const hasOverviewContent =
     (data.outline?.length ?? 0) > 0 ||
     (data.keyVerses?.length ?? 0) > 0 ||
-    !!data.christConnection;
+    data.summary.length > 0;
   return (
     <BookOverviewPageClient
       langSegment={langSegment}

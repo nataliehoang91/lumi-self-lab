@@ -75,7 +75,7 @@ const SEARCH_DEBOUNCE_MS = 180;
 
 export function BibleReferenceSearch() {
   const router = useRouter();
-  const { langSegment, globalLanguage } = useBibleNavData();
+  const { langSegment, globalLanguage, intl } = useBibleNavData();
   const [query, setQuery] = useState("");
   const [searchBook, setSearchBook] = useState<BibleBook | null>(null);
   const [searching, setSearching] = useState(false);
@@ -280,13 +280,13 @@ export function BibleReferenceSearch() {
           }}
         >
           <DialogHeader className="sr-only">
-            <DialogTitle>Search Bible</DialogTitle>
-            <DialogDescription>Search for a book, chapter, or verse</DialogDescription>
+            <DialogTitle>{intl.t("searchDialogTitle")}</DialogTitle>
+            <DialogDescription>{intl.t("searchDialogDescription")}</DialogDescription>
           </DialogHeader>
           <Command shouldFilter={false} className="rounded-lg border-0">
             <div className="flex items-center border-b">
               <CommandInput
-                placeholder="Search book, chapter, verse…"
+                placeholder={intl.t("searchPlaceholder")}
                 value={query}
                 onValueChange={setQuery}
                 autoFocus
@@ -294,7 +294,7 @@ export function BibleReferenceSearch() {
               {query ? (
                 <button
                   type="button"
-                  aria-label="Clear search"
+                  aria-label={intl.t("searchClearLabel")}
                   onMouseDown={(e) => {
                     e.preventDefault();
                     setQuery("");
@@ -321,25 +321,25 @@ export function BibleReferenceSearch() {
                       className="text-foreground mb-3 text-xs font-semibold tracking-wide
                         uppercase"
                     >
-                      Try searching for
+                      {intl.t("searchHintTrySearchingFor")}
                     </p>
                     <ul
                       className="text-muted-foreground space-y-2 text-sm leading-relaxed"
                     >
                       <li>
-                        A single book:{" "}
+                        {intl.t("searchHintSingleBook")}{" "}
                         <span className="text-foreground font-mono text-xs">
                           &quot;John&quot;
                         </span>
                       </li>
                       <li>
-                        Book + chapter:{" "}
+                        {intl.t("searchHintBookChapter")}{" "}
                         <span className="text-foreground font-mono text-xs">
                           &quot;Psalm 119&quot;
                         </span>
                       </li>
                       <li>
-                        Book + verse:{" "}
+                        {intl.t("searchHintBookVerse")}{" "}
                         <span className="text-foreground font-mono text-xs">
                           &quot;Gen 1:1&quot;
                         </span>
@@ -352,18 +352,18 @@ export function BibleReferenceSearch() {
                   className="flex flex-col items-center justify-center gap-3 py-12"
                 >
                   <Loader2 className="text-primary h-5 w-5 animate-spin" />
-                  <p className="text-muted-foreground text-sm">Searching…</p>
+                  <p className="text-muted-foreground text-sm">{intl.t("searchSearching")}</p>
                 </CommandEmpty>
               ) : suggestions.length === 0 ? (
                 <CommandEmpty className="py-8 text-center">
                   <p className="text-muted-foreground text-sm">
-                    No results for{" "}
+                    {intl.t("searchNoResultsFor")}{" "}
                     <span className="text-foreground font-semibold">
                       &quot;{query}&quot;
                     </span>
                   </p>
                   <p className="text-muted-foreground/60 mt-1 text-xs">
-                    Try a different book name or abbreviation
+                    {intl.t("searchNoResultsTry")}
                   </p>
                 </CommandEmpty>
               ) : (

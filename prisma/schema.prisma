@@ -396,7 +396,8 @@ model BibleBookOverview {
   date             String?  // e.g. "1440–1400 BC", "c. 85–90 AD"
   audience         String?
   themes           String[] @default([]) // e.g. ["Creation", "Covenant"]
-  christConnection String?  @db.Text
+  christConnection String?  @db.Text    // legacy single paragraph
+  summary          Json?    // array of paragraph strings [p1, p2, p3]
   keyVerses        Json?    // [{ ref: "1:1", text: "...", chapter?: number, verse?: number }]
   outline          Json?    // [{ chapter: "1–2", title: "Creation" }, ...]
 

@@ -7,7 +7,7 @@ import { Container } from "@/components/ui/container";
 import { BookOverviewChristConnection } from "@/components/Bible/BookOverviews/BookOverviewChristConnection";
 import { BookOverviewMeta } from "@/components/Bible/BookOverviews/BookOverviewMeta";
 import { BookOverviewReadMarker } from "@/components/Bible/BookOverviews/BookOverviewReadMarker";
-import { KeyVersesSection } from "@/components/GeneralComponents/verse-ref-layout";
+import { KeyVersesSectionCards } from "@/components/GeneralComponents/verse-ref-layout";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
@@ -47,8 +47,7 @@ export function BookOverviewPageClient({
   hasOverviewContent,
 }: Props) {
   const isVi = langSegment === "vi";
-  const { h1Class, bodyClass, subtitleClass, bodyClassUp } =
-    useBibleFontClasses();
+  const { h1Class, bodyClass, subtitleClass, bodyClassUp } = useBibleFontClasses();
 
   const buildReadChapterHref = (chapter: number) => {
     const sp = new URLSearchParams();
@@ -157,8 +156,8 @@ export function BookOverviewPageClient({
                   >
                     <div
                       className="bg-second dark:bg-second-800 text-second-foreground
-                        text-md flex h-7 w-7 shrink-0 items-center justify-center
-                        rounded-full font-medium"
+                        theme-warm:dark:bg-second text-md flex h-7 w-7 shrink-0
+                        items-center justify-center rounded-full font-medium"
                       aria-hidden
                     >
                       {idx + 1}
@@ -186,7 +185,8 @@ export function BookOverviewPageClient({
                           <Link
                             href={buildReadChapterHref(startChapter)}
                             className={cn(
-                              `text-second-800 dark:text-second-200 hover:text-second-800
+                              `text-second-800 dark:text-second-200
+                              theme-warm:dark:text-second-400 hover:text-second-800
                               font-medium underline underline-offset-4`,
                               bodyClass
                             )}
@@ -206,21 +206,20 @@ export function BookOverviewPageClient({
         )}
 
         {data.keyVerses.length > 0 && (
-          <KeyVersesSection
+          <KeyVersesSectionCards
             keyVerses={data.keyVerses}
             displayName={displayName}
             langSegment={langSegment}
             defaultVersion={defaultVersion}
             bookId={data.bookId}
             testament={testament}
-            layout="hybrid"
           />
         )}
 
-        {data.christConnection && (
+        {data.summary.length > 0 && (
           <BookOverviewChristConnection
             lang={langSegment}
-            connection={data.christConnection}
+            paragraphs={data.summary}
             readHref={readHref}
             bookDisplayName={displayName}
           />

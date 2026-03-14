@@ -27,7 +27,10 @@ export interface BookOverviewData {
   date: string | null;
   audience: string | null;
   themes: string[];
+  /** Legacy single paragraph; prefer summary (array) when present. */
   christConnection: string | null;
+  /** Summary as array of paragraphs (p1, p2, p3). */
+  summary: string[];
   keyVerses: KeyVerseRow[];
   outline: OutlineRow[];
 }
@@ -58,6 +61,17 @@ export async function getBookOverviewBySlug(
   const themes = (overview?.themes ?? []) as string[];
   const keyVerses = (overview?.keyVerses ?? []) as KeyVerseRow[];
   const outline = (overview?.outline ?? []) as OutlineRow[];
+  const rawSummary = overview?.summary;
+  const summaryArray = Array.isArray(rawSummary)
+    ? (rawSummary as string[]).filter((s): s is string => typeof s === "string")
+    : [];
+  const christConnection = overview?.christConnection ?? null;
+  const summary =
+    summaryArray.length > 0
+      ? summaryArray
+      : christConnection
+        ? [christConnection]
+        : [];
 
   return {
     bookId: book.id,
@@ -70,7 +84,8 @@ export async function getBookOverviewBySlug(
     date: overview?.date ?? null,
     audience: overview?.audience ?? null,
     themes,
-    christConnection: overview?.christConnection ?? null,
+    christConnection,
+    summary,
     keyVerses,
     outline,
   };

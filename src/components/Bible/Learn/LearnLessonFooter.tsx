@@ -101,9 +101,10 @@ export function LearnLessonFooter() {
         <Link
           href={nextHref}
           className={cn(
-            `bg-primary-light dark:bg-primary-dark order-2 flex w-full items-center
-              justify-end gap-2 rounded-xl px-5 py-2.5 font-medium text-black
-              transition-opacity hover:opacity-90 sm:w-auto sm:justify-center`,
+            `bg-primary-light theme-warm:bg-primary theme-warm:text-primary-foreground
+              dark:bg-primary-dark order-2 flex w-full items-center justify-end gap-2
+              rounded-xl px-5 py-2.5 font-medium text-black transition-opacity
+              hover:opacity-90 sm:w-auto sm:justify-center`,
             bodyClass
           )}
         >
@@ -121,9 +122,10 @@ export function LearnLessonFooter() {
         <Link
           href={readHref}
           className={cn(
-            `bg-primary-light dark:bg-primary-dark order-2 flex w-full items-center
-              justify-end gap-2 rounded-xl px-5 py-2.5 font-medium text-black
-              transition-opacity hover:opacity-90 sm:w-auto sm:justify-center`,
+            `bg-primary-light theme-warm:bg-primary theme-warm:text-primary-foreground
+              dark:bg-primary-dark order-2 flex w-full items-center justify-end gap-2
+              rounded-xl px-5 py-2.5 font-medium text-black transition-opacity
+              hover:opacity-90 sm:w-auto sm:justify-center`,
             bodyClass
           )}
         >

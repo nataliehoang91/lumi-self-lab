@@ -2,8 +2,6 @@
 
 import { cn } from "@/lib/utils";
 
-import { Loader2 } from "lucide-react";
-
 interface LoaderProps {
   size?: "sm" | "md" | "lg";
   variant?: "spinner" | "dots" | "pulse";
@@ -64,7 +62,7 @@ export function Loader({
               r="20"
               stroke="currentColor"
               strokeWidth="2"
-              className="text-border opacity-30"
+              className="text-border opacity-30 theme-warm:text-second-300/50"
             />
             {/* Animated arc */}
             <circle
@@ -75,7 +73,7 @@ export function Loader({
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeDasharray="31.4 125.6"
-              className="text-primary animate-spin"
+              className="text-primary theme-warm:text-second animate-spin"
               style={{
                 animationDuration: "2.5s",
                 animationTimingFunction: "linear",
@@ -83,39 +81,67 @@ export function Loader({
             />
           </svg>
         </div>
-        {text && <p className={cn("text-muted-foreground", textSizeMap[size])}>{text}</p>}
+        {text && (
+          <p
+            className={cn(
+              "text-muted-foreground theme-warm:text-second-800",
+              textSizeMap[size]
+            )}
+          >
+            {text}
+          </p>
+        )}
       </div>
     );
   }
 
   if (variant === "dots") {
+    const dotDefaultClasses = [
+      "bg-primary/90",
+      "bg-second/90",
+      "bg-coral/90",
+      "bg-second/90",
+      "bg-primary/90",
+    ];
+    const dotThemeWarmClasses = [
+      "theme-warm:bg-second-300",
+      "theme-warm:bg-second-500",
+      "theme-warm:bg-second-600",
+      "theme-warm:bg-second-500",
+      "theme-warm:bg-second-300",
+    ];
+
     return (
       <div className={containerClass}>
         <div className={cn(sizeMap[size], "flex items-center justify-center")}>
           <div className="flex gap-1.5">
-            {(() => {
-              const dotColors = [
-                "oklch(0.76 0.12 35 / 0.95)",
-                "oklch(0.66 0.15 270 / 0.95)",
-                "oklch(0.68 0.14 25 / 0.95)",
-              ];
-
-              return [...Array(5)].map((_, i) => (
-                <div
-                  key={i}
-                  className={cn(dotSizeMap[size], "rounded-full")}
-                  style={{
-                    background: dotColors[i % dotColors.length],
-                    animation: `pulse 1.5s ease-in-out infinite`,
-                    animationDelay: `${i * 0.15}s`,
-                    opacity: 1,
-                  }}
-                />
-              ));
-            })()}
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className={cn(
+                  dotSizeMap[size],
+                  "rounded-full",
+                  dotDefaultClasses[i],
+                  dotThemeWarmClasses[i]
+                )}
+                style={{
+                  animation: `pulse 1.5s ease-in-out infinite`,
+                  animationDelay: `${i * 0.15}s`,
+                }}
+              />
+            ))}
           </div>
         </div>
-        {text && <p className={cn("text-muted-foreground", textSizeMap[size])}>{text}</p>}
+        {text && (
+          <p
+            className={cn(
+              "text-muted-foreground theme-warm:text-second-800",
+              textSizeMap[size]
+            )}
+          >
+            {text}
+          </p>
+        )}
       </div>
     );
   }
@@ -124,12 +150,24 @@ export function Loader({
   return (
     <div className={containerClass}>
       <div
-        className={cn(sizeMap[size], "bg-primary rounded-full transition-opacity")}
+        className={cn(
+          sizeMap[size],
+          "bg-primary theme-warm:bg-second rounded-full transition-opacity"
+        )}
         style={{
           animation: `pulse 2s ease-in-out infinite`,
         }}
       />
-      {text && <p className={cn("text-muted-foreground", textSizeMap[size])}>{text}</p>}
+      {text && (
+        <p
+          className={cn(
+            "text-muted-foreground theme-warm:text-second-800",
+            textSizeMap[size]
+          )}
+        >
+          {text}
+        </p>
+      )}
     </div>
   );
 }

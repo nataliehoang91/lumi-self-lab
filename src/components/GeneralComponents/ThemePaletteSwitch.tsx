@@ -20,7 +20,7 @@ export function ThemePaletteSwitch() {
     ? "text-gray-900 theme-warm:text-white"
     : "text-gray-800 theme-warm:text-second-900";
   const grayscaleColor = isDark
-    ? "text-gray-400 theme-warm:text-gray-600"
+    ? "text-gray-400 theme-warm:text-gray-600 theme-warm:dark:text-white"
     : "text-second-600 theme-warm:text-second-900";
 
   return (

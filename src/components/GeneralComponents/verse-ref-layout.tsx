@@ -8,7 +8,7 @@ import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 // -----------------------------------------------------------------------------
-// Shared types
+// Types & utils
 // -----------------------------------------------------------------------------
 
 export interface VerseRefItem {
@@ -21,7 +21,6 @@ export interface OutlineItem {
   chapters: string;
 }
 
-/** Default gradient classes per "book" for ColorAccentLayout. */
 export const DEFAULT_BOOK_COLORS = [
   "from-purple-500/20 to-purple-600/10",
   "from-blue-500/20 to-blue-600/10",
@@ -29,8 +28,22 @@ export const DEFAULT_BOOK_COLORS = [
   "from-amber-500/20 to-amber-600/10",
 ] as const;
 
+export function getKeyVerseLocation(
+  v: KeyVerseRow
+): { chapter: number; verse: number } | null {
+  if (v.chapter != null && v.verse != null) {
+    return { chapter: v.chapter, verse: v.verse };
+  }
+  const match = v.ref.match(/(\d+):(\d+)/);
+  if (!match) return null;
+  const chapterNum = Number.parseInt(match[1], 10);
+  const verseNum = Number.parseInt(match[2], 10);
+  if (!Number.isFinite(chapterNum) || !Number.isFinite(verseNum)) return null;
+  return { chapter: chapterNum, verse: verseNum };
+}
+
 // -----------------------------------------------------------------------------
-// 1. Grid / 2-column layout
+// 1. Grid
 // -----------------------------------------------------------------------------
 
 export interface GridVerseLayoutProps {
@@ -64,7 +77,7 @@ export function GridVerseLayout({
 }
 
 // -----------------------------------------------------------------------------
-// 2. Quotation mark visual accent
+// 2. Quotation accent
 // -----------------------------------------------------------------------------
 
 export interface QuotationAccentVerseLayoutProps {
@@ -103,7 +116,7 @@ export function QuotationAccentVerseLayout({
 }
 
 // -----------------------------------------------------------------------------
-// 3. Reference tag system
+// 3. Reference tag
 // -----------------------------------------------------------------------------
 
 export interface ReferenceTagVerseLayoutProps {
@@ -146,16 +159,13 @@ export function ReferenceTagVerseLayout({
 }
 
 // -----------------------------------------------------------------------------
-// 4. Expandable sections (for outlines)
+// 4. Expandable outline
 // -----------------------------------------------------------------------------
 
 export interface ExpandableOutlineLayoutProps {
   outlines: OutlineItem[];
-  /** Initial expanded index (default 0). Pass null for none. */
   defaultExpandedIndex?: number | null;
-  /** Optional content when a section is expanded. */
   renderExpandContent?: (outline: OutlineItem, index: number) => ReactNode;
-  /** Optional "Read in Bible" (or similar) action per outline. */
   renderReadAction?: (outline: OutlineItem, index: number) => ReactNode;
   className?: string;
 }
@@ -204,12 +214,11 @@ export function ExpandableOutlineLayout({
 }
 
 // -----------------------------------------------------------------------------
-// 5. Minimal dividers + spacing
+// 5. Minimal dividers
 // -----------------------------------------------------------------------------
 
 export interface MinimalDividersVerseLayoutProps {
   verses: VerseRefItem[];
-  /** Optional link or button per verse (e.g. to open in Bible). */
   renderAction?: (verse: VerseRefItem, index: number) => ReactNode;
   className?: string;
 }
@@ -242,12 +251,11 @@ export function MinimalDividersVerseLayout({
 }
 
 // -----------------------------------------------------------------------------
-// 6. Color accent system
+// 6. Color accent
 // -----------------------------------------------------------------------------
 
 export interface ColorAccentVerseLayoutProps {
   verses: VerseRefItem[];
-  /** Gradient classes to cycle (e.g. DEFAULT_BOOK_COLORS). */
   colorGradients?: readonly string[];
   className?: string;
   cardClassName?: string;
@@ -281,19 +289,19 @@ export function ColorAccentVerseLayout({
 }
 
 // -----------------------------------------------------------------------------
-// 7. Hybrid – compact cards with accent (recommended)
+// 7. Hybrid
 // -----------------------------------------------------------------------------
 
 export interface HybridVerseLayoutProps {
   verses: VerseRefItem[];
-  renderAction?: (verse: VerseRefItem, index: number) => ReactNode;
+  renderReference?: (verse: VerseRefItem, index: number) => ReactNode;
   className?: string;
   cardClassName?: string;
 }
 
 export function HybridVerseLayout({
   verses,
-  renderAction,
+  renderReference,
   className,
   cardClassName,
 }: HybridVerseLayoutProps) {
@@ -303,16 +311,16 @@ export function HybridVerseLayout({
         <div
           key={idx}
           className={cn(
-            `border-primary/20 from-primary/5 hover:border-primary/40 group rounded-lg
-            border bg-gradient-to-br via-transparent to-transparent p-4 transition-all
-            hover:shadow-md`,
+            `border-primary/20 from-primary/5 hover:border-primary/40 group
+            via-primary/[0.07] rounded-lg border bg-gradient-to-br to-transparent p-4
+            transition-all hover:shadow-md`,
             cardClassName
           )}
         >
           <div className="flex gap-3">
             <div
-              className="from-primary to-primary/30 w-1 shrink-0 rounded-full
-                bg-gradient-to-b"
+              className="from-primary via-primary/60 to-primary/20 w-1 shrink-0
+                rounded-full bg-gradient-to-b"
               aria-hidden
             />
             <div className="min-w-0 flex-1">
@@ -322,11 +330,14 @@ export function HybridVerseLayout({
               >
                 {verse.text}
               </p>
-              <div className="flex items-center justify-between">
-                <span className="text-primary text-xs font-medium">
-                  {verse.reference}
-                </span>
-                {renderAction?.(verse, idx) ?? null}
+              <div className="flex items-center">
+                {renderReference ? (
+                  renderReference(verse, idx)
+                ) : (
+                  <span className="text-primary text-xs font-medium">
+                    {verse.reference}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -337,55 +348,121 @@ export function HybridVerseLayout({
 }
 
 // -----------------------------------------------------------------------------
-// Key verses section (shared for book overview & verse layouts)
+// Key verses: Hybrid
 // -----------------------------------------------------------------------------
 
-export function getKeyVerseLocation(
-  v: KeyVerseRow
-): { chapter: number; verse: number } | null {
-  if (v.chapter != null && v.verse != null) {
-    return { chapter: v.chapter, verse: v.verse };
-  }
-  const match = v.ref.match(/(\d+):(\d+)/);
-  if (!match) return null;
-  const chapterNum = Number.parseInt(match[1], 10);
-  const verseNum = Number.parseInt(match[2], 10);
-  if (!Number.isFinite(chapterNum) || !Number.isFinite(verseNum)) return null;
-  return { chapter: chapterNum, verse: verseNum };
-}
-
-export interface KeyVersesSectionProps {
+export interface KeyVersesSectionHybridProps {
   keyVerses: KeyVerseRow[];
   displayName: string;
   langSegment: "en" | "vi";
   defaultVersion: "vi" | "niv" | undefined;
   bookId: string;
   testament: "ot" | "nt";
-  /** "cards" = current book overview style; "hybrid" = HybridVerseLayout. */
-  layout?: "cards" | "hybrid";
-  /** Section heading. Defaults to "Key Verses" / "Các câu Kinh Thánh trọng tâm". */
   sectionTitle?: string;
   className?: string;
 }
 
-export function KeyVersesSection({
+export function KeyVersesSectionHybrid({
   keyVerses,
   displayName,
   langSegment,
   defaultVersion,
   bookId,
   testament,
-  layout = "hybrid",
   sectionTitle,
   className,
-}: KeyVersesSectionProps) {
+}: KeyVersesSectionHybridProps) {
   const isVi = langSegment === "vi";
-  const {
-    bodyClass,
-    bodyClassUp,
-    subBodyClass,
-    subtitleClass,
-  } = useBibleFontClasses();
+  const { bodyClass, subtitleClass } = useBibleFontClasses();
+
+  const title =
+    sectionTitle ??
+    (langSegment === "vi" ? "Các câu Kinh Thánh trọng tâm" : "Key Verses");
+
+  const verses: VerseRefItem[] = keyVerses.map((v) => ({
+    text: `"${v.text}"`,
+    reference: `${displayName} ${v.ref}`,
+  }));
+
+  return (
+    <section className={cn("mb-10", className)}>
+      <h2
+        className={cn(
+          "text-foreground mb-4 font-serif font-semibold",
+          subtitleClass,
+          isVi && "font-vietnamese-flashcard"
+        )}
+      >
+        {title}
+      </h2>
+      <HybridVerseLayout
+        verses={verses}
+        renderReference={(_, idx) => {
+          const v = keyVerses[idx];
+          if (!v) return null;
+          const label = `${displayName} ${v.ref}`;
+          const loc = getKeyVerseLocation(v);
+          if (!loc) {
+            return (
+              <span
+                className="text-primary-900 ml-auto text-xs font-medium underline
+                  underline-offset-2"
+              >
+                {label}
+              </span>
+            );
+          }
+          return (
+            <BibleVerseLink
+              langSegment={langSegment}
+              version1={defaultVersion}
+              bookId={bookId}
+              chapter={loc.chapter}
+              verse={loc.verse}
+              testament={testament}
+              linkOnly
+              triggerClassName={cn(
+                "text-primary-900! hover:text-primary-700 ml-auto text-xs font-medium underline underline-offset-2 transition-colors",
+                bodyClass,
+                isVi && "font-vietnamese-flashcard"
+              )}
+            >
+              {label}
+            </BibleVerseLink>
+          );
+        }}
+      />
+    </section>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Key verses: Cards
+// -----------------------------------------------------------------------------
+
+export interface KeyVersesSectionCardsProps {
+  keyVerses: KeyVerseRow[];
+  displayName: string;
+  langSegment: "en" | "vi";
+  defaultVersion: "vi" | "niv" | undefined;
+  bookId: string;
+  testament: "ot" | "nt";
+  sectionTitle?: string;
+  className?: string;
+}
+
+export function KeyVersesSectionCards({
+  keyVerses,
+  displayName,
+  langSegment,
+  defaultVersion,
+  bookId,
+  testament,
+  sectionTitle,
+  className,
+}: KeyVersesSectionCardsProps) {
+  const isVi = langSegment === "vi";
+  const { bodyClassUp, subBodyClass, subtitleClass } = useBibleFontClasses();
 
   const title =
     sectionTitle ??
@@ -396,7 +473,7 @@ export function KeyVersesSection({
     const loc = getKeyVerseLocation(v);
     const badgeClass = cn(
       "inline-flex items-center gap-1 rounded-full px-2 py-1 font-medium",
-      layout === "hybrid" ? "text-xs" : subBodyClass,
+      subBodyClass,
       isVi && "font-vietnamese-flashcard"
     );
     if (!loc) {
@@ -417,8 +494,8 @@ export function KeyVersesSection({
         testament={testament}
         linkOnly
         triggerClassName={cn(
-          "inline-flex items-center gap-1 self-end rounded-full bg-primary-100 px-2 py-1 font-medium text-slate-900 hover:text-primary/90 dark:bg-primary-900/30 dark:text-primary-400",
-          layout === "hybrid" ? bodyClass : subBodyClass,
+          "theme-warm:text-second theme-warm:dark:text-white inline-flex items-center gap-1 self-end rounded-full bg-primary-100 px-2 py-1 font-medium text-slate-900 hover:text-primary/90 dark:bg-primary-900/30 dark:text-primary-400",
+          subBodyClass,
           isVi && "font-vietnamese-flashcard"
         )}
       >
@@ -427,49 +504,6 @@ export function KeyVersesSection({
       </BibleVerseLink>
     );
   };
-
-  if (layout === "hybrid") {
-    const verses: VerseRefItem[] = keyVerses.map((v) => ({
-      text: `"${v.text}"`,
-      reference: `${displayName} ${v.ref}`,
-    }));
-    return (
-      <section className={cn("mb-10", className)}>
-        <h2
-          className={cn(
-            "text-foreground mb-4 font-serif font-semibold",
-            subtitleClass,
-            isVi && "font-vietnamese-flashcard"
-          )}
-        >
-          {title}
-        </h2>
-        <HybridVerseLayout
-          verses={verses}
-          renderAction={(_, idx) => {
-            const v = keyVerses[idx];
-            if (!v) return null;
-            const loc = getKeyVerseLocation(v);
-            if (!loc) return null;
-            return (
-              <BibleVerseLink
-                langSegment={langSegment}
-                version1={defaultVersion}
-                bookId={bookId}
-                chapter={loc.chapter}
-                verse={loc.verse}
-                testament={testament}
-                linkOnly
-                triggerClassName="text-muted-foreground hover:text-foreground text-xs transition-colors"
-              >
-                →
-              </BibleVerseLink>
-            );
-          }}
-        />
-      </section>
-    );
-  }
 
   return (
     <section className={cn("mb-10", className)}>
@@ -486,7 +520,8 @@ export function KeyVersesSection({
         {keyVerses.map((v) => (
           <div
             key={v.ref}
-            className="border-border/50 bg-card rounded-lg border p-4 transition-shadow hover:shadow-md"
+            className="border-border/50 bg-card rounded-lg border p-4 transition-shadow
+              hover:shadow-md"
           >
             <div className="mb-2 flex flex-col gap-3">
               <p
