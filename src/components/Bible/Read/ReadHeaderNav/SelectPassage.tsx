@@ -20,32 +20,63 @@ import type { BibleBook } from "../types";
 
 type Variant = "desktop" | "mobile";
 
-export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
+export function SelectPassage({
+  variant = "desktop",
+  side = "left",
+}: {
+  variant?: Variant;
+  /** When unsynced, use "right" to control the right panel; otherwise ignored. */
+  side?: "left" | "right";
+}) {
   const { globalLanguage } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
   const {
     leftBook,
     leftChapter,
+    rightBook,
+    rightChapter,
     leftVersion,
     rightVersion,
+    syncMode,
     testamentFilter,
+    leftTestamentFilter,
+    rightTestamentFilter,
     setTestamentFilterAndAdjustBook,
+    setLeftTestamentFilterAndAdjust,
+    setRightTestamentFilterAndAdjust,
     otBooks,
     ntBooks,
     handleLeftBookChange,
     handleLeftChapterChange,
+    handleRightBookChange,
+    handleRightChapterChange,
   } = useRead();
+
+  const isRight = side === "right" && !syncMode;
+  const book = isRight ? rightBook : leftBook;
+  const chapter = isRight ? rightChapter : leftChapter;
+  /** When sync is off, panel uses its own testament filter; tabs must use it so NT/OT tab works. */
+  const effectiveFilter = syncMode
+    ? testamentFilter
+    : isRight
+      ? rightTestamentFilter
+      : leftTestamentFilter;
+  const setFilter = syncMode
+    ? setTestamentFilterAndAdjustBook
+    : isRight
+      ? setRightTestamentFilterAndAdjust
+      : setLeftTestamentFilterAndAdjust;
 
   const [open, setOpen] = useState(false);
   const [userExpandedBookId, setUserExpandedBookId] = useState<string | null>(null);
   const useFullLabel = globalLanguage === "VI" && variant === "desktop";
 
-  const filteredBooks = testamentFilter === "ot" ? otBooks : ntBooks;
+  const filteredBooks = effectiveFilter === "ot" ? otBooks : ntBooks;
   const firstFilteredBookId = filteredBooks[0]?.id ?? "";
-  const currentBookInList = filteredBooks.some((b) => b.id === leftBook?.id);
+  const currentBookInList = filteredBooks.some((b) => b.id === book?.id);
   const derivedAccordionId = currentBookInList
-    ? (leftBook?.id ?? "")
+    ? (book?.id ?? "")
     : firstFilteredBookId;
   const openAccordionId = userExpandedBookId ?? derivedAccordionId;
 
@@ -60,17 +91,22 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
   const selectedChapterClass =
     "bg-second dark:bg-second-700 text-second-foreground font-medium";
 
-  if (!leftBook) return null;
+  if (!book) return null;
 
-  function onSelectChapter(book: BibleBook, chapter: number) {
-    if (book.id !== leftBook?.id) handleLeftBookChange(book);
-    handleLeftChapterChange(chapter);
+  const onSelectChapter = (b: BibleBook, ch: number) => {
+    if (isRight) {
+      if (b.id !== rightBook?.id) handleRightBookChange(b);
+      handleRightChapterChange(ch);
+    } else {
+      if (b.id !== leftBook?.id) handleLeftBookChange(b);
+      handleLeftChapterChange(ch);
+    }
     setOpen(false);
-  }
+  };
 
-  const bookName = getBookLabelForSelection(leftBook, leftVersion, rightVersion);
-  const labelShort = leftBook && `${bookName} Ch. ${leftChapter}`;
-  const labelFull = leftBook && `${bookName} ${t("readChapterN", { n: leftChapter })}`;
+  const bookName = getBookLabelForSelection(book, leftVersion, rightVersion);
+  const labelShort = book && `${bookName} Ch. ${chapter}`;
+  const labelFull = book && `${bookName} - ${t("readChapterN", { n: chapter })}`;
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
@@ -78,15 +114,14 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
         <Button
           type="button"
           variant="ghost"
-          size="sm"
           className={cn(
-            `hover:bg-muted/50 h-9 shrink-0 gap-1.5 rounded-lg border-0 bg-transparent
-            shadow-none`,
+            `hover:bg-muted/50 shrink-0 gap-1.5 rounded-lg border-0 bg-transparent px-0
+            py-0 shadow-none`,
             variant === "mobile" && "rounded-md"
           )}
           aria-label={t("readSelectPassage")}
         >
-          <span className="max-w-[140px] truncate sm:max-w-[200px] lg:max-w-none">
+          <span className="max-w-[140px] truncate text-lg sm:max-w-[200px] lg:max-w-none">
             <span className="lg:hidden">{labelShort}</span>
             <span className="hidden lg:inline">{labelFull}</span>
           </span>
@@ -125,8 +160,8 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
 
         {/* Tabs: Old / New Testament */}
         <Tabs
-          value={testamentFilter}
-          onValueChange={(v) => v && setTestamentFilterAndAdjustBook(v as "ot" | "nt")}
+          value={effectiveFilter}
+          onValueChange={(v) => v && setFilter(v as "ot" | "nt")}
           className="flex min-h-0 flex-1 flex-col"
         >
           <TabsList
@@ -156,7 +191,7 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
           </TabsList>
 
           <TabsContent
-            value={testamentFilter}
+            value={effectiveFilter}
             className="min-h-0 flex-1 overflow-y-auto px-4 pt-0 pb-3
               data-[state=inactive]:hidden"
           >
@@ -193,7 +228,8 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
                       {Array.from({ length: book.chapterCount }, (_, i) => i + 1).map(
                         (ch) => {
                           const isSelected =
-                            leftBook?.id === book.id && leftChapter === ch;
+                            (isRight ? rightBook?.id : leftBook?.id) === book.id &&
+                            chapter === ch;
                           return (
                             <Button
                               key={ch}

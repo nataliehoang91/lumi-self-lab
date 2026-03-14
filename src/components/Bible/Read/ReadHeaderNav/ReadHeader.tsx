@@ -23,7 +23,9 @@ export function ReadHeader() {
     useRead();
 
   const hasVersionSelected = leftVersion !== null || rightVersion !== null;
-  const showBookChapterNav = hasVersionSelected && leftBook !== null && syncMode;
+  /** Passage in nav only when synced; when unsynced each panel has its own passage control inside. */
+  const showBookChapterNav = hasVersionSelected && leftBook !== null;
+  const showPassageInNav = showBookChapterNav && syncMode;
   const showSyncToggle = !focusMode && rightVersion !== null;
 
   return (
@@ -70,7 +72,7 @@ export function ReadHeader() {
           </div>
           {showBookChapterNav && (
             <div className="flex shrink-0 flex-wrap items-center gap-2">
-              <SelectPassage variant="desktop" />
+              {showPassageInNav && <SelectPassage variant="desktop" />}
               <ReadTextSettings />
             </div>
           )}
@@ -116,7 +118,7 @@ export function ReadHeader() {
           </div>
           {showBookChapterNav && (
             <div className="flex flex-wrap items-center justify-center gap-2">
-              <SelectPassage variant="mobile" />
+              {showPassageInNav && <SelectPassage variant="mobile" />}
               <ReadTextSettings />
             </div>
           )}

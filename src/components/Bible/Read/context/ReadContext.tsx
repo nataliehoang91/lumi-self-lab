@@ -3,7 +3,7 @@
 import {
   createContext,
   useContext,
-  useState,
+  useReducer,
   useRef,
   useMemo,
   useCallback,
@@ -19,12 +19,17 @@ import { getChapterContent } from "@/app/actions/bible/read";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import type { Language } from "@/components/Bible/BibleAppContext";
 import type { BibleBook } from "../types";
-import type { ChapterContent } from "../types";
 import type { VersionId } from "../constants";
 import type { TestamentFilter } from "../constants";
 import { TRANSLATIONS } from "../constants";
 import { getOtBooks, getNtBooks, resolveBookFromParams, clampChapter } from "../utils";
 import type { ReadFontSize } from "../readTextConstants";
+import {
+  readReducer,
+  getInitialReadState,
+  type ReadState,
+  type SyncFromUrlPayload,
+} from "./readReducer";
 
 const READ_TEXT_PREFS_KEY = "bible-read-text-prefs";
 
@@ -53,44 +58,6 @@ function writeStoredReadTextPrefs(readFontSize: ReadFontSize, readFontFace: stri
   } catch {
     // ignore
   }
-}
-
-interface ReadState {
-  books: BibleBook[];
-  leftVersion: VersionId | null;
-  rightVersion: VersionId | null;
-  syncMode: boolean;
-  focusMode: boolean;
-  leftBook: BibleBook | null;
-  leftChapter: number;
-  rightBook: BibleBook | null;
-  rightChapter: number;
-  leftContent: ChapterContent | null;
-  rightContent: ChapterContent | null;
-  loadingLeft: boolean;
-  loadingRight: boolean;
-  hoveredVerse: number | null;
-  verse1: number | null;
-  verse2: number | null;
-  verseEnd: number | null;
-  /** Multiple verse numbers to highlight (left/sync panel). URL param: verses=3,5,7 */
-  highlightedVerses: number[];
-  /** Multiple verse numbers to highlight in independent right panel (not URL-synced). */
-  highlightedVersesRight: number[];
-  panelWidth: number;
-  isDragging: boolean;
-  subNavBookOpen: boolean;
-  subNavChapterOpen: boolean;
-  testamentFilter: TestamentFilter;
-  leftTestamentFilter: TestamentFilter;
-  rightTestamentFilter: TestamentFilter;
-  insightOpen: boolean;
-  /** When true, Insights panel is minimized to a pill; read nav sits next to it. */
-  insightMinimized: boolean;
-  /** Read-page-only: text size for Bible verse content (XS–XXL). Separate from app navbar fontSize. */
-  readFontSize: ReadFontSize;
-  /** Read-page-only: font face id for Bible verse content. Language-specific sets in readTextConstants. */
-  readFontFace: string;
 }
 
 interface ReadContextValue extends ReadState {
@@ -247,6 +214,8 @@ export function ReadProvider({
   const initFromUrlRunOnce = useRef(false);
   const prevPathnameRef = useRef<string | null>(null);
   const clearVersesOnNextSyncRef = useRef(false);
+  /** When true, next URL push omits book/chapter (hierarchy: testament → book → chapter). */
+  const omitBookChapterFromUrlRef = useRef(false);
   const effectiveLanguage = initialLanguage ?? globalLanguage;
 
   // Stable serialization so effect only runs when params actually change (avoids loop from useSearchParams() new refs)
@@ -272,134 +241,132 @@ export function ReadProvider({
     [initialSearchParams, searchParamsKey, effectiveLanguage]
   );
 
-  const [books, setBooks] = useState<BibleBook[]>(initialBooks);
-  const [syncMode, setSyncMode] = useState(initialParsed.sync);
-  const [focusMode, setFocusMode] = useState(initialParsed.focus);
-  const [leftVersion, setLeftVersion] = useState<VersionId | null>(
-    initialParsed.version1
+  const initialReadState = useMemo(
+    () =>
+      getInitialReadState(
+        initialBooks,
+        initialParsed as Parameters<typeof getInitialReadState>[1],
+        resolveBookFromParams,
+        clampChapter
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: only when parsed/books for init change
+    [initialSearchParams, searchParamsKey, effectiveLanguage]
   );
-  const [rightVersion, setRightVersion] = useState<VersionId | null>(
-    initialParsed.version2
-  );
-  function getInitialBookChapterFromParams() {
-    if (initialSearchParams && initialBooks.length > 0) {
-      const p = parseReadSearchParams(initialSearchParams, "EN");
-      const left = resolveBookFromParams(initialBooks, p.book1Id, p.testament1);
-      const leftCh = clampChapter(p.chapter1, left);
-      const right = resolveBookFromParams(initialBooks, p.book2Id, p.testament2);
-      const rightCh = clampChapter(p.chapter2, right);
-      const hasRight = p.version2 && !p.sync;
-      return {
-        leftBook: left,
-        leftChapter: leftCh,
-        rightBook: hasRight ? right : left,
-        rightChapter: hasRight ? rightCh : leftCh,
-        testamentFilter: p.testament1,
-        leftTestamentFilter: p.testament1,
-        rightTestamentFilter: hasRight ? p.testament2 : p.testament1,
-      };
-    }
-    const first = initialBooks[0] ?? null;
-    return {
-      leftBook: first,
-      leftChapter: 1,
-      rightBook: first,
-      rightChapter: 1,
-      testamentFilter: "ot" as TestamentFilter,
-      leftTestamentFilter: "ot" as TestamentFilter,
-      rightTestamentFilter: "ot" as TestamentFilter,
-    };
-  }
-  const initialBookChapter = getInitialBookChapterFromParams();
-  const [leftBook, setLeftBook] = useState<BibleBook | null>(initialBookChapter.leftBook);
-  const [leftChapter, setLeftChapter] = useState(initialBookChapter.leftChapter);
-  const [rightBook, setRightBook] = useState<BibleBook | null>(
-    initialBookChapter.rightBook
-  );
-  const [rightChapter, setRightChapter] = useState(initialBookChapter.rightChapter);
-  const [leftContent, setLeftContent] = useState<ChapterContent | null>(null);
-  const [rightContent, setRightContent] = useState<ChapterContent | null>(null);
-  const [loadingLeft, setLoadingLeft] = useState(false);
-  const [loadingRight, setLoadingRight] = useState(false);
-  const [hoveredVerse, setHoveredVerse] = useState<number | null>(null);
-  const [verse1, setVerse1] = useState<number | null>(initialParsed.verse1);
-  const [verse2, setVerse2] = useState<number | null>(initialParsed.verse2);
-  const [verseEnd, setVerseEnd] = useState<number | null>(initialParsed.verseEnd ?? null);
-  const [highlightedVerses, setHighlightedVerses] = useState<number[]>(
-    initialParsed.verses ?? []
-  );
-  const [highlightedVersesRight, setHighlightedVersesRight] = useState<number[]>([]);
-  const [panelWidth, setPanelWidth] = useState(50);
 
-  const toggleVerseHighlight = useCallback(
-    (verseNumber: number) => {
-      const num = Number(verseNumber);
-      if (!Number.isFinite(num) || num < 1) return;
-      setHighlightedVerses((prev) => {
-        const next = prev.includes(num)
-          ? prev.filter((n) => n !== num)
-          : [...prev, num].sort((a, b) => a - b);
+  const [state, dispatch] = useReducer(readReducer, initialReadState);
 
-        // Keep single-verse state in sync with multi-verse highlights so
-        // URL params and UI behave correctly when the last verse is toggled off.
-        if (next.length === 0) {
-          setVerse1(null);
-          setVerseEnd(null);
-        } else {
-          setVerse1(next[0] ?? null);
-          const last = next[next.length - 1];
-          setVerseEnd(next.length > 1 && last > next[0]! ? last : null);
-        }
+  const {
+    books,
+    leftVersion,
+    rightVersion,
+    syncMode,
+    focusMode,
+    leftBook,
+    leftChapter,
+    rightBook,
+    rightChapter,
+    leftContent,
+    rightContent,
+    loadingLeft,
+    loadingRight,
+    hoveredVerse,
+    verse1,
+    verse2,
+    verseEnd,
+    highlightedVerses,
+    highlightedVersesRight,
+    panelWidth,
+    isDragging,
+    subNavBookOpen,
+    subNavChapterOpen,
+    testamentFilter,
+    leftTestamentFilter,
+    rightTestamentFilter,
+    insightOpen,
+    insightMinimized,
+    readFontSize,
+    readFontFace,
+  } = state;
 
-        return next;
-      });
+  const setBooks = useCallback((books: BibleBook[]) => {
+    dispatch({ type: "SET_BOOKS", payload: books });
+  }, []);
+  const setSyncMode = useCallback((v: boolean) => {
+    dispatch({ type: "SET_SYNC_MODE", payload: v });
+  }, []);
+  const setFocusMode = useCallback((v: boolean) => {
+    dispatch({ type: "SET_FOCUS_MODE", payload: v });
+  }, []);
+  const setHoveredVerse = useCallback((v: number | null) => {
+    dispatch({ type: "SET_HOVERED_VERSE", payload: v });
+  }, []);
+  const setVerse1 = useCallback((v: number | null) => {
+    dispatch({ type: "SET_VERSE1", payload: v });
+  }, []);
+  const setVerse2 = useCallback((v: number | null) => {
+    dispatch({ type: "SET_VERSE2", payload: v });
+  }, []);
+  const setVerseEnd = useCallback((v: number | null) => {
+    dispatch({ type: "SET_VERSE_END", payload: v });
+  }, []);
+  const setHighlightedVerses = useCallback(
+    (v: number[] | ((prev: number[]) => number[])) => {
+      if (typeof v === "function") {
+        const next = v(highlightedVerses);
+        dispatch({ type: "SET_HIGHLIGHTED_VERSES", payload: next });
+      } else {
+        dispatch({ type: "SET_HIGHLIGHTED_VERSES", payload: v });
+      }
     },
-    [setVerse1, setVerseEnd]
+    [highlightedVerses]
   );
+  const setHighlightedVersesRight = useCallback(
+    (v: number[] | ((prev: number[]) => number[])) => {
+      if (typeof v === "function") {
+        const next = v(highlightedVersesRight);
+        dispatch({ type: "SET_HIGHLIGHTED_VERSES_RIGHT", payload: next });
+      } else {
+        dispatch({ type: "SET_HIGHLIGHTED_VERSES_RIGHT", payload: v });
+      }
+    },
+    [highlightedVersesRight]
+  );
+  const setPanelWidth = useCallback((v: number) => {
+    dispatch({ type: "SET_PANEL_WIDTH", payload: v });
+  }, []);
+  const setIsDragging = useCallback((v: boolean) => {
+    dispatch({ type: "SET_IS_DRAGGING", payload: v });
+  }, []);
+  const setSubNavBookOpen = useCallback((v: boolean) => {
+    dispatch({ type: "SET_SUB_NAV_BOOK_OPEN", payload: v });
+  }, []);
+  const setSubNavChapterOpen = useCallback((v: boolean) => {
+    dispatch({ type: "SET_SUB_NAV_CHAPTER_OPEN", payload: v });
+  }, []);
+  const setInsightOpen = useCallback((v: boolean) => {
+    dispatch({ type: "SET_INSIGHT_OPEN", payload: v });
+  }, []);
+  const setInsightMinimized = useCallback((v: boolean) => {
+    dispatch({ type: "SET_INSIGHT_MINIMIZED", payload: v });
+  }, []);
+
+  const toggleVerseHighlight = useCallback((verseNumber: number) => {
+    dispatch({ type: "TOGGLE_VERSE_HIGHLIGHT", payload: verseNumber });
+  }, []);
   const toggleRightVerseHighlight = useCallback((verseNumber: number) => {
-    const num = Number(verseNumber);
-    if (!Number.isFinite(num) || num < 1) return;
-    setHighlightedVersesRight((prev) => {
-      const next = prev.includes(num)
-        ? prev.filter((n) => n !== num)
-        : [...prev, num].sort((a, b) => a - b);
-      return next;
-    });
+    dispatch({ type: "TOGGLE_RIGHT_VERSE_HIGHLIGHT", payload: verseNumber });
   }, []);
-
-  const clearVerseHighlights = useCallback(() => {
-    setVerse1(null);
-    setVerse2(null);
-    setVerseEnd(null);
-    setHighlightedVerses([]);
-    setHighlightedVersesRight([]);
-  }, []);
-
-  const [isDragging, setIsDragging] = useState(false);
-  const [subNavBookOpen, setSubNavBookOpen] = useState(false);
-  const [subNavChapterOpen, setSubNavChapterOpen] = useState(false);
-  const [testamentFilter, setTestamentFilter] = useState<TestamentFilter>(
-    initialBookChapter.testamentFilter
-  );
-  const [leftTestamentFilter, setLeftTestamentFilter] = useState<TestamentFilter>(
-    initialBookChapter.leftTestamentFilter
-  );
-  const [rightTestamentFilter, setRightTestamentFilter] = useState<TestamentFilter>(
-    initialBookChapter.rightTestamentFilter
-  );
-  const [insightOpen, setInsightOpen] = useState(initialParsed.insights);
-  const [insightMinimized, setInsightMinimized] = useState(false);
 
   const readTextPrefsRef = useRef(false);
-  const [readFontSize, setReadFontSizeState] = useState<ReadFontSize>("M");
-  const [readFontFace, setReadFontFaceState] = useState<string>("");
 
   useEffect(() => {
     if (readTextPrefsRef.current || typeof window === "undefined") return;
     readTextPrefsRef.current = true;
     const { readFontSize: s, readFontFace: f } = readStoredReadTextPrefs();
-    setReadFontSizeState(s);
-    setReadFontFaceState(f);
+    queueMicrotask(() => {
+      dispatch({ type: "SET_READ_FONT_SIZE", payload: s });
+      dispatch({ type: "SET_READ_FONT_FACE", payload: f });
+    });
   }, []);
   useEffect(() => {
     if (!readTextPrefsRef.current) return;
@@ -408,19 +375,32 @@ export function ReadProvider({
 
   /** When only one version is selected, auto set sync to false (unsynced). */
   useEffect(() => {
-    if (rightVersion === null && syncMode) setSyncMode(false);
+    if (rightVersion === null && syncMode) {
+      queueMicrotask(() => dispatch({ type: "SET_SYNC_MODE", payload: false }));
+    }
   }, [rightVersion, syncMode]);
 
-  const setReadFontSize = useCallback((size: ReadFontSize) => setReadFontSizeState(size), []);
-  const setReadFontFace = useCallback((faceId: string) => setReadFontFaceState(faceId), []);
+  const setReadFontSize = useCallback((size: ReadFontSize) => {
+    dispatch({ type: "SET_READ_FONT_SIZE", payload: size });
+  }, []);
+  const setReadFontFace = useCallback((faceId: string) => {
+    dispatch({ type: "SET_READ_FONT_FACE", payload: faceId });
+  }, []);
 
   const otBooks = getOtBooks(books);
   const ntBooks = getNtBooks(books);
   const filteredBooks = testamentFilter === "ot" ? otBooks : ntBooks;
 
   useEffect(() => {
-    if (books.length > 0 && !leftBook) setLeftBook(books[0]);
-    if (books.length > 0 && !rightBook) setRightBook(books[0]);
+    if (books.length === 0) return;
+    const needsLeft = !leftBook;
+    const needsRight = !rightBook;
+    if (!needsLeft && !needsRight) return;
+    const book0 = books[0]!;
+    queueMicrotask(() => {
+      if (needsLeft) dispatch({ type: "SET_LEFT_BOOK", payload: book0 });
+      if (needsRight) dispatch({ type: "SET_RIGHT_BOOK", payload: book0 });
+    });
   }, [books, leftBook, rightBook]);
 
   // When language (pathname) changes, clear verse highlights to avoid URL/state churn and glitching
@@ -429,11 +409,7 @@ export function ReadProvider({
     prevPathnameRef.current = pathname;
     if (prev !== null && prev !== pathname) {
       clearVersesOnNextSyncRef.current = true;
-      setVerse1(null);
-      setVerse2(null);
-      setVerseEnd(null);
-      setHighlightedVerses([]);
-      setHighlightedVersesRight([]);
+      dispatch({ type: "CLEAR_VERSE_HIGHLIGHTS_ON_PATHNAME" });
     }
   }, [pathname]);
 
@@ -470,15 +446,17 @@ export function ReadProvider({
     const v1 = leftVersion;
     const leftTestament = syncMode ? testamentFilter : leftTestamentFilter;
     const rightTestament = syncMode ? testamentFilter : rightTestamentFilter;
+    const omitBookChapter = omitBookChapterFromUrlRef.current;
+    if (omitBookChapter) omitBookChapterFromUrlRef.current = false;
     const qs = buildReadSearchParams({
       version1: v1 ?? undefined,
       version2: rightVersion,
       sync: syncMode,
-      book1Id: leftBook?.id ?? undefined,
-      chapter1: leftChapter,
+      book1Id: omitBookChapter ? undefined : (leftBook?.id ?? undefined),
+      chapter1: omitBookChapter ? undefined : leftChapter,
       testament1: leftTestament,
-      book2Id: rightVersion && !syncMode ? (rightBook?.id ?? undefined) : undefined,
-      chapter2: rightVersion && !syncMode ? rightChapter : undefined,
+      book2Id: omitBookChapter ? undefined : (rightVersion && !syncMode ? (rightBook?.id ?? undefined) : undefined),
+      chapter2: omitBookChapter ? undefined : (rightVersion && !syncMode ? rightChapter : undefined),
       testament2: rightVersion && !syncMode ? rightTestament : undefined,
       insights: insightOpen || undefined,
       focus: focusMode || undefined,
@@ -534,16 +512,10 @@ export function ReadProvider({
         initFromUrlRunOnce.current = true;
         initialUrlSynced.current = true;
       }
-      setLeftVersion(null);
-      setRightVersion(null);
-      setSyncMode(parsed.sync);
-      setFocusMode(parsed.focus);
-      setInsightOpen(false);
-      setVerse1(null);
-      setVerse2(null);
-      setVerseEnd(null);
-      setHighlightedVerses([]);
-      setHighlightedVersesRight([]);
+      dispatch({
+        type: "SYNC_FROM_URL_EMPTY",
+        payload: { sync: parsed.sync, focus: parsed.focus },
+      });
       initialUrlSynced.current = true;
       return;
     }
@@ -588,30 +560,26 @@ export function ReadProvider({
         initialUrlSynced.current = true;
         return;
       }
-      setLeftVersion(parsed.version1);
-      setRightVersion(parsed.version2);
-      setSyncMode(parsed.sync);
-      setFocusMode(parsed.focus);
-      setLeftBook(left);
-      setLeftChapter(leftCh);
-      setRightBook(right);
-      setRightChapter(rightCh);
-      setTestamentFilter(parsed.testament1);
-      setLeftTestamentFilter(parsed.testament1);
-      setRightTestamentFilter(hasRight ? parsed.testament2 : parsed.testament1);
-      setInsightOpen(parsed.insights);
-      if (skipVerses) {
-        clearVersesOnNextSyncRef.current = false;
-        setVerse1(null);
-        setVerse2(null);
-        setVerseEnd(null);
-        setHighlightedVerses([]);
-      } else {
-        setVerse1(parsed.verse1);
-        setVerse2(parsed.verse2);
-        setVerseEnd(parsed.verseEnd);
-        setHighlightedVerses(parsed.verses ?? []);
-      }
+      const payload: SyncFromUrlPayload = {
+        leftVersion: parsed.version1,
+        rightVersion: parsed.version2,
+        sync: parsed.sync,
+        focus: parsed.focus,
+        leftBook: left,
+        leftChapter: leftCh,
+        rightBook: right,
+        rightChapter: rightCh,
+        testamentFilter: parsed.testament1,
+        leftTestamentFilter: parsed.testament1,
+        rightTestamentFilter: hasRight ? parsed.testament2 : parsed.testament1,
+        insightOpen: parsed.insights,
+        verse1: skipVerses ? null : parsed.verse1,
+        verse2: skipVerses ? null : (hasRight ? parsed.verse2 : null),
+        verseEnd: skipVerses ? null : parsed.verseEnd,
+        verses: skipVerses ? [] : (parsed.verses ?? []),
+      };
+      dispatch({ type: "SYNC_FROM_URL", payload });
+      if (skipVerses) clearVersesOnNextSyncRef.current = false;
     } else {
       const skipVersesElse = clearVersesOnNextSyncRef.current;
       if (hasAnyVersion || parsed.insights) {
@@ -640,23 +608,21 @@ export function ReadProvider({
         initialUrlSynced.current = true;
         return;
       }
-      setLeftVersion(parsed.version1);
-      setRightVersion(parsed.version2);
-      setSyncMode(parsed.sync);
-      setFocusMode(parsed.focus);
-      setInsightOpen(parsed.insights);
-      if (skipVersesElse) {
-        clearVersesOnNextSyncRef.current = false;
-        setVerse1(null);
-        setVerse2(null);
-        setVerseEnd(null);
-        setHighlightedVerses([]);
-      } else {
-        setVerse1(parsed.verse1);
-        setVerse2(parsed.verse2);
-        setVerseEnd(parsed.verseEnd);
-        setHighlightedVerses(parsed.verses ?? []);
-      }
+      dispatch({
+        type: "SYNC_FROM_URL_PARTIAL",
+        payload: {
+          leftVersion: parsed.version1,
+          rightVersion: parsed.version2,
+          sync: parsed.sync,
+          focus: parsed.focus,
+          insightOpen: parsed.insights,
+          verse1: skipVersesElse ? null : parsed.verse1,
+          verse2: skipVersesElse ? null : parsed.verse2,
+          verseEnd: skipVersesElse ? null : parsed.verseEnd,
+          verses: skipVersesElse ? [] : (parsed.verses ?? []),
+        },
+      });
+      if (skipVersesElse) clearVersesOnNextSyncRef.current = false;
     }
     initialUrlSynced.current = true;
   }, [searchParamsKey, pathname, effectiveLanguage, router, books.length]);
@@ -671,29 +637,29 @@ export function ReadProvider({
 
   useEffect(() => {
     if (!leftBook || leftVersion === null) {
-      setLeftContent(null);
+      dispatch({ type: "SET_LEFT_CONTENT", payload: null });
       return;
     }
-    setLoadingLeft(true);
+    dispatch({ type: "SET_LOADING_LEFT", payload: true });
     fetchChapter(leftBook.id, leftChapter, leftVersion)
-      .then(setLeftContent)
-      .finally(() => setLoadingLeft(false));
+      .then((content) => dispatch({ type: "SET_LEFT_CONTENT", payload: content }))
+      .finally(() => dispatch({ type: "SET_LOADING_LEFT", payload: false }));
   }, [leftBook?.id, leftChapter, leftVersion, fetchChapter]);
 
   const rightBookId = syncMode ? leftBook?.id : rightBook?.id;
   const rightChapterNum = syncMode ? leftChapter : rightChapter;
   useEffect(() => {
     if (!rightVersion) {
-      setRightContent(null);
+      dispatch({ type: "SET_RIGHT_CONTENT", payload: null });
       return;
     }
     const book = syncMode ? leftBook : rightBook;
     const ch = syncMode ? leftChapter : rightChapter;
     if (!book) return;
-    setLoadingRight(true);
+    dispatch({ type: "SET_LOADING_RIGHT", payload: true });
     fetchChapter(book.id, ch, rightVersion)
-      .then(setRightContent)
-      .finally(() => setLoadingRight(false));
+      .then((content) => dispatch({ type: "SET_RIGHT_CONTENT", payload: content }))
+      .finally(() => dispatch({ type: "SET_LOADING_RIGHT", payload: false }));
   }, [
     rightVersion,
     syncMode,
@@ -710,9 +676,9 @@ export function ReadProvider({
     if (!isDragging) return;
     const handleMouseMove = (e: MouseEvent) => {
       const newWidth = (e.clientX / window.innerWidth) * 100;
-      setPanelWidth(() => Math.min(Math.max(newWidth, 25), 75));
+      dispatch({ type: "SET_PANEL_WIDTH", payload: Math.min(Math.max(newWidth, 25), 75) });
     };
-    const handleMouseUp = () => setIsDragging(false);
+    const handleMouseUp = () => dispatch({ type: "SET_IS_DRAGGING", payload: false });
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
     return () => {
@@ -721,115 +687,62 @@ export function ReadProvider({
     };
   }, [isDragging]);
 
-  const handleVersionChipClick = useCallback(
-    (transId: VersionId) => {
-      const isLeft = leftVersion === transId;
-      const isRight = rightVersion === transId;
-      if (isLeft) {
-        setLeftVersion(rightVersion);
-        setRightVersion(null);
-        return;
-      }
-      if (isRight) {
-        setRightVersion(null);
-        return;
-      }
-      if (leftVersion === null && rightVersion === null) {
-        setLeftVersion(transId);
-        return;
-      }
-      if (rightVersion === null) {
-        setRightVersion(transId);
-        return;
-      }
-      setRightVersion(transId);
-    },
-    [leftVersion, rightVersion]
-  );
+  const handleVersionChipClick = useCallback((transId: VersionId) => {
+    dispatch({ type: "VERSION_CHIP_CLICK", payload: transId });
+  }, []);
 
   const handleLeftBookChange = useCallback(
     (book: BibleBook) => {
-      clearVerseHighlights();
-      setLeftBook(book);
-      if (syncMode) setRightBook(book);
-      setLeftChapter(1);
-      if (syncMode) setRightChapter(1);
+      omitBookChapterFromUrlRef.current = false;
+      dispatch({
+        type: "LEFT_BOOK_CHAPTER",
+        payload: { book, chapter: 1, syncMode },
+      });
     },
-    [syncMode, clearVerseHighlights]
+    [syncMode]
   );
 
   const handleLeftChapterChange = useCallback(
     (chapter: number) => {
-      clearVerseHighlights();
-      setLeftChapter(chapter);
-      if (syncMode) setRightChapter(chapter);
+      if (!leftBook) return;
+      omitBookChapterFromUrlRef.current = false;
+      dispatch({
+        type: "LEFT_BOOK_CHAPTER",
+        payload: { book: leftBook, chapter, syncMode },
+      });
     },
-    [syncMode, clearVerseHighlights]
+    [syncMode, leftBook]
   );
 
-  const handleRightBookChange = useCallback(
-    (book: BibleBook) => {
-      clearVerseHighlights();
-      setRightBook(book);
-      setRightChapter(1);
-    },
-    [clearVerseHighlights]
-  );
+  const handleRightBookChange = useCallback((book: BibleBook) => {
+    dispatch({ type: "RIGHT_BOOK_CHAPTER", payload: { book, chapter: 1 } });
+  }, []);
 
-  const handleRightChapterChange = useCallback(
-    (chapter: number) => {
-      clearVerseHighlights();
-      setRightChapter(chapter);
-    },
-    [clearVerseHighlights]
-  );
+  const handleRightChapterChange = useCallback((chapter: number) => {
+    if (!rightBook) return;
+    dispatch({
+      type: "RIGHT_BOOK_CHAPTER",
+      payload: { book: rightBook, chapter },
+    });
+  }, [rightBook]);
 
   const setTestamentFilterAndAdjustBook = useCallback(
     (filter: TestamentFilter) => {
-      clearVerseHighlights();
-      setTestamentFilter(filter);
-      const list = filter === "ot" ? otBooks : ntBooks;
-      if (list.length === 0) return;
-      const currentInList = leftBook && list.some((b) => b.id === leftBook.id);
-      if (!currentInList) {
-        setLeftBook(list[0]);
-        if (syncMode) setRightBook(list[0]);
-        setLeftChapter(1);
-        if (syncMode) setRightChapter(1);
-      }
+      omitBookChapterFromUrlRef.current = true;
+      dispatch({ type: "TESTAMENT_AND_ADJUST", payload: { filter, syncMode } });
     },
-    [otBooks, ntBooks, leftBook, syncMode, clearVerseHighlights]
+    [syncMode]
   );
 
-  const setLeftTestamentFilterAndAdjust = useCallback(
-    (filter: TestamentFilter) => {
-      clearVerseHighlights();
-      setLeftTestamentFilter(filter);
-      const list = filter === "ot" ? otBooks : ntBooks;
-      if (list.length === 0) return;
-      const currentInList = leftBook && list.some((b) => b.id === leftBook.id);
-      if (!currentInList) {
-        setLeftBook(list[0]);
-        setLeftChapter(1);
-      }
-    },
-    [otBooks, ntBooks, leftBook, clearVerseHighlights]
-  );
+  const setLeftTestamentFilterAndAdjust = useCallback((filter: TestamentFilter) => {
+    omitBookChapterFromUrlRef.current = true;
+    dispatch({ type: "LEFT_TESTAMENT_AND_ADJUST", payload: filter });
+  }, []);
 
-  const setRightTestamentFilterAndAdjust = useCallback(
-    (filter: TestamentFilter) => {
-      clearVerseHighlights();
-      setRightTestamentFilter(filter);
-      const list = filter === "ot" ? otBooks : ntBooks;
-      if (list.length === 0) return;
-      const currentInList = rightBook && list.some((b) => b.id === rightBook.id);
-      if (!currentInList) {
-        setRightBook(list[0]);
-        setRightChapter(1);
-      }
-    },
-    [otBooks, ntBooks, rightBook, clearVerseHighlights]
-  );
+  const setRightTestamentFilterAndAdjust = useCallback((filter: TestamentFilter) => {
+    omitBookChapterFromUrlRef.current = true;
+    dispatch({ type: "RIGHT_TESTAMENT_AND_ADJUST", payload: filter });
+  }, []);
 
   const value: ReadContextValue = {
     books,
@@ -887,8 +800,6 @@ export function ReadProvider({
     setRightTestamentFilterAndAdjust,
     setInsightOpen,
     setInsightMinimized,
-    readFontSize,
-    readFontFace,
     setReadFontSize,
     setReadFontFace,
     otBooks,
