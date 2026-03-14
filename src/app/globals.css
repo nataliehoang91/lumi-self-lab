@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant theme-warm (&:is(.theme-warm *));
+@custom-variant theme-warm-dark (&:is(.theme-warm.dark *));
 
 :root {
   /* Default theme: Tailwind zinc/slate-style backgrounds, keep primary/coral accents */
@@ -55,12 +57,32 @@
   /* Aliases used in components */
   --second-dark: oklch(0.62 0.16 270);
 
-  /* Tertiary: Amber-Yellow */
+  /* Tertiary/Gold color palette - 50 to 900 */
   --tertiary: #fbc464;
+  --tertiary-50: oklch(0.98 0.01 65);
+  --tertiary-100: oklch(0.96 0.02 65);
+  --tertiary-200: oklch(0.92 0.05 65);
+  --tertiary-300: oklch(0.87 0.08 65);
+  --tertiary-400: oklch(0.8 0.1 65);
+  --tertiary-500: oklch(0.74 0.12 65);
+  --tertiary-600: oklch(0.68 0.12 65);
+  --tertiary-700: oklch(0.6 0.1 65);
+  --tertiary-800: oklch(0.5 0.08 65);
+  --tertiary-900: oklch(0.38 0.06 65);
   --tertiary-foreground: oklch(0.32 0.08 65);
 
-  /* Coral */
+  /* Coral color palette - 50 to 900 */
   --coral: oklch(0.72 0.14 25);
+  --coral-50: oklch(0.97 0.01 25);
+  --coral-100: oklch(0.95 0.02 25);
+  --coral-200: oklch(0.9 0.05 25);
+  --coral-300: oklch(0.83 0.09 25);
+  --coral-400: oklch(0.77 0.11 25);
+  --coral-500: oklch(0.72 0.14 25);
+  --coral-600: oklch(0.65 0.14 25);
+  --coral-700: oklch(0.58 0.12 25);
+  --coral-800: oklch(0.48 0.09 25);
+  --coral-900: oklch(0.35 0.06 25);
   --coral-foreground: oklch(0.985 0 0);
 
   /* Sky Blue */
@@ -98,7 +120,18 @@
   /* Success, sage, bible */
   --success: oklch(0.5 0.14 145);
   --success-muted: oklch(0.9 0.07 145);
+  /* Sage color palette - 50 to 900 */
   --sage: oklch(0.67 0.06 145.63);
+  --sage-50: oklch(0.97 0.01 145);
+  --sage-100: oklch(0.94 0.015 145);
+  --sage-200: oklch(0.88 0.02 145);
+  --sage-300: oklch(0.8 0.04 145);
+  --sage-400: oklch(0.72 0.05 145);
+  --sage-500: oklch(0.67 0.06 145.63);
+  --sage-600: oklch(0.58 0.055 146);
+  --sage-700: oklch(0.52 0.05 146);
+  --sage-800: oklch(0.45 0.04 146);
+  --sage-900: oklch(0.32 0.02 146);
   --sage-foreground: oklch(0.99 0 0);
   --sage-muted: oklch(0.88 0.015 146);
   --sage-dark: oklch(0.52 0.02 146);
@@ -123,7 +156,9 @@
 
 /* Flashcard Vietnamese: Noto Serif for clearer diacritics + relaxed line-height */
 .font-vietnamese-flashcard {
-  font-family: var(--font-vietnamese-flashcard), var(--font-vietnamese), var(--font-bible-serif), ui-serif, Georgia, serif;
+  font-family:
+    var(--font-vietnamese-flashcard), var(--font-vietnamese), var(--font-bible-serif),
+    ui-serif, Georgia, serif;
   line-height: 1.7;
   letter-spacing: 0.01em;
 }
@@ -255,40 +290,32 @@
   --primary-700: oklch(0.18 0.02 75);
   --primary-800: oklch(0.16 0.02 75);
   --primary-900: oklch(0.14 0.02 75);
-  --second: oklch(0.26 0.02 75);
-  --second-dark: oklch(0.2 0.02 75);
-  --second-foreground: oklch(0.985 0 0);
-  --second-50: oklch(0.94 0.01 75);
-  --second-100: oklch(0.85 0.015 75);
-  --second-200: oklch(0.6 0.02 75);
-  --second-300: oklch(0.4 0.02 75);
-  --second-400: oklch(0.3 0.02 75);
-  --second-500: oklch(0.26 0.02 75);
-  --second-600: oklch(0.24 0.02 75);
-  --second-700: oklch(0.22 0.02 75);
-  --second-800: oklch(0.2 0.02 75);
-  --second-900: oklch(0.18 0.02 75);
+
+  /* Second: warm tone (hue 20) – 50 to 900 */
+  --second: oklch(0.35 0.08 20);
+  --second-dark: oklch(0.28 0.06 20);
+  --second-50: oklch(0.97 0.02 20);
+  --second-100: oklch(0.94 0.035 20);
+  --second-200: oklch(0.88 0.05 20);
+  --second-300: oklch(0.78 0.07 20);
+  --second-400: oklch(0.58 0.08 20);
+  --second-500: oklch(0.35 0.08 20);
+  --second-600: oklch(0.32 0.07 20);
+  --second-700: oklch(0.28 0.06 20);
+  --second-800: oklch(0.24 0.05 20);
+  --second-900: oklch(0.2 0.04 20);
+
   --secondary: oklch(0.9 0.01 85);
   --secondary-foreground: oklch(0.2 0.02 70);
-  --tertiary: oklch(0.3 0.02 75);
-  --tertiary-foreground: oklch(0.985 0 0);
-  --coral: oklch(0.24 0.02 75);
-  --coral-foreground: oklch(0.985 0 0);
-  --sky-blue: oklch(0.28 0.02 75);
-  --sky-blue-foreground: oklch(0.985 0 0);
   --muted: oklch(0.92 0.008 85);
   --muted-foreground: oklch(0.4 0.02 75);
   --accent: oklch(0.88 0.01 85);
   --accent-foreground: oklch(0.2 0.02 70);
-  --destructive: oklch(0.55 0.2 25);
   --border: oklch(0.85 0.01 85);
   --input: oklch(0.85 0.01 85);
   --ring: oklch(0.6 0.02 75);
-  --chart-1: oklch(0.4 0.03 75);
-  --chart-2: oklch(0.35 0.03 75);
-  --chart-3: oklch(0.3 0.03 75);
-  --chart-4: oklch(0.38 0.03 75);
-  --chart-5: oklch(0.32 0.03 75);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(0.985 0.003 85);
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
@@ -297,34 +324,57 @@
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
-  --success: oklch(0.5 0.08 145);
-  --success-muted: oklch(0.85 0.03 145);
-  --sage: oklch(0.26 0.02 75);
-  --sage-foreground: oklch(0.985 0 0);
-  --sage-muted: oklch(0.85 0.02 85);
-  --sage-dark: oklch(0.22 0.02 75);
-  --bible-nav: oklch(0.24 0.02 75);
-  --bible-lang: oklch(0.28 0.02 75);
-  --bible-lang-foreground: oklch(0.985 0 0);
-  --gradient-peach: var(--background);
-  --gradient-peach-button: linear-gradient(
-    135deg,
-    oklch(0.82 0.02 75) 0%,
-    oklch(0.75 0.02 75) 100%
-  );
-  --gradient-second-button: linear-gradient(
-    135deg,
-    oklch(0.3 0.02 75) 0%,
-    oklch(0.22 0.02 75) 100%
-  );
-  --gradient-primary-button: linear-gradient(
-    135deg,
-    oklch(0.25 0.02 75) 0%,
-    oklch(0.18 0.02 75) 100%
-  );
-  --gradient-white: var(--background);
-  --gradient-violet-tint: oklch(0.93 0.01 85 / 0.5);
+
+  /* Sage color palette - warm theme light */
+  --sage-50: oklch(0.96 0.008 145);
+  --sage-100: oklch(0.92 0.012 145);
+  --sage-200: oklch(0.86 0.02 145);
+  --sage-300: oklch(0.78 0.035 145);
+  --sage-400: oklch(0.7 0.045 145);
+  --sage-500: oklch(0.65 0.055 145.63);
+  --sage-600: oklch(0.56 0.05 146);
+  --sage-700: oklch(0.5 0.045 146);
+  --sage-800: oklch(0.42 0.035 146);
+  --sage-900: oklch(0.28 0.02 146);
+  --sage-foreground: oklch(0.16 0.02 75);
+  --sage-muted: oklch(0.86 0.015 146);
+  --sage-dark: oklch(0.5 0.02 146);
+
+  /* Tertiary/Gold color palette - warm theme light */
+  --tertiary-50: oklch(0.97 0.008 65);
+  --tertiary-100: oklch(0.94 0.015 65);
+  --tertiary-200: oklch(0.9 0.04 65);
+  --tertiary-300: oklch(0.85 0.07 65);
+  --tertiary-400: oklch(0.78 0.09 65);
+  --tertiary-500: oklch(0.72 0.11 65);
+  --tertiary-600: oklch(0.66 0.11 65);
+  --tertiary-700: oklch(0.58 0.09 65);
+  --tertiary-800: oklch(0.48 0.07 65);
+  --tertiary-900: oklch(0.35 0.05 65);
+  --tertiary-foreground: oklch(0.16 0.02 75);
+
+  /* Coral color palette - warm theme light (hue 25) */
+  --coral: oklch(0.7 0.13 25);
+  --coral-50: oklch(0.96 0.008 25);
+  --coral-100: oklch(0.93 0.015 25);
+  --coral-200: oklch(0.88 0.04 25);
+  --coral-300: oklch(0.81 0.08 25);
+  --coral-400: oklch(0.75 0.1 25);
+  --coral-500: oklch(0.7 0.13 25);
+  --coral-600: oklch(0.63 0.13 25);
+  --coral-700: oklch(0.56 0.11 25);
+  --coral-800: oklch(0.46 0.08 25);
+  --coral-900: oklch(0.32 0.05 25);
+  --coral-foreground: oklch(0.16 0.02 75);
+
+  /* Chart colors for warm theme */
+  --chart-1: oklch(0.22 0.02 75);
+  --chart-2: oklch(0.65 0.055 145.63);
+  --chart-3: oklch(0.72 0.11 65);
+  --chart-4: oklch(0.7 0.13 25);
+  --chart-5: oklch(0.56 0.05 146);
 }
+
 .theme-warm.dark {
   --background: oklch(0.11 0.015 75);
   --foreground: oklch(0.96 0.006 85);
@@ -346,49 +396,32 @@
   --primary-700: oklch(0.88 0.02 85);
   --primary-800: oklch(0.92 0.02 85);
   --primary-900: oklch(0.94 0.02 85);
-  --second: oklch(0.78 0.02 85);
-  --second-dark: oklch(0.7 0.02 85);
-  --second-foreground: oklch(0.14 0.02 75);
-  --second-50: oklch(0.2 0.015 75);
-  --second-100: oklch(0.35 0.018 85);
-  --second-200: oklch(0.55 0.02 85);
-  --second-300: oklch(0.68 0.02 85);
-  --second-400: oklch(0.74 0.02 85);
-  --second-500: oklch(0.78 0.02 85);
-  --second-600: oklch(0.76 0.02 85);
-  --second-700: oklch(0.74 0.02 85);
-  --second-800: oklch(0.76 0.02 85);
-  --second-900: oklch(0.78 0.02 85);
+
+  /* Second: warm tone (hue 20) for dark – 50 to 900 */
+  --second: oklch(0.55 0.08 20);
+  --second-dark: oklch(0.72 0.07 20);
+  --second-50: oklch(0.22 0.04 20);
+  --second-100: oklch(0.28 0.05 20);
+  --second-200: oklch(0.35 0.06 20);
+  --second-300: oklch(0.45 0.07 20);
+  --second-400: oklch(0.52 0.08 20);
+  --second-500: oklch(0.55 0.08 20);
+  --second-600: oklch(0.65 0.07 20);
+  --second-700: oklch(0.75 0.06 20);
+  --second-800: oklch(0.85 0.04 20);
+  --second-900: oklch(0.92 0.025 20);
+
   --secondary: oklch(0.2 0.015 75);
   --secondary-foreground: oklch(0.92 0.01 85);
-  --tertiary: oklch(0.75 0.02 85);
-  --tertiary-foreground: oklch(0.14 0.02 75);
-  --coral: oklch(0.78 0.02 85);
-  --coral-foreground: oklch(0.14 0.02 75);
-  --sky-blue: oklch(0.74 0.02 85);
-  --sky-blue-foreground: oklch(0.14 0.02 75);
   --muted: oklch(0.2 0.015 75);
   --muted-foreground: oklch(0.6 0.02 85);
   --accent: oklch(0.24 0.02 75);
   --accent-foreground: oklch(0.94 0 0);
-  --destructive: oklch(0.6 0.2 25);
   --border: oklch(0.28 0.02 75);
   --input: oklch(0.28 0.02 75);
   --ring: oklch(0.6 0.02 75);
-  --success: oklch(0.5 0.08 145);
-  --success-muted: oklch(0.22 0.04 145);
-  --sage: oklch(0.72 0.02 85);
-  --sage-foreground: oklch(0.14 0.02 75);
-  --sage-muted: oklch(0.26 0.02 75);
-  --sage-dark: oklch(0.65 0.02 85);
-  --bible-nav: oklch(0.76 0.02 85);
-  --bible-lang: oklch(0.74 0.02 85);
-  --bible-lang-foreground: oklch(0.14 0.02 75);
-  --chart-1: oklch(0.6 0.03 75);
-  --chart-2: oklch(0.55 0.03 75);
-  --chart-3: oklch(0.5 0.03 75);
-  --chart-4: oklch(0.58 0.03 75);
-  --chart-5: oklch(0.52 0.03 75);
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.95 0.01 50);
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
@@ -397,6 +430,55 @@
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
+
+  /* Sage color palette - warm theme dark */
+  --sage-50: oklch(0.28 0.02 146);
+  --sage-100: oklch(0.36 0.025 146);
+  --sage-200: oklch(0.43 0.03 146);
+  --sage-300: oklch(0.5 0.035 146);
+  --sage-400: oklch(0.56 0.04 146);
+  --sage-500: oklch(0.65 0.055 145.63);
+  --sage-600: oklch(0.73 0.06 146);
+  --sage-700: oklch(0.8 0.055 146);
+  --sage-800: oklch(0.86 0.04 146);
+  --sage-900: oklch(0.92 0.02 146);
+  --sage-foreground: oklch(0.96 0.006 85);
+  --sage-muted: oklch(0.43 0.03 146);
+  --sage-dark: oklch(0.8 0.055 146);
+
+  /* Tertiary/Gold color palette - warm theme dark */
+  --tertiary-50: oklch(0.35 0.05 65);
+  --tertiary-100: oklch(0.43 0.06 65);
+  --tertiary-200: oklch(0.53 0.08 65);
+  --tertiary-300: oklch(0.63 0.09 65);
+  --tertiary-400: oklch(0.7 0.1 65);
+  --tertiary-500: oklch(0.76 0.1 65);
+  --tertiary-600: oklch(0.81 0.09 65);
+  --tertiary-700: oklch(0.86 0.08 65);
+  --tertiary-800: oklch(0.9 0.04 65);
+  --tertiary-900: oklch(0.94 0.02 65);
+  --tertiary-foreground: oklch(0.96 0.006 85);
+
+  /* Coral color palette - warm theme dark (hue 25) */
+  --coral: oklch(0.73 0.12 25);
+  --coral-50: oklch(0.32 0.05 25);
+  --coral-100: oklch(0.4 0.07 25);
+  --coral-200: oklch(0.48 0.08 25);
+  --coral-300: oklch(0.58 0.1 25);
+  --coral-400: oklch(0.66 0.12 25);
+  --coral-500: oklch(0.73 0.12 25);
+  --coral-600: oklch(0.78 0.11 25);
+  --coral-700: oklch(0.83 0.09 25);
+  --coral-800: oklch(0.88 0.05 25);
+  --coral-900: oklch(0.92 0.02 25);
+  --coral-foreground: oklch(0.96 0.006 85);
+
+  /* Chart colors for warm theme dark */
+  --chart-1: oklch(0.92 0.02 85);
+  --chart-2: oklch(0.65 0.055 145.63);
+  --chart-3: oklch(0.76 0.1 65);
+  --chart-4: oklch(0.73 0.12 25);
+  --chart-5: oklch(0.8 0.055 146);
 }
 
 /* Logo always uses default brand colors (never changes with palette) */
@@ -476,18 +558,48 @@
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-tertiary: var(--tertiary);
+  --color-tertiary-50: var(--tertiary-50);
+  --color-tertiary-100: var(--tertiary-100);
+  --color-tertiary-200: var(--tertiary-200);
+  --color-tertiary-300: var(--tertiary-300);
+  --color-tertiary-400: var(--tertiary-400);
+  --color-tertiary-500: var(--tertiary-500);
+  --color-tertiary-600: var(--tertiary-600);
+  --color-tertiary-700: var(--tertiary-700);
+  --color-tertiary-800: var(--tertiary-800);
+  --color-tertiary-900: var(--tertiary-900);
   --color-tertiary-foreground: var(--tertiary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-coral: var(--coral);
+  --color-coral-50: var(--coral-50);
+  --color-coral-100: var(--coral-100);
+  --color-coral-200: var(--coral-200);
+  --color-coral-300: var(--coral-300);
+  --color-coral-400: var(--coral-400);
+  --color-coral-500: var(--coral-500);
+  --color-coral-600: var(--coral-600);
+  --color-coral-700: var(--coral-700);
+  --color-coral-800: var(--coral-800);
+  --color-coral-900: var(--coral-900);
   --color-coral-foreground: var(--coral-foreground);
   --color-sky-blue: var(--sky-blue);
   --color-sky-blue-foreground: var(--sky-blue-foreground);
   --color-success: var(--success);
   --color-success-muted: var(--success-muted);
   --color-sage: var(--sage);
+  --color-sage-50: var(--sage-50);
+  --color-sage-100: var(--sage-100);
+  --color-sage-200: var(--sage-200);
+  --color-sage-300: var(--sage-300);
+  --color-sage-400: var(--sage-400);
+  --color-sage-500: var(--sage-500);
+  --color-sage-600: var(--sage-600);
+  --color-sage-700: var(--sage-700);
+  --color-sage-800: var(--sage-800);
+  --color-sage-900: var(--sage-900);
   --color-sage-foreground: var(--sage-foreground);
   --color-sage-muted: var(--sage-muted);
   --color-sage-dark: var(--sage-dark);
@@ -853,18 +965,48 @@
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-tertiary: var(--tertiary);
+  --color-tertiary-50: var(--tertiary-50);
+  --color-tertiary-100: var(--tertiary-100);
+  --color-tertiary-200: var(--tertiary-200);
+  --color-tertiary-300: var(--tertiary-300);
+  --color-tertiary-400: var(--tertiary-400);
+  --color-tertiary-500: var(--tertiary-500);
+  --color-tertiary-600: var(--tertiary-600);
+  --color-tertiary-700: var(--tertiary-700);
+  --color-tertiary-800: var(--tertiary-800);
+  --color-tertiary-900: var(--tertiary-900);
   --color-tertiary-foreground: var(--tertiary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-coral: var(--coral);
+  --color-coral-50: var(--coral-50);
+  --color-coral-100: var(--coral-100);
+  --color-coral-200: var(--coral-200);
+  --color-coral-300: var(--coral-300);
+  --color-coral-400: var(--coral-400);
+  --color-coral-500: var(--coral-500);
+  --color-coral-600: var(--coral-600);
+  --color-coral-700: var(--coral-700);
+  --color-coral-800: var(--coral-800);
+  --color-coral-900: var(--coral-900);
   --color-coral-foreground: var(--coral-foreground);
   --color-sky-blue: var(--sky-blue);
   --color-sky-blue-foreground: var(--sky-blue-foreground);
   --color-success: var(--success);
   --color-success-muted: var(--success-muted);
   --color-sage: var(--sage);
+  --color-sage-50: var(--sage-50);
+  --color-sage-100: var(--sage-100);
+  --color-sage-200: var(--sage-200);
+  --color-sage-300: var(--sage-300);
+  --color-sage-400: var(--sage-400);
+  --color-sage-500: var(--sage-500);
+  --color-sage-600: var(--sage-600);
+  --color-sage-700: var(--sage-700);
+  --color-sage-800: var(--sage-800);
+  --color-sage-900: var(--sage-900);
   --color-sage-foreground: var(--sage-foreground);
   --color-sage-muted: var(--sage-muted);
   --color-sage-dark: var(--sage-dark);

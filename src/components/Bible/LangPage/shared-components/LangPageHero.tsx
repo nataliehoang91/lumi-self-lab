@@ -56,17 +56,22 @@ export function LangPageHero({
         </div> */}
 
         <h1
-          className={`text-primary-dark font-serif leading-[1.05] font-semibold
-            tracking-tight text-balance ${heroTitleClass}`}
+          className={cn(
+            "font-serif leading-[1.05] font-semibold tracking-tight text-balance",
+            "text-primary-dark dark:text-primary-dark theme-warm-dark:text-white",
+            heroTitleClass
+          )}
         >
           {title1}
           <br />
-          <span className="text-gray-500">{title2}</span>
+          <span className="text-muted-foreground theme-warm-dark:text-gray-400">
+            {title2}
+          </span>
         </h1>
 
         <p
-          className={`text-foreground mx-auto mt-16 mb-10 max-w-xl font-serif
-            leading-relaxed text-pretty ${subtitleClass}`}
+          className={`text-foreground dark:text-foreground/90 mx-auto mt-16 mb-10 max-w-xl
+            font-serif leading-relaxed text-pretty ${subtitleClass}`}
         >
           {subtitle}
         </p>
@@ -78,21 +83,29 @@ export function LangPageHero({
           <Link
             href={learnHref}
             className={cn(
-              `bg-primary-dark flex items-center justify-center gap-2 rounded-xl px-2
-              py-2.5 font-semibold text-white transition-opacity hover:opacity-90`,
+              `bg-primary-dark dark:text-primary-foreground flex items-center
+              justify-center gap-2 rounded-xl px-2 py-2.5 font-semibold text-white
+              transition-opacity hover:opacity-90`,
               langButtonClass
             )}
           >
             {ctaStartLabel}
             <ArrowRight className="h-4 w-4" />
           </Link>
-          <span className="text-muted-foreground text-base font-medium">{orLabel}</span>
+          <span
+            className="text-muted-foreground dark:text-foreground/80 text-base
+              font-medium"
+          >
+            {orLabel}
+          </span>
           <Link
             href={readHref}
             className={cn(
               `bg-second-400/40 border-second-400 text-second-900 hover:bg-second-400/60
-              flex items-center justify-center gap-2 rounded-xl border px-2 py-2.5
-              font-semibold transition-colors dark:text-white`,
+              dark:bg-second-300/80 dark:border-second-400 dark:text-second-foreground
+              dark:hover:bg-second-400/90 theme-warm-dark:text-white theme-warm:bg-second
+              theme-warm:text-white flex items-center justify-center gap-2 rounded-xl
+              border px-2 py-2.5 font-semibold transition-colors`,
               langButtonClass
             )}
           >

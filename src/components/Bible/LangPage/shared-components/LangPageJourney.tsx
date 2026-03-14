@@ -116,10 +116,12 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                     <div className="t shrink-0">
                       <Link
                         href={item.cta.href}
-                        className={`bg-second-400/40 border-second-400 flex items-center
-                        justify-center gap-2 rounded-xl border px-5 py-2.5 font-medium
-                        whitespace-nowrap transition-opacity hover:opacity-90
-                        dark:text-white ${langButtonClass}`}
+                        className={`bg-second-400/40 border-second-400
+                        theme-warm:bg-second-400/30 dark:theme-warm:text-white
+                        theme-warm:text-gray-900 flex items-center justify-center gap-2
+                        rounded-xl border px-5 py-2.5 font-medium whitespace-nowrap
+                        transition-opacity hover:opacity-90 dark:text-white
+                        ${langButtonClass}`}
                       >
                         {item.cta.label}
                         <ArrowRight className="h-3.5 w-3.5" />

@@ -32,12 +32,12 @@ export function DailyVerse({
 }: DailyVerseProps) {
   return (
     <Card
-      className="border-primary-100 bg-primary-300/5 rounded-lg border px-12 py-6
-        text-center"
+      className="border-primary-100 bg-primary-300/5 rounded-lg border px-12 py-6 text-center
+        dark:border-muted-foreground/25 dark:bg-muted/50"
     >
       <p
         className={cn(
-          "text-muted-foreground mb-8 font-medium tracking-[0.18em] uppercase",
+          "text-muted-foreground dark:text-foreground/80 mb-8 font-medium tracking-[0.18em] uppercase",
           labelClassName ?? "text-xs"
         )}
       >
@@ -55,8 +55,8 @@ export function DailyVerse({
       <Link
         href={readHref}
         className={cn(
-          `text-foreground/70 hover:text-foreground group mt-8 inline-flex items-center
-          gap-2 transition-colors`,
+          `text-foreground/70 hover:text-foreground dark:text-foreground/85 dark:hover:text-foreground
+          group mt-8 inline-flex items-center gap-2 transition-colors`,
           linkClassName ?? "text-sm"
         )}
       >

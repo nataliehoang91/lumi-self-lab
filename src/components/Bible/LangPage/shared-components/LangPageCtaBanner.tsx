@@ -49,20 +49,25 @@ export function LangPageCtaBanner({
               href={learnHref}
               className={cn(
                 `bg-primary-dark flex items-center justify-center gap-2 rounded-xl px-2
-                py-2 text-lg font-semibold text-white transition-opacity hover:opacity-90`,
+                py-2 text-lg font-semibold text-white transition-opacity hover:opacity-90
+                theme-warm-dark:text-primary-foreground`,
                 langButtonClass
               )}
             >
               {newLabel}
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <span className="text-muted-foreground text-base font-medium">or</span>
+            <span className="text-muted-foreground theme-warm-dark:text-foreground/80 text-base font-medium">
+              or
+            </span>
             <Link
               href={readHref}
               className={cn(
                 `bg-second-400/40 border-second-400 text-second-900 hover:bg-second-400/60
                 flex items-center justify-center gap-2 rounded-xl border px-2 py-2 text-lg
-                font-semibold transition-colors dark:text-white`,
+                font-semibold transition-colors dark:text-white
+                theme-warm-dark:bg-second-300/80 theme-warm-dark:border-second-400
+                theme-warm-dark:text-second-foreground theme-warm-dark:hover:bg-second-400/90`,
                 langButtonClass
               )}
             >
