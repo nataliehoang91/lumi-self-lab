@@ -9,6 +9,7 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { VersionChipButtons } from "./VersionChipButtons";
 import { SelectPassage } from "./SelectPassage";
+import { ReadTextSettings } from "./ReadTextSettings";
 import { InsightsButton } from "./InsightsButton";
 import { FocusModeButton } from "./FocusModeButton";
 import { VersionDropdownMobile } from "./VersionDropdownMobile";
@@ -70,6 +71,7 @@ export function ReadHeader() {
           {showBookChapterNav && (
             <div className="flex shrink-0 flex-wrap items-center gap-2">
               <SelectPassage variant="desktop" />
+              <ReadTextSettings />
             </div>
           )}
           <div className="flex shrink-0 items-center gap-2 sm:gap-4">
@@ -115,6 +117,7 @@ export function ReadHeader() {
           {showBookChapterNav && (
             <div className="flex flex-wrap items-center justify-center gap-2">
               <SelectPassage variant="mobile" />
+              <ReadTextSettings />
             </div>
           )}
         </div>

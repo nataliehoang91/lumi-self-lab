@@ -24,6 +24,36 @@ import type { VersionId } from "../constants";
 import type { TestamentFilter } from "../constants";
 import { TRANSLATIONS } from "../constants";
 import { getOtBooks, getNtBooks, resolveBookFromParams, clampChapter } from "../utils";
+import type { ReadFontSize } from "../readTextConstants";
+
+const READ_TEXT_PREFS_KEY = "bible-read-text-prefs";
+
+function readStoredReadTextPrefs(): { readFontSize: ReadFontSize; readFontFace: string } {
+  if (typeof window === "undefined")
+    return { readFontSize: "M", readFontFace: "" };
+  try {
+    const raw = window.localStorage.getItem(READ_TEXT_PREFS_KEY);
+    if (!raw) return { readFontSize: "M", readFontFace: "" };
+    const parsed = JSON.parse(raw) as Record<string, string>;
+    const size = parsed.readFontSize;
+    const validSize =
+      size === "XS" || size === "S" || size === "M" || size === "L" || size === "XL" || size === "XXL"
+        ? size
+        : "M";
+    return { readFontSize: validSize, readFontFace: typeof parsed.readFontFace === "string" ? parsed.readFontFace : "" };
+  } catch {
+    return { readFontSize: "M", readFontFace: "" };
+  }
+}
+
+function writeStoredReadTextPrefs(readFontSize: ReadFontSize, readFontFace: string) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(READ_TEXT_PREFS_KEY, JSON.stringify({ readFontSize, readFontFace }));
+  } catch {
+    // ignore
+  }
+}
 
 interface ReadState {
   books: BibleBook[];
@@ -57,9 +87,15 @@ interface ReadState {
   insightOpen: boolean;
   /** When true, Insights panel is minimized to a pill; read nav sits next to it. */
   insightMinimized: boolean;
+  /** Read-page-only: text size for Bible verse content (XS–XXL). Separate from app navbar fontSize. */
+  readFontSize: ReadFontSize;
+  /** Read-page-only: font face id for Bible verse content. Language-specific sets in readTextConstants. */
+  readFontFace: string;
 }
 
 interface ReadContextValue extends ReadState {
+  setReadFontSize: (size: ReadFontSize) => void;
+  setReadFontFace: (faceId: string) => void;
   setBooks: (books: BibleBook[]) => void;
   handleVersionChipClick: (transId: VersionId) => void;
   setSyncMode: (v: boolean) => void;
@@ -353,6 +389,30 @@ export function ReadProvider({
   );
   const [insightOpen, setInsightOpen] = useState(initialParsed.insights);
   const [insightMinimized, setInsightMinimized] = useState(false);
+
+  const readTextPrefsRef = useRef(false);
+  const [readFontSize, setReadFontSizeState] = useState<ReadFontSize>("M");
+  const [readFontFace, setReadFontFaceState] = useState<string>("");
+
+  useEffect(() => {
+    if (readTextPrefsRef.current || typeof window === "undefined") return;
+    readTextPrefsRef.current = true;
+    const { readFontSize: s, readFontFace: f } = readStoredReadTextPrefs();
+    setReadFontSizeState(s);
+    setReadFontFaceState(f);
+  }, []);
+  useEffect(() => {
+    if (!readTextPrefsRef.current) return;
+    writeStoredReadTextPrefs(readFontSize, readFontFace);
+  }, [readFontSize, readFontFace]);
+
+  /** When only one version is selected, auto set sync to false (unsynced). */
+  useEffect(() => {
+    if (rightVersion === null && syncMode) setSyncMode(false);
+  }, [rightVersion, syncMode]);
+
+  const setReadFontSize = useCallback((size: ReadFontSize) => setReadFontSizeState(size), []);
+  const setReadFontFace = useCallback((faceId: string) => setReadFontFaceState(faceId), []);
 
   const otBooks = getOtBooks(books);
   const ntBooks = getNtBooks(books);
@@ -815,6 +875,8 @@ export function ReadProvider({
     rightTestamentFilter,
     insightOpen,
     insightMinimized,
+    readFontSize,
+    readFontFace,
     handleVersionChipClick,
     handleLeftBookChange,
     handleLeftChapterChange,
@@ -825,6 +887,10 @@ export function ReadProvider({
     setRightTestamentFilterAndAdjust,
     setInsightOpen,
     setInsightMinimized,
+    readFontSize,
+    readFontFace,
+    setReadFontSize,
+    setReadFontFace,
     otBooks,
     ntBooks,
     filteredBooks,

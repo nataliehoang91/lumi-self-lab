@@ -10,6 +10,8 @@ import type { ChapterContent } from "../types";
 import type { VersionId } from "../constants";
 import type { TFunction } from "../types";
 import type { FontSize } from "@/components/Bible/BibleAppContext";
+import type { ReadFontSize } from "../readTextConstants";
+import { READ_FONT_SIZE_REM, READ_FONT_FACES_EN, READ_FONT_FACES_VI } from "../readTextConstants";
 import { BookCircleIcon } from "../../GeneralComponents/book-circle-icon";
 
 export interface ReadingPanelContentProps {
@@ -17,6 +19,8 @@ export interface ReadingPanelContentProps {
   content: ChapterContent | null;
   focusMode: boolean;
   fontSize: FontSize;
+  readFontSize?: ReadFontSize;
+  readFontFace?: string;
   hoveredVerse: number | null;
   onVerseHover: (verse: number | null) => void;
   /** Scroll target (e.g. first highlighted verse). */
@@ -50,6 +54,8 @@ export function ReadingPanelContent({
   content,
   focusMode,
   fontSize,
+  readFontSize,
+  readFontFace,
   hoveredVerse,
   onVerseHover,
   targetVerse,
@@ -58,8 +64,25 @@ export function ReadingPanelContent({
   t,
 }: ReadingPanelContentProps) {
   const isKJV = version === "kjv";
-  const fontSizeClass = fontSizeToClass(fontSize, false);
-  const fontSizeClassFocus = fontSizeToClass(fontSize, true);
+  const useReadScale = readFontSize != null;
+  const fontSizeClass = useReadScale ? undefined : fontSizeToClass(fontSize, false);
+  const fontSizeClassFocus = useReadScale ? undefined : fontSizeToClass(fontSize, true);
+  const readRem = useReadScale ? READ_FONT_SIZE_REM[readFontSize] : undefined;
+  const readRemFocus = useReadScale
+    ? Math.min(READ_FONT_SIZE_REM[readFontSize] + 0.125, 1.5)
+    : undefined;
+  const useReadFont =
+    readFontSize != null || readFontFace != null;
+  const fontFaces = version === "vi" ? READ_FONT_FACES_VI : READ_FONT_FACES_EN;
+  const resolvedFace = readFontFace
+    ? fontFaces.find((f) => f.id === readFontFace)
+    : undefined;
+  const faceOption = useReadFont ? (resolvedFace ?? fontFaces[0]) : undefined;
+  const faceClassName = faceOption?.className;
+  const faceStyle =
+    faceOption?.fontFamily && !faceClassName
+      ? { fontFamily: faceOption.fontFamily }
+      : undefined;
   const highlightSet = highlightedVerses.length > 0 ? new Set(highlightedVerses) : null;
 
   // Auto-scroll to target verse after content is in the DOM (run when content + targetVerse available)
@@ -96,8 +119,15 @@ export function ReadingPanelContent({
     <div
       className={cn(
         "space-y-3 leading-relaxed",
-        focusMode ? fontSizeClassFocus : fontSizeClass
+        !useReadScale && (focusMode ? fontSizeClassFocus : fontSizeClass),
+        faceClassName
       )}
+      style={{
+        ...faceStyle,
+        ...(useReadScale
+          ? { fontSize: `${focusMode ? readRemFocus : readRem}rem` }
+          : undefined),
+      }}
     >
       {content.sectionTitle?.trim() ? (
         <p className="text-muted-foreground mb-2 text-sm font-medium italic">

@@ -50,6 +50,8 @@ function IndependentReadPanel({
     handleRightChapterChange,
     setLeftTestamentFilterAndAdjust,
     setRightTestamentFilterAndAdjust,
+    readFontSize,
+    readFontFace,
   } = useRead();
 
   const version = side === "left" ? leftVersion : rightVersion;
@@ -88,6 +90,8 @@ function IndependentReadPanel({
         showControls
         showBookChapterSelectors
         fontSize={fontSize}
+        readFontSize={readFontSize}
+        readFontFace={readFontFace}
         t={t}
         testamentFilter={testamentFilter}
         onTestamentFilterChange={onTestamentFilterChange}

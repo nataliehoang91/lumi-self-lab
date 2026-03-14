@@ -33,7 +33,7 @@ export function ThemePaletteSwitch() {
           ? `bg-coral hover:bg-coral-dark theme-warm:bg-muted
             dark:theme-warm:bg-muted-dark`
           : `hover:bg-muted from-primary-50 to-second-50 theme-warm:bg-muted
-            theme-warm:hover:bg-muted-dark bg-linear-to-r`
+            theme-warm:hover:bg-muted-dark`
       )}
       aria-label="Toggle color palette"
       onClick={togglePalette}

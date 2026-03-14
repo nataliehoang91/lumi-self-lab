@@ -24,8 +24,8 @@ export const VERSION_CHIP_STYLES: Record<
 > = {
   vi: {
     unselected:
-      "bg-card text-muted-foreground border border-border hover:bg-coral/20 hover:border-coral/50 hover:text-coral-foreground",
-    selected: "bg-coral text-coral-foreground shadow-sm",
+      "bg-card text-muted-foreground border border-border hover:bg-second/20 hover:border-second/50 hover:text-second-foreground",
+    selected: "bg-second text-second-foreground shadow-sm",
   },
   kjv: {
     unselected:
@@ -45,7 +45,7 @@ export const VERSION_CHIP_STYLES: Record<
 };
 
 export const VERSION_BADGE_CLASS: Record<VersionId, string> = {
-  vi: "bg-coral text-coral-foreground",
+  vi: "bg-second text-second-foreground",
   kjv: "bg-sage text-sage-foreground",
   niv: "bg-sky-blue text-sky-blue-foreground",
   zh: "bg-tertiary text-tertiary-foreground dark:bg-yellow-600 dark:text-yellow-950",

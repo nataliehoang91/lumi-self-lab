@@ -22,6 +22,8 @@ export function EnhancedReadingPanel(props: ReadingPanelProps) {
     onVerseNumberClick,
     focusMode,
     fontSize,
+    readFontSize,
+    readFontFace,
     t,
   } = props;
 
@@ -46,6 +48,8 @@ export function EnhancedReadingPanel(props: ReadingPanelProps) {
         content={content}
         focusMode={focusMode}
         fontSize={fontSize}
+        readFontSize={readFontSize}
+        readFontFace={readFontFace}
         hoveredVerse={hoveredVerse}
         onVerseHover={onVerseHover}
         targetVerse={scrollTarget}

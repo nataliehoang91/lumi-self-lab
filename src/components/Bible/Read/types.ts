@@ -1,6 +1,7 @@
 import type { VersionId } from "./constants";
 import type { TestamentFilter } from "./constants";
 import type { FontSize } from "@/components/Bible/BibleAppContext";
+import type { ReadFontSize } from "./readTextConstants";
 
 export interface BibleBook {
   id: string;
@@ -47,6 +48,10 @@ export interface ReadingPanelProps {
   showControls: boolean;
   showBookChapterSelectors: boolean;
   fontSize: FontSize;
+  /** Read-page-only: overrides fontSize for verse text when set. */
+  readFontSize?: ReadFontSize;
+  /** Read-page-only: font face id for verse text (language-specific sets). */
+  readFontFace?: string;
   t: TFunction;
   testamentFilter: TestamentFilter;
   onTestamentFilterChange?: (filter: TestamentFilter) => void;

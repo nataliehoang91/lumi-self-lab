@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -38,24 +38,29 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
   } = useRead();
 
   const [open, setOpen] = useState(false);
-  const [openAccordionId, setOpenAccordionId] = useState<string>("");
+  const [userExpandedBookId, setUserExpandedBookId] = useState<string | null>(null);
   const useFullLabel = globalLanguage === "VI" && variant === "desktop";
 
-  if (!leftBook) return null;
-
   const filteredBooks = testamentFilter === "ot" ? otBooks : ntBooks;
-
-  // Keep accordion in sync with current book; when popover opens, expand current book
-  useEffect(() => {
-    if (open && leftBook) setOpenAccordionId(leftBook.id);
-  }, [open, leftBook?.id]);
-  // When testament tab changes, expand first book of that testament if current book not in list
-  const firstFilteredBookId = filteredBooks[0]?.id;
+  const firstFilteredBookId = filteredBooks[0]?.id ?? "";
   const currentBookInList = filteredBooks.some((b) => b.id === leftBook?.id);
-  useEffect(() => {
-    if (open && !currentBookInList && firstFilteredBookId)
-      setOpenAccordionId(firstFilteredBookId);
-  }, [open, testamentFilter, currentBookInList, firstFilteredBookId]);
+  const derivedAccordionId = currentBookInList
+    ? (leftBook?.id ?? "")
+    : firstFilteredBookId;
+  const openAccordionId = userExpandedBookId ?? derivedAccordionId;
+
+  const handleOpenChange = (next: boolean) => {
+    setOpen(next);
+    setUserExpandedBookId(null);
+  };
+
+  /** Use second tone for both warm and normal theme (selected tab + selected chapter). */
+  const tabActiveClass =
+    "data-[state=active]:bg-second dark:data-[state=active]:bg-second-700 data-[state=active]:text-second-foreground data-[state=active]:shadow-sm";
+  const selectedChapterClass =
+    "bg-second dark:bg-second-700 text-second-foreground font-medium";
+
+  if (!leftBook) return null;
 
   function onSelectChapter(book: BibleBook, chapter: number) {
     if (book.id !== leftBook?.id) handleLeftBookChange(book);
@@ -68,7 +73,7 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
   const labelFull = leftBook && `${bookName} ${t("readChapterN", { n: leftChapter })}`;
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
           type="button"
@@ -91,8 +96,9 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
       <PopoverContent
         align="center"
         className={cn(
-          `flex max-h-[85vh] min-h-[420px] min-w-[340px] flex-col overflow-hidden
-          rounded-lg p-0 shadow-lg`,
+          `flex max-h-[65vh] min-h-[200px] max-w-[340px] min-w-[200px] flex-col
+          overflow-hidden rounded-lg p-0 shadow-lg lg:max-h-[85vh] lg:min-h-[420px]
+          lg:min-w-[340px]`,
           variant === "mobile" && "rounded-md"
         )}
         onOpenAutoFocus={(e) => e.preventDefault()}
@@ -133,8 +139,7 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
               value="ot"
               className={cn(
                 "rounded-md px-3 text-sm font-medium transition-colors",
-                `data-[state=active]:bg-second data-[state=active]:text-second-foreground
-                data-[state=active]:shadow-sm`
+                tabActiveClass
               )}
             >
               {useFullLabel ? t("readOldTestament") : t("readOldShort")}
@@ -143,8 +148,7 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
               value="nt"
               className={cn(
                 "rounded-md px-3 text-sm font-medium transition-colors",
-                `data-[state=active]:bg-second data-[state=active]:text-second-foreground
-                data-[state=active]:shadow-sm`
+                tabActiveClass
               )}
             >
               {useFullLabel ? t("readNewTestament") : t("readNewShort")}
@@ -160,7 +164,7 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
               type="single"
               collapsible
               value={openAccordionId}
-              onValueChange={(value) => setOpenAccordionId(value ?? "")}
+              onValueChange={(value) => setUserExpandedBookId(value || null)}
               className="w-full"
             >
               {filteredBooks.map((book) => (
@@ -199,7 +203,7 @@ export function SelectPassage({ variant = "desktop" }: { variant?: Variant }) {
                               className={cn(
                                 "min-h-9 min-w-9 rounded-md text-sm transition-colors",
                                 isSelected
-                                  ? "bg-primary text-primary-foreground font-medium"
+                                  ? selectedChapterClass
                                   : `bg-background text-foreground hover:bg-sage/15
                                     hover:text-sage-dark dark:hover:bg-sage/20
                                     dark:hover:text-sage border-border border`

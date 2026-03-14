@@ -1,6 +1,20 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Inter, Geist_Mono, Lora, Merriweather, Noto_Serif } from "next/font/google";
+import {
+  Inter,
+  Geist_Mono,
+  Lora,
+  Merriweather,
+  Noto_Serif,
+  Be_Vietnam_Pro,
+  Roboto,
+  Noto_Sans,
+  Open_Sans,
+  Playfair_Display,
+  Libre_Baskerville,
+  Chivo,
+  Sora,
+} from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -37,6 +51,56 @@ const notoSerifVietnamese = Noto_Serif({
   weight: ["400", "700"],
 });
 
+/* Vietnamese reading fonts (Google Fonts suggestions: good diacritics, UI-friendly) */
+const beVietnamPro = Be_Vietnam_Pro({
+  variable: "--font-be-vietnam-pro",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "700"],
+});
+
+const notoSans = Noto_Sans({
+  variable: "--font-noto-sans",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "600", "700"],
+});
+
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "600", "700"],
+});
+
+/* English reading fonts (NIV/KJV – serif & display, from reference design) */
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
+
+const libreBaskerville = Libre_Baskerville({
+  variable: "--font-libre-baskerville",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+const chivo = Chivo({
+  variable: "--font-chivo",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
+
+const sora = Sora({
+  variable: "--font-sora",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://selfwithin.space"),
   title: "SelfWithin — Explore your inner life",
@@ -71,7 +135,10 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${geistMono.variable}
           ${vietnameseScripture.variable} ${loraSerif.variable}
-          ${notoSerifVietnamese.variable} font-sans antialiased`}
+          ${notoSerifVietnamese.variable}
+          ${beVietnamPro.variable} ${roboto.variable} ${notoSans.variable} ${openSans.variable}
+          ${playfairDisplay.variable} ${libreBaskerville.variable} ${chivo.variable} ${sora.variable}
+          font-sans antialiased`}
       >
         <Suspense
           fallback={

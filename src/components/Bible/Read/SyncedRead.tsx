@@ -11,6 +11,11 @@ import { BookCircleIcon } from "../GeneralComponents/book-circle-icon";
 import { getBibleIntl } from "@/lib/bible-intl";
 import type { VersionId } from "./constants";
 import { BibleMinimalLoader } from "../GeneralComponents/minimal-bible-loader";
+import {
+  READ_FONT_SIZE_REM,
+  READ_FONT_FACES_EN,
+  READ_FONT_FACES_VI,
+} from "./readTextConstants";
 
 function verseTextWithNotes(text: string, version: VersionId | null) {
   const isKJV = version === "kjv";
@@ -24,7 +29,7 @@ function verseTextWithNotes(text: string, version: VersionId | null) {
 }
 
 export function SyncedRead() {
-  const { globalLanguage, fontSize } = useBibleApp();
+  const { globalLanguage } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
   const t = intl.t.bind(intl);
   const {
@@ -42,6 +47,8 @@ export function SyncedRead() {
     toggleVerseHighlight,
     leftBook,
     leftChapter,
+    readFontSize,
+    readFontFace,
   } = useRead();
 
   const onVerseNumberClick = toggleVerseHighlight;
@@ -57,10 +64,18 @@ export function SyncedRead() {
   if (rightVersion === null) return null;
 
   const loading = loadingLeft || loadingRight;
-  const fontSizeClass =
-    fontSize === "small" ? "text-sm" : fontSize === "large" ? "text-lg" : "text-base";
-  const fontSizeClassFocus =
-    fontSize === "small" ? "text-base" : fontSize === "large" ? "text-xl" : "text-lg";
+  const fontFaces = globalLanguage === "VI" ? READ_FONT_FACES_VI : READ_FONT_FACES_EN;
+  const resolvedFace = readFontFace
+    ? fontFaces.find((f) => f.id === readFontFace)
+    : undefined;
+  const faceOption = resolvedFace ?? fontFaces[0];
+  const faceClassName = faceOption?.className;
+  const faceStyle =
+    faceOption?.fontFamily && !faceClassName
+      ? { fontFamily: faceOption.fontFamily }
+      : undefined;
+  const readRem = READ_FONT_SIZE_REM[readFontSize];
+  const readRemFocus = Math.min(readRem + 0.125, 1.5);
   const verseNumClass = cn(
     focusMode ? "text-sm" : "text-xs",
     "text-primary-dark font-medium shrink-0 transition-all"
@@ -120,12 +135,14 @@ export function SyncedRead() {
       <div
         className={cn(
           "gap-x-2 gap-y-6 leading-relaxed",
-          focusMode ? fontSizeClassFocus : fontSizeClass
+          faceClassName
         )}
         style={{
           display: "grid",
           gridTemplateColumns: "auto 1fr auto 1fr",
           alignItems: "start",
+          fontSize: `${focusMode ? readRemFocus : readRem}rem`,
+          ...faceStyle,
         }}
       >
         <span

@@ -39,6 +39,8 @@ export function SingleRead() {
     handleRightChapterChange,
     setLeftTestamentFilterAndAdjust,
     setRightTestamentFilterAndAdjust,
+    readFontSize,
+    readFontFace,
   } = useRead();
 
   const isIndependentTwoPanels = rightVersion !== null && !syncMode;
@@ -81,6 +83,8 @@ export function SingleRead() {
           showControls={showLeftControls}
           showBookChapterSelectors={showLeftSelectors}
           fontSize={fontSize}
+          readFontSize={readFontSize}
+          readFontFace={readFontFace}
           t={t}
           testamentFilter={leftTestamentValue}
           onTestamentFilterChange={
@@ -123,6 +127,8 @@ export function SingleRead() {
             showControls={showRightControls}
             showBookChapterSelectors={showRightSelectors}
             fontSize={fontSize}
+            readFontSize={readFontSize}
+            readFontFace={readFontFace}
             t={t}
             testamentFilter={rightTestamentValue}
             onTestamentFilterChange={
