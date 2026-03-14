@@ -28,19 +28,39 @@ export interface ReadFontFaceOption {
 export const READ_FONT_FACES_EN: ReadFontFaceOption[] = [
   { id: "lora", label: "Lora", className: "font-bible-english" },
   { id: "georgia", label: "Georgia", fontFamily: "Georgia, ui-serif, serif" },
-  { id: "playfair", label: "Playfair", fontFamily: "var(--font-playfair), ui-serif, serif" },
-  { id: "source-serif", label: "Source Serif", fontFamily: "ui-serif, Georgia, serif" },
-  { id: "libre-baskerville", label: "Libre Baskerville", fontFamily: "var(--font-libre-baskerville), ui-serif, serif" },
+  {
+    id: "playfair",
+    label: "Playfair",
+    fontFamily: "var(--font-playfair), ui-serif, serif",
+  },
+  { id: "source-serif", label: "Serif", fontFamily: "ui-serif, Georgia, serif" },
+  {
+    id: "libre-baskerville",
+    label: "Libre",
+    fontFamily: "var(--font-libre-baskerville), ui-serif, serif",
+  },
   { id: "chivo", label: "Chivo", fontFamily: "var(--font-chivo), sans-serif" },
   { id: "sora", label: "Sora", fontFamily: "var(--font-sora), sans-serif" },
 ];
 
 /** Vietnamese: Google Fonts suggested for Vietnamese (good diacritics, UI-friendly). All use subset "vietnamese". */
 export const READ_FONT_FACES_VI: ReadFontFaceOption[] = [
-  { id: "be-vietnam-pro", label: "Be Vietnam Pro", fontFamily: "var(--font-be-vietnam-pro), sans-serif" },
+  {
+    id: "be-vietnam-pro",
+    label: "Be Vietnam Pro",
+    fontFamily: "var(--font-be-vietnam-pro), sans-serif",
+  },
   { id: "roboto", label: "Roboto", fontFamily: "var(--font-roboto), sans-serif" },
-  { id: "noto-sans", label: "Noto Sans", fontFamily: "var(--font-noto-sans), sans-serif" },
-  { id: "open-sans", label: "Open Sans", fontFamily: "var(--font-open-sans), sans-serif" },
+  {
+    id: "noto-sans",
+    label: "Noto Sans",
+    fontFamily: "var(--font-noto-sans), sans-serif",
+  },
+  {
+    id: "open-sans",
+    label: "Open Sans",
+    fontFamily: "var(--font-open-sans), sans-serif",
+  },
   { id: "inter", label: "Inter", fontFamily: "var(--font-inter), sans-serif" },
   { id: "merriweather", label: "Merriweather", className: "font-vietnamese" },
   { id: "noto-serif", label: "Noto Serif", className: "font-vietnamese-flashcard" },

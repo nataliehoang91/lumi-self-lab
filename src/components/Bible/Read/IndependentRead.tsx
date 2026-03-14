@@ -71,7 +71,7 @@ function IndependentReadPanel({
   const onVerseClick = side === "left" ? toggleVerseHighlight : toggleRightVerseHighlight;
 
   return (
-    <>
+    <div ref={scrollContainerRef} className="h-full min-h-0 overflow-auto">
       <EnhancedReadingPanel
         side={side}
         version={version}
@@ -96,10 +96,9 @@ function IndependentReadPanel({
         testamentFilter={testamentFilter}
         onTestamentFilterChange={onTestamentFilterChange}
       />
-      <div className="pb-6" aria-hidden />
       <div
-        className="border-border/60 bg-read sticky bottom-0 z-20 flex justify-center
-          border-t pt-3 pb-1.5 dark:bg-[#050408]"
+        className="border-border/60 bg-read sticky bottom-0 z-10 flex justify-center
+          border-t pt-2 pb-1.5 dark:bg-[#050408]"
       >
         <ReadScrollNav
           variant="panel"
@@ -107,7 +106,7 @@ function IndependentReadPanel({
           scrollContainerRef={scrollContainerRef}
         />
       </div>
-    </>
+    </div>
   );
 }
 
@@ -127,7 +126,7 @@ export function IndependentRead() {
           maxSize={75}
           className="min-h-0 min-w-0 overflow-hidden"
         >
-          <div ref={leftScrollRef} className="h-full min-h-0 overflow-auto">
+          <div className="h-full min-h-0">
             <IndependentReadPanel side="left" scrollContainerRef={leftScrollRef} />
           </div>
         </ResizablePanel>
@@ -141,7 +140,7 @@ export function IndependentRead() {
           maxSize={75}
           className="min-h-0 min-w-0 overflow-hidden"
         >
-          <div ref={rightScrollRef} className="h-full min-h-0 overflow-auto">
+          <div className="h-full min-h-0">
             <IndependentReadPanel side="right" scrollContainerRef={rightScrollRef} />
           </div>
         </ResizablePanel>

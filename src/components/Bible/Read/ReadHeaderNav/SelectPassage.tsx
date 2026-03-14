@@ -75,9 +75,7 @@ export function SelectPassage({
   const filteredBooks = effectiveFilter === "ot" ? otBooks : ntBooks;
   const firstFilteredBookId = filteredBooks[0]?.id ?? "";
   const currentBookInList = filteredBooks.some((b) => b.id === book?.id);
-  const derivedAccordionId = currentBookInList
-    ? (book?.id ?? "")
-    : firstFilteredBookId;
+  const derivedAccordionId = currentBookInList ? (book?.id ?? "") : firstFilteredBookId;
   const openAccordionId = userExpandedBookId ?? derivedAccordionId;
 
   const handleOpenChange = (next: boolean) => {
@@ -130,10 +128,10 @@ export function SelectPassage({
       </PopoverTrigger>
       <PopoverContent
         align="center"
+        collisionPadding={16}
         className={cn(
-          `flex max-h-[65vh] min-h-[200px] max-w-[340px] min-w-[200px] flex-col
-          overflow-hidden rounded-lg p-0 shadow-lg lg:max-h-[85vh] lg:min-h-[420px]
-          lg:min-w-[340px]`,
+          `flex max-h-[65vh] min-h-[200px] max-w-2xl min-w-sm flex-col overflow-hidden
+          rounded-lg p-0 shadow-lg lg:max-h-[85vh] lg:min-h-[420px] lg:min-w-[340px]`,
           variant === "mobile" && "rounded-md"
         )}
         onOpenAutoFocus={(e) => e.preventDefault()}

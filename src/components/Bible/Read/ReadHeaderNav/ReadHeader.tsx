@@ -23,9 +23,10 @@ export function ReadHeader() {
     useRead();
 
   const hasVersionSelected = leftVersion !== null || rightVersion !== null;
-  /** Passage in nav only when synced; when unsynced each panel has its own passage control inside. */
   const showBookChapterNav = hasVersionSelected && leftBook !== null;
-  const showPassageInNav = showBookChapterNav && syncMode;
+  /** Hide Select Passage in nav only when both version1 and version2 are set and sync=false; single version always shows it. */
+  const showPassageInNav =
+    showBookChapterNav && (syncMode || rightVersion === null);
   const showSyncToggle = !focusMode && rightVersion !== null;
 
   return (
@@ -70,13 +71,13 @@ export function ReadHeader() {
               </Button>
             )}
           </div>
-          {showBookChapterNav && (
+          {showBookChapterNav && showPassageInNav && (
             <div className="flex shrink-0 flex-wrap items-center gap-2">
-              {showPassageInNav && <SelectPassage variant="desktop" />}
-              <ReadTextSettings />
+              <SelectPassage variant="desktop" />
             </div>
           )}
           <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+            {showBookChapterNav && <ReadTextSettings />}
             {!focusMode && <InsightsButton variant="desktop" />}
             <FocusModeButton variant="desktop" />
           </div>
@@ -112,14 +113,14 @@ export function ReadHeader() {
               </Button>
             )}
             <div className="ml-auto flex shrink-0 items-center gap-2">
+              {showBookChapterNav && <ReadTextSettings />}
               {!focusMode && <InsightsButton variant="mobile" />}
               <FocusModeButton variant="mobile" />
             </div>
           </div>
-          {showBookChapterNav && (
+          {showBookChapterNav && showPassageInNav && (
             <div className="flex flex-wrap items-center justify-center gap-2">
-              {showPassageInNav && <SelectPassage variant="mobile" />}
-              <ReadTextSettings />
+              <SelectPassage variant="mobile" />
             </div>
           )}
         </div>

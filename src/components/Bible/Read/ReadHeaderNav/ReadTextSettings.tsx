@@ -30,8 +30,7 @@ export function ReadTextSettings() {
   /** Use second (warm) for both Vietnamese and English – match image: dark second for active, warm beige (second/10) for inactive. */
   const pillClass =
     "border-second bg-second/10 text-second-dark dark:bg-second/20 dark:text-second-foreground";
-  const selectedFontBtnClass =
-    "border-second bg-second text-second-foreground";
+  const selectedFontBtnClass = "border-second bg-second text-second-foreground";
   const sliderAccentClass =
     "[&_[data-slot=slider-range]]:bg-second [&_[data-slot=slider-thumb]]:border-second";
   const sizeLabelActiveClass = "text-second font-medium";
@@ -48,10 +47,9 @@ export function ReadTextSettings() {
       <PopoverTrigger asChild>
         <Button
           type="button"
-          variant="ghost"
+          variant="outline"
           size="icon"
-          className="text-foreground hover:bg-muted/50 h-9 w-9 shrink-0 rounded-lg
-            border-0 bg-transparent shadow-none"
+          className="h-9 w-9 shrink-0 rounded-lg"
           aria-label={t("readTextSize")}
         >
           <Type className="h-4 w-4" />
@@ -59,7 +57,8 @@ export function ReadTextSettings() {
       </PopoverTrigger>
       <PopoverContent
         align="center"
-        className="flex max-w-2xl min-w-md flex-col gap-5 rounded-lg p-4 shadow-lg"
+        collisionPadding={16}
+        className="flex max-w-2xl min-w-sm flex-col gap-5 rounded-lg p-4 shadow-lg"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         {/* Text Size */}
