@@ -13,7 +13,7 @@ export function ThemeToggleButtonBibleApp({
   const { theme, toggleTheme } = useTheme();
   const isLight = theme === "light";
 
-  const iconColor = isLight ? "text-amber-800" : "text-blue-900";
+  const iconColor = isLight ? "text-gray-900" : "text-gray-900";
 
   const bgColor = isLight
     ? "bg-amber-100 theme-warm:bg-card"

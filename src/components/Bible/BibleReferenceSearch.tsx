@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, X, Lightbulb, Loader2, Sparkles } from "lucide-react";
+import { useBibleNavData } from "@/components/Bible/layout/navbar/useBibleNavData";
 import {
   Command,
   CommandEmpty,
@@ -72,20 +73,16 @@ function parseBibleQuery(raw: string): {
 
 const SEARCH_DEBOUNCE_MS = 180;
 
-export function BibleReferenceSearch({
-  langSegment,
-  globalLanguage,
-}: {
-  langSegment: "en" | "vi" | "zh";
-  globalLanguage: "EN" | "VI" | "ZH";
-}) {
+export function BibleReferenceSearch() {
   const router = useRouter();
+  const { langSegment, globalLanguage } = useBibleNavData();
   const [query, setQuery] = useState("");
   const [searchBook, setSearchBook] = useState<BibleBook | null>(null);
   const [searching, setSearching] = useState(false);
   const lastRequestRef = useRef<string>("");
   const abortControllerRef = useRef<AbortController | null>(null);
 
+  const seg = langSegment as "en" | "vi" | "zh";
   const { bookQuery, chapterHint, verse } = parseBibleQuery(query);
   // Prefer global language so "gia" searches VI keys when user has Vietnamese selected
   const searchLang =
@@ -93,8 +90,8 @@ export function BibleReferenceSearch({
       ? "vi"
       : globalLanguage === "EN"
         ? "en"
-        : langSegment === "vi" || langSegment === "en"
-          ? langSegment
+        : seg === "vi" || seg === "en"
+          ? seg
           : "en";
 
   // Debounced API search. Abort in-flight requests so only the latest response applies.
@@ -189,7 +186,7 @@ export function BibleReferenceSearch({
         testament1: testament,
         verses: versesParam,
       });
-      const href = `/bible/${langSegment}/read?${qs}`;
+      const href = `/bible/${seg}/read?${qs}`;
       const main =
         verse && verse >= 1 ? `${baseLabel} ${ch}:${verse}` : `${baseLabel} ${ch}`;
       const secondary =
@@ -202,7 +199,7 @@ export function BibleReferenceSearch({
       });
     }
     return items;
-  }, [searchBook, chapterHint, verse, globalLanguage, langSegment]);
+  }, [searchBook, chapterHint, verse, globalLanguage, seg]);
 
   const [open, setOpen] = useState(false);
 

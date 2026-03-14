@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { BibleAppProvider } from "@/components/Bible/BibleAppContext";
 import { ReadFocusProvider } from "@/components/Bible/ReadFocusContext";
-import { BibleNavBar } from "@/components/Bible/BibleNavBar";
+import { BibleNavBar } from "@/components/Bible/layout/navbar/BibleNavBar";
 import { BibleMainWithPadding } from "@/components/Bible/Read/ReadLayout/BibleMainWithPadding";
 import { FullPageBibleLoader } from "@/components/Bible/GeneralComponents/full-page-bible-loader";
 import { LandingLoader } from "@/components/Bible/LangPage/LandingLoader";
