@@ -71,7 +71,7 @@ function IndependentReadPanel({
   const onVerseClick = side === "left" ? toggleVerseHighlight : toggleRightVerseHighlight;
 
   return (
-    <div ref={scrollContainerRef} className="h-full min-h-0 overflow-auto">
+    <div ref={scrollContainerRef} className="min-h-0 min-w-0 flex-1 overflow-auto">
       <EnhancedReadingPanel
         side={side}
         version={version}
@@ -96,10 +96,7 @@ function IndependentReadPanel({
         testamentFilter={testamentFilter}
         onTestamentFilterChange={onTestamentFilterChange}
       />
-      <div
-        className="border-border/60 bg-read sticky bottom-0 z-10 flex justify-center
-          border-t pt-2 pb-1.5 dark:bg-[#050408]"
-      >
+      <div className="sticky bottom-0 flex shrink-0 justify-center py-2 dark:bg-[#050408]">
         <ReadScrollNav
           variant="panel"
           side={side}
@@ -115,7 +112,7 @@ export function IndependentRead() {
   const rightScrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex min-h-0 w-full flex-col md:h-[calc(100vh-12rem)]">
+    <div className="flex min-h-0 w-full flex-col md:h-[calc(100vh-10rem)]">
       <ResizablePanelGroup
         direction="horizontal"
         className={cn("min-h-0 w-full flex-1 overflow-hidden", "flex-col md:flex-row")}
@@ -126,7 +123,7 @@ export function IndependentRead() {
           maxSize={75}
           className="min-h-0 min-w-0 overflow-hidden"
         >
-          <div className="h-full min-h-0">
+          <div className="flex h-full min-h-0 w-full flex-col">
             <IndependentReadPanel side="left" scrollContainerRef={leftScrollRef} />
           </div>
         </ResizablePanel>
@@ -140,7 +137,7 @@ export function IndependentRead() {
           maxSize={75}
           className="min-h-0 min-w-0 overflow-hidden"
         >
-          <div className="h-full min-h-0">
+          <div className="flex h-full min-h-0 w-full flex-col">
             <IndependentReadPanel side="right" scrollContainerRef={rightScrollRef} />
           </div>
         </ResizablePanel>

@@ -16,7 +16,6 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { getBookLabelForSelection } from "../utils";
 import { cn } from "@/lib/utils";
-import type { BibleBook } from "../types";
 
 type Variant = "desktop" | "mobile";
 
@@ -47,9 +46,7 @@ export function SelectPassage({
     setRightTestamentFilterAndAdjust,
     otBooks,
     ntBooks,
-    handleLeftBookChange,
     handleLeftChapterChange,
-    handleRightBookChange,
     handleRightChapterChange,
   } = useRead();
 
@@ -91,13 +88,14 @@ export function SelectPassage({
 
   if (!book) return null;
 
-  const onSelectChapter = (b: BibleBook, ch: number) => {
+  /** Pass bookId and resolve here so the clicked row's book is always used (avoids stale closure using wrong book). */
+  const onSelectChapter = (bookId: string, ch: number) => {
+    const selectedBook = filteredBooks.find((b) => b.id === bookId);
+    if (!selectedBook) return;
     if (isRight) {
-      if (b.id !== rightBook?.id) handleRightBookChange(b);
-      handleRightChapterChange(ch);
+      handleRightChapterChange(ch, selectedBook);
     } else {
-      if (b.id !== leftBook?.id) handleLeftBookChange(b);
-      handleLeftChapterChange(ch);
+      handleLeftChapterChange(ch, selectedBook);
     }
     setOpen(false);
   };
@@ -242,7 +240,7 @@ export function SelectPassage({
                                     hover:text-sage-dark dark:hover:bg-sage/20
                                     dark:hover:text-sage border-border border`
                               )}
-                              onClick={() => onSelectChapter(book, ch)}
+                              onClick={() => onSelectChapter(book.id, ch)}
                             >
                               {ch}
                             </Button>

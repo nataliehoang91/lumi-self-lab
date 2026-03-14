@@ -67,7 +67,8 @@ export function parseReadSearchParams(
       : v2Raw === "en"
         ? "niv"
         : null;
-  const sync = syncRaw === "true" ? true : syncRaw === "false" ? false : true;
+  // Default sync to true when param missing (parallel read starts synced); only false when explicitly sync=false.
+  const sync = syncRaw !== "false";
 
   const book1Id = (searchParams.book1 ?? searchParams.book ?? "").trim() || null;
   const chapter1 = parsePositiveInt(searchParams.chapter1 ?? searchParams.chapter, 1);

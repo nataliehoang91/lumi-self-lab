@@ -61,7 +61,7 @@ export function VersionChipButtons() {
     const qs = buildReadSearchParams({
       version1: nextLeft ?? undefined,
       version2: nextRight,
-      sync: syncMode,
+      sync: nextRight != null ? syncMode : undefined,
       book1Id: leftBook?.id ?? undefined,
       chapter1: leftChapter,
       testament1: leftTestament,

@@ -458,8 +458,17 @@ export function readReducer(state: ReadState, action: ReadAction): ReadState {
       if (state.leftVersion === null && state.rightVersion === null) {
         return { ...state, leftVersion: transId };
       }
+      // Adding second version: start synced (sync=true) so both panels show same passage; user can unsync after.
       if (state.rightVersion === null) {
-        return { ...state, rightVersion: transId };
+        return {
+          ...state,
+          rightVersion: transId,
+          syncMode: true,
+          rightBook: state.leftBook,
+          rightChapter: state.leftChapter,
+          testamentFilter: state.leftTestamentFilter,
+          rightTestamentFilter: state.leftTestamentFilter,
+        };
       }
       return { ...state, rightVersion: transId };
     }

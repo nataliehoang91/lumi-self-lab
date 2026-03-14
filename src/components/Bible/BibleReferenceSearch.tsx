@@ -180,7 +180,6 @@ export function BibleReferenceSearch() {
       const versesParam = verse && verse >= 1 ? [verse] : undefined;
       const qs = buildReadSearchParams({
         version1: defaultVersion,
-        sync: true,
         book1Id: book.id,
         chapter1: ch,
         testament1: testament,

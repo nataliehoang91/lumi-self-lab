@@ -5,14 +5,13 @@ import { cn } from "@/lib/utils";
 import { useRead } from "../context/ReadContext";
 import { Container } from "@/components/ui/container";
 
-/** Wrapper that receives children; when insights are open, adds bottom padding so content is pushed up and not hidden by the fixed insights panel. When read nav is at bottom (sync/single), add padding so nav does not cover last lines. */
+/** Wrapper that receives children; when insights are open, adds bottom padding so content is pushed up and not hidden by the fixed insights panel. When read nav is at bottom (single, sync, or independent), add padding so nav does not cover last lines. */
 export function ReadContentContainer({ children }: { children: ReactNode }) {
-  const { focusMode, insightOpen, insightMinimized, leftVersion, rightVersion, syncMode } =
+  const { focusMode, insightOpen, insightMinimized, leftVersion, rightVersion } =
     useRead();
   const hasContent = leftVersion !== null || rightVersion !== null;
-  const isIndependent = rightVersion !== null && !syncMode;
   const navAtBottom =
-    hasContent && !isIndependent && (focusMode || !(insightOpen && !insightMinimized));
+    hasContent && (focusMode || !(insightOpen && !insightMinimized));
   return (
     <Container
       maxWidth="full"

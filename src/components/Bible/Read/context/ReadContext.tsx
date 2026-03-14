@@ -68,9 +68,9 @@ interface ReadContextValue extends ReadState {
   setSyncMode: (v: boolean) => void;
   setFocusMode: (v: boolean) => void;
   handleLeftBookChange: (book: BibleBook) => void;
-  handleLeftChapterChange: (chapter: number) => void;
+  handleLeftChapterChange: (chapter: number, book?: BibleBook) => void;
   handleRightBookChange: (book: BibleBook) => void;
-  handleRightChapterChange: (chapter: number) => void;
+  handleRightChapterChange: (chapter: number, book?: BibleBook) => void;
   setTestamentFilterAndAdjustBook: (filter: TestamentFilter) => void;
   setLeftTestamentFilterAndAdjust: (filter: TestamentFilter) => void;
   setRightTestamentFilterAndAdjust: (filter: TestamentFilter) => void;
@@ -451,7 +451,7 @@ export function ReadProvider({
     const qs = buildReadSearchParams({
       version1: v1 ?? undefined,
       version2: rightVersion,
-      sync: syncMode,
+      sync: rightVersion != null ? syncMode : undefined,
       book1Id: omitBookChapter ? undefined : (leftBook?.id ?? undefined),
       chapter1: omitBookChapter ? undefined : leftChapter,
       testament1: leftTestament,
@@ -532,7 +532,7 @@ export function ReadProvider({
         const qs = buildReadSearchParams({
           version1: parsed.version1 ?? undefined,
           version2: parsed.version2 ?? undefined,
-          sync: parsed.sync,
+          sync: parsed.version2 != null ? parsed.sync : undefined,
           book1Id: left.id,
           chapter1: leftCh,
           testament1: parsed.testament1,
@@ -586,7 +586,7 @@ export function ReadProvider({
         const qs = buildReadSearchParams({
           version1: parsed.version1 ?? undefined,
           version2: parsed.version2 ?? undefined,
-          sync: hasAnyVersion ? parsed.sync : undefined,
+          sync: parsed.version2 != null ? parsed.sync : undefined,
           insights: parsed.insights || undefined,
           focus: parsed.focus || undefined,
           verse1: skipVersesElse ? undefined : parsed.verse1 || undefined,
@@ -702,13 +702,15 @@ export function ReadProvider({
     [syncMode]
   );
 
+  /** When bookOverride is passed (e.g. from SelectPassage), sets both book and chapter in one dispatch so book is not overwritten by stale leftBook. */
   const handleLeftChapterChange = useCallback(
-    (chapter: number) => {
-      if (!leftBook) return;
+    (chapter: number, bookOverride?: BibleBook) => {
+      const book = bookOverride ?? leftBook;
+      if (!book) return;
       omitBookChapterFromUrlRef.current = false;
       dispatch({
         type: "LEFT_BOOK_CHAPTER",
-        payload: { book: leftBook, chapter, syncMode },
+        payload: { book, chapter, syncMode },
       });
     },
     [syncMode, leftBook]
@@ -718,13 +720,18 @@ export function ReadProvider({
     dispatch({ type: "RIGHT_BOOK_CHAPTER", payload: { book, chapter: 1 } });
   }, []);
 
-  const handleRightChapterChange = useCallback((chapter: number) => {
-    if (!rightBook) return;
-    dispatch({
-      type: "RIGHT_BOOK_CHAPTER",
-      payload: { book: rightBook, chapter },
-    });
-  }, [rightBook]);
+  /** When bookOverride is passed (e.g. from SelectPassage), sets both book and chapter in one dispatch so book is not overwritten by stale rightBook. */
+  const handleRightChapterChange = useCallback(
+    (chapter: number, bookOverride?: BibleBook) => {
+      const book = bookOverride ?? rightBook;
+      if (!book) return;
+      dispatch({
+        type: "RIGHT_BOOK_CHAPTER",
+        payload: { book, chapter },
+      });
+    },
+    [rightBook]
+  );
 
   const setTestamentFilterAndAdjustBook = useCallback(
     (filter: TestamentFilter) => {

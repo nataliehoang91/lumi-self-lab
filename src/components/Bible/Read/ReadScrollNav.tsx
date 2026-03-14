@@ -1,6 +1,13 @@
 "use client";
 
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRead } from "./context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
@@ -20,12 +27,14 @@ interface ReadScrollNavProps {
 }
 
 function scrollToTop(scrollEl: HTMLElement | null) {
-  const el = scrollEl ?? (typeof document !== "undefined" ? document.documentElement : null);
+  const el =
+    scrollEl ?? (typeof document !== "undefined" ? document.documentElement : null);
   if (el) el.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function scrollToBottom(scrollEl: HTMLElement | null) {
-  const el = scrollEl ?? (typeof document !== "undefined" ? document.documentElement : null);
+  const el =
+    scrollEl ?? (typeof document !== "undefined" ? document.documentElement : null);
   if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
 }
 
@@ -57,7 +66,8 @@ export function ReadScrollNav({
 
   const book = side === "left" ? leftBook : rightBook;
   const chapter = side === "left" ? leftChapter : syncMode ? leftChapter : rightChapter;
-  const onChapterChange = side === "left" ? handleLeftChapterChange : handleRightChapterChange;
+  const onChapterChange =
+    side === "left" ? handleLeftChapterChange : handleRightChapterChange;
   const onBookChange = side === "left" ? handleLeftBookChange : handleRightBookChange;
 
   const bookList =
@@ -70,7 +80,8 @@ export function ReadScrollNav({
         : ntBooks;
   const bookIndex = book ? bookList.findIndex((b) => b.id === book.id) : -1;
   const prevBook = bookIndex > 0 ? bookList[bookIndex - 1]! : null;
-  const nextBook = bookIndex >= 0 && bookIndex < bookList.length - 1 ? bookList[bookIndex + 1]! : null;
+  const nextBook =
+    bookIndex >= 0 && bookIndex < bookList.length - 1 ? bookList[bookIndex + 1]! : null;
 
   const maxChapters = book?.chapterCount ?? 1;
   const canPrevCh = chapter > 1;
@@ -163,7 +174,11 @@ export function ReadScrollNav({
 
   if (isMinimized) {
     return (
-      <div className={cn("flex items-center gap-1", className)} role="navigation" aria-label="Read navigation">
+      <div
+        className={cn("flex items-center gap-1", className)}
+        role="navigation"
+        aria-label="Read navigation"
+      >
         {buttons}
       </div>
     );
@@ -176,7 +191,10 @@ export function ReadScrollNav({
         role="navigation"
         aria-label="Read navigation"
       >
-        <div className="flex items-center gap-1 rounded-lg border border-border/60 bg-muted/70 px-1.5 py-1 dark:bg-muted/50">
+        <div
+          className="border-border/60 bg-card dark:bg-muted/50 flex items-center gap-1
+            rounded-lg border px-1.5 py-1"
+        >
           {buttons}
         </div>
       </div>
@@ -189,14 +207,18 @@ export function ReadScrollNav({
   return (
     <div
       className={cn(
-        "pointer-events-none fixed left-1/2 z-50 flex justify-center -translate-x-1/2",
+        `bg-card pointer-events-none fixed left-1/2 z-50 flex -translate-x-1/2
+        justify-center`,
         atTop ? "top-30 sm:top-32" : "bottom-4",
         className
       )}
       role="navigation"
       aria-label="Read navigation"
     >
-      <div className="pointer-events-auto flex items-center gap-1 rounded-lg border border-border/60 bg-card/95 px-1.5 py-1 shadow-md backdrop-blur dark:bg-muted/50">
+      <div
+        className="border-border/60 bg-card/95 dark:bg-muted/50 pointer-events-auto flex
+          items-center gap-1 rounded-lg border px-1.5 py-1 shadow-md backdrop-blur"
+      >
         {buttons}
       </div>
     </div>

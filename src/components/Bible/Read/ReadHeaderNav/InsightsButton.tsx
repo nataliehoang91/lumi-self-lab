@@ -44,7 +44,7 @@ export function InsightsButton({ variant = "desktop" }: { variant?: Variant }) {
     const qs = buildReadSearchParams({
       version1: v1,
       version2: rightVersion,
-      sync: syncMode,
+      sync: rightVersion != null ? syncMode : undefined,
       book1Id: leftBook?.id ?? undefined,
       chapter1: leftChapter,
       testament1: leftTestament,

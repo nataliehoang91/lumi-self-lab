@@ -8,12 +8,21 @@ import { IndependentRead } from "./IndependentRead";
 import { SingleRead } from "./SingleRead";
 import { Container } from "@/components/ui/container";
 
-const ReadBodyContainer = ({ children }: { children: React.ReactNode }) => {
+const ReadBodyContainer = ({
+  children,
+  fullWidth = false,
+}: {
+  children: React.ReactNode;
+  fullWidth?: boolean;
+}) => {
   const { focusMode } = useRead();
 
   return (
     <main className={cn("transition-all duration-300", focusMode ? "py-8" : "py-6")}>
-      <Container maxWidth="7xl" className="px-2 md:px-0">
+      <Container
+        maxWidth={fullWidth ? "full" : "7xl"}
+        className="px-2 md:px-0"
+      >
         {children}
       </Container>
     </main>
@@ -39,7 +48,7 @@ export function ReadMain() {
   }
   if (rightVersion !== null) {
     return (
-      <ReadBodyContainer>
+      <ReadBodyContainer fullWidth>
         <IndependentRead />
       </ReadBodyContainer>
     );
