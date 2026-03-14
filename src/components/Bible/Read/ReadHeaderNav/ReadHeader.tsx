@@ -8,10 +8,7 @@ import { useRead } from "../context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { VersionChipButtons } from "./VersionChipButtons";
-import { TestamentDropdown } from "./TestamentDropdown";
-import { BookSelector } from "./BookSelector";
-import { ChapterSelectDesktop } from "./ChapterSelectDesktop";
-import { ChapterSelectMobile } from "./ChapterSelectMobile";
+import { SelectPassage } from "./SelectPassage";
 import { InsightsButton } from "./InsightsButton";
 import { FocusModeButton } from "./FocusModeButton";
 import { VersionDropdownMobile } from "./VersionDropdownMobile";
@@ -72,9 +69,7 @@ export function ReadHeader() {
           </div>
           {showBookChapterNav && (
             <div className="flex shrink-0 flex-wrap items-center gap-2">
-              <TestamentDropdown variant="desktop" />
-              <BookSelector variant="desktop" />
-              <ChapterSelectDesktop />
+              <SelectPassage variant="desktop" />
             </div>
           )}
           <div className="flex shrink-0 items-center gap-2 sm:gap-4">
@@ -119,9 +114,7 @@ export function ReadHeader() {
           </div>
           {showBookChapterNav && (
             <div className="flex flex-wrap items-center justify-center gap-2">
-              <TestamentDropdown variant="mobile" />
-              <BookSelector variant="mobile" />
-              <ChapterSelectMobile />
+              <SelectPassage variant="mobile" />
             </div>
           )}
         </div>
