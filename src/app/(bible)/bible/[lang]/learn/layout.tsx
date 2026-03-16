@@ -23,7 +23,8 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
     "bible-structure": "learnModule1Title",
     "bible-origin": "learnOriginTitle",
     "who-is-jesus": "learnJesusTitle",
-    "what-is-faith": "learnModule4Title",
+    "what-happens-after-death": "learnModule4Title",
+    "what-is-faith": "learnModule5Title",
   };
   const titleKey = segment ? segmentTitleKey[segment] : null;
   const currentLabel = titleKey ? intl.t(titleKey) : null;

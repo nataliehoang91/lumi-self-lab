@@ -112,7 +112,7 @@ export function VnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
       <LearnWhatIsFaithIntro
         bodyBright
         locale="vi"
-        moduleNum="04 / 04"
+        moduleNum="05 / 05"
         title="Đức tin là gì?"
         intro="Đức tin không phải là sự lạc quan mù quáng hay một nỗ lực tôn giáo để trở nên tốt hơn. Trong Kinh Thánh, đức tin là sự tin cậy đặt nơi Đức Chúa Trời — tin rằng điều Ngài phán là thật và Chúa Giê-xu đúng là Đấng Ngài bày tỏ."
       />

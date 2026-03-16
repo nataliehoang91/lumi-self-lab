@@ -121,7 +121,7 @@ export function EnBibleOriginPage() {
     <article aria-label="Bible Origin & Books Formation" className="text-foreground">
       <LearnBibleOriginIntro
         bodyBright
-        moduleNum="02 / 04"
+        moduleNum="02 / 05"
         title="Bible Origin & Books Formation"
         intro="How did 66 books, written by about 40 authors over 1,500 years, become what we now call the Bible? The answer unfolds across more than 2,000 years of history — from ancient Israel to the early church, and through centuries of careful copying and preservation."
       />

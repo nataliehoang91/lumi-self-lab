@@ -7,7 +7,7 @@ import type { BibleBook } from "@/components/Bible/Read/types";
 export const metadata: Metadata = {
   title: "Understand",
   description:
-    "Start with the foundations. What is the Bible? Bible origin, who is Jesus, and what is faith.",
+    "Start with the foundations. What is the Bible? Bible origin, who is Jesus, what happens after death, and what is faith.",
 };
 
 function findBookId(

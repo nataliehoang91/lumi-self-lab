@@ -78,13 +78,17 @@ function getJourneyVn(base: string): JourneyItem[] {
     {
       step: "01",
       label: "Tìm hiểu",
-      headline: "Bắt đầu từ nền tảng.",
+      headline: "Bạn có bao giờ tự hỏi…",
       body: "Hiểu Kinh thánh là gì, Chúa Giê-xu là ai và đức tin nghĩa là gì.",
       links: [
         { label: "Cấu trúc Kinh thánh", href: `${base}/learn/bible-structure` },
         { label: "Tổng quan sách", href: `${base}/book-overviews` },
         { label: "Nguồn gốc Kinh thánh", href: `${base}/learn/bible-origin` },
         { label: "Chúa Giê-xu là ai", href: `${base}/learn/who-is-jesus` },
+        {
+          label: "Điều gì xảy ra sau khi chết",
+          href: `${base}/learn/what-happens-after-death`,
+        },
         { label: "Đức tin là gì", href: `${base}/learn/what-is-faith` },
       ],
       cta: { label: "Tìm hiểu thêm", href: `${base}/learn` },

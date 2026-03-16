@@ -17,6 +17,13 @@ export function useBibleFontClasses() {
         ? "text-lg md:text-[18px]"
         : "text-base md:text-[15px]";
 
+  const bodyTitleClassUp =
+    fontSize === "small"
+      ? "text-base md:text-[15px]"
+      : fontSize === "large"
+        ? "text-xl md:text-[20px]"
+        : "text-lg md:text-[17px]";
+
   /** One step up from bodyTitleClass, for key Lang journey headings. */
   const langBodyTitleClass =
     fontSize === "small"
@@ -134,5 +141,6 @@ export function useBibleFontClasses() {
     heroTitleClass,
     statValueClass,
     statValueClassDown,
+    bodyTitleClassUp,
   };
 }

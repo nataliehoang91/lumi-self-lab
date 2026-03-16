@@ -11,6 +11,7 @@ const LESSON_ORDER = [
   "bible-structure",
   "bible-origin",
   "who-is-jesus",
+  "what-happens-after-death",
   "what-is-faith",
 ] as const;
 
@@ -19,6 +20,7 @@ const MODULE_TITLE_KEYS = [
   "learnModule2Title",
   "learnModule3Title",
   "learnModule4Title",
+  "learnModule5Title",
 ] as const;
 
 function getCurrentSegmentAndLang(

@@ -141,7 +141,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
     <article aria-label="Kinh thánh là gì?" className="text-foreground">
       <LearnWhatIsBibleIntro
         locale="vi"
-        moduleNum="01 / 04"
+        moduleNum="01 / 05"
         title="Kinh thánh là gì?"
         bodyBright
         introParts={[

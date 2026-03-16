@@ -8,6 +8,7 @@ const SEGMENTS = [
   "bible-structure",
   "bible-origin",
   "who-is-jesus",
+  "what-happens-after-death",
   "what-is-faith",
 ] as const;
 
@@ -15,13 +16,13 @@ const MODULES = [
   {
     num: "01",
     title: "What Is the Bible?",
-    desc: "The Bible is more than a collection of ancient books. It tells one unfolding story — from creation to redemption — woven across centuries.",
+    desc: "The Bible is more than a collection of ancient books about religion. It tells the story of God, humanity, and the meaning of life.",
     min: 5,
   },
   {
     num: "02",
-    title: "How the Bible Came to Be",
-    desc: "Written and preserved over thousands of years, the Bible’s journey raises an important question: how do we know what we read today reflects the original message?",
+    title: "Where Did the Bible Come From?",
+    desc: "The Bible was written thousands of years ago. How do we know what we read today is still accurate and trustworthy?",
     min: 8,
   },
   {
@@ -29,20 +30,25 @@ const MODULES = [
     title: "Who Is Jesus?",
     desc: (
       <>
-        At the center of the Bible stands <strong>Jesus</strong>. What did He claim about
-        Himself — and why have His life, death, and resurrection shaped history ever
-        since?
+        Jesus is the central figure of the Bible. Who was He, what did He do, and why do
+        His death and resurrection matter?
       </>
     ),
     min: 6,
   },
   {
     num: "04",
+    title: "What Happens After Death?",
+    desc: "What happens after people die? What does the Bible say about what awaits us beyond death?",
+    min: 5,
+  },
+  {
+    num: "05",
     title: "What Is Faith?",
     desc: (
       <>
-        Faith is more than believing an idea. What does it mean to trust God — and how
-        might that reshape the way you live, think, and hope?
+        What is faith? Is believing in God simply following a religion, or something
+        deeper?
       </>
     ),
     min: 5,

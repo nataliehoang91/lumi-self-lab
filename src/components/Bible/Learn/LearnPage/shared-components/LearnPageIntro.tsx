@@ -12,7 +12,12 @@ export interface LearnPageIntroProps {
   locale?: "en" | "vi";
 }
 
-export function LearnPageIntro({ eyebrow, title, subtitle, locale }: LearnPageIntroProps) {
+export function LearnPageIntro({
+  eyebrow,
+  title,
+  subtitle,
+  locale,
+}: LearnPageIntroProps) {
   const { h1Class, subtitleClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const subtitleFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
@@ -21,24 +26,18 @@ export function LearnPageIntro({ eyebrow, title, subtitle, locale }: LearnPageIn
     <div className="mb-16">
       <p
         className={cn(
-          "text-muted-foreground mb-4 text-xs font-semibold tracking-[0.2em] uppercase",
+          "mb-4 text-xs font-semibold tracking-[0.2em] uppercase opacity-90",
           subtitleFont
         )}
       >
         {eyebrow}
       </p>
-      <h1
-        className={cn(
-          "leading-tight font-semibold text-balance",
-          titleFont,
-          h1Class
-        )}
-      >
+      <h1 className={cn("leading-tight font-semibold text-balance", titleFont, h1Class)}>
         {title}
       </h1>
       <p
         className={cn(
-          "text-muted-foreground mt-4 max-w-xl leading-relaxed font-light",
+          "mt-4 max-w-xl leading-relaxed font-light opacity-90",
           subtitleClass,
           subtitleFont
         )}

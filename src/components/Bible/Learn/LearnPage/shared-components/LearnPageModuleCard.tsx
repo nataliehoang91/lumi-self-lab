@@ -33,8 +33,14 @@ export function LearnPageModuleCard({
   locale,
   segmentKey,
 }: LearnPageModuleCardProps) {
-  const { bodyClass, bodyTitleClass, subBodyClass, buttonClass, bodyClassUp } =
-    useBibleFontClasses();
+  const {
+    bodyClass,
+    bodyTitleClass,
+    bodyTitleClassUp,
+    subBodyClass,
+    buttonClass,
+    bodyClassUp,
+  } = useBibleFontClasses();
   const contentFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const [isRead, setIsRead] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -84,7 +90,7 @@ export function LearnPageModuleCard({
           <p
             className={cn(
               "group-hover:text-foreground font-bold transition-colors",
-              bodyTitleClass,
+              bodyTitleClassUp,
               contentFont
             )}
           >

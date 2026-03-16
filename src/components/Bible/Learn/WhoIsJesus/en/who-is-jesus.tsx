@@ -38,13 +38,15 @@ const VERSE_PREVIEW_EN: Record<string, string> = {
     "For we do not have a high priest who is unable to empathize with our weaknesses, but we have one who has been tempted in every way, just as we are—yet he did not sin.",
   "John 1:1":
     "In the beginning was the Word, and the Word was with God, and the Word was God.",
-  "Colossians 2:9":
-    "For in Christ all the fullness of the Deity lives in bodily form.",
-  "Mark 3:5": "...He looked around at them in anger and, deeply distressed at their stubborn hearts...",
+  "Colossians 2:9": "For in Christ all the fullness of the Deity lives in bodily form.",
+  "Mark 3:5":
+    "...He looked around at them in anger and, deeply distressed at their stubborn hearts...",
   "John 19:28": "...Jesus said, “I am thirsty.”",
-  "Mark 4:39": "He got up, rebuked the wind and said to the waves, “Quiet! Be still!” Then the wind died down and it was completely calm.",
+  "Mark 4:39":
+    "He got up, rebuked the wind and said to the waves, “Quiet! Be still!” Then the wind died down and it was completely calm.",
   "Luke 5:20": "...Jesus said, “Friend, your sins are forgiven.”",
-  "John 11:43-44": "Jesus called in a loud voice, “Lazarus, come out!” The dead man came out...",
+  "John 11:43-44":
+    "Jesus called in a loud voice, “Lazarus, come out!” The dead man came out...",
   // Prophecy section
   "Micah 5:2":
     "But you, Bethlehem Ephrathah... out of you will come for me one who will be ruler over Israel.",
@@ -290,7 +292,7 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
     <article aria-label={`Who Is ${NAME_JESUS_EN}? lesson`} className="text-foreground">
       <LearnLessonIntro
         bodyBright
-        moduleNum="03 / 04"
+        moduleNum="03 / 05"
         title={`Who Is ${NAME_JESUS_EN}?`}
         intro1={
           <>

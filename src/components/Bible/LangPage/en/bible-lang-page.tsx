@@ -74,6 +74,7 @@ function getJourneyEn(base: string): JourneyItem[] {
         { label: "Book Overviews", href: `${base}/book-overviews` },
         { label: "Bible Origin", href: `${base}/learn/bible-origin` },
         { label: "Who is Jesus?", href: `${base}/learn/who-is-jesus` },
+        { label: "What happens after death?", href: `${base}/learn/what-happens-after-death` },
         { label: "What is Faith?", href: `${base}/learn/what-is-faith` },
       ],
       cta: { label: "Start Exploring", href: `${base}/learn` },

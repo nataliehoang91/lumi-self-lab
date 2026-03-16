@@ -48,7 +48,8 @@ export function useBibleNavData() {
     { href: `/bible/${learnLang}/learn/bible-structure`, label: intl.t("langPageJ1Link1"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/bible-structure")) ?? false },
     { href: `/bible/${learnLang}/learn/bible-origin`, label: intl.t("langPageJ1Link2"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/bible-origin")) ?? false },
     { href: `/bible/${learnLang}/learn/who-is-jesus`, label: intl.t("langPageJ1Link3"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/who-is-jesus")) ?? false },
-    { href: `/bible/${learnLang}/learn/what-is-faith`, label: intl.t("langPageJ1Link4"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/what-is-faith")) ?? false },
+    { href: `/bible/${learnLang}/learn/what-happens-after-death`, label: intl.t("langPageJ1Link4"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/what-happens-after-death")) ?? false },
+    { href: `/bible/${learnLang}/learn/what-is-faith`, label: intl.t("langPageJ1Link5"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/what-is-faith")) ?? false },
   ];
 
   const bibleLinks: NavLink[] = [
