@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import type { MapLocationId } from "@/components/Bible/Learn/LearnOriginMap";
-import { LearnBibleOriginIntro } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginIntro";
+import { LearnWhatIsBibleIntro } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleIntro";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
+import { cn } from "@/lib/utils";
 import { LearnBibleOriginLanguages } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginLanguages";
 import {
   LearnBibleOriginTimeline,
@@ -32,65 +34,65 @@ function getMapLabels(
 const VN_MAP_LOCATIONS: Record<MapLocationId, MapLocationInfo> = {
   jerusalem: {
     label: "Giê-ru-sa-lem",
-    desc: "Trung tâm thuộc linh của dân Y-sơ-ra-ên xưa, nơi Đền thờ được xây dựng và Lời Chúa được đọc công khai.",
+    desc: "Trung tâm của dân Y-sơ-ra-ên, nơi Đền thờ được xây dựng và Kinh Thánh được đọc công khai.",
   },
   qumran: {
     label: "Qumran",
-    desc: "Vùng gần Biển Chết, nơi Cuộn Sách Biển Chết được phát hiện năm 1947, xác nhận độ chính xác của bản thảo Cựu Ước.",
+    desc: "Nơi phát hiện Cuộn Sách Biển Chết năm 1947, cho thấy bản Cựu Ước được giữ rất chính xác qua thời gian.",
   },
   alexandria: {
     label: "A-léc-xan-ri-a",
-    desc: "Thành phố cảng lớn với cộng đồng Do Thái đông đảo, nơi bản dịch Hy Lạp của Cựu Ước (Bản Bảy Mươi) được hình thành.",
+    desc: "Thành phố lớn nơi Cựu Ước được dịch sang tiếng Hy Lạp, giúp nhiều người có thể đọc Kinh Thánh.",
   },
   rome: {
     label: "Rô-ma",
-    desc: "Thủ đô Đế quốc La Mã, nơi Hội thánh sơ khai được gây dựng và bản dịch Latin Vulgate có ảnh hưởng sâu rộng.",
+    desc: "Thủ đô La Mã, nơi Hội Thánh phát triển mạnh và Kinh Thánh được phổ biến rộng rãi tại phương Tây.",
   },
   antioch: {
     label: "An-ti-ốt",
-    desc: 'Nơi các môn đồ lần đầu tiên được gọi là "Cơ Đốc nhân" và là điểm xuất phát của nhiều chuyến hành trình truyền giáo của Phao-lô.',
+    desc: 'Nơi các môn đồ lần đầu được gọi là "Cơ Đốc nhân" và là điểm xuất phát của nhiều hành trình truyền giáo.',
   },
   sinai: {
     label: "Núi Si-na-i",
-    desc: "Nơi Môi-se nhận Luật pháp theo tường thuật Kinh Thánh — điểm khởi đầu quan trọng của văn bản Kinh Thánh.",
+    desc: "Theo Kinh Thánh, nơi Môi-se nhận Luật pháp — một phần nền tảng của Cựu Ước.",
   },
 };
 
 const VN_TIMELINE: readonly TimelineItem[] = [
   {
     year: "~1400 TCN",
-    event: "Các sách Cựu Ước sớm nhất được viết (Ngũ Kinh)",
-    desc: "Ngũ Kinh đặt nền tảng cho đức tin Y-sơ-ra-ên — bao gồm luật pháp, lịch sử khởi nguyên và giao ước giữa Đức Chúa Trời với dân Ngài.",
+    event: "Những phần đầu tiên của Cựu Ước được viết",
+    desc: "Đặt nền tảng cho đức tin Y-sơ-ra-ên — bao gồm luật pháp, lịch sử ban đầu và giao ước giữa Đức Chúa Trời với dân Ngài.",
   },
   {
     year: "~450 TCN",
-    event: "Các sách Cựu Ước được xác lập",
-    desc: "Luật pháp và các sách Tiên tri được xác lập vững chắc trong đời sống thờ phượng Do Thái, hình thành cốt lõi của danh sách Cựu Ước Hê-bơ-rơ.",
+    event: "Cựu Ước dần được xác lập",
+    desc: "Các sách luật và tiên tri được sử dụng rộng rãi trong đời sống đức tin, hình thành nền tảng của Cựu Ước.",
   },
   {
     year: "~250 TCN",
-    event: "Bản Bảy Mươi ra đời tại Alexandria",
-    desc: "Bản dịch Hy Lạp đầu tiên của Cựu Ước giúp Kinh Thánh tiếp cận thế giới Hy Lạp hóa và được sử dụng rộng rãi trong Hội Thánh đầu tiên.",
+    event: "Kinh Thánh được dịch sang tiếng Hy Lạp",
+    desc: "Bản dịch này giúp Kinh Thánh đến gần hơn với nhiều người ngoài Do Thái và được sử dụng rộng rãi.",
   },
   {
     year: "50–95 SCN",
     event: "Các sách Tân Ước được viết",
-    desc: "Các thư tín và sách Tin Lành được sao chép, lưu hành giữa các Hội Thánh khắp Đế quốc La Mã, dần được xem là có thẩm quyền thuộc linh.",
+    desc: "Các sách về Chúa Giê-xu và Hội Thánh đầu tiên được viết và lưu hành giữa các cộng đồng tín hữu.",
   },
   {
     year: "367 SCN",
-    event: "Athanasius liệt kê 27 sách Tân Ước",
-    desc: "Lần đầu tiên danh sách 27 sách Tân Ước được ghi lại rõ ràng, phản ánh những bản văn đã được sử dụng rộng rãi trong Hội Thánh.",
+    event: "Danh sách 27 sách Tân Ước được ghi nhận",
+    desc: "Danh sách này phản ánh những sách đã được sử dụng rộng rãi trong Hội Thánh.",
   },
   {
     year: "400 SCN",
-    event: "Jerome hoàn thành Vulgate",
-    desc: "Bản dịch Kinh Thánh sang tiếng Latin này trở thành bản văn chuẩn tại Tây phương suốt hơn một thiên niên kỷ.",
+    event: "Kinh Thánh được dịch sang tiếng Latin",
+    desc: "Bản dịch này trở thành bản Kinh Thánh phổ biến tại phương Tây trong nhiều thế kỷ.",
   },
   {
     year: "1947",
-    event: "Cuộn Sách Biển Chết được phát hiện",
-    desc: "Các bản thảo cổ từ thế kỷ thứ ba TCN cho thấy văn bản Cựu Ước được bảo tồn với độ chính xác đáng kinh ngạc qua nhiều thế kỷ.",
+    event: "Phát hiện Cuộn Sách Biển Chết",
+    desc: "Cho thấy bản Cựu Ước đã được bảo tồn rất chính xác qua hàng ngàn năm.",
   },
 ];
 
@@ -115,20 +117,34 @@ const VN_FAQ: readonly FaqItem[] = [
 
 export function VnBibleOriginPage() {
   const [mapActiveLocation, setMapActiveLocation] = useState<MapLocationId | null>(null);
+  const { bodyClassUp } = useBibleFontClasses();
   const mapLabels = getMapLabels(VN_MAP_LOCATIONS);
 
   return (
     <article
-      aria-label="Nguồn gốc & Sự hình thành Kinh Thánh"
+      aria-label="Kinh Thánh đến với chúng ta như thế nào?"
       className="text-foreground"
     >
-      <LearnBibleOriginIntro
+      <LearnWhatIsBibleIntro
         bodyBright
         locale="vi"
         moduleNum="02 / 05"
-        title="Nguồn gốc & Sự hình thành Kinh Thánh"
-        intro="Làm thế nào 66 sách, được viết bởi hàng chục tác giả trong khoảng 2000 năm và đã được đọc, sao chép, truyền lại
-        qua hơn 2.000 năm lịch sử, và được công nhận là Kinh Thánh? Quá trình ấy không diễn ra trong một ngày, nhưng hình thành dần qua lịch sử, được sử dụng trong cộng đồng đức tin và sự bảo tồn cẩn trọng qua nhiều thế hệ."
+        title="Kinh Thánh đến với chúng ta như thế nào?"
+        intro={
+          <>
+            <p className={cn("mb-6 leading-relaxed")}>
+              Nhiều người từng đặt câu hỏi:{" "}
+              <span className="font-semibold">Kinh Thánh</span> được viết cách đây hàng
+              ngàn năm — vậy làm sao chúng ta biết nội dung ngày nay vẫn đáng tin?
+            </p>
+
+            <p className={cn("mb-10 leading-relaxed")}>
+              Phần này giúp bạn nhìn lại hành trình của{" "}
+              <span className="font-semibold">Kinh Thánh</span> từ lúc được viết, sao
+              chép, cho đến khi trở thành cuốn sách mà chúng ta có ngày hôm nay.
+            </p>
+          </>
+        }
       />
 
       <LearnBibleOriginLanguages
@@ -163,9 +179,17 @@ export function VnBibleOriginPage() {
 
       <LearnBibleOriginReliable
         locale="vi"
-        reliableTitle="Tại sao Kinh thánh được xem là đáng tin?"
-        reliableP1="Các sách Tân Ước được bảo tồn qua số lượng bản thảo rất lớn — hơn 5.800 bản tiếng Hy Lạp, chưa kể hàng nghìn bản dịch cổ. Con số này nhiều hơn hầu hết các tác phẩm cổ đại khác mà chúng ta biết ngày nay. Nhờ vậy các học giả có thể so sánh các bản chép tay và xác định văn bản với độ chính xác rất cao."
-        reliableP2="Cuộn Sách Biển Chết xác nhận văn bản Cựu Ước được bảo tồn với độ chính xác phi thường qua hơn một ngàn năm sao chép. Dù tồn tại một số khác biệt nhỏ giữa các bản chép tay, phần lớn chỉ là sai biệt chính tả hoặc cách diễn đạt, không ảnh hưởng đến nội dung cốt lõi của đức tin."
+        reliableTitle="Tại sao Kinh Thánh được xem là đáng tin?"
+        reliableP1="Kinh Thánh không chỉ tồn tại qua thời gian — nó còn được bảo tồn với độ chính xác cao. Tân Ước có hàng ngàn bản chép cổ, nhiều hơn hầu hết các tác phẩm cổ đại."
+        reliableP2="Dù có khác biệt nhỏ giữa các bản chép, nội dung chính vẫn giữ nguyên. Cuộn Sách Biển Chết (1947) cho thấy bản Cựu Ước gần như không thay đổi sau hàng ngàn năm."
+        reliableP3={
+          <>
+            Nếu Kinh Thánh đáng tin đến vậy, câu hỏi không còn là{" "}
+            <strong>&quot;Kinh Thánh có đúng không?&quot; </strong>
+            nữa. Mà là:{" "}
+            <strong>&quot;Kinh Thánh nói gì về tương lai của chính bạn?&quot;</strong>
+          </>
+        }
       />
 
       <LearnBibleOriginFaq locale="vi" faqTitle="Câu hỏi thường gặp" faq={VN_FAQ} />

@@ -7,8 +7,8 @@ import { LearnPageVerseCta } from "@/components/Bible/Learn/LearnPage/shared-com
 const SEGMENTS = [
   "bible-structure",
   "bible-origin",
-  "who-is-jesus",
   "what-happens-after-death",
+  "who-is-jesus",
   "what-is-faith",
 ] as const;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { MapPin } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -29,6 +29,8 @@ export interface LearnBibleOriginTimelineProps {
   mapLabels: Record<MapLocationId, string>;
   /** When "vi", use Vietnamese flashcard font for title and item text. */
   locale?: "en" | "vi";
+  /** Optional sub description (can be plain text or rich React content). */
+  subDesc?: ReactNode;
 }
 
 export function LearnBibleOriginTimeline({
@@ -37,22 +39,25 @@ export function LearnBibleOriginTimeline({
   mapLocations,
   mapLabels,
   locale,
+  subDesc,
 }: LearnBibleOriginTimelineProps) {
   const [mapSheetLocationId, setMapSheetLocationId] = useState<MapLocationId | null>(
     null
   );
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-serif";
   const itemFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
-  const { bodyTitleClass, bodyClass, subBodyClass, subBodyClassUp } = useBibleFontClasses();
+  const { bodyTitleClass, bodyClass, subBodyClass, subBodyClassUp } =
+    useBibleFontClasses();
 
   return (
     <section className="mb-14">
       <BibleHeading
         level="h2"
-        className={cn("text-foreground mb-6 font-semibold", bodyTitleClass, titleFont)}
+        className={cn("text-foreground mb-6 font-semibold", titleFont)}
       >
         {timeline}
       </BibleHeading>
+      {subDesc && <div className="mb-6">{subDesc}</div>}
       <div className="relative">
         <div className="absolute top-3 bottom-3 left-[106px] w-px border border-dashed" />
         <div className="space-y-6">
@@ -62,7 +67,9 @@ export function LearnBibleOriginTimeline({
             const chipContent = (
               <span
                 className={cn(
-                  "text-muted-foreground bg-muted hover:bg-muted/80 inline-flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors",
+                  `text-muted-foreground bg-muted hover:bg-muted/80 inline-flex
+                  cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1
+                  transition-colors`,
                   subBodyClass
                 )}
               >

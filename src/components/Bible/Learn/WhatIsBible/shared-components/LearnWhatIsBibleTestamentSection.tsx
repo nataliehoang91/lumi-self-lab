@@ -22,6 +22,8 @@ export interface LearnWhatIsBibleTestamentSectionProps {
   bookLabelPlural?: string;
   /** Use full-contrast body text (Bible learn read). Default muted. */
   bodyBright?: boolean;
+  /** When "vi", use Vietnamese flashcard font for title and body. */
+  locale?: "en" | "vi";
 }
 
 export function LearnWhatIsBibleTestamentSection({
@@ -33,28 +35,34 @@ export function LearnWhatIsBibleTestamentSection({
   bookLabelSingular,
   bookLabelPlural,
   bodyBright,
+  locale,
 }: LearnWhatIsBibleTestamentSectionProps) {
-  const { bodyClassUp, bodyClass } = useBibleFontClasses();
+  const { bodyClassUp } = useBibleFontClasses();
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
+  const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   const singular = bookLabelSingular ?? "book";
   const plural = bookLabelPlural ?? "books";
 
   return (
     <section className="mb-12">
-      <h2 className="font-bible-english text-foreground mb-2 text-2xl font-semibold">
+      <h2 className={cn("text-foreground mb-2 text-2xl font-semibold", titleFont)}>
         {title}
       </h2>
       {typeof intro === "string" ? (
-        <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClassUp)}>{intro}</p>
+        <p className={cn(bodyColor, "mb-5 leading-relaxed", bodyClassUp, bodyFont)}>
+          {intro}
+        </p>
       ) : (
         intro
       )}
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         {sections.map((s, i) => (
           <div
             key={i}
-            className="bg-card border-sage-dark/20 flex gap-4 rounded-xl border p-4"
+            className="bg-card border-sage-dark/20 flex gap-4 rounded-xl border p-4
+              text-pretty"
           >
             <div
               className="bg-second/30 flex h-14 w-14 shrink-0 flex-col items-center
@@ -64,16 +72,18 @@ export function LearnWhatIsBibleTestamentSection({
               <span className="opacity-80">{s.books === 1 ? singular : plural}</span>
             </div>
             <div className="min-w-0">
-              <p className={cn("text-foreground font-medium", bodyClassUp)}>
+              <p className={cn("text-foreground font-semibold", bodyClassUp, bodyFont)}>
                 {sectionNames[s.nameKey]}
               </p>
-              <p className={cn(bodyColor, "mt-0.5 leading-relaxed", bodyClassUp)}>
+              <p
+                className={cn(bodyColor, "mt-0.5 leading-relaxed", bodyClassUp, bodyFont)}
+              >
                 {sectionDescs[s.descKey]}
               </p>
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </section>
   );
 }

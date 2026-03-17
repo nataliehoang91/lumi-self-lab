@@ -1,14 +1,16 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { BibleHeading } from "@/components/Bible/BibleHeading";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 export interface LearnBibleOriginReliableProps {
   reliableTitle: string;
-  reliableP1: string;
-  reliableP2: string;
-  /** When "vi", use Vietnamese flashcard font. */
+  reliableP1: ReactNode;
+  reliableP2: ReactNode;
+  reliableP3?: ReactNode;
+  /** When \"vi\", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
 }
 
@@ -16,6 +18,7 @@ export function LearnBibleOriginReliable({
   reliableTitle,
   reliableP1,
   reliableP2,
+  reliableP3,
   locale,
 }: LearnBibleOriginReliableProps) {
   const { bodyClass, bodyClassUp } = useBibleFontClasses();
@@ -35,6 +38,9 @@ export function LearnBibleOriginReliable({
       </BibleHeading>
       <p className={cn("leading-relaxed", bodyFont, bodyClassUp)}>{reliableP1}</p>
       <p className={cn("leading-relaxed", bodyFont, bodyClassUp)}>{reliableP2}</p>
+      {reliableP3 && (
+        <p className={cn("leading-relaxed", bodyFont, bodyClassUp)}>{reliableP3}</p>
+      )}
     </section>
   );
 }

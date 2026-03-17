@@ -74,8 +74,8 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                       </div>
                       <div>
                         <p
-                          className={`text-muted-foreground/60 font-mono
-                          dark:text-gray-400 ${bodyClass}`}
+                          className={`font-mono opacity-90 dark:text-gray-300
+                          ${bodyClass}`}
                         >
                           {item.step}
                         </p>
@@ -89,7 +89,7 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                     <div className="min-w-0 flex-1">
                       <p
                         className={`text-foreground mb-1 font-medium dark:text-white
-                        ${langBodyTitleClass}`}
+                        ${bodyClassUp}`}
                       >
                         {item.headline}
                       </p>

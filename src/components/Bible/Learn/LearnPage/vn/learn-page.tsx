@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 const SEGMENTS = [
   "bible-structure",
   "bible-origin",
-  "who-is-jesus",
   "what-happens-after-death",
+  "who-is-jesus",
   "what-is-faith",
 ] as const;
 
@@ -18,17 +18,24 @@ const MODULES = [
   {
     num: "01",
     title: "Kinh thánh là gì?",
-    desc: "Kinh Thánh không chỉ là một tập hợp sách cổ về tôn giáo. Nó kể câu chuyện về Đức Chúa Trời, con người và ý nghĩa của cuộc sống.",
+    desc: "Kinh Thánh không chỉ là một tập hợp sách cổ về tôn giáo. Mà là kể câu chuyện về Đức Chúa Trời, con người và ý nghĩa của cuộc sống.",
     min: 5,
   },
   {
     num: "02",
-    title: "Nguồn gốc & Danh sách sách Kinh thánh",
+    title: "Kinh Thánh đến với chúng ta như thế nào?",
     desc: "Kinh Thánh được viết cách đây hàng ngàn năm. Làm sao chúng ta biết nội dung ngày nay vẫn đúng với bản gốc và đáng tin cậy?",
     min: 8,
   },
+
   {
     num: "03",
+    title: "Cái chết không phải là hết – Thật không?",
+    desc: "Sau khi con người chết, điều gì sẽ xảy ra? Kinh Thánh nói gì về điều chờ đợi chúng ta phía sau cái chết?",
+    min: 5,
+  },
+  {
+    num: "04",
     title: "Chúa Giê-xu là ai?",
     desc: (
       <>
@@ -37,12 +44,6 @@ const MODULES = [
       </>
     ),
     min: 6,
-  },
-  {
-    num: "04",
-    title: "Cái chết không phải là hết – Thật không?",
-    desc: "Sau khi con người chết, điều gì sẽ xảy ra? Kinh Thánh nói gì về điều chờ đợi chúng ta phía sau cái chết?",
-    min: 5,
   },
   {
     num: "05",

@@ -11,54 +11,24 @@ import {
   OT_SECTIONS,
   NT_SECTIONS,
 } from "@/components/Bible/Learn/WhatIsBible/shared-components/constants";
-import {
-  NAME_JESUS_VN,
-  LANG_HEBREW_VN,
-  LANG_ARAMAIC_VN,
-  LANG_GREEK_VN,
-  PLACE_ISRAEL_VN,
-  PLACE_JERUSALEM_VN,
-  NAME_PAUL_VN,
-  BOOK_DEUTERONOMY_VN,
-  BOOK_ESTHER_VN,
-  BOOK_JOB_VN,
-  BOOK_ISAIAH_VN,
-  BOOK_MALACHI_VN,
-  BOOK_MATTHEW_VN,
-  BOOK_MARK_VN,
-  BOOK_LUKE_VN,
-  BOOK_JOHN_VN,
-  BOOK_ACTS_VN,
-  BOOK_ROMANS_VN,
-  BOOK_JUDE_VN,
-  BOOK_REVELATION_VN,
-  BOOK_2_SAMUEL_VN,
-  BOOK_AMOS_VN,
-  BOOK_DANIEL_VN,
-  BOOK_COLOSSIANS_VN,
-  BOOK_2_TIMOTHY_VN,
-  TERM_GOD_VN,
-  TERM_BIBLE_VN,
-  TERM_CHRIST_VN,
-  TERM_OLD_TESTAMENT_VN,
-  TERM_NEW_TESTAMENT_VN,
-} from "@/components/Bible/Learn/constants";
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import { LearnWhatIsBibleAuthorsSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleAuthorsSection";
+import { LearnLibraryBlock } from "@/components/Bible/Learn/shared-components/LearnLibraryBlock";
 import { QuoteCard } from "@/components/GeneralComponents/QuoteCard";
+import { useLocaleFonts } from "@/components/Bible/global/utils";
 
 const VN_GLOSSARY: readonly GlossaryItem[] = [
   {
-    term: TERM_OLD_TESTAMENT_VN,
-    def: `Phần đầu của ${TERM_BIBLE_VN}, ghi lại lịch sử, luật pháp, thơ ca và lời tiên tri của dân ${PLACE_ISRAEL_VN} trước thời Chúa ${NAME_JESUS_VN}.`,
+    term: "Cựu Ước",
+    def: "Phần đầu của Kinh Thánh, ghi lại lịch sử, luật pháp, thơ ca và lời tiên tri của dân Y-sơ-ra-ên trước thời Chúa Giê-xu.",
   },
   {
-    term: TERM_NEW_TESTAMENT_VN,
-    def: `Phần sau của ${TERM_BIBLE_VN}, bắt đầu với bốn sách Phúc Âm kể về cuộc đời Chúa ${NAME_JESUS_VN} và tiếp tục với sự hình thành của Hội Thánh đầu tiên.`,
+    term: "Tân Ước",
+    def: "Phần sau của Kinh Thánh, bắt đầu với bốn sách Phúc Âm kể về cuộc đời Chúa Giê-xu và tiếp tục với sự hình thành của Hội Thánh đầu tiên.",
   },
   {
     term: "Chính điển",
@@ -66,18 +36,18 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
   },
   {
     term: "Giao ước",
-    def: `Một sự cam kết mang tính quan hệ giữa ${TERM_GOD_VN} và con người. Chủ đề này xuất hiện xuyên suốt cả ${TERM_OLD_TESTAMENT_VN} và ${TERM_NEW_TESTAMENT_VN}.`,
+    def: "Một sự cam kết mang tính quan hệ giữa Đức Chúa Trời và con người. Chủ đề này xuất hiện xuyên suốt cả Cựu Ước và Tân Ước.",
   },
   {
     term: "Phúc âm",
-    def: `Nghĩa là "Tin Lành" hay "tin vui" — thuật ngữ thường dùng để chỉ sứ điệp về Chúa ${NAME_JESUS_VN} và ý nghĩa của cuộc đời, sự chết và sự sống lại của Ngài.`,
+    def: 'Nghĩa là "Tin Lành" hay "tin vui" — thuật ngữ thường dùng để chỉ sứ điệp về Chúa Giê-xu và ý nghĩa của cuộc đời, sự chết và sự sống lại của Ngài.',
   },
   {
     term: "Tiên tri",
-    def: `Người được kêu gọi để truyền đạt sứ điệp của ${TERM_GOD_VN} trong bối cảnh lịch sử cụ thể, thường kêu gọi dân sự trở lại và sống trung tín.`,
+    def: "Người được kêu gọi để truyền đạt sứ điệp của Đức Chúa Trời trong bối cảnh lịch sử cụ thể, thường kêu gọi dân sự trở lại và sống trung tín.",
   },
   {
-    term: BOOK_REVELATION_VN,
+    term: "Khải huyền",
     def: "Một thể loại văn học mang tính biểu tượng và hình ảnh, thường nói về sự phán xét, hy vọng và sự hoàn tất của lịch sử.",
   },
 ];
@@ -96,6 +66,54 @@ const VERSE_PREVIEW_VN_AUTHORS: Record<string, string> = {
     "Cả Kinh Thánh đều là bởi Đức Chúa Trời cảm động mà viết ra, có ích cho sự dạy dỗ, bẻ trách, sửa trị, dạy người trong sự công bình.",
   "II Phi-e-rơ 1:21":
     "Vì chẳng hề có lời tiên tri nào bởi ý riêng người ta mà ra; nhưng người ta đã được Đức Thánh Linh cảm động mà nói bởi Đức Chúa Trời.",
+};
+
+const AuthorsSectionBulletItems = ({
+  key,
+  bookId,
+  chapter,
+  verse,
+  verseEnd,
+  testament,
+  title,
+  verseLinkText,
+}: {
+  bookId: string | null;
+  chapter: number;
+  verse: number;
+  verseEnd: number;
+  testament: "ot" | "nt";
+  title: string;
+  verseLinkText: string;
+  key: string;
+}) => {
+  const { bodyClassUp } = useBibleFontClasses();
+  const { bodyFont } = useLocaleFonts("vi");
+  return (
+    <div key={key} className="d:items-baseline mt-8 flex flex-col gap-x-2 md:flex-row">
+      <span className={cn(bodyClassUp)}>• {title}</span>
+      <span className="hidden shrink-0 md:block">-</span>
+      <div className="flex justify-end gap-x-2 text-right">
+        <BibleVerseLink
+          langSegment="vi"
+          version1="vi"
+          bookId={bookId}
+          chapter={chapter}
+          verse={verse}
+          verseEnd={verseEnd}
+          testament={testament}
+          triggerClassName={cn(
+            "underline underline-offset-2 theme-warm:text-sage-600 theme-warm:dark:text-sage-800",
+            bodyClassUp,
+            bodyFont
+          )}
+          previewText={VERSE_PREVIEW_VN_AUTHORS["II Sa-mu-ên 5:4-5"]}
+        >
+          {verseLinkText}
+        </BibleVerseLink>
+      </div>
+    </div>
+  );
 };
 
 function buildReadHrefVi(
@@ -131,12 +149,9 @@ function findBookIdByVi(
   return null;
 }
 
-const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
-
 export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
-  const { bodyClass, bodyTitleClass, subBodyClassUp, bodyClassUp } =
-    useBibleFontClasses();
-  const vnBodyClass = cn(bodyClassUp, VN_FLASHCARD_FONT);
+  const { bodyClass, bodyClassUp } = useBibleFontClasses();
+  const { bodyFont } = useLocaleFonts("vi");
   return (
     <article aria-label="Kinh thánh là gì?" className="text-foreground">
       <LearnWhatIsBibleIntro
@@ -152,69 +167,57 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           " bởi gần ",
           "40 tác giả khác nhau",
           <>
-            . Dù được hình thành qua nhiều thế kỷ và bối cảnh khác nhau, nhiều người tin
-            rằng toàn bộ <strong>{TERM_BIBLE_VN}</strong> cùng kể một câu chuyện thống
-            nhất — câu chuyện về mối quan hệ giữa <strong>{TERM_GOD_VN}</strong> và con
+            . Dù được viết trong nhiều thời đại và bối cảnh khác nhau,{" "}
+            <span className="font-semibold">Kinh Thánh</span> vẫn cùng kể một câu chuyện:
+            câu chuyện về <span className="font-semibold">Đức Chúa Trời</span> và con
             người.
           </>,
         ]}
       />
 
-      <blockquote
-        className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
-          border-l-4 py-6 pr-6 pl-6 not-italic"
-      >
-        <p
-          className={cn(VN_FLASHCARD_FONT, "leading-snug font-semibold", bodyTitleClass)}
-        >
-          Kinh Thánh là thư viện, không phải một cuốn sách đơn lẻ.
-        </p>
-        <p className={cn("leading-relaxed", vnBodyClass)}>
-          Từ <strong>&ldquo;Bible&rdquo;</strong> bắt nguồn từ tiếng Hy Lạp{" "}
-          <strong>&ldquo;biblia&rdquo;</strong>, nghĩa là &ldquo;những cuốn sách&rdquo;.
-          Hiểu điều này giúp chúng ta tránh việc đọc <strong>{TERM_BIBLE_VN}</strong> như
-          một cuốn sách đồng nhất, mà thay vào đó là một thư viện gồm nhiều tác phẩm liên
-          kết với nhau.
-        </p>
-        <p className={cn("border-border border-t pt-4 leading-relaxed", vnBodyClass)}>
-          <strong>{TERM_BIBLE_VN}</strong> bao gồm nhiều thể loại: lịch sử, thơ ca, luật
-          pháp, thư tín, khải tượng. Vì vậy, không thể đọc mọi phần theo cùng một cách.
-        </p>
-      </blockquote>
+      <LearnLibraryBlock
+        locale="vi"
+        title="Kinh Thánh là một “thư viện”, không phải chỉ một cuốn sách."
+        firstParagraph={
+          <>
+            Điều này cho thấy Kinh Thánh gồm nhiều tác phẩm khác nhau nhưng liên kết với
+            nhau.
+          </>
+        }
+        secondParagraph={
+          <>
+            Kinh Thánh bao gồm nhiều thể loại như lịch sử, thơ ca, luật pháp, thư tín và
+            khải huyền. Vì vậy, mỗi phần cần được đọc và hiểu theo cách phù hợp.
+          </>
+        }
+      />
 
       <LearnWhatIsBibleStats
+        locale="vi"
         statLabels={["Sách tổng cộng", "Cựu Ước", "Tân Ước", "Tác giả"]}
       />
 
       <LearnWhatIsBibleAuthorsSection
+        locale="vi"
         title="Ai đã viết Kinh Thánh?"
         intro={
-          <>
-            Kinh Thánh được viết bởi khoảng <strong>40 tác giả</strong> khác nhau trong
-            suốt hơn 2000 năm. Những người này đến từ nhiều nghề nghiệp và hoàn cảnh khác
-            nhau.
-          </>
+          <span className={cn("leading-relaxed", bodyClassUp, bodyFont)}>
+            Kinh Thánh được viết bởi khoảng 40 tác giả khác nhau trong suốt hơn 2000 năm.
+            Những người này đến từ nhiều nghề nghiệp và hoàn cảnh khác nhau.
+          </span>
         }
         bulletItems={[
-          <div key="1" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className={cn(bodyClassUp)}>• Vua - như Đa-vít</span>
-            <span className="hidden shrink-0 md:block">-</span>
-            <div className="flex justify-end gap-x-2 text-right">
-              <BibleVerseLink
-                langSegment="vi"
-                version1="vi"
-                bookId={findBookIdByVi(books, BOOK_2_SAMUEL_VN, "2 Samuel")}
-                chapter={5}
-                verse={4}
-                verseEnd={5}
-                testament="ot"
-                triggerClassName={bodyClass}
-                previewText={VERSE_PREVIEW_VN_AUTHORS["II Sa-mu-ên 5:4-5"]}
-              >
-                II Sa-mu-ên 5:4-5
-              </BibleVerseLink>
-            </div>
-          </div>,
+          <AuthorsSectionBulletItems
+            key="1"
+            bookId={findBookIdByVi(books, "2 Sa-mu-ên", "2 Samuel")}
+            title="Vua - như Đa-vít"
+            chapter={5}
+            verse={4}
+            verseEnd={5}
+            testament="ot"
+            verseLinkText="II Sa-mu-ên 5:4-5"
+          />,
+
           <div key="2" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
             <span className={cn(bodyClassUp)}>• Người chăn chiên - như A-mốt</span>
             <span className="hidden shrink-0 md:block">-</span>
@@ -222,7 +225,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
               <BibleVerseLink
                 langSegment="vi"
                 version1="vi"
-                bookId={findBookIdByVi(books, BOOK_AMOS_VN, "Amos")}
+                bookId={findBookIdByVi(books, "A-mốt", "Amos")}
                 chapter={1}
                 verse={1}
                 testament="ot"
@@ -240,7 +243,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
               <BibleVerseLink
                 langSegment="vi"
                 version1="vi"
-                bookId={findBookIdByVi(books, BOOK_DANIEL_VN, "Daniel")}
+                bookId={findBookIdByVi(books, "Đa-ni-ên", "Daniel")}
                 chapter={2}
                 verse={48}
                 testament="ot"
@@ -258,7 +261,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
               <BibleVerseLink
                 langSegment="vi"
                 version1="vi"
-                bookId={findBookIdByVi(books, BOOK_COLOSSIANS_VN, "Colossians")}
+                bookId={findBookIdByVi(books, "Cô-lô-se", "Colossians")}
                 chapter={4}
                 verse={14}
                 testament="nt"
@@ -276,7 +279,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
               <BibleVerseLink
                 langSegment="vi"
                 version1="vi"
-                bookId={findBookIdByVi(books, BOOK_MATTHEW_VN, "Matthew")}
+                bookId={findBookIdByVi(books, "Ma-thi-ơ", "Matthew")}
                 chapter={4}
                 verse={18}
                 verseEnd={21}
@@ -295,7 +298,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
               <BibleVerseLink
                 langSegment="vi"
                 version1="vi"
-                bookId={findBookIdByVi(books, BOOK_MATTHEW_VN, "Matthew")}
+                bookId={findBookIdByVi(books, "Ma-thi-ơ", "Matthew")}
                 chapter={10}
                 verse={3}
                 testament="nt"
@@ -308,7 +311,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </div>,
         ]}
         conclusion={
-          <p className={cn("mt-6 leading-relaxed", bodyClassUp, vnBodyClass)}>
+          <p className={cn("mt-6 leading-relaxed", bodyClassUp, bodyFont)}>
             Dù được viết bởi nhiều người trong nhiều thời đại khác nhau, người tin Chúa
             tin rằng Đức Chúa Trời đã hướng dẫn họ khi viết.
           </p>
@@ -320,7 +323,7 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             footnote="II Ti-mô-thê 3:16"
             footnoteAlign="center"
             footnoteHref={buildReadHrefVi(
-              findBookIdByVi(books, BOOK_2_TIMOTHY_VN, "2 Timothy"),
+              findBookIdByVi(books, "2 Ti-mô-thê", "2 Timothy"),
               3,
               16,
               "nt"
@@ -333,69 +336,30 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
 
       <LearnWhatIsBibleTestamentSection
         bodyBright
-        title={TERM_OLD_TESTAMENT_VN}
+        locale="vi"
+        title="Cựu Ước"
         intro={
-          <p className={cn("mb-5 leading-relaxed", vnBodyClass)}>
-            Được viết chủ yếu bằng tiếng{" "}
-            <strong>
-              <em>{LANG_HEBREW_VN}</em>
-            </strong>{" "}
-            (và một phần tiếng{" "}
-            <strong>
-              <em>{LANG_ARAMAIC_VN}</em>
-            </strong>
-            ), <strong>{TERM_OLD_TESTAMENT_VN}</strong> ghi lại từ sự sáng tạo vũ trụ cho
-            đến thời kỳ ngay trước khi <strong>Chúa {NAME_JESUS_VN}</strong> giáng sinh.
-            Đây là câu chuyện về <strong>{TERM_GOD_VN}</strong>, về dân{" "}
-            <strong>
-              <em>{PLACE_ISRAEL_VN}</em>
-            </strong>
-            , và về lời hứa lâu dài về một Đấng Cứu Thế sẽ đến.
+          <p className={cn("mb-5 leading-relaxed", bodyClassUp, bodyFont)}>
+            Cựu Ước được viết chủ yếu bằng tiếng Hê-bơ-rơ (và một phần tiếng A-ram). Phần
+            này kể từ lúc thế giới được tạo dựng cho đến trước khi Chúa Giê-xu ra đời. Đây
+            là câu chuyện về Đức Chúa Trời, về dân Y-sơ-ra-ên, và về lời hứa rằng một Đấng
+            Cứu Thế sẽ đến.
           </p>
         }
         sectionNames={["Luật pháp", "Lịch sử", "Thi ca & Khôn ngoan", "Tiên tri"]}
         sectionDescs={[
           <>
-            Sáng thế ký đến{" "}
-            <strong>
-              <em>{BOOK_DEUTERONOMY_VN}</em>
-            </strong>{" "}
-            — sáng thế, sự sa ngã và giao ước của <strong>{TERM_GOD_VN}</strong> với{" "}
-            <strong>
-              <em>{PLACE_ISRAEL_VN}</em>
-            </strong>
-            .
+            Sáng thế ký đến Phục truyền— sáng thế, sự sa ngã và giao ước của Đức Chúa Trời
+            với Y-sơ-ra-ên.
           </>,
           <>
-            Giô-sué đến{" "}
-            <strong>
-              <em>{BOOK_ESTHER_VN}</em>
-            </strong>{" "}
-            — câu chuyện{" "}
-            <strong>
-              <em>{PLACE_ISRAEL_VN}</em>
-            </strong>{" "}
-            trong Đất Hứa, các vua, lưu đày và trở về.
+            Giô-sué đến Ê-xơ-tê — câu chuyện Y-sơ-ra-ên trong Đất Hứa, các vua, lưu đày và
+            trở về. trong Đất Hứa, các vua, lưu đày và trở về.
           </>,
+          <>Gióp đến Nhã Ca — suy ngẫm về đau khổ, ca ngợi, khôn ngoan và tình yêu.</>,
           <>
-            <strong>
-              <em>{BOOK_JOB_VN}</em>
-            </strong>{" "}
-            đến Nhã Ca — suy ngẫm về đau khổ, ca ngợi, khôn ngoan và tình yêu.
-          </>,
-          <>
-            <strong>
-              <em>{BOOK_ISAIAH_VN}</em>
-            </strong>{" "}
-            đến{" "}
-            <strong>
-              <em>{BOOK_MALACHI_VN}</em>
-            </strong>{" "}
-            — sứ giả của <strong>{TERM_GOD_VN}</strong> kêu gọi{" "}
-            <strong>
-              <em>{PLACE_ISRAEL_VN}</em>
-            </strong>{" "}
-            trở lại, chỉ về <strong>{TERM_CHRIST_VN}</strong>.
+            Ê-sai đến Ma-la-chi — sứ giả của Đức Chúa Trời kêu gọi Y-sơ-ra-ên trở lại, chỉ
+            về Đấng Christ.
           </>,
         ]}
         sections={OT_SECTIONS}
@@ -405,71 +369,34 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
 
       <LearnWhatIsBibleTestamentSection
         bodyBright
-        title={TERM_NEW_TESTAMENT_VN}
+        locale="vi"
+        title="Tân Ước"
         intro={
-          <p className={cn("mb-5 leading-relaxed", vnBodyClass)}>
-            Được viết bằng tiếng{" "}
-            <strong>
-              <em>{LANG_GREEK_VN}</em>
-            </strong>
-            , <strong>{TERM_NEW_TESTAMENT_VN}</strong> mở đầu bằng bốn sách Phúc Âm kể về
-            cuộc đời, chức vụ, sự chết và sự sống lại của{" "}
-            <strong>Chúa {NAME_JESUS_VN}</strong>. Sau đó là câu chuyện về Hội Thánh đầu
-            tiên lan rộng ra khắp thế giới, và kết thúc bằng khải tượng về sự hoàn tất của
-            lịch sử trong <strong>Chúa {NAME_JESUS_VN}</strong>.
+          <p className={cn("mb-5 leading-relaxed", bodyClassUp, bodyFont)}>
+            Tân Ước được viết bằng tiếng Hy Lạp. Phần này bắt đầu với bốn sách Phúc Âm, kể
+            về cuộc đời, sự chết và sự sống lại của Chúa Giê-xu. Sau đó là câu chuyện Hội
+            Thánh lan rộng, và kết thúc với bức tranh về tương lai khi mọi sự được hoàn
+            tất trong Ngài.
           </p>
         }
         sectionNames={["Phúc âm", "Lịch sử", "Thư tín", "Khải tượng"]}
         sectionDescs={[
           <>
-            <strong>
-              <em>{BOOK_MATTHEW_VN}</em>
-            </strong>
-            ,{" "}
-            <strong>
-              <em>{BOOK_MARK_VN}</em>
-            </strong>
-            ,{" "}
-            <strong>
-              <em>{BOOK_LUKE_VN}</em>
-            </strong>
-            ,{" "}
-            <strong>
-              <em>{BOOK_JOHN_VN}</em>
-            </strong>{" "}
-            — bốn tường thuật về cuộc đời, chức vụ, sự chết và sống lại của{" "}
-            <strong>Chúa {NAME_JESUS_VN}</strong>.
+            Ma-thi-ơ, Mác, Lu-ca, Giăng — bốn tường thuật về cuộc đời, chức vụ, sự chết và
+            sự sống lại của Chúa Giê-xu.
           </>,
           <>
-            <strong>
-              <em>{BOOK_ACTS_VN}</em>
-            </strong>{" "}
-            — câu chuyện Hội thánh đầu tiên lan ra từ{" "}
-            <strong>
-              <em>{PLACE_JERUSALEM_VN}</em>
-            </strong>{" "}
-            đến tận cùng trái đất.
+            Công vụ — câu chuyện Hội thánh đầu tiên lan ra từ Giê-ru-sa-lem đến tận cùng
+            trái đất. — câu chuyện Hội thánh đầu tiên lan ra từ đến tận cùng trái đất.
           </>,
           <>
-            <strong>
-              <em>{BOOK_ROMANS_VN}</em>
-            </strong>{" "}
-            đến{" "}
-            <strong>
-              <em>{BOOK_JUDE_VN}</em>
-            </strong>{" "}
-            —{" "}
-            <strong>
-              <em>{NAME_PAUL_VN}</em>
-            </strong>{" "}
-            và những người khác viết cho các Hội thánh và cá nhân về đức tin và đời sống.
+            Rô-ma đến Giu-đe — Phao-lô và những người khác viết cho các Hội thánh và cá
+            nhân về đức tin và đời sống. và những người khác viết cho các Hội thánh và cá
+            nhân về đức tin và đời sống.
           </>,
           <>
-            <strong>
-              <em>{BOOK_REVELATION_VN}</em>
-            </strong>{" "}
-            — khải tượng về sự kết thúc lịch sử và sự chiến thắng của{" "}
-            <strong>{NAME_JESUS_VN}</strong>.
+            Khải huyền — khải tượng về sự kết thúc lịch sử và sự chiến thắng của Chúa
+            Giê-xu.
           </>,
         ]}
         sections={NT_SECTIONS}
@@ -477,25 +404,25 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         bookLabelPlural="sách"
       />
 
-      <LearnWhyItMatters title="Câu chuyện trung tâm — và vì sao nó quan trọng">
-        <p className={cn("leading-relaxed", vnBodyClass)}>
-          Dù được viết bởi nhiều người trong nhiều thế kỷ khác nhau,{" "}
-          <strong>{TERM_BIBLE_VN}</strong> không phải là những câu chuyện rời rạc. Nó kể
-          một câu chuyện lớn: <strong>{TERM_GOD_VN}</strong> tạo dựng con người, con người
-          rời xa <strong>Ngài</strong>, và <strong>Ngài</strong> tìm cách đưa họ trở lại.
-          Câu chuyện đó tập trung vào <strong>Chúa {NAME_JESUS_VN}</strong>.
+      <LearnWhyItMatters locale="vi" title="Vì sao Kinh Thánh quan trọng">
+        <p className={cn("leading-relaxed", bodyClassUp, bodyFont)}>
+          Nếu Kinh Thánh chỉ là một cuốn sách cổ, thì nó chỉ kể chuyện của người xưa. Bạn
+          có thể tôn trọng nó, nhưng không nhất thiết phải quan tâm.
         </p>
 
-        <p className={cn("mt-4 leading-relaxed", vnBodyClass)}>
-          Nếu <strong>{TERM_BIBLE_VN}</strong> chỉ là sách cổ, thì nó chỉ thuộc về quá
-          khứ. Nhưng nếu câu chuyện này là thật, thì nó liên quan trực tiếp đến bạn — đến
-          việc bạn là ai, vì sao thế giới có quá nhiều đổ vỡ, và liệu còn hy vọng nào cho
-          con người hay không.
+        <p className={cn("mt-4 leading-relaxed", bodyClassUp, bodyFont)}>
+          Nhưng thật sự, Kinh Thánh nói về câu chuyện lớn của con người — từ lúc thế giới
+          được tạo dựng cho đến tương lai của nhân loại. Và trong câu chuyện đó, bạn cũng
+          ở trong đó. Thì bạn có nên quan tâm không?
         </p>
 
-        <p className={cn("mt-4 leading-relaxed", vnBodyClass)}>
-          Vì thế, tin theo <strong>Chúa {NAME_JESUS_VN}</strong> không chỉ là sống tốt
-          hơn, mà là bước vào mối quan hệ với Đức Chúa Trời.
+        <p className={cn("mt-4 leading-relaxed", bodyClassUp, bodyFont)}>
+          Vậy câu hỏi quan trọng không phải &quot;
+          <span className="font-semibold">Kinh Thánh nói gì?</span>&quot;, mà là: &quot;
+          <span className="font-semibold">
+            Bạn muốn biết tương lai của chính mình không?
+          </span>
+          &quot;
         </p>
       </LearnWhyItMatters>
       <LearnWhatIsBibleGlossary

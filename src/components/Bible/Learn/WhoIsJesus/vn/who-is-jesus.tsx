@@ -326,7 +326,7 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       <LearnLessonIntro
         bodyBright
         locale="vi"
-        moduleNum="03 / 05"
+        moduleNum="04 / 05"
         title={`Chúa ${NAME_JESUS_VN} Là Ai?`}
         intro1={
           <p className={cn("my-4 leading-relaxed", vnBodyClass)}>

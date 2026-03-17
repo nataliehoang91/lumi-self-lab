@@ -10,18 +10,33 @@ import { cn } from "@/lib/utils";
 const LESSON_ORDER = [
   "bible-structure",
   "bible-origin",
-  "who-is-jesus",
   "what-happens-after-death",
+  "who-is-jesus",
   "what-is-faith",
 ] as const;
 
-const MODULE_TITLE_KEYS = [
-  "learnModule1Title",
-  "learnModule2Title",
-  "learnModule3Title",
-  "learnModule4Title",
-  "learnModule5Title",
-] as const;
+const LESSON_TITLES: Record<(typeof LESSON_ORDER)[number], { en: string; vi: string }> = {
+  "bible-structure": {
+    en: "What Is the Bible?",
+    vi: "Kinh thánh là gì?",
+  },
+  "bible-origin": {
+    en: "Where Did the Bible Come From?",
+    vi: "Kinh Thánh đến với chúng ta như thế nào?",
+  },
+  "what-happens-after-death": {
+    en: "What Happens After Death?",
+    vi: "Cái chết không phải là hết – Thật không?",
+  },
+  "who-is-jesus": {
+    en: "Who Is Jesus?",
+    vi: "Chúa Giê-xu là ai?",
+  },
+  "what-is-faith": {
+    en: "What Is Faith?",
+    vi: "Đức tin là gì?",
+  },
+};
 
 function getCurrentSegmentAndLang(
   pathname: string | null
@@ -55,7 +70,9 @@ export function LearnLessonFooter() {
   const isLastLesson = currentIndex === LESSON_ORDER.length - 1;
 
   const prevSegment = currentIndex > 0 ? LESSON_ORDER[currentIndex - 1] : null;
-  const prevLabel = prevSegment ? intl.t(MODULE_TITLE_KEYS[currentIndex - 1]) : null;
+  const prevLabel = prevSegment
+    ? LESSON_TITLES[prevSegment][lang === "vi" ? "vi" : "en"]
+    : null;
   const prevHref = prevSegment ? `/bible/${lang}/learn/${prevSegment}` : null;
 
   let nextHref: string | null = null;
@@ -67,7 +84,7 @@ export function LearnLessonFooter() {
   } else if (currentIndex >= 0 && currentIndex < LESSON_ORDER.length - 1) {
     const nextSegment = LESSON_ORDER[currentIndex + 1];
     nextHref = `/bible/${lang}/learn/${nextSegment}`;
-    nextLabel = intl.t(MODULE_TITLE_KEYS[currentIndex + 1]);
+    nextLabel = LESSON_TITLES[nextSegment][lang === "vi" ? "vi" : "en"];
   }
 
   const readHref = `/bible/${lang}/read`;

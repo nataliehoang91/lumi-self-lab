@@ -137,7 +137,6 @@ export interface VnBibleLangPageProps {
 
 export function VnBibleLangPage({ lang, books }: VnBibleLangPageProps) {
   const base = `/bible/${lang}`;
-  const { subBodyClass, verseClass, bodyClass } = useBibleFontClasses();
 
   const verseIdx = new Date().getDate() % DAILY_VERSES_VN.length;
   const verse = DAILY_VERSES_VN[verseIdx];
@@ -166,15 +165,12 @@ export function VnBibleLangPage({ lang, books }: VnBibleLangPageProps) {
         <div className="relative z-10 mx-auto mt-20 w-full max-w-2xl">
           <DailyVerse
             label="Câu Kinh thánh của ngày"
+            locale="vi"
             text={verse.text}
             verseRef={verse.ref}
             verseRefHref={verseRefHref}
             readHref={`${base}/read`}
             readLabel="Đọc trong bối cảnh"
-            labelClassName={subBodyClass}
-            quoteClassName={verseClass}
-            refClassName={bodyClass}
-            linkClassName={bodyClass}
           />
         </div>
       </LangPageHero>
@@ -189,7 +185,7 @@ export function VnBibleLangPage({ lang, books }: VnBibleLangPageProps) {
         title="Bắt đầu từ một bước nhỏ."
         paragraph="Dù bạn mới bắt đầu hay đã đọc nhiều năm, bạn có thể tiếp tục học và lớn lên từng ngày."
         newLabel="Tôi mới đến"
-        bibleLabel="Đưa tôi đến Kinh thánh"
+        bibleLabel="Đưa tôi đến Kinh Thánh"
         learnHref={`${base}/learn`}
         readHref={`${base}/read`}
       />

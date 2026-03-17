@@ -6,10 +6,16 @@ import { STATS } from "./constants";
 
 export interface LearnWhatIsBibleStatsProps {
   statLabels: readonly [string, string, string, string];
+  /** When "vi", use Vietnamese font for labels. */
+  locale?: "en" | "vi";
 }
 
-export function LearnWhatIsBibleStats({ statLabels }: LearnWhatIsBibleStatsProps) {
+export function LearnWhatIsBibleStats({
+  statLabels,
+  locale,
+}: LearnWhatIsBibleStatsProps) {
   const { bodyClass } = useBibleFontClasses();
+  const labelFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -21,7 +27,9 @@ export function LearnWhatIsBibleStats({ statLabels }: LearnWhatIsBibleStatsProps
           <p className="font-bible-english text-primary-dark text-3xl font-semibold">
             {s.v}
           </p>
-          <p className={cn("mt-1 font-semibold", bodyClass)}>{statLabels[s.labelKey]}</p>
+          <p className={cn("mt-1 font-semibold", bodyClass, labelFont)}>
+            {statLabels[s.labelKey]}
+          </p>
         </div>
       ))}
     </div>

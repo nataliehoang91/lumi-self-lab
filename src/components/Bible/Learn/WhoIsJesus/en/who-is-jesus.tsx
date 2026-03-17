@@ -292,7 +292,7 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
     <article aria-label={`Who Is ${NAME_JESUS_EN}? lesson`} className="text-foreground">
       <LearnLessonIntro
         bodyBright
-        moduleNum="03 / 05"
+        moduleNum="43 / 05"
         title={`Who Is ${NAME_JESUS_EN}?`}
         intro1={
           <>

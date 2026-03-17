@@ -10,6 +10,8 @@ export interface LearnWhatIsBibleAuthorsSectionProps {
   bulletItems: ReactNode[];
   conclusion: ReactNode;
   quoteBlocks: ReactNode[];
+  /** When "vi", use Vietnamese flashcard font. */
+  locale?: "en" | "vi";
 }
 
 export function LearnWhatIsBibleAuthorsSection({
@@ -18,15 +20,22 @@ export function LearnWhatIsBibleAuthorsSection({
   bulletItems,
   conclusion,
   quoteBlocks,
+  locale,
 }: LearnWhatIsBibleAuthorsSectionProps) {
   const { bodyClassUp } = useBibleFontClasses();
+  const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
 
   return (
     <section className="mt-12">
-      <h3 className="mb-4 text-xl font-semibold">{title}</h3>
+      <h3
+        className={cn("mb-4 text-xl font-semibold", titleFont)}
+      >
+        {title}
+      </h3>
 
       {typeof intro === "string" ? (
-        <p className={cn("leading-relaxed", bodyClassUp)}>{intro}</p>
+        <p className={cn("leading-relaxed", bodyClassUp, bodyFont)}>{intro}</p>
       ) : (
         intro
       )}
@@ -35,7 +44,11 @@ export function LearnWhatIsBibleAuthorsSection({
         {bulletItems.map((item, idx) => (
           <li
             key={idx}
-            className={cn("space-y-4 leading-relaxed md:space-y-0", bodyClassUp)}
+            className={cn(
+              "space-y-4 leading-relaxed md:space-y-0",
+              bodyClassUp,
+              bodyFont
+            )}
           >
             {item}
           </li>
@@ -43,7 +56,11 @@ export function LearnWhatIsBibleAuthorsSection({
       </ul>
 
       {typeof conclusion === "string" ? (
-        <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>{conclusion}</p>
+        <p
+          className={cn("mt-4 leading-relaxed", bodyClassUp, bodyFont)}
+        >
+          {conclusion}
+        </p>
       ) : (
         conclusion
       )}

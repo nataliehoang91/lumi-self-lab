@@ -20,7 +20,8 @@ export function LearnPageIntro({
 }: LearnPageIntroProps) {
   const { h1Class, subtitleClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
-  const subtitleFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
+  const subtitleFont =
+    locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
 
   return (
     <div className="mb-16">

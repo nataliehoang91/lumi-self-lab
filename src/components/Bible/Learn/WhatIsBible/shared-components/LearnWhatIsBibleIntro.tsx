@@ -9,8 +9,8 @@ export interface LearnWhatIsBibleIntroProps {
   title: string;
   /** When "vi", use Vietnamese flashcard font for title and intro. */
   locale?: "en" | "vi";
-  /** 7 parts: [0] text, [1] strong, [2] text, [3] strong, [4] text, [5] strong, [6] text or ReactNode */
-  introParts: readonly [
+  /** Optional segmented intro with emphasised parts. */
+  introParts?: readonly [
     string,
     string,
     string,
@@ -19,6 +19,8 @@ export interface LearnWhatIsBibleIntroProps {
     string,
     string | ReactNode,
   ];
+  /** Simple intro as a single paragraph / node. Takes precedence over introParts. */
+  intro?: ReactNode;
   /** Use full-contrast text for intro body (Bible learn read). Default muted. */
   bodyBright?: boolean;
 }
@@ -28,9 +30,10 @@ export function LearnWhatIsBibleIntro({
   title,
   locale,
   introParts,
+  intro,
   bodyBright,
 }: LearnWhatIsBibleIntroProps) {
-  const { bodyClassUp, h1Class, subBodyClassUp, bodyClass } = useBibleFontClasses();
+  const { h1Class, bodyClass, subtitleClass } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const introFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
@@ -49,14 +52,26 @@ export function LearnWhatIsBibleIntro({
       >
         {title}
       </h1>
-      <p className={cn(bodyColor, "mt-4 leading-relaxed", bodyClassUp, introFont)}>
-        {introParts[0]}
-        <strong className="text-foreground font-semibold">{introParts[1]}</strong>
-        {introParts[2]}
-        <strong className="text-foreground font-semibold">{introParts[3]}</strong>
-        {introParts[4]}
-        <strong className="text-foreground font-semibold">{introParts[5]}</strong>
-        {introParts[6]}
+      <p
+        className={cn(
+          bodyColor,
+          "mt-4 max-w-3xl leading-relaxed font-light opacity-90",
+          subtitleClass,
+          introFont
+        )}
+      >
+        {intro ??
+          (introParts && (
+            <>
+              {introParts[0]}
+              <strong className="text-foreground font-semibold">{introParts[1]}</strong>
+              {introParts[2]}
+              <strong className="text-foreground font-semibold">{introParts[3]}</strong>
+              {introParts[4]}
+              <strong className="text-foreground font-semibold">{introParts[5]}</strong>
+              {introParts[6]}
+            </>
+          ))}
       </p>
     </div>
   );

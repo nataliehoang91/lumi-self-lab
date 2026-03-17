@@ -32,12 +32,14 @@ export function useBibleFontClasses() {
         ? "text-xl md:text-[20px]"
         : "text-lg md:text-[17px]";
 
+  // Core body text sizing, tuned for long-form reading.
+  // Default (medium): 17px, with bodyClassUp at 18px.
   const bodyClass =
     fontSize === "small"
-      ? "text-sm md:text-[13px]"
+      ? "text-[16px] md:text-[16px]"
       : fontSize === "large"
-        ? "text-lg md:text-[17px]"
-        : "text-base md:text-[15px]";
+        ? "text-[18px] md:text-[18px]"
+        : "text-[17px] md:text-[17px]";
 
   const subBodyClass =
     fontSize === "small"
@@ -46,13 +48,13 @@ export function useBibleFontClasses() {
         ? "text-sm md:text-[13px]"
         : "text-xs md:text-[12px]";
 
-  /** One size up from bodyClass (e.g. for landing Journey section). */
+  /** One size up from bodyClass (e.g. for section headings / emphasis). */
   const bodyClassUp =
     fontSize === "small"
-      ? "text-base md:text-sm"
+      ? "text-[17px] md:text-[17px]"
       : fontSize === "large"
-        ? "text-xl md:text-lg"
-        : "text-lg md:text-base";
+        ? "text-[19px] md:text-[19px]"
+        : "text-[18px] md:text-[18px]";
 
   /** One size up from subBodyClass (e.g. for landing Journey section). */
   const subBodyClassUp =
@@ -94,12 +96,13 @@ export function useBibleFontClasses() {
         : "text-sm md:text-[13px]";
 
   /** Slightly larger buttons for Lang hero primary CTAs. */
+  // Lang hero primary CTAs: align with bodyClassUp sizes.
   const langButtonClass =
     fontSize === "small"
-      ? "text-sm md:text-[13px]"
+      ? "text-[17px] md:text-[17px]"
       : fontSize === "large"
-        ? "text-lg md:text-[17px]"
-        : "text-base md:text-[15px]";
+        ? "text-[19px] md:text-[19px]"
+        : "text-[18px] md:text-[18px]";
 
   /** Large hero title (e.g. LangPage). */
   const heroTitleClass =
@@ -125,6 +128,13 @@ export function useBibleFontClasses() {
         ? "text-3xl md:text-4xl"
         : "text-2xl md:text-3xl";
 
+  const mainVerseQuoteClass =
+    fontSize === "small"
+      ? "text-[18px] md:text-[18px]"
+      : fontSize === "large"
+        ? "text-[20px] md:text-[20px]"
+        : "text-[19px] md:text-[19px]";
+
   return {
     bodyClass,
     bodyClassUp,
@@ -142,5 +152,6 @@ export function useBibleFontClasses() {
     statValueClass,
     statValueClassDown,
     bodyTitleClassUp,
+    mainVerseQuoteClass,
   };
 }

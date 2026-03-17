@@ -154,11 +154,11 @@
   font-family: var(--font-vietnamese), var(--font-bible-serif), ui-serif, Georgia, serif;
 }
 
-/* Flashcard Vietnamese: Noto Serif for clearer diacritics + relaxed line-height */
+/* Flashcard / main Vietnamese body text: Be Vietnam Pro for clarity + relaxed line-height */
 .font-vietnamese-flashcard {
   font-family:
-    var(--font-vietnamese-flashcard), var(--font-vietnamese), var(--font-bible-serif),
-    ui-serif, Georgia, serif;
+    "Be Vietnam Pro", var(--font-be-vietnam-pro), var(--font-vietnamese), system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.7;
   letter-spacing: 0.01em;
 }
@@ -166,6 +166,18 @@
 /* English / non-Vietnamese verse text – Lora serif (literary, warm, for scripture) */
 .font-bible-english {
   font-family: var(--font-bible-serif), ui-serif, Georgia, serif;
+}
+
+/* Title fonts */
+.font-vietnamese-title-main {
+  font-family:
+    "Be Vietnam Pro", var(--font-be-vietnam-pro), var(--font-vietnamese), system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.font-bible-english-title-main {
+  font-family:
+    var(--font-playfair), var(--font-bible-serif), ui-serif, Georgia, serif;
 }
 
 @keyframes verseHighlight {

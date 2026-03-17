@@ -9,7 +9,13 @@ import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
-const LESSON_SEGMENTS = ["bible-structure", "bible-origin", "who-is-jesus", "what-happens-after-death", "what-is-faith"] as const;
+const LESSON_SEGMENTS = [
+  "bible-structure",
+  "bible-origin",
+  "what-happens-after-death",
+  "who-is-jesus",
+  "what-is-faith",
+] as const;
 
 function getSegmentAndLang(
   pathname: string | null

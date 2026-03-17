@@ -22,15 +22,15 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
   const segmentTitleKey: Record<string, string> = {
     "bible-structure": "learnModule1Title",
     "bible-origin": "learnOriginTitle",
-    "who-is-jesus": "learnJesusTitle",
     "what-happens-after-death": "learnModule4Title",
+    "who-is-jesus": "learnJesusTitle",
     "what-is-faith": "learnModule5Title",
   };
   const titleKey = segment ? segmentTitleKey[segment] : null;
   const currentLabel = titleKey ? intl.t(titleKey) : null;
 
   return (
-    <div className="bg-read dark:bg-[#050408] min-h-screen font-sans">
+    <div className="bg-read min-h-screen font-sans dark:bg-[#050408]">
       <main>
         <Container maxWidth="5xl" className={cn("px-4 py-16")}>
           {pathname?.includes("/learn") && segment != null && (

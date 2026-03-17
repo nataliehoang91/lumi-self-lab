@@ -2,6 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { QuoteIcon } from "lucide-react";
+import { useLocaleFonts } from "@/components/Bible/global/utils";
+import { useBibleFontClasses } from "../Bible/useBibleFontClasses";
 
 export type QuoteCardAlign = "left" | "center" | "right";
 
@@ -21,6 +23,12 @@ export interface QuoteCardProps {
   /** Shorthand: sets all three alignments when provided. */
   align?: QuoteCardAlign;
   className?: string;
+  /** Optional extra class for the quote text. */
+  quoteClassName?: string;
+  /** Optional extra class for the footnote text. */
+  footnoteClassName?: string;
+  /** When "vi", use Vietnamese main font for quote and footnote. */
+  locale?: "en" | "vi";
 }
 
 const LAYOUT_ROW: Record<QuoteCardAlign, string> = {
@@ -43,9 +51,13 @@ export function QuoteCard({
   footnoteAlign,
   align = "left",
   className,
+  locale,
 }: QuoteCardProps) {
   const iconAlign = quoteIconAlign ?? align;
   const footnoteAlignResolved = footnoteAlign ?? align;
+  const { bodyClass, bodyClassUp, mainVerseQuoteClass, bodyTitleClass } =
+    useBibleFontClasses();
+  const { titleFont, bodyFont } = useLocaleFonts(locale);
 
   const layoutRow = LAYOUT_ROW[iconAlign];
 
@@ -60,7 +72,9 @@ export function QuoteCard({
       <div className={cn("flex flex-col gap-4")}>
         <p
           className={cn(
-            "font-bible-english md:text-md text-lg leading-relaxed font-semibold"
+            "md:text-md text-lg leading-relaxed font-semibold text-pretty",
+            titleFont,
+            mainVerseQuoteClass
           )}
         >
           {quote}
@@ -69,7 +83,9 @@ export function QuoteCard({
           <p
             className={cn(
               "text-muted-foreground dark:text-foreground/80 mt-0 -ml-6 font-mono text-sm",
-              TEXT_ALIGN[footnoteAlignResolved]
+              TEXT_ALIGN[footnoteAlignResolved],
+              bodyFont,
+              bodyTitleClass
             )}
           >
             {footnoteHref ? (

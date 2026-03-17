@@ -15,6 +15,7 @@ import {
   LearnBibleOriginFaq,
   type FaqItem,
 } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginFaq";
+import { cn } from "@/lib/utils";
 
 function getMapLabels(
   loc: Record<MapLocationId, MapLocationInfo>
@@ -32,107 +33,120 @@ function getMapLabels(
 const EN_MAP_LOCATIONS: Record<MapLocationId, MapLocationInfo> = {
   jerusalem: {
     label: "Jerusalem",
-    desc: "The spiritual centre of ancient Israel and the site of the Temple, where the Law was read and preserved.",
+    desc: "Heart of ancient Israel. Site of the Temple where Scripture was read and preserved for generations.",
   },
   qumran: {
     label: "Qumran",
-    desc: "Desert community near the Dead Sea where the Dead Sea Scrolls were discovered in 1947, confirming the reliability of Old Testament manuscripts.",
+    desc: "Dead Sea Scrolls found here (1947). Proved Old Testament texts unchanged for 1,000+ years.",
   },
   alexandria: {
     label: "Alexandria",
-    desc: "A major centre of learning in the ancient world, where Jewish scholars produced the Greek translation of the Old Testament (the Septuagint).",
+    desc: "Jewish scholars translated Old Testament to Greek (Septuagint) — Bible's first major translation.",
   },
   rome: {
     label: "Rome",
-    desc: "Capital of the Roman Empire, where early Christian communities formed and key Latin translations like the Vulgate were produced.",
+    desc: "Early churches grew here. Latin Vulgate translation became Western Christianity's standard Bible.",
   },
   antioch: {
     label: "Antioch",
-    desc: "One of the first major Gentile churches; a launching point for Paul's missionary journeys and the spread of the New Testament.",
+    desc: "First place believers called 'Christians'. Base for Paul's missionary journeys spreading New Testament.",
   },
   sinai: {
     label: "Mount Sinai",
-    desc: "The traditional site where Moses received the Law — the beginning of Israel's written Scriptures.",
+    desc: "Where Moses received the Law — foundation of Israel's Scriptures.",
   },
 };
 
 const EN_TIMELINE: readonly TimelineItem[] = [
   {
     year: "~1400 BC",
-    event: "Earliest Old Testament Books Written (Pentateuch)",
-    desc: "The Pentateuch laid the foundation of Israel's faith — including the Law, the primeval history, and the covenant between God and His people.",
+    event: "Pentateuch Written",
+    desc: "Foundation of Israel's faith: Law, history, God's covenant with His people.",
   },
   {
     year: "~450 BC",
-    event: "Old Testament Books Established",
-    desc: "The Law and the Prophets were firmly established in Jewish worship and community life, forming the core of the Hebrew Books.",
+    event: "Old Testament Canon Forms",
+    desc: "Law & Prophets established in Jewish worship and life.",
   },
   {
     year: "~250 BC",
-    event: "The Septuagint Produced in Alexandria",
-    desc: "The first Greek translation of the Old Testament made the Scriptures accessible to the Hellenistic world and was widely used in the early Church.",
+    event: "Septuagint Translation",
+    desc: "Greek Old Testament spreads Scriptures across Hellenistic world.",
   },
   {
     year: "50–95 AD",
-    event: "New Testament Books Written",
-    desc: "The Gospels and apostolic letters were copied and circulated among churches throughout the Roman Empire, gradually being recognised as carrying spiritual authority.",
+    event: "New Testament Written",
+    desc: "Gospels & letters circulated among early churches.",
   },
   {
     year: "367 AD",
-    event: "Athanasius Lists the 27 New Testament Books",
-    desc: "For the first time, the full list of the 27 New Testament books was clearly recorded, reflecting the writings already widely used in the Church.",
+    event: "27 NT Books Listed",
+    desc: "Athanasius records books already widely used in churches.",
   },
   {
     year: "~400 AD",
-    event: "Jerome Completes the Vulgate",
-    desc: "The Latin translation became the standard Bible of Western Christianity for over a millennium.",
+    event: "Vulgate Completed",
+    desc: "Latin Bible becomes Western Christianity's standard for 1,000+ years.",
   },
   {
     year: "1947",
-    event: "Discovery of the Dead Sea Scrolls",
-    desc: "Manuscripts dating as early as the third century BC demonstrated the remarkable preservation of the Old Testament text across many centuries of transmission.",
+    event: "Dead Sea Scrolls Found",
+    desc: "Oldest manuscripts confirm text preserved accurately for centuries.",
   },
 ];
 
 const EN_FAQ: readonly FaqItem[] = [
   {
-    q: "Why do Protestant and Catholic Bibles differ in length?",
-    a: "Catholic Bibles include seven additional books often called the Deuterocanonical books, written during the intertestamental period. Protestant Reformers followed the traditional Hebrew Books, which did not include these writings — resulting in 66 books in most Protestant Bibles and 73 in Catholic editions.",
+    q: "Why do Protestant & Catholic Bibles differ?",
+    a: "Catholic Bibles include 7 Deuterocanonical books from intertestamental period. Protestants follow Hebrew canon (66 books total vs 73).",
   },
   {
-    q: "What are the Dead Sea Scrolls and why do they matter?",
-    a: "Discovered in 1947 near the Dead Sea, the scrolls contain some of the oldest known manuscripts of the Hebrew Bible, dating as early as the third century BC. When compared with later medieval manuscripts, the text shows remarkable consistency, providing strong evidence for careful transmission over time.",
+    q: "What are Dead Sea Scrolls?",
+    a: "1947 discovery of oldest Hebrew Bible manuscripts (3rd century BC). Show remarkable consistency with later copies.",
   },
   {
-    q: "What languages was the Bible originally written in?",
-    a: "The Old Testament was written primarily in Hebrew, with portions in Aramaic. The New Testament was written in Koine Greek, the widely spoken language of the eastern Roman Empire in the first century.",
+    q: "Bible's original languages?",
+    a: "Old Testament: Hebrew (mostly), Aramaic (portions). New Testament: Koine Greek.",
   },
   {
-    q: "How was the New Testament Books recognised?",
-    a: "Early Christian communities evaluated writings based on apostolic connection, consistency with established teaching, and widespread usage in churches. By the fourth century, the 27 books of the New Testament were broadly recognised across the Christian world. Church councils later affirmed what had already become widely accepted.",
+    q: "How was New Testament canon formed?",
+    a: "Early churches used apostolic writings consistent with teaching, widely accepted by 4th century. Councils affirmed existing consensus.",
   },
 ];
 
 export function EnBibleOriginPage() {
   const [mapActiveLocation, setMapActiveLocation] = useState<MapLocationId | null>(null);
   const mapLabels = getMapLabels(EN_MAP_LOCATIONS);
-
   return (
     <article aria-label="Bible Origin & Books Formation" className="text-foreground">
       <LearnBibleOriginIntro
+        locale="en"
         bodyBright
         moduleNum="02 / 05"
-        title="Bible Origin & Books Formation"
-        intro="How did 66 books, written by about 40 authors over 1,500 years, become what we now call the Bible? The answer unfolds across more than 2,000 years of history — from ancient Israel to the early church, and through centuries of careful copying and preservation."
+        title="How Did We Get the Bible?"
+        intro={
+          <>
+            <p className={cn("mb-6 leading-relaxed")}>
+              Many people wonder: The <span className="font-semibold">Bible</span>
+              was written thousands of years ago — how do we know today&apos;s version is
+              trustworthy?
+            </p>
+            <p className={cn("mb-10 leading-relaxed")}>
+              This lesson traces the <span className="font-semibold">Bible</span>&apos;s
+              journey — from when it was first written and copied, to how it reached us
+              today.
+            </p>
+          </>
+        }
       />
 
       <LearnBibleOriginLanguages
         originalLanguages="Original Languages"
         lang={["Hebrew", "Greek", "Aramaic"]}
         langNote={[
-          "The primary language of the Old Testament — the language of Israel's law, poetry, and prophecy.",
-          "Koine Greek — the common language of the Roman Empire and the original language of the New Testament.",
-          "A related Semitic language used in parts of Daniel and Ezra, and widely spoken in the time of Jesus.",
+          "Most of the Old Testament",
+          "Entire New Testament",
+          "Small portions of Daniel & Ezra",
         ]}
       />
 
@@ -145,8 +159,8 @@ export function EnBibleOriginPage() {
 
       <LearnBibleOriginMapSection
         bodyBright
-        mapTitle="Biblical Manuscript Map"
-        mapBody="A few of the key locations where Scripture was written, copied, translated, and preserved."
+        mapTitle="Bible Manuscript Map"
+        mapBody="Key locations where Scripture was written, copied, translated, and preserved through centuries."
         activeId={mapActiveLocation}
         onActiveChange={setMapActiveLocation}
         labels={mapLabels}
@@ -155,8 +169,15 @@ export function EnBibleOriginPage() {
 
       <LearnBibleOriginReliable
         reliableTitle="Why Is the Bible Considered Reliable?"
-        reliableP1="The New Testament is preserved in more ancient manuscripts than any other work from the ancient world — over 5,800 Greek copies and more than 25,000 in total across early languages. Some of these copies appear only a few decades after the original writings, allowing scholars to compare them and confirm the text with a high level of confidence."
-        reliableP2="The discovery of the Dead Sea Scrolls demonstrated that the Hebrew Scriptures had been preserved with extraordinary consistency over centuries of careful copying. Jewish scribal tradition was highly meticulous, contributing to the stability of the biblical text over time."
+        reliableP1="The Bible hasn't just survived time — it's been preserved with remarkable accuracy. The New Testament alone has thousands of ancient manuscripts, far more than other ancient works."
+        reliableP2="Minor variations exist between copies, but the core message remains consistent. The Dead Sea Scrolls (1947) showed the Old Testament barely changed after thousands of years."
+        reliableP3={
+          <>
+            If the Bible is this reliable, the question isn&apos;t &quot;
+            <strong>Is it true?</strong>&quot; anymore. It&apos;s: &quot;
+            <strong>What does it say about YOUR future?</strong>&quot;
+          </>
+        }
       />
 
       <LearnBibleOriginFaq faqTitle="Common Questions" faq={EN_FAQ} />
