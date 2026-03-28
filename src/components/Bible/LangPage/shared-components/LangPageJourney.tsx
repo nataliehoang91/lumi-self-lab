@@ -105,8 +105,9 @@ export function LangPageJourney({ title, subtitle, items }: LangPageJourneyProps
                             key={l.href}
                             href={l.href}
                             className={`border-border text-muted-foreground
-                            hover:text-foreground hover:bg-primary-50 rounded-lg border
-                            px-3 py-1 transition-colors dark:text-white ${bodyClass}`}
+                            hover:text-foreground hover:bg-primary-50
+                            dark:hover:bg-primary-900/40 rounded-lg border px-3 py-1
+                            transition-colors dark:text-white ${bodyClass}`}
                           >
                             {l.label}
                           </Link>

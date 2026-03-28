@@ -58,7 +58,7 @@ export function LearnProphecySection({
 
   const getConfidenceStyle = (level: ProphecyConfidenceLevel) =>
     level !== "very_clear"
-      ? "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800 theme-warm:bg-red-50 theme-warm:text-red-700 theme-warm:border-red-200"
+      ? "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800"
       : "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800";
 
   return (

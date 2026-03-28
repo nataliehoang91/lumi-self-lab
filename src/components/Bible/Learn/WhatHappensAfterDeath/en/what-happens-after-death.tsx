@@ -15,33 +15,39 @@ import {
 import { LearnWhyItMatters } from "../../WhatIsBible/shared-components/why-it-matters";
 import { LearnWhatHappensAfterDeathAccountability } from "../shared-components/LearnWhatHappensAfterDeathAccountability";
 import { LearnWhatHappensAfterDeathLifeContinues } from "../shared-components/LearnWhatHappensAfterDeathLifeContinues";
+import { NAME_JESUS_EN, TERM_GOD_EN } from "@/components/Bible/Learn/constants";
 
-const EN_DEATH_GLOSSARY: readonly GlossaryItem[] = [
-  {
-    term: "Soul",
-    def: "The part of a person that continues after the body dies — the conscious self this lesson describes when it says we do not simply cease to exist.",
-  },
-  {
-    term: "Judgment",
-    def: "Standing before God to give account for our lives; the Bible teaches that people die once, and after that comes judgment.",
-  },
-  {
-    term: "Eternal life",
-    def: "Life that does not end when the body dies — ongoing forever, either with God or apart from him.",
-  },
-  {
-    term: "Heaven",
-    def: "In Scripture, the place where people are with God in peace and joy, without pain or tears.",
-  },
-  {
-    term: "Hell",
-    def: "In Scripture, a state of separation from God and from the full life and relationship he gives.",
-  },
-  {
-    term: "Hope (in the Bible)",
-    def: "More than a positive feeling — trust in what God has done, especially through Jesus, so that people can be forgiven and receive eternal life.",
-  },
-];
+const verseLinkTriggerClass =
+  "text-second-600 hover:text-second-800 font-mono underline underline-offset-4 decoration-second-600 hover:decoration-second-800 transition-colors";
+
+function buildEnDeathGlossary(): readonly GlossaryItem[] {
+  return [
+    {
+      term: "Soul",
+      def: "The part of a person that continues after the body dies — the conscious self this lesson describes when it says we do not simply cease to exist.",
+    },
+    {
+      term: "Judgment",
+      def: `Standing before ${TERM_GOD_EN} to give account for our lives; the Bible teaches that people die once, and after that comes judgment.`,
+    },
+    {
+      term: "Eternal life",
+      def: `Life that does not end when the body dies — ongoing forever, either with ${TERM_GOD_EN} or apart from him.`,
+    },
+    {
+      term: "Heaven",
+      def: `In Scripture, the place where people are with ${TERM_GOD_EN} in peace and joy, without pain or tears.`,
+    },
+    {
+      term: "Hell",
+      def: `In Scripture, a state of separation from ${TERM_GOD_EN} and from the full life and relationship he gives.`,
+    },
+    {
+      term: "Hope (in the Bible)",
+      def: `More than a positive feeling — trust in what ${TERM_GOD_EN} has done, especially through ${NAME_JESUS_EN}, so that people can be forgiven and receive eternal life.`,
+    },
+  ];
+}
 
 const COMPARISON = [
   {
@@ -60,7 +66,8 @@ const COMPARISON = [
 
 function findBookIdByEn(books: BibleBook[] | undefined, nameEn: string): string | null {
   if (!books?.length) return null;
-  const book = books.find((b) => b.nameEn === nameEn);
+  const name = nameEn.trim().toLowerCase();
+  const book = books.find((b) => b.nameEn.trim().toLowerCase() === name);
   return book?.id ?? null;
 }
 
@@ -71,7 +78,7 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
     {
       title: COMPARISON[0].title,
       description: COMPARISON[0].description,
-      verses: (
+        verses: (
         <BibleVerseLink
           langSegment="en"
           version1="niv"
@@ -79,6 +86,8 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
           chapter={21}
           verse={4}
           testament="nt"
+          triggerClassName={verseLinkTriggerClass}
+          previewText="He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away."
         >
           Revelation 21:4
         </BibleVerseLink>
@@ -95,6 +104,8 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
           chapter={1}
           verse={9}
           testament="nt"
+          triggerClassName={verseLinkTriggerClass}
+          previewText="They will be punished with everlasting destruction and shut out from the presence of the Lord and from the majesty of his power"
         >
           2 Thessalonians 1:9
         </BibleVerseLink>
@@ -116,7 +127,7 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
             eternity. This lesson helps you explore what{" "}
             <span className="font-semibold">the Bible</span> says about life after death,
             two eternal destinations, and the hope found in{" "}
-            <span className="font-semibold">Jesus</span>.
+            <span className="font-semibold">{NAME_JESUS_EN}</span>.
           </>
         }
       />
@@ -135,7 +146,7 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
             Some believe death is the end. Others believe in reincarnation or some form of
             spiritual existence. But <span className="font-semibold">the Bible</span> says
             that life after death is real — and that{" "}
-            <span className="font-semibold">God</span> has revealed it to us.
+            <span className="font-semibold">{TERM_GOD_EN}</span> has revealed it to us.
           </>
         }
       />
@@ -149,7 +160,11 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
             to exist. We continue in another way — our soul, our conscious self, remains.
           </>
         }
-        quote={<>“Today you will be with me in paradise”</>}
+        quote={
+          <>
+            &ldquo;Truly I tell you, today you will be with me in paradise.&rdquo;
+          </>
+        }
         reference={
           <BibleVerseLink
             langSegment="en"
@@ -159,14 +174,15 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
             verse={43}
             testament="nt"
             linkOnly
+            triggerClassName={verseLinkTriggerClass}
           >
             Luke 23:43
           </BibleVerseLink>
         }
         explanation={
           <>
-            These are Jesus’ words to the thief on the cross — showing that{" "}
-            <strong>after death, we immediately stand before God</strong>.
+            {NAME_JESUS_EN} said this to the thief on the cross — showing that{" "}
+            <strong>after death, we immediately stand before {TERM_GOD_EN}</strong>.
           </>
         }
       />
@@ -184,6 +200,7 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
             verse={27}
             testament="nt"
             linkOnly
+            triggerClassName={verseLinkTriggerClass}
           >
             Hebrews 9:27
           </BibleVerseLink>
@@ -191,7 +208,7 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
         body1={
           <>
             The <span className="font-semibold">Bible</span> says that{" "}
-            <span className="font-semibold">God</span> knows everything about us — not
+            <span className="font-semibold">{TERM_GOD_EN}</span> knows everything about us — not
             only what we do, but even what is hidden in our hearts.
           </>
         }
@@ -223,27 +240,27 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
 
       <LearnWhyItMatters locale="en" title="Why Does This Matter?">
         <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
-          The Bible says that <span className="font-semibold">God</span> does not want
-          people to be separated from Him. So He made a way — a real hope — that we are
+          The Bible says that <span className="font-semibold">{TERM_GOD_EN}</span> does not want
+          people to be separated from him. So he made a way — a real hope — that we are
           not left in brokenness or despair.
         </p>
 
         <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
-          That way is <strong>Jesus</strong>. Through Him, people can be forgiven and
+          That way is <strong>{NAME_JESUS_EN}</strong>. Through him, people can be forgiven and
           receive eternal life.
         </p>
 
         <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
           If this is true, then the most important question becomes:{" "}
           <span className="font-semibold">
-            Who is Jesus — and what does He mean for you?
+            Who is {NAME_JESUS_EN} — and what does he mean for you?
           </span>
         </p>
       </LearnWhyItMatters>
 
       <LearnWhatIsBibleGlossary
         glossaryTitle="Quick Glossary"
-        glossary={EN_DEATH_GLOSSARY}
+        glossary={buildEnDeathGlossary()}
         locale="en"
       />
     </article>
