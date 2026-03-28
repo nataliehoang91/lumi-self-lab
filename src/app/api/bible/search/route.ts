@@ -45,7 +45,8 @@ export type BibleSearchContextMatch = {
 };
 
 /**
- * GET /api/bible/search?q=...&lang=en|vi|zh
+ * GET /api/bible/search?q=...&lang=en|vi|zh&bookKeys=all (optional)
+ * When bookKeys=all, book name keys match in both EN and VI so e.g. "mark" resolves while opening VI.
  * Returns:
  * - book: one matching book (from BibleBookSearchKey) for "go to book" suggestions.
  * - contextMatches: chapters whose section title contains the query (search by context).
@@ -57,6 +58,7 @@ export async function GET(request: NextRequest) {
     const q = (searchParams.get("q") ?? "").trim();
     const langParam = (searchParams.get("lang") ?? "en").toLowerCase();
     const lang = langParam === "zh" ? "en" : langParam === "vi" ? "vi" : "en";
+    const bookKeysAll = searchParams.get("bookKeys") === "all";
 
     const bookQuery = parseQuery(q);
     const contextQ = contextQuery(q);
@@ -67,10 +69,32 @@ export async function GET(request: NextRequest) {
       bookQuery
         ? prisma.bibleBookSearchKey
             .findMany({
-              where: {
-                lang,
-                OR: [{ key: { startsWith: bookQuery } }, { key: { contains: bookQuery } }],
-              },
+              where: bookKeysAll
+                ? {
+                    OR: [
+                      {
+                        lang: "en",
+                        OR: [
+                          { key: { startsWith: bookQuery } },
+                          { key: { contains: bookQuery } },
+                        ],
+                      },
+                      {
+                        lang: "vi",
+                        OR: [
+                          { key: { startsWith: bookQuery } },
+                          { key: { contains: bookQuery } },
+                        ],
+                      },
+                    ],
+                  }
+                : {
+                    lang,
+                    OR: [
+                      { key: { startsWith: bookQuery } },
+                      { key: { contains: bookQuery } },
+                    ],
+                  },
               include: { book: true },
               orderBy: { book: { order: "asc" } },
               take: 10,
