@@ -1,10 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import type { BibleBook } from "@/components/Bible/Read/types";
-import { LearnLessonIntro } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnLessonIntro";
-import { LearnWhatHappensAfterDeathLifeAndJudgment } from "@/components/Bible/Learn/WhatHappensAfterDeath/shared-components/LearnWhatHappensAfterDeathLifeAndJudgment";
 import { LearnWhatHappensAfterDeathTwoDestinies } from "@/components/Bible/Learn/WhatHappensAfterDeath/shared-components/LearnWhatHappensAfterDeathTwoDestinies";
 import { LearnHopeBridge } from "@/components/Bible/Learn/WhatHappensAfterDeath/shared-components/LearnHopeBridge";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
@@ -12,9 +8,40 @@ import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import { LearnLibraryBlock } from "../../shared-components/LearnLibraryBlock";
 import { LearnWhatIsBibleIntro } from "../../WhatIsBible/shared-components/LearnWhatIsBibleIntro";
+import {
+  LearnWhatIsBibleGlossary,
+  type GlossaryItem,
+} from "../../WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
 import { LearnWhyItMatters } from "../../WhatIsBible/shared-components/why-it-matters";
 import { LearnWhatHappensAfterDeathAccountability } from "../shared-components/LearnWhatHappensAfterDeathAccountability";
 import { LearnWhatHappensAfterDeathLifeContinues } from "../shared-components/LearnWhatHappensAfterDeathLifeContinues";
+
+const EN_DEATH_GLOSSARY: readonly GlossaryItem[] = [
+  {
+    term: "Soul",
+    def: "The part of a person that continues after the body dies — the conscious self this lesson describes when it says we do not simply cease to exist.",
+  },
+  {
+    term: "Judgment",
+    def: "Standing before God to give account for our lives; the Bible teaches that people die once, and after that comes judgment.",
+  },
+  {
+    term: "Eternal life",
+    def: "Life that does not end when the body dies — ongoing forever, either with God or apart from him.",
+  },
+  {
+    term: "Heaven",
+    def: "In Scripture, the place where people are with God in peace and joy, without pain or tears.",
+  },
+  {
+    term: "Hell",
+    def: "In Scripture, a state of separation from God and from the full life and relationship he gives.",
+  },
+  {
+    term: "Hope (in the Bible)",
+    def: "More than a positive feeling — trust in what God has done, especially through Jesus, so that people can be forgiven and receive eternal life.",
+  },
+];
 
 const COMPARISON = [
   {
@@ -213,6 +240,12 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
           </span>
         </p>
       </LearnWhyItMatters>
+
+      <LearnWhatIsBibleGlossary
+        glossaryTitle="Quick Glossary"
+        glossary={EN_DEATH_GLOSSARY}
+        locale="en"
+      />
     </article>
   );
 }

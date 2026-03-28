@@ -8,9 +8,41 @@ import { LearnWhatHappensAfterDeathAccountability } from "@/components/Bible/Lea
 import { LearnWhatHappensAfterDeathTwoDestinies } from "@/components/Bible/Learn/WhatHappensAfterDeath/shared-components/LearnWhatHappensAfterDeathTwoDestinies";
 import { LearnHopeBridge } from "@/components/Bible/Learn/WhatHappensAfterDeath/shared-components/LearnHopeBridge";
 import { LearnWhyItMatters } from "@/components/Bible/Learn/WhatIsBible/shared-components/why-it-matters";
+import {
+  LearnWhatIsBibleGlossary,
+  type GlossaryItem,
+} from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
+import { NAME_JESUS_VN, TERM_GOD_VN } from "@/components/Bible/Learn/constants";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
+
+const VN_DEATH_GLOSSARY: readonly GlossaryItem[] = [
+  {
+    term: "Linh hồn",
+    def: `Phần bên trong con người còn tồn tại sau khi thân thể chết — cái tôi có ý thức mà bài học nói đến khi nhắc rằng con người không biến mất hoàn toàn.`,
+  },
+  {
+    term: "Phán xét",
+    def: `Việc đứng trước mặt ${TERM_GOD_VN} để chịu trách nhiệm về đời sống; Kinh Thánh dạy mỗi người chỉ chết một lần, rồi sau đó là phán xét.`,
+  },
+  {
+    term: "Sự sống đời đời",
+    def: `Đời sống không chấm dứt sau cái chết thể xác — trạng thái tiếp tục mãi mãi, hoặc ở cùng ${TERM_GOD_VN} hoặc tách khỏi Ngài.`,
+  },
+  {
+    term: "Thiên đàng",
+    def: `Theo Kinh Thánh, nơi con người được ở với ${TERM_GOD_VN} trong sự bình an và niềm vui, không còn đau khổ hay nước mắt.`,
+  },
+  {
+    term: "Địa ngục",
+    def: `Theo Kinh Thánh, trạng thái tách khỏi ${TERM_GOD_VN} và những gì Ngài ban — không còn đầy đủ sự sống và mối quan hệ với Ngài.`,
+  },
+  {
+    term: "Hy vọng (trong Kinh Thánh)",
+    def: `Không chỉ là cảm giác lạc quan, mà là tin cậy vào điều ${TERM_GOD_VN} đã làm — đặc biệt qua Chúa ${NAME_JESUS_VN} — để con người có thể được tha thứ và nhận sự sống đời đời.`,
+  },
+];
 
 const COMPARISON = [
   {
@@ -103,7 +135,7 @@ export function VnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
           <>
             Cái chết có phải là kết thúc?{" "}
             <span className="font-semibold">Kinh Thánh</span> dạy rằng sau khi chết, con
-            người sẽ đứng trước Đức Chúa Trời và bước vào đời sống đời đời. Bài học này
+            người sẽ đứng trước Đức Chúa Trời và bước vào đời sống đời đời. Bài đọc này
             giúp bạn hiểu điều <span className="font-semibold">Kinh Thánh </span> nói về
             đời sống sau khi chết, hai điểm đến đời đời, và hy vọng mà{" "}
             <span className="font-semibold">Chúa Giê-xu</span> mang lại.
@@ -192,7 +224,7 @@ export function VnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
         body2={
           <>
             Vì vậy, cuộc sống không phải là ngẫu nhiên. Những gì bạn chọn và cách bạn sống
-            hôm nay đều có ý nghĩa: và dẫn đến một kết quả đời đời.
+            hôm nay đều có ý nghĩa và dẫn đến một kết quả đời đời.
           </>
         }
       />
@@ -206,6 +238,8 @@ export function VnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
         items={twoDestinyItems}
       />
 
+      <div className="mx-auto my-12 h-px max-w-md" />
+
       <LearnHopeBridge locale="vi">
         Những điều này nghe có vẻ nghiêm túc? Và đúng là như vậy. Nhưng{" "}
         <span className="font-semibold">Kinh Thánh</span> không dừng lại ở sự phán xét.
@@ -215,8 +249,8 @@ export function VnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
       <LearnWhyItMatters locale="vi" title="Vì sao điều này quan trọng?">
         <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
           Kinh Thánh nói rằng <span className="font-semibold">Đức Chúa Trời</span> không
-          muốn con người bị xa cách Ngài. Vì vậy, Ngài đã mở ra một mở ra một hy vọng cho
-          con người: chúng ta không bị bỏ lại trong sự đổ vỡ hay tuyệt vọng.
+          muốn con người bị xa cách Ngài. Vì vậy, Ngài đã mở ra một hy vọng cho con người:
+          chúng ta không bị bỏ lại trong sự đổ vỡ hay tuyệt vọng.
         </p>
 
         <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
@@ -226,10 +260,16 @@ export function VnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
 
         <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
           Nếu điều này là thật, thì điều quan trọng là:{" "}
-          <span className="font-semibold">Chúa Giê-xu</span> là ai, và Ngài có ý nghĩa gì
-          đối với bạn?
+          <span className="font-semibold">Chúa Giê-xu</span> là ai, và{" "}
+          <span className="font-semibold">Ngài</span> có ý nghĩa gì đối với bạn?
         </p>
       </LearnWhyItMatters>
+
+      <LearnWhatIsBibleGlossary
+        glossaryTitle="Từ vựng nhanh"
+        glossary={VN_DEATH_GLOSSARY}
+        locale="vi"
+      />
     </article>
   );
 }

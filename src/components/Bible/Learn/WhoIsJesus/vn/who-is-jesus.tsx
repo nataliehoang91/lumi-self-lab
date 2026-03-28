@@ -2,8 +2,12 @@
 
 import { LearnLessonIntro } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnLessonIntro";
 import { LearnFullyGodManSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnFullyGodManSection";
+import { LearnVerseBulletItem } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnVerseBulletItem";
 import { LearnCrossSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnCrossSection";
-import { LearnProphecySection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnProphecySection";
+import {
+  LearnProphecySection,
+  type ProphecyConfidenceLevel,
+} from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnProphecySection";
 import { LearnWhyCtaSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnWhyCtaSection";
 import {
   NAME_JESUS_VN,
@@ -81,7 +85,7 @@ const VERSE_PREVIEW_VN: Record<string, string> = {
   "Giăng 11:43": "Ngài phán điều đó rồi, bèn kêu lên rằng: La-xơ ơi, hãy ra!",
   "Giăng 11:43-44":
     "Ngài phán điều đó rồi, bèn kêu lên rằng: La-xơ ơi, hãy ra! Người chết đi ra, chân tay buộc bằng vải liệm và mặt thì phủ khăn.",
-  "I Cô-rinh-tô 15:3-8":
+  "1 Cô-rinh-tô 15:3-8":
     "Đấng Christ chịu chết vì tội lỗi chúng ta theo lời Kinh Thánh; Ngài đã bị chôn, đến ngày thứ ba sống lại theo lời Kinh Thánh.",
   // Prophecy section (fixed content for popover)
   "Mi-chê 5:2":
@@ -99,199 +103,150 @@ const VERSE_PREVIEW_VN: Record<string, string> = {
   "Công vụ 2:31": "...Đấng Christ sống lại...",
 };
 
+type ProphecyRefDef = {
+  bookVi: string;
+  bookEn: string;
+  chapter: number;
+  verse: number;
+  verseEnd?: number;
+};
+
+type ProphecySourceVN = {
+  title: string;
+  confidenceLevel: ProphecyConfidenceLevel;
+  confidence: string;
+  explanation: string;
+  otRef: ProphecyRefDef;
+  ntRef: ProphecyRefDef;
+};
+
+function versePreviewKeyVi(ref: ProphecyRefDef): string {
+  if (ref.verseEnd != null && ref.verseEnd !== ref.verse) {
+    return `${ref.bookVi} ${ref.chapter}:${ref.verse}-${ref.verseEnd}`;
+  }
+  return `${ref.bookVi} ${ref.chapter}:${ref.verse}`;
+}
+
+function refLinkLabelVi(ref: ProphecyRefDef): string {
+  if (ref.verseEnd != null && ref.verseEnd !== ref.verse) {
+    return `${ref.bookVi} ${ref.chapter}:${ref.verse}–${ref.verseEnd}`;
+  }
+  return `${ref.bookVi} ${ref.chapter}:${ref.verse}`;
+}
+
+const PROPHECY_SOURCES_VN: ProphecySourceVN[] = [
+  {
+    title: "Sinh tại Bết-lê-hem",
+    confidenceLevel: "very_clear",
+    confidence: "Rất rõ",
+    explanation:
+      "Mi-chê nói về nơi xuất hiện của vị cai trị được mong đợi, và sách Ma-thi-ơ ghi lại Chúa Giê-xu sinh tại Bết-lê-hem.",
+    otRef: { bookVi: BOOK_MICAH_VN, bookEn: "Micah", chapter: 5, verse: 2 },
+    ntRef: { bookVi: BOOK_MATTHEW_VN, bookEn: "Matthew", chapter: 2, verse: 1 },
+  },
+  {
+    title: "Sinh bởi nữ đồng trinh",
+    confidenceLevel: "widely_discussed",
+    confidence: "Được đối chiếu rộng rãi",
+    explanation:
+      "Ê-sai 7:14 nói về sự giáng sinh đặc biệt của Đấng Mê-si, và sách Lu-ca ghi lại sự giáng sinh của Chúa Giê-xu.",
+    otRef: { bookVi: BOOK_ISAIAH_VN, bookEn: "Isaiah", chapter: 7, verse: 14 },
+    ntRef: { bookVi: BOOK_LUKE_VN, bookEn: "Luke", chapter: 1, verse: 27 },
+  },
+  {
+    title: `Vào ${PLACE_JERUSALEM_VN} trên lưng lừa`,
+    confidenceLevel: "very_clear",
+    confidence: "Rất rõ",
+    explanation:
+      "Xa-cha-ri mô tả vị vua khiêm nhường cỡi lừa; các sách Phúc Âm ghi lại Chúa Giê-xu vào thành theo cách tương tự.",
+    otRef: { bookVi: BOOK_ZECHARIAH_VN, bookEn: "Zechariah", chapter: 9, verse: 9 },
+    ntRef: { bookVi: BOOK_MARK_VN, bookEn: "Mark", chapter: 11, verse: 7 },
+  },
+  {
+    title: "Bị phản bội với 30 miếng bạc",
+    confidenceLevel: "very_clear",
+    confidence: "Rất rõ",
+    explanation:
+      "Xa-cha-ri nhắc đến mức công đức bị định giá, và sách Ma-thi-ơ ghi Giuda nhận ba mươi miếng bạc.",
+    otRef: { bookVi: BOOK_ZECHARIAH_VN, bookEn: "Zechariah", chapter: 11, verse: 12 },
+    ntRef: { bookVi: BOOK_MATTHEW_VN, bookEn: "Matthew", chapter: 26, verse: 15 },
+  },
+  {
+    title: "Bị đóng đinh, tay chân bị đâm",
+    confidenceLevel: "widely_discussed",
+    confidence: "Được đối chiếu rộng rãi",
+    explanation:
+      "Thi thiên 22 có hình ảnh đau khổ gần với cảnh thập tự, và sách Lu-ca ghi lời Chúa Giê-xu mời xem vết thương.",
+    otRef: { bookVi: BOOK_PSALMS_VN, bookEn: "Psalms", chapter: 22, verse: 16 },
+    ntRef: { bookVi: BOOK_LUKE_VN, bookEn: "Luke", chapter: 24, verse: 39 },
+  },
+  {
+    title: "Sống lại từ cõi chết",
+    confidenceLevel: "very_clear",
+    confidence: "Rất rõ",
+    explanation:
+      "Thi thiên nói linh hồn không bị giữ trong âm phủ mãi, và sách Công vụ trích dẫn để nói về sự phục sinh của Đấng Christ.",
+    otRef: { bookVi: BOOK_PSALMS_VN, bookEn: "Psalms", chapter: 16, verse: 10 },
+    ntRef: { bookVi: BOOK_ACTS_VN, bookEn: "Acts", chapter: 2, verse: 31 },
+  },
+];
+
 function getProphecyItems(
   books: BibleBook[],
   findBookId: (books: BibleBook[], nameVi: string, nameEn?: string) => string | null,
-  subBodyClassUp: string
+  bodyTitleClassUp: string
 ) {
-  return [
-    {
-      prophecy: "Sinh tại Bết-lê-hem",
-      ref: (
+  return PROPHECY_SOURCES_VN.map((item) => {
+    const otBookId = findBookId(books, item.otRef.bookVi, item.otRef.bookEn);
+    const ntBookId = findBookId(books, item.ntRef.bookVi, item.ntRef.bookEn);
+    const otKey = versePreviewKeyVi(item.otRef);
+    const ntKey = versePreviewKeyVi(item.ntRef);
+
+    return {
+      title: item.title,
+      confidenceLevel: item.confidenceLevel,
+      confidence: item.confidence,
+      explanation: item.explanation,
+      otQuote: VERSE_PREVIEW_VN[otKey],
+      ntQuote: VERSE_PREVIEW_VN[ntKey],
+      otLink: (
         <BibleVerseLink
           langSegment="vi"
           version1="vi"
-          bookId={findBookId(books, BOOK_MICAH_VN, "Micah")}
-          chapter={5}
-          verse={2}
+          bookId={otBookId}
+          chapter={item.otRef.chapter}
+          verse={item.otRef.verse}
+          verseEnd={item.otRef.verseEnd}
           testament="ot"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_MICAH_VN} 5:2`]}
+          linkOnly
+          triggerClassName={cn(
+            bodyTitleClassUp,
+            " text-second-600! hover:text-second-800! inline-block text-xs underline underline-offset-4"
+          )}
         >
-          {BOOK_MICAH_VN} 5:2
+          {refLinkLabelVi(item.otRef)}
         </BibleVerseLink>
       ),
-      fulfilled: (
+      ntLink: (
         <BibleVerseLink
           langSegment="vi"
           version1="vi"
-          bookId={findBookId(books, BOOK_MATTHEW_VN, "Matthew")}
-          chapter={2}
-          verse={1}
+          bookId={ntBookId}
+          chapter={item.ntRef.chapter}
+          verse={item.ntRef.verse}
+          verseEnd={item.ntRef.verseEnd}
           testament="nt"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_MATTHEW_VN} 2:1`]}
+          linkOnly
+          triggerClassName={cn(
+            bodyTitleClassUp,
+            " text-sage-600! hover:text-sage-800! inline-block text-xs underline underline-offset-4"
+          )}
         >
-          {BOOK_MATTHEW_VN} 2:1
+          {refLinkLabelVi(item.ntRef)}
         </BibleVerseLink>
       ),
-    },
-    {
-      prophecy: "Sinh bởi nữ đồng trinh",
-      ref: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_ISAIAH_VN, "Isaiah")}
-          chapter={7}
-          verse={14}
-          testament="ot"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_ISAIAH_VN} 7:14`]}
-        >
-          {BOOK_ISAIAH_VN} 7:14
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_LUKE_VN, "Luke")}
-          chapter={1}
-          verse={27}
-          testament="nt"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_LUKE_VN} 1:27`]}
-        >
-          {BOOK_LUKE_VN} 1:27
-        </BibleVerseLink>
-      ),
-    },
-    {
-      prophecy: `Vào ${PLACE_JERUSALEM_VN} trên lưng lừa`,
-      ref: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_ZECHARIAH_VN, "Zechariah")}
-          chapter={9}
-          verse={9}
-          testament="ot"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_ZECHARIAH_VN} 9:9`]}
-        >
-          {BOOK_ZECHARIAH_VN} 9:9
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_MARK_VN, "Mark")}
-          chapter={11}
-          verse={7}
-          testament="nt"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_MARK_VN} 11:7`]}
-        >
-          {BOOK_MARK_VN} 11:7
-        </BibleVerseLink>
-      ),
-    },
-    {
-      prophecy: "Bị phản bội với 30 miếng bạc",
-      ref: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_ZECHARIAH_VN, "Zechariah")}
-          chapter={11}
-          verse={12}
-          testament="ot"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_ZECHARIAH_VN} 11:12`]}
-        >
-          {BOOK_ZECHARIAH_VN} 11:12
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_MATTHEW_VN, "Matthew")}
-          chapter={26}
-          verse={15}
-          testament="nt"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_MATTHEW_VN} 26:15`]}
-        >
-          {BOOK_MATTHEW_VN} 26:15
-        </BibleVerseLink>
-      ),
-    },
-    {
-      prophecy: "Bị đóng đinh, tay chân bị đâm",
-      ref: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_PSALMS_VN, "Psalms")}
-          chapter={22}
-          verse={16}
-          testament="ot"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_PSALMS_VN} 22:16`]}
-        >
-          {BOOK_PSALMS_VN} 22:16
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_LUKE_VN, "Luke")}
-          chapter={24}
-          verse={39}
-          testament="nt"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_LUKE_VN} 24:39`]}
-        >
-          {BOOK_LUKE_VN} 24:39
-        </BibleVerseLink>
-      ),
-    },
-    {
-      prophecy: "Sống lại từ cõi chết",
-      ref: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_PSALMS_VN, "Psalms")}
-          chapter={16}
-          verse={10}
-          testament="ot"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_PSALMS_VN} 16:10`]}
-        >
-          {BOOK_PSALMS_VN} 16:10
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={findBookId(books, BOOK_ACTS_VN, "Acts")}
-          chapter={2}
-          verse={31}
-          testament="nt"
-          triggerClassName={subBodyClassUp}
-          previewText={VERSE_PREVIEW_VN[`${BOOK_ACTS_VN} 2:31`]}
-        >
-          {BOOK_ACTS_VN} 2:31
-        </BibleVerseLink>
-      ),
-    },
-  ];
+    };
+  });
 }
 
 /**
@@ -316,7 +271,7 @@ function findBookIdByVi(
 const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
 
 export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
-  const { bodyClass, subBodyClassUp, bodyClassUp } = useBibleFontClasses();
+  const { subBodyClassUp, bodyClassUp } = useBibleFontClasses();
   const vnBodyClass = cn(bodyClassUp, VN_FLASHCARD_FONT);
   return (
     <article
@@ -358,57 +313,60 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
         leftTitle="Hoàn Toàn Là Con Người"
         leftBody={
           <>
-            <strong>Chúa {NAME_JESUS_VN}</strong> sống như một con người thật. Ngài trải
-            nghiệm những điều rất quen thuộc với đời sống con người:
-            <ul className={cn("mt-3 space-y-1", vnBodyClass)}>
-              <li>
-                • Khóc vì đau buồn
-                <span className="px-1">-</span>
-                <BibleVerseLink
-                  langSegment="vi"
-                  version1="vi"
-                  bookId={findBookIdByVi(books, "Giăng")}
-                  chapter={11}
-                  verse={35}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_VN["Giăng 11:35"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Giăng 11:35
-                </BibleVerseLink>
-              </li>
-              <li>
-                • Giận trước điều sai
-                <span className="px-1">-</span>
-                <BibleVerseLink
-                  langSegment="vi"
-                  version1="vi"
-                  bookId={findBookIdByVi(books, "Mác")}
-                  chapter={3}
-                  verse={5}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_VN["Mác 3:5"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Mác 3:5
-                </BibleVerseLink>
-              </li>
-              <li>
-                • Khát khi chịu đau đớn
-                <span className="px-1">-</span>
-                <BibleVerseLink
-                  langSegment="vi"
-                  version1="vi"
-                  bookId={findBookIdByVi(books, "Giăng")}
-                  chapter={19}
-                  verse={28}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_VN["Giăng 19:28"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Giăng 19:28
-                </BibleVerseLink>
-              </li>
+            Chúa Giê-xu không sống xa cách đời sống con người. Kinh Thánh ghi lại rằng
+            Ngài đã khóc, buồn, mệt, khát và chịu đau đớn như chúng ta.
+            <ul className={cn("my-8 space-y-1", vnBodyClass)}>
+              <LearnVerseBulletItem
+                label="Khóc vì đau buồn"
+                reference={
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Giăng")}
+                    chapter={11}
+                    verse={35}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_VN["Giăng 11:35"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Giăng 11:35
+                  </BibleVerseLink>
+                }
+              />
+              <LearnVerseBulletItem
+                label="Giận trước điều sai"
+                reference={
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Mác")}
+                    chapter={3}
+                    verse={5}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_VN["Mác 3:5"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Mác 3:5
+                  </BibleVerseLink>
+                }
+              />
+              <LearnVerseBulletItem
+                label="Khát khi chịu đau đớn"
+                reference={
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Giăng")}
+                    chapter={19}
+                    verse={28}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_VN["Giăng 19:28"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Giăng 19:28
+                  </BibleVerseLink>
+                }
+              />
             </ul>
             <p className={cn("mt-3", vnBodyClass)}>
               Những điều này cho thấy <strong>Ngài</strong> thật sự bước vào đời sống con
@@ -419,58 +377,61 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
         rightTitle={`Hoàn Toàn Là ${TERM_GOD_VN}`}
         rightBody={
           <>
-            Đồng thời, <strong>Chúa {NAME_JESUS_VN}</strong> cũng làm những điều vượt quá
-            khả năng của con người:
-            <ul className={cn("mt-3 space-y-1", vnBodyClass)}>
-              <li>
-                • Làm phép lạ và khiến thiên nhiên vâng lời
-                <span className="px-1">-</span>
-                <BibleVerseLink
-                  langSegment="vi"
-                  version1="vi"
-                  bookId={findBookIdByVi(books, "Mác")}
-                  chapter={4}
-                  verse={39}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_VN["Mác 4:39"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Mác 4:39
-                </BibleVerseLink>
-              </li>
-              <li>
-                • Có quyền tha tội
-                <span className="px-1">-</span>
-                <BibleVerseLink
-                  langSegment="vi"
-                  version1="vi"
-                  bookId={findBookIdByVi(books, "Lu-ca")}
-                  chapter={5}
-                  verse={20}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_VN["Lu-ca 5:20"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Lu-ca 5:20
-                </BibleVerseLink>
-              </li>
-              <li>
-                • Khiến người chết sống lại
-                <span className="px-1">-</span>
-                <BibleVerseLink
-                  langSegment="vi"
-                  version1="vi"
-                  bookId={findBookIdByVi(books, "Giăng")}
-                  chapter={11}
-                  verse={43}
-                  verseEnd={44}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_VN["Giăng 11:43-44"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Giăng 11:43-44
-                </BibleVerseLink>
-              </li>
+            Đồng thời, Chúa Giê-xu làm những việc vượt quá khả năng của con người: Ngài
+            khiến gió yên, tha tội, và gọi kẻ chết sống lại.
+            <ul className={cn("my-8 space-y-1", vnBodyClass)}>
+              <LearnVerseBulletItem
+                label="Làm phép lạ và khiến thiên nhiên vâng lời"
+                reference={
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Mác")}
+                    chapter={4}
+                    verse={39}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_VN["Mác 4:39"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Mác 4:39
+                  </BibleVerseLink>
+                }
+              />
+              <LearnVerseBulletItem
+                label="Có quyền tha tội"
+                reference={
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Lu-ca")}
+                    chapter={5}
+                    verse={20}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_VN["Lu-ca 5:20"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Lu-ca 5:20
+                  </BibleVerseLink>
+                }
+              />
+              <LearnVerseBulletItem
+                label="Khiến người chết sống lại"
+                reference={
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Giăng")}
+                    chapter={11}
+                    verse={43}
+                    verseEnd={44}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_VN["Giăng 11:43-44"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Giăng 11:43-44
+                  </BibleVerseLink>
+                }
+              />
             </ul>
             <p className={cn("mt-3", vnBodyClass)}>
               Vì vậy nhiều người tin rằng Ngài không chỉ là một giáo sư hay tiên tri, mà
@@ -483,38 +444,34 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       <LearnCrossSection
         bodyBright
         locale="vi"
-        title="Thập Tự Giá & Sự Phục Sinh"
+        title="Sự Chết Và Sự Phục Sinh"
         paragraph1={
           <>
-            Khoảng năm 30 sau Công Nguyên, <strong>Chúa {NAME_JESUS_VN}</strong> bị đóng
-            đinh dưới thời tổng đốc La Mã Bôn-xơ Phi-lát. Người tin Chúa tin rằng đây
-            không chỉ là một biến cố lịch sử, nhưng là trung tâm của kế hoạch cứu chuộc
-            của <strong>{TERM_GOD_VN}</strong>. Trên thập tự giá, <strong>Ngài</strong>{" "}
-            được hiểu là đã gánh lấy tội lỗi nhân loại — mở ra con đường tha thứ và hòa
-            giải với <strong>{TERM_GOD_VN}</strong>.
+            Theo các sách Tân Ước, Chúa Giê-xu đã bị đóng đinh dưới thời Bôn-xơ Phi-lát.
+            Với nhiều người tin Chúa, cái chết của Ngài không chỉ là một biến cố lịch sử,
+            mà còn là hành động cứu chuộc.
           </>
         }
         paragraph2={
           <>
-            Đến ngày thứ ba, <strong>Ngài</strong> sống lại cách thân thể. Sự phục sinh
-            này được công bố ngay từ những ngày đầu của Hội Thánh, với lời chứng của nhiều
-            nhân chứng được ghi lại trong các sách {TERM_NEW_TESTAMENT_VN}. Đối với người
-            tin Chúa, đây không chỉ là biểu tượng, mà là bước ngoặt của lịch sử.
+            Theo các sách {TERM_NEW_TESTAMENT_VN}, đến ngày thứ ba, <strong>Ngài</strong>{" "}
+            đã sống lại. Đây không chỉ là biểu tượng, mà là nền tảng của niềm hy vọng và
+            đức tin.
           </>
         }
         refText={
           <BibleVerseLink
             langSegment="vi"
             version1="vi"
-            bookId={findBookIdByVi(books, "I Cô-rinh-tô")}
+            bookId={findBookIdByVi(books, "1 Cô-rinh-tô", "1 Corinthians")}
             chapter={15}
             verse={3}
             verseEnd={8}
             testament="nt"
-            previewText={VERSE_PREVIEW_VN["I Cô-rinh-tô 15:3-8"]}
+            previewText={VERSE_PREVIEW_VN["1 Cô-rinh-tô 15:3-8"]}
             triggerClassName={subBodyClassUp}
           >
-            I Cô-rinh-tô 15:3–8
+            1 Cô-rinh-tô 15:3–8
           </BibleVerseLink>
         }
       />
@@ -522,15 +479,13 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
       <LearnProphecySection
         bodyBright
         locale="vi"
-        title="Sự Ứng Nghiệm Lời Tiên Tri"
+        title="Những Lời Tiên Tri Thường Được Đối Chiếu"
         intro={
           <>
-            Từ nhiều thế kỷ trước khi <strong>Chúa {NAME_JESUS_VN}</strong> ra đời,{" "}
-            {TERM_BIBLE_VN} đã nói về một Đấng Mê-si sẽ đến — mô tả nơi sinh, sự chịu khổ,
-            và thậm chí cách <strong>Ngài</strong> chịu chết. Nhiều người tin Chúa thấy sự
-            tương ứng rõ ràng giữa các lời tiên tri ấy và cuộc đời của{" "}
-            <strong>Ngài</strong>. Tuy nhiên, cách hiểu và diễn giải những lời tiên tri
-            này vẫn là chủ đề được thảo luận trong nhiều thế kỷ.
+            Trong Cựu Ước, có nhiều đoạn được người tin Chúa hiểu là hướng về Đấng Mê-si.
+            Phần này trình bày một số lời tiên tri thường được đối chiếu với cuộc đời, sự
+            chết và sự phục sinh của Chúa Giê-xu. Một số chỗ được nhìn nhận rất rõ, trong
+            khi một số chỗ vẫn còn được thảo luận theo nhiều cách khác nhau.
           </>
         }
         items={getProphecyItems(books, findBookIdByVi, subBodyClassUp)}
@@ -538,24 +493,29 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
 
       <LearnWhyCtaSection
         locale="vi"
-        title={`Vì Sao Chúa ${NAME_JESUS_VN} Vẫn Quan Trọng Ngày Nay?`}
+        title="Vì Sao Điều Này Vẫn Quan Trọng?"
         paragraph1={
           <>
-            Nếu <strong>Chúa {NAME_JESUS_VN}</strong> thực sự đã sống lại từ cõi chết, thì{" "}
-            <strong>Ngài</strong> không thể chỉ được xem như một thầy giáo đạo đức hay một
-            câu chuyện truyền cảm hứng.
+            Nếu Chúa {NAME_JESUS_VN} thật sự đã sống lại từ cõi chết, thì Ngài không chỉ
+            là một nhân vật trong lịch sử hay một thầy dạy đạo đức. Điều đó có nghĩa là
+            Ngài vẫn đang sống — và lời hứa về hy vọng, sự tha thứ không chỉ là giả
+            thuyết, mà là điều sẽ trở thành thật trong cuộc đời con người.
           </>
         }
         paragraph2={
-          <>
-            Đối với người tin Chúa, đức tin nơi <strong>Ngài</strong> không chỉ là chấp
-            nhận một giáo lý, mà là đặt lòng tin nơi một Đấng đang sống — Đấng ban sự tha
-            thứ, mục đích sống và hy vọng đời đời.
-          </>
+          <div>
+            Nhưng điều này không chỉ để biết, mà để đáp lại. Kinh Thánh nói rằng để nhận
+            được những lời hứa ấy, con người cần có đức tin. Đức tin không chỉ là tin một
+            thông tin, mà là đặt lòng tin của mình nơi Chúa {NAME_JESUS_VN}.{" "}
+            <p className="mt-4 font-semibold">
+              Vậy đức tin thực sự là gì? Và điều đó có liên quan gì đến bạn?
+            </p>
+          </div>
         }
         linkHref="/bible/vi/read"
-        linkLabel="Đọc Phúc Âm"
+        linkLabel="Đọc Kinh Thánh"
       />
+
       <LearnWhatIsBibleGlossary
         glossaryTitle="Từ vựng nhanh"
         glossary={VN_JESUS_GLOSSARY}

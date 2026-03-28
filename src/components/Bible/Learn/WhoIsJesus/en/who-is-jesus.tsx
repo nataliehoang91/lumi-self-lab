@@ -2,36 +2,62 @@
 
 import { LearnLessonIntro } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnLessonIntro";
 import { LearnFullyGodManSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnFullyGodManSection";
+import { LearnVerseBulletItem } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnVerseBulletItem";
 import { LearnCrossSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnCrossSection";
-import { LearnProphecySection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnProphecySection";
+import {
+  LearnProphecySection,
+  type ProphecyConfidenceLevel,
+} from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnProphecySection";
 import { LearnWhyCtaSection } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnWhyCtaSection";
 import {
   NAME_JESUS_EN,
-  PLACE_JERUSALEM_EN,
-  BOOK_MATTHEW_EN,
-  BOOK_LUKE_EN,
-  BOOK_MARK_EN,
-  BOOK_ACTS_EN,
-  BOOK_ISAIAH_EN,
-  BOOK_PSALMS_EN,
-  BOOK_MICAH_EN,
-  BOOK_ZECHARIAH_EN,
-  TERM_GOD_EN,
   TERM_BIBLE_EN,
+  TERM_GOD_EN,
   TERM_OLD_TESTAMENT_EN,
   TERM_NEW_TESTAMENT_EN,
 } from "@/components/Bible/Learn/constants";
-import {
-  GlossaryItem,
-  LearnWhatIsBibleGlossary,
-} from "../../WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
-import type { BibleBook } from "@/components/Bible/Read/types";
-import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
-import type { LearnProphecyItem } from "@/components/Bible/Learn/WhoIsJesus/shared-components/LearnProphecySection";
+import {
+  LearnWhatIsBibleGlossary,
+  type GlossaryItem,
+} from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
+import type { BibleBook } from "@/components/Bible/Read/types";
+import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 
-/** NIV verse previews for popover (Who Is Jesus lesson). Fixed content, no API. */
+const EN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
+  {
+    term: "Messiah",
+    def: (
+      <>
+        From Hebrew, meaning &ldquo;anointed one.&rdquo; In Scripture, this term refers to
+        the king and savior Israel awaited. The New Testament presents{" "}
+        <strong>Jesus</strong> as this Messiah.
+      </>
+    ),
+  },
+  {
+    term: "Incarnation",
+    def: (
+      <>
+        The belief that <strong>God</strong> came in human form in <strong>Jesus</strong>.
+        Not merely a messenger, but <strong>God</strong> entering human history.
+      </>
+    ),
+  },
+  {
+    term: "Resurrection",
+    def: (
+      <>
+        The belief that <strong>Jesus</strong> physically rose from the dead on the third
+        day after crucifixion. For Christians, this is central to faith and a decisive
+        turning point in history.
+      </>
+    ),
+  },
+];
+
+/** Verse text for hover preview; stored locally, no API. */
 const VERSE_PREVIEW_EN: Record<string, string> = {
   "John 11:35": "Jesus wept.",
   "Hebrews 4:15":
@@ -40,400 +66,358 @@ const VERSE_PREVIEW_EN: Record<string, string> = {
     "In the beginning was the Word, and the Word was with God, and the Word was God.",
   "Colossians 2:9": "For in Christ all the fullness of the Deity lives in bodily form.",
   "Mark 3:5":
-    "...He looked around at them in anger and, deeply distressed at their stubborn hearts...",
-  "John 19:28": "...Jesus said, “I am thirsty.”",
+    "He looked around at them in anger and, deeply distressed at their stubborn hearts, said to the man, 'Stretch out your hand.'",
+  "John 19:28":
+    "Later, knowing that everything had now been finished, and so that Scripture would be fulfilled, Jesus said, 'I am thirsty.'",
   "Mark 4:39":
-    "He got up, rebuked the wind and said to the waves, “Quiet! Be still!” Then the wind died down and it was completely calm.",
-  "Luke 5:20": "...Jesus said, “Friend, your sins are forgiven.”",
+    "He got up, rebuked the wind and said to the waves, 'Quiet! Be still!' Then the wind died down and it was completely calm.",
+  "Luke 5:20": "When Jesus saw their faith, he said, 'Friend, your sins are forgiven.'",
+  "John 11:43":
+    "When he had said this, Jesus called in a loud voice, 'Lazarus, come out!'",
   "John 11:43-44":
-    "Jesus called in a loud voice, “Lazarus, come out!” The dead man came out...",
+    "When he had said this, Jesus called in a loud voice, 'Lazarus, come out!' The dead man came out, his hands and feet wrapped with strips of linen, and a cloth around his face.",
+  "1 Corinthians 15:3-8":
+    "For what I received I passed on to you as of first importance: that Christ died for our sins according to the Scriptures, that he was buried, that he was raised on the third day according to the Scriptures...",
   // Prophecy section
   "Micah 5:2":
-    "But you, Bethlehem Ephrathah... out of you will come for me one who will be ruler over Israel.",
-  "Matthew 2:1": "After Jesus was born in Bethlehem...",
-  "Isaiah 7:14": "The virgin will conceive and give birth to a son...",
-  "Luke 1:27": "...to a virgin pledged to be married to a man named Joseph...",
-  "Zechariah 9:9": "Your king comes to you... riding on a donkey.",
-  "Mark 11:7": "They brought the donkey to Jesus and threw their cloaks on it...",
-  "Zechariah 11:12": "...So they paid me thirty pieces of silver.",
-  "Matthew 26:15": "...And they paid him thirty pieces of silver.",
-  "Psalms 22:16": "They pierce my hands and my feet.",
-  "Luke 24:39": "Look at my hands and my feet...",
-  "Psalms 16:10": "Because you will not abandon me to the realm of the dead...",
-  "Acts 2:31": "...the Messiah would rise from the dead...",
-  "1 Corinthians 15:3–8":
-    "Christ died for our sins according to the Scriptures... he was raised on the third day according to the Scriptures.",
+    "But you, Bethlehem Ephrathah, though you are small among the clans of Judah, out of you will come for me one who will be ruler over Israel...",
+  "Matthew 2:1": "After Jesus was born in Bethlehem in Judea...",
+  "Isaiah 7:14":
+    "Therefore the Lord himself will give you a sign: The virgin will conceive and give birth to a son...",
+  "Luke 1:27":
+    "...to a virgin pledged to be married to a man named Joseph, a descendant of David. The virgin's name was Mary.",
+  "Zechariah 9:9":
+    "Rejoice greatly, Daughter Zion! Shout, Daughter Jerusalem! See, your king comes to you, righteous and victorious, lowly and riding on a donkey...",
+  "Mark 11:7":
+    "When they brought the donkey to Jesus and threw their cloaks over it, he sat on it.",
+  "Zechariah 11:12":
+    "I told them, 'If you think it best, give me my pay; but if not, keep it.' So they paid me thirty pieces of silver.",
+  "Matthew 26:15": "...So he agreed with them for thirty pieces of silver.",
+  "Psalms 22:16":
+    "Dogs surround me, a pack of villains encircles me; they pierce my hands and my feet.",
+  "Luke 24:39": "'Look at my hands and my feet. It is I myself!'",
+  "Psalms 16:10":
+    "Because you will not abandon me to the realm of the dead, nor will you let your faithful one see decay.",
+  "Acts 2:31": "Seeing what was ahead, he spoke of the resurrection of the Messiah...",
 };
 
-const EN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
+type ProphecyRefDef = {
+  bookEn: string;
+  bookVi?: string;
+  chapter: number;
+  verse: number;
+  verseEnd?: number;
+};
+
+type ProphecySourceEN = {
+  title: string;
+  confidenceLevel: ProphecyConfidenceLevel;
+  confidence: string;
+  explanation: string;
+  otRef: ProphecyRefDef;
+  ntRef: ProphecyRefDef;
+};
+
+function versePreviewKeyEn(ref: ProphecyRefDef): string {
+  if (ref.verseEnd != null && ref.verseEnd !== ref.verse) {
+    return `${ref.bookEn} ${ref.chapter}:${ref.verse}-${ref.verseEnd}`;
+  }
+  return `${ref.bookEn} ${ref.chapter}:${ref.verse}`;
+}
+
+function refLinkLabelEn(ref: ProphecyRefDef): string {
+  if (ref.verseEnd != null && ref.verseEnd !== ref.verse) {
+    return `${ref.bookEn} ${ref.chapter}:${ref.verse}–${ref.verseEnd}`;
+  }
+  return `${ref.bookEn} ${ref.chapter}:${ref.verse}`;
+}
+
+const PROPHECY_SOURCES_EN: ProphecySourceEN[] = [
   {
-    term: "Messiah",
-    def: (
-      <>
-        A Hebrew word meaning “anointed one.” In the {TERM_BIBLE_EN}, it refers to the
-        promised king and deliverer expected by Israel. The {TERM_NEW_TESTAMENT_EN}{" "}
-        presents <strong>Jesus</strong> as that Messiah.
-      </>
-    ),
+    title: "Born in Bethlehem",
+    confidenceLevel: "very_clear",
+    confidence: "Very clear",
+    explanation:
+      "Micah speaks of where the long-awaited ruler would appear, and Matthew records Jesus being born in Bethlehem.",
+    otRef: { bookEn: "Micah", chapter: 5, verse: 2 },
+    ntRef: { bookEn: "Matthew", chapter: 2, verse: 1 },
   },
   {
-    term: "Incarnation",
-    def: (
-      <>
-        The Christian belief that {TERM_GOD_EN} took on human nature in the person of{" "}
-        <strong>Jesus</strong>. Not merely a messenger, but {TERM_GOD_EN} entering human
-        history.
-      </>
-    ),
+    title: "Born of a virgin",
+    confidenceLevel: "widely_discussed",
+    confidence: "Widely compared",
+    explanation:
+      "Isaiah 7:14 speaks of the Messiah's extraordinary birth, and Luke records the birth of Jesus.",
+    otRef: { bookEn: "Isaiah", chapter: 7, verse: 14 },
+    ntRef: { bookEn: "Luke", chapter: 1, verse: 27 },
   },
   {
-    term: "Resurrection",
-    def: (
-      <>
-        The belief that <strong>Jesus</strong> rose bodily from the dead on the third day
-        after <strong>His</strong> crucifixion. For Christians, this event stands at the
-        heart of their faith.
-      </>
-    ),
+    title: "Entering Jerusalem on a donkey",
+    confidenceLevel: "very_clear",
+    confidence: "Very clear",
+    explanation:
+      "Zechariah describes a humble king riding a donkey; the Gospels record Jesus entering the city in the same way.",
+    otRef: { bookEn: "Zechariah", chapter: 9, verse: 9 },
+    ntRef: { bookEn: "Mark", chapter: 11, verse: 7 },
+  },
+  {
+    title: "Betrayed for thirty pieces of silver",
+    confidenceLevel: "very_clear",
+    confidence: "Very clear",
+    explanation:
+      "Zechariah describes wages being weighed out; Matthew records Judas receiving thirty pieces of silver.",
+    otRef: { bookEn: "Zechariah", chapter: 11, verse: 12 },
+    ntRef: { bookEn: "Matthew", chapter: 26, verse: 15 },
+  },
+  {
+    title: "Hands and feet pierced",
+    confidenceLevel: "widely_discussed",
+    confidence: "Widely compared",
+    explanation:
+      "Psalm 22 depicts suffering that closely echoes the crucifixion, and Luke records Jesus inviting his disciples to see his wounds.",
+    otRef: { bookEn: "Psalms", chapter: 22, verse: 16 },
+    ntRef: { bookEn: "Luke", chapter: 24, verse: 39 },
+  },
+  {
+    title: "Rising from the dead",
+    confidenceLevel: "very_clear",
+    confidence: "Very clear",
+    explanation:
+      "The psalm says the soul is not left in the realm of the dead forever, and Acts quotes it when speaking of the Messiah's resurrection.",
+    otRef: { bookEn: "Psalms", chapter: 16, verse: 10 },
+    ntRef: { bookEn: "Acts", chapter: 2, verse: 31 },
   },
 ];
 
 function getProphecyItems(
   books: BibleBook[],
   findBookId: (books: BibleBook[], nameEn: string) => string | null,
-  subBodyClass: string
-): LearnProphecyItem[] {
-  return [
-    {
-      prophecy: "Born in Bethlehem",
-      ref: (
+  bodyTitleClassUp: string
+) {
+  return PROPHECY_SOURCES_EN.map((item) => {
+    const otBookId = findBookId(books, item.otRef.bookEn);
+    const ntBookId = findBookId(books, item.ntRef.bookEn);
+    const otKey = versePreviewKeyEn(item.otRef);
+    const ntKey = versePreviewKeyEn(item.ntRef);
+
+    return {
+      title: item.title,
+      confidenceLevel: item.confidenceLevel,
+      confidence: item.confidence,
+      explanation: item.explanation,
+      otQuote: VERSE_PREVIEW_EN[otKey],
+      ntQuote: VERSE_PREVIEW_EN[ntKey],
+      otLink: (
         <BibleVerseLink
           langSegment="en"
-          bookId={findBookId(books, BOOK_MICAH_EN)}
-          chapter={5}
-          verse={2}
+          version1="niv"
+          bookId={otBookId}
+          chapter={item.otRef.chapter}
+          verse={item.otRef.verse}
+          verseEnd={item.otRef.verseEnd}
           testament="ot"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_MICAH_EN} 5:2`]}
+          linkOnly
+          triggerClassName={cn(
+            bodyTitleClassUp,
+            "text-second-600! hover:text-second-800! inline-block text-xs underline underline-offset-4"
+          )}
         >
-          {BOOK_MICAH_EN} 5:2
+          {refLinkLabelEn(item.otRef)}
         </BibleVerseLink>
       ),
-      fulfilled: (
+      ntLink: (
         <BibleVerseLink
           langSegment="en"
-          bookId={findBookId(books, BOOK_MATTHEW_EN)}
-          chapter={2}
-          verse={1}
+          version1="niv"
+          bookId={ntBookId}
+          chapter={item.ntRef.chapter}
+          verse={item.ntRef.verse}
+          verseEnd={item.ntRef.verseEnd}
           testament="nt"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_MATTHEW_EN} 2:1`]}
+          linkOnly
+          triggerClassName={cn(
+            bodyTitleClassUp,
+            "text-sage-600! hover:text-sage-800! inline-block text-xs underline underline-offset-4"
+          )}
         >
-          {BOOK_MATTHEW_EN} 2:1
+          {refLinkLabelEn(item.ntRef)}
         </BibleVerseLink>
       ),
-    },
-    {
-      prophecy: "Born of a virgin",
-      ref: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_ISAIAH_EN)}
-          chapter={7}
-          verse={14}
-          testament="ot"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_ISAIAH_EN} 7:14`]}
-        >
-          {BOOK_ISAIAH_EN} 7:14
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_LUKE_EN)}
-          chapter={1}
-          verse={27}
-          testament="nt"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_LUKE_EN} 1:27`]}
-        >
-          {BOOK_LUKE_EN} 1:27
-        </BibleVerseLink>
-      ),
-    },
-    {
-      prophecy: `Entered ${PLACE_JERUSALEM_EN} on a donkey`,
-      ref: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_ZECHARIAH_EN)}
-          chapter={9}
-          verse={9}
-          testament="ot"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_ZECHARIAH_EN} 9:9`]}
-        >
-          {BOOK_ZECHARIAH_EN} 9:9
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_MARK_EN)}
-          chapter={11}
-          verse={7}
-          testament="nt"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_MARK_EN} 11:7`]}
-        >
-          {BOOK_MARK_EN} 11:7
-        </BibleVerseLink>
-      ),
-    },
-    {
-      prophecy: "Betrayed for 30 pieces of silver",
-      ref: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_ZECHARIAH_EN)}
-          chapter={11}
-          verse={12}
-          testament="ot"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_ZECHARIAH_EN} 11:12`]}
-        >
-          {BOOK_ZECHARIAH_EN} 11:12
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_MATTHEW_EN)}
-          chapter={26}
-          verse={15}
-          testament="nt"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_MATTHEW_EN} 26:15`]}
-        >
-          {BOOK_MATTHEW_EN} 26:15
-        </BibleVerseLink>
-      ),
-    },
-    {
-      prophecy: "Crucified, hands and feet pierced",
-      ref: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_PSALMS_EN)}
-          chapter={22}
-          verse={16}
-          testament="ot"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_PSALMS_EN} 22:16`]}
-        >
-          {BOOK_PSALMS_EN} 22:16
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_LUKE_EN)}
-          chapter={24}
-          verse={39}
-          testament="nt"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_LUKE_EN} 24:39`]}
-        >
-          {BOOK_LUKE_EN} 24:39
-        </BibleVerseLink>
-      ),
-    },
-    {
-      prophecy: "Rose from the dead",
-      ref: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_PSALMS_EN)}
-          chapter={16}
-          verse={10}
-          testament="ot"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_PSALMS_EN} 16:10`]}
-        >
-          {BOOK_PSALMS_EN} 16:10
-        </BibleVerseLink>
-      ),
-      fulfilled: (
-        <BibleVerseLink
-          langSegment="en"
-          bookId={findBookId(books, BOOK_ACTS_EN)}
-          chapter={2}
-          verse={31}
-          testament="nt"
-          triggerClassName={subBodyClass}
-          previewText={VERSE_PREVIEW_EN[`${BOOK_ACTS_EN} 2:31`]}
-        >
-          {BOOK_ACTS_EN} 2:31
-        </BibleVerseLink>
-      ),
-    },
-  ];
+    };
+  });
 }
 
+/**
+ * Resolve book id by English name (case-insensitive).
+ */
 function findBookIdByEn(books: BibleBook[], nameEn: string): string | null {
-  const book = books.find((b) => b.nameEn === nameEn);
-  return book?.id ?? null;
+  const name = nameEn.trim().toLowerCase();
+  const book = books.find((b) => b.nameEn.trim().toLowerCase() === name);
+  return book ? book.id : null;
 }
 
 export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
-  const { bodyClass, subBodyClassUp } = useBibleFontClasses();
+  const { subBodyClassUp, bodyClassUp, bodyTitleClassUp } = useBibleFontClasses();
+
   return (
-    <article aria-label={`Who Is ${NAME_JESUS_EN}? lesson`} className="text-foreground">
+    <article aria-label="Lesson: Who is Jesus?" className="text-foreground">
       <LearnLessonIntro
         bodyBright
-        moduleNum="43 / 05"
-        title={`Who Is ${NAME_JESUS_EN}?`}
+        locale="en"
+        moduleNum="04 / 05"
+        title="Who Is Jesus?"
         intro1={
+          <p className={cn("my-4 leading-relaxed", bodyClassUp)}>
+            For more than two thousand years, people have debated the nature of{" "}
+            <strong>{NAME_JESUS_EN}</strong>.
+          </p>
+        }
+        intro1Quote={
           <>
-            For over two thousand years, people have debated who{" "}
-            <strong>{NAME_JESUS_EN}</strong> really was.{" "}
+            Was <strong>he</strong> a teacher? A prophet? A revolutionary? A legend? The{" "}
+            <strong>Son of {TERM_GOD_EN}</strong>? Or something beyond our imagination?
           </>
         }
-        intro1Quote={`A teacher? A prophet? A revolutionary? A myth? A Son of ${TERM_GOD_EN}? Or someone who is far greater than we can imagine?`}
       >
-        <>
+        <p className={cn("my-4 leading-relaxed", bodyClassUp)}>
           <strong>{NAME_JESUS_EN}</strong> of Nazareth is the central figure of the{" "}
-          {TERM_NEW_TESTAMENT_EN} and holds a unique place in the whole {TERM_BIBLE_EN}.
-          Many Christians understand the {TERM_OLD_TESTAMENT_EN} as anticipating{" "}
-          <strong>Him</strong>, and the story that follows as shaped by{" "}
-          <strong>His</strong> life and teaching.
-        </>
+          {TERM_NEW_TESTAMENT_EN} and holds a unique place throughout the entire{" "}
+          {TERM_BIBLE_EN}. Many believe the {TERM_OLD_TESTAMENT_EN} prepared for{" "}
+          <strong>his</strong> coming, and everything after was profoundly shaped by{" "}
+          <strong>him</strong>.
+        </p>
       </LearnLessonIntro>
 
       <LearnFullyGodManSection
         bodyBright
-        sectionTitle={`Fully ${TERM_GOD_EN}. Fully Man.`}
+        locale="en"
+        sectionTitle={`Fully ${TERM_GOD_EN}, Fully Human`}
         leftTitle="Fully Human"
         leftBody={
           <>
-            <strong>{NAME_JESUS_EN}</strong> lived as a real human. He experienced things
-            familiar to human life:
-            <ul className={cn("mt-3 space-y-1", bodyClass)}>
-              <li>
-                • Wept with grief
-                <span className="px-1">—</span>
-                <BibleVerseLink
-                  langSegment="en"
-                  version1="niv"
-                  bookId={findBookIdByEn(books, "John")}
-                  chapter={11}
-                  verse={35}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_EN["John 11:35"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  John 11:35
-                </BibleVerseLink>
-              </li>
-              <li>
-                • Angry at what was wrong
-                <span className="px-1">—</span>
-                <BibleVerseLink
-                  langSegment="en"
-                  version1="niv"
-                  bookId={findBookIdByEn(books, "Mark")}
-                  chapter={3}
-                  verse={5}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_EN["Mark 3:5"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Mark 3:5
-                </BibleVerseLink>
-              </li>
-              <li>
-                • Thirsty in suffering
-                <span className="px-1">—</span>
-                <BibleVerseLink
-                  langSegment="en"
-                  version1="niv"
-                  bookId={findBookIdByEn(books, "John")}
-                  chapter={19}
-                  verse={28}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_EN["John 19:28"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  John 19:28
-                </BibleVerseLink>
-              </li>
+            Jesus did not stand apart from ordinary human life. Scripture records that he
+            wept, grieved, grew tired, felt thirst, and suffered pain as we do.
+            <ul className={cn("my-8 space-y-1", bodyClassUp)}>
+              <LearnVerseBulletItem
+                label="Wept with sorrow"
+                reference={
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "John")}
+                    chapter={11}
+                    verse={35}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_EN["John 11:35"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    John 11:35
+                  </BibleVerseLink>
+                }
+              />
+              <LearnVerseBulletItem
+                label="Angered by injustice"
+                reference={
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "Mark")}
+                    chapter={3}
+                    verse={5}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_EN["Mark 3:5"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Mark 3:5
+                  </BibleVerseLink>
+                }
+              />
+              <LearnVerseBulletItem
+                label="Thirsted while suffering"
+                reference={
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "John")}
+                    chapter={19}
+                    verse={28}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_EN["John 19:28"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    John 19:28
+                  </BibleVerseLink>
+                }
+              />
             </ul>
-            <p className={cn("mt-3", bodyClass)}>
-              These show that <strong>He</strong> truly entered human life, not stood
-              outside it.
+            <p className={cn("mt-3", bodyClassUp)}>
+              These details show that <strong>he</strong> truly shared human life, rather
+              than standing outside it.
             </p>
           </>
         }
-        rightTitle="Fully Divine"
+        rightTitle={`Fully ${TERM_GOD_EN}`}
         rightBody={
           <>
-            At the same time, <strong>{NAME_JESUS_EN}</strong> did things beyond human
-            ability:
-            <ul className={cn("mt-3 space-y-1", bodyClass)}>
-              <li>
-                • Performed miracles and commanded nature
-                <span className="px-1">—</span>
-                <BibleVerseLink
-                  langSegment="en"
-                  version1="niv"
-                  bookId={findBookIdByEn(books, "Mark")}
-                  chapter={4}
-                  verse={39}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_EN["Mark 4:39"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Mark 4:39
-                </BibleVerseLink>
-              </li>
-              <li>
-                • Had authority to forgive sins
-                <span className="px-1">—</span>
-                <BibleVerseLink
-                  langSegment="en"
-                  version1="niv"
-                  bookId={findBookIdByEn(books, "Luke")}
-                  chapter={5}
-                  verse={20}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_EN["Luke 5:20"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  Luke 5:20
-                </BibleVerseLink>
-              </li>
-              <li>
-                • Raised the dead
-                <span className="px-1">—</span>
-                <BibleVerseLink
-                  langSegment="en"
-                  version1="niv"
-                  bookId={findBookIdByEn(books, "John")}
-                  chapter={11}
-                  verse={43}
-                  verseEnd={44}
-                  testament="nt"
-                  previewText={VERSE_PREVIEW_EN["John 11:43-44"]}
-                  triggerClassName={subBodyClassUp}
-                >
-                  John 11:43-44
-                </BibleVerseLink>
-              </li>
+            At the same time, Jesus did what lies beyond human power: he stilled the
+            storm, forgave sins, and called the dead to life.
+            <ul className={cn("my-8 space-y-1", bodyClassUp)}>
+              <LearnVerseBulletItem
+                label="Performed miracles and commanded nature"
+                reference={
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "Mark")}
+                    chapter={4}
+                    verse={39}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_EN["Mark 4:39"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Mark 4:39
+                  </BibleVerseLink>
+                }
+              />
+              <LearnVerseBulletItem
+                label="Had authority to forgive sins"
+                reference={
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "Luke")}
+                    chapter={5}
+                    verse={20}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_EN["Luke 5:20"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    Luke 5:20
+                  </BibleVerseLink>
+                }
+              />
+              <LearnVerseBulletItem
+                label="Raised the dead"
+                reference={
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "John")}
+                    chapter={11}
+                    verse={43}
+                    verseEnd={44}
+                    testament="nt"
+                    previewText={VERSE_PREVIEW_EN["John 11:43-44"]}
+                    triggerClassName={subBodyClassUp}
+                  >
+                    John 11:43-44
+                  </BibleVerseLink>
+                }
+              />
             </ul>
-            <p className={cn("mt-3", bodyClass)}>
-              So many believe <strong>He</strong> was not only a teacher or prophet, but
-              the Son of {TERM_GOD_EN}.
+            <p className={cn("mt-3", bodyClassUp)}>
+              Because of this, many believe he was not merely a teacher or prophet, but
+              the <strong>Son of {TERM_GOD_EN}</strong>.
             </p>
           </>
         }
@@ -441,34 +425,32 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
 
       <LearnCrossSection
         bodyBright
-        title="The Cross & Resurrection"
+        locale="en"
+        title="His Death and Resurrection"
         paragraph1={
           <>
-            Around 30 AD, <strong>{NAME_JESUS_EN}</strong> was crucified under the Roman
-            governor Pontius Pilate. Christians believe this was not a tragic accident of
-            history, but the center of {TERM_GOD_EN}&apos;s redemptive plan. On the cross,{" "}
-            <strong>He</strong> willingly bore the weight of human sin — opening the way
-            for forgiveness and reconciliation with {TERM_GOD_EN}.
+            According to the New Testament, Jesus was crucified under Pontius Pilate. For
+            many believers, his death was not only a historical event, but an act of
+            redemption.
           </>
         }
         paragraph2={
           <>
-            On the third day, <strong>He</strong> was proclaimed to have risen bodily from
-            the dead. This message was announced from the earliest days of the church and
-            recorded in the {TERM_NEW_TESTAMENT_EN} writings. For Christians, the
-            resurrection is not symbolic, but the decisive turning point of history.
+            According to the {TERM_NEW_TESTAMENT_EN}, on the third day <strong>he</strong>{" "}
+            rose again. This is not only a symbol, but the foundation of hope and faith.
           </>
         }
         refText={
           <BibleVerseLink
             langSegment="en"
+            version1="niv"
             bookId={findBookIdByEn(books, "1 Corinthians")}
             chapter={15}
             verse={3}
             verseEnd={8}
             testament="nt"
+            previewText={VERSE_PREVIEW_EN["1 Corinthians 15:3-8"]}
             triggerClassName={subBodyClassUp}
-            previewText={VERSE_PREVIEW_EN["1 Corinthians 15:3–8"]}
           >
             1 Corinthians 15:3–8
           </BibleVerseLink>
@@ -477,44 +459,50 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
 
       <LearnProphecySection
         bodyBright
-        title="Fulfilment of Prophecy"
+        locale="en"
+        title="Prophecies Often Compared"
         intro={
           <>
-            Long before <strong>{NAME_JESUS_EN}</strong> was born, the Hebrew Scriptures
-            spoke of a coming Messiah — describing <strong>His</strong> birthplace,{" "}
-            <strong>His</strong> suffering, and even the manner of <strong>His</strong>{" "}
-            death. Christians believe these promises converged in <strong>Him</strong>.
-            The interpretation of these prophecies, however, has been discussed and
-            debated for centuries.
+            In the Old Testament, many passages are understood by believers as pointing
+            toward the Messiah. This section presents several prophecies often compared
+            with the life, death, and resurrection of Jesus. Some connections are seen as
+            very clear, while others are still discussed in different ways.
           </>
         }
-        items={getProphecyItems(books, findBookIdByEn, subBodyClassUp)}
+        items={getProphecyItems(books, findBookIdByEn, bodyTitleClassUp)}
+        prophecyColumnLabel="Prophecy"
+        fulfilmentColumnLabel="Fulfilled"
       />
 
       <LearnWhyCtaSection
-        title={`Why Does ${NAME_JESUS_EN} Matter Today?`}
+        locale="en"
+        title="Why Does This Still Matter?"
         paragraph1={
           <>
-            If <strong>{NAME_JESUS_EN}</strong> truly rose from the dead, then{" "}
-            <strong>His</strong> life cannot be reduced to a moral example or an inspiring
-            story. <strong>He</strong> claimed to be “the way, the truth, and the life”
-            (John 14:6) — not merely offering advice, but inviting people into a restored
-            relationship with {TERM_GOD_EN}.
+            If Jesus truly rose from the dead, then he cannot be only a figure from
+            history or a moral teacher. That means he is still alive—and the promises of
+            hope and forgiveness are not mere theories; they can become real in
+            people&apos;s lives.
           </>
         }
         paragraph2={
           <>
-            For Christians, faith in <strong>{NAME_JESUS_EN}</strong> is not merely belief
-            in a doctrine, but trust in a living person — one who offers forgiveness,
-            purpose, and eternal hope.
+            Yet this is not only something to know, but something to respond to. Scripture
+            says that receiving those promises takes faith: not only assent to a fact, but
+            trust placed in Jesus himself.{" "}
+            <span className="mt-4 block font-semibold">
+              What, then, is real faith? And what does that have to do with you?
+            </span>
           </>
         }
         linkHref="/bible/en/read"
-        linkLabel="Read the Gospels"
+        linkLabel="Read the Bible"
       />
+
       <LearnWhatIsBibleGlossary
         glossaryTitle="Quick Glossary"
         glossary={EN_JESUS_GLOSSARY}
+        locale="en"
       />
     </article>
   );

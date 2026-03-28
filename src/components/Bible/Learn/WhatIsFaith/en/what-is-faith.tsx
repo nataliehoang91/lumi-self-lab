@@ -4,10 +4,8 @@ import Link from "next/link";
 import { LearnWhatIsFaithIntro } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithIntro";
 import { LearnWhatIsFaithGraceSection } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithGraceSection";
 import { LearnWhatIsFaithRepentanceSection } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithRepentanceSection";
-import {
-  LearnWhatIsFaithPrayerSection,
-  type PrayerStep,
-} from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithPrayerSection";
+import { LearnWhatIsFaithPrayerSection } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithPrayerSection";
+import { LearnWhatIsFaithRelationshipBlock } from "@/components/Bible/Learn/WhatIsFaith/shared-components/LearnWhatIsFaithRelationshipBlock";
 import { LearnWhyItMatters } from "../../WhatIsBible/shared-components/why-it-matters";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
@@ -40,58 +38,35 @@ function findBookIdByEn(books: BibleBook[] | undefined, nameEn: string): string 
   return book?.id ?? null;
 }
 
-const PRAYER_STEPS_EN: readonly PrayerStep[] = [
-  {
-    letter: "A",
-    stepName: "Adoration",
-    desc: "Begin by recognising who God is — not what you want from him, but who he truly is. Praise him.",
-  },
-  {
-    letter: "C",
-    stepName: "Confession",
-    desc: "Be honest about where you have fallen short. God already knows; this is for your freedom.",
-  },
-  {
-    letter: "T",
-    stepName: "Thanksgiving",
-    desc: "Name specific things you are grateful for, however small.",
-  },
-  {
-    letter: "S",
-    stepName: "Supplication",
-    desc: "Bring your requests — for yourself, for others, and for the world.",
-  },
-];
-
 const EN_GLOSSARY: readonly GlossaryItem[] = [
   {
     term: "Grace",
-    def: "God’s undeserved gift. In Christian faith, salvation is not earned by human effort but given freely by God.",
+    def: "God’s undeserved gift. In Christian faith, salvation is not based on human merit, but is a gift from him.",
   },
   {
     term: "Salvation",
-    def: "Being rescued from sin and restored into a right relationship with God.",
+    def: "Being rescued from sin and reconciled to God, opening a new relationship with him.",
   },
   {
     term: "Repentance",
-    def: "A real change of direction — turning away from sin and turning toward God.",
+    def: "A real change of direction — turning away from sin and turning back to God. More than a feeling of guilt; it is a decision.",
   },
   {
     term: "Gospel",
-    def: "Literally “good news” — the message that Jesus lived, died, and rose again to bring forgiveness and hope.",
+    def: "The good news of salvation through Jesus — that he died and rose again to bring forgiveness and hope.",
   },
   {
     term: "Church",
-    def: "The community of people who follow Jesus. Not just a building, but a spiritual family.",
+    def: "The community of people who believe in Jesus. Not only a building, but a family of faith.",
   },
   {
     term: "Prayer",
-    def: "Talking with God. Not a complex ritual, but a relationship.",
+    def: "Conversation with God. Not a complicated ritual, but a relationship.",
   },
 ];
 
 export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
-  const { bodyClass, bodyClassUp } = useBibleFontClasses();
+  const { bodyClassUp } = useBibleFontClasses();
 
   const johnHref = buildReadHrefEn(findBookIdByEn(books, "John"), 10, 10, "nt");
 
@@ -99,42 +74,44 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
     <article className="text-foreground" aria-label="What Is Faith?">
       <LearnWhatIsFaithIntro
         bodyBright
-        moduleNum="04 / 04"
+        locale="en"
+        moduleNum="05 / 05"
         title="What Is Faith?"
-        intro="Faith is not blind optimism or religious effort to become better. In the Bible, faith means trusting God — trusting that what he says is true and that Jesus is who he revealed himself to be."
+        intro={`Faith is not blind optimism or trying to become better through your own effort alone.
+
+In the Bible, faith means placing your trust in God — believing that what he says is true, and that Jesus is the one he has made known.`}
       />
 
-      {/* Relationship Block (aligned with VN version) */}
-      <blockquote
-        className="bg-primary-light/5 border-l-primary mb-12 space-y-4 rounded-r-xl
-          border-l-4 py-6 pr-6 pl-6 not-italic"
-      >
-        <p className={cn("font-bible-english leading-snug font-semibold", bodyClassUp)}>
-          A Relationship, Not a Religion
-        </p>
-        <p className={cn("leading-relaxed", bodyClassUp)}>
-          Christianity is not simply a system of rules to follow, but a relationship to
-          enter. Jesus said he came so that people “may have life, and have it to the
-          full”{" "}
-          <Link
-            href={johnHref}
-            className="text-second-600 hover:text-second-800 font-mono underline
-              underline-offset-4 transition-colors"
-          >
-            (John 10:10)
-          </Link>
-          . The goal is not perfection, but walking in a real relationship with God.
-        </p>
-        <p className={cn("border-border border-t pt-4 leading-relaxed", bodyClassUp)}>
-          Reading Scripture, praying, and gathering with other believers are ways of
-          growing in that relationship — not conditions for being accepted.
-        </p>
-      </blockquote>
+      <LearnWhatIsFaithRelationshipBlock
+        title="A Relationship, Not a Religion"
+        main={
+          <>
+            Christianity is not simply a system of rules to follow, but a relationship to
+            enter. Jesus said he came so that people &ldquo;may have life, and have it to
+            the full&rdquo;{" "}
+            <Link
+              href={johnHref}
+              className="text-md text-second-600 hover:text-second-800 font-mono underline
+                underline-offset-4 transition-colors"
+            >
+              (John 10:10)
+            </Link>
+            . The goal is not perfection, but walking in a real relationship with God.
+          </>
+        }
+        footer={
+          <>
+            Reading Scripture, praying, and gathering with other believers are ways of
+            growing in that relationship — not conditions for being accepted.
+          </>
+        }
+      />
 
       <LearnWhatIsFaithGraceSection
         bodyBright
+        locale="en"
         graceTitle="Salvation by Grace"
-        graceBody="The central message of Christianity is salvation — being reconciled to God. This is not achieved by good works, but received as a gift through faith in what Jesus has done."
+        graceBody="The central message of Christianity is salvation — being reconciled to God. This is not earned by good deeds, but received as a gift, through faith in what Jesus has done."
         graceQuote="For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God."
         graceRef="Ephesians 2:8"
         graceFootnoteHref={buildReadHrefEn(
@@ -147,61 +124,85 @@ export function EnWhatIsFaithPage({ books }: { books: BibleBook[] }) {
 
       <LearnWhatIsFaithRepentanceSection
         bodyBright
+        locale="en"
         repentanceTitle="Repentance"
-        repentanceBody="Repentance is more than feeling guilty. It is a genuine change of direction — turning away from a self-ruled life and turning toward God. When Jesus began his ministry, he said, 'Repent and believe the good news.'"
+        repentanceBody='Repentance is more than a feeling of guilt. It is a change of direction — turning away from a life ruled by self and turning back to God. When Jesus began his ministry, he said, &ldquo;Repent and believe the good news.&rdquo;'
         repentanceRef="Mark 1:15"
         repentanceRefHref={buildReadHrefEn(findBookIdByEn(books, "Mark"), 1, 15, "nt")}
       />
 
       <LearnWhatIsFaithPrayerSection
         bodyBright
+        locale="en"
         prayerTitle="Where does faith begin?"
-        prayerIntro="Faith does not begin with trying to become a better person. It begins with trust — trusting that God is real and that Jesus is who he revealed himself to be."
+        prayerIntro="Faith does not begin with trying to make yourself a better person. It begins with trust — trusting that God is real and that Jesus is the one he has revealed."
         steps={[
           {
             letter: "1",
             stepName: "Hear",
-            desc: "Listen to the message of the Gospel — what the Bible says about God and humanity.",
+            desc: "Listen to the message of the Gospel — what the Bible says about God and human beings.",
           },
           {
             letter: "2",
             stepName: "Trust",
-            desc: "Place your trust in Jesus, not in your own effort.",
+            desc: "Place your trust in Jesus, not in your own striving.",
           },
           {
             letter: "3",
             stepName: "Read",
-            desc: "Begin reading the Bible — especially the Gospels — to understand who Jesus is.",
+            desc: "Begin reading the Bible — especially the Gospels — to understand more clearly who Jesus is.",
           },
           {
             letter: "4",
             stepName: "Follow",
-            desc: "Live daily in that trust, even while you are still learning.",
+            desc: "Live in that trust each day, even while much is still unclear.",
           },
         ]}
       />
 
-      <LearnWhyItMatters title="Why does faith matter?">
-        <p className={cn("leading-relaxed", bodyClassUp)}>
-          Everyone places trust in something — in their own strength, in relationships, in
-          success, or in ideas about meaning and hope. The question is not whether you
-          have faith, but where you place it.
-        </p>
+      <LearnWhyItMatters locale="en" title="Why does faith matter?">
+        <div className="space-y-4">
+          <p className={cn("leading-relaxed", bodyClassUp)}>
+            Everyone is already trusting something — about their own worth, about what
+            brings hope, and about what helps them stand firm when everything shakes. The
+            question is not whether you have faith, but where you are placing it.
+          </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
-          If faith is only positive thinking, it collapses when circumstances change. But
-          if faith rests in God — who does not change — it becomes a steady foundation in
-          the middle of anxiety, failure, and uncertainty.
-        </p>
+          <p className={cn("leading-relaxed", bodyClassUp)}>
+            If faith is only positive thinking, it easily falls apart when circumstances
+            change. But if{" "}
+            <span className="font-semibold">faith is placed in Jesus</span> — the one who
+            rose from the dead and does not change — it becomes a{" "}
+            <span className="font-semibold">firm foundation</span> amid anxiety and
+            uncertainty.
+          </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClassUp)}>
-          Christian faith does not only answer “What should I do?” It answers “Who am I?”
-          and “To whom do I belong?” It does not merely adjust behaviour — it reshapes the
-          foundation of your life.
-        </p>
+          <p className={cn("leading-relaxed", bodyClassUp)}>
+            <span className="font-semibold">The Bible</span> says that through him, people
+            can be forgiven, have a new life full of meaning, and a hope that goes beyond
+            even death — that is{" "}
+            <span className="font-semibold">eternal life </span>
+            after death.
+          </p>
+          <p className={cn("leading-relaxed", bodyClassUp)}>
+            Faith is not only knowing about God, but{" "}
+            <span className="font-semibold">trusting him</span>, following him, and letting
+            him lead your life.
+          </p>
+
+          <p className={cn("pt-1 leading-relaxed font-semibold", bodyClassUp)}>
+            So what are you placing your faith in?
+            <br />
+            And are you ready to begin trusting in Jesus?
+          </p>
+        </div>
       </LearnWhyItMatters>
 
-      <LearnWhatIsFaithGlossary glossaryTitle="Quick Glossary" glossary={EN_GLOSSARY} />
+      <LearnWhatIsFaithGlossary
+        glossaryTitle="Quick Glossary"
+        glossary={EN_GLOSSARY}
+        locale="en"
+      />
     </article>
   );
 }

@@ -11,7 +11,7 @@ export interface LearnWhyCtaSectionProps {
   paragraph1: ReactNode;
   paragraph2: ReactNode;
   linkHref: string;
-  linkLabel: string;
+  linkLabel?: string;
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
 }
@@ -37,8 +37,12 @@ export function LearnWhyCtaSection({
       <h2 id="why-cta-title" className={cn("mb-3 text-xl font-semibold", titleFont)}>
         {title}
       </h2>
-      <p className={cn("leading-relaxed opacity-80", bodyClass, bodyFont)}>{paragraph1}</p>
-      <p className={cn("mt-3 leading-relaxed opacity-80", bodyClass, bodyFont)}>{paragraph2}</p>
+      <div className={cn("leading-relaxed opacity-80", bodyClass, bodyFont)}>
+        {paragraph1}
+      </div>
+      <div className={cn("mt-3 leading-relaxed opacity-80", bodyClass, bodyFont)}>
+        {paragraph2}
+      </div>
       <Link
         href={linkHref}
         className={cn(
@@ -49,7 +53,11 @@ export function LearnWhyCtaSection({
           bodyFont
         )}
       >
-        {linkLabel} <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+        {linkLabel && (
+          <>
+            {linkLabel} <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          </>
+        )}
       </Link>
     </section>
   );

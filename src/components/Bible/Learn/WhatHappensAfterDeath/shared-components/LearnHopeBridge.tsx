@@ -16,7 +16,7 @@ export function LearnHopeBridge({ locale, children, className }: LearnHopeBridge
   const { bodyFont } = useLocaleFonts(locale);
 
   return (
-    <p className={cn("mt-6 mb-8 max-w-2xl leading-relaxed", subtitleClass, bodyFont)}>
+    <p className={cn("mt-8 mb-8 max-w-3xl leading-relaxed", subtitleClass, bodyFont)}>
       {children}
     </p>
   );

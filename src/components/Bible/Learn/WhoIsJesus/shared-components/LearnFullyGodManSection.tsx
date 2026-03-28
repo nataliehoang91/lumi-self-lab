@@ -29,8 +29,13 @@ export function LearnFullyGodManSection({
   locale,
   bodyBright,
 }: LearnFullyGodManSectionProps) {
-  const { bodyClass, subBodyClass, bodyTitleClass, langBodyTitleClass } =
-    useBibleFontClasses();
+  const {
+    bodyClass,
+    subBodyClass,
+    bodyTitleClass,
+    bodyTitleClassUp,
+    langBodyTitleClass,
+  } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
@@ -51,7 +56,11 @@ export function LearnFullyGodManSection({
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div className="bg-card border-sage-dark/20 rounded-2xl border p-5">
           <p
-            className={cn("text-foreground mb-2 font-semibold", bodyFont, bodyTitleClass)}
+            className={cn(
+              "text-foreground mb-2 font-semibold underline underline-offset-4",
+              bodyFont,
+              bodyTitleClassUp
+            )}
           >
             {leftTitle}
           </p>
@@ -64,7 +73,11 @@ export function LearnFullyGodManSection({
         </div>
         <div className="bg-card border-sage-dark/20 rounded-2xl border p-5">
           <p
-            className={cn("text-foreground mb-2 font-semibold", bodyFont, bodyTitleClass)}
+            className={cn(
+              "text-foreground mb-2 font-semibold underline underline-offset-4",
+              bodyFont,
+              bodyTitleClassUp
+            )}
           >
             {rightTitle}
           </p>

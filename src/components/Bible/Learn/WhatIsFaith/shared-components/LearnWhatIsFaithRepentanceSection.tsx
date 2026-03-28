@@ -37,7 +37,7 @@ export function LearnWhatIsFaithRepentanceSection({
       <p className={cn(bodyColor, "leading-relaxed", bodyClassUp, bodyFont)}>
         {repentanceBody}
       </p>
-      <p className={cn(refColor, "mt-4 font-mono text-xs", bodyClass)}>
+      <p className={cn(refColor, "mt-4 text-right font-mono", bodyClass)}>
         {repentanceRefHref ? (
           <a
             href={repentanceRefHref}

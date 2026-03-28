@@ -26,7 +26,7 @@ export function LearnWhatIsFaithPrayerSection({
   locale,
   bodyBright,
 }: LearnWhatIsFaithPrayerSectionProps) {
-  const { bodyClass, bodyClassUp } = useBibleFontClasses();
+  const { bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
@@ -44,8 +44,11 @@ export function LearnWhatIsFaithPrayerSection({
             className="bg-card border-sage-dark/20 flex gap-4 rounded-xl border p-4"
           >
             <div
-              className="bg-muted text-muted-foreground flex h-8 w-8 shrink-0 items-center
-                justify-center rounded-lg font-mono text-xs font-semibold"
+              className="border-second-200 bg-second-600 dark:border-second-800
+                dark:bg-second-900/45 dark:text-second-300 theme-warm:bg-second-500
+                theme-warm:border-second-600 flex h-8 w-8 shrink-0 items-center
+                justify-center rounded-lg border font-mono text-xs font-semibold
+                text-white"
             >
               {p.letter}
             </div>
