@@ -21,6 +21,7 @@ import { LearnWhatIsBibleAuthorsSection } from "@/components/Bible/Learn/WhatIsB
 import { AuthorOccupationGrid } from "@/components/Bible/Learn/WhatIsBible/shared-components/AuthorOccupationGrid";
 import { BibleTestamentSplitBlock } from "@/components/Bible/Learn/WhatIsBible/shared-components/BibleTestamentSplitBlock";
 import { LearnLibraryBlock } from "@/components/Bible/Learn/shared-components/LearnLibraryBlock";
+import { LearnHeroImage } from "@/components/Bible/Learn/shared-components/LearnHeroImage";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import type { BibleBook } from "@/components/Bible/Read/types";
 
@@ -118,6 +119,15 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         ]}
       />
 
+      <RevealSection className="my-8 flex justify-center">
+        <LearnHeroImage
+          src="/images/understand/en-what-is-bible-authors-timeline.png"
+          alt="Timeline of Bible authors across 1,500 years"
+          className="w-full max-w-2xl"
+        />
+      </RevealSection>
+
+      <RevealSection>
       <LearnLibraryBlock
         locale="en"
         title="The Bible is a library, not a single book."
@@ -135,12 +145,16 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </>
         }
       />
+      </RevealSection>
 
+      <RevealSection>
       <LearnWhatIsBibleStats
         locale="en"
         statLabels={["Books total", "Old Testament", "New Testament", "Authors"]}
       />
+      </RevealSection>
 
+      <RevealSection>
       <LearnWhatIsBibleAuthorsSection
         locale="en"
         title="Written by people from many different backgrounds"
@@ -295,7 +309,9 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           />,
         ]}
       />
+      </RevealSection>
 
+      <RevealSection>
       <section
         aria-labelledby="en-testament-split-intro"
         className="mt-12 border-border/40 border-t pt-10"
@@ -313,7 +329,9 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           together.
         </p>
       </section>
+      </RevealSection>
 
+      <RevealSection>
       <BibleTestamentSplitBlock
         className="mt-8"
         locale="en"
@@ -326,7 +344,9 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         otDesc="The Old Testament was written mainly in Hebrew (with some parts in Aramaic). It tells the story from creation to the time before Jesus was born — about God, His people Israel, and the promise of a coming Saviour."
         ntDesc="The New Testament was written in Greek. It begins with four Gospels about the life, death, and resurrection of Jesus. It then tells how the early church spread, and points to the future when everything will be made complete in Him."
       />
+      </RevealSection>
 
+      <RevealSection>
       <LearnWhatIsBibleTestamentSection
         bodyBright
         title="Old Testament"
@@ -341,7 +361,9 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         bookLabelSingular="book"
         bookLabelPlural="books"
       />
+      </RevealSection>
 
+      <RevealSection>
       <LearnWhatIsBibleTestamentSection
         bodyBright
         title="New Testament"
@@ -356,6 +378,7 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         bookLabelSingular="book"
         bookLabelPlural="books"
       />
+      </RevealSection>
 
       <RevealSection>
         <LearnWhyItMatters title="Why It Matters">

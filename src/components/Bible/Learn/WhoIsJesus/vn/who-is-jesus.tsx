@@ -28,22 +28,26 @@ import {
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import {
-  LearnWhatIsBibleGlossary,
-  type GlossaryItem,
-} from "../../WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
+  LearnWhatIsBibleGlossaryGrid,
+  type GlossaryGridItem,
+} from "../../WhatIsBible/shared-components/LearnWhatIsBibleGlossaryGrid";
+import { RevealSection } from "@/components/Bible/Learn/shared-components/RevealSection";
+import { LearnHeroImage } from "@/components/Bible/Learn/shared-components/LearnHeroImage";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
+import { Crown, User, Sun } from "lucide-react";
 
-const VN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
+const VN_JESUS_GLOSSARY: readonly GlossaryGridItem[] = [
   {
     term: "Đấng Mê-si (Messiah)",
     def: (
       <>
-        Từ Hê-bơ-rơ nghĩa là “Đấng được xức dầu.” Trong Kinh Thánh, danh xưng này chỉ về
+        Từ Hê-bơ-rơ nghĩa là "Đấng được xức dầu." Trong Kinh Thánh, danh xưng này chỉ về
         vị vua và Đấng giải cứu mà dân Y-sơ-ra-ên trông đợi. Các sách Tân Ước trình bày{" "}
         <strong>Chúa Giê-xu</strong> là Đấng Mê-si ấy.
       </>
     ),
+    icon: Crown,
   },
   {
     term: "Sự nhập thể (Incarnation)",
@@ -54,6 +58,7 @@ const VN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
         <strong>Đức Chúa Trời</strong> bước vào lịch sử loài người.
       </>
     ),
+    icon: User,
   },
   {
     term: "Sự phục sinh (Resurrection)",
@@ -64,10 +69,10 @@ const VN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
         dấu mốc quyết định của lịch sử.
       </>
     ),
+    icon: Sun,
   },
 ];
 
-/** Verse text for hover preview; stored locally, no API. */
 const VERSE_PREVIEW_VN: Record<string, string> = {
   "Giăng 11:35": "Đức Chúa Jêsus khóc.",
   "Hê-bơ-rơ 4:15":
@@ -87,7 +92,6 @@ const VERSE_PREVIEW_VN: Record<string, string> = {
     "Ngài phán điều đó rồi, bèn kêu lên rằng: La-xơ ơi, hãy ra! Người chết đi ra, chân tay buộc bằng vải liệm và mặt thì phủ khăn.",
   "1 Cô-rinh-tô 15:3-8":
     "Đấng Christ chịu chết vì tội lỗi chúng ta theo lời Kinh Thánh; Ngài đã bị chôn, đến ngày thứ ba sống lại theo lời Kinh Thánh.",
-  // Prophecy section (fixed content for popover)
   "Mi-chê 5:2":
     "Nhưng hỡi Bết-lê-hem Ép-ra-ta... từ nơi ngươi sẽ ra cho ta một Đấng cai trị trong Y-sơ-ra-ên.",
   "Ma-thi-ơ 2:1": "Khi Đức Chúa Jêsus đã sanh tại Bết-lê-hem...",
@@ -249,10 +253,6 @@ function getProphecyItems(
   });
 }
 
-/**
- * Resolve book id by Vietnamese name (case-insensitive), with optional fallback by English name.
- * Seed uses e.g. "Thi thiên" for Psalms; constants may use "Thi Thiên". nameEn fallback helps when nameVi differs.
- */
 function findBookIdByVi(
   books: BibleBook[],
   nameVi: string,
@@ -271,7 +271,7 @@ function findBookIdByVi(
 const VN_FLASHCARD_FONT = "font-vietnamese-flashcard";
 
 export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
-  const { subBodyClassUp, bodyClassUp } = useBibleFontClasses();
+  const { subBodyClassUp, bodyClassUp, bodyTitleClassUp } = useBibleFontClasses();
   const vnBodyClass = cn(bodyClassUp, VN_FLASHCARD_FONT);
   return (
     <article
@@ -306,221 +306,240 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
         </p>
       </LearnLessonIntro>
 
-      <LearnFullyGodManSection
-        bodyBright
-        locale="vi"
-        sectionTitle={`Vừa Là ${TERM_GOD_VN}, Vừa Là Con Người`}
-        leftTitle="Hoàn Toàn Là Con Người"
-        leftBody={
-          <>
-            Chúa Giê-xu không sống xa cách đời sống con người. Kinh Thánh ghi lại rằng
-            Ngài đã khóc, buồn, mệt, khát và chịu đau đớn như chúng ta.
-            <ul className={cn("my-8 space-y-1", vnBodyClass)}>
-              <LearnVerseBulletItem
-                label="Khóc vì đau buồn"
-                reference={
-                  <BibleVerseLink
-                    langSegment="vi"
-                    version1="vi"
-                    bookId={findBookIdByVi(books, "Giăng")}
-                    chapter={11}
-                    verse={35}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_VN["Giăng 11:35"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Giăng 11:35
-                  </BibleVerseLink>
-                }
-              />
-              <LearnVerseBulletItem
-                label="Giận trước điều sai"
-                reference={
-                  <BibleVerseLink
-                    langSegment="vi"
-                    version1="vi"
-                    bookId={findBookIdByVi(books, "Mác")}
-                    chapter={3}
-                    verse={5}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_VN["Mác 3:5"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Mác 3:5
-                  </BibleVerseLink>
-                }
-              />
-              <LearnVerseBulletItem
-                label="Khát khi chịu đau đớn"
-                reference={
-                  <BibleVerseLink
-                    langSegment="vi"
-                    version1="vi"
-                    bookId={findBookIdByVi(books, "Giăng")}
-                    chapter={19}
-                    verse={28}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_VN["Giăng 19:28"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Giăng 19:28
-                  </BibleVerseLink>
-                }
-              />
-            </ul>
-            <p className={cn("mt-3", vnBodyClass)}>
-              Những điều này cho thấy <strong>Ngài</strong> thật sự bước vào đời sống con
-              người, chứ không đứng bên ngoài nó.
-            </p>
-          </>
-        }
-        rightTitle={`Hoàn Toàn Là ${TERM_GOD_VN}`}
-        rightBody={
-          <>
-            Đồng thời, Chúa Giê-xu làm những việc vượt quá khả năng của con người: Ngài
-            khiến gió yên, tha tội, và gọi kẻ chết sống lại.
-            <ul className={cn("my-8 space-y-1", vnBodyClass)}>
-              <LearnVerseBulletItem
-                label="Làm phép lạ và khiến thiên nhiên vâng lời"
-                reference={
-                  <BibleVerseLink
-                    langSegment="vi"
-                    version1="vi"
-                    bookId={findBookIdByVi(books, "Mác")}
-                    chapter={4}
-                    verse={39}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_VN["Mác 4:39"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Mác 4:39
-                  </BibleVerseLink>
-                }
-              />
-              <LearnVerseBulletItem
-                label="Có quyền tha tội"
-                reference={
-                  <BibleVerseLink
-                    langSegment="vi"
-                    version1="vi"
-                    bookId={findBookIdByVi(books, "Lu-ca")}
-                    chapter={5}
-                    verse={20}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_VN["Lu-ca 5:20"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Lu-ca 5:20
-                  </BibleVerseLink>
-                }
-              />
-              <LearnVerseBulletItem
-                label="Khiến người chết sống lại"
-                reference={
-                  <BibleVerseLink
-                    langSegment="vi"
-                    version1="vi"
-                    bookId={findBookIdByVi(books, "Giăng")}
-                    chapter={11}
-                    verse={43}
-                    verseEnd={44}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_VN["Giăng 11:43-44"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Giăng 11:43-44
-                  </BibleVerseLink>
-                }
-              />
-            </ul>
-            <p className={cn("mt-3", vnBodyClass)}>
-              Vì vậy nhiều người tin rằng Ngài không chỉ là một giáo sư hay tiên tri, mà
-              là Con của <strong>{TERM_GOD_VN}</strong>.
-            </p>
-          </>
-        }
-      />
+      <RevealSection>
+        <LearnHeroImage
+          src="https://images.unsplash.com/photo-1499561385668-5ebdb06a79bc?auto=format&fit=crop&w=1200&q=80"
+          alt="Cây thập tự trên nền bầu trời bình minh"
+          credit="Ảnh: Unsplash"
+          creditHref="https://unsplash.com"
+        />
+      </RevealSection>
 
-      <LearnCrossSection
-        bodyBright
-        locale="vi"
-        title="Sự Chết Và Sự Phục Sinh"
-        paragraph1={
-          <>
-            Theo các sách Tân Ước, Chúa Giê-xu đã bị đóng đinh dưới thời Bôn-xơ Phi-lát.
-            Với nhiều người tin Chúa, cái chết của Ngài không chỉ là một biến cố lịch sử,
-            mà còn là hành động cứu chuộc.
-          </>
-        }
-        paragraph2={
-          <>
-            Theo các sách {TERM_NEW_TESTAMENT_VN}, đến ngày thứ ba, <strong>Ngài</strong>{" "}
-            đã sống lại. Đây không chỉ là biểu tượng, mà là nền tảng của niềm hy vọng và
-            đức tin.
-          </>
-        }
-        refText={
-          <BibleVerseLink
-            langSegment="vi"
-            version1="vi"
-            bookId={findBookIdByVi(books, "1 Cô-rinh-tô", "1 Corinthians")}
-            chapter={15}
-            verse={3}
-            verseEnd={8}
-            testament="nt"
-            previewText={VERSE_PREVIEW_VN["1 Cô-rinh-tô 15:3-8"]}
-            triggerClassName={subBodyClassUp}
-          >
-            1 Cô-rinh-tô 15:3–8
-          </BibleVerseLink>
-        }
-      />
+      <RevealSection>
+        <LearnFullyGodManSection
+          bodyBright
+          locale="vi"
+          sectionTitle={`Vừa Là ${TERM_GOD_VN}, Vừa Là Con Người`}
+          leftTitle="Hoàn Toàn Là Con Người"
+          leftBody={
+            <>
+              Chúa Giê-xu không sống xa cách đời sống con người. Kinh Thánh ghi lại rằng
+              Ngài đã khóc, buồn, mệt, khát và chịu đau đớn như chúng ta.
+              <ul className={cn("my-8 space-y-1", vnBodyClass)}>
+                <LearnVerseBulletItem
+                  label="Khóc vì đau buồn"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="vi"
+                      version1="vi"
+                      bookId={findBookIdByVi(books, "Giăng")}
+                      chapter={11}
+                      verse={35}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_VN["Giăng 11:35"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Giăng 11:35
+                    </BibleVerseLink>
+                  }
+                />
+                <LearnVerseBulletItem
+                  label="Giận trước điều sai"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="vi"
+                      version1="vi"
+                      bookId={findBookIdByVi(books, "Mác")}
+                      chapter={3}
+                      verse={5}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_VN["Mác 3:5"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Mác 3:5
+                    </BibleVerseLink>
+                  }
+                />
+                <LearnVerseBulletItem
+                  label="Khát khi chịu đau đớn"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="vi"
+                      version1="vi"
+                      bookId={findBookIdByVi(books, "Giăng")}
+                      chapter={19}
+                      verse={28}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_VN["Giăng 19:28"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Giăng 19:28
+                    </BibleVerseLink>
+                  }
+                />
+              </ul>
+              <p className={cn("mt-3", vnBodyClass)}>
+                Những điều này cho thấy <strong>Ngài</strong> thật sự bước vào đời sống con
+                người, chứ không đứng bên ngoài nó.
+              </p>
+            </>
+          }
+          rightTitle={`Hoàn Toàn Là ${TERM_GOD_VN}`}
+          rightBody={
+            <>
+              Đồng thời, Chúa Giê-xu làm những việc vượt quá khả năng của con người: Ngài
+              khiến gió yên, tha tội, và gọi kẻ chết sống lại.
+              <ul className={cn("my-8 space-y-1", vnBodyClass)}>
+                <LearnVerseBulletItem
+                  label="Làm phép lạ và khiến thiên nhiên vâng lời"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="vi"
+                      version1="vi"
+                      bookId={findBookIdByVi(books, "Mác")}
+                      chapter={4}
+                      verse={39}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_VN["Mác 4:39"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Mác 4:39
+                    </BibleVerseLink>
+                  }
+                />
+                <LearnVerseBulletItem
+                  label="Có quyền tha tội"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="vi"
+                      version1="vi"
+                      bookId={findBookIdByVi(books, "Lu-ca")}
+                      chapter={5}
+                      verse={20}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_VN["Lu-ca 5:20"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Lu-ca 5:20
+                    </BibleVerseLink>
+                  }
+                />
+                <LearnVerseBulletItem
+                  label="Khiến người chết sống lại"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="vi"
+                      version1="vi"
+                      bookId={findBookIdByVi(books, "Giăng")}
+                      chapter={11}
+                      verse={43}
+                      verseEnd={44}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_VN["Giăng 11:43-44"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Giăng 11:43-44
+                    </BibleVerseLink>
+                  }
+                />
+              </ul>
+              <p className={cn("mt-3", vnBodyClass)}>
+                Vì vậy nhiều người tin rằng Ngài không chỉ là một giáo sư hay tiên tri, mà
+                là Con của <strong>{TERM_GOD_VN}</strong>.
+              </p>
+            </>
+          }
+        />
+      </RevealSection>
 
-      <LearnProphecySection
-        bodyBright
-        locale="vi"
-        title="Những Lời Tiên Tri Thường Được Đối Chiếu"
-        intro={
-          <>
-            Trong Cựu Ước, có nhiều đoạn được người tin Chúa hiểu là hướng về Đấng Mê-si.
-            Phần này trình bày một số lời tiên tri thường được đối chiếu với cuộc đời, sự
-            chết và sự phục sinh của Chúa Giê-xu. Một số chỗ được nhìn nhận rất rõ, trong
-            khi một số chỗ vẫn còn được thảo luận theo nhiều cách khác nhau.
-          </>
-        }
-        items={getProphecyItems(books, findBookIdByVi, subBodyClassUp)}
-      />
+      <RevealSection>
+        <LearnCrossSection
+          bodyBright
+          locale="vi"
+          title="Sự Chết Và Sự Phục Sinh"
+          paragraph1={
+            <>
+              Theo các sách Tân Ước, Chúa Giê-xu đã bị đóng đinh dưới thời Bôn-xơ Phi-lát.
+              Với nhiều người tin Chúa, cái chết của Ngài không chỉ là một biến cố lịch sử,
+              mà còn là hành động cứu chuộc.
+            </>
+          }
+          paragraph2={
+            <>
+              Theo các sách {TERM_NEW_TESTAMENT_VN}, đến ngày thứ ba, <strong>Ngài</strong>{" "}
+              đã sống lại. Đây không chỉ là biểu tượng, mà là nền tảng của niềm hy vọng và
+              đức tin.
+            </>
+          }
+          refText={
+            <BibleVerseLink
+              langSegment="vi"
+              version1="vi"
+              bookId={findBookIdByVi(books, "1 Cô-rinh-tô", "1 Corinthians")}
+              chapter={15}
+              verse={3}
+              verseEnd={8}
+              testament="nt"
+              previewText={VERSE_PREVIEW_VN["1 Cô-rinh-tô 15:3-8"]}
+              triggerClassName={subBodyClassUp}
+            >
+              1 Cô-rinh-tô 15:3–8
+            </BibleVerseLink>
+          }
+        />
+      </RevealSection>
 
-      <LearnWhyCtaSection
-        locale="vi"
-        title="Vì Sao Điều Này Vẫn Quan Trọng?"
-        paragraph1={
-          <>
-            Nếu Chúa {NAME_JESUS_VN} thật sự đã sống lại từ cõi chết, thì Ngài không chỉ
-            là một nhân vật trong lịch sử hay một thầy dạy đạo đức. Điều đó có nghĩa là
-            Ngài vẫn đang sống — và lời hứa về hy vọng, sự tha thứ không chỉ là giả
-            thuyết, mà là điều sẽ trở thành thật trong cuộc đời con người.
-          </>
-        }
-        paragraph2={
-          <div>
-            Nhưng điều này không chỉ để biết, mà để đáp lại. Kinh Thánh nói rằng để nhận
-            được những lời hứa ấy, con người cần có đức tin. Đức tin không chỉ là tin một
-            thông tin, mà là đặt lòng tin của mình nơi Chúa {NAME_JESUS_VN}.{" "}
-            <p className="mt-4 font-semibold">
-              Vậy đức tin thực sự là gì? Và điều đó có liên quan gì đến bạn?
-            </p>
-          </div>
-        }
-        linkHref="/bible/vi/read"
-        linkLabel="Đọc Kinh Thánh"
-      />
+      <RevealSection>
+        <LearnProphecySection
+          bodyBright
+          locale="vi"
+          title="Những Lời Tiên Tri Thường Được Đối Chiếu"
+          intro={
+            <>
+              Trong Cựu Ước, có nhiều đoạn được người tin Chúa hiểu là hướng về Đấng Mê-si.
+              Phần này trình bày một số lời tiên tri thường được đối chiếu với cuộc đời, sự
+              chết và sự phục sinh của Chúa Giê-xu. Một số chỗ được nhìn nhận rất rõ, trong
+              khi một số chỗ vẫn còn được thảo luận theo nhiều cách khác nhau.
+            </>
+          }
+          items={getProphecyItems(books, findBookIdByVi, subBodyClassUp)}
+        />
+      </RevealSection>
 
-      <LearnWhatIsBibleGlossary
-        glossaryTitle="Từ vựng nhanh"
-        glossary={VN_JESUS_GLOSSARY}
-        locale="vi"
-      />
+      <RevealSection>
+        <LearnWhyCtaSection
+          locale="vi"
+          title="Vì Sao Điều Này Vẫn Quan Trọng?"
+          paragraph1={
+            <>
+              Nếu Chúa {NAME_JESUS_VN} thật sự đã sống lại từ cõi chết, thì Ngài không chỉ
+              là một nhân vật trong lịch sử hay một thầy dạy đạo đức. Điều đó có nghĩa là
+              Ngài vẫn đang sống — và lời hứa về hy vọng, sự tha thứ không chỉ là giả
+              thuyết, mà là điều sẽ trở thành thật trong cuộc đời con người.
+            </>
+          }
+          paragraph2={
+            <div>
+              Nhưng điều này không chỉ để biết, mà để đáp lại. Kinh Thánh nói rằng để nhận
+              được những lời hứa ấy, con người cần có đức tin. Đức tin không chỉ là tin một
+              thông tin, mà là đặt lòng tin của mình nơi Chúa {NAME_JESUS_VN}.{" "}
+              <p className="mt-4 font-semibold">
+                Vậy đức tin thực sự là gì? Và điều đó có liên quan gì đến bạn?
+              </p>
+            </div>
+          }
+          linkHref="/bible/vi/read"
+          linkLabel="Đọc Kinh Thánh"
+        />
+      </RevealSection>
+
+      <RevealSection>
+        <LearnWhatIsBibleGlossaryGrid
+          glossaryTitle="Từ vựng nhanh"
+          items={VN_JESUS_GLOSSARY}
+          locale="vi"
+        />
+      </RevealSection>
     </article>
   );
 }

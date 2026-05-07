@@ -19,13 +19,16 @@ import {
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import {
-  LearnWhatIsBibleGlossary,
-  type GlossaryItem,
-} from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
+  LearnWhatIsBibleGlossaryGrid,
+  type GlossaryGridItem,
+} from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossaryGrid";
+import { RevealSection } from "@/components/Bible/Learn/shared-components/RevealSection";
+import { LearnHeroImage } from "@/components/Bible/Learn/shared-components/LearnHeroImage";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
+import { Crown, User, Sun } from "lucide-react";
 
-const EN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
+const EN_JESUS_GLOSSARY: readonly GlossaryGridItem[] = [
   {
     term: "Messiah",
     def: (
@@ -35,6 +38,7 @@ const EN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
         <strong>Jesus</strong> as this Messiah.
       </>
     ),
+    icon: Crown,
   },
   {
     term: "Incarnation",
@@ -44,6 +48,7 @@ const EN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
         Not merely a messenger, but <strong>God</strong> entering human history.
       </>
     ),
+    icon: User,
   },
   {
     term: "Resurrection",
@@ -54,6 +59,7 @@ const EN_JESUS_GLOSSARY: readonly GlossaryItem[] = [
         turning point in history.
       </>
     ),
+    icon: Sun,
   },
 ];
 
@@ -78,7 +84,6 @@ const VERSE_PREVIEW_EN: Record<string, string> = {
     "When he had said this, Jesus called in a loud voice, 'Lazarus, come out!' The dead man came out, his hands and feet wrapped with strips of linen, and a cloth around his face.",
   "1 Corinthians 15:3-8":
     "For what I received I passed on to you as of first importance: that Christ died for our sins according to the Scriptures, that he was buried, that he was raised on the third day according to the Scriptures...",
-  // Prophecy section
   "Micah 5:2":
     "But you, Bethlehem Ephrathah, though you are small among the clans of Judah, out of you will come for me one who will be ruler over Israel...",
   "Matthew 2:1": "After Jesus was born in Bethlehem in Judea...",
@@ -247,9 +252,6 @@ function getProphecyItems(
   });
 }
 
-/**
- * Resolve book id by English name (case-insensitive).
- */
 function findBookIdByEn(books: BibleBook[], nameEn: string): string | null {
   const name = nameEn.trim().toLowerCase();
   const book = books.find((b) => b.nameEn.trim().toLowerCase() === name);
@@ -288,222 +290,241 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
         </p>
       </LearnLessonIntro>
 
-      <LearnFullyGodManSection
-        bodyBright
-        locale="en"
-        sectionTitle={`Fully ${TERM_GOD_EN}, Fully Human`}
-        leftTitle="Fully Human"
-        leftBody={
-          <>
-            Jesus did not stand apart from ordinary human life. Scripture records that he
-            wept, grieved, grew tired, felt thirst, and suffered pain as we do.
-            <ul className={cn("my-8 space-y-1", bodyClassUp)}>
-              <LearnVerseBulletItem
-                label="Wept with sorrow"
-                reference={
-                  <BibleVerseLink
-                    langSegment="en"
-                    version1="niv"
-                    bookId={findBookIdByEn(books, "John")}
-                    chapter={11}
-                    verse={35}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_EN["John 11:35"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    John 11:35
-                  </BibleVerseLink>
-                }
-              />
-              <LearnVerseBulletItem
-                label="Angered by injustice"
-                reference={
-                  <BibleVerseLink
-                    langSegment="en"
-                    version1="niv"
-                    bookId={findBookIdByEn(books, "Mark")}
-                    chapter={3}
-                    verse={5}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_EN["Mark 3:5"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Mark 3:5
-                  </BibleVerseLink>
-                }
-              />
-              <LearnVerseBulletItem
-                label="Thirsted while suffering"
-                reference={
-                  <BibleVerseLink
-                    langSegment="en"
-                    version1="niv"
-                    bookId={findBookIdByEn(books, "John")}
-                    chapter={19}
-                    verse={28}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_EN["John 19:28"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    John 19:28
-                  </BibleVerseLink>
-                }
-              />
-            </ul>
-            <p className={cn("mt-3", bodyClassUp)}>
-              These details show that <strong>he</strong> truly shared human life, rather
-              than standing outside it.
-            </p>
-          </>
-        }
-        rightTitle={`Fully ${TERM_GOD_EN}`}
-        rightBody={
-          <>
-            At the same time, Jesus did what lies beyond human power: he stilled the
-            storm, forgave sins, and called the dead to life.
-            <ul className={cn("my-8 space-y-1", bodyClassUp)}>
-              <LearnVerseBulletItem
-                label="Performed miracles and commanded nature"
-                reference={
-                  <BibleVerseLink
-                    langSegment="en"
-                    version1="niv"
-                    bookId={findBookIdByEn(books, "Mark")}
-                    chapter={4}
-                    verse={39}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_EN["Mark 4:39"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Mark 4:39
-                  </BibleVerseLink>
-                }
-              />
-              <LearnVerseBulletItem
-                label="Had authority to forgive sins"
-                reference={
-                  <BibleVerseLink
-                    langSegment="en"
-                    version1="niv"
-                    bookId={findBookIdByEn(books, "Luke")}
-                    chapter={5}
-                    verse={20}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_EN["Luke 5:20"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    Luke 5:20
-                  </BibleVerseLink>
-                }
-              />
-              <LearnVerseBulletItem
-                label="Raised the dead"
-                reference={
-                  <BibleVerseLink
-                    langSegment="en"
-                    version1="niv"
-                    bookId={findBookIdByEn(books, "John")}
-                    chapter={11}
-                    verse={43}
-                    verseEnd={44}
-                    testament="nt"
-                    previewText={VERSE_PREVIEW_EN["John 11:43-44"]}
-                    triggerClassName={subBodyClassUp}
-                  >
-                    John 11:43-44
-                  </BibleVerseLink>
-                }
-              />
-            </ul>
-            <p className={cn("mt-3", bodyClassUp)}>
-              Because of this, many believe he was not merely a teacher or prophet, but
-              the <strong>Son of {TERM_GOD_EN}</strong>.
-            </p>
-          </>
-        }
-      />
+      <RevealSection>
+        <LearnHeroImage
+          src="https://images.unsplash.com/photo-1499561385668-5ebdb06a79bc?auto=format&fit=crop&w=1200&q=80"
+          alt="Cross silhouette against a sunrise sky"
+          credit="Photo on Unsplash"
+          creditHref="https://unsplash.com"
+        />
+      </RevealSection>
 
-      <LearnCrossSection
-        bodyBright
-        locale="en"
-        title="His Death and Resurrection"
-        paragraph1={
-          <>
-            According to the New Testament, Jesus was crucified under Pontius Pilate. For
-            many believers, his death was not only a historical event, but an act of
-            redemption.
-          </>
-        }
-        paragraph2={
-          <>
-            According to the {TERM_NEW_TESTAMENT_EN}, on the third day <strong>he</strong>{" "}
-            rose again. This is not only a symbol, but the foundation of hope and faith.
-          </>
-        }
-        refText={
-          <BibleVerseLink
-            langSegment="en"
-            version1="niv"
-            bookId={findBookIdByEn(books, "1 Corinthians")}
-            chapter={15}
-            verse={3}
-            verseEnd={8}
-            testament="nt"
-            previewText={VERSE_PREVIEW_EN["1 Corinthians 15:3-8"]}
-            triggerClassName={subBodyClassUp}
-          >
-            1 Corinthians 15:3–8
-          </BibleVerseLink>
-        }
-      />
+      <RevealSection>
+        <LearnFullyGodManSection
+          bodyBright
+          locale="en"
+          sectionTitle={`Fully ${TERM_GOD_EN}, Fully Human`}
+          leftTitle="Fully Human"
+          leftBody={
+            <>
+              Jesus did not stand apart from ordinary human life. Scripture records that he
+              wept, grieved, grew tired, felt thirst, and suffered pain as we do.
+              <ul className={cn("my-8 space-y-1", bodyClassUp)}>
+                <LearnVerseBulletItem
+                  label="Wept with sorrow"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="en"
+                      version1="niv"
+                      bookId={findBookIdByEn(books, "John")}
+                      chapter={11}
+                      verse={35}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_EN["John 11:35"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      John 11:35
+                    </BibleVerseLink>
+                  }
+                />
+                <LearnVerseBulletItem
+                  label="Angered by injustice"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="en"
+                      version1="niv"
+                      bookId={findBookIdByEn(books, "Mark")}
+                      chapter={3}
+                      verse={5}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_EN["Mark 3:5"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Mark 3:5
+                    </BibleVerseLink>
+                  }
+                />
+                <LearnVerseBulletItem
+                  label="Thirsted while suffering"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="en"
+                      version1="niv"
+                      bookId={findBookIdByEn(books, "John")}
+                      chapter={19}
+                      verse={28}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_EN["John 19:28"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      John 19:28
+                    </BibleVerseLink>
+                  }
+                />
+              </ul>
+              <p className={cn("mt-3", bodyClassUp)}>
+                These details show that <strong>he</strong> truly shared human life, rather
+                than standing outside it.
+              </p>
+            </>
+          }
+          rightTitle={`Fully ${TERM_GOD_EN}`}
+          rightBody={
+            <>
+              At the same time, Jesus did what lies beyond human power: he stilled the
+              storm, forgave sins, and called the dead to life.
+              <ul className={cn("my-8 space-y-1", bodyClassUp)}>
+                <LearnVerseBulletItem
+                  label="Performed miracles and commanded nature"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="en"
+                      version1="niv"
+                      bookId={findBookIdByEn(books, "Mark")}
+                      chapter={4}
+                      verse={39}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_EN["Mark 4:39"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Mark 4:39
+                    </BibleVerseLink>
+                  }
+                />
+                <LearnVerseBulletItem
+                  label="Had authority to forgive sins"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="en"
+                      version1="niv"
+                      bookId={findBookIdByEn(books, "Luke")}
+                      chapter={5}
+                      verse={20}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_EN["Luke 5:20"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      Luke 5:20
+                    </BibleVerseLink>
+                  }
+                />
+                <LearnVerseBulletItem
+                  label="Raised the dead"
+                  reference={
+                    <BibleVerseLink
+                      langSegment="en"
+                      version1="niv"
+                      bookId={findBookIdByEn(books, "John")}
+                      chapter={11}
+                      verse={43}
+                      verseEnd={44}
+                      testament="nt"
+                      previewText={VERSE_PREVIEW_EN["John 11:43-44"]}
+                      triggerClassName={subBodyClassUp}
+                    >
+                      John 11:43-44
+                    </BibleVerseLink>
+                  }
+                />
+              </ul>
+              <p className={cn("mt-3", bodyClassUp)}>
+                Because of this, many believe he was not merely a teacher or prophet, but
+                the <strong>Son of {TERM_GOD_EN}</strong>.
+              </p>
+            </>
+          }
+        />
+      </RevealSection>
 
-      <LearnProphecySection
-        bodyBright
-        locale="en"
-        title="Prophecies Often Compared"
-        intro={
-          <>
-            In the Old Testament, many passages are understood by believers as pointing
-            toward the Messiah. This section presents several prophecies often compared
-            with the life, death, and resurrection of Jesus. Some connections are seen as
-            very clear, while others are still discussed in different ways.
-          </>
-        }
-        items={getProphecyItems(books, findBookIdByEn, bodyTitleClassUp)}
-        prophecyColumnLabel="Prophecy"
-        fulfilmentColumnLabel="Fulfilled"
-      />
+      <RevealSection>
+        <LearnCrossSection
+          bodyBright
+          locale="en"
+          title="His Death and Resurrection"
+          paragraph1={
+            <>
+              According to the New Testament, Jesus was crucified under Pontius Pilate. For
+              many believers, his death was not only a historical event, but an act of
+              redemption.
+            </>
+          }
+          paragraph2={
+            <>
+              According to the {TERM_NEW_TESTAMENT_EN}, on the third day <strong>he</strong>{" "}
+              rose again. This is not only a symbol, but the foundation of hope and faith.
+            </>
+          }
+          refText={
+            <BibleVerseLink
+              langSegment="en"
+              version1="niv"
+              bookId={findBookIdByEn(books, "1 Corinthians")}
+              chapter={15}
+              verse={3}
+              verseEnd={8}
+              testament="nt"
+              previewText={VERSE_PREVIEW_EN["1 Corinthians 15:3-8"]}
+              triggerClassName={subBodyClassUp}
+            >
+              1 Corinthians 15:3–8
+            </BibleVerseLink>
+          }
+        />
+      </RevealSection>
 
-      <LearnWhyCtaSection
-        locale="en"
-        title="Why Does This Still Matter?"
-        paragraph1={
-          <>
-            If Jesus truly rose from the dead, then he cannot be only a figure from
-            history or a moral teacher. That means he is still alive—and the promises of
-            hope and forgiveness are not mere theories; they can become real in
-            people&apos;s lives.
-          </>
-        }
-        paragraph2={
-          <>
-            Yet this is not only something to know, but something to respond to. Scripture
-            says that receiving those promises takes faith: not only assent to a fact, but
-            trust placed in Jesus himself.{" "}
-            <span className="mt-4 block font-semibold">
-              What, then, is real faith? And what does that have to do with you?
-            </span>
-          </>
-        }
-        linkHref="/bible/en/read"
-        linkLabel="Read the Bible"
-      />
+      <RevealSection>
+        <LearnProphecySection
+          bodyBright
+          locale="en"
+          title="Prophecies Often Compared"
+          intro={
+            <>
+              In the Old Testament, many passages are understood by believers as pointing
+              toward the Messiah. This section presents several prophecies often compared
+              with the life, death, and resurrection of Jesus. Some connections are seen as
+              very clear, while others are still discussed in different ways.
+            </>
+          }
+          items={getProphecyItems(books, findBookIdByEn, bodyTitleClassUp)}
+          prophecyColumnLabel="Prophecy"
+          fulfilmentColumnLabel="Fulfilled"
+        />
+      </RevealSection>
 
-      <LearnWhatIsBibleGlossary
-        glossaryTitle="Quick Glossary"
-        glossary={EN_JESUS_GLOSSARY}
-        locale="en"
-      />
+      <RevealSection>
+        <LearnWhyCtaSection
+          locale="en"
+          title="Why Does This Still Matter?"
+          paragraph1={
+            <>
+              If Jesus truly rose from the dead, then he cannot be only a figure from
+              history or a moral teacher. That means he is still alive—and the promises of
+              hope and forgiveness are not mere theories; they can become real in
+              people&apos;s lives.
+            </>
+          }
+          paragraph2={
+            <>
+              Yet this is not only something to know, but something to respond to. Scripture
+              says that receiving those promises takes faith: not only assent to a fact, but
+              trust placed in Jesus himself.{" "}
+              <span className="mt-4 block font-semibold">
+                What, then, is real faith? And what does that have to do with you?
+              </span>
+            </>
+          }
+          linkHref="/bible/en/read"
+          linkLabel="Read the Bible"
+        />
+      </RevealSection>
+
+      <RevealSection>
+        <LearnWhatIsBibleGlossaryGrid
+          glossaryTitle="Quick Glossary"
+          items={EN_JESUS_GLOSSARY}
+          locale="en"
+        />
+      </RevealSection>
     </article>
   );
 }

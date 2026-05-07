@@ -64,7 +64,7 @@ export function LearnWhatIsBibleGlossaryGrid({
                 <div
                   className={cn(
                     "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
-                    "bg-primary/12 text-primary dark:bg-primary/20"
+                    "bg-primary/15 text-primary-700 dark:bg-primary/20 dark:text-primary"
                   )}
                   aria-hidden
                 >

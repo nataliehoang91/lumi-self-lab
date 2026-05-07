@@ -234,7 +234,7 @@ export function AuthorOccupationGrid({
             "bg-card px-4 py-6 text-center dark:border-second/30"
           )}
         >
-          <div className="text-second-700 theme-warm:text-primary mb-1">
+          <div className="text-primary-700 dark:text-primary mb-1">
             {ICONS[card.icon]}
           </div>
           <p

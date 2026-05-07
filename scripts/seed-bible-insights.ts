@@ -84,6 +84,7 @@ Quy tắc:
 - context và explanation phải là văn xuôi bình thường (không dùng markdown, không dùng gạch đầu dòng)
 - reflections phải là mảng gồm đúng 4 câu hỏi
 - Tất cả câu hỏi phải mang tính cá nhân và mời gọi tự kiểm điểm thành thật
+- QUAN TRỌNG: Luôn dùng "bạn" (không dùng "em" hay "con") và "tôi" khi xưng hô trong các câu hỏi suy gẫm. Giọng văn ngang hàng, thân thiện như bạn bè nói chuyện với nhau.
 - Không viết bất kỳ nội dung nào ngoài đối tượng JSON`;
 }
 
@@ -191,7 +192,8 @@ async function upsertInsight(
 // Check existing
 // ---------------------------------------------------------------------------
 
-async function existingChapters(bookId: string, lang: Lang): Promise<Set<number>> {
+async function existingChapters(bookId: string, lang: Lang, force: boolean): Promise<Set<number>> {
+  if (force) return new Set(); // treat all as not done → regenerate everything
   const rows = await prisma.bibleInsight.findMany({
     where: { bookId, language: lang, source: "ai", scope: "chapter" },
     select: { chapterNumber: true },
@@ -210,10 +212,11 @@ async function seedBook(
   chapterCount: number,
   langs: Lang[],
   dryRun: boolean,
-  delayMs: number
+  delayMs: number,
+  force = false
 ) {
   for (const lang of langs) {
-    const done = await existingChapters(bookId, lang);
+    const done = await existingChapters(bookId, lang, force);
     const bookName = lang === "vi" ? bookNameVi : bookNameEn;
     const todo = Array.from({ length: chapterCount }, (_, i) => i + 1).filter(
       (ch) => !done.has(ch)
@@ -269,6 +272,7 @@ Options:
   --nt               Seed New Testament only (Matthew–Revelation)
   --ot               Seed Old Testament only (Genesis–Malachi)
   --all              Seed all 66 books (skips already-seeded chapters)
+  --force            Overwrite existing rows (use to fix bad content)
   --lang <en|vi|both>  Language to generate (default: en)
   --delay <ms>       Delay between API calls in ms (default: 300)
   --dry-run          Preview what would be seeded without writing to DB
@@ -290,6 +294,7 @@ Examples:
   const all = args.includes("--all");
   const nt = args.includes("--nt");
   const ot = args.includes("--ot");
+  const force = args.includes("--force");
   const dryRun = args.includes("--dry-run");
 
   const langIdx = args.indexOf("--lang");
@@ -300,7 +305,7 @@ Examples:
   const delayIdx = args.indexOf("--delay");
   const delayMs = delayIdx >= 0 ? parseInt(args[delayIdx + 1], 10) : 300;
 
-  return { bookSlug, priority, all, nt, ot, langs, dryRun, delayMs };
+  return { bookSlug, priority, all, nt, ot, force, langs, dryRun, delayMs };
 }
 
 // ---------------------------------------------------------------------------
@@ -308,7 +313,7 @@ Examples:
 // ---------------------------------------------------------------------------
 
 async function main() {
-  const { bookSlug, priority, all, nt, ot, langs, dryRun, delayMs } = parseArgs();
+  const { bookSlug, priority, all, nt, ot, force, langs, dryRun, delayMs } = parseArgs();
 
   if (!process.env.ANTHROPIC_API_KEY) {
     console.error("❌  ANTHROPIC_API_KEY not found in environment. Add it to your .env file.");
@@ -368,7 +373,8 @@ async function main() {
       book.chapterCount,
       langs,
       dryRun,
-      delayMs
+      delayMs,
+      force
     );
     globalDone += book.chapterCount * langs.length;
 

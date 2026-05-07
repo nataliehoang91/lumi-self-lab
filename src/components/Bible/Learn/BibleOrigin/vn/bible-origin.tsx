@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { MapLocationId } from "@/components/Bible/Learn/LearnOriginMap";
-import { LearnWhatIsBibleIntro } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleIntro";
+import { LearnBibleOriginIntro } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginIntro";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 import { LearnBibleOriginLanguages } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginLanguages";
@@ -17,6 +17,8 @@ import {
   LearnBibleOriginFaq,
   type FaqItem,
 } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginFaq";
+import { RevealSection } from "@/components/Bible/Learn/shared-components/RevealSection";
+import { LearnHeroImage } from "@/components/Bible/Learn/shared-components/LearnHeroImage";
 
 function getMapLabels(
   loc: Record<MapLocationId, MapLocationInfo>
@@ -125,7 +127,7 @@ export function VnBibleOriginPage() {
       aria-label="Kinh Thánh đến với chúng ta như thế nào?"
       className="text-foreground"
     >
-      <LearnWhatIsBibleIntro
+      <LearnBibleOriginIntro
         bodyBright
         locale="vi"
         moduleNum="02 / 05"
@@ -147,52 +149,71 @@ export function VnBibleOriginPage() {
         }
       />
 
-      <LearnBibleOriginLanguages
-        locale="vi"
-        originalLanguages="Ngôn ngữ gốc"
-        lang={["Hê-bơ-rơ", "Hy Lạp", "A-ram"]}
-        langNote={[
-          "Phần lớn Cựu Ước",
-          "Toàn bộ Tân Ước",
-          "Một số đoạn trong Đa-ni-ên & E-xơ-ra",
-        ]}
-      />
+      <RevealSection>
+        <LearnHeroImage
+          src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1200&q=80"
+          alt="Thư viện cổ với những cuốn sách lịch sử"
+          credit="Ảnh: Janko Ferlič / Unsplash"
+          creditHref="https://unsplash.com/photos/sfL_QOnmy00"
+        />
+      </RevealSection>
 
-      <LearnBibleOriginTimeline
-        locale="vi"
-        timeline="Dòng thời gian bản thảo"
-        timelineItems={VN_TIMELINE}
-        mapLocations={VN_MAP_LOCATIONS}
-        mapLabels={mapLabels}
-      />
+      <RevealSection>
+        <LearnBibleOriginLanguages
+          locale="vi"
+          originalLanguages="Ngôn ngữ gốc"
+          lang={["Hê-bơ-rơ", "Hy Lạp", "A-ram"]}
+          langNote={[
+            "Phần lớn Cựu Ước",
+            "Toàn bộ Tân Ước",
+            "Một số đoạn trong Đa-ni-ên & E-xơ-ra",
+          ]}
+        />
+      </RevealSection>
 
-      <LearnBibleOriginMapSection
-        bodyBright
-        locale="vi"
-        mapTitle="Bản đồ bản thảo Kinh thánh"
-        mapBody="Một vài địa điểm trọng yếu nơi Kinh thánh được viết, sao chép, dịch và được gìn giữ qua nhiều thế kỷ."
-        activeId={mapActiveLocation}
-        onActiveChange={setMapActiveLocation}
-        labels={mapLabels}
-        renderPopover={(id) => VN_MAP_LOCATIONS[id]}
-      />
+      <RevealSection>
+        <LearnBibleOriginTimeline
+          locale="vi"
+          timeline="Dòng thời gian bản thảo"
+          timelineItems={VN_TIMELINE}
+          mapLocations={VN_MAP_LOCATIONS}
+          mapLabels={mapLabels}
+        />
+      </RevealSection>
 
-      <LearnBibleOriginReliable
-        locale="vi"
-        reliableTitle="Tại sao Kinh Thánh được xem là đáng tin?"
-        reliableP1="Kinh Thánh không chỉ tồn tại qua thời gian — nó còn được bảo tồn với độ chính xác cao. Tân Ước có hàng ngàn bản chép cổ, nhiều hơn hầu hết các tác phẩm cổ đại."
-        reliableP2="Dù có khác biệt nhỏ giữa các bản chép, nội dung chính vẫn giữ nguyên. Cuộn Sách Biển Chết (1947) cho thấy bản Cựu Ước gần như không thay đổi sau hàng ngàn năm."
-        reliableP3={
-          <>
-            Nếu Kinh Thánh đáng tin đến vậy, câu hỏi không còn là{" "}
-            <strong>&quot;Kinh Thánh có đúng không?&quot; </strong>
-            nữa. Mà là:{" "}
-            <strong>&quot;Kinh Thánh nói gì về tương lai của chính bạn?&quot;</strong>
-          </>
-        }
-      />
+      <RevealSection>
+        <LearnBibleOriginMapSection
+          bodyBright
+          locale="vi"
+          mapTitle="Bản đồ bản thảo Kinh thánh"
+          mapBody="Một vài địa điểm trọng yếu nơi Kinh thánh được viết, sao chép, dịch và được gìn giữ qua nhiều thế kỷ."
+          activeId={mapActiveLocation}
+          onActiveChange={setMapActiveLocation}
+          labels={mapLabels}
+          renderPopover={(id) => VN_MAP_LOCATIONS[id]}
+        />
+      </RevealSection>
 
-      <LearnBibleOriginFaq locale="vi" faqTitle="Câu hỏi thường gặp" faq={VN_FAQ} />
+      <RevealSection>
+        <LearnBibleOriginReliable
+          locale="vi"
+          reliableTitle="Tại sao Kinh Thánh được xem là đáng tin?"
+          reliableP1="Kinh Thánh không chỉ tồn tại qua thời gian — nó còn được bảo tồn với độ chính xác cao. Tân Ước có hàng ngàn bản chép cổ, nhiều hơn hầu hết các tác phẩm cổ đại."
+          reliableP2="Dù có khác biệt nhỏ giữa các bản chép, nội dung chính vẫn giữ nguyên. Cuộn Sách Biển Chết (1947) cho thấy bản Cựu Ước gần như không thay đổi sau hàng ngàn năm."
+          reliableP3={
+            <>
+              Nếu Kinh Thánh đáng tin đến vậy, câu hỏi không còn là{" "}
+              <strong>&quot;Kinh Thánh có đúng không?&quot; </strong>
+              nữa. Mà là:{" "}
+              <strong>&quot;Kinh Thánh nói gì về tương lai của chính bạn?&quot;</strong>
+            </>
+          }
+        />
+      </RevealSection>
+
+      <RevealSection>
+        <LearnBibleOriginFaq locale="vi" faqTitle="Câu hỏi thường gặp" faq={VN_FAQ} />
+      </RevealSection>
     </article>
   );
 }

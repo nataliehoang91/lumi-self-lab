@@ -15,6 +15,8 @@ import {
   LearnBibleOriginFaq,
   type FaqItem,
 } from "@/components/Bible/Learn/BibleOrigin/shared-components/LearnBibleOriginFaq";
+import { RevealSection } from "@/components/Bible/Learn/shared-components/RevealSection";
+import { LearnHeroImage } from "@/components/Bible/Learn/shared-components/LearnHeroImage";
 import { cn } from "@/lib/utils";
 
 function getMapLabels(
@@ -140,47 +142,66 @@ export function EnBibleOriginPage() {
         }
       />
 
-      <LearnBibleOriginLanguages
-        originalLanguages="Original Languages"
-        lang={["Hebrew", "Greek", "Aramaic"]}
-        langNote={[
-          "Most of the Old Testament",
-          "Entire New Testament",
-          "Small portions of Daniel & Ezra",
-        ]}
-      />
+      <RevealSection>
+        <LearnHeroImage
+          src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1200&q=80"
+          alt="Ancient library with old books and manuscripts"
+          credit="Photo by Janko Ferlič on Unsplash"
+          creditHref="https://unsplash.com/photos/sfL_QOnmy00"
+        />
+      </RevealSection>
 
-      <LearnBibleOriginTimeline
-        timeline="Manuscript Timeline"
-        timelineItems={EN_TIMELINE}
-        mapLocations={EN_MAP_LOCATIONS}
-        mapLabels={mapLabels}
-      />
+      <RevealSection>
+        <LearnBibleOriginLanguages
+          originalLanguages="Original Languages"
+          lang={["Hebrew", "Greek", "Aramaic"]}
+          langNote={[
+            "Most of the Old Testament",
+            "Entire New Testament",
+            "Small portions of Daniel & Ezra",
+          ]}
+        />
+      </RevealSection>
 
-      <LearnBibleOriginMapSection
-        bodyBright
-        mapTitle="Bible Manuscript Map"
-        mapBody="Key locations where Scripture was written, copied, translated, and preserved through centuries."
-        activeId={mapActiveLocation}
-        onActiveChange={setMapActiveLocation}
-        labels={mapLabels}
-        renderPopover={(id) => EN_MAP_LOCATIONS[id]}
-      />
+      <RevealSection>
+        <LearnBibleOriginTimeline
+          timeline="Manuscript Timeline"
+          timelineItems={EN_TIMELINE}
+          mapLocations={EN_MAP_LOCATIONS}
+          mapLabels={mapLabels}
+        />
+      </RevealSection>
 
-      <LearnBibleOriginReliable
-        reliableTitle="Why Is the Bible Considered Reliable?"
-        reliableP1="The Bible hasn't just survived time — it's been preserved with remarkable accuracy. The New Testament alone has thousands of ancient manuscripts, far more than other ancient works."
-        reliableP2="Minor variations exist between copies, but the core message remains consistent. The Dead Sea Scrolls (1947) showed the Old Testament barely changed after thousands of years."
-        reliableP3={
-          <>
-            If the Bible is this reliable, the question isn&apos;t &quot;
-            <strong>Is it true?</strong>&quot; anymore. It&apos;s: &quot;
-            <strong>What does it say about YOUR future?</strong>&quot;
-          </>
-        }
-      />
+      <RevealSection>
+        <LearnBibleOriginMapSection
+          bodyBright
+          mapTitle="Bible Manuscript Map"
+          mapBody="Key locations where Scripture was written, copied, translated, and preserved through centuries."
+          activeId={mapActiveLocation}
+          onActiveChange={setMapActiveLocation}
+          labels={mapLabels}
+          renderPopover={(id) => EN_MAP_LOCATIONS[id]}
+        />
+      </RevealSection>
 
-      <LearnBibleOriginFaq faqTitle="Common Questions" faq={EN_FAQ} />
+      <RevealSection>
+        <LearnBibleOriginReliable
+          reliableTitle="Why Is the Bible Considered Reliable?"
+          reliableP1="The Bible hasn't just survived time — it's been preserved with remarkable accuracy. The New Testament alone has thousands of ancient manuscripts, far more than other ancient works."
+          reliableP2="Minor variations exist between copies, but the core message remains consistent. The Dead Sea Scrolls (1947) showed the Old Testament barely changed after thousands of years."
+          reliableP3={
+            <>
+              If the Bible is this reliable, the question isn&apos;t &quot;
+              <strong>Is it true?</strong>&quot; anymore. It&apos;s: &quot;
+              <strong>What does it say about YOUR future?</strong>&quot;
+            </>
+          }
+        />
+      </RevealSection>
+
+      <RevealSection>
+        <LearnBibleOriginFaq faqTitle="Common Questions" faq={EN_FAQ} />
+      </RevealSection>
     </article>
   );
 }
