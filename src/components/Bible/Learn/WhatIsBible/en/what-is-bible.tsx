@@ -4,13 +4,15 @@ import { LearnWhatIsBibleIntro } from "@/components/Bible/Learn/WhatIsBible/shar
 import { LearnWhatIsBibleStats } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleStats";
 import { LearnWhatIsBibleTestamentSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleTestamentSection";
 import {
-  LearnWhatIsBibleGlossary,
-  type GlossaryItem,
-} from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
+  LearnWhatIsBibleGlossaryGrid,
+  type GlossaryGridItem,
+} from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossaryGrid";
 import {
   OT_SECTIONS,
   NT_SECTIONS,
 } from "@/components/Bible/Learn/WhatIsBible/shared-components/constants";
+import { RevealSection } from "@/components/Bible/Learn/shared-components/RevealSection";
+import { BookOpen, BookMarked, ListChecks, Handshake, Sparkles, Megaphone, Eye } from "lucide-react";
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
@@ -22,34 +24,41 @@ import { LearnLibraryBlock } from "@/components/Bible/Learn/shared-components/Le
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import type { BibleBook } from "@/components/Bible/Read/types";
 
-const EN_GLOSSARY: readonly GlossaryItem[] = [
+const EN_GLOSSARY: readonly GlossaryGridItem[] = [
   {
     term: "Old Testament",
     def: "The first section of the Bible, containing Israel's history, law, poetry, and prophetic writings before the time of Jesus.",
+    icon: BookOpen,
   },
   {
     term: "New Testament",
     def: "The second section of the Bible, beginning with the Gospels and continuing with the growth of the early church.",
+    icon: BookMarked,
   },
   {
     term: "Canon",
     def: "The recognised collection of books considered authoritative Scripture within the Christian tradition.",
+    icon: ListChecks,
   },
   {
     term: "Covenant",
     def: "A relational commitment between God and His people, a theme that runs throughout both Testaments.",
+    icon: Handshake,
   },
   {
     term: "Gospel",
     def: 'Literally "good news" — referring to the message about Jesus and the significance of His life, death, and resurrection.',
+    icon: Sparkles,
   },
   {
     term: "Prophet",
     def: "A messenger called to speak God's message within a specific historical context.",
+    icon: Megaphone,
   },
   {
     term: "Revelation (Apocalyptic)",
     def: "A symbolic literary style that uses imagery to describe judgment, hope, and the ultimate restoration of creation.",
+    icon: Eye,
   },
 ];
 
@@ -348,24 +357,32 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         bookLabelPlural="books"
       />
 
-      <LearnWhyItMatters title="Why It Matters">
-        <p className={cn("leading-relaxed", bodyClass)}>
-          If the Bible were just ancient literature, it would only matter to historians.
-          You might respect it, but have no reason to care.
-        </p>
+      <RevealSection>
+        <LearnWhyItMatters title="Why It Matters">
+          <p className={cn("leading-relaxed", bodyClass)}>
+            If the Bible were just ancient literature, it would only matter to historians.
+            You might respect it, but have no reason to care.
+          </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
-          But the Bible tells the big human story — from the world&apos;s creation to
-          humanity&apos;s ultimate future. And that story includes you. So... should you
-          care?
-        </p>
+          <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+            But the Bible tells the big human story — from the world&apos;s creation to
+            humanity&apos;s ultimate future. And that story includes you. So... should you
+            care?
+          </p>
 
-        <p className={cn("mt-4 leading-relaxed", bodyClass)}>
-          The real question isn&apos;t &quot;What does the Bible say?&quot; It&apos;s:
-          &quot;Do you want to know your own future?&quot;
-        </p>
-      </LearnWhyItMatters>
-      <LearnWhatIsBibleGlossary glossaryTitle="Quick Glossary" glossary={EN_GLOSSARY} />
+          <p className={cn("mt-4 leading-relaxed", bodyClass)}>
+            The real question isn&apos;t &quot;What does the Bible say?&quot; It&apos;s:
+            &quot;Do you want to know your own future?&quot;
+          </p>
+        </LearnWhyItMatters>
+      </RevealSection>
+
+      <RevealSection>
+        <LearnWhatIsBibleGlossaryGrid
+          glossaryTitle="Quick Glossary"
+          items={EN_GLOSSARY}
+        />
+      </RevealSection>
     </article>
   );
 }

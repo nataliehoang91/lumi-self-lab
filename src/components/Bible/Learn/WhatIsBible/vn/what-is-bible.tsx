@@ -5,17 +5,15 @@ import { LearnWhatIsBibleIntro } from "@/components/Bible/Learn/WhatIsBible/shar
 import { LearnWhatIsBibleStats } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleStats";
 import { LearnWhatIsBibleTestamentSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleTestamentSection";
 import {
-  LearnWhatIsBibleGlossary,
-  type GlossaryItem,
-} from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
-import {
   LearnWhatIsBibleGlossaryGrid,
   type GlossaryGridItem,
 } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossaryGrid";
+import { RevealSection } from "@/components/Bible/Learn/shared-components/RevealSection";
 import {
   OT_SECTIONS,
   NT_SECTIONS,
 } from "@/components/Bible/Learn/WhatIsBible/shared-components/constants";
+
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
@@ -37,7 +35,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-const VN_GLOSSARY: readonly GlossaryItem[] = [
+const VN_GLOSSARY_ITEMS = [
   {
     term: "Cựu Ước",
     def: "Phần đầu của Kinh Thánh, ghi lại lịch sử, luật pháp, thơ ca và lời tiên tri của dân Y-sơ-ra-ên trước thời Chúa Giê-xu.",
@@ -68,7 +66,7 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
   },
 ];
 
-const VN_GLOSSARY_GRID_ITEMS: readonly GlossaryGridItem[] = VN_GLOSSARY.map(
+const VN_GLOSSARY_GRID_ITEMS: readonly GlossaryGridItem[] = VN_GLOSSARY_ITEMS.map(
   (item, i) => ({
     ...item,
     icon: [
@@ -158,39 +156,46 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         ]}
       />
 
-      <figure className="my-8 flex justify-center px-0 md:my-10">
-        <Image
-          src="/images/understand/vn-what-is-bible-authors-timeline.png"
-          alt="Dòng thời gian: các tác giả Kinh Thánh qua hơn 2000 năm."
-          width={1200}
-          height={675}
-          className="border-border/50 h-auto w-full max-w-2xl rounded-xl border shadow-sm"
-          sizes="(max-width: 672px) 100vw, 672px"
+      <RevealSection className="my-8 flex justify-center px-0 md:my-10">
+        <figure>
+          <Image
+            src="/images/understand/vn-what-is-bible-authors-timeline.png"
+            alt="Dòng thời gian: các tác giả Kinh Thánh qua hơn 2000 năm."
+            width={1200}
+            height={675}
+            className="border-border/50 h-auto w-full max-w-2xl rounded-xl border shadow-sm"
+            sizes="(max-width: 672px) 100vw, 672px"
+          />
+        </figure>
+      </RevealSection>
+
+      <RevealSection>
+        <LearnLibraryBlock
+          locale="vi"
+          title={`Kinh Thánh là một "thư viện", không phải chỉ một cuốn sách.`}
+          firstParagraph={
+            <>
+              Điều này cho thấy Kinh Thánh gồm nhiều tác phẩm khác nhau nhưng liên kết với
+              nhau.
+            </>
+          }
+          secondParagraph={
+            <>
+              Kinh Thánh bao gồm nhiều thể loại như lịch sử, thơ ca, luật pháp, thư tín và
+              khải huyền. Vì vậy, mỗi phần cần được đọc và hiểu theo cách phù hợp.
+            </>
+          }
         />
-      </figure>
+      </RevealSection>
 
-      <LearnLibraryBlock
-        locale="vi"
-        title="Kinh Thánh là một “thư viện”, không phải chỉ một cuốn sách."
-        firstParagraph={
-          <>
-            Điều này cho thấy Kinh Thánh gồm nhiều tác phẩm khác nhau nhưng liên kết với
-            nhau.
-          </>
-        }
-        secondParagraph={
-          <>
-            Kinh Thánh bao gồm nhiều thể loại như lịch sử, thơ ca, luật pháp, thư tín và
-            khải huyền. Vì vậy, mỗi phần cần được đọc và hiểu theo cách phù hợp.
-          </>
-        }
-      />
+      <RevealSection>
+        <LearnWhatIsBibleStats
+          locale="vi"
+          statLabels={["Sách tổng cộng", "Cựu Ước", "Tân Ước", "Tác giả"]}
+        />
+      </RevealSection>
 
-      <LearnWhatIsBibleStats
-        locale="vi"
-        statLabels={["Sách tổng cộng", "Cựu Ước", "Tân Ước", "Tác giả"]}
-      />
-
+      <RevealSection>
       <LearnWhatIsBibleAuthorsSection
         locale="vi"
         title="Ai đã viết Kinh Thánh?"
@@ -346,13 +351,10 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           />,
         ]}
       />
+      </RevealSection>
 
-      <section
-        aria-labelledby="vn-testament-split-intro"
-        className="mt-12 border-border/40 border-t pt-10"
-      >
+      <RevealSection className="mt-12 border-border/40 border-t pt-10">
         <h2
-          id="vn-testament-split-intro"
           className={cn(
             "text-foreground mb-3 text-xl font-semibold",
             "font-vietnamese-flashcard"
@@ -365,8 +367,9 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           thể loại khác nhau, nhưng cùng kể một câu chuyện xuyên suốt. Phần dưới giúp bạn
           hình dung nhanh sự khác biệt và mối liên hệ giữa hai phần đó.
         </p>
-      </section>
+      </RevealSection>
 
+      <RevealSection>
       <BibleTestamentSplitBlock
         className="mt-8"
         locale="vi"
@@ -379,18 +382,9 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         otDesc="Cựu Ước được viết chủ yếu bằng tiếng Hê-bơ-rơ (và một phần tiếng A-ram). Phần này kể từ lúc thế giới được tạo dựng cho đến trước khi Chúa Giê-xu ra đời. Đây là câu chuyện về Đức Chúa Trời, về dân Y-sơ-ra-ên, và về lời hứa rằng một Đấng Cứu Thế sẽ đến."
         ntDesc="Tân Ước được viết bằng tiếng Hy Lạp. Phần này bắt đầu với bốn sách Phúc Âm, kể về cuộc đời, sự chết và sự sống lại của Chúa Giê-xu. Sau đó là câu chuyện Hội Thánh lan rộng, và kết thúc với bức tranh về tương lai khi mọi sự được hoàn tất trong Ngài."
       />
+      </RevealSection>
 
-      <figure className="my-8 flex justify-center px-0 md:my-10">
-        <Image
-          src="/images/understand/vn-what-is-bible-why-it-matter.png"
-          alt="Minh họa: vì sao Kinh Thánh quan trọng đối với cuộc sống."
-          width={1200}
-          height={675}
-          className="border-border/50 h-auto w-full max-w-2xl rounded-xl border shadow-sm"
-          sizes="(max-width: 672px) 100vw, 672px"
-        />
-      </figure>
-
+      <RevealSection>
       <LearnWhyItMatters locale="vi" title="Vì sao Kinh Thánh quan trọng">
         <p className={cn("leading-relaxed", bodyClassUp, bodyFont)}>
           Nếu Kinh Thánh chỉ là một cuốn sách cổ, thì nó chỉ kể chuyện của người xưa. Bạn
@@ -412,19 +406,15 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           &quot;
         </p>
       </LearnWhyItMatters>
+      </RevealSection>
 
-      <LearnWhatIsBibleGlossary
-        glossaryTitle="Từ vựng nhanh (accordion)"
-        glossary={VN_GLOSSARY}
-        locale="vi"
-      />
-
-      <LearnWhatIsBibleGlossaryGrid
-        glossaryTitle="Từ vựng nhanh (lưới thẻ)"
-        glossaryLead="Gợi ý giao diện: các thuật ngữ hiển thị ngay trong lưới 2–3 cột, có icon nhỏ — không cần mở từng mục."
-        items={VN_GLOSSARY_GRID_ITEMS}
-        locale="vi"
-      />
+      <RevealSection>
+        <LearnWhatIsBibleGlossaryGrid
+          glossaryTitle="Từ vựng nhanh"
+          items={VN_GLOSSARY_GRID_ITEMS}
+          locale="vi"
+        />
+      </RevealSection>
     </article>
   );
 }
