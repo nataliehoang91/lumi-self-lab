@@ -53,9 +53,9 @@ export async function getBookOverviewBySlug(
     where: { bookId: book.id, language: lang },
   });
 
-  const themes = (overview?.themes ?? []) as string[];
-  const keyVerses = (overview?.keyVerses ?? []) as KeyVerseRow[];
-  const outline = (overview?.outline ?? []) as OutlineRow[];
+  const themes = (overview?.themes ?? []) as unknown as string[];
+  const keyVerses = (overview?.keyVerses ?? []) as unknown as KeyVerseRow[];
+  const outline = (overview?.outline ?? []) as unknown as OutlineRow[];
   const rawSummary = overview?.summary;
   const summaryArray = Array.isArray(rawSummary)
     ? (rawSummary as string[]).filter((s): s is string => typeof s === "string")
