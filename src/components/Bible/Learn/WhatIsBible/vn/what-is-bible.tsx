@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { LearnWhatIsBibleIntro } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleIntro";
 import { LearnWhatIsBibleStats } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleStats";
 import { LearnWhatIsBibleTestamentSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleTestamentSection";
@@ -7,6 +8,10 @@ import {
   LearnWhatIsBibleGlossary,
   type GlossaryItem,
 } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossary";
+import {
+  LearnWhatIsBibleGlossaryGrid,
+  type GlossaryGridItem,
+} from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossaryGrid";
 import {
   OT_SECTIONS,
   NT_SECTIONS,
@@ -17,9 +22,20 @@ import { cn } from "@/lib/utils";
 import type { BibleBook } from "@/components/Bible/Read/types";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import { LearnWhatIsBibleAuthorsSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleAuthorsSection";
+import { AuthorOccupationGrid } from "@/components/Bible/Learn/WhatIsBible/shared-components/AuthorOccupationGrid";
+import { BibleTestamentSplitBlock } from "@/components/Bible/Learn/WhatIsBible/shared-components/BibleTestamentSplitBlock";
 import { LearnLibraryBlock } from "@/components/Bible/Learn/shared-components/LearnLibraryBlock";
-import { QuoteCard } from "@/components/GeneralComponents/QuoteCard";
+import { BibleSacredQuote } from "@/components/Bible/Learn/WhatIsBible/shared-components/BibleSacredQuote";
 import { useLocaleFonts } from "@/components/Bible/global/utils";
+import {
+  BookMarked,
+  BookOpen,
+  Eye,
+  Handshake,
+  ListChecks,
+  Megaphone,
+  Sparkles,
+} from "lucide-react";
 
 const VN_GLOSSARY: readonly GlossaryItem[] = [
   {
@@ -52,6 +68,21 @@ const VN_GLOSSARY: readonly GlossaryItem[] = [
   },
 ];
 
+const VN_GLOSSARY_GRID_ITEMS: readonly GlossaryGridItem[] = VN_GLOSSARY.map(
+  (item, i) => ({
+    ...item,
+    icon: [
+      BookOpen,
+      BookMarked,
+      ListChecks,
+      Handshake,
+      Sparkles,
+      Megaphone,
+      Eye,
+    ][i]!,
+  })
+);
+
 const VERSE_PREVIEW_VN_AUTHORS: Record<string, string> = {
   "II Sa-mu-ên 5:4-5":
     "Đa-vít đã được ba mươi tuổi khi lên làm vua; người cai trị bốn mươi năm. Tại Hếp-rôn, người cai trị Giu-đa bảy năm sáu tháng; rồi tại Giê-ru-sa-lem, người cai trị cả Y-sơ-ra-ên và Giu-đa ba mươi ba năm.",
@@ -66,54 +97,6 @@ const VERSE_PREVIEW_VN_AUTHORS: Record<string, string> = {
     "Cả Kinh Thánh đều là bởi Đức Chúa Trời cảm động mà viết ra, có ích cho sự dạy dỗ, bẻ trách, sửa trị, dạy người trong sự công bình.",
   "II Phi-e-rơ 1:21":
     "Vì chẳng hề có lời tiên tri nào bởi ý riêng người ta mà ra; nhưng người ta đã được Đức Thánh Linh cảm động mà nói bởi Đức Chúa Trời.",
-};
-
-const AuthorsSectionBulletItems = ({
-  key,
-  bookId,
-  chapter,
-  verse,
-  verseEnd,
-  testament,
-  title,
-  verseLinkText,
-}: {
-  bookId: string | null;
-  chapter: number;
-  verse: number;
-  verseEnd: number;
-  testament: "ot" | "nt";
-  title: string;
-  verseLinkText: string;
-  key: string;
-}) => {
-  const { bodyClassUp } = useBibleFontClasses();
-  const { bodyFont } = useLocaleFonts("vi");
-  return (
-    <div key={key} className="d:items-baseline mt-8 flex flex-col gap-x-2 md:flex-row">
-      <span className={cn(bodyClassUp)}>• {title}</span>
-      <span className="hidden shrink-0 md:block">-</span>
-      <div className="flex justify-end gap-x-2 text-right">
-        <BibleVerseLink
-          langSegment="vi"
-          version1="vi"
-          bookId={bookId}
-          chapter={chapter}
-          verse={verse}
-          verseEnd={verseEnd}
-          testament={testament}
-          triggerClassName={cn(
-            "underline underline-offset-2 theme-warm:text-sage-600 theme-warm:dark:text-sage-800",
-            bodyClassUp,
-            bodyFont
-          )}
-          previewText={VERSE_PREVIEW_VN_AUTHORS["II Sa-mu-ên 5:4-5"]}
-        >
-          {verseLinkText}
-        </BibleVerseLink>
-      </div>
-    </div>
-  );
 };
 
 function buildReadHrefVi(
@@ -150,7 +133,7 @@ function findBookIdByVi(
 }
 
 export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
-  const { bodyClass, bodyClassUp } = useBibleFontClasses();
+  const { bodyClassUp } = useBibleFontClasses();
   const { bodyFont } = useLocaleFonts("vi");
   return (
     <article aria-label="Kinh thánh là gì?" className="text-foreground">
@@ -174,6 +157,17 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </>,
         ]}
       />
+
+      <figure className="my-8 flex justify-center px-0 md:my-10">
+        <Image
+          src="/images/understand/vn-what-is-bible-authors-timeline.png"
+          alt="Dòng thời gian: các tác giả Kinh Thánh qua hơn 2000 năm."
+          width={1200}
+          height={675}
+          className="border-border/50 h-auto w-full max-w-2xl rounded-xl border shadow-sm"
+          sizes="(max-width: 672px) 100vw, 672px"
+        />
+      </figure>
 
       <LearnLibraryBlock
         locale="vi"
@@ -207,108 +201,128 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </span>
         }
         bulletItems={[
-          <AuthorsSectionBulletItems
-            key="1"
-            bookId={findBookIdByVi(books, "2 Sa-mu-ên", "2 Samuel")}
-            title="Vua - như Đa-vít"
-            chapter={5}
-            verse={4}
-            verseEnd={5}
-            testament="ot"
-            verseLinkText="II Sa-mu-ên 5:4-5"
+          <AuthorOccupationGrid
+            key="grid"
+            locale="vi"
+            cards={[
+              {
+                icon: "crown",
+                role: "Vua",
+                person: "như Đa-vít",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "2 Sa-mu-ên", "2 Samuel")}
+                    chapter={5}
+                    verse={4}
+                    verseEnd={5}
+                    testament="ot"
+                    triggerClassName="underline underline-offset-2 text-second theme-warm:text-second-400 dark:text-second"
+                    previewText={VERSE_PREVIEW_VN_AUTHORS["II Sa-mu-ên 5:4-5"]}
+                  >
+                    II Sa-mu-ên 5:4-5
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "shepherd",
+                role: "Người chăn chiên",
+                person: "như A-mốt",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "A-mốt", "Amos")}
+                    chapter={1}
+                    verse={1}
+                    testament="ot"
+                    triggerClassName="underline underline-offset-2 text-second theme-warm:text-second-400 dark:text-second"
+                    previewText={VERSE_PREVIEW_VN_AUTHORS["A-mốt 1:1"]}
+                  >
+                    A-mốt 1:1
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "scroll",
+                role: "Quan chức triều đình",
+                person: "như Đa-ni-ên",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Đa-ni-ên", "Daniel")}
+                    chapter={2}
+                    verse={48}
+                    testament="ot"
+                    triggerClassName="underline underline-offset-2 text-second theme-warm:text-second-400 dark:text-second"
+                    previewText={VERSE_PREVIEW_VN_AUTHORS["Đa-ni-ên 2:48"]}
+                  >
+                    Đa-ni-ên 2:48
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "cross",
+                role: "Bác sĩ",
+                person: "như Lu-ca",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Cô-lô-se", "Colossians")}
+                    chapter={4}
+                    verse={14}
+                    testament="nt"
+                    triggerClassName="underline underline-offset-2 text-second theme-warm:text-second-400 dark:text-second"
+                    previewText={VERSE_PREVIEW_VN_AUTHORS["Cô-lô-se 4:14"]}
+                  >
+                    Cô-lô-se 4:14
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "fish",
+                role: "Người đánh cá",
+                person: "như Phi-e-rơ",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Ma-thi-ơ", "Matthew")}
+                    chapter={4}
+                    verse={18}
+                    verseEnd={21}
+                    testament="nt"
+                    triggerClassName="underline underline-offset-2 text-second theme-warm:text-second-400 dark:text-second"
+                    previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 4:18-21"]}
+                  >
+                    Ma-thi-ơ 4:18-21
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "coins",
+                role: "Người thu thuế",
+                person: "như Ma-thi-ơ",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="vi"
+                    version1="vi"
+                    bookId={findBookIdByVi(books, "Ma-thi-ơ", "Matthew")}
+                    chapter={10}
+                    verse={3}
+                    testament="nt"
+                    triggerClassName="underline underline-offset-2 text-second theme-warm:text-second-400 dark:text-second"
+                    previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 10:3"]}
+                  >
+                    Ma-thi-ơ 10:3
+                  </BibleVerseLink>
+                ),
+              },
+            ]}
           />,
-
-          <div key="2" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className={cn(bodyClassUp)}>• Người chăn chiên - như A-mốt</span>
-            <span className="hidden shrink-0 md:block">-</span>
-            <div className="flex justify-end gap-x-2 text-right">
-              <BibleVerseLink
-                langSegment="vi"
-                version1="vi"
-                bookId={findBookIdByVi(books, "A-mốt", "Amos")}
-                chapter={1}
-                verse={1}
-                testament="ot"
-                triggerClassName={bodyClass}
-                previewText={VERSE_PREVIEW_VN_AUTHORS["A-mốt 1:1"]}
-              >
-                A-mốt 1:1
-              </BibleVerseLink>
-            </div>
-          </div>,
-          <div key="3" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className={cn(bodyClassUp)}>• Quan chức triều đình - như Đa-ni-ên</span>
-            <span className="hidden shrink-0 md:block">-</span>
-            <div className="flex justify-end gap-x-2 text-right">
-              <BibleVerseLink
-                langSegment="vi"
-                version1="vi"
-                bookId={findBookIdByVi(books, "Đa-ni-ên", "Daniel")}
-                chapter={2}
-                verse={48}
-                testament="ot"
-                triggerClassName={bodyClass}
-                previewText={VERSE_PREVIEW_VN_AUTHORS["Đa-ni-ên 2:48"]}
-              >
-                Đa-ni-ên 2:48
-              </BibleVerseLink>
-            </div>
-          </div>,
-          <div key="4" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className={cn(bodyClassUp)}>• Bác sĩ - như Lu-ca</span>
-            <span className="hidden shrink-0 md:block">-</span>
-            <div className="flex justify-end gap-x-2 text-right">
-              <BibleVerseLink
-                langSegment="vi"
-                version1="vi"
-                bookId={findBookIdByVi(books, "Cô-lô-se", "Colossians")}
-                chapter={4}
-                verse={14}
-                testament="nt"
-                triggerClassName={bodyClass}
-                previewText={VERSE_PREVIEW_VN_AUTHORS["Cô-lô-se 4:14"]}
-              >
-                Cô-lô-se 4:14
-              </BibleVerseLink>
-            </div>
-          </div>,
-          <div key="5" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className={cn(bodyClassUp)}>• Người đánh cá - như Phi-e-rơ</span>
-            <span className="hidden shrink-0 md:block">-</span>
-            <div className="flex justify-end gap-x-2 text-right">
-              <BibleVerseLink
-                langSegment="vi"
-                version1="vi"
-                bookId={findBookIdByVi(books, "Ma-thi-ơ", "Matthew")}
-                chapter={4}
-                verse={18}
-                verseEnd={21}
-                testament="nt"
-                triggerClassName={bodyClass}
-                previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 4:18-21"]}
-              >
-                Ma-thi-ơ 4:18-21
-              </BibleVerseLink>
-            </div>
-          </div>,
-          <div key="6" className="flex flex-col gap-x-2 md:flex-row md:items-baseline">
-            <span className={cn(bodyClassUp)}>• Người thu thuế - như Ma-thi-ơ</span>
-            <span className="hidden shrink-0 md:block">-</span>
-            <div className="flex justify-end gap-x-2 text-right">
-              <BibleVerseLink
-                langSegment="vi"
-                version1="vi"
-                bookId={findBookIdByVi(books, "Ma-thi-ơ", "Matthew")}
-                chapter={10}
-                verse={3}
-                testament="nt"
-                triggerClassName={bodyClass}
-                previewText={VERSE_PREVIEW_VN_AUTHORS["Ma-thi-ơ 10:3"]}
-              >
-                Ma-thi-ơ 10:3
-              </BibleVerseLink>
-            </div>
-          </div>,
         ]}
         conclusion={
           <p className={cn("mt-6 leading-relaxed", bodyClassUp, bodyFont)}>
@@ -316,93 +330,66 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             tin rằng Đức Chúa Trời đã hướng dẫn họ khi viết.
           </p>
         }
+        quoteContainerClassName="mt-6"
         quoteBlocks={[
-          <QuoteCard
+          <BibleSacredQuote
             key="2tim316"
-            quote="Cả Kinh Thánh đều là bởi Đức Chúa Trời soi dẫn...."
-            footnote="II Ti-mô-thê 3:16"
-            footnoteAlign="center"
-            footnoteHref={buildReadHrefVi(
+            quote="Cả Kinh Thánh đều là bởi Đức Chúa Trời soi dẫn, có ích cho sự dạy dỗ, bẻ trách, sửa trị, dạy người trong sự công bình."
+            reference="II Ti-mô-thê 3:16"
+            referenceHref={buildReadHrefVi(
               findBookIdByVi(books, "2 Ti-mô-thê", "2 Timothy"),
               3,
               16,
               "nt"
             )}
+            locale="vi"
           />,
         ]}
       />
 
-      <div className="my-8 h-px" />
+      <section
+        aria-labelledby="vn-testament-split-intro"
+        className="mt-12 border-border/40 border-t pt-10"
+      >
+        <h2
+          id="vn-testament-split-intro"
+          className={cn(
+            "text-foreground mb-3 text-xl font-semibold",
+            "font-vietnamese-flashcard"
+          )}
+        >
+          Hai phần chính: Cựu Ước và Tân Ước
+        </h2>
+        <p className={cn("leading-relaxed", bodyClassUp, bodyFont)}>
+          Kinh Thánh thường được tóm lược thành hai phần lớn — mỗi phần dùng ngôn ngữ và
+          thể loại khác nhau, nhưng cùng kể một câu chuyện xuyên suốt. Phần dưới giúp bạn
+          hình dung nhanh sự khác biệt và mối liên hệ giữa hai phần đó.
+        </p>
+      </section>
 
-      <LearnWhatIsBibleTestamentSection
-        bodyBright
+      <BibleTestamentSplitBlock
+        className="mt-8"
         locale="vi"
-        title="Cựu Ước"
-        intro={
-          <p className={cn("mb-5 leading-relaxed", bodyClassUp, bodyFont)}>
-            Cựu Ước được viết chủ yếu bằng tiếng Hê-bơ-rơ (và một phần tiếng A-ram). Phần
-            này kể từ lúc thế giới được tạo dựng cho đến trước khi Chúa Giê-xu ra đời. Đây
-            là câu chuyện về Đức Chúa Trời, về dân Y-sơ-ra-ên, và về lời hứa rằng một Đấng
-            Cứu Thế sẽ đến.
-          </p>
-        }
-        sectionNames={["Luật pháp", "Lịch sử", "Thi ca & Khôn ngoan", "Tiên tri"]}
-        sectionDescs={[
-          <>
-            Sáng thế ký đến Phục truyền— sáng thế, sự sa ngã và giao ước của Đức Chúa Trời
-            với Y-sơ-ra-ên.
-          </>,
-          <>
-            Giô-sué đến Ê-xơ-tê — câu chuyện Y-sơ-ra-ên trong Đất Hứa, các vua, lưu đày và
-            trở về. trong Đất Hứa, các vua, lưu đày và trở về.
-          </>,
-          <>Gióp đến Nhã Ca — suy ngẫm về đau khổ, ca ngợi, khôn ngoan và tình yêu.</>,
-          <>
-            Ê-sai đến Ma-la-chi — sứ giả của Đức Chúa Trời kêu gọi Y-sơ-ra-ên trở lại, chỉ
-            về Đấng Christ.
-          </>,
-        ]}
-        sections={OT_SECTIONS}
-        bookLabelSingular="sách"
-        bookLabelPlural="sách"
+        otTitle="Cựu Ước"
+        ntTitle="Tân Ước"
+        otLang="Tiếng Hê-bơ-rơ & A-ram"
+        ntLang="Tiếng Hy Lạp"
+        otTagline="Tạo dựng · Luật pháp · Lời hứa"
+        ntTagline="Chúa Giê-xu · Hội Thánh"
+        otDesc="Cựu Ước được viết chủ yếu bằng tiếng Hê-bơ-rơ (và một phần tiếng A-ram). Phần này kể từ lúc thế giới được tạo dựng cho đến trước khi Chúa Giê-xu ra đời. Đây là câu chuyện về Đức Chúa Trời, về dân Y-sơ-ra-ên, và về lời hứa rằng một Đấng Cứu Thế sẽ đến."
+        ntDesc="Tân Ước được viết bằng tiếng Hy Lạp. Phần này bắt đầu với bốn sách Phúc Âm, kể về cuộc đời, sự chết và sự sống lại của Chúa Giê-xu. Sau đó là câu chuyện Hội Thánh lan rộng, và kết thúc với bức tranh về tương lai khi mọi sự được hoàn tất trong Ngài."
       />
 
-      <LearnWhatIsBibleTestamentSection
-        bodyBright
-        locale="vi"
-        title="Tân Ước"
-        intro={
-          <p className={cn("mb-5 leading-relaxed", bodyClassUp, bodyFont)}>
-            Tân Ước được viết bằng tiếng Hy Lạp. Phần này bắt đầu với bốn sách Phúc Âm, kể
-            về cuộc đời, sự chết và sự sống lại của Chúa Giê-xu. Sau đó là câu chuyện Hội
-            Thánh lan rộng, và kết thúc với bức tranh về tương lai khi mọi sự được hoàn
-            tất trong Ngài.
-          </p>
-        }
-        sectionNames={["Phúc âm", "Lịch sử", "Thư tín", "Khải tượng"]}
-        sectionDescs={[
-          <>
-            Ma-thi-ơ, Mác, Lu-ca, Giăng — bốn tường thuật về cuộc đời, chức vụ, sự chết và
-            sự sống lại của Chúa Giê-xu.
-          </>,
-          <>
-            Công vụ — câu chuyện Hội thánh đầu tiên lan ra từ Giê-ru-sa-lem đến tận cùng
-            trái đất. — câu chuyện Hội thánh đầu tiên lan ra từ đến tận cùng trái đất.
-          </>,
-          <>
-            Rô-ma đến Giu-đe — Phao-lô và những người khác viết cho các Hội thánh và cá
-            nhân về đức tin và đời sống. và những người khác viết cho các Hội thánh và cá
-            nhân về đức tin và đời sống.
-          </>,
-          <>
-            Khải huyền — khải tượng về sự kết thúc lịch sử và sự chiến thắng của Chúa
-            Giê-xu.
-          </>,
-        ]}
-        sections={NT_SECTIONS}
-        bookLabelSingular="sách"
-        bookLabelPlural="sách"
-      />
+      <figure className="my-8 flex justify-center px-0 md:my-10">
+        <Image
+          src="/images/understand/vn-what-is-bible-why-it-matter.png"
+          alt="Minh họa: vì sao Kinh Thánh quan trọng đối với cuộc sống."
+          width={1200}
+          height={675}
+          className="border-border/50 h-auto w-full max-w-2xl rounded-xl border shadow-sm"
+          sizes="(max-width: 672px) 100vw, 672px"
+        />
+      </figure>
 
       <LearnWhyItMatters locale="vi" title="Vì sao Kinh Thánh quan trọng">
         <p className={cn("leading-relaxed", bodyClassUp, bodyFont)}>
@@ -425,9 +412,17 @@ export function VnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           &quot;
         </p>
       </LearnWhyItMatters>
+
       <LearnWhatIsBibleGlossary
-        glossaryTitle="Từ vựng nhanh"
+        glossaryTitle="Từ vựng nhanh (accordion)"
         glossary={VN_GLOSSARY}
+        locale="vi"
+      />
+
+      <LearnWhatIsBibleGlossaryGrid
+        glossaryTitle="Từ vựng nhanh (lưới thẻ)"
+        glossaryLead="Gợi ý giao diện: các thuật ngữ hiển thị ngay trong lưới 2–3 cột, có icon nhỏ — không cần mở từng mục."
+        items={VN_GLOSSARY_GRID_ITEMS}
         locale="vi"
       />
     </article>

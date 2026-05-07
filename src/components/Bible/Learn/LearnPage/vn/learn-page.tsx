@@ -7,7 +7,7 @@ import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
 const SEGMENTS = [
-  "bible-structure",
+  "what-is-bible",
   "bible-origin",
   "what-happens-after-death",
   "who-is-jesus",

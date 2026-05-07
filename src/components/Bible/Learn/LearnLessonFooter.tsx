@@ -8,15 +8,15 @@ import { getBibleIntl } from "@/lib/bible-intl";
 import { cn } from "@/lib/utils";
 
 const LESSON_ORDER = [
-  "bible-structure",
+  "what-is-bible",
   "bible-origin",
-  "what-happens-after-death",
   "who-is-jesus",
+  "what-happens-after-death",
   "what-is-faith",
 ] as const;
 
 const LESSON_TITLES: Record<(typeof LESSON_ORDER)[number], { en: string; vi: string }> = {
-  "bible-structure": {
+  "what-is-bible": {
     en: "What Is the Bible?",
     vi: "Kinh thánh là gì?",
   },
@@ -24,13 +24,13 @@ const LESSON_TITLES: Record<(typeof LESSON_ORDER)[number], { en: string; vi: str
     en: "Where Did the Bible Come From?",
     vi: "Kinh Thánh đến với chúng ta như thế nào?",
   },
-  "what-happens-after-death": {
-    en: "What Happens After Death?",
-    vi: "Cái chết không phải là hết – Thật không?",
-  },
   "who-is-jesus": {
     en: "Who Is Jesus?",
     vi: "Chúa Giê-xu là ai?",
+  },
+  "what-happens-after-death": {
+    en: "What Happens After Death?",
+    vi: "Cái chết không phải là hết – Thật không?",
   },
   "what-is-faith": {
     en: "What Is Faith?",
@@ -66,7 +66,6 @@ export function LearnLessonFooter() {
     fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-base" : "text-sm";
 
   const currentIndex = LESSON_ORDER.indexOf(segment as (typeof LESSON_ORDER)[number]);
-  const isStructureLesson = segment === "bible-structure";
   const isLastLesson = currentIndex === LESSON_ORDER.length - 1;
 
   const prevSegment = currentIndex > 0 ? LESSON_ORDER[currentIndex - 1] : null;
@@ -77,11 +76,7 @@ export function LearnLessonFooter() {
 
   let nextHref: string | null = null;
   let nextLabel: string | null = null;
-  let structureNextLabel: string | null = null;
-  if (isStructureLesson) {
-    nextHref = `/bible/${lang}/learn/bible-origin`;
-    structureNextLabel = intl.t("learnStructureNextOrigin");
-  } else if (currentIndex >= 0 && currentIndex < LESSON_ORDER.length - 1) {
+  if (currentIndex >= 0 && currentIndex < LESSON_ORDER.length - 1) {
     const nextSegment = LESSON_ORDER[currentIndex + 1];
     nextHref = `/bible/${lang}/learn/${nextSegment}`;
     nextLabel = LESSON_TITLES[nextSegment][lang === "vi" ? "vi" : "en"];
@@ -116,7 +111,7 @@ export function LearnLessonFooter() {
         ) : null}
       </div>
 
-      {nextHref && (structureNextLabel || nextLabel) ? (
+      {nextHref && nextLabel ? (
         <Link
           href={nextHref}
           className={cn(
@@ -127,14 +122,8 @@ export function LearnLessonFooter() {
             bodyClass
           )}
         >
-          {isStructureLesson && structureNextLabel ? (
-            <span className="font-bold">{structureNextLabel}</span>
-          ) : (
-            <>
-              {intl.t("learnStructureNext")}:{" "}
-              <span className="font-bold">{nextLabel}</span>
-            </>
-          )}
+          {intl.t("learnStructureNext")}:{" "}
+          <span className="font-bold">{nextLabel}</span>
           <ArrowRight className="h-3.5 w-3.5 shrink-0" />
         </Link>
       ) : isLastLesson ? (

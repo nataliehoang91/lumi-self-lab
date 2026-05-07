@@ -10,6 +10,10 @@ export interface LearnWhatIsBibleAuthorsSectionProps {
   bulletItems: ReactNode[];
   conclusion: ReactNode;
   quoteBlocks: ReactNode[];
+  /** Optional block after the conclusion and before the quote (e.g. timeline image). */
+  beforeQuote?: ReactNode;
+  /** Override classes on the quote wrapper div (e.g. to remove background). */
+  quoteContainerClassName?: string;
   /** When "vi", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
 }
@@ -20,6 +24,8 @@ export function LearnWhatIsBibleAuthorsSection({
   bulletItems,
   conclusion,
   quoteBlocks,
+  beforeQuote,
+  quoteContainerClassName,
   locale,
 }: LearnWhatIsBibleAuthorsSectionProps) {
   const { bodyClassUp } = useBibleFontClasses();
@@ -65,9 +71,13 @@ export function LearnWhatIsBibleAuthorsSection({
         conclusion
       )}
 
+      {beforeQuote}
+
       <div
-        className="bg-primary-light/10 border-primary-dark/30 mt-6 flex flex-col
-          items-center justify-center gap-4 space-y-4 rounded-xl border p-6"
+        className={cn(
+          quoteContainerClassName ??
+            "bg-primary-light/10 border-primary-dark/30 mt-6 flex flex-col items-center justify-center gap-4 space-y-4 rounded-xl border p-6"
+        )}
       >
         {quoteBlocks.map((block, idx) => (
           <div key={idx}>{block}</div>

@@ -7,7 +7,7 @@ import type { TestamentSectionConfig } from "./constants";
 
 export interface LearnWhatIsBibleTestamentSectionProps {
   title: string;
-  intro: React.ReactNode | string;
+  intro?: React.ReactNode | string;
   sectionNames: readonly [string, string, string, string];
   sectionDescs: readonly [
     string | React.ReactNode,

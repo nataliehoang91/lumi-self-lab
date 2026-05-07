@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import type { BibleStudyList, BibleStudyPassage } from "@/types/bible-study";
 import type { BibleBook, ChapterContent } from "@/components/Bible/Read/types";
 import type { ReadVersionId } from "@/app/(bible)/bible/[lang]/read/params";
@@ -44,7 +44,10 @@ export function StudyReaderShell({
   );
   const [loadedChapters, setLoadedChapters] = useState<LoadedChapterMap>({});
   const [passages, setPassages] = useState<BibleStudyPassage[]>(initialPassages);
-  const [saving, setSaving] = useState(false);
+  const [isSaving, startSaving] = useTransition();
+  const passagesRef = useRef(passages);
+
+  passagesRef.current = passages;
 
   const selectedBook = useMemo(
     () => books.find((b) => b.id === selectedBookId) ?? null,
@@ -135,28 +138,30 @@ export function StudyReaderShell({
   };
 
   // When version changes, reload content for all currently selected passages.
+  // Uses passagesRef so chapter-clicks don't re-trigger this effect.
   useEffect(() => {
     let cancelled = false;
 
     async function reload() {
-      if (!version || passages.length === 0) {
+      const current = passagesRef.current;
+      if (!version || current.length === 0) {
         if (!cancelled) setLoadedChapters({});
         return;
       }
       const uniqueCombos = Array.from(
         new Map(
-          passages.map((p) => [
+          current.map((p) => [
             `${p.bookId}:${p.chapter}`,
             { bookId: p.bookId, chapter: p.chapter },
           ])
         ).values()
       );
-      const entries: LoadedChapterMap = {};
       const results = await Promise.all(
         uniqueCombos.map((combo) =>
           getChapterContent(combo.bookId, combo.chapter, version)
         )
       );
+      const entries: LoadedChapterMap = {};
       results.forEach((content, idx) => {
         if (!content) return;
         const { bookId, chapter } = uniqueCombos[idx];
@@ -170,7 +175,7 @@ export function StudyReaderShell({
     return () => {
       cancelled = true;
     };
-  }, [version, passages]);
+  }, [version]); // only re-runs on version change, not on every chapter toggle
 
   return (
     <Container maxWidth="7xl" className="min-h-screen space-y-8 px-4 py-8 lg:px-0">
@@ -285,32 +290,31 @@ export function StudyReaderShell({
           </p>
           <button
             type="button"
-            onClick={async () => {
-              setSaving(true);
-              try {
-                await saveStudyPassages({
-                  listId: list.id,
-                  chapters: passages.map((p) => ({
-                    bookId: p.bookId,
-                    chapter: p.chapter,
-                  })),
-                });
-              } catch (err) {
-                console.error("Failed to save study passages", err);
-              } finally {
-                setSaving(false);
-              }
+            onClick={() => {
+              startSaving(async () => {
+                try {
+                  await saveStudyPassages({
+                    listId: list.id,
+                    chapters: passages.map((p) => ({
+                      bookId: p.bookId,
+                      chapter: p.chapter,
+                    })),
+                  });
+                } catch (err) {
+                  console.error("Failed to save study passages", err);
+                }
+              });
             }}
-            disabled={passages.length === 0 || saving}
+            disabled={passages.length === 0 || isSaving}
             className={cn(
               `inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs
               font-medium transition-colors`,
-              passages.length === 0 || saving
+              passages.length === 0 || isSaving
                 ? "bg-muted text-muted-foreground cursor-not-allowed"
                 : "bg-foreground text-background hover:bg-foreground/90"
             )}
           >
-            {saving ? "Saving…" : "Save list"}
+            {isSaving ? "Saving…" : "Save list"}
           </button>
         </div>
       </section>

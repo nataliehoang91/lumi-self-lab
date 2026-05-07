@@ -95,13 +95,6 @@ export function InsightsButton({ variant = "desktop" }: { variant?: Variant }) {
               <span className="hidden text-sm font-medium sm:inline">
                 {t("readInsightsLabel") ?? "Insights"}
               </span>
-              <span
-                className="hidden items-center rounded-full border border-dashed
-                  border-emerald-300 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold
-                  tracking-wide text-emerald-700 uppercase sm:inline-flex"
-              >
-                {t("readInsightsComingSoonTag") ?? "Coming soon"}
-              </span>
             </>
           ) : (
             <Lightbulb className="h-4 w-4" />
@@ -113,13 +106,6 @@ export function InsightsButton({ variant = "desktop" }: { variant?: Variant }) {
               <Loader2 className="h-4 w-4 animate-spin" />
               <span className="hidden text-sm font-medium sm:inline">
                 {t("readInsightsLabel") ?? "Insights"}
-              </span>
-              <span
-                className="hidden items-center rounded-full border border-dashed
-                  border-emerald-300 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold
-                  tracking-wide text-emerald-700 uppercase sm:inline-flex"
-              >
-                {t("readInsightsComingSoonTag") ?? "Coming soon"}
               </span>
             </>
           ) : (

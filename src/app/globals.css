@@ -279,56 +279,57 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
-/* Optional: warm black & white theme – only when .theme-warm is set on <html> */
-/* All buttons/accents = warm zinc/slate; darker / more black */
+/* Warm reader theme – parchment paper light, ink-on-vellum dark.
+   Designed for long reading sessions: no blue tones, gentler contrast. */
 .theme-warm {
-  --background: oklch(0.96 0.006 85);
-  --foreground: oklch(0.16 0.02 75);
-  --card: var(--background);
+  --background: oklch(0.975 0.012 85);  /* warm parchment */
+  --foreground: oklch(0.18 0.025 60);   /* dark sepia ink */
+  --card: oklch(0.968 0.01 80);
   --card-foreground: var(--foreground);
-  --popover: var(--background);
+  --popover: oklch(0.97 0.012 85);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.22 0.02 75);
-  --primary-foreground: oklch(0.985 0 0);
-  --primary-light: oklch(0.9 0.01 85);
-  --primary-dark: oklch(0.18 0.02 75);
-  --primary-50: oklch(0.96 0.008 75);
-  --primary-100: oklch(0.9 0.012 75);
-  --primary-200: oklch(0.78 0.015 75);
-  --primary-300: oklch(0.55 0.018 75);
-  --primary-400: oklch(0.38 0.02 75);
-  --primary-500: oklch(0.22 0.02 75);
-  --primary-600: oklch(0.2 0.02 75);
-  --primary-700: oklch(0.18 0.02 75);
-  --primary-800: oklch(0.16 0.02 75);
-  --primary-900: oklch(0.14 0.02 75);
+  --primary: oklch(0.38 0.045 55);      /* warm brown — used for buttons, links */
+  --primary-foreground: oklch(0.985 0.005 85);
+  --primary-light: oklch(0.88 0.018 75);
+  --primary-dark: oklch(0.28 0.04 55);
+  --primary-50: oklch(0.97 0.008 75);
+  --primary-100: oklch(0.93 0.014 70);
+  --primary-200: oklch(0.85 0.022 65);
+  --primary-300: oklch(0.72 0.032 60);
+  --primary-400: oklch(0.56 0.04 57);
+  --primary-500: oklch(0.38 0.045 55);
+  --primary-600: oklch(0.32 0.04 55);
+  --primary-700: oklch(0.26 0.035 55);
+  --primary-800: oklch(0.22 0.03 55);
+  --primary-900: oklch(0.18 0.025 55);
 
-  /* Second: warm tone (hue 20) – 50 to 900 */
-  --second: oklch(0.35 0.08 20);
-  --second-dark: oklch(0.28 0.06 20);
-  --second-50: oklch(0.97 0.02 20);
-  --second-100: oklch(0.94 0.035 20);
-  --second-200: oklch(0.88 0.05 20);
-  --second-300: oklch(0.78 0.07 20);
-  --second-400: oklch(0.58 0.08 20);
-  --second-500: oklch(0.35 0.08 20);
-  --second-600: oklch(0.32 0.07 20);
-  --second-700: oklch(0.28 0.06 20);
-  --second-800: oklch(0.24 0.05 20);
-  --second-900: oklch(0.2 0.04 20);
+  /* Second: warm terracotta/adobe — no cold violet in reader mode */
+  --second: oklch(0.52 0.1 38);
+  --second-foreground: oklch(0.985 0.005 85);
+  --second-50: oklch(0.97 0.012 40);
+  --second-100: oklch(0.93 0.022 40);
+  --second-200: oklch(0.87 0.04 38);
+  --second-300: oklch(0.78 0.065 37);
+  --second-400: oklch(0.66 0.085 37);
+  --second-500: oklch(0.52 0.1 38);
+  --second-600: oklch(0.44 0.095 37);
+  --second-700: oklch(0.36 0.085 36);
+  --second-800: oklch(0.28 0.07 35);
+  --second-900: oklch(0.22 0.05 35);
+  --second-dark: oklch(0.44 0.095 37);
 
-  --secondary: oklch(0.9 0.01 85);
-  --secondary-foreground: oklch(0.2 0.02 70);
-  --muted: oklch(0.92 0.008 85);
-  --muted-foreground: oklch(0.4 0.02 75);
-  --accent: oklch(0.88 0.01 85);
-  --accent-foreground: oklch(0.2 0.02 70);
-  --border: oklch(0.85 0.01 85);
-  --input: oklch(0.85 0.01 85);
-  --ring: oklch(0.6 0.02 75);
+  --secondary: oklch(0.93 0.012 80);
+  --secondary-foreground: oklch(0.25 0.03 60);
+  --muted: oklch(0.945 0.01 80);
+  --muted-foreground: oklch(0.45 0.025 65);
+  --accent: oklch(0.9 0.014 78);
+  --accent-foreground: oklch(0.22 0.03 60);
+  --border: oklch(0.875 0.016 75);
+  --input: oklch(0.875 0.016 75);
+  --ring: oklch(0.52 0.04 58);
   --destructive: oklch(0.55 0.2 25);
   --destructive-foreground: oklch(0.985 0.003 85);
-  --sidebar: var(--background);
+  --sidebar: oklch(0.965 0.014 83);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
@@ -348,8 +349,8 @@
   --sage-700: oklch(0.5 0.045 146);
   --sage-800: oklch(0.42 0.035 146);
   --sage-900: oklch(0.28 0.02 146);
-  --sage-foreground: oklch(0.16 0.02 75);
-  --sage-muted: oklch(0.86 0.015 146);
+  --sage-foreground: oklch(0.18 0.025 60);
+  --sage-muted: oklch(0.87 0.016 146);
   --sage-dark: oklch(0.5 0.02 146);
 
   /* Tertiary/Gold color palette - warm theme light */
@@ -363,7 +364,7 @@
   --tertiary-700: oklch(0.58 0.09 65);
   --tertiary-800: oklch(0.48 0.07 65);
   --tertiary-900: oklch(0.35 0.05 65);
-  --tertiary-foreground: oklch(0.16 0.02 75);
+  --tertiary-foreground: oklch(0.18 0.025 60);
 
   /* Coral color palette - warm theme light (hue 25) */
   --coral: oklch(0.7 0.13 25);
@@ -377,10 +378,10 @@
   --coral-700: oklch(0.56 0.11 25);
   --coral-800: oklch(0.46 0.08 25);
   --coral-900: oklch(0.32 0.05 25);
-  --coral-foreground: oklch(0.16 0.02 75);
+  --coral-foreground: oklch(0.18 0.025 60);
 
   /* Chart colors for warm theme */
-  --chart-1: oklch(0.22 0.02 75);
+  --chart-1: oklch(0.38 0.045 55);
   --chart-2: oklch(0.65 0.055 145.63);
   --chart-3: oklch(0.72 0.11 65);
   --chart-4: oklch(0.7 0.13 25);
@@ -388,53 +389,55 @@
 }
 
 .theme-warm.dark {
-  --background: oklch(0.11 0.015 75);
-  --foreground: oklch(0.96 0.006 85);
-  --card: var(--background);
+  /* Warm dark: old candlelit manuscript — deep walnut, not cold zinc */
+  --background: oklch(0.145 0.022 55);  /* deep walnut brown */
+  --foreground: oklch(0.93 0.018 78);   /* warm cream */
+  --card: oklch(0.17 0.022 55);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.15 0.015 75);
+  --popover: oklch(0.19 0.022 55);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.92 0.02 85);
-  --primary-foreground: oklch(0.14 0.02 75);
-  --primary-light: oklch(0.22 0.02 75);
-  --primary-dark: oklch(0.9 0.02 85);
-  --primary-50: oklch(0.18 0.015 75);
-  --primary-100: oklch(0.28 0.018 75);
-  --primary-200: oklch(0.5 0.02 85);
-  --primary-300: oklch(0.7 0.02 85);
-  --primary-400: oklch(0.82 0.02 85);
-  --primary-500: oklch(0.92 0.02 85);
-  --primary-600: oklch(0.9 0.02 85);
-  --primary-700: oklch(0.88 0.02 85);
-  --primary-800: oklch(0.92 0.02 85);
-  --primary-900: oklch(0.94 0.02 85);
+  --primary: oklch(0.85 0.045 72);      /* warm amber — readable on dark */
+  --primary-foreground: oklch(0.15 0.022 55);
+  --primary-light: oklch(0.28 0.025 55);
+  --primary-dark: oklch(0.88 0.04 72);
+  --primary-50: oklch(0.22 0.02 55);
+  --primary-100: oklch(0.32 0.025 58);
+  --primary-200: oklch(0.48 0.032 62);
+  --primary-300: oklch(0.62 0.038 66);
+  --primary-400: oklch(0.74 0.042 70);
+  --primary-500: oklch(0.85 0.045 72);
+  --primary-600: oklch(0.88 0.042 74);
+  --primary-700: oklch(0.9 0.038 76);
+  --primary-800: oklch(0.92 0.03 78);
+  --primary-900: oklch(0.94 0.02 80);
 
-  /* Second: warm tone (hue 20) for dark – 50 to 900 */
-  --second: oklch(0.55 0.08 20);
-  --second-dark: oklch(0.72 0.07 20);
-  --second-50: oklch(0.22 0.04 20);
-  --second-100: oklch(0.28 0.05 20);
-  --second-200: oklch(0.35 0.06 20);
-  --second-300: oklch(0.45 0.07 20);
-  --second-400: oklch(0.52 0.08 20);
-  --second-500: oklch(0.55 0.08 20);
-  --second-600: oklch(0.65 0.07 20);
-  --second-700: oklch(0.75 0.06 20);
-  --second-800: oklch(0.85 0.04 20);
-  --second-900: oklch(0.92 0.025 20);
+  /* Second: warm amber/gold on dark walnut — no violet, stays in warm family */
+  --second: oklch(0.68 0.1 60);
+  --second-dark: oklch(0.76 0.09 62);
+  --second-foreground: oklch(0.15 0.022 55);
+  --second-50: oklch(0.24 0.028 55);
+  --second-100: oklch(0.32 0.038 57);
+  --second-200: oklch(0.42 0.055 58);
+  --second-300: oklch(0.52 0.075 59);
+  --second-400: oklch(0.60 0.09 60);
+  --second-500: oklch(0.68 0.1 60);
+  --second-600: oklch(0.74 0.095 61);
+  --second-700: oklch(0.80 0.085 62);
+  --second-800: oklch(0.86 0.065 64);
+  --second-900: oklch(0.92 0.04 66);
 
-  --secondary: oklch(0.2 0.015 75);
-  --secondary-foreground: oklch(0.92 0.01 85);
-  --muted: oklch(0.2 0.015 75);
-  --muted-foreground: oklch(0.6 0.02 85);
-  --accent: oklch(0.24 0.02 75);
-  --accent-foreground: oklch(0.94 0 0);
-  --border: oklch(0.28 0.02 75);
-  --input: oklch(0.28 0.02 75);
-  --ring: oklch(0.6 0.02 75);
+  --secondary: oklch(0.22 0.02 55);
+  --secondary-foreground: oklch(0.9 0.015 78);
+  --muted: oklch(0.21 0.02 55);
+  --muted-foreground: oklch(0.62 0.025 72);
+  --accent: oklch(0.25 0.022 55);
+  --accent-foreground: oklch(0.92 0.015 78);
+  --border: oklch(0.28 0.025 55);
+  --input: oklch(0.28 0.025 55);
+  --ring: oklch(0.65 0.04 68);
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.95 0.01 50);
-  --sidebar: var(--background);
+  --sidebar: oklch(0.16 0.022 55);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
@@ -486,7 +489,7 @@
   --coral-foreground: oklch(0.96 0.006 85);
 
   /* Chart colors for warm theme dark */
-  --chart-1: oklch(0.92 0.02 85);
+  --chart-1: oklch(0.85 0.045 72);
   --chart-2: oklch(0.65 0.055 145.63);
   --chart-3: oklch(0.76 0.1 65);
   --chart-4: oklch(0.73 0.12 25);
@@ -670,10 +673,14 @@
     background-color: rgb(24 24 27); /* zinc-900 */
   }
 
-  .theme-warm body,
+  .theme-warm body {
+    background-image: none;
+    background-color: oklch(0.975 0.012 85);
+  }
+
   .theme-warm.dark body {
     background-image: none;
-    background-color: var(--background);
+    background-color: oklch(0.145 0.022 55);
   }
 
   .bg-body {
@@ -686,15 +693,19 @@
     );
   }
 
-  .dark .bg-body,
-  .theme-warm .bg-body,
-  .theme-warm.dark .bg-body {
+  .dark .bg-body {
     background-image: none;
-    background-color: var(--background);
+    background-color: rgb(24 24 27); /* zinc-900 */
   }
 
-  .dark .bg-body {
-    background-color: rgb(24 24 27); /* zinc-900 */
+  .theme-warm .bg-body {
+    background-image: none;
+    background-color: oklch(0.975 0.012 85);
+  }
+
+  .theme-warm.dark .bg-body {
+    background-image: none;
+    background-color: oklch(0.145 0.022 55);
   }
 
   /* Bible read: softer background for long reading (light warm gray / soft dark) */
@@ -706,9 +717,13 @@
     background-color: lab(5.28892% 0.234269 2.16256);
   }
 
-  .theme-warm .bg-read,
+  .theme-warm .bg-read {
+    /* Slightly warmer/darker than background for a paper-like reading surface */
+    background-color: oklch(0.965 0.014 83);
+  }
+
   .theme-warm.dark .bg-read {
-    background-color: var(--background);
+    background-color: oklch(0.135 0.022 55);
   }
 
   .pile {

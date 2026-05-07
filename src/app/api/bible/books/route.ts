@@ -15,7 +15,9 @@ export async function GET() {
         chapterCount: true,
       },
     });
-    return NextResponse.json(books);
+    return NextResponse.json(books, {
+      headers: { "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800" },
+    });
   } catch (e) {
     console.error("bible/books", e);
     return NextResponse.json({ error: "Failed to load books." }, { status: 500 });

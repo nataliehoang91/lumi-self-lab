@@ -1,17 +1,15 @@
 "use client";
 
 import { Lightbulb } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { useRead } from "./context/ReadContext";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import { getBibleIntl } from "@/lib/bible-intl";
 import { ReadInsights } from "./ReadInsights";
 import { ReadScrollNav } from "./ReadScrollNav";
+import { getInsightsForChapter } from "@/app/actions/bible/insights";
+import type { ChapterInsightData } from "@/app/actions/bible/insights";
 
-/**
- * Temporary placeholder: no network fetch.
- * Always shows the \"coming soon\" message when insights are opened.
- * Renders read nav (prev/next chapter, scroll top/bottom) and when insights minimized, pill + nav row.
- */
 export function ReadInsightsContainer() {
   const { globalLanguage } = useBibleApp();
   const intl = getBibleIntl(globalLanguage);
@@ -30,6 +28,28 @@ export function ReadInsightsContainer() {
     setInsightMinimized,
   } = useRead();
 
+  const [currentInsight, setCurrentInsight] = useState<ChapterInsightData | null>(null);
+  const [loadingInsight, setLoadingInsight] = useState(false);
+  const lastFetchKey = useRef<string>("");
+
+  useEffect(() => {
+    if (!insightOpen || !leftBook) return;
+
+    const fetchKey = `${leftBook.id}-${leftChapter}-${globalLanguage}`;
+    if (fetchKey === lastFetchKey.current) return;
+    lastFetchKey.current = fetchKey;
+
+    setLoadingInsight(true);
+    setCurrentInsight(null);
+
+    getInsightsForChapter(leftBook.id, leftChapter, globalLanguage)
+      .then(({ ai, db }) => {
+        setCurrentInsight(ai ?? db ?? null);
+      })
+      .catch(() => setCurrentInsight(null))
+      .finally(() => setLoadingInsight(false));
+  }, [insightOpen, leftBook, leftChapter, globalLanguage]);
+
   const hasContent = leftVersion !== null || rightVersion !== null;
   const isIndependent = rightVersion !== null && !syncMode;
   const showFloatingNav = hasContent && !isIndependent;
@@ -41,8 +61,8 @@ export function ReadInsightsContainer() {
         focusMode={focusMode}
         leftBook={leftBook}
         leftChapter={leftChapter}
-        loadingInsight={false}
-        currentInsight={null}
+        loadingInsight={loadingInsight}
+        currentInsight={currentInsight}
         t={t}
         onClose={() => setInsightOpen(false)}
       />

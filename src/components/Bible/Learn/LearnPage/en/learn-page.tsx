@@ -5,10 +5,10 @@ import { LearnPageModuleCard } from "@/components/Bible/Learn/LearnPage/shared-c
 import { LearnPageVerseCta } from "@/components/Bible/Learn/LearnPage/shared-components/LearnPageVerseCta";
 
 const SEGMENTS = [
-  "bible-structure",
+  "what-is-bible",
   "bible-origin",
-  "what-happens-after-death",
   "who-is-jesus",
+  "what-happens-after-death",
   "what-is-faith",
 ] as const;
 

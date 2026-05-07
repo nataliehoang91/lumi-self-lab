@@ -56,15 +56,12 @@ export default async function LearnPage({
   const finalParams = await params;
   const lang = finalParams.lang.toLowerCase();
 
-  if (lang === "vi") {
-    const books = await getBooks();
-    const psalmId = findBookId(books, "Thi thiên", "Psalms");
-    const verseHref = buildViReadHref(psalmId, 119, 105);
-    return <VnLearnPage verseHref={verseHref} />;
-  }
-
   const books = await getBooks();
   const psalmId = findBookId(books, "Thi thiên", "Psalms");
-  const verseHref = buildEnReadHref(psalmId, 119, 105);
-  return <EnLearnPage verseHref={verseHref} />;
+
+  if (lang === "vi") {
+    return <VnLearnPage verseHref={buildViReadHref(psalmId, 119, 105)} />;
+  }
+
+  return <EnLearnPage verseHref={buildEnReadHref(psalmId, 119, 105)} />;
 }

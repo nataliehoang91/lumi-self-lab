@@ -1,63 +1,24 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { LearnLessonFooter } from "@/components/Bible/Learn/LearnLessonFooter";
 import { LearnDeepDiveCta } from "@/components/Bible/Learn/LearnDeepDiveCta";
-import { getBibleIntl } from "@/lib/bible-intl";
-import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
+import { LearnBreadcrumb } from "./LearnBreadcrumb";
 
-export default function LearnLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const { bodyClass } = useBibleFontClasses();
-  const parts = pathname?.split("/") ?? [];
-  // pathname: /bible/en/learn or /bible/en/learn/bible-origin
-  const lang = parts[2] === "vi" ? "vi" : "en";
-  const segment = parts[3] === "learn" && parts[4] ? parts[4] : null;
-
-  const intl = getBibleIntl(lang === "vi" ? "VI" : "EN");
-  const segmentTitleKey: Record<string, string> = {
-    "bible-structure": "learnModule1Title",
-    "bible-origin": "learnOriginTitle",
-    "what-happens-after-death": "learnModule4Title",
-    "who-is-jesus": "learnJesusTitle",
-    "what-is-faith": "learnModule5Title",
-  };
-  const titleKey = segment ? segmentTitleKey[segment] : null;
-  const currentLabel = titleKey ? intl.t(titleKey) : null;
+export default async function LearnLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
 
   return (
     <div className="bg-read min-h-screen font-sans dark:bg-[#050408]">
       <main>
         <Container maxWidth="5xl" className={cn("px-4 py-16")}>
-          {pathname?.includes("/learn") && segment != null && (
-            <div
-              className={cn(
-                "text-muted-foreground mb-8 flex items-center gap-2",
-                bodyClass,
-                lang === "vi" && "font-vietnamese-flashcard"
-              )}
-            >
-              <Link
-                href={`/bible/${lang}/learn`}
-                className="hover:text-foreground font-medium transition-colors"
-              >
-                {intl.t("langPageNavLearn")}
-              </Link>
-              {currentLabel && (
-                <>
-                  <ChevronRight className="h-3 w-3" />
-                  <span className="text-foreground">{currentLabel}</span>
-                </>
-              )}
-            </div>
-          )}
-
+          <LearnBreadcrumb lang={lang} />
           {children}
-
           <LearnDeepDiveCta />
           <div className="my-10" />
           <LearnLessonFooter />

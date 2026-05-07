@@ -70,18 +70,10 @@ export async function GET(request: NextRequest) {
       text: (r[col as keyof typeof r] as string | null)?.trim() ?? "",
     }));
 
-    return NextResponse.json({
-      book: {
-        id: book.id,
-        nameEn: book.nameEn,
-        nameVi: book.nameVi,
-        nameZh: book.nameZh,
-        chapterCount: book.chapterCount,
-      },
-      chapter,
-      verses,
-      sectionTitle: effectiveSectionTitle,
-    });
+    return NextResponse.json(
+      { book: { id: book.id, nameEn: book.nameEn, nameVi: book.nameVi, nameZh: book.nameZh, chapterCount: book.chapterCount }, chapter, verses, sectionTitle: effectiveSectionTitle },
+      { headers: { "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800" } }
+    );
   } catch (e) {
     console.error("bible/read", e);
     return NextResponse.json({ error: "Failed to load chapter." }, { status: 500 });

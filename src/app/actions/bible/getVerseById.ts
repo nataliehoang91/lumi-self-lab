@@ -24,6 +24,38 @@ export type VerseData = {
   createdAt: string;
 };
 
+export async function getVersesByIds(ids: string[]): Promise<Map<string, VerseData>> {
+  if (ids.length === 0) return new Map();
+  const rows = await prisma.flashVerse.findMany({ where: { id: { in: ids } } });
+  const map = new Map<string, VerseData>();
+  for (const row of rows) {
+    map.set(row.id, {
+      id: row.id,
+      book: row.book,
+      chapter: row.chapter,
+      verse: row.verse,
+      verseEnd: row.verseEnd,
+      titleEn: row.titleEn,
+      titleVi: row.titleVi,
+      titleZh: row.titleZh,
+      referenceLabelEn: row.referenceLabelEn,
+      referenceLabelVi: row.referenceLabelVi,
+      referenceLabelZh: row.referenceLabelZh,
+      contentVIE1923: row.contentVIE1923,
+      contentKJV: row.contentKJV,
+      contentNIV: row.contentNIV,
+      contentZH: row.contentZH,
+      contentDisplayVIE: row.contentDisplayVIE,
+      contentDisplayKJV: row.contentDisplayKJV,
+      contentDisplayNIV: row.contentDisplayNIV,
+      contentDisplayZH: row.contentDisplayZH,
+      content: row.content,
+      createdAt: row.createdAt.toISOString(),
+    });
+  }
+  return map;
+}
+
 export async function getVerseById(id: string): Promise<VerseData | null> {
   const row = await prisma.flashVerse.findUnique({
     where: { id },

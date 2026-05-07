@@ -12,9 +12,6 @@ export const metadata: Metadata = {
     "Create study lists, compare translations, and study Bible verses in depth.",
 };
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 export default async function BibleStudyPage() {
   const lists = await getStudyListsForCurrentUser();
   return (

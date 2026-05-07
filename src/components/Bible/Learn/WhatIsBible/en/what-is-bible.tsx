@@ -14,8 +14,10 @@ import {
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
-import { QuoteCard } from "@/components/GeneralComponents/QuoteCard";
+import { BibleSacredQuote } from "@/components/Bible/Learn/WhatIsBible/shared-components/BibleSacredQuote";
 import { LearnWhatIsBibleAuthorsSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleAuthorsSection";
+import { AuthorOccupationGrid } from "@/components/Bible/Learn/WhatIsBible/shared-components/AuthorOccupationGrid";
+import { BibleTestamentSplitBlock } from "@/components/Bible/Learn/WhatIsBible/shared-components/BibleTestamentSplitBlock";
 import { LearnLibraryBlock } from "@/components/Bible/Learn/shared-components/LearnLibraryBlock";
 import { BibleVerseLink } from "@/components/Bible/GeneralComponents/BibleVerseLink";
 import type { BibleBook } from "@/components/Bible/Read/types";
@@ -140,104 +142,128 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           </>
         }
         bulletItems={[
-          <div key="1" className="flex items-baseline gap-x-2">
-            <span className="">• Kings — such as David</span>
-            <span className="shrink-0">—</span>
-            <BibleVerseLink
-              langSegment="en"
-              version1="niv"
-              bookId={findBookIdByEn(books, "2 Samuel")}
-              chapter={5}
-              verse={4}
-              verseEnd={5}
-              testament="ot"
-              triggerClassName={bodyClass}
-              previewText={VERSE_PREVIEW_EN_AUTHORS["2 Samuel 5:4-5"]}
-            >
-              2 Samuel 5:4–5
-            </BibleVerseLink>
-          </div>,
-          <div key="2" className="flex items-baseline gap-x-2">
-            <span className="">• Shepherds — such as Amos</span>
-            <span className="shrink-0">—</span>
-            <BibleVerseLink
-              langSegment="en"
-              version1="niv"
-              bookId={findBookIdByEn(books, "Amos")}
-              chapter={1}
-              verse={1}
-              testament="ot"
-              triggerClassName={bodyClass}
-              previewText={VERSE_PREVIEW_EN_AUTHORS["Amos 1:1"]}
-            >
-              Amos 1:1
-            </BibleVerseLink>
-          </div>,
-          <div key="3" className="flex items-baseline gap-x-2">
-            <span className="">• Government officials — such as Daniel</span>
-            <span className="shrink-0">—</span>
-            <BibleVerseLink
-              langSegment="en"
-              version1="niv"
-              bookId={findBookIdByEn(books, "Daniel")}
-              chapter={2}
-              verse={48}
-              testament="ot"
-              triggerClassName={bodyClass}
-              previewText={VERSE_PREVIEW_EN_AUTHORS["Daniel 2:48"]}
-            >
-              Daniel 2:48
-            </BibleVerseLink>
-          </div>,
-          <div key="4" className="flex items-baseline gap-x-2">
-            <span className="">• Physicians — such as Luke</span>
-            <span className="shrink-0">—</span>
-            <BibleVerseLink
-              langSegment="en"
-              version1="niv"
-              bookId={findBookIdByEn(books, "Colossians")}
-              chapter={4}
-              verse={14}
-              testament="nt"
-              triggerClassName={bodyClass}
-              previewText={VERSE_PREVIEW_EN_AUTHORS["Colossians 4:14"]}
-            >
-              Colossians 4:14
-            </BibleVerseLink>
-          </div>,
-          <div key="5" className="flex items-baseline gap-x-2">
-            <span className="">• Fishermen — such as Peter</span>
-            <span className="shrink-0">—</span>
-            <BibleVerseLink
-              langSegment="en"
-              version1="niv"
-              bookId={findBookIdByEn(books, "Matthew")}
-              chapter={4}
-              verse={18}
-              verseEnd={21}
-              testament="nt"
-              triggerClassName={bodyClass}
-              previewText={VERSE_PREVIEW_EN_AUTHORS["Matthew 4:18-21"]}
-            >
-              Matthew 4:18–21
-            </BibleVerseLink>
-          </div>,
-          <div key="6" className="flex items-baseline gap-x-2">
-            <span className="">• Tax collectors — such as Matthew</span>
-            <span className="shrink-0">—</span>
-            <BibleVerseLink
-              langSegment="en"
-              version1="niv"
-              bookId={findBookIdByEn(books, "Matthew")}
-              chapter={10}
-              verse={3}
-              testament="nt"
-              triggerClassName={bodyClass}
-              previewText={VERSE_PREVIEW_EN_AUTHORS["Matthew 10:3"]}
-            >
-              Matthew 10:3
-            </BibleVerseLink>
-          </div>,
+          <AuthorOccupationGrid
+            key="grid"
+            locale="en"
+            cards={[
+              {
+                icon: "crown",
+                role: "King",
+                person: "such as David",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "2 Samuel")}
+                    chapter={5}
+                    verse={4}
+                    verseEnd={5}
+                    testament="ot"
+                    triggerClassName="underline underline-offset-2 text-second-dark dark:text-second"
+                    previewText={VERSE_PREVIEW_EN_AUTHORS["2 Samuel 5:4-5"]}
+                  >
+                    2 Samuel 5:4–5
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "shepherd",
+                role: "Shepherd",
+                person: "such as Amos",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "Amos")}
+                    chapter={1}
+                    verse={1}
+                    testament="ot"
+                    triggerClassName="underline underline-offset-2 text-second-dark dark:text-second"
+                    previewText={VERSE_PREVIEW_EN_AUTHORS["Amos 1:1"]}
+                  >
+                    Amos 1:1
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "scroll",
+                role: "Government Official",
+                person: "such as Daniel",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "Daniel")}
+                    chapter={2}
+                    verse={48}
+                    testament="ot"
+                    triggerClassName="underline underline-offset-2 text-second-dark dark:text-second"
+                    previewText={VERSE_PREVIEW_EN_AUTHORS["Daniel 2:48"]}
+                  >
+                    Daniel 2:48
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "cross",
+                role: "Physician",
+                person: "such as Luke",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "Colossians")}
+                    chapter={4}
+                    verse={14}
+                    testament="nt"
+                    triggerClassName="underline underline-offset-2 text-second-dark dark:text-second"
+                    previewText={VERSE_PREVIEW_EN_AUTHORS["Colossians 4:14"]}
+                  >
+                    Colossians 4:14
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "fish",
+                role: "Fisherman",
+                person: "such as Peter",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "Matthew")}
+                    chapter={4}
+                    verse={18}
+                    verseEnd={21}
+                    testament="nt"
+                    triggerClassName="underline underline-offset-2 text-second-dark dark:text-second"
+                    previewText={VERSE_PREVIEW_EN_AUTHORS["Matthew 4:18-21"]}
+                  >
+                    Matthew 4:18–21
+                  </BibleVerseLink>
+                ),
+              },
+              {
+                icon: "coins",
+                role: "Tax Collector",
+                person: "such as Matthew",
+                verseLink: (
+                  <BibleVerseLink
+                    langSegment="en"
+                    version1="niv"
+                    bookId={findBookIdByEn(books, "Matthew")}
+                    chapter={10}
+                    verse={3}
+                    testament="nt"
+                    triggerClassName="underline underline-offset-2 text-second-dark dark:text-second"
+                    previewText={VERSE_PREVIEW_EN_AUTHORS["Matthew 10:3"]}
+                  >
+                    Matthew 10:3
+                  </BibleVerseLink>
+                ),
+              },
+            ]}
+          />,
         ]}
         conclusion={
           <p className={cn("mt-6 leading-relaxed", bodyClassUp)}>
@@ -245,13 +271,13 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
             together form a coherent story about God and humanity.
           </p>
         }
+        quoteContainerClassName="mt-6"
         quoteBlocks={[
-          <QuoteCard
+          <BibleSacredQuote
             key="2tim316"
             quote="All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness."
-            footnote="2 Timothy 3:16"
-            footnoteAlign="center"
-            footnoteHref={buildReadHrefEn(
+            reference="2 Timothy 3:16"
+            referenceHref={buildReadHrefEn(
               findBookIdByEn(books, "2 Timothy"),
               3,
               16,
@@ -260,12 +286,41 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           />,
         ]}
       />
-      <div className="my-8 h-px" />
+
+      <section
+        aria-labelledby="en-testament-split-intro"
+        className="mt-12 border-border/40 border-t pt-10"
+      >
+        <h2
+          id="en-testament-split-intro"
+          className={cn("text-foreground mb-3 text-xl font-semibold", "font-bible-english")}
+        >
+          Two main parts: Old Testament and New Testament
+        </h2>
+        <p className={cn("leading-relaxed", bodyClass)}>
+          The Bible is often summarized as two large collections — each written in
+          different languages and genres, yet telling one continuous story. The cards
+          below give a quick sense of how the two parts differ and how they fit
+          together.
+        </p>
+      </section>
+
+      <BibleTestamentSplitBlock
+        className="mt-8"
+        locale="en"
+        otTitle="Old Testament"
+        ntTitle="New Testament"
+        otLang="Hebrew & Aramaic"
+        ntLang="Greek"
+        otTagline="Creation · Law · Promise"
+        ntTagline="Jesus · The Church"
+        otDesc="The Old Testament was written mainly in Hebrew (with some parts in Aramaic). It tells the story from creation to the time before Jesus was born — about God, His people Israel, and the promise of a coming Saviour."
+        ntDesc="The New Testament was written in Greek. It begins with four Gospels about the life, death, and resurrection of Jesus. It then tells how the early church spread, and points to the future when everything will be made complete in Him."
+      />
 
       <LearnWhatIsBibleTestamentSection
         bodyBright
         title="Old Testament"
-        intro="The Old Testament was written mainly in Hebrew (with some parts in Aramaic). It tells the story from creation to the time before Jesus was born — about God, His people Israel, and the promise of a coming Savior."
         sectionNames={["Law", "History", "Poetry & Wisdom", "Prophets"]}
         sectionDescs={[
           "Genesis through Deuteronomy — creation, the fall, and God's covenant with Israel.",
@@ -281,7 +336,6 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       <LearnWhatIsBibleTestamentSection
         bodyBright
         title="New Testament"
-        intro="The New Testament was written in Greek. It begins with four Gospels about the life, death, and resurrection of Jesus. It then tells how the early church spread, and points to the future when everything will be made complete in Him."
         sectionNames={["Gospels", "History", "Letters", "Prophecy"]}
         sectionDescs={[
           "Matthew, Mark, Luke, John — four accounts of Jesus's life, ministry, death, and resurrection.",
