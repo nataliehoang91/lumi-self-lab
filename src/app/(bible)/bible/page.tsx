@@ -10,13 +10,12 @@ export const metadata: Metadata = {
     "A quiet place to learn and read Scripture. Explore the Bible at your own pace.",
 };
 
-/** Prefer vi if Accept-Language suggests Vietnamese; else zh; else en. */
-async function getLocaleFromHeaders(): Promise<"en" | "vi" | "zh"> {
+/** Prefer vi if Accept-Language suggests Vietnamese; else en. */
+async function getLocaleFromHeaders(): Promise<"en" | "vi"> {
   const headersList = await headers();
   const acceptLanguage = headersList.get("accept-language") ?? "";
   const lower = acceptLanguage.toLowerCase();
   if (lower.includes("vi")) return "vi";
-  if (lower.includes("zh")) return "zh";
   return DEFAULT_LOCALE;
 }
 

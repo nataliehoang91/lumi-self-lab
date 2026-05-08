@@ -32,7 +32,7 @@ import {
 const SMART_SEARCH_VERSIONS = ["vi", "niv", "kjv"] as const satisfies readonly ReadVersionId[];
 type SmartSearchVersion = (typeof SMART_SEARCH_VERSIONS)[number];
 
-function defaultSmartSearchVersion(globalLang: "EN" | "VI" | "ZH"): SmartSearchVersion {
+function defaultSmartSearchVersion(globalLang: "EN" | "VI"): SmartSearchVersion {
   if (globalLang === "VI") return "vi";
   return "niv";
 }
@@ -44,9 +44,8 @@ interface BibleQuickSuggestion {
   href: string;
 }
 
-function getBookLabelForLanguage(book: BibleBook, lang: "EN" | "VI" | "ZH"): string {
+function getBookLabelForLanguage(book: BibleBook, lang: "EN" | "VI"): string {
   if (lang === "VI") return book.nameVi;
-  if (lang === "ZH") return book.nameZh ?? book.nameEn;
   return book.nameEn;
 }
 

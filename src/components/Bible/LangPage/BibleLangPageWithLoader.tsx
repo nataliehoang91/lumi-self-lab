@@ -11,7 +11,7 @@ export interface BibleLangPageWithLoaderProps {
   books: BibleBook[];
 }
 
-const LOCALE_TO_LANGUAGE = { en: "EN", vi: "VI", zh: "ZH" } as const;
+const LOCALE_TO_LANGUAGE = { en: "EN", vi: "VI" } as const;
 
 export function BibleLangPageWithLoader({
   locale,

@@ -40,9 +40,7 @@ export function parseSearchParams(
 
   const langRaw = params.lang;
   const lang: Language | undefined =
-    langRaw === "EN" || langRaw === "VI" || langRaw === "ZH"
-      ? (langRaw as Language)
-      : undefined;
+    langRaw === "EN" || langRaw === "VI" ? (langRaw as Language) : undefined;
 
   const collection = params.collection;
 

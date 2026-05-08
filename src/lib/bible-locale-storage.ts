@@ -3,13 +3,12 @@
  * Use in client components or effects; do not call from server.
  */
 
-export type BibleLocaleSegment = "en" | "vi" | "zh";
+export type BibleLocaleSegment = "en" | "vi";
 
 const BIBLE_PREFS_KEY = "bible-app-prefs";
 const STORED_TO_SEGMENT: Record<string, BibleLocaleSegment> = {
   EN: "en",
   VI: "vi",
-  ZH: "zh",
 };
 
 /**

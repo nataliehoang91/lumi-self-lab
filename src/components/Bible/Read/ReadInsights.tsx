@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Lightbulb } from "lucide-react";
+import { Lightbulb, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRead } from "./context/ReadContext";
 import type { BibleBook } from "./types";
@@ -100,6 +100,14 @@ export function ReadInsights({
                       uppercase"
                   >
                     {t("readInsightsBetaBadge") ?? "Beta"}
+                  </span>
+                  <span
+                    className="text-muted-foreground inline-flex items-center gap-1
+                      rounded-full border border-dashed border-current/30 px-2 py-0.5
+                      text-[10px] font-medium"
+                  >
+                    <Sparkles className="h-3 w-3" />
+                    AI generated
                   </span>
                   <span className="text-muted-foreground hidden text-[11px] sm:inline">
                     {t("readInsightsLanguagesNote") ??

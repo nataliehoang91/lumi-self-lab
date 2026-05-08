@@ -2,7 +2,7 @@
  * Shared types and helpers for vertical/horizontal flash card UIs.
  */
 
-export type Language = "EN" | "VI" | "ZH";
+export type Language = "EN" | "VI";
 
 export type EnVersion = "KJV" | "NIV";
 
@@ -41,7 +41,6 @@ export function speakText(text: string, lang: Language): void {
   if (!trimmed) return;
   const utterance = new SpeechSynthesisUtterance(trimmed);
   if (lang === "VI") utterance.lang = "vi-VN";
-  else if (lang === "ZH") utterance.lang = "zh-CN";
   else utterance.lang = "en-US";
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
@@ -67,14 +66,6 @@ export function getDisplayContent(
       "";
     return capitalizeFirstLetterVi(normalizeQuotes(raw));
   }
-  if (cardLanguage === "ZH") {
-    const raw =
-      verse.contentDisplayZH?.trim() ||
-      verse.contentZH?.trim() ||
-      verse.content?.trim() ||
-      "";
-    return normalizeQuotes(raw);
-  }
   if (enVersion === "KJV") {
     const raw =
       verse.contentDisplayKJV?.trim() ||
@@ -97,10 +88,8 @@ export function getDisplayTitle(verse: VerseLike, cardLanguage: Language): strin
       ? `${verse.chapter}:${verse.verse}-${verse.verseEnd}`
       : `${verse.chapter}:${verse.verse}`;
   if (cardLanguage === "VI" && verse.referenceLabelVi?.trim()) return verse.referenceLabelVi.trim();
-  if (cardLanguage === "ZH" && verse.referenceLabelZh?.trim()) return verse.referenceLabelZh.trim();
   if (cardLanguage === "EN" && verse.referenceLabelEn?.trim()) return verse.referenceLabelEn.trim();
   if (cardLanguage === "VI" && verse.titleVi?.trim()) return verse.titleVi.trim();
-  if (cardLanguage === "ZH" && verse.titleZh?.trim()) return verse.titleZh.trim();
   if (cardLanguage === "EN" && verse.titleEn?.trim()) return verse.titleEn.trim();
   return `${verse.book} ${ref}`;
 }

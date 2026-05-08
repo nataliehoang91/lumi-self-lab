@@ -80,7 +80,7 @@ export interface BibleLangPageProps {
 }
 
 export function BibleLangPage({ lang }: BibleLangPageProps) {
-  const locale: BibleLocale = lang === "vi" ? "vi" : lang === "zh" ? "zh" : "en";
+  const locale: BibleLocale = lang === "vi" ? "vi" : "en";
   const intl = getBibleIntlByLocale(locale);
   const t = intl.t;
   const { subBodyClass, verseClass, bodyClass } = useBibleFontClasses();

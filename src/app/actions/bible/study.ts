@@ -4,19 +4,30 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import type { InteractiveFormResult } from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
 import type { StudyListFields } from "@/components/Bible/Study/constants";
-import type { BibleStudyList, BibleStudyPassage } from "@/types/bible-study";
+import type { BibleStudyList, BibleStudyListWithCount, BibleStudyPassage } from "@/types/bible-study";
 
-export async function getStudyListsForCurrentUser() {
+export async function getStudyListsForCurrentUser(): Promise<BibleStudyListWithCount[]> {
   const { userId } = await auth();
 
   if (!userId) {
     return [];
   }
 
-  return prisma.bibleStudyList.findMany({
+  const lists = await prisma.bibleStudyList.findMany({
     where: { clerkUserId: userId },
     orderBy: { createdAt: "desc" },
+    include: { _count: { select: { passages: true } } },
   });
+
+  return lists.map((l) => ({
+    id: l.id,
+    clerkUserId: l.clerkUserId,
+    title: l.title,
+    description: l.description,
+    createdAt: l.createdAt,
+    updatedAt: l.updatedAt,
+    passageCount: l._count.passages,
+  }));
 }
 
 export async function getStudyListById(

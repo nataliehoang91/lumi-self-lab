@@ -11,7 +11,7 @@ import { LazyFlashCard } from "./LazyFlashCard";
 
 const ALL_BATCH_SIZE = 50;
 
-export type Language = "EN" | "VI" | "ZH";
+export type Language = "EN" | "VI";
 export type FontSize = "small" | "medium" | "large";
 
 export interface Verse {

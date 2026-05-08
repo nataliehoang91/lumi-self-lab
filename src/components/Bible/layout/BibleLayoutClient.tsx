@@ -11,7 +11,7 @@ import { BibleMainWithPadding } from "@/components/Bible/Read/ReadLayout/BibleMa
 import { LandingLoader } from "@/components/Bible/LangPage/LandingLoader";
 import { useIntroLoader } from "@/hooks/use-intro-loader";
 
-const PROTECTED_BIBLE_STUDY_REGEX = /^\/bible\/(en|vi|zh)\/study(?:\/|$)/;
+const PROTECTED_BIBLE_STUDY_REGEX = /^\/bible\/(en|vi)\/study(?:\/|$)/;
 
 export function BibleLayoutClient({ children }: { children: ReactNode }) {
   const pathname = usePathname();

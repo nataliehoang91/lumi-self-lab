@@ -4,7 +4,7 @@ import { NewStudyListPlaceholderCard } from "@/components/Bible/Study/NewStudyLi
 import { StudyListCard } from "@/components/Bible/Study/StudyListCard";
 import { BookCircleIcon } from "@/components/Bible/GeneralComponents/book-circle-icon";
 import { Container } from "@/components/ui/container";
-import type { BibleStudyList } from "@/types/bible-study";
+import type { BibleStudyListWithCount } from "@/types/bible-study";
 
 export const metadata: Metadata = {
   title: "Study",
@@ -15,29 +15,45 @@ export const metadata: Metadata = {
 export default async function BibleStudyPage() {
   const lists = await getStudyListsForCurrentUser();
   return (
-    <Container maxWidth="7xl" className="flex min-h-screen flex-col px-4 py-6 lg:px-0">
+    <Container maxWidth="7xl" className="flex min-h-screen flex-col px-4 py-8 lg:px-0">
+      {/* Page header */}
+      <header className="mb-6">
+        <p className="text-muted-foreground mb-1 text-xs tracking-[0.18em] uppercase">
+          Personal
+        </p>
+        <h1 className="text-foreground text-2xl font-semibold">Study</h1>
+        <p className="text-muted-foreground mt-1 text-sm">
+          Build study lists, select chapters, and read Scripture in any translation.
+        </p>
+      </header>
+
       {lists.length === 0 ? (
-        <div className="mt-16 flex flex-col items-center gap-4 text-center">
-          <BookCircleIcon size="lg" />
-          <div className="space-y-1">
-            <h2 className="text-foreground text-xl font-semibold">Start Your Study</h2>
-            <p className="text-muted-foreground text-sm">
-              Add passages to compare translations, study verses in depth, and build your
-              perfect study session.
+        <div className="mt-12 flex flex-col items-center gap-5 text-center">
+          <div
+            className="bg-primary/8 flex h-16 w-16 items-center justify-center rounded-2xl"
+          >
+            <BookCircleIcon size="lg" />
+          </div>
+          <div className="space-y-1.5">
+            <h2 className="text-foreground text-lg font-semibold">
+              Create your first study list
+            </h2>
+            <p className="text-muted-foreground max-w-sm text-sm">
+              Select chapters from any book, switch translations, and read them all in
+              one place.
             </p>
           </div>
-          <NewStudyListPlaceholderCard label="Create your first list" />
+          <NewStudyListPlaceholderCard label="New study list" />
         </div>
       ) : (
         <>
-          <div className="mt-4 mb-2 flex items-baseline justify-between">
-            <h2 className="text-foreground text-sm font-semibold">Your study lists</h2>
-            <span className="text-muted-foreground text-xs">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-muted-foreground text-xs">
               {lists.length} {lists.length === 1 ? "list" : "lists"}
-            </span>
+            </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {lists.map((list: BibleStudyList) => (
+            {lists.map((list: BibleStudyListWithCount) => (
               <StudyListCard key={list.id} list={list} />
             ))}
             <NewStudyListPlaceholderCard />

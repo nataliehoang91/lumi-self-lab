@@ -7,6 +7,10 @@ export interface BibleStudyList {
   updatedAt: Date;
 }
 
+export interface BibleStudyListWithCount extends BibleStudyList {
+  passageCount: number;
+}
+
 export interface BibleStudyPassage {
   id: string;
   listId: string;

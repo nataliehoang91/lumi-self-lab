@@ -29,7 +29,6 @@ export function BibleNavSettingsDropdown({ variant }: BibleNavSettingsDropdownPr
     fontSize,
     setFontSize,
     globalLanguage,
-    showZhLanguage,
     handleLanguageChange,
     intl,
   } = useBibleNavData();
@@ -110,19 +109,14 @@ export function BibleNavSettingsDropdown({ variant }: BibleNavSettingsDropdownPr
           <span
             className={cn(
               BADGE_BASE,
-              globalLanguage === "EN" || (globalLanguage === "ZH" && !showZhLanguage)
+              globalLanguage === "EN"
                 ? "border-sage bg-sage text-sage-foreground"
                 : "border-sage/40 bg-sage/10 text-sage"
             )}
           >
             EN
           </span>
-          <span
-            className={cn(
-              (globalLanguage === "EN" || (globalLanguage === "ZH" && !showZhLanguage)) &&
-                "font-bold"
-            )}
-          >
+          <span className={cn(globalLanguage === "EN" && "font-bold")}>
             {intl.t("navLangEnglish")}
           </span>
         </DropdownMenuItem>
@@ -144,26 +138,6 @@ export function BibleNavSettingsDropdown({ variant }: BibleNavSettingsDropdownPr
             {intl.t("navLangVietnamese")}
           </span>
         </DropdownMenuItem>
-        {showZhLanguage && (
-          <DropdownMenuItem
-            onClick={() => handleLanguageChange("ZH")}
-            className="hover:bg-sage/20 focus:bg-sage/20 cursor-pointer text-sm"
-          >
-            <span
-              className={cn(
-                BADGE_BASE,
-                globalLanguage === "ZH"
-                  ? "border-sage bg-sage text-sage-foreground"
-                  : "border-sage/40 bg-sage/10 text-sage"
-              )}
-            >
-              中
-            </span>
-            <span className={cn(globalLanguage === "ZH" && "font-bold")}>
-              {intl.t("navLangChinese")}
-            </span>
-          </DropdownMenuItem>
-        )}
 
         <div className="bg-border my-1 h-px" />
 

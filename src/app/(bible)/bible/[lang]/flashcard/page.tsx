@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 
 function routeLangToLanguage(lang: string): Language {
   if (lang === "vi") return "VI";
-  if (lang === "zh") return "ZH";
   return "EN";
 }
 

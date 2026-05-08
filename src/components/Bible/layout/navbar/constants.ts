@@ -7,19 +7,18 @@ export const NAV_MENU_TRIGGER_ACTIVE =
 export const NAV_MENU_TRIGGER_INACTIVE = "bg-transparent text-foreground";
 
 /** Route segment for /bible/[lang]/... */
-export function languageToSegment(lang: "EN" | "VI" | "ZH"): "en" | "vi" | "zh" {
+export function languageToSegment(lang: "EN" | "VI"): "en" | "vi" {
   if (lang === "VI") return "vi";
-  if (lang === "ZH") return "zh";
   return "en";
 }
 
-/** If pathname is /bible/{en|vi|zh}/..., return path with new lang segment; else null. */
+/** If pathname is /bible/{en|vi}/..., return path with new lang segment; else null. */
 export function pathWithLang(
   pathname: string | null,
-  newSegment: "en" | "vi" | "zh"
+  newSegment: "en" | "vi"
 ): string | null {
   if (!pathname?.startsWith("/bible/")) return null;
-  const match = pathname.match(/^\/bible\/(en|vi|zh)(\/.*)?$/);
+  const match = pathname.match(/^\/bible\/(en|vi)(\/.*)?$/);
   if (!match) return null;
   return `/bible/${newSegment}${match[2] ?? ""}`;
 }

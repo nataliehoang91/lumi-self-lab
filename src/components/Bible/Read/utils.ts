@@ -14,7 +14,7 @@ export function normalizeVerseTextForDisplay(
   version: VersionId | null
 ): string {
   const out = text.replace(LEADING_VERSE_REF, "");
-  if (!version || version === "vi" || version === "zh") return out;
+  if (!version || version === "vi") return out;
   return out.replace(/`/g, "'");
 }
 
@@ -29,7 +29,6 @@ export function getNtBooks(books: BibleBook[]): BibleBook[] {
 export function getBookDisplayName(book: BibleBook | null, version: VersionId): string {
   if (!book) return "";
   if (version === "vi") return book.nameVi;
-  if (version === "zh") return book.nameZh ?? book.nameEn;
   return book.nameEn;
 }
 
@@ -48,14 +47,8 @@ export function getBookLabelForSelection(
   const leftEn = isEn(left);
   const rightEn = isEn(right);
   if (leftEn && rightEn) return book.nameEn;
-  if (left === "vi" && right === "zh")
-    return `${book.nameVi} (${book.nameZh ?? book.nameEn})`;
-  if (left === "zh" && right === "vi")
-    return `${book.nameVi} (${book.nameZh ?? book.nameEn})`;
   if ((left === "vi" && rightEn) || (right === "vi" && leftEn))
     return `${book.nameVi} / ${book.nameEn}`;
-  if ((left === "zh" && rightEn) || (right === "zh" && leftEn))
-    return book.nameZh ? `${book.nameEn} (${book.nameZh})` : book.nameEn;
   return book.nameEn;
 }
 

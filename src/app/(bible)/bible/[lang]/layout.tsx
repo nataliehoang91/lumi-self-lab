@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-const SUPPORTED_LOCALES = ["en", "vi", "zh"] as const;
+const SUPPORTED_LOCALES = ["en", "vi"] as const;
 export type BibleLocale = (typeof SUPPORTED_LOCALES)[number];
 
 export function isBibleLocale(lang: string): lang is BibleLocale {

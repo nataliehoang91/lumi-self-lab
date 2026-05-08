@@ -1,6 +1,6 @@
 import type { Language } from "@/components/Bible/BibleAppContext";
 
-const VALID_VERSION_IDS = ["vi", "niv", "kjv", "zh"] as const;
+const VALID_VERSION_IDS = ["vi", "niv", "kjv"] as const;
 export type ReadVersionId = (typeof VALID_VERSION_IDS)[number];
 
 export type TestamentParam = "ot" | "nt";
@@ -17,7 +17,6 @@ export function isTestamentParam(s: string): s is TestamentParam {
 /** Default version when none in URL: from app language. */
 export function defaultVersionFromLanguage(lang: Language): ReadVersionId {
   if (lang === "VI") return "vi";
-  if (lang === "ZH") return "zh";
   return "niv"; // EN
 }
 

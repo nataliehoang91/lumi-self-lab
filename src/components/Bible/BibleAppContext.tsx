@@ -11,12 +11,12 @@ import {
 } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-export type Language = "EN" | "VI" | "ZH";
+export type Language = "EN" | "VI";
 export type FontSize = "small" | "medium" | "large";
 export type LayoutMode = "vertical" | "horizontal" | "all";
 
 const BIBLE_PREFS_KEY = "bible-app-prefs";
-const LANGS: Language[] = ["EN", "VI", "ZH"];
+const LANGS: Language[] = ["EN", "VI"];
 const FONTS: FontSize[] = ["small", "medium", "large"];
 function readStoredPrefs(): { language: Language; fontSize: FontSize } {
   if (typeof window === "undefined") return { language: "EN", fontSize: "medium" };
@@ -72,11 +72,10 @@ export function BibleAppProvider({ children }: { children: ReactNode }) {
 
   // Derive language from pathname when on /bible/[lang]/... so navbar matches URL (no full reload on switch).
   const langFromPath = (() => {
-    const m = pathname?.match(/^\/bible\/(en|vi|zh)(\/|$)/);
+    const m = pathname?.match(/^\/bible\/(en|vi)(\/|$)/);
     const seg = m?.[1];
     if (seg === "en") return "EN";
     if (seg === "vi") return "VI";
-    if (seg === "zh") return "ZH";
     return null;
   })();
 

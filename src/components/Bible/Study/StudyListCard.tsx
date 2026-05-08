@@ -1,6 +1,6 @@
 "use client";
 
-import type { BibleStudyList } from "@/types/bible-study";
+import type { BibleStudyListWithCount } from "@/types/bible-study";
 import { deleteStudyList } from "@/app/actions/bible/study";
 import { BookOpen, Clock, Loader2, X } from "lucide-react";
 import {
@@ -13,13 +13,13 @@ import { ReserveLayout } from "@/components/ui/reverse-layout";
 import { useRouter, usePathname } from "next/navigation";
 
 interface StudyListCardProps {
-  list: BibleStudyList;
+  list: BibleStudyListWithCount;
 }
 
 export function StudyListCard({ list }: StudyListCardProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const langSegment = pathname?.match(/^\/bible\/(en|vi|zh)/)?.[1] ?? "en";
+  const langSegment = pathname?.match(/^\/bible\/(en|vi)/)?.[1] ?? "en";
 
   const handleOpen = () => {
     router.push(`/bible/${langSegment}/study/${list.id}`);
@@ -80,7 +80,9 @@ export function StudyListCard({ list }: StudyListCardProps) {
         >
           <span className="inline-flex items-center gap-1">
             <BookOpen className="h-3.5 w-3.5" aria-hidden />
-            <span>0 passages</span>
+            <span>
+              {list.passageCount} {list.passageCount === 1 ? "chapter" : "chapters"}
+            </span>
           </span>
           <span className="inline-flex items-center gap-1">
             <Clock className="h-3.5 w-3.5" aria-hidden />

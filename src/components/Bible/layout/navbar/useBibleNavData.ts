@@ -24,13 +24,10 @@ export function useBibleNavData() {
     pathname?.includes("/bible/") &&
     (pathname?.includes("/flashcard") || pathname?.includes("/glossary"));
 
-  /** ZH (Chinese) not supported in nav for now – hide language option */
-  const showZhLanguage = false;
-
   const learnLang = globalLanguage === "VI" ? "vi" : "en";
-  const langSegment = pathname?.match(/^\/bible\/(en|vi|zh)/)?.[1] ?? learnLang;
+  const langSegment = pathname?.match(/^\/bible\/(en|vi)/)?.[1] ?? learnLang;
 
-  function handleLanguageChange(lang: "EN" | "VI" | "ZH") {
+  function handleLanguageChange(lang: "EN" | "VI") {
     setGlobalLanguage(lang);
     const segment = languageToSegment(lang);
     const newPath =
@@ -75,7 +72,6 @@ export function useBibleNavData() {
     isLearn,
     isBible,
     isGlossary,
-    showZhLanguage,
     handleLanguageChange,
     globalLanguage,
     fontSize,

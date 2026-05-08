@@ -65,7 +65,7 @@ export function FlashCardHorizontal({
           style={{ backfaceVisibility: "hidden" }}
         >
           <Badge variant="outline" className="text-xs">
-            {cardLanguage === "VI" ? "VI" : cardLanguage === "ZH" ? "中" : "EN"}
+            {cardLanguage === "VI" ? "VI" : "EN"}
           </Badge>
           <h2
             className={cn(
@@ -178,18 +178,6 @@ export function FlashCardHorizontal({
                 title="Tiếng Việt (this card only)"
               >
                 VI
-              </Button>
-              <Button
-                variant={cardLanguage === "ZH" ? "default" : "ghost"}
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onCardLanguageChange("ZH");
-                }}
-                className="h-6 px-1.5 text-xs"
-                title="中文 (this card only)"
-              >
-                中
               </Button>
             </div>
             {cardLanguage === "EN" && (
