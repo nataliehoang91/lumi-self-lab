@@ -25,9 +25,11 @@ export async function GET(
       select: { aiReflections: true, aiReflectionCount: true },
     });
 
+    const reflections = row?.aiReflections ?? [];
+    // Always derive count from array length (source of truth)
     return NextResponse.json({
-      reflections: row?.aiReflections ?? [],
-      count: row?.aiReflectionCount ?? 0,
+      reflections,
+      count: reflections.length,
     });
   } catch {
     return NextResponse.json({ error: "Failed to fetch reflection" }, { status: 500 });
@@ -112,7 +114,8 @@ export async function POST(
 
     if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-    const currentCount = row.aiReflectionCount;
+    // Use array length as the authoritative count (handles schema migration)
+    const currentCount = row.aiReflections.length;
     if (currentCount >= MAX_REFLECTIONS) {
       return NextResponse.json({ error: "limit_reached", count: currentCount }, { status: 429 });
     }

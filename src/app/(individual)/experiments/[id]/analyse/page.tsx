@@ -81,27 +81,69 @@ function TrendIcon({ direction }: { direction: string }) {
 }
 
 function ReflectionText({ text }: { text: string }) {
+  const blocks = text.split("\n\n").filter((b) => {
+    const t = b.trim();
+    // Drop horizontal rules and empty separators
+    return t !== "" && !/^-{3,}$/.test(t);
+  });
+
   return (
     <div className="space-y-4">
-      {text
-        .split("\n\n")
-        .filter(Boolean)
-        .map((block, i) => {
-          const headingMatch =
-            block.match(/^#{1,3}\s+(.+)$/) ?? block.match(/^\*\*([A-Z][A-Z\s&.]+)\*\*$/);
-          if (headingMatch) {
-            return (
-              <p key={i} className="text-foreground mt-2 text-xs font-bold uppercase tracking-widest">
-                {headingMatch[1]}
-              </p>
-            );
-          }
+      {blocks.map((block, i) => {
+        const t = block.trim();
+
+        // # Title line (single hash, may include metadata after em-dash)
+        const h1 = t.match(/^#\s+(.+)$/);
+        if (h1) {
+          // Extract just the experiment name before any · or —
+          const title = h1[1].split(/[·—]/)[0].trim();
           return (
-            <p key={i} className="text-muted-foreground text-sm leading-relaxed">
-              {block.replace(/\*\*(.+?)\*\*/g, "$1")}
+            <p key={i} className="text-foreground text-sm font-bold">
+              {title}
             </p>
           );
-        })}
+        }
+
+        // ## or ### section headers
+        const h2 = t.match(/^#{2,3}\s+(.+)$/);
+        if (h2) {
+          return (
+            <p key={i} className="text-foreground mt-3 text-xs font-bold uppercase tracking-widest">
+              {h2[1]}
+            </p>
+          );
+        }
+
+        // Numbered section: "1. BEHAVIORAL OBSERVATIONS" or "**1. TITLE**"
+        const numbered = t.match(/^\*?\*?(\d+\.\s+[A-Z][A-Z\s&]+)\*?\*?$/);
+        if (numbered) {
+          return (
+            <p key={i} className="text-foreground mt-3 text-xs font-bold uppercase tracking-widest">
+              {numbered[1]}
+            </p>
+          );
+        }
+
+        // Bold-only line acting as heading: **HEADING**
+        const boldHeading = t.match(/^\*\*([A-Z][A-Z\s&.]+)\*\*$/);
+        if (boldHeading) {
+          return (
+            <p key={i} className="text-foreground mt-3 text-xs font-bold uppercase tracking-widest">
+              {boldHeading[1]}
+            </p>
+          );
+        }
+
+        // Regular paragraph — strip remaining markdown bold/italic
+        const clean = t
+          .replace(/\*\*(.+?)\*\*/g, "$1")
+          .replace(/\*(.+?)\*/g, "$1");
+        return (
+          <p key={i} className="text-muted-foreground text-sm leading-relaxed">
+            {clean}
+          </p>
+        );
+      })}
     </div>
   );
 }
@@ -207,8 +249,8 @@ export default function AnalysePage() {
       {(state.phase === "done") && (() => {
         const { data, stored } = state;
         const { experiment, stats, summary, trends } = data;
-        const { reflections, count } = stored;
-        const atLimit = count >= MAX_REFLECTIONS;
+        const { reflections } = stored;
+        const atLimit = reflections.length >= MAX_REFLECTIONS;
         const hasReflections = reflections.length > 0;
         const currentReflection = reflections[activeVersion] ?? null;
         const completionPct =
@@ -276,24 +318,24 @@ export default function AnalysePage() {
                     {hasReflections ? "Generate new" : "Generate analysis"}
                   </Button>
                 ) : (
-                  <span className="text-muted-foreground shrink-0 text-xs">All {MAX_REFLECTIONS} runs used</span>
+                  <span className="text-muted-foreground shrink-0 text-xs">All {MAX_REFLECTIONS} analyses saved</span>
                 )}
               </div>
 
-              {/* Version tabs (only show if >1 version) */}
-              {reflections.length > 1 && (
-                <div className="mb-5 flex gap-1.5">
+              {/* Version badges — show from run 1 onwards */}
+              {reflections.length > 0 && (
+                <div className="mb-5 flex flex-wrap gap-1.5">
                   {reflections.map((_, i) => (
                     <button
                       key={i}
                       onClick={() => setActiveVersion(i)}
-                      className={`rounded-lg px-3 py-1 text-xs font-medium transition-all ${
+                      className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
                         activeVersion === i
-                          ? "bg-primary text-white"
+                          ? "bg-primary text-white shadow-sm"
                           : "bg-muted text-muted-foreground hover:bg-muted/80"
                       }`}
                     >
-                      Run {i + 1}
+                      {i === 0 ? "1st run" : i === 1 ? "2nd run" : "3rd run"}
                     </button>
                   ))}
                 </div>
@@ -322,12 +364,12 @@ export default function AnalysePage() {
                   <div
                     key={i}
                     className={`h-1.5 w-1.5 rounded-full transition-all ${
-                      i < count ? "bg-primary" : "bg-border"
+                      i < reflections.length ? "bg-primary" : "bg-border"
                     }`}
                   />
                 ))}
                 <span className="text-muted-foreground ml-1.5 text-[11px]">
-                  {count}/{MAX_REFLECTIONS} runs used
+                  {reflections.length}/{MAX_REFLECTIONS} runs used
                 </span>
               </div>
             </Card>
