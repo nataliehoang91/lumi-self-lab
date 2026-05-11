@@ -1,90 +1,74 @@
 "use client";
 
-import {
-  InteractiveForm,
-  SubmitButton,
-  SubmitMessage,
-  FormErrorMessage,
-} from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
-import {
-  Form,
-  FormField,
-  FormLabel,
-  FormMessage,
-  InputControl,
-} from "@/components/CoreAdvancedComponent/components/form";
-import { ReserveLayout } from "@/components/ui/reverse-layout";
+import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
-import { createStudyList } from "@/app/actions/bible/study";
-import {
-  STUDY_LIST_DESCRIPTION_FIELDS,
-  STUDY_LIST_GENERAL_FIELDS,
-  STUDY_LIST_TITLE_FIELDS,
-  type StudyListFields,
-} from "./constants";
 import { Button } from "@/components/ui/button";
-import { LoadingMessage } from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
-export function CreateStudyListForm() {
+import { createStudyList } from "@/app/actions/bible/study";
+import { Loader2 } from "lucide-react";
+
+interface CreateStudyListFormProps {
+  onSuccess?: () => void;
+}
+
+export function CreateStudyListForm({ onSuccess }: CreateStudyListFormProps) {
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    const data = new FormData(e.currentTarget);
+    startTransition(async () => {
+      const result = await createStudyList(data);
+      if (result.errors) {
+        setError(result.errors.general?.[0] ?? result.errors.title?.[0] ?? "Something went wrong.");
+        return;
+      }
+      router.refresh();
+      onSuccess?.();
+    });
+  };
+
   return (
-    <Form asChild className="contents">
-      <InteractiveForm<StudyListFields>
-        className="border-border bg-card/80 space-y-4 rounded-2xl border p-6 shadow-sm"
-        fields={[
-          STUDY_LIST_TITLE_FIELDS,
-          STUDY_LIST_DESCRIPTION_FIELDS,
-          STUDY_LIST_GENERAL_FIELDS,
-        ]}
-        action={createStudyList}
-      >
-        <FormErrorMessage name="general" match="unauthorized">
-          Session expired. Please sign in again.
-        </FormErrorMessage>
-        <FormErrorMessage name="general" match="save_failed">
-          Failed to create study list. Please try again.
-        </FormErrorMessage>
-        <FormField name={STUDY_LIST_TITLE_FIELDS}>
-          <FormLabel>Name*</FormLabel>
-          <InputControl asChild>
-            <Input
-              required
-              minLength={3}
-              maxLength={80}
-              placeholder="e.g. Morning Devotion"
-              className="bg-background w-full rounded-md border px-3 py-2 text-sm"
-            />
-          </InputControl>
-          <ReserveLayout placeItems="start">
-            <FormMessage match="valueMissing">Name is required.</FormMessage>
-            <FormMessage match="tooShort">
-              Name must be at least 3 characters long.
-            </FormMessage>
-            <FormMessage match="tooLong">
-              Name must be at most 80 characters long.
-            </FormMessage>
-          </ReserveLayout>
-        </FormField>
-        <FormField name={STUDY_LIST_DESCRIPTION_FIELDS}>
-          <FormLabel>Description</FormLabel>
-          <InputControl asChild>
-            <Input
-              maxLength={200}
-              placeholder="What is this study about?"
-              className="bg-background w-full rounded-md border px-3 py-2 text-sm"
-            />
-          </InputControl>
-          <ReserveLayout placeItems="start">
-            <FormMessage match="tooLong">
-              Description must be at most 200 characters long.
-            </FormMessage>
-          </ReserveLayout>
-        </FormField>
-        <SubmitButton asChild>
-          <Button type="submit" className="w-full">
-            <LoadingMessage>Creating study list...</LoadingMessage>
-            <SubmitMessage>Create List</SubmitMessage>
-          </Button>
-        </SubmitButton>
-      </InteractiveForm>
-    </Form>
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-1.5">
+        <label htmlFor="title" className="text-sm font-medium">Name*</label>
+        <Input
+          id="title"
+          name="title"
+          required
+          minLength={1}
+          maxLength={80}
+          placeholder="e.g. Morning Devotion"
+          disabled={isPending}
+          className="w-full"
+        />
+      </div>
+      <div className="space-y-1.5">
+        <label htmlFor="description" className="text-sm font-medium">Description</label>
+        <Input
+          id="description"
+          name="description"
+          maxLength={200}
+          placeholder="What is this study about?"
+          disabled={isPending}
+          className="w-full"
+        />
+      </div>
+      {error && <p className="text-destructive text-sm">{error}</p>}
+      <Button type="submit" className="w-full" disabled={isPending}>
+        {isPending ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Creating…
+          </>
+        ) : (
+          "Create List"
+        )}
+      </Button>
+    </form>
   );
 }

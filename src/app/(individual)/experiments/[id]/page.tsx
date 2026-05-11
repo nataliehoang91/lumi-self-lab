@@ -103,7 +103,6 @@ export default async function ExperimentDetailPage({
       })),
     })),
   };
-  console.log(uiExperiment);
   return (
     <Suspense
       fallback={

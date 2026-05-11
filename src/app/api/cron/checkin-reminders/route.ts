@@ -1,13 +1,36 @@
 /**
  * Phase R.1 + R.3 + R.4 — Daily check-in reminder cron (email only).
  * Finds active experiments where lastCheckInDate < today UTC; skips if paused (R.3) or snoozed (R.4).
+ * Respects user notification preferences: reminderEmailEnabled and reminderTimeSlot.
  * Secure: callable only with CRON_SECRET (Bearer or x-cron-secret).
+ *
+ * Note: reminderEmailEnabled / reminderTimeSlot are new User fields not yet reflected in the
+ * generated Prisma client. After running `prisma generate` the cast can be removed.
  */
 
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { toStartOfDayUTC } from "@/lib/date-utils";
 import { sendCheckInReminderEmail } from "@/lib/checkin-reminder-email";
+
+const VALID_SLOTS = ["morning", "afternoon", "evening"] as const;
+type Slot = (typeof VALID_SLOTS)[number];
+
+type ExpRow = {
+  id: string;
+  title: string;
+  clerkUserId: string;
+  checkIns: { checkInDate: Date }[];
+  user: {
+    email: string | null;
+    reminderEmailEnabled: boolean;
+    reminderTimeSlot: string;
+  } | null;
+  reminder: { pausedAt: Date | null; snoozedUntil: Date | null } | null;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = prisma as any;
 
 function isAuthorized(request: Request): boolean {
   const secret = process.env.CRON_SECRET;
@@ -23,12 +46,16 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const url = new URL(request.url);
+  const rawSlot = url.searchParams.get("slot") ?? "morning";
+  const slot: Slot = VALID_SLOTS.includes(rawSlot as Slot) ? (rawSlot as Slot) : "morning";
+
   const todayStart = toStartOfDayUTC(new Date());
   const baseUrl =
     process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3005";
 
   try {
-    const activeExperiments = await prisma.experiment.findMany({
+    const activeExperiments: ExpRow[] = await db.experiment.findMany({
       where: {
         status: "active",
         startedAt: { not: null },
@@ -43,7 +70,11 @@ export async function GET(request: Request) {
           select: { checkInDate: true },
         },
         user: {
-          select: { email: true },
+          select: {
+            email: true,
+            reminderEmailEnabled: true,
+            reminderTimeSlot: true,
+          },
         },
         reminder: {
           select: { pausedAt: true, snoozedUntil: true },
@@ -53,6 +84,8 @@ export async function GET(request: Request) {
 
     const now = new Date();
     const needsReminder = activeExperiments.filter((exp) => {
+      if (!exp.user?.reminderEmailEnabled) return false;
+      if (exp.user?.reminderTimeSlot !== slot) return false;
       if (exp.reminder?.pausedAt != null) return false;
       if (exp.reminder?.snoozedUntil != null && now < exp.reminder.snoozedUntil)
         return false;
@@ -82,6 +115,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       ok: true,
+      slot,
       remindersSent: sent,
       totalEligible: needsReminder.length,
       errors: errors.length > 0 ? errors : undefined,

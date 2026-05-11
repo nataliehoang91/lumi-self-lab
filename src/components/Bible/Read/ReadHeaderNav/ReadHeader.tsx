@@ -13,6 +13,7 @@ import { ReadTextSettings } from "./ReadTextSettings";
 import { InsightsButton } from "./InsightsButton";
 import { FocusModeButton } from "./FocusModeButton";
 import { VersionDropdownMobile } from "./VersionDropdownMobile";
+import { AddToStudyButton } from "./AddToStudyButton";
 
 export function ReadHeader() {
   const { globalLanguage } = useBibleApp();
@@ -78,6 +79,7 @@ export function ReadHeader() {
           )}
           <div className="flex shrink-0 items-center gap-2 sm:gap-4">
             {showBookChapterNav && <ReadTextSettings />}
+            {!focusMode && <AddToStudyButton variant="desktop" />}
             {!focusMode && <InsightsButton variant="desktop" />}
             <FocusModeButton variant="desktop" />
           </div>
@@ -114,6 +116,7 @@ export function ReadHeader() {
             )}
             <div className="ml-auto flex shrink-0 items-center gap-2">
               {showBookChapterNav && <ReadTextSettings />}
+              {!focusMode && <AddToStudyButton variant="mobile" />}
               {!focusMode && <InsightsButton variant="mobile" />}
               <FocusModeButton variant="mobile" />
             </div>

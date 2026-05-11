@@ -21,6 +21,10 @@ model User {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
+  // Notification preferences
+  reminderEmailEnabled Boolean @default(true)
+  reminderTimeSlot     String  @default("morning") // morning | afternoon | evening
+
   // Relations
   experiments     Experiment[]
   organisationMemberships OrganisationMember[] @relation("OrganisationMemberships")
@@ -197,10 +201,18 @@ model BibleStudyList {
   clerkUserId String
   title       String
   description String?
+  tags        String[]
+  isFavorite  Boolean  @default(false)
+  isArchived  Boolean  @default(false)
+  isPublic    Boolean  @default(false)
+  publicSlug  String?  @unique
+  sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   passages    BibleStudyPassage[]
+  notes       BibleStudyNote[]
+  highlights  BibleStudyHighlight[]
 
   @@index([clerkUserId])
 }
@@ -214,11 +226,43 @@ model BibleStudyPassage {
   chapter    Int
   verseStart Int?
   verseEnd   Int?
+  isStudied  Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   @@index([listId])
   @@unique([listId, bookId, chapter, verseStart, verseEnd])
+}
+
+// Per-verse or per-chapter notes within a study list.
+model BibleStudyNote {
+  id          String   @id @default(cuid())
+  listId      String
+  list        BibleStudyList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  bookId      String
+  chapter     Int
+  verseNumber Int?     // null = chapter-level note
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([listId])
+  @@index([listId, bookId, chapter])
+}
+
+// Verse highlights (color-coded) within a study list.
+model BibleStudyHighlight {
+  id          String   @id @default(cuid())
+  listId      String
+  list        BibleStudyList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  bookId      String
+  chapter     Int
+  verseNumber Int
+  color       String   // "yellow" | "blue" | "pink" | "green"
+  createdAt   DateTime @default(now())
+
+  @@index([listId])
+  @@unique([listId, bookId, chapter, verseNumber])
 }
 
 ////////////////////////////////////////////////////////////
@@ -250,6 +294,10 @@ model Experiment {
   updatedAt       DateTime @updatedAt
   startedAt       DateTime?
   completedAt     DateTime?
+
+  // AI reflections (all versions stored, max 3 runs)
+  aiReflections     String[] // each element is one full reflection text
+  aiReflectionCount Int     @default(0)
 
   fields          ExperimentField[]
   checkIns        ExperimentCheckIn[]

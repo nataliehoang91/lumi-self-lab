@@ -1289,3 +1289,9 @@
   opacity: 0;
   filter: saturate(0) brightness(1.1);
 }
+
+@media print {
+  nav, aside, header, .no-print { display: none !important; }
+  article { break-inside: avoid; }
+  body { background: white !important; color: black !important; }
+}

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/permissions";
+import { isAtActiveLimit, FREE_ACTIVE_EXPERIMENT_LIMIT } from "@/lib/experiment-limits";
 import { NextResponse } from "next/server";
 
 /**
@@ -102,6 +103,13 @@ export async function POST(request: Request) {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (await isAtActiveLimit(userId)) {
+      return NextResponse.json(
+        { error: "limit_reached", limit: FREE_ACTIVE_EXPERIMENT_LIMIT },
+        { status: 403 }
+      );
     }
 
     const body = await request.json();

@@ -1,6 +1,11 @@
 import { notFound } from "next/navigation";
 import { getBooks } from "@/app/actions/bible/read";
-import { getStudyListById, getPassagesForStudyList } from "@/app/actions/bible/study";
+import {
+  getStudyListById,
+  getPassagesForStudyList,
+  getNotesForList,
+  getHighlightsForList,
+} from "@/app/actions/bible/study";
 import { StudyReaderShell } from "@/components/Bible/Study/StudyReaderShell";
 
 interface StudyListPageProps {
@@ -10,15 +15,23 @@ interface StudyListPageProps {
 export default async function StudyListPage({ params }: StudyListPageProps) {
   const { listId } = await params;
 
-  const [list, books, passages] = await Promise.all([
+  const [list, books, passages, notes, highlights] = await Promise.all([
     getStudyListById(listId),
     getBooks(),
     getPassagesForStudyList(listId),
+    getNotesForList(listId),
+    getHighlightsForList(listId),
   ]);
 
-  if (!list) {
-    notFound();
-  }
+  if (!list) notFound();
 
-  return <StudyReaderShell list={list} books={books} initialPassages={passages} />;
+  return (
+    <StudyReaderShell
+      list={list}
+      books={books}
+      initialPassages={passages}
+      initialNotes={notes}
+      initialHighlights={highlights}
+    />
+  );
 }

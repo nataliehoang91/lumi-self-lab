@@ -14,6 +14,7 @@ export function EnhancedReadingPanel(props: ReadingPanelProps) {
   const {
     side,
     version,
+    book,
     content,
     hoveredVerse,
     onVerseHover,
@@ -46,6 +47,7 @@ export function EnhancedReadingPanel(props: ReadingPanelProps) {
       <ReadingPanelContent
         version={version}
         content={content}
+        book={book}
         focusMode={focusMode}
         fontSize={fontSize}
         readFontSize={readFontSize}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,8 +19,10 @@ interface NewStudyListPlaceholderCardProps {
 export function NewStudyListPlaceholderCard({
   label = "New list",
 }: NewStudyListPlaceholderCardProps) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="secondaryLight"
@@ -48,7 +51,7 @@ export function NewStudyListPlaceholderCard({
         <DialogHeader>
           <DialogTitle>Create a new study list</DialogTitle>
         </DialogHeader>
-        <CreateStudyListForm />
+        <CreateStudyListForm onSuccess={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );

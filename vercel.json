@@ -1,4 +1,8 @@
 {
   "regions": ["syd1"],
-  "crons": [{ "path": "/api/cron/checkin-reminders", "schedule": "0 14 * * *" }]
+  "crons": [
+    { "path": "/api/cron/checkin-reminders?slot=morning", "schedule": "0 8 * * *" },
+    { "path": "/api/cron/checkin-reminders?slot=afternoon", "schedule": "0 13 * * *" },
+    { "path": "/api/cron/checkin-reminders?slot=evening", "schedule": "0 18 * * *" }
+  ]
 }

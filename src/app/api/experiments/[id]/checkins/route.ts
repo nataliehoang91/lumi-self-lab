@@ -1,8 +1,58 @@
 import { prisma } from "@/lib/prisma";
+import { anthropic } from "@/lib/anthropic";
 import { getAuthenticatedUserId, requireExperimentOwner } from "@/lib/permissions";
 import { toStartOfDayUTC, startOfNextDayUTC } from "@/lib/date-utils";
 import { validateCheckInResponses } from "@/lib/checkin-response-validation";
 import { NextResponse } from "next/server";
+
+async function generateAiSummary(
+  experimentTitle: string,
+  responses: Array<{ field: { label: string; type: string; emojiCount: number | null }; responseText: string | null; responseNumber: number | null; responseBool: boolean | null; selectedOption: string | null }>
+): Promise<string | null> {
+  try {
+    const formattedResponses = responses.map((r) => {
+      let value: string;
+      if (r.responseText !== null) value = r.responseText;
+      else if (r.selectedOption !== null) value = r.selectedOption;
+      else if (r.responseBool !== null) value = r.responseBool ? "Yes" : "No";
+      else if (r.responseNumber !== null) {
+        if (r.field.type === "emoji" && r.field.emojiCount) {
+          const maps: Record<number, string[]> = {
+            3: ["😔", "😐", "😊"],
+            5: ["😔", "😕", "😐", "😊", "😄"],
+            7: ["😫", "😔", "😕", "😐", "😊", "😄", "🤩"],
+          };
+          value = maps[r.field.emojiCount]?.[r.responseNumber - 1] ?? String(r.responseNumber);
+        } else {
+          value = String(r.responseNumber);
+        }
+      } else {
+        value = "(no response)";
+      }
+      return `- ${r.field.label}: ${value}`;
+    });
+
+    const message = await anthropic.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 150,
+      messages: [
+        {
+          role: "user",
+          content: `You are a gentle, empathetic reflection assistant. Write exactly 2 sentences reflecting on what the user logged in their experiment check-in. Be warm and specific to their responses.
+
+Experiment: "${experimentTitle}"
+Responses:
+${formattedResponses.join("\n")}`,
+        },
+      ],
+    });
+
+    const block = message.content[0];
+    return block.type === "text" ? block.text.trim() : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * GET /api/experiments/[id]/checkins
@@ -184,7 +234,7 @@ export async function POST(
         }
       });
 
-      const updated = await prisma.experimentCheckIn.findUnique({
+      let updated = await prisma.experimentCheckIn.findUnique({
         where: { id: existingCheckIn.id },
         include: {
           responses: {
@@ -192,16 +242,28 @@ export async function POST(
           },
         },
       });
+
+      if (updated && updated.responses.length > 0) {
+        const summary = await generateAiSummary(experiment.title, updated.responses);
+        if (summary) {
+          await prisma.experimentCheckIn.update({
+            where: { id: updated.id },
+            data: { aiSummary: summary },
+          });
+          updated = { ...updated, aiSummary: summary };
+        }
+      }
+
       return NextResponse.json(updated);
     }
 
-    const checkIn = await prisma.experimentCheckIn.create({
+    let checkIn = await prisma.experimentCheckIn.create({
       data: {
         experimentId,
         clerkUserId: userId,
         checkInDate: normalizedDate,
         notes: notes ?? null,
-        aiSummary: aiSummary ?? null,
+        aiSummary: null,
         responses: {
           create: responsesData.map((r) => ({
             fieldId: r.fieldId,
@@ -219,6 +281,17 @@ export async function POST(
         },
       },
     });
+
+    if (checkIn.responses.length > 0) {
+      const summary = await generateAiSummary(experiment.title, checkIn.responses);
+      if (summary) {
+        await prisma.experimentCheckIn.update({
+          where: { id: checkIn.id },
+          data: { aiSummary: summary },
+        });
+        checkIn = { ...checkIn, aiSummary: summary };
+      }
+    }
 
     return NextResponse.json(checkIn, { status: 201 });
   } catch (error) {

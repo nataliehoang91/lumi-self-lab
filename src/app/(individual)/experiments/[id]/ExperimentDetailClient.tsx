@@ -27,8 +27,10 @@ import {
   Pencil,
   Plus,
   Eye,
-  Building2,
-  Home,
+  Sparkles,
+  Loader2,
+  BarChart2,
+  StopCircle,
 } from "lucide-react";
 import {
   Select,
@@ -101,6 +103,10 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
   const [isUpdating, setIsUpdating] = useState(false);
   const [reminder, setReminder] = useState<ReminderState | null>(null);
   const [selectedDate, setSelectedDate] = useState(() => getTodayUTC());
+  const [aiReflection, setAiReflection] = useState<string | null>(null);
+  const [isGeneratingReflection, setIsGeneratingReflection] = useState(false);
+  const [isStopDialogOpen, setIsStopDialogOpen] = useState(false);
+  const [isStopping, setIsStopping] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -228,6 +234,37 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
     }
   };
 
+  const handleGenerateReflection = async () => {
+    setIsGeneratingReflection(true);
+    try {
+      const res = await fetch(`/api/experiments/${experiment.id}/insights/reflection`, {
+        method: "POST",
+      });
+      if (res.ok) {
+        const data = await res.json() as { reflection: string };
+        setAiReflection(data.reflection);
+      }
+    } catch {}
+    setIsGeneratingReflection(false);
+  };
+
+  const handleStopAndAnalyse = async () => {
+    setIsStopping(true);
+    try {
+      const response = await fetch(`/api/experiments/${experiment.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "completed", completedAt: new Date().toISOString() }),
+      });
+      if (!response.ok) throw new Error("Failed to stop experiment");
+      router.push(`/experiments/${experiment.id}/analyse`);
+    } catch (error) {
+      console.error("Error stopping experiment:", error);
+      setIsStopping(false);
+      setIsStopDialogOpen(false);
+    }
+  };
+
   /**
    * Render field preview based on field type
    */
@@ -346,13 +383,6 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
             <Badge className={getStatusColor(experiment.status)}>
               {experiment.status.charAt(0).toUpperCase() + experiment.status.slice(1)}
             </Badge>
-            {/* Org Badge - Mock: replace with real data */}
-            {false && ( // TODO: Replace with experiment.orgId check
-              <Badge className="bg-violet/10 text-violet border-violet/20">
-                <Building2 className="mr-1 h-3 w-3" />
-                Linked to Organisation
-              </Badge>
-            )}
             {/* Status Selector */}
             <Select
               value={experiment.status}
@@ -505,29 +535,37 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
             </Button>
           )}
 
-          {/* Org Linking Section */}
-          <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-foreground font-semibold">Organisation</h3>
-              <Button variant="outline" size="sm" asChild>
-                <Link href={`/experiments/${experiment.id}/org-linking`}>Manage</Link>
-              </Button>
-            </div>
-            <div className="text-muted-foreground text-sm">
-              {false ? ( // TODO: Replace with experiment.orgId check
-                <div className="flex items-center gap-2">
-                  <Building2 className="text-violet h-4 w-4" />
-                  <span>Linked to organisation</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Home className="h-4 w-4" />
-                  <span>Personal experiment</span>
-                </div>
-              )}
-            </div>
-          </Card>
         </div>
+
+        {/* AI Insights */}
+        {experiment.checkIns.length >= 7 && (
+          <div className="mb-8 space-y-4">
+            <Button
+              onClick={handleGenerateReflection}
+              disabled={isGeneratingReflection}
+              variant="outline"
+              className="border-primary/30 hover:border-primary hover:bg-primary/5 w-full
+                rounded-2xl border-2 bg-transparent py-6 transition-all hover:scale-[1.02]"
+            >
+              {isGeneratingReflection ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Sparkles className="mr-2 h-4 w-4" />
+              )}
+              {aiReflection ? "Regenerate AI Insights" : "Generate AI Insights"}
+            </Button>
+
+            {aiReflection && (
+              <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
+                <div className="mb-3 flex items-center gap-2">
+                  <Sparkles className="text-primary h-5 w-5" />
+                  <h3 className="text-foreground font-semibold">AI Insights</h3>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">{aiReflection}</p>
+              </Card>
+            )}
+          </div>
+        )}
 
         {/* Status Action Buttons */}
         <div className="mb-8 space-y-3">
@@ -621,18 +659,48 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
               </>
             )}
 
-          {/* Completed: Show Results button */}
+          {/* Active + started: Analyse Now & Stop buttons */}
+          {experiment.status === "active" &&
+            experiment.startDate &&
+            experiment.checkIns.length > 0 && (
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1 rounded-2xl py-5"
+                  onClick={() => router.push(`/experiments/${experiment.id}/analyse`)}
+                >
+                  <BarChart2 className="mr-2 h-4 w-4" />
+                  Analyse Now
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1 rounded-2xl border-destructive/40 py-5 text-destructive hover:border-destructive hover:bg-destructive/5"
+                  onClick={() => setIsStopDialogOpen(true)}
+                >
+                  <StopCircle className="mr-2 h-4 w-4" />
+                  Stop Experiment
+                </Button>
+              </div>
+            )}
+
+          {/* Completed: AI Analysis (primary) + basic stats (secondary) */}
           {experiment.status === "completed" && (
-            <Button
-              variant="outline"
-              className="w-full rounded-2xl py-6"
-              onClick={() => {
-                // TODO: Navigate to results page or show results in dialog
-                console.log("Show results");
-              }}
-            >
-              View Results
-            </Button>
+            <div className="space-y-3">
+              <Button
+                className="from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground w-full rounded-3xl bg-linear-to-r py-6 text-base font-semibold shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]"
+                onClick={() => router.push(`/experiments/${experiment.id}/analyse`)}
+              >
+                <Sparkles className="mr-2 h-5 w-5" />
+                View AI Analysis
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full rounded-2xl py-4 text-sm"
+                onClick={() => router.push(`/experiments/${experiment.id}/review`)}
+              >
+                View Raw Stats
+              </Button>
+            </div>
           )}
         </div>
 
@@ -676,6 +744,48 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
               }
               hideDateInput={true}
             />
+          </DialogContent>
+        </Dialog>
+
+        {/* Stop Experiment Confirmation Dialog */}
+        <Dialog open={isStopDialogOpen} onOpenChange={setIsStopDialogOpen}>
+          <DialogContent className="max-w-md rounded-3xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <StopCircle className="text-destructive h-5 w-5" />
+                Stop this experiment?
+              </DialogTitle>
+              <DialogDescription>
+                The experiment will be marked as completed early. You&apos;ll get a full
+                analysis based on your {experiment.checkIns.length} check-in
+                {experiment.checkIns.length !== 1 ? "s" : ""} so far.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+              You&apos;ve completed {experiment.daysCompleted} of {experiment.duration} days ({Math.round((experiment.daysCompleted / experiment.duration) * 100)}%). The analysis will reflect what you&apos;ve tracked so far.
+            </div>
+            <div className="mt-4 flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1 rounded-2xl"
+                onClick={() => setIsStopDialogOpen(false)}
+                disabled={isStopping}
+              >
+                Keep going
+              </Button>
+              <Button
+                className="flex-1 rounded-2xl bg-destructive text-white hover:bg-destructive/90"
+                onClick={handleStopAndAnalyse}
+                disabled={isStopping}
+              >
+                {isStopping ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <BarChart2 className="mr-2 h-4 w-4" />
+                )}
+                {isStopping ? "Stopping..." : "Stop & Analyse"}
+              </Button>
+            </div>
           </DialogContent>
         </Dialog>
 

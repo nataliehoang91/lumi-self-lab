@@ -45,6 +45,7 @@ export default function GuidedOnboardingPage() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>(Array(5).fill(""));
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState<string | null>(null);
 
   const progress = ((currentQuestion + 1) / guidedQuestions.length) * 100;
   const question = guidedQuestions[currentQuestion];
@@ -64,12 +65,25 @@ export default function GuidedOnboardingPage() {
     }
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setIsGenerating(true);
-    // Simulate AI processing
-    setTimeout(() => {
+    setGenerateError(null);
+    try {
+      const res = await fetch("/api/ai/generate-experiment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to generate experiment");
+      }
+      const data = await res.json();
+      sessionStorage.setItem("ai_experiment_draft", JSON.stringify(data));
       router.push("/onboarding/preview");
-    }, 2000);
+    } catch {
+      setIsGenerating(false);
+      setGenerateError("Something went wrong generating your experiment. Please try again.");
+    }
   };
 
   const handleAnswerChange = (value: string) => {
@@ -171,6 +185,13 @@ export default function GuidedOnboardingPage() {
             ))}
           </div>
         </div>
+
+        {/* Error message */}
+        {generateError && (
+          <div className="mt-4 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+            {generateError}
+          </div>
+        )}
 
         {/* Navigation */}
         <div className="mt-8 flex items-center justify-between">

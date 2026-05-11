@@ -5,7 +5,7 @@ import type { ReviewResultResponse } from "@/lib/review-result-schema";
 import { ReviewSummaryField } from "@/components/review/ReviewSummaryField";
 import { ReviewTrendField } from "@/components/review/ReviewTrendField";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 
 async function fetchReviewResult(
   experimentId: string,
@@ -48,13 +48,21 @@ export default async function ReviewPage({
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={`/experiments/${id}`} aria-label="Back to experiment">
-            <ArrowLeft className="h-4 w-4" />
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={`/experiments/${id}`} aria-label="Back to experiment">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+          <h1 className="text-foreground text-2xl font-semibold">Raw Stats</h1>
+        </div>
+        <Button asChild className="rounded-2xl">
+          <Link href={`/experiments/${id}/analyse`}>
+            <Sparkles className="mr-2 h-4 w-4" />
+            AI Analysis
           </Link>
         </Button>
-        <h1 className="text-foreground text-2xl font-semibold">Review</h1>
       </div>
 
       {/* Header: title, status, date range, stats */}

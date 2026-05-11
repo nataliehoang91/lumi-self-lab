@@ -5,9 +5,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import { GeneralErrorFallback } from "@/components/GeneralErrorFallback";
 
 /**
- * Create Experiment Layout - Wrapper with Suspense and ErrorBoundary
- *
- * Full viewport height for ResizablePanelGroup (AI chat + experiment form).
+ * Create Experiment Layout — fixed below the navbar, no page scroll.
+ * Both inner panels (chat + form) scroll independently.
  */
 export default function CreateExperimentLayout({
   children,
@@ -18,18 +17,15 @@ export default function CreateExperimentLayout({
     <ErrorBoundary fallbackRender={(props) => <GeneralErrorFallback {...props} />}>
       <Suspense
         fallback={
-          <div className="flex h-[calc(100vh-4rem)] items-center justify-center">
-            <div className="space-y-4 text-center">
-              <div
-                className="border-primary mx-auto h-12 w-12 animate-spin rounded-full
-                  border-4 border-t-transparent"
-              />
-              <p className="text-muted-foreground">Loading...</p>
-            </div>
+          <div className="fixed inset-x-0 bottom-0 top-16 flex items-center justify-center">
+            <div className="border-primary h-10 w-10 animate-spin rounded-full border-4 border-t-transparent" />
           </div>
         }
       >
-        <div className="h-[calc(100vh-4rem)] w-full">{children}</div>
+        {/* Fixed below navbar (top-16 = 64px), fills remaining viewport */}
+        <div className="fixed inset-x-0 bottom-0 top-16 overflow-hidden">
+          {children}
+        </div>
       </Suspense>
     </ErrorBoundary>
   );

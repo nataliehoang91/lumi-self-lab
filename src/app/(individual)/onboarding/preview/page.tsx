@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { IndividualContainer } from "@/components/GeneralComponents/individual-container";
 import {
@@ -20,49 +20,44 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-// AI-generated experiment based on user answers
-const generatedExperiment = {
+type AiField = {
+  label: string;
+  type: string;
+  required?: boolean;
+  emojiCount?: number;
+  minValue?: number;
+  maxValue?: number;
+  selectOptions?: string[];
+  textType?: string;
+};
+
+type AiDraft = {
+  title: string;
+  hypothesis: string;
+  whyMatters: string;
+  durationDays: number;
+  frequency: string;
+  fields: AiField[];
+};
+
+const defaultDraft: AiDraft = {
   title: "Understanding My Focus Patterns",
   hypothesis:
     "I believe my focus is highest in the morning and declines after lunch. By tracking this, I can schedule deep work more effectively.",
-  whyItMatters:
+  whyMatters:
     "Understanding when I'm most focused will help me optimize my workday and feel less frustrated when concentration drops.",
-  duration: 14,
-  frequency: "Daily",
+  durationDays: 14,
+  frequency: "daily",
   fields: [
-    {
-      id: "1",
-      type: "emoji",
-      label: "How focused do you feel right now?",
-      config: { levels: 5 },
-    },
-    {
-      id: "2",
-      type: "number",
-      label: "Rate your concentration (1-10)",
-      config: { min: 1, max: 10 },
-    },
-    {
-      id: "3",
-      type: "select",
-      label: "What time of day is it?",
-      config: { options: ["Morning", "Midday", "Afternoon", "Evening"] },
-    },
-    {
-      id: "4",
-      type: "yesno",
-      label: "Did you have caffeine in the last 2 hours?",
-    },
-    {
-      id: "5",
-      type: "text",
-      label: "Any notes about what helped or hindered focus?",
-      config: { multiline: true },
-    },
+    { label: "How focused do you feel right now?", type: "emoji", required: true, emojiCount: 5 },
+    { label: "Rate your concentration (1-10)", type: "number", required: true, minValue: 1, maxValue: 10 },
+    { label: "What time of day is it?", type: "select", required: true, selectOptions: ["Morning", "Midday", "Afternoon", "Evening"] },
+    { label: "Did you have caffeine in the last 2 hours?", type: "yesno", required: true },
+    { label: "Any notes about what helped or hindered focus?", type: "text", required: false, textType: "long" },
   ],
 };
 
-const fieldTypeIcons: Record<string, any> = {
+const fieldTypeIcons: Record<string, React.ElementType> = {
   emoji: Smile,
   number: Hash,
   text: Type,
@@ -80,11 +75,70 @@ const fieldTypeLabels: Record<string, string> = {
 
 export default function ExperimentPreviewPage() {
   const router = useRouter();
-  const [experiment, setExperiment] = useState(generatedExperiment);
+  const [draft, setDraft] = useState<AiDraft>(defaultDraft);
   const [isEditing, setIsEditing] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  const handleStartExperiment = () => {
-    router.push("/experiments/exp-new");
+  useEffect(() => {
+    const stored = sessionStorage.getItem("ai_experiment_draft");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as AiDraft;
+        setDraft(parsed);
+      } catch {}
+      sessionStorage.removeItem("ai_experiment_draft");
+    }
+  }, []);
+
+  const handleStartExperiment = async () => {
+    setIsSaving(true);
+    setSaveError(null);
+    try {
+      const expRes = await fetch("/api/experiments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: draft.title,
+          hypothesis: draft.hypothesis,
+          whyMatters: draft.whyMatters,
+          durationDays: draft.durationDays,
+          frequency: draft.frequency,
+        }),
+      });
+
+      if (!expRes.ok) {
+        const err = await expRes.json().catch(() => ({}));
+        throw new Error((err as { error?: string }).error || "Failed to create experiment");
+      }
+
+      const experiment = await expRes.json() as { id: string };
+
+      await Promise.all(
+        draft.fields.map((field, index) =>
+          fetch(`/api/experiments/${experiment.id}/fields`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              label: field.label,
+              type: field.type,
+              required: field.required ?? true,
+              order: index,
+              textType: field.textType ?? null,
+              minValue: field.minValue ?? null,
+              maxValue: field.maxValue ?? null,
+              emojiCount: field.emojiCount ?? null,
+              selectOptions: field.selectOptions ?? [],
+            }),
+          })
+        )
+      );
+
+      router.push(`/experiments/${experiment.id}`);
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : "Failed to save experiment");
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -119,10 +173,8 @@ export default function ExperimentPreviewPage() {
             {isEditing === "title" ? (
               <div className="flex gap-2">
                 <Input
-                  value={experiment.title}
-                  onChange={(e) =>
-                    setExperiment({ ...experiment, title: e.target.value })
-                  }
+                  value={draft.title}
+                  onChange={(e) => setDraft({ ...draft, title: e.target.value })}
                   className="rounded-xl text-2xl font-semibold"
                 />
                 <Button
@@ -135,9 +187,7 @@ export default function ExperimentPreviewPage() {
               </div>
             ) : (
               <div className="group flex items-center gap-2">
-                <h2 className="text-foreground text-2xl font-semibold">
-                  {experiment.title}
-                </h2>
+                <h2 className="text-foreground text-2xl font-semibold">{draft.title}</h2>
                 <button
                   onClick={() => setIsEditing("title")}
                   className="hover:bg-muted rounded-lg p-1 opacity-0 transition-all
@@ -154,7 +204,7 @@ export default function ExperimentPreviewPage() {
             <label className="text-violet mb-2 block text-sm font-medium">
               Why This Matters
             </label>
-            <p className="text-foreground">{experiment.whyItMatters}</p>
+            <p className="text-foreground">{draft.whyMatters}</p>
           </div>
 
           {/* Hypothesis */}
@@ -162,7 +212,7 @@ export default function ExperimentPreviewPage() {
             <label className="text-primary mb-2 block text-sm font-medium">
               Your Hypothesis
             </label>
-            <p className="text-foreground">{experiment.hypothesis}</p>
+            <p className="text-foreground">{draft.hypothesis}</p>
           </div>
 
           {/* Duration & Frequency */}
@@ -176,7 +226,7 @@ export default function ExperimentPreviewPage() {
               </div>
               <div>
                 <p className="text-muted-foreground text-sm">Duration</p>
-                <p className="font-medium">{experiment.duration} days</p>
+                <p className="font-medium">{draft.durationDays} days</p>
               </div>
             </div>
             <div className="bg-muted/50 flex items-center gap-3 rounded-2xl p-4">
@@ -188,7 +238,7 @@ export default function ExperimentPreviewPage() {
               </div>
               <div>
                 <p className="text-muted-foreground text-sm">Check-in</p>
-                <p className="font-medium">{experiment.frequency}</p>
+                <p className="font-medium capitalize">{draft.frequency.replace("-", " ")}</p>
               </div>
             </div>
           </div>
@@ -199,11 +249,11 @@ export default function ExperimentPreviewPage() {
               What You&apos;ll Track
             </h3>
             <div className="space-y-3">
-              {experiment.fields.map((field, index) => {
+              {draft.fields.map((field, index) => {
                 const Icon = fieldTypeIcons[field.type] || Target;
                 return (
                   <div
-                    key={field.id}
+                    key={index}
                     className="bg-muted/30 border-border/50 flex items-center gap-4
                       rounded-2xl border p-4"
                   >
@@ -216,7 +266,7 @@ export default function ExperimentPreviewPage() {
                     <div className="flex-grow">
                       <p className="text-foreground font-medium">{field.label}</p>
                       <p className="text-muted-foreground text-sm">
-                        {fieldTypeLabels[field.type]}
+                        {fieldTypeLabels[field.type] || field.type}
                       </p>
                     </div>
                     <span
@@ -232,22 +282,31 @@ export default function ExperimentPreviewPage() {
           </div>
         </div>
 
+        {/* Error */}
+        {saveError && (
+          <div className="mb-4 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+            {saveError}
+          </div>
+        )}
+
         {/* Actions */}
         <div className="flex items-center justify-between">
           <Button
             variant="outline"
             className="rounded-2xl bg-transparent"
             onClick={() => router.back()}
+            disabled={isSaving}
           >
             Customize More
           </Button>
           <Button
             onClick={handleStartExperiment}
+            disabled={isSaving}
             className="bg-primary hover:bg-violet text-primary-foreground gap-2
               rounded-2xl px-8 py-6 text-lg"
           >
             <Play className="h-5 w-5" />
-            Start Experiment
+            {isSaving ? "Saving..." : "Start Experiment"}
           </Button>
         </div>
       </div>

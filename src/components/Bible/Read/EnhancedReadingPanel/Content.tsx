@@ -1,22 +1,35 @@
 "use client";
 
-import { useEffect } from "react";
-import { Copy, Bookmark, StickyNote } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { Copy, BookmarkPlus, StickyNote, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
 import { normalizeVerseTextForDisplay } from "../utils";
-import type { ChapterContent } from "../types";
+import type { ChapterContent, BibleBook } from "../types";
 import type { VersionId } from "../constants";
 import type { TFunction } from "../types";
 import type { FontSize } from "@/components/Bible/BibleAppContext";
 import type { ReadFontSize } from "../readTextConstants";
 import { READ_FONT_SIZE_REM, READ_FONT_FACES_EN, READ_FONT_FACES_VI } from "../readTextConstants";
 import { BookCircleIcon } from "../../GeneralComponents/book-circle-icon";
+import { useAuth } from "@clerk/nextjs";
+import { getStudyListsForCurrentUser, toggleStudyPassage } from "@/app/actions/bible/study";
+import type { BibleStudyListWithCount } from "@/types/bible-study";
+import { useRouter } from "next/navigation";
 
 export interface ReadingPanelContentProps {
   version: VersionId;
   content: ChapterContent | null;
+  book: BibleBook | null;
   focusMode: boolean;
   fontSize: FontSize;
   readFontSize?: ReadFontSize;
@@ -29,6 +42,108 @@ export interface ReadingPanelContentProps {
   highlightedVerses?: number[];
   onVerseNumberClick?: (verse: number) => void;
   t: TFunction;
+}
+
+function VerseBookmarkDropdown({
+  book,
+  chapter,
+  verseNum,
+  onOpenChange,
+}: {
+  book: BibleBook;
+  chapter: number;
+  verseNum: number;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [lists, setLists] = useState<BibleStudyListWithCount[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [added, setAdded] = useState<Record<string, boolean>>({});
+  const [, startTransition] = useTransition();
+
+  if (!isSignedIn) return null;
+
+  const handleOpen = async (isOpen: boolean) => {
+    setOpen(isOpen);
+    onOpenChange(isOpen);
+    if (isOpen && lists.length === 0) {
+      setLoading(true);
+      const result = await getStudyListsForCurrentUser();
+      setLists(result);
+      setLoading(false);
+    }
+  };
+
+  const handleAdd = (listId: string) => {
+    startTransition(async () => {
+      const result = await toggleStudyPassage({
+        listId,
+        bookId: book.id,
+        chapter,
+        verseStart: verseNum,
+        verseEnd: verseNum,
+      });
+      setAdded((prev) => ({ ...prev, [listId]: result.added }));
+    });
+  };
+
+  return (
+    <DropdownMenu open={open} onOpenChange={handleOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          title="Save verse to study list"
+          className="border-border bg-card hover:bg-accent h-8 w-8 rounded"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <BookmarkPlus className="text-muted-foreground h-3.5 w-3.5" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56" onClick={(e) => e.stopPropagation()}>
+        <DropdownMenuLabel className="text-xs">
+          Save {book.nameEn} {chapter}:{verseNum} to…
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {loading ? (
+          <div className="flex items-center justify-center py-4">
+            <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
+          </div>
+        ) : lists.length === 0 ? (
+          <DropdownMenuItem onClick={() => { setOpen(false); router.push("/bible/en/study"); }} className="text-xs">
+            Create a study list first →
+          </DropdownMenuItem>
+        ) : (
+          <>
+            {lists.map((list) => (
+              <DropdownMenuItem
+                key={list.id}
+                onClick={() => handleAdd(list.id)}
+                className="flex items-center justify-between text-xs"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium">{list.title}</p>
+                  <p className="text-muted-foreground">{list.passageCount} saved</p>
+                </div>
+                {added[list.id] !== undefined && (
+                  added[list.id]
+                    ? <Check className="ml-2 h-3.5 w-3.5 shrink-0 text-green-500" />
+                    : <span className="ml-2 text-[10px] text-muted-foreground">Removed</span>
+                )}
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => { setOpen(false); router.push("/bible/en/study"); }} className="text-xs text-muted-foreground">
+              Manage study lists →
+            </DropdownMenuItem>
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
 
 const fontSizeToClass = (fontSize: FontSize, focus: boolean) => {
@@ -52,6 +167,7 @@ const fontSizeToClass = (fontSize: FontSize, focus: boolean) => {
 export function ReadingPanelContent({
   version,
   content,
+  book,
   focusMode,
   fontSize,
   readFontSize,
@@ -84,6 +200,8 @@ export function ReadingPanelContent({
       ? { fontFamily: faceOption.fontFamily }
       : undefined;
   const highlightSet = highlightedVerses.length > 0 ? new Set(highlightedVerses) : null;
+  // Track which verse has its bookmark dropdown open so toolbar stays visible when mouse leaves
+  const [openDropdownVerse, setOpenDropdownVerse] = useState<number | null>(null);
 
   // Auto-scroll to target verse after content is in the DOM (run when content + targetVerse available)
   useEffect(() => {
@@ -144,13 +262,16 @@ export function ReadingPanelContent({
           ? highlightSet.has(verseNum)
           : targetVerse === verseNum;
 
+        const isDropdownOpen = openDropdownVerse === verseNum;
+        const showToolbar = (isHovered || isDropdownOpen) && !focusMode;
+
         return (
           <div
             key={verse.number}
             id={`verse-${verse.number}`}
             className="group relative scroll-mt-28 transition-colors duration-300"
             onMouseEnter={() => onVerseHover(verse.number)}
-            onMouseLeave={() => onVerseHover(null)}
+            onMouseLeave={() => { if (!isDropdownOpen) onVerseHover(null); }}
           >
             <div className="flex items-start gap-3">
               {onVerseNumberClick ? (
@@ -221,10 +342,9 @@ export function ReadingPanelContent({
                 )}
               </p>
             </div>
-            {!focusMode && isHovered && (
+            {showToolbar && (
               <div
-                className="absolute top-0 -right-2 flex gap-1 opacity-0 transition-opacity
-                  group-hover:opacity-100"
+                className="absolute top-0 -right-2 flex gap-1"
               >
                 <Button
                   type="button"
@@ -239,15 +359,17 @@ export function ReadingPanelContent({
                 >
                   <Copy className="text-muted-foreground h-3.5 w-3.5" />
                 </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  title={t("readBookmark")}
-                  className="border-border bg-card hover:bg-accent h-8 w-8 rounded"
-                >
-                  <Bookmark className="text-muted-foreground h-3.5 w-3.5" />
-                </Button>
+                {book && content && (
+                  <VerseBookmarkDropdown
+                    book={book}
+                    chapter={content.chapter}
+                    verseNum={verseNum}
+                    onOpenChange={(o) => {
+                      setOpenDropdownVerse(o ? verseNum : null);
+                      if (!o) onVerseHover(null);
+                    }}
+                  />
+                )}
                 <Button
                   type="button"
                   variant="outline"

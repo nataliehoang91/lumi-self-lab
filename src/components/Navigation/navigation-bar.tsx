@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, BarChart3, Building2, Crown, Loader2, Shield } from "lucide-react";
+import { Menu, X, BarChart3, Building2, Crown, Loader2, Shield, Bell } from "lucide-react";
 import { Logo } from "@/components/GeneralComponents/Logo";
 import { ThemeToggle } from "@/components/GeneralComponents/ThemeToggle";
 import { ThemePaletteSwitch } from "@/components/GeneralComponents/ThemePaletteSwitch";
@@ -250,6 +250,36 @@ function SuperAdminButton({
   );
 }
 
+function NotificationsButton({
+  pathname,
+  variant,
+  onClick,
+}: {
+  pathname: string;
+  variant: "desktop" | "mobile";
+  onClick?: () => void;
+}) {
+  const isActive = pathname.startsWith("/settings/notifications");
+  const isDesktop = variant === "desktop";
+
+  return (
+    <Link href="/settings/notifications" onClick={onClick}>
+      <Button
+        variant="ghost"
+        className={cn(
+          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
+          isActive && isDesktop && ACTIVE_DESKTOP,
+          isActive && !isDesktop && ACTIVE_MOBILE,
+          !isActive && isDesktop && INACTIVE_DESKTOP
+        )}
+      >
+        <Bell className="size-4" />
+        Notifications
+      </Button>
+    </Link>
+  );
+}
+
 function SignInButton({
   onClick,
   variant = "desktop",
@@ -399,6 +429,7 @@ export function NavigationBar() {
                 {userData?.isSuperAdmin && (
                   <SuperAdminButton pathname={pathname} variant="desktop" />
                 )}
+                <NotificationsButton pathname={pathname} variant="desktop" />
               </>
             )}
           </div>
@@ -509,6 +540,11 @@ export function NavigationBar() {
                     onClick={closeMobile}
                   />
                 )}
+                <NotificationsButton
+                  pathname={pathname}
+                  variant="mobile"
+                  onClick={closeMobile}
+                />
               </>
             )}
 
