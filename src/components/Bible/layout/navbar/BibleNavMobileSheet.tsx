@@ -23,7 +23,7 @@ interface BibleNavMobileSheetProps {
 }
 
 export function BibleNavMobileSheet({ open, onOpenChange }: BibleNavMobileSheetProps) {
-  const { learnLinks, bibleLinks, glossaryLinks, learnLang, intl } = useBibleNavData();
+  const { learnLinks, bibleLinks, glossaryLinks, studyLinks, learnLang, intl } = useBibleNavData();
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>
@@ -120,6 +120,27 @@ export function BibleNavMobileSheet({ open, onOpenChange }: BibleNavMobileSheetP
                           {intl.t("navSoon")}
                         </span>
                       )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section>
+              <h2 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
+                {intl.t("navStudy")}
+              </h2>
+              <ul className="space-y-0.5">
+                {studyLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={() => onOpenChange(false)}
+                      className={cn(
+                        "hover:bg-muted block rounded-lg px-3 py-2.5 text-sm transition-colors",
+                        link.isActive && "bg-primary-light/20 text-foreground font-medium"
+                      )}
+                    >
+                      {link.label}
                     </Link>
                   </li>
                 ))}

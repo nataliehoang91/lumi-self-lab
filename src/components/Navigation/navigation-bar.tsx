@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@/hooks/user-context";
 import { useSecondaryNavbarContentValue } from "@/contexts/SecondaryNavbarContentContext";
+import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "@/components/GeneralComponents/LanguageSwitcher";
 
 // Shared class constants (active = bg primary, hover border second; inactive = border second, hover border primary; border-1)
 const BASE_DESKTOP = "rounded-3xl transition-all hover:scale-105 gap-2";
@@ -30,251 +32,35 @@ const INACTIVE_MANAGER_MOBILE = "text-second";
 const BADGE_CLASS =
   "ml-1 size-5 p-0 flex items-center justify-center rounded-full bg-red-500 text-white text-xs";
 
-function DashboardButton({
-  pathname,
+function NavButton({
+  href,
+  isActive,
   variant,
   onClick,
+  children,
+  className,
 }: {
-  pathname: string;
+  href: string;
+  isActive: boolean;
   variant: "desktop" | "mobile";
   onClick?: () => void;
+  children: React.ReactNode;
+  className?: string;
 }) {
-  const isActive = pathname === "/dashboard" || pathname.startsWith("/dashboard/");
   const isDesktop = variant === "desktop";
-
   return (
-    <Link href="/dashboard" onClick={onClick}>
+    <Link href={href} onClick={onClick}>
       <Button
         variant="ghost"
         className={cn(
           isDesktop ? BASE_DESKTOP : BASE_MOBILE,
           isActive && isDesktop && ACTIVE_DESKTOP,
           isActive && !isDesktop && ACTIVE_MOBILE,
-          !isActive && isDesktop && INACTIVE_DESKTOP
+          !isActive && isDesktop && INACTIVE_DESKTOP,
+          className
         )}
       >
-        Dashboard
-      </Button>
-    </Link>
-  );
-}
-
-function ExperimentsButton({
-  pathname,
-  variant,
-  onClick,
-}: {
-  pathname: string;
-  variant: "desktop" | "mobile";
-  onClick?: () => void;
-}) {
-  const isActive = pathname === "/experiments" || pathname.startsWith("/experiments/");
-  const isDesktop = variant === "desktop";
-
-  return (
-    <Link href="/experiments" onClick={onClick}>
-      <Button
-        variant="ghost"
-        className={cn(
-          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
-          isActive && isDesktop && ACTIVE_DESKTOP,
-          isActive && !isDesktop && ACTIVE_MOBILE,
-          !isActive && isDesktop && INACTIVE_DESKTOP
-        )}
-      >
-        Experiments
-      </Button>
-    </Link>
-  );
-}
-
-function JoinedExperimentsButton({
-  pathname,
-  variant,
-  badge,
-  onClick,
-}: {
-  pathname: string;
-  variant: "desktop" | "mobile";
-  badge?: number;
-  onClick?: () => void;
-}) {
-  const isActive = pathname === "/org" || pathname.startsWith("/org/");
-  const isDesktop = variant === "desktop";
-
-  return (
-    <Link href="/org" onClick={onClick}>
-      <Button
-        variant="ghost"
-        className={cn(
-          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
-          isActive && isDesktop && ACTIVE_DESKTOP,
-          isActive && !isDesktop && ACTIVE_MOBILE,
-          !isActive && isDesktop && INACTIVE_DESKTOP
-        )}
-      >
-        <Building2 className="size-4" />
-        Joined Experiments
-        {badge != null && badge > 0 && <Badge className={BADGE_CLASS}>{badge}</Badge>}
-      </Button>
-    </Link>
-  );
-}
-
-function OrganisationsButton({
-  pathname,
-  variant,
-  onClick,
-}: {
-  pathname: string;
-  variant: "desktop" | "mobile";
-  onClick?: () => void;
-}) {
-  const isActive = pathname === "/org" || pathname.startsWith("/org/");
-  const isDesktop = variant === "desktop";
-
-  return (
-    <Link href="/org" onClick={onClick}>
-      <Button
-        variant="ghost"
-        className={cn(
-          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
-          isActive && isDesktop && ACTIVE_DESKTOP,
-          isActive && !isDesktop && ACTIVE_MOBILE,
-          !isActive && isDesktop && INACTIVE_DESKTOP
-        )}
-      >
-        <Building2 className="size-4" />
-        Organisations
-      </Button>
-    </Link>
-  );
-}
-
-function UpgradeButton({
-  pathname,
-  variant,
-  onClick,
-}: {
-  pathname: string;
-  variant: "desktop" | "mobile";
-  onClick?: () => void;
-}) {
-  const isActive = pathname === "/upgrade" || pathname.startsWith("/upgrade/");
-  const isDesktop = variant === "desktop";
-
-  return (
-    <Link href="/upgrade" onClick={onClick}>
-      <Button
-        variant="ghost"
-        className={cn(
-          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
-          isActive && isDesktop && ACTIVE_DESKTOP,
-          isActive && !isDesktop && ACTIVE_MOBILE,
-          !isActive && isDesktop && INACTIVE_UPGRADE_DESKTOP,
-          !isActive && !isDesktop && INACTIVE_UPGRADE_MOBILE
-        )}
-      >
-        <Crown className="size-4" />
-        Upgrade
-      </Button>
-    </Link>
-  );
-}
-
-function ManagerButton({
-  pathname,
-  variant,
-  onClick,
-}: {
-  pathname: string;
-  variant: "desktop" | "mobile";
-  onClick?: () => void;
-}) {
-  const isActive = pathname === "/org" || pathname.startsWith("/org/");
-  const isDesktop = variant === "desktop";
-
-  return (
-    <Link href="/org" onClick={onClick}>
-      <Button
-        variant="ghost"
-        className={cn(
-          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
-          isActive && isDesktop && ACTIVE_DESKTOP,
-          isActive && !isDesktop && ACTIVE_MOBILE,
-          !isActive && isDesktop && INACTIVE_MANAGER_DESKTOP,
-          !isActive && !isDesktop && INACTIVE_MANAGER_MOBILE
-        )}
-      >
-        <BarChart3 className="size-4" />
-        Manager
-      </Button>
-    </Link>
-  );
-}
-
-function SuperAdminButton({
-  pathname,
-  variant,
-  onClick,
-}: {
-  pathname: string;
-  variant: "desktop" | "mobile";
-  onClick?: () => void;
-}) {
-  const isActive = pathname === "/super-admin" || pathname.startsWith("/super-admin/");
-  const isDesktop = variant === "desktop";
-
-  const activeViolet = "bg-violet-500 text-white";
-  const activeVioletHover = "hover:bg-violet-600";
-  const inactiveVioletDesktop =
-    "border border-violet-500/50 text-violet-600 dark:text-violet-400 hover:border-violet-500 hover:bg-violet-500 hover:text-white";
-  const inactiveVioletMobile = "text-violet-600 dark:text-violet-400";
-
-  return (
-    <Link href="/super-admin" onClick={onClick}>
-      <Button
-        variant="ghost"
-        className={cn(
-          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
-          isActive && activeViolet,
-          isActive && isDesktop && activeVioletHover,
-          !isActive && isDesktop && inactiveVioletDesktop,
-          !isActive && !isDesktop && inactiveVioletMobile
-        )}
-      >
-        <Shield className="size-4" />
-        Super Admin
-      </Button>
-    </Link>
-  );
-}
-
-function NotificationsButton({
-  pathname,
-  variant,
-  onClick,
-}: {
-  pathname: string;
-  variant: "desktop" | "mobile";
-  onClick?: () => void;
-}) {
-  const isActive = pathname.startsWith("/settings/notifications");
-  const isDesktop = variant === "desktop";
-
-  return (
-    <Link href="/settings/notifications" onClick={onClick}>
-      <Button
-        variant="ghost"
-        className={cn(
-          isDesktop ? BASE_DESKTOP : BASE_MOBILE,
-          isActive && isDesktop && ACTIVE_DESKTOP,
-          isActive && !isDesktop && ACTIVE_MOBILE,
-          !isActive && isDesktop && INACTIVE_DESKTOP
-        )}
-      >
-        <Bell className="size-4" />
-        Notifications
+        {children}
       </Button>
     </Link>
   );
@@ -282,9 +68,11 @@ function NotificationsButton({
 
 function SignInButton({
   onClick,
+  label,
   variant = "desktop",
 }: {
   onClick?: () => void;
+  label: string;
   variant?: "desktop" | "mobile";
 }) {
   return (
@@ -297,7 +85,7 @@ function SignInButton({
       asChild
     >
       <Link href="/sign-in" onClick={onClick}>
-        Sign In
+        {label}
       </Link>
     </Button>
   );
@@ -305,9 +93,11 @@ function SignInButton({
 
 function SignUpButton({
   onClick,
+  label,
   variant = "desktop",
 }: {
   onClick?: () => void;
+  label: string;
   variant?: "desktop" | "mobile";
 }) {
   return (
@@ -319,7 +109,7 @@ function SignUpButton({
       asChild
     >
       <Link href="/sign-up" onClick={onClick}>
-        Sign Up
+        {label}
       </Link>
     </Button>
   );
@@ -361,6 +151,7 @@ export function NavigationBar() {
   const { userData, loading: userLoading } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const secondaryContent = useSecondaryNavbarContentValue();
+  const t = useTranslations("nav");
 
   const hideNavbar =
     pathname === "/" ||
@@ -408,33 +199,75 @@ export function NavigationBar() {
             {!showNavLinks ? (
               <div className={LOADING_DESKTOP}>
                 <Loader2 className={LOADING_SPINNER} />
-                <span className={LOADING_TEXT}>Loading…</span>
+                <span className={LOADING_TEXT}>{t("dashboard")}</span>
               </div>
             ) : (
               <>
-                <DashboardButton pathname={pathname} variant="desktop" />
-                <ExperimentsButton pathname={pathname} variant="desktop" />
+                <NavButton href="/dashboard" isActive={pathname === "/dashboard" || pathname.startsWith("/dashboard/")} variant="desktop">
+                  {t("dashboard")}
+                </NavButton>
+                <NavButton href="/experiments" isActive={pathname === "/experiments" || pathname.startsWith("/experiments/")} variant="desktop">
+                  {t("experiments")}
+                </NavButton>
                 {showJoinedExperiments && (
-                  <JoinedExperimentsButton
-                    pathname={pathname}
+                  <NavButton href="/org" isActive={pathname === "/org" || pathname.startsWith("/org/")} variant="desktop">
+                    <Building2 className="size-4" />
+                    {t("joinedExperiments")}
+                    {pendingAssignments > 0 && <Badge className={BADGE_CLASS}>{pendingAssignments}</Badge>}
+                  </NavButton>
+                )}
+                {showUpgrade && (
+                  <NavButton
+                    href="/upgrade"
+                    isActive={pathname === "/upgrade" || pathname.startsWith("/upgrade/")}
                     variant="desktop"
-                    badge={pendingAssignments > 0 ? pendingAssignments : undefined}
-                  />
+                    className={cn(!pathname.startsWith("/upgrade") && INACTIVE_UPGRADE_DESKTOP)}
+                  >
+                    <Crown className="size-4" />
+                    {t("upgrade")}
+                  </NavButton>
                 )}
-                {showUpgrade && <UpgradeButton pathname={pathname} variant="desktop" />}
                 {showOrganisations && (
-                  <OrganisationsButton pathname={pathname} variant="desktop" />
+                  <NavButton href="/org" isActive={pathname === "/org" || pathname.startsWith("/org/")} variant="desktop">
+                    <Building2 className="size-4" />
+                    {t("organisations")}
+                  </NavButton>
                 )}
-                {showManager && <ManagerButton pathname={pathname} variant="desktop" />}
+                {showManager && (
+                  <NavButton
+                    href="/org"
+                    isActive={pathname === "/org" || pathname.startsWith("/org/")}
+                    variant="desktop"
+                    className={cn(!(pathname === "/org" || pathname.startsWith("/org/")) && INACTIVE_MANAGER_DESKTOP)}
+                  >
+                    <BarChart3 className="size-4" />
+                    {t("manager")}
+                  </NavButton>
+                )}
                 {userData?.isSuperAdmin && (
-                  <SuperAdminButton pathname={pathname} variant="desktop" />
+                  <Link href="/super-admin">
+                    <Button
+                      variant="ghost"
+                      className={cn(
+                        BASE_DESKTOP,
+                        pathname.startsWith("/super-admin") ? "bg-violet-500 text-white hover:bg-violet-600" : "border border-violet-500/50 text-violet-600 dark:text-violet-400 hover:border-violet-500 hover:bg-violet-500 hover:text-white"
+                      )}
+                    >
+                      <Shield className="size-4" />
+                      {t("superAdmin")}
+                    </Button>
+                  </Link>
                 )}
-                <NotificationsButton pathname={pathname} variant="desktop" />
+                <NavButton href="/settings/notifications" isActive={pathname.startsWith("/settings/notifications")} variant="desktop">
+                  <Bell className="size-4" />
+                  {t("notifications")}
+                </NavButton>
               </>
             )}
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
+            <LanguageSwitcher />
             <ThemePaletteSwitch />
             <ThemeToggle variant="desktop" />
             <SignedIn>
@@ -454,8 +287,8 @@ export function NavigationBar() {
             </SignedIn>
             <SignedOut>
               <div className="flex items-center gap-2">
-                <SignInButton />
-                <SignUpButton />
+                <SignInButton label={t("signIn")} />
+                <SignUpButton label={t("signUp")} />
               </div>
             </SignedOut>
           </div>
@@ -490,65 +323,76 @@ export function NavigationBar() {
             {!showNavLinks ? (
               <div className={LOADING_MOBILE}>
                 <Loader2 className={LOADING_SPINNER} />
-                <span className={LOADING_TEXT}>Loading…</span>
+                <span className={LOADING_TEXT}>{t("dashboard")}</span>
               </div>
             ) : (
               <>
-                <DashboardButton
-                  pathname={pathname}
-                  variant="mobile"
-                  onClick={closeMobile}
-                />
-                <ExperimentsButton
-                  pathname={pathname}
-                  variant="mobile"
-                  onClick={closeMobile}
-                />
+                <NavButton href="/dashboard" isActive={pathname === "/dashboard" || pathname.startsWith("/dashboard/")} variant="mobile" onClick={closeMobile}>
+                  {t("dashboard")}
+                </NavButton>
+                <NavButton href="/experiments" isActive={pathname === "/experiments" || pathname.startsWith("/experiments/")} variant="mobile" onClick={closeMobile}>
+                  {t("experiments")}
+                </NavButton>
                 {showJoinedExperiments && (
-                  <JoinedExperimentsButton
-                    pathname={pathname}
-                    variant="mobile"
-                    badge={pendingAssignments > 0 ? pendingAssignments : undefined}
-                    onClick={closeMobile}
-                  />
+                  <NavButton href="/org" isActive={pathname === "/org" || pathname.startsWith("/org/")} variant="mobile" onClick={closeMobile}>
+                    <Building2 className="size-4" />
+                    {t("joinedExperiments")}
+                    {pendingAssignments > 0 && <Badge className={BADGE_CLASS}>{pendingAssignments}</Badge>}
+                  </NavButton>
                 )}
                 {showUpgrade && (
-                  <UpgradeButton
-                    pathname={pathname}
+                  <NavButton
+                    href="/upgrade"
+                    isActive={pathname === "/upgrade" || pathname.startsWith("/upgrade/")}
                     variant="mobile"
                     onClick={closeMobile}
-                  />
+                    className={cn(!(pathname === "/upgrade" || pathname.startsWith("/upgrade/")) && INACTIVE_UPGRADE_MOBILE)}
+                  >
+                    <Crown className="size-4" />
+                    {t("upgrade")}
+                  </NavButton>
                 )}
                 {showOrganisations && (
-                  <OrganisationsButton
-                    pathname={pathname}
-                    variant="mobile"
-                    onClick={closeMobile}
-                  />
+                  <NavButton href="/org" isActive={pathname === "/org" || pathname.startsWith("/org/")} variant="mobile" onClick={closeMobile}>
+                    <Building2 className="size-4" />
+                    {t("organisations")}
+                  </NavButton>
                 )}
                 {showManager && (
-                  <ManagerButton
-                    pathname={pathname}
+                  <NavButton
+                    href="/org"
+                    isActive={pathname === "/org" || pathname.startsWith("/org/")}
                     variant="mobile"
                     onClick={closeMobile}
-                  />
+                    className={cn(!(pathname === "/org" || pathname.startsWith("/org/")) && INACTIVE_MANAGER_MOBILE)}
+                  >
+                    <BarChart3 className="size-4" />
+                    {t("manager")}
+                  </NavButton>
                 )}
                 {userData?.isSuperAdmin && (
-                  <SuperAdminButton
-                    pathname={pathname}
-                    variant="mobile"
-                    onClick={closeMobile}
-                  />
+                  <Link href="/super-admin" onClick={closeMobile}>
+                    <Button
+                      variant="ghost"
+                      className={cn(
+                        BASE_MOBILE,
+                        pathname.startsWith("/super-admin") ? "bg-violet-500 text-white" : "text-violet-600 dark:text-violet-400"
+                      )}
+                    >
+                      <Shield className="size-4" />
+                      {t("superAdmin")}
+                    </Button>
+                  </Link>
                 )}
-                <NotificationsButton
-                  pathname={pathname}
-                  variant="mobile"
-                  onClick={closeMobile}
-                />
+                <NavButton href="/settings/notifications" isActive={pathname.startsWith("/settings/notifications")} variant="mobile" onClick={closeMobile}>
+                  <Bell className="size-4" />
+                  {t("notifications")}
+                </NavButton>
               </>
             )}
 
             <div className="flex items-center gap-2 pt-2">
+              <LanguageSwitcher />
               <ThemePaletteSwitch />
               <ThemeToggle variant="mobile" />
             </div>
@@ -570,8 +414,8 @@ export function NavigationBar() {
                 </div>
               </SignedIn>
               <SignedOut>
-                <SignInButton variant="mobile" onClick={closeMobile} />
-                <SignUpButton variant="mobile" onClick={closeMobile} />
+                <SignInButton label={t("signIn")} variant="mobile" onClick={closeMobile} />
+                <SignUpButton label={t("signUp")} variant="mobile" onClick={closeMobile} />
               </SignedOut>
             </div>
           </div>

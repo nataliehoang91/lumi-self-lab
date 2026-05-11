@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "experiments": "Experiments",
+    "joinedExperiments": "Joined Experiments",
+    "organisations": "Organisations",
+    "upgrade": "Upgrade",
+    "manager": "Manager",
+    "superAdmin": "Super Admin",
+    "notifications": "Notifications",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "stats": {
+      "totalExperiments": "Total Experiments",
+      "activeExperiments": "Active Experiments",
+      "completedExperiments": "Completed Experiments",
+      "totalCheckIns": "Total Check-ins"
+    }
+  },
+  "experiments": {
+    "title": "Experiments",
+    "new": "New Experiment",
+    "newShort": "New",
+    "noExperiments": "No experiments yet",
+    "noExperimentsDesc": "Start your first self-experiment to track habits, test hypotheses, and gain insights.",
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "paused": "Paused",
+      "draft": "Draft"
+    },
+    "actions": {
+      "analyseNow": "Analyse Now",
+      "stopExperiment": "Stop Experiment",
+      "viewAnalysis": "View AI Analysis",
+      "viewRawStats": "View Raw Stats",
+      "checkIn": "Check In",
+      "edit": "Edit"
+    },
+    "stop": {
+      "title": "Stop Experiment Early?",
+      "description": "This will end your experiment now with {count} check-in(s) recorded. You can still analyse the data you've collected.",
+      "confirm": "Stop & Go to Analysis",
+      "cancel": "Cancel"
+    },
+    "analyse": {
+      "title": "AI Analysis",
+      "generate": "Generate Analysis",
+      "generating": "Generating…",
+      "limitReached": "You've used all 3 analysis runs for this experiment.",
+      "runsUsed": "{count}/3 runs used",
+      "run1": "1st run",
+      "run2": "2nd run",
+      "run3": "3rd run",
+      "noData": "No check-ins yet. Complete at least one check-in before generating an analysis."
+    }
+  },
+  "insights": {
+    "title": "Insights",
+    "subtitle": "Patterns across all your experiments"
+  },
+  "settings": {
+    "title": "Settings",
+    "notifications": "Notifications"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "days": "{count} days",
+    "day": "{count} day"
+  }
+}

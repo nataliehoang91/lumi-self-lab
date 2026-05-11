@@ -23,6 +23,7 @@ export function useBibleNavData() {
   const isGlossary =
     pathname?.includes("/bible/") &&
     (pathname?.includes("/flashcard") || pathname?.includes("/glossary"));
+  const isStudy = (pathname?.includes("/bible/") && pathname?.includes("/study")) ?? false;
 
   const learnLang = globalLanguage === "VI" ? "vi" : "en";
   const langSegment = pathname?.match(/^\/bible\/(en|vi)/)?.[1] ?? learnLang;
@@ -61,6 +62,10 @@ export function useBibleNavData() {
     { href: `/bible/${langSegment}/glossary/other`, label: intl.t("navOther"), isActive: pathname?.includes("/glossary/other") ?? false, comingSoon: true },
   ];
 
+  const studyLinks: NavLink[] = [
+    { href: `/bible/${langSegment}/study`, label: intl.t("navStudyLists"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/study")) ?? false },
+  ];
+
   return {
     pathname,
     intl,
@@ -69,9 +74,11 @@ export function useBibleNavData() {
     learnLinks,
     bibleLinks,
     glossaryLinks,
+    studyLinks,
     isLearn,
     isBible,
     isGlossary,
+    isStudy,
     handleLanguageChange,
     globalLanguage,
     fontSize,

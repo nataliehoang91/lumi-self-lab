@@ -67,9 +67,11 @@ export function BibleNavMenuDesktop() {
     learnLinks,
     bibleLinks,
     glossaryLinks,
+    studyLinks,
     isLearn,
     isBible,
     isGlossary,
+    isStudy,
     intl,
   } = useBibleNavData();
 
@@ -81,7 +83,7 @@ export function BibleNavMenuDesktop() {
       )}
     >
       <NavigationMenu viewport={false}>
-        <NavigationMenuList className="flex items-center gap-4">
+        <NavigationMenuList className="flex items-center gap-1">
           <NavigationMenuItem>
             <NavigationMenuTrigger
               className={cn(
@@ -133,7 +135,7 @@ export function BibleNavMenuDesktop() {
               ))}
             </NavigationMenuContent>
           </NavigationMenuItem>
-          <span className="bg-border mx-2 h-4 w-px" aria-hidden />
+          <span className="bg-border mx-1 h-4 w-px" aria-hidden />
           <NavigationMenuItem>
             <NavigationMenuTrigger
               className={cn(
@@ -155,7 +157,7 @@ export function BibleNavMenuDesktop() {
               {renderDropdownLinks(bibleLinks, intl, true)}
             </NavigationMenuContent>
           </NavigationMenuItem>
-          <span className="bg-border mx-2 h-4 w-px" aria-hidden />
+          <span className="bg-border mx-1 h-4 w-px" aria-hidden />
           <NavigationMenuItem>
             <NavigationMenuTrigger
               className={cn(
@@ -175,6 +177,28 @@ export function BibleNavMenuDesktop() {
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               {renderDropdownLinks(glossaryLinks, intl, true)}
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <span className="bg-border mx-1 h-4 w-px" aria-hidden />
+          <NavigationMenuItem>
+            <NavigationMenuTrigger
+              className={cn(
+                NAV_MENU_TRIGGER_BASE,
+                NAV_MENU_TRIGGER_HOVER,
+                NAV_TRIGGER_THEME_WARM,
+                isStudy ? NAV_MENU_TRIGGER_ACTIVE : NAV_MENU_TRIGGER_INACTIVE,
+                isStudy && "theme-warm:bg-second! theme-warm:text-second-foreground!"
+              )}
+              style={
+                isStudy
+                  ? { backgroundColor: "var(--coral)", color: "var(--coral-foreground)" }
+                  : undefined
+              }
+            >
+              {intl.t("navStudy")}
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              {renderDropdownLinks(studyLinks, intl, true)}
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>

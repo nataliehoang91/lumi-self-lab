@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "dashboard": "Trang chủ",
+    "experiments": "Thí nghiệm",
+    "joinedExperiments": "Thí nghiệm đã tham gia",
+    "organisations": "Tổ chức",
+    "upgrade": "Nâng cấp",
+    "manager": "Quản lý",
+    "superAdmin": "Super Admin",
+    "notifications": "Thông báo",
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký"
+  },
+  "dashboard": {
+    "title": "Trang chủ",
+    "welcome": "Chào mừng trở lại",
+    "stats": {
+      "totalExperiments": "Tổng thí nghiệm",
+      "activeExperiments": "Thí nghiệm đang chạy",
+      "completedExperiments": "Thí nghiệm hoàn thành",
+      "totalCheckIns": "Tổng lần check-in"
+    }
+  },
+  "experiments": {
+    "title": "Thí nghiệm",
+    "new": "Thí nghiệm mới",
+    "newShort": "Mới",
+    "noExperiments": "Chưa có thí nghiệm nào",
+    "noExperimentsDesc": "Bắt đầu thí nghiệm đầu tiên để theo dõi thói quen, kiểm tra giả thuyết và khám phá những hiểu biết mới.",
+    "status": {
+      "active": "Đang chạy",
+      "completed": "Hoàn thành",
+      "paused": "Tạm dừng",
+      "draft": "Nháp"
+    },
+    "actions": {
+      "analyseNow": "Phân tích ngay",
+      "stopExperiment": "Dừng thí nghiệm",
+      "viewAnalysis": "Xem phân tích AI",
+      "viewRawStats": "Xem thống kê",
+      "checkIn": "Check In",
+      "edit": "Chỉnh sửa"
+    },
+    "stop": {
+      "title": "Dừng thí nghiệm sớm?",
+      "description": "Thao tác này sẽ kết thúc thí nghiệm với {count} lần check-in đã ghi lại. Bạn vẫn có thể phân tích dữ liệu đã thu thập.",
+      "confirm": "Dừng & Chuyển đến phân tích",
+      "cancel": "Hủy"
+    },
+    "analyse": {
+      "title": "Phân tích AI",
+      "generate": "Tạo phân tích",
+      "generating": "Đang tạo…",
+      "limitReached": "Bạn đã dùng hết 3 lần phân tích cho thí nghiệm này.",
+      "runsUsed": "Đã dùng {count}/3 lần",
+      "run1": "Lần 1",
+      "run2": "Lần 2",
+      "run3": "Lần 3",
+      "noData": "Chưa có check-in nào. Hãy hoàn thành ít nhất một check-in trước khi tạo phân tích."
+    }
+  },
+  "insights": {
+    "title": "Thống kê",
+    "subtitle": "Xu hướng từ tất cả thí nghiệm của bạn"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "notifications": "Thông báo"
+  },
+  "common": {
+    "loading": "Đang tải…",
+    "error": "Đã xảy ra lỗi",
+    "back": "Quay lại",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "days": "{count} ngày",
+    "day": "{count} ngày"
+  }
+}
