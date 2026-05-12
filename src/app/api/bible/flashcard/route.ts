@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { connection } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 /**
@@ -6,6 +7,7 @@ import { prisma } from "@/lib/prisma";
  * Returns paginated list of flash verse ids and metadata (no verse content).
  */
 export async function GET(request: NextRequest) {
+  await connection();
   try {
     const { searchParams } = new URL(request.url);
     const page = Math.max(1, Number(searchParams.get("page")) || 1);
