@@ -445,7 +445,7 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
           )}
         </div>
 
-        {/* In-app check-in reminder (Phase R.2) */}
+        {/* Reminder banner */}
         {reminder !== null && (
           <div className="mb-6">
             <CheckInReminderBanner
@@ -475,298 +475,264 @@ export function ExperimentDetailClient({ experiment }: ExperimentDetailClientPro
           </div>
         )}
 
-        {/* Two-column layout */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-          {/* Left column: details + history */}
-          <div className="min-w-0 flex-1 space-y-6">
-            {/* Experiment Details */}
-            {experiment.whyMatters && (
-              <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
-                <h3 className="text-foreground mb-2 text-lg font-semibold">
-                  Why This Matters
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {experiment.whyMatters}
-                </p>
-              </Card>
-            )}
-
-            {experiment.hypothesis && (
-              <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
-                <h3 className="text-foreground mb-2 text-lg font-semibold">
-                  My Hypothesis
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {experiment.hypothesis}
-                </p>
-              </Card>
-            )}
-
-            {experiment.faithEnabled && experiment.scriptureNotes && (
-              <Card className="bg-card/80 border-accent/20 border p-6 backdrop-blur">
-                <div className="mb-4 flex items-center gap-2">
-                  <div className="bg-accent/10 flex h-8 w-8 items-center justify-center rounded-lg">
-                    <Book className="text-accent h-4 w-4" />
-                  </div>
-                  <h3 className="text-foreground text-lg font-semibold">Faith Lens</h3>
-                </div>
-                <div>
-                  <p className="text-foreground mb-1 text-sm font-medium">
-                    Related Scriptures
-                  </p>
-                  <p className="text-muted-foreground text-sm leading-relaxed italic">
-                    {experiment.scriptureNotes}
-                  </p>
-                </div>
-              </Card>
-            )}
-
-            {/* Preview Experiment Template Button */}
-            {experiment.fields.length > 0 && (
+        {/* Action buttons — full width, prominent */}
+        <div className="mb-8 space-y-3">
+          {experiment.status === "draft" && (
+            <div className="flex gap-3">
               <Button
                 variant="outline"
-                onClick={() => setIsPreviewDialogOpen(true)}
-                className="border-primary/30 hover:border-primary hover:bg-primary/5 w-full
-                  rounded-2xl border-2 border-dashed bg-transparent py-6 transition-all
-                  hover:scale-[1.02]"
+                onClick={handlePublish}
+                disabled={isUpdating}
+                className="flex-1 rounded-2xl py-6"
               >
-                <Eye className="mr-2 h-4 w-4" />
-                Preview Experiment Template
+                Publish
               </Button>
-            )}
+              <Button
+                onClick={handleStart}
+                disabled={isUpdating}
+                className="bg-primary hover:bg-primary/90 flex-1 rounded-2xl py-6"
+              >
+                {isUpdating ? "Starting..." : "Start"}
+              </Button>
+            </div>
+          )}
 
-            {/* AI Insights */}
-            {experiment.checkIns.length >= 7 && (
-              <div className="space-y-4">
+          {isActiveNotStarted() && (
+            <Button
+              onClick={handleStart}
+              disabled={isUpdating}
+              className="from-primary to-primary hover:from-primary/90 hover:to-primary/90
+                text-primary-foreground w-full rounded-3xl bg-linear-to-r py-6 text-base
+                font-semibold shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl
+                active:scale-[0.98]"
+            >
+              {isUpdating ? "Starting..." : "Start Experiment"}
+            </Button>
+          )}
+
+          {experiment.status === "active" &&
+            experiment.startDate &&
+            experiment.fields.length > 0 && (
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
-                  onClick={handleGenerateReflection}
-                  disabled={isGeneratingReflection}
-                  variant="outline"
-                  className="border-primary/30 hover:border-primary hover:bg-primary/5 w-full
-                    rounded-2xl border-2 bg-transparent py-6 transition-all hover:scale-[1.02]"
+                  onClick={() => {
+                    setSelectedDate(getTodayUTC());
+                    setIsCheckInDialogOpen(true);
+                  }}
+                  className="from-primary to-primary hover:from-primary/90
+                    hover:to-primary/90 text-primary-foreground flex-1 rounded-3xl
+                    bg-linear-to-r py-6 text-base font-semibold shadow-lg transition-all
+                    hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]"
                 >
-                  {isGeneratingReflection ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <Sparkles className="mr-2 h-4 w-4" />
-                  )}
-                  {aiReflection ? "Regenerate AI Insights" : "Generate AI Insights"}
+                  <Plus className="mr-2 h-5 w-5" />
+                  Check-in Today
                 </Button>
-
-                {aiReflection && (
-                  <Card className="bg-card/80 border-border/50 p-6 backdrop-blur">
-                    <div className="mb-3 flex items-center gap-2">
-                      <Sparkles className="text-primary h-5 w-5" />
-                      <h3 className="text-foreground font-semibold">AI Insights</h3>
-                    </div>
-                    <p className="text-muted-foreground leading-relaxed">{aiReflection}</p>
-                  </Card>
+                {experiment.checkIns.length > 0 && (
+                  <>
+                    <Button
+                      variant="outline"
+                      className="flex-1 rounded-2xl py-6"
+                      onClick={() => router.push(`/experiments/${experiment.id}/analyse`)}
+                    >
+                      <BarChart2 className="mr-2 h-4 w-4" />
+                      Analyse Now
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="flex-1 rounded-2xl border-destructive/40 py-6 text-destructive hover:border-destructive hover:bg-destructive/5"
+                      onClick={() => setIsStopDialogOpen(true)}
+                    >
+                      <StopCircle className="mr-2 h-4 w-4" />
+                      Stop
+                    </Button>
+                  </>
                 )}
               </div>
             )}
 
-            {/* Check-in History */}
-            {experiment.checkIns.length > 0 && (
-              <div>
-                <h3 className="text-foreground mb-4 text-2xl font-bold">Check-in History</h3>
-                <div className="space-y-4">
-                  {experiment.checkIns.map((checkIn) => {
-                    const dayNumber = getDayNumber(checkIn.checkInDate);
-                    return (
-                      <Card
-                        key={checkIn.id}
-                        className="bg-card/80 border-border/50 p-6 backdrop-blur"
-                      >
-                        <div className="mb-4 flex items-start justify-between">
-                          <div>
-                            <p className="text-foreground font-semibold">Day {dayNumber}</p>
-                            <p className="text-muted-foreground text-sm">
-                              {new Date(checkIn.checkInDate).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              })}
-                            </p>
-                          </div>
-                        </div>
+          {experiment.status === "completed" && (
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button
+                className="from-primary to-primary hover:from-primary/90 hover:to-primary/90
+                  text-primary-foreground flex-1 rounded-3xl bg-linear-to-r py-6 text-base
+                  font-semibold shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl
+                  active:scale-[0.98]"
+                onClick={() => router.push(`/experiments/${experiment.id}/analyse`)}
+              >
+                <Sparkles className="mr-2 h-5 w-5" />
+                View AI Analysis
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1 rounded-2xl py-6"
+                onClick={() => router.push(`/experiments/${experiment.id}/review`)}
+              >
+                <BarChart2 className="mr-2 h-4 w-4" />
+                View Raw Stats
+              </Button>
+            </div>
+          )}
+        </div>
 
-                        {checkIn.responses.length > 0 && (
-                          <div className="mb-4 space-y-3">
-                            {checkIn.responses.map((response) => (
-                              <div
-                                key={response.id}
-                                className="bg-muted/30 flex items-start gap-3 rounded-xl p-3"
-                              >
-                                <div className="flex-1">
-                                  <p className="text-foreground mb-1 text-sm font-medium">
-                                    {response.field.label}
-                                  </p>
-                                  <p className="text-muted-foreground text-base">
-                                    {formatFieldResponse(response)}
-                                  </p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {checkIn.notes && (
-                          <div className="border-border/50 border-t pt-3">
-                            <p className="text-foreground mb-1 text-sm font-medium">Notes</p>
-                            <p className="text-muted-foreground text-sm leading-relaxed">
-                              {checkIn.notes}
-                            </p>
-                          </div>
-                        )}
-                      </Card>
-                    );
-                  })}
-                </div>
-              </div>
+        {/* Experiment details — 2-column grid on desktop */}
+        {(experiment.whyMatters || experiment.hypothesis || experiment.faithEnabled) && (
+          <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+            {experiment.whyMatters && (
+              <Card className="bg-card/80 border-border/50 p-5 backdrop-blur">
+                <h3 className="text-foreground mb-2 font-semibold">Why This Matters</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {experiment.whyMatters}
+                </p>
+              </Card>
             )}
-
-            {/* Empty State */}
-            {experiment.checkIns.length === 0 && experiment.status === "active" && (
-              <Card className="bg-card/80 border-border/50 p-12 text-center backdrop-blur">
-                <p className="text-muted-foreground">
-                  No check-ins yet. Add your first check-in above!
+            {experiment.hypothesis && (
+              <Card className="bg-card/80 border-border/50 p-5 backdrop-blur">
+                <h3 className="text-foreground mb-2 font-semibold">My Hypothesis</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {experiment.hypothesis}
+                </p>
+              </Card>
+            )}
+            {experiment.faithEnabled && experiment.scriptureNotes && (
+              <Card className="bg-card/80 border-accent/20 border p-5 backdrop-blur md:col-span-2">
+                <div className="mb-3 flex items-center gap-2">
+                  <div className="bg-accent/10 flex h-7 w-7 items-center justify-center rounded-lg">
+                    <Book className="text-accent h-4 w-4" />
+                  </div>
+                  <h3 className="text-foreground font-semibold">Faith Lens</h3>
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed italic">
+                  {experiment.scriptureNotes}
                 </p>
               </Card>
             )}
           </div>
+        )}
 
-          {/* Right sidebar: action buttons */}
-          <div className="w-full shrink-0 space-y-3 lg:sticky lg:top-20 lg:w-80 xl:w-96">
-            {/* Draft: Show Publish and Start buttons */}
-            {experiment.status === "draft" && (
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  onClick={handlePublish}
-                  disabled={isUpdating}
-                  className="flex-1 rounded-2xl py-6"
-                >
-                  Publish
-                </Button>
-                <Button
-                  onClick={handleStart}
-                  disabled={isUpdating}
-                  className="bg-primary hover:bg-primary/90 flex-1 rounded-2xl py-6"
-                >
-                  {isUpdating ? "Starting..." : "Start"}
-                </Button>
-              </div>
-            )}
-
-            {/* Active but not started: Show Start button */}
-            {isActiveNotStarted() && (
+        {/* Preview template + AI insights */}
+        {experiment.fields.length > 0 && (
+          <div className="mb-8 flex flex-wrap gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setIsPreviewDialogOpen(true)}
+              className="border-border/60 rounded-2xl"
+            >
+              <Eye className="mr-2 h-4 w-4" />
+              Preview Check-in Template
+            </Button>
+            {experiment.checkIns.length >= 7 && (
               <Button
-                onClick={handleStart}
-                disabled={isUpdating}
-                className="from-primary to-primary hover:from-primary/90 hover:to-primary/90
-                  text-primary-foreground w-full rounded-3xl bg-linear-to-r py-6 text-base
-                  font-semibold shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl
-                  active:scale-[0.98]"
+                onClick={handleGenerateReflection}
+                disabled={isGeneratingReflection}
+                variant="outline"
+                className="rounded-2xl"
               >
-                {isUpdating ? "Starting..." : "Start Experiment"}
+                {isGeneratingReflection ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Sparkles className="mr-2 h-4 w-4" />
+                )}
+                {aiReflection ? "Regenerate AI Insights" : "Generate AI Insights"}
               </Button>
             )}
+          </div>
+        )}
 
-            {/* Active and started: Check-in button + date picker */}
-            {experiment.status === "active" &&
-              experiment.startDate &&
-              experiment.fields.length > 0 && (
-                <>
-                  <Button
-                    onClick={() => {
-                      setSelectedDate(getTodayUTC());
+        {aiReflection && (
+          <Card className="bg-card/80 border-border/50 mb-8 p-5 backdrop-blur">
+            <div className="mb-3 flex items-center gap-2">
+              <Sparkles className="text-primary h-4 w-4" />
+              <h3 className="text-foreground font-semibold">AI Insights</h3>
+            </div>
+            <p className="text-muted-foreground text-sm leading-relaxed">{aiReflection}</p>
+          </Card>
+        )}
+
+        {/* Check-in by date (active + started) */}
+        {experiment.status === "active" &&
+          experiment.startDate &&
+          experiment.fields.length > 0 && (
+            <Card className="bg-card/80 border-border/50 mb-8 p-5 backdrop-blur">
+              <h3 className="text-foreground mb-3 font-semibold">Check-in by date</h3>
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                <div className="min-w-0 flex-1">
+                  <CheckInDatePicker
+                    selectedDate={selectedDate}
+                    onChange={(date) => {
+                      setSelectedDate(date);
                       setIsCheckInDialogOpen(true);
                     }}
-                    className="from-primary to-primary hover:from-primary/90
-                      hover:to-primary/90 text-primary-foreground w-full rounded-3xl
-                      bg-linear-to-r py-6 text-base font-semibold shadow-lg transition-all
-                      hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]"
-                  >
-                    <Plus className="mr-2 h-5 w-5" />
-                    Check-in
-                  </Button>
-
-                  {/* Check-in by date */}
-                  <Card className="bg-card/80 border-border/50 p-4 backdrop-blur">
-                    <h3 className="text-foreground mb-3 text-sm font-semibold">Check-in by date</h3>
-                    <CheckInDatePicker
-                      selectedDate={selectedDate}
-                      onChange={(date) => {
+                  />
+                  <p className="text-muted-foreground mt-2 text-xs">
+                    Pick any date to add or edit a past check-in.
+                  </p>
+                </div>
+                {experiment.checkIns.length > 0 && (
+                  <div className="min-w-0 flex-1">
+                    <p className="text-foreground mb-2 text-sm font-medium">Past check-ins (click to edit)</p>
+                    <CheckInTimeline
+                      checkIns={experiment.checkIns}
+                      onSelectDate={(date) => {
                         setSelectedDate(date);
                         setIsCheckInDialogOpen(true);
                       }}
                     />
-                    <p className="text-muted-foreground mt-2 text-xs">
-                      Pick any date to add or edit a past check-in.
-                    </p>
-                    {experiment.checkIns.length > 0 && (
-                      <div className="mt-4">
-                        <p className="text-foreground mb-2 text-sm font-medium">
-                          Past check-ins (click to edit)
-                        </p>
-                        <CheckInTimeline
-                          checkIns={experiment.checkIns}
-                          onSelectDate={(date) => {
-                            setSelectedDate(date);
-                            setIsCheckInDialogOpen(true);
-                          }}
-                        />
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
+
+        {/* Check-in History — compact cards */}
+        {experiment.checkIns.length > 0 && (
+          <div>
+            <h3 className="text-foreground mb-4 text-xl font-bold">Check-in History</h3>
+            <div className="space-y-3">
+              {experiment.checkIns.map((checkIn) => {
+                const dayNumber = getDayNumber(checkIn.checkInDate);
+                return (
+                  <Card
+                    key={checkIn.id}
+                    className="bg-card/80 border-border/50 px-5 py-4 backdrop-blur"
+                  >
+                    <div className="mb-3 flex items-center gap-3">
+                      <span className="text-foreground text-sm font-semibold">Day {dayNumber}</span>
+                      <span className="text-muted-foreground text-xs">
+                        {new Date(checkIn.checkInDate).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    {checkIn.responses.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {checkIn.responses.map((response) => (
+                          <div
+                            key={response.id}
+                            className="bg-muted/40 border-border/40 rounded-xl border px-3 py-1.5 text-xs"
+                          >
+                            <span className="text-muted-foreground">{response.field.label}: </span>
+                            <span className="text-foreground font-medium">{formatFieldResponse(response)}</span>
+                          </div>
+                        ))}
                       </div>
                     )}
+                    {checkIn.notes && (
+                      <p className="text-muted-foreground mt-2 text-xs italic">{checkIn.notes}</p>
+                    )}
                   </Card>
-                </>
-              )}
-
-            {/* Active + started: Analyse Now & Stop buttons */}
-            {experiment.status === "active" &&
-              experiment.startDate &&
-              experiment.checkIns.length > 0 && (
-                <div className="flex gap-3">
-                  <Button
-                    variant="outline"
-                    className="flex-1 rounded-2xl py-5"
-                    onClick={() => router.push(`/experiments/${experiment.id}/analyse`)}
-                  >
-                    <BarChart2 className="mr-2 h-4 w-4" />
-                    Analyse Now
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1 rounded-2xl border-destructive/40 py-5 text-destructive hover:border-destructive hover:bg-destructive/5"
-                    onClick={() => setIsStopDialogOpen(true)}
-                  >
-                    <StopCircle className="mr-2 h-4 w-4" />
-                    Stop
-                  </Button>
-                </div>
-              )}
-
-            {/* Completed: AI Analysis (primary) + basic stats (secondary) */}
-            {experiment.status === "completed" && (
-              <div className="space-y-3">
-                <Button
-                  className="from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-primary-foreground w-full rounded-3xl bg-linear-to-r py-6 text-base font-semibold shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]"
-                  onClick={() => router.push(`/experiments/${experiment.id}/analyse`)}
-                >
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  View AI Analysis
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full rounded-2xl py-4 text-sm"
-                  onClick={() => router.push(`/experiments/${experiment.id}/review`)}
-                >
-                  View Raw Stats
-                </Button>
-              </div>
-            )}
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
+
+        {experiment.checkIns.length === 0 && experiment.status === "active" && (
+          <Card className="bg-card/80 border-border/50 p-12 text-center backdrop-blur">
+            <p className="text-muted-foreground">No check-ins yet. Add your first check-in above!</p>
+          </Card>
+        )}
 
         {/* Check-In Dialog (Phase C.2: any date, create or edit) */}
         <Dialog open={isCheckInDialogOpen} onOpenChange={setIsCheckInDialogOpen}>
