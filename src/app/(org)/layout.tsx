@@ -2,7 +2,9 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { getAuthenticatedUserId, canAccessOrgPortal } from "@/lib/permissions";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { cookies } from "next/headers";
+import enMessages from "../../../messages/en.json";
+import viMessages from "../../../messages/vi.json";
 import { NavigationBar } from "@/components/Navigation/navigation-bar";
 import { UserProvider } from "@/hooks/user-context";
 import { SecondaryNavbarContentProvider } from "@/contexts/SecondaryNavbarContentContext";
@@ -20,8 +22,10 @@ export default async function OrgLayout({ children }: { children: React.ReactNod
     const canAccess = await canAccessOrgPortal(userId);
     if (!canAccess) redirect("/dashboard");
   }
-  const locale = await getLocale();
-  const messages = await getMessages();
+  const cookieStore = await cookies();
+  const raw = cookieStore.get("NEXT_LOCALE")?.value ?? "en";
+  const locale = raw === "vi" ? "vi" : "en";
+  const messages = locale === "vi" ? viMessages : enMessages;
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
