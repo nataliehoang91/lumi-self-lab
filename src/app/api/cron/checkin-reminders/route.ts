@@ -52,7 +52,7 @@ export async function GET(request: Request) {
 
   const todayStart = toStartOfDayUTC(new Date());
   const baseUrl =
-    process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3005";
+    process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "https://selfwithin.space";
 
   // Test mode: ?to=email sends a single test email, skips DB
   const testTo = url.searchParams.get("to");
