@@ -28,18 +28,30 @@ export function IndividualDashboard({ data }: Props) {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="px-4 py-8">
         {view === "individual" && (
-          <div className="space-y-8">
+          <>
+            {/* Header spans full width */}
             <DashboardIndividualHeader
               displayName={displayName}
               personalStats={personalStats}
             />
-            {activeExperiments.length > 0 && <DashboardTipCard />}
-            <DashboardYourExperiments experiments={activeExperiments} />
-            <DashboardStartNewCard />
-            <DashboardStatsGrid personalStats={personalStats} />
-          </div>
+
+            {/* Two-column layout on lg+, single column on mobile */}
+            <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+              {/* Main column — experiments list */}
+              <div className="min-w-0 flex-1 space-y-6">
+                <DashboardYourExperiments experiments={activeExperiments} />
+              </div>
+
+              {/* Sidebar — stats + actions */}
+              <div className="w-full shrink-0 space-y-4 lg:w-80 xl:w-96">
+                <DashboardStatsGrid personalStats={personalStats} />
+                <DashboardStartNewCard />
+                {activeExperiments.length > 0 && <DashboardTipCard />}
+              </div>
+            </div>
+          </>
         )}
 
         {view === "participant" && userData && (
@@ -72,3 +84,4 @@ export function IndividualDashboard({ data }: Props) {
     </div>
   );
 }
+
