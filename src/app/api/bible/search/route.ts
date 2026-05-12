@@ -1,6 +1,5 @@
 import type { BibleBook } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { connection } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 type ContextSearchRow = {
@@ -54,7 +53,6 @@ export type BibleSearchContextMatch = {
  * Subtitles are stored on BibleChapter (sectionTitle for VI, sectionTitleKJV/sectionTitleNIV for EN).
  */
 export async function GET(request: NextRequest) {
-  await connection();
   try {
     const { searchParams } = new URL(request.url);
     const q = (searchParams.get("q") ?? "").trim();

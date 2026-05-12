@@ -1,6 +1,5 @@
 {
   "regions": ["syd1"],
-  "buildCommand": "next build --turbopack",
   "crons": [
     { "path": "/api/cron/checkin-reminders?slot=morning", "schedule": "0 8 * * *" },
     { "path": "/api/cron/checkin-reminders?slot=afternoon", "schedule": "0 13 * * *" },
