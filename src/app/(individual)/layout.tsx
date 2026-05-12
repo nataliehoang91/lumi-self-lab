@@ -1,16 +1,17 @@
 import { NextIntlClientProvider } from "next-intl";
-import { cookies } from "next/headers";
+import { getLocale, getMessages } from "next-intl/server";
 import { NavigationBar } from "@/components/Navigation/navigation-bar";
 import { UserProvider } from "@/hooks/user-context";
 import { SecondaryNavbarContentProvider } from "@/contexts/SecondaryNavbarContentContext";
-import enMessages from "../../../messages/en.json";
-import viMessages from "../../../messages/vi.json";
 
+/**
+ * Personal portal (individual) layout: Nav + UserProvider + next-intl provider.
+ * SecondaryNavbarContentProvider lets pages set secondary navbar content via SetSecondaryNavbar.
+ * Use IndividualContainer in each page (or section layout) for consistent 7xl, md:px-4, py-6; create uses full width.
+ */
 export default async function IndividualLayout({ children }: { children: React.ReactNode }) {
-  const cookieStore = await cookies();
-  const raw = cookieStore.get("NEXT_LOCALE")?.value ?? "en";
-  const locale = raw === "vi" ? "vi" : "en";
-  const messages = locale === "vi" ? viMessages : enMessages;
+  const locale = await getLocale();
+  const messages = await getMessages();
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
