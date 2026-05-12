@@ -54,6 +54,18 @@ export async function GET(request: Request) {
   const baseUrl =
     process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3005";
 
+  // Test mode: ?to=email sends a single test email, skips DB
+  const testTo = url.searchParams.get("to");
+  if (testTo) {
+    const result = await sendCheckInReminderEmail({
+      to: testTo,
+      experimentTitle: "Test Experiment",
+      experimentId: "test-id",
+      experimentDetailUrl: `${baseUrl}/experiments/test-id`,
+    });
+    return NextResponse.json({ ok: result.ok, test: true, to: testTo, error: result.ok ? undefined : (result as { ok: false; error: string }).error });
+  }
+
   try {
     const activeExperiments: ExpRow[] = await db.experiment.findMany({
       where: {
