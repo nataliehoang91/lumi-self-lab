@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/bible/flashcard?page=1&limit=50
  * Returns paginated list of flash verse ids and metadata (no verse content).
