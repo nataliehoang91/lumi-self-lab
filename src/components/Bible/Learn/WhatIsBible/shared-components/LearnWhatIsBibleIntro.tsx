@@ -39,7 +39,7 @@ export function LearnWhatIsBibleIntro({
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
-    <div className="mb-12">
+    <div className="mb-12 max-w-2xl">
       <p className={cn("text-second mb-3 font-mono font-medium", bodyClass)}>
         {moduleNum}
       </p>{" "}

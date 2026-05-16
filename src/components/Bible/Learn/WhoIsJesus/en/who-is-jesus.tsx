@@ -266,7 +266,7 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
       <LearnLessonIntro
         bodyBright
         locale="en"
-        moduleNum="04 / 05"
+        moduleNum="03 / 05"
         title="Who Is Jesus?"
         intro1={
           <p className={cn("my-4 leading-relaxed", bodyClassUp)}>
@@ -470,6 +470,22 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
             </BibleVerseLink>
           }
         />
+      </RevealSection>
+
+      <RevealSection>
+        <div className="my-10 flex flex-col items-center gap-3">
+          <div className="flex items-center gap-4">
+            <div className="bg-border h-px w-16" />
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" className="text-primary/50">
+              <rect x="8.5" y="1" width="3" height="18" rx="1.5" fill="currentColor"/>
+              <rect x="3" y="6" width="14" height="3" rx="1.5" fill="currentColor"/>
+            </svg>
+            <div className="bg-border h-px w-16" />
+          </div>
+          <p className="text-muted-foreground/60 text-xs tracking-widest uppercase">
+            Prophecy &amp; Fulfillment
+          </p>
+        </div>
       </RevealSection>
 
       <RevealSection>

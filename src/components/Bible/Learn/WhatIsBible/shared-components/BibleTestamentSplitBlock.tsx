@@ -60,6 +60,8 @@ export interface BibleTestamentSplitBlockProps {
   otDesc: string;
   ntDesc: string;
   locale?: "en" | "vi";
+  /** Word used for "books" in the count badge — defaults to "sách". */
+  bookCountWord?: string;
   /** Merged onto the outer section (e.g. spacing when an intro sits above). */
   className?: string;
 }
@@ -74,6 +76,7 @@ export function BibleTestamentSplitBlock({
   otDesc,
   ntDesc,
   locale,
+  bookCountWord = "sách",
   className,
 }: BibleTestamentSplitBlockProps) {
   const { bodyClassUp } = useBibleFontClasses();
@@ -88,6 +91,7 @@ export function BibleTestamentSplitBlock({
           className={cn(
             "relative flex flex-col gap-4 rounded-2xl border p-6",
             "bg-amber-50/70 border-amber-200/80",
+            "theme-warm:bg-second/8 theme-warm:border-second/30",
             "dark:bg-amber-950/20 dark:border-amber-800/30"
           )}
         >
@@ -96,13 +100,14 @@ export function BibleTestamentSplitBlock({
             className={cn(
               "absolute top-4 right-4 rounded-full px-2.5 py-0.5 text-xs font-semibold tabular-nums",
               "bg-amber-200/70 text-amber-900",
+              "theme-warm:bg-second/20 theme-warm:text-second-dark",
               "dark:bg-amber-800/40 dark:text-amber-200"
             )}
           >
-            39 sách
+            39 {bookCountWord}
           </span>
 
-          <div className="text-amber-700 dark:text-amber-400">
+          <div className="text-amber-700 theme-warm:text-second dark:text-amber-400">
             <ScrollIcon />
           </div>
 
@@ -152,6 +157,7 @@ export function BibleTestamentSplitBlock({
           className={cn(
             "relative flex flex-col gap-4 rounded-2xl border p-6",
             "bg-sky-50/70 border-sky-200/80",
+            "theme-warm:bg-tertiary/8 theme-warm:border-tertiary/30",
             "dark:bg-sky-950/20 dark:border-sky-800/30"
           )}
         >
@@ -160,13 +166,14 @@ export function BibleTestamentSplitBlock({
             className={cn(
               "absolute top-4 right-4 rounded-full px-2.5 py-0.5 text-xs font-semibold tabular-nums",
               "bg-sky-200/70 text-sky-900",
+              "theme-warm:bg-tertiary/20 theme-warm:text-foreground",
               "dark:bg-sky-800/40 dark:text-sky-200"
             )}
           >
-            27 sách
+            27 {bookCountWord}
           </span>
 
-          <div className="text-sky-600 dark:text-sky-400">
+          <div className="text-sky-600 theme-warm:text-tertiary dark:text-sky-400">
             <OpenBookIcon />
           </div>
 

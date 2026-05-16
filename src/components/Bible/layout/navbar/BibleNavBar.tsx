@@ -14,6 +14,7 @@ import { BibleNavMobileSheet } from "./BibleNavMobileSheet";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { useBibleNavData } from "./useBibleNavData";
+import { LearnReadingProgress } from "@/components/Bible/Learn/shared-components/LearnReadingProgress";
 
 export function BibleNavBar() {
   const pathname = usePathname();
@@ -50,13 +51,16 @@ export function BibleNavBar() {
         className="relative flex h-14 w-full items-center justify-between gap-2 px-4 py-3
           sm:px-6"
       >
-        {/* Left: logo + title (title only visible at 2xl to keep space for center nav) */}
-        <Link href="/bible" className="flex shrink-0 items-center gap-3">
-          <WhiteBibleLogo />
-          <h1 className="hidden truncate text-lg font-semibold 2xl:block">
-            ScriptureSpace
-          </h1>
-        </Link>
+        {/* Left: logo */}
+        <div className="flex shrink-0 items-center gap-2">
+          <Link href="/bible" className="flex shrink-0 items-center gap-3">
+            <WhiteBibleLogo />
+            <h1 className="hidden truncate text-lg font-semibold 2xl:block">
+              ScriptureSpace
+            </h1>
+          </Link>
+        </div>
+        <LearnReadingProgress />
 
         {/* Center nav (absolute, xl+) */}
         <BibleNavMenuDesktop />

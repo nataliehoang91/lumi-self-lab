@@ -134,7 +134,7 @@ export function VnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
       <LearnWhatIsBibleIntro
         locale="vi"
         bodyBright
-        moduleNum="03 / 05"
+        moduleNum="04 / 05"
         title="Cái chết không phải là hết – Thật không?"
         intro={
           <>

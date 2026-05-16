@@ -63,9 +63,8 @@ export function BibleSacredQuote({
         "border-primary-200/80 dark:border-primary-700/35 border shadow-sm",
         "to-primary/5 bg-linear-to-b from-white via-white",
         "dark:from-background dark:via-background dark:to-primary/10",
-        `theme-warm:border-primary-300/70 theme-warm:from-background
-        theme-warm:via-background`,
-        "theme-warm:to-primary/5",
+        "theme-warm:border-second/35 theme-warm:from-background theme-warm:via-background",
+        "theme-warm:to-second/5",
         className
       )}
     >
@@ -88,12 +87,12 @@ export function BibleSacredQuote({
 
       {/* Large decorative open-quote */}
       <div
-        className="text-primary-300/45 dark:text-primary-500/25 relative mt-8 mb-2 py-10
+        className="text-primary-300/50 dark:text-primary-500/30 relative mt-10 mb-0
           font-serif leading-none select-none"
-        style={{ fontSize: "6rem", lineHeight: 1 }}
+        style={{ fontSize: "5rem", lineHeight: 1 }}
         aria-hidden="true"
       >
-        {" "}
+        &ldquo;
       </div>
 
       {/* Quote text */}

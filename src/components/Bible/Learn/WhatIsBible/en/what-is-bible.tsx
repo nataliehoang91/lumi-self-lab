@@ -2,15 +2,10 @@
 
 import { LearnWhatIsBibleIntro } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleIntro";
 import { LearnWhatIsBibleStats } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleStats";
-import { LearnWhatIsBibleTestamentSection } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleTestamentSection";
 import {
   LearnWhatIsBibleGlossaryGrid,
   type GlossaryGridItem,
 } from "@/components/Bible/Learn/WhatIsBible/shared-components/LearnWhatIsBibleGlossaryGrid";
-import {
-  OT_SECTIONS,
-  NT_SECTIONS,
-} from "@/components/Bible/Learn/WhatIsBible/shared-components/constants";
 import { RevealSection } from "@/components/Bible/Learn/shared-components/RevealSection";
 import { BookOpen, BookMarked, ListChecks, Handshake, Sparkles, Megaphone, Eye } from "lucide-react";
 import { LearnWhyItMatters } from "../shared-components/why-it-matters";
@@ -311,13 +306,8 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
       />
       </RevealSection>
 
-      <RevealSection>
-      <section
-        aria-labelledby="en-testament-split-intro"
-        className="mt-12 border-border/40 border-t pt-10"
-      >
+      <RevealSection className="mt-12 border-border/40 border-t pt-10">
         <h2
-          id="en-testament-split-intro"
           className={cn("text-foreground mb-3 text-xl font-semibold", "font-bible-english")}
         >
           Two main parts: Old Testament and New Testament
@@ -328,13 +318,13 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
           below give a quick sense of how the two parts differ and how they fit
           together.
         </p>
-      </section>
       </RevealSection>
 
       <RevealSection>
       <BibleTestamentSplitBlock
         className="mt-8"
         locale="en"
+        bookCountWord="books"
         otTitle="Old Testament"
         ntTitle="New Testament"
         otLang="Hebrew & Aramaic"
@@ -343,40 +333,6 @@ export function EnWhatIsBiblePage({ books }: { books: BibleBook[] }) {
         ntTagline="Jesus · The Church"
         otDesc="The Old Testament was written mainly in Hebrew (with some parts in Aramaic). It tells the story from creation to the time before Jesus was born — about God, His people Israel, and the promise of a coming Saviour."
         ntDesc="The New Testament was written in Greek. It begins with four Gospels about the life, death, and resurrection of Jesus. It then tells how the early church spread, and points to the future when everything will be made complete in Him."
-      />
-      </RevealSection>
-
-      <RevealSection>
-      <LearnWhatIsBibleTestamentSection
-        bodyBright
-        title="Old Testament"
-        sectionNames={["Law", "History", "Poetry & Wisdom", "Prophets"]}
-        sectionDescs={[
-          "Genesis through Deuteronomy — creation, the fall, and God's covenant with Israel.",
-          "Joshua through Esther — Israel's story in the Promised Land, kings, exile, and return.",
-          "Job through Song of Solomon — reflection on suffering, praise, wisdom, and love.",
-          "Isaiah through Malachi — God's messengers calling Israel back, pointing forward to Christ.",
-        ]}
-        sections={OT_SECTIONS}
-        bookLabelSingular="book"
-        bookLabelPlural="books"
-      />
-      </RevealSection>
-
-      <RevealSection>
-      <LearnWhatIsBibleTestamentSection
-        bodyBright
-        title="New Testament"
-        sectionNames={["Gospels", "History", "Letters", "Prophecy"]}
-        sectionDescs={[
-          "Matthew, Mark, Luke, John — four accounts of Jesus's life, ministry, death, and resurrection.",
-          "Acts — the story of the early church spreading from Jerusalem to the ends of the earth.",
-          "Romans through Jude — Paul and others writing to churches and individuals about faith and life.",
-          "Revelation — a vision of the end of history and the victory of Christ.",
-        ]}
-        sections={NT_SECTIONS}
-        bookLabelSingular="book"
-        bookLabelPlural="books"
       />
       </RevealSection>
 

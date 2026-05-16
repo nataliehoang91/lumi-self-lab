@@ -225,29 +225,28 @@ export function AuthorOccupationGrid({
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
-    <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+    <div className="mt-4 flex flex-col gap-2">
       {cards.map((card, idx) => (
         <div
           key={idx}
           className={cn(
-            "flex flex-col items-center gap-3 rounded-xl border border-second-200",
-            "bg-card px-4 py-6 text-center dark:border-second/30"
+            "flex items-center gap-4 rounded-xl border border-second-200/60",
+            "bg-card px-4 py-3 transition-shadow hover:shadow-sm dark:border-second/20"
           )}
         >
-          <div className="text-primary-700 dark:text-primary mb-1">
-            {ICONS[card.icon]}
+          <div className="text-primary-600 dark:text-primary shrink-0" style={{ width: 32, height: 32 }}>
+            <div style={{ transform: "scale(0.72)", transformOrigin: "top left", width: 44, height: 44 }}>
+              {ICONS[card.icon]}
+            </div>
           </div>
-          <p
-            className={cn(
-              "font-semibold leading-snug text-foreground",
-              bodyClassUp,
-              bodyFont
-            )}
-          >
-            {card.role}
-          </p>
-          <p className={cn("text-foreground/60", bodyClass, bodyFont)}>{card.person}</p>
-          <div className={cn("mt-auto pt-1 text-second-dark", bodyClass, bodyFont)}>
+          <div className="min-w-0 flex-1">
+            <span className={cn("font-semibold text-foreground", bodyClassUp, bodyFont)}>
+              {card.role}
+            </span>
+            <span className={cn("text-foreground/50 mx-2", bodyClass)}>·</span>
+            <span className={cn("text-foreground/60", bodyClass, bodyFont)}>{card.person}</span>
+          </div>
+          <div className={cn("shrink-0 text-second-dark", bodyClass, bodyFont)}>
             {card.verseLink}
           </div>
         </div>

@@ -22,12 +22,13 @@ export function LearnWhatIsBibleStats({
       {STATS.map((s, i) => (
         <div
           key={i}
-          className="bg-card border-sage-dark/20 rounded-xl border px-4 py-4 text-center"
+          className="bg-card border-sage-dark/20 relative overflow-hidden rounded-xl border px-4 py-5 text-center"
         >
-          <p className="font-bible-english text-primary-dark text-3xl font-semibold">
+          <div className="bg-primary/70 theme-warm:bg-second/60 absolute inset-x-0 top-0 h-0.5 rounded-t-xl" />
+          <p className="font-bible-english text-primary-dark theme-warm:text-second text-4xl font-bold tracking-tight">
             {s.v}
           </p>
-          <p className={cn("mt-1 font-semibold", bodyClass, labelFont)}>
+          <p className={cn("mt-1.5 text-sm text-muted-foreground", bodyClass, labelFont)}>
             {statLabels[s.labelKey]}
           </p>
         </div>

@@ -127,7 +127,7 @@ export function EnWhatHappensAfterDeathPage({ books }: { books: BibleBook[] }) {
       <LearnWhatIsBibleIntro
         locale="en"
         bodyBright
-        moduleNum="03 / 05"
+        moduleNum="04 / 05"
         title="What Happens After Death?"
         intro={
           <>

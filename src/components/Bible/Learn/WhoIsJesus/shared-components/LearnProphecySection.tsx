@@ -87,15 +87,26 @@ export function LearnProphecySection({
             {/* Header */}
             <div className="border-border/50 bg-muted/30 border-b px-5 py-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3
-                  className={cn(
-                    "text-foreground leading-snug font-semibold",
-                    bodyFont,
-                    bodyTitleClassUp
-                  )}
-                >
-                  {item.title}
-                </h3>
+                <div className="flex items-center gap-3">
+                  {/* Number badge */}
+                  <span
+                    className={cn(
+                      "flex size-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold",
+                      "bg-primary/10 text-primary theme-warm:bg-second/15 theme-warm:text-second"
+                    )}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3
+                    className={cn(
+                      "text-foreground leading-snug font-semibold",
+                      bodyFont,
+                      bodyTitleClassUp
+                    )}
+                  >
+                    {item.title}
+                  </h3>
+                </div>
                 <span
                   className={cn(
                     `inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3

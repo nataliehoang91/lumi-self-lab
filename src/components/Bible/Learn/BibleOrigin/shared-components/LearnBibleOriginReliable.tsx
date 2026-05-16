@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { BibleHeading } from "@/components/Bible/BibleHeading";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
@@ -10,7 +9,6 @@ export interface LearnBibleOriginReliableProps {
   reliableP1: ReactNode;
   reliableP2: ReactNode;
   reliableP3?: ReactNode;
-  /** When \"vi\", use Vietnamese flashcard font. */
   locale?: "en" | "vi";
 }
 
@@ -21,26 +19,30 @@ export function LearnBibleOriginReliable({
   reliableP3,
   locale,
 }: LearnBibleOriginReliableProps) {
-  const { bodyClass, bodyClassUp } = useBibleFontClasses();
+  const { bodyClassUp } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
 
   return (
     <section
-      className="bg-primary-light/10 border-primary-dark/30 animate-in fade-in mb-10 gap-6
-        space-y-4 rounded-2xl border p-6 duration-300"
+      className="bg-primary-light/10 theme-warm:bg-second/8 border-primary-dark/20 theme-warm:border-second/25 mb-10 rounded-2xl border p-6 md:p-8"
     >
-      <BibleHeading
-        level="h2"
-        className={cn("text-foreground text-xl font-semibold md:text-2xl", titleFont)}
-      >
+      {/* Pill label */}
+      <div className="bg-primary/15 theme-warm:bg-second/15 mb-4 inline-flex items-center rounded-full px-3 py-1">
+        <span className="text-primary-700 theme-warm:text-second dark:text-primary text-xs font-semibold tracking-wide uppercase">
+          {reliableTitle}
+        </span>
+      </div>
+
+      <h2 className={cn("text-foreground mb-4 text-3xl font-bold leading-snug", titleFont)}>
         {reliableTitle}
-      </BibleHeading>
-      <p className={cn("leading-relaxed", bodyFont, bodyClassUp)}>{reliableP1}</p>
-      <p className={cn("leading-relaxed", bodyFont, bodyClassUp)}>{reliableP2}</p>
-      {reliableP3 && (
-        <p className={cn("leading-relaxed", bodyFont, bodyClassUp)}>{reliableP3}</p>
-      )}
+      </h2>
+
+      <div className={cn("space-y-4 text-lg leading-relaxed", bodyClassUp, bodyFont)}>
+        <p>{reliableP1}</p>
+        <p>{reliableP2}</p>
+        {reliableP3 && <p>{reliableP3}</p>}
+      </div>
     </section>
   );
 }

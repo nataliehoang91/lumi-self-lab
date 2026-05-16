@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { BibleHeading } from "@/components/Bible/BibleHeading";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import { cn } from "@/lib/utils";
 
@@ -22,25 +21,25 @@ export function LearnBibleOriginIntro({
   locale,
   bodyBright,
 }: LearnBibleOriginIntroProps) {
-  const { bodyClass, bodyClassUp } = useBibleFontClasses();
+  const { bodyClass, bodyClassUp, h1Class } = useBibleFontClasses();
   const titleFont = locale === "vi" ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = locale === "vi" ? "font-vietnamese-flashcard" : undefined;
   const bodyColor = bodyBright ? "text-foreground" : "text-muted-foreground";
 
   return (
-    <div className="mb-12">
+    <div className="mb-12 max-w-2xl">
       <p className={cn("text-second mb-3 font-mono font-medium", bodyClass)}>
         {moduleNum}
       </p>
-      <BibleHeading
-        level="h1"
+      <h1
         className={cn(
           "text-foreground leading-tight font-semibold text-balance",
-          titleFont
+          titleFont,
+          h1Class
         )}
       >
         {title}
-      </BibleHeading>
+      </h1>
       <p className={cn(bodyColor, "mt-4 leading-relaxed", bodyFont, bodyClassUp)}>
         {intro}
       </p>
