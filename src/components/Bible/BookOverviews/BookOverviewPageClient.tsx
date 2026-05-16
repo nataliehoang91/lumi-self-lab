@@ -66,15 +66,17 @@ export function BookOverviewPageClient({
       <BookOverviewReadMarker lang={langSegment} slugEn={bookSlugEn} />
       <Container maxWidth="7xl">
         <div className="mb-10">
-          <p
-            className={cn(
-              "mb-3 font-semibold tracking-[0.2em] uppercase",
-              bodyClass,
-              isVi && "font-vietnamese-flashcard"
-            )}
-          >
-            {langSegment === "vi" ? "TỔNG QUAN SÁCH" : "BOOK OVERVIEW"}
-          </p>
+          <div className="bg-second/10 theme-warm:bg-second/15 mb-4 inline-flex items-center rounded-full px-3 py-1">
+            <span
+              className={cn(
+                "text-second font-mono font-semibold tracking-widest uppercase",
+                bodyClass,
+                isVi && "font-vietnamese-flashcard"
+              )}
+            >
+              {langSegment === "vi" ? "Tổng quan sách" : "Book Overview"}
+            </span>
+          </div>
           <h1
             className={cn(
               "text-foreground font-serif leading-tight font-semibold",
@@ -106,7 +108,7 @@ export function BookOverviewPageClient({
             >
               {langSegment === "vi" ? "Các chủ đề chính" : "Main Themes"}
             </h2>
-            <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-2">
+            <div className="flex flex-wrap gap-2">
               {data.themes.map((t) => (
                 <span
                   key={t}

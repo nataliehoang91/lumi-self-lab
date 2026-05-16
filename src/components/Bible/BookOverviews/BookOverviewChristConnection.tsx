@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 
 interface BookOverviewChristConnectionProps {
   lang: "en" | "vi";
-  /** Summary as array of paragraphs (p1, p2, p3). */
   paragraphs: string[];
   readHref: string;
   bookDisplayName: string;
@@ -19,7 +18,7 @@ export function BookOverviewChristConnection({
   readHref,
   bookDisplayName,
 }: BookOverviewChristConnectionProps) {
-  const { bodyClass, bodyTitleClass } = useBibleFontClasses();
+  const { bodyClass, bodyClassUp, bodyTitleClassUp } = useBibleFontClasses();
   const isVi = lang === "vi";
   const titleFont = isVi ? "font-vietnamese-flashcard" : "font-bible-english";
   const bodyFont = isVi ? "font-vietnamese-flashcard" : undefined;
@@ -31,52 +30,36 @@ export function BookOverviewChristConnection({
 
   return (
     <section
-      className="border-primary/20 from-primary/5 hover:border-primary/40 group
-        via-primary/[0.07] mb-12 rounded-lg border bg-linear-to-br to-transparent p-0
-        transition-all hover:shadow-md"
+      className="bg-primary-light/10 theme-warm:bg-second/8 border-primary-dark/20 theme-warm:border-second/25 mb-10 rounded-2xl border p-6 md:p-8"
     >
-      <div className="flex gap-3 p-4">
-        <div
-          className="from-primary via-primary/60 to-primary/20 theme-warm:bg-second/60
-            theme-warm:via-second/60 theme-warm:to-second-100/20 mr-3 w-1 shrink-0
-            rounded-full bg-linear-to-b"
-          aria-hidden
-        />
-        <div className="min-w-0 flex-1">
-          <h2
-            className={cn(
-              `text-primary-700 group-hover:text-primary-900 mb-2 font-semibold
-              transition-colors`,
-              bodyTitleClass,
-              titleFont
-            )}
-          >
-            {title}
-          </h2>
-          <div
-            className={cn(
-              "text-muted-foreground space-y-3 text-sm leading-relaxed",
-              bodyClass,
-              bodyFont
-            )}
-          >
-            {paragraphs.map((text, i) => (
-              <p key={i}>{text}</p>
-            ))}
-          </div>
-
-          <div className="mt-4 flex justify-end">
-            <Link
-              href={readHref}
-              className="hover:text-primary-900 inline-flex items-center gap-1 text-sm
-                font-medium underline underline-offset-4"
-            >
-              {ctaLabel}
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
-        </div>
+      {/* Pill label */}
+      <div className="bg-primary/15 theme-warm:bg-second/15 mb-4 inline-flex items-center rounded-full px-3 py-1">
+        <span className={cn("text-primary-700 theme-warm:text-second dark:text-primary text-xs font-semibold tracking-wide uppercase", titleFont)}>
+          {title}
+        </span>
       </div>
+
+      <h2 className={cn("text-foreground mb-4 font-bold leading-snug", bodyTitleClassUp, titleFont)}>
+        {title}
+      </h2>
+
+      <div className={cn("space-y-3 leading-relaxed", bodyClassUp, bodyFont)}>
+        {paragraphs.map((text, i) => (
+          <p key={i} className="text-foreground/80">{text}</p>
+        ))}
+      </div>
+
+      <Link
+        href={readHref}
+        className={cn(
+          "mt-6 inline-flex items-center gap-2 font-semibold transition-opacity hover:opacity-80",
+          "text-primary theme-warm:text-second",
+          bodyClass,
+          bodyFont
+        )}
+      >
+        {ctaLabel} <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+      </Link>
     </section>
   );
 }
