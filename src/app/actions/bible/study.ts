@@ -35,6 +35,16 @@ export async function getStudyListsForCurrentUser(): Promise<BibleStudyListWithC
     include: { _count: { select: { passages: true } } },
   });
 
+  const listIds = lists.map((l) => l.id);
+  const studiedGroups = listIds.length
+    ? await prisma.bibleStudyPassage.groupBy({
+        by: ["listId"],
+        where: { listId: { in: listIds }, isStudied: true },
+        _count: { id: true },
+      })
+    : [];
+  const studiedMap = Object.fromEntries(studiedGroups.map((g) => [g.listId, g._count.id]));
+
   return lists.map((l) => ({
     id: l.id,
     clerkUserId: l.clerkUserId,
@@ -49,6 +59,7 @@ export async function getStudyListsForCurrentUser(): Promise<BibleStudyListWithC
     createdAt: l.createdAt,
     updatedAt: l.updatedAt,
     passageCount: l._count.passages,
+    studiedCount: studiedMap[l.id] ?? 0,
   }));
 }
 
@@ -62,6 +73,16 @@ export async function getArchivedStudyLists(): Promise<BibleStudyListWithCount[]
     include: { _count: { select: { passages: true } } },
   });
 
+  const listIds = lists.map((l) => l.id);
+  const studiedGroups = listIds.length
+    ? await prisma.bibleStudyPassage.groupBy({
+        by: ["listId"],
+        where: { listId: { in: listIds }, isStudied: true },
+        _count: { id: true },
+      })
+    : [];
+  const studiedMap = Object.fromEntries(studiedGroups.map((g) => [g.listId, g._count.id]));
+
   return lists.map((l) => ({
     id: l.id,
     clerkUserId: l.clerkUserId,
@@ -76,6 +97,7 @@ export async function getArchivedStudyLists(): Promise<BibleStudyListWithCount[]
     createdAt: l.createdAt,
     updatedAt: l.updatedAt,
     passageCount: l._count.passages,
+    studiedCount: studiedMap[l.id] ?? 0,
   }));
 }
 

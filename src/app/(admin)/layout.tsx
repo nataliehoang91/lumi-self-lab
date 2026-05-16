@@ -1,25 +1,21 @@
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
-import { NavigationBar } from "@/components/Navigation/navigation-bar";
-import { UserProvider } from "@/hooks/user-context";
-import { SecondaryNavbarContentProvider } from "@/contexts/SecondaryNavbarContentContext";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { verifyAdminSessionToken, COOKIE_NAME } from "@/lib/admin-auth";
+import { prisma } from "@/lib/prisma";
 
-/**
- * Platform admin portal (Clerk). Placeholder layout.
- * Route group: (admin) — URLs: /admin, /admin/users, /admin/orgs, /admin/billing
- */
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const locale = await getLocale();
-  const messages = await getMessages();
+  const jar = await cookies();
+  const token = jar.get(COOKIE_NAME)?.value;
+  const clerkUserId = token ? verifyAdminSessionToken(token) : null;
 
-  return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <UserProvider>
-        <SecondaryNavbarContentProvider>
-          <NavigationBar />
-          {children}
-        </SecondaryNavbarContentProvider>
-      </UserProvider>
-    </NextIntlClientProvider>
-  );
+  if (!clerkUserId) redirect("/admin/login");
+
+  // Confirm still super_admin in DB
+  const user = await prisma.user.findUnique({
+    where: { clerkUserId },
+    select: { role: true },
+  });
+  if (user?.role !== "super_admin") redirect("/admin/login");
+
+  return <>{children}</>;
 }

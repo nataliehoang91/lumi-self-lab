@@ -15,6 +15,7 @@ export interface BibleStudyList {
 
 export interface BibleStudyListWithCount extends BibleStudyList {
   passageCount: number;
+  studiedCount: number;
 }
 
 export interface BibleStudyPassage {

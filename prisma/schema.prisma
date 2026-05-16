@@ -17,6 +17,7 @@ model User {
   email           String?  // User email (synced from Clerk)
   accountType     String   @default("individual") // individual | organisation
   role            String   @default("user") // user | super_admin (global admin for whole app; distinct from org_admin)
+  adminPassword   String?  // hashed password for admin portal login (super_admin only)
   upgradedAt      DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -29,11 +30,46 @@ model User {
   experiments     Experiment[]
   organisationMemberships OrganisationMember[] @relation("OrganisationMemberships")
   createdOrganisations Organisation[] @relation("CreatedOrganisations") // Organisations this user created (if org account)
+  packageAssignment UserPackageAssignment?
 
   @@index([clerkUserId])
   @@index([accountType])
   @@index([email])
   @@index([role])
+}
+
+////////////////////////////////////////////////////////////
+// ACCESS PACKAGES (admin-controlled feature bundles)
+////////////////////////////////////////////////////////////
+
+model AccessPackage {
+  id          String   @id @default(cuid())
+  name        String
+  key         String   @unique  // "testing" | "free" | "premium" | custom
+  description String?
+  features    Json     @default("{}")  // Record<featureKey, boolean>
+  isSystem    Boolean  @default(false) // system packages cannot be deleted
+  isDefault   Boolean  @default(false) // applied to users with no assignment (only one)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userAssignments UserPackageAssignment[]
+  organisations   Organisation[]
+
+  @@index([key])
+}
+
+model UserPackageAssignment {
+  id          String        @id @default(cuid())
+  clerkUserId String        @unique
+  user        User          @relation(fields: [clerkUserId], references: [clerkUserId], onDelete: Cascade)
+  packageId   String
+  package     AccessPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  assignedAt  DateTime      @default(now())
+  assignedBy  String?       // clerkUserId of admin who assigned
+
+  @@index([clerkUserId])
+  @@index([packageId])
 }
 
 ////////////////////////////////////////////////////////////
@@ -49,6 +85,10 @@ model Organisation {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
+  // Package assignment — all org members inherit this package
+  packageId       String?
+  package         AccessPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
+
   // Relations
   members         OrganisationMember[]
   invites        OrganisationInvite[]
@@ -56,6 +96,7 @@ model Organisation {
   experiments    Experiment[] // experiments linked to this org
 
   @@index([createdBy])
+  @@index([packageId])
 }
 
 ////////////////////////////////////////////////////////////
