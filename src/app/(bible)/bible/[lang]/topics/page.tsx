@@ -1,11 +1,28 @@
 import type { Metadata } from "next";
-import { ComingSoonPage } from "@/components/Bible/ComingSoonPage";
+import { Container } from "@/components/ui/container";
+import { TopicsIndexClient } from "@/components/Bible/Topics/TopicsIndexClient";
+import { BIBLE_TOPICS } from "@/lib/bible-topics-data";
 
 export const metadata: Metadata = {
-  title: "Topics Explorer",
-  description: "Explore the Bible by topic. Coming soon.",
+  title: "Bible Topics Explorer",
+  description: "Explore what the Bible says about faith, emotions, relationships, guidance, and more.",
 };
 
-export default function TopicsExplorerPage() {
-  return <ComingSoonPage title="Topics Explorer" />;
+export default async function TopicsPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const segment = lang === "vi" ? "vi" : "en";
+
+  return (
+    <div className="bg-read min-h-screen dark:bg-[#050408]">
+      <main>
+        <Container maxWidth="5xl" className="px-4 py-16">
+          <TopicsIndexClient topics={BIBLE_TOPICS} segment={segment} />
+        </Container>
+      </main>
+    </div>
+  );
 }
