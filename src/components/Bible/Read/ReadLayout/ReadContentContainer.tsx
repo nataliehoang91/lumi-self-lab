@@ -7,7 +7,7 @@ import { Container } from "@/components/ui/container";
 
 /** Wrapper that receives children; when insights are open, adds bottom padding so content is pushed up and not hidden by the fixed insights panel. When read nav is at bottom (single, sync, or independent), add padding so nav does not cover last lines. */
 export function ReadContentContainer({ children }: { children: ReactNode }) {
-  const { focusMode, insightOpen, insightMinimized, leftVersion, rightVersion } =
+  const { focusMode, insightOpen, insightMinimized, leftVersion, rightVersion, studyPanelOpen } =
     useRead();
   const hasContent = leftVersion !== null || rightVersion !== null;
   const navAtBottom =
@@ -16,9 +16,10 @@ export function ReadContentContainer({ children }: { children: ReactNode }) {
     <Container
       maxWidth="full"
       className={cn(
-        "flex min-h-0 min-w-0 flex-1 flex-col",
+        "flex min-h-0 min-w-0 flex-1 flex-col transition-[padding] duration-300",
         insightOpen && "pb-120",
-        navAtBottom && "pb-20"
+        navAtBottom && "pb-20",
+        studyPanelOpen && "pr-72"
       )}
     >
       {children}

@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, AnimatePresence, useAnimate } from "motion/react";
+import { useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
+
 import { BookmarkPlus, Check, Loader2, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BibleStudyListWithCount } from "@/types/bible-study";
@@ -14,7 +15,7 @@ interface VerseAddPanelProps {
   lists: BibleStudyListWithCount[];
   loading: boolean;
   added: Record<string, boolean>;
-  onAdd: (listId: string, targetRect: DOMRect) => void;
+  onAdd: (listId: string, fromRect: DOMRect, targetRect: DOMRect) => void;
   onClose: () => void;
   onCreateList: () => void;
 }
@@ -31,12 +32,14 @@ export function VerseAddPanel({
   onClose,
   onCreateList,
 }: VerseAddPanelProps) {
+  const chipRef = useRef<HTMLDivElement>(null);
   const listItemRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   const handleAdd = (listId: string) => {
     const el = listItemRefs.current[listId];
-    if (el) onAdd(listId, el.getBoundingClientRect());
-    else onAdd(listId, new DOMRect());
+    const fromRect = chipRef.current?.getBoundingClientRect() ?? new DOMRect();
+    const toRect = el?.getBoundingClientRect() ?? new DOMRect();
+    onAdd(listId, fromRect, toRect);
   };
 
   return (
@@ -62,6 +65,7 @@ export function VerseAddPanel({
       {/* Verse chip — layoutId matches the one in toolbar */}
       <div className="border-b border-border/50 bg-primary/3 px-4 py-3">
         <motion.div
+          ref={chipRef}
           layoutId="verse-add-chip"
           className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5"
         >
@@ -105,60 +109,43 @@ export function VerseAddPanel({
                   ref={(el) => { listItemRefs.current[list.id] = el; }}
                   type="button"
                   onClick={() => handleAdd(list.id)}
-                  disabled={isAdded !== undefined}
                   className={cn(
                     "group relative flex w-full items-center justify-between overflow-hidden rounded-xl border px-3 py-2.5 text-left transition-all",
                     isAdded === true
                       ? "border-green-200 bg-green-50 dark:border-green-800/40 dark:bg-green-950/20"
-                      : isAdded === false
-                        ? "border-border bg-background opacity-60"
-                        : "border-border bg-background hover:border-primary/30 hover:bg-primary/3"
+                      : "border-border bg-background hover:border-primary/30 hover:bg-primary/3"
                   )}
                   whileTap={{ scale: 0.97 }}
                 >
-                  {/* Success ripple */}
-                  <AnimatePresence>
-                    {isAdded === true && (
-                      <motion.div
-                        className="absolute inset-0 bg-green-400/20 rounded-xl"
-                        initial={{ scale: 0, opacity: 1 }}
-                        animate={{ scale: 2, opacity: 0 }}
-                        exit={{}}
-                        transition={{ duration: 0.5 }}
-                      />
-                    )}
-                  </AnimatePresence>
-
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-xs font-semibold text-foreground">{list.title}</p>
                     <p className="text-[10px] text-muted-foreground">{list.passageCount} saved</p>
                   </div>
 
-                  <div className="ml-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-colors">
-                    <AnimatePresence mode="wait">
-                      {isAdded === true ? (
-                        <motion.div
-                          key="check"
-                          initial={{ scale: 0, rotate: -90 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                        >
-                          <Check className="h-4 w-4 text-green-500" />
-                        </motion.div>
-                      ) : isAdded === false ? (
-                        <motion.span key="removed" className="text-[9px] text-muted-foreground">
-                          Removed
-                        </motion.span>
-                      ) : (
-                        <motion.div
-                          key="add"
-                          className="flex h-6 w-6 items-center justify-center rounded-full bg-muted group-hover:bg-primary/10"
-                        >
-                          <Plus className="h-3 w-3 text-muted-foreground group-hover:text-primary" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                  <AnimatePresence mode="wait">
+                    {isAdded === true ? (
+                      <motion.div
+                        key="check"
+                        initial={{ scale: 0, rotate: -90 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        exit={{ scale: 0 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                        className="ml-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30"
+                      >
+                        <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="add"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        className="ml-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted group-hover:bg-primary/10"
+                      >
+                        <Plus className="h-3 w-3 text-muted-foreground group-hover:text-primary" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.button>
               );
             })}

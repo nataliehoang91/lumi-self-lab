@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
 import {
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
+import { trackTopicView } from "./useRecentTopics";
 import type { BibleTopic } from "@/lib/bible-topics-data";
 import { TOPIC_CATEGORIES } from "@/lib/bible-topics-data";
 import type { TopicVerseText } from "@/app/actions/bible/topic-verses";
@@ -44,6 +46,8 @@ interface TopicDetailClientProps {
 export function TopicDetailClient({ topic, segment, relatedTopics, verseTextMap = {} }: TopicDetailClientProps) {
   const isVi = segment === "vi";
   const { h1Class, bodyClass, bodyClassUp, bodyTitleClassUp } = useBibleFontClasses();
+
+  useEffect(() => { trackTopicView(topic.slug); }, [topic.slug]);
   const colors = CATEGORY_COLORS[topic.category] ?? CATEGORY_COLORS.faith;
   const Icon = ICON_MAP[topic.icon] ?? Flame;
   const name = isVi ? topic.nameVi : topic.nameEn;

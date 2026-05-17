@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useReducer,
+  useState,
   useRef,
   useMemo,
   useCallback,
@@ -90,6 +91,8 @@ interface ReadContextValue extends ReadState {
   setSubNavChapterOpen: (v: boolean) => void;
   setInsightOpen: (v: boolean) => void;
   setInsightMinimized: (v: boolean) => void;
+  studyPanelOpen: boolean;
+  setStudyPanelOpen: (v: boolean) => void;
   otBooks: BibleBook[];
   ntBooks: BibleBook[];
   filteredBooks: BibleBook[];
@@ -349,6 +352,8 @@ export function ReadProvider({
   const setInsightMinimized = useCallback((v: boolean) => {
     dispatch({ type: "SET_INSIGHT_MINIMIZED", payload: v });
   }, []);
+
+  const [studyPanelOpen, setStudyPanelOpen] = useState(false);
 
   const toggleVerseHighlight = useCallback((verseNumber: number) => {
     dispatch({ type: "TOGGLE_VERSE_HIGHLIGHT", payload: verseNumber });
@@ -807,6 +812,8 @@ export function ReadProvider({
     setRightTestamentFilterAndAdjust,
     setInsightOpen,
     setInsightMinimized,
+    studyPanelOpen,
+    setStudyPanelOpen,
     setReadFontSize,
     setReadFontFace,
     otBooks,

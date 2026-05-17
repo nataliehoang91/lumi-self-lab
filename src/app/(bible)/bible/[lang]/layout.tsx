@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { BibleAIGuide } from "@/components/Bible/AIChatGuide/BibleAIGuide";
 
 const SUPPORTED_LOCALES = ["en", "vi"] as const;
 export type BibleLocale = (typeof SUPPORTED_LOCALES)[number];
@@ -46,5 +47,10 @@ export default async function BibleLangLayout({
   if (!normalized || !isBibleLocale(normalized)) {
     redirect("/bible/en");
   }
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <BibleAIGuide lang={normalized} />
+    </>
+  );
 }

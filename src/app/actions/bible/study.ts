@@ -498,6 +498,30 @@ export async function toggleStudyPassage(params: {
   }
 }
 
+/** Returns listIds that already contain this passage (chapter or verse). */
+export async function getListsContainingPassage({
+  bookId,
+  chapter,
+  verseStart = null,
+}: {
+  bookId: string;
+  chapter: number;
+  verseStart?: number | null;
+}): Promise<string[]> {
+  const { userId } = await auth();
+  if (!userId) return [];
+  const passages = await prisma.bibleStudyPassage.findMany({
+    where: {
+      list: { clerkUserId: userId, isArchived: false },
+      bookId,
+      chapter,
+      verseStart,
+    },
+    select: { listId: true },
+  });
+  return passages.map((p) => p.listId);
+}
+
 export async function markChapterStudied(params: {
   listId: string;
   bookId: string;

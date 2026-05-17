@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Copy, BookmarkPlus, StickyNote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "motion/react";
@@ -12,10 +12,11 @@ import type { VersionId } from "../constants";
 import type { TFunction } from "../types";
 import type { FontSize } from "@/components/Bible/BibleAppContext";
 import type { ReadFontSize } from "../readTextConstants";
+import { useRead } from "../context/ReadContext";
 import { READ_FONT_SIZE_REM, READ_FONT_FACES_EN, READ_FONT_FACES_VI } from "../readTextConstants";
 import { BookCircleIcon } from "../../GeneralComponents/book-circle-icon";
 import { useAuth } from "@clerk/nextjs";
-import { getStudyListsForCurrentUser, toggleStudyPassage } from "@/app/actions/bible/study";
+import { getStudyListsForCurrentUser, getListsContainingPassage, toggleStudyPassage } from "@/app/actions/bible/study";
 import type { BibleStudyListWithCount } from "@/types/bible-study";
 import { useRouter } from "next/navigation";
 import { VerseAddPanel, FlyingChip } from "./VerseAddPanel";
@@ -96,33 +97,39 @@ export function ReadingPanelContent({
   const highlightSet = highlightedVerses.length > 0 ? new Set(highlightedVerses) : null;
   // ── Verse-save panel state ───────────────────────────────────────────────────
   const { isSignedIn } = useAuth();
+  const { setStudyPanelOpen } = useRead();
   const router = useRouter();
   const [activeVerse, setActiveVerse] = useState<{ num: number; text: string } | null>(null);
   const [lists, setLists] = useState<BibleStudyListWithCount[]>([]);
   const [listsLoading, setListsLoading] = useState(false);
   const [added, setAdded] = useState<Record<string, boolean>>({});
   const [flyingChip, setFlyingChip] = useState<{ from: DOMRect; to: DOMRect; label: string } | null>(null);
-  const chipRef = useRef<HTMLDivElement>(null);
   const [, startAddTransition] = useTransition();
 
   const openPanel = async (verseNum: number, verseText: string) => {
+    if (!book || !content) return;
     setActiveVerse({ num: verseNum, text: verseText });
-    setAdded({});
-    if (lists.length === 0) {
-      setListsLoading(true);
-      const result = await getStudyListsForCurrentUser();
-      setLists(result);
-      setListsLoading(false);
-    }
+    setStudyPanelOpen(true);
+    setListsLoading(true);
+    const [allLists, containedIn] = await Promise.all([
+      lists.length === 0 ? getStudyListsForCurrentUser() : Promise.resolve(lists),
+      getListsContainingPassage({ bookId: book.id, chapter: content.chapter, verseStart: verseNum }),
+    ]);
+    if (lists.length === 0) setLists(allLists);
+    const initial: Record<string, boolean> = {};
+    for (const id of containedIn) initial[id] = true;
+    setAdded(initial);
+    setListsLoading(false);
   };
 
-  const closePanel = () => setActiveVerse(null);
+  const closePanel = () => { setActiveVerse(null); setStudyPanelOpen(false); };
 
-  const handleAdd = (listId: string, targetRect: DOMRect) => {
+  const handleAdd = (listId: string, fromRect: DOMRect, targetRect: DOMRect) => {
     if (!activeVerse || !book || !content) return;
-    // Trigger flying chip
-    if (chipRef.current) {
-      setFlyingChip({ from: chipRef.current.getBoundingClientRect(), to: targetRect, label: `${book.nameEn} ${content.chapter}:${activeVerse.num}` });
+    const isCurrentlyAdded = added[listId] === true;
+    // Flying chip only when adding (not removing)
+    if (!isCurrentlyAdded) {
+      setFlyingChip({ from: fromRect, to: targetRect, label: `${book.nameEn} ${content.chapter}:${activeVerse.num}` });
     }
     startAddTransition(async () => {
       const result = await toggleStudyPassage({
@@ -306,7 +313,6 @@ export function ReadingPanelContent({
                     <AnimatePresence>
                       {activeVerse?.num === verseNum ? (
                         <motion.div
-                          ref={chipRef}
                           layoutId="verse-add-chip"
                           className="flex h-full w-full items-center justify-center"
                         >
