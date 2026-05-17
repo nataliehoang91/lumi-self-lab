@@ -1101,7 +1101,7 @@ export function StudyReaderShell({
 
         {/* Stats bar */}
         {totalSelected > 0 && (
-          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-lime-400/60 bg-lime-50/30 px-4 py-3 text-xs dark:border-lime-700/40 dark:bg-lime-950/10">
+          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-lime-700/50 bg-lime-50/30 px-4 py-3 text-xs dark:border-lime-600/40 dark:bg-lime-950/10">
             <span className="text-muted-foreground">{t.books(uniqueBooks)}</span>
             <span className="text-muted-foreground">{t.chapters(totalSelected)}</span>
             <span className="text-muted-foreground">{t.otLabel} {otCount} · {t.ntLabel} {ntCount}</span>
@@ -1109,7 +1109,7 @@ export function StudyReaderShell({
               <>
                 <div className="flex flex-1 items-center gap-2">
                   <div className="bg-muted h-1.5 flex-1 overflow-hidden rounded-full">
-                    <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, backgroundColor: "#5a6b1e" }} />
+                    <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, backgroundColor: "#8fa832" }} />
                   </div>
                   <span className="text-muted-foreground shrink-0">{t.studied(totalStudied, totalSelected)}</span>
                 </div>
@@ -1334,13 +1334,17 @@ export function StudyReaderShell({
                                     type="button"
                                     onClick={() => toggleHighlightedOnly(chapterHlKey)}
                                     title={isHighlightedOnly ? t.showAll : t.highlightedOnly}
-                                    className={cn("rounded-lg p-1 transition-colors", isHighlightedOnly ? "text-amber-500" : "text-muted-foreground hover:text-amber-500")}
+                                    className={cn("rounded-lg p-1 transition-all", isHighlightedOnly
+                                      ? "border border-amber-400/60 bg-amber-50 text-amber-500 dark:border-amber-600/40 dark:bg-amber-950/20"
+                                      : "text-muted-foreground hover:text-amber-500")}
                                   >
                                     {isHighlightedOnly ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
                                   </button>
                                   <button type="button" onClick={() => setEditingNoteFor(isEditingChapterNote ? null : { chapter: content.chapter, verseNumber: null })}
                                     title={t.chapterNote2}
-                                    className={cn("rounded-lg p-1 transition-colors", chapterNote ? "text-violet-500" : "text-muted-foreground hover:text-violet-500")}>
+                                    className={cn("rounded-lg p-1 transition-all", chapterNote
+                                      ? "border border-violet-300/60 bg-violet-50 text-violet-500 dark:border-violet-600/40 dark:bg-violet-950/20"
+                                      : "text-muted-foreground hover:text-violet-500")}>
                                     <Pencil className="h-3.5 w-3.5" />
                                   </button>
                                   <button
@@ -1351,13 +1355,17 @@ export function StudyReaderShell({
                                       next.has(chapterHlKey) ? next.delete(chapterHlKey) : next.add(chapterHlKey);
                                       return next;
                                     })}
-                                    className={cn("rounded-lg p-1 transition-colors", isInsightsOpen ? "text-primary" : "text-muted-foreground hover:text-primary")}
+                                    className={cn("rounded-lg p-1 transition-all", isInsightsOpen
+                                      ? "border border-primary/30 bg-primary/8 text-primary"
+                                      : "text-muted-foreground hover:text-primary")}
                                   >
                                     <Lightbulb className="h-3.5 w-3.5" />
                                   </button>
                                   <button type="button" onClick={() => handleMarkStudied(content.book.id, content.chapter)}
                                     title={isStudied ? t.markUnread : t.markStudied}
-                                    className={cn("rounded-lg p-1 transition-colors", isStudied ? "text-[#5a6b1e] dark:text-lime-500" : "text-muted-foreground hover:text-[#5a6b1e]")}>
+                                    className={cn("rounded-lg p-1 transition-all", isStudied
+                                      ? "border border-lime-500/50 bg-lime-50 text-[#5a6b1e] dark:border-lime-600/40 dark:bg-lime-950/20 dark:text-lime-400"
+                                      : "text-muted-foreground hover:text-[#5a6b1e]")}>
                                     <CheckCircle2 className="h-3.5 w-3.5" />
                                   </button>
                                 </div>
