@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import {
   BookOpen, Star, Archive, ArchiveRestore, Trash2, Tag, X, Pencil, Check, AlertTriangle,
-  Flame, ListChecks, ArrowRight, ChevronDown, ChevronUp,
+  Flame, ListChecks, ArrowRight, ChevronDown, ChevronUp, TrendingUp, GraduationCap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
@@ -50,7 +50,8 @@ const INTL = {
     chapter: "Chapter",
     streakDays: (n: number) => n === 1 ? "day streak" : "day streak",
     totalStudied: "chapters studied",
-    activeLists: "active",
+    activeLists: "active lists",
+    totalLists: "total lists",
     bestStreak: "best",
   },
   vi: {
@@ -76,66 +77,83 @@ const INTL = {
     chapter: "Chương",
     streakDays: (_n: number) => "ngày liên tiếp",
     totalStudied: "chương đã học",
-    activeLists: "đang học",
+    activeLists: "danh sách đang học",
+    totalLists: "tổng danh sách",
     bestStreak: "kỷ lục",
   },
 } as const;
 
 type TDict = typeof INTL.en;
 
-// ── Stats Strip ───────────────────────────────────────────────────────────────
+// ── Stats Cards ───────────────────────────────────────────────────────────────
 
-function StatsStrip({
+function StatsCards({
   totalStudied,
   activeLists,
+  totalLists,
   streak,
   t,
 }: {
   totalStudied: number;
   activeLists: number;
+  totalLists: number;
   streak: StudyStreak | null;
   t: TDict;
 }) {
-  if (totalStudied === 0 && !streak) return null;
+  const stats = [
+    {
+      icon: <Flame className="h-4 w-4 text-orange-500" />,
+      value: streak?.currentStreak ?? 0,
+      label: t.streakDays(streak?.currentStreak ?? 0),
+      sub: streak && streak.longestStreak > (streak.currentStreak ?? 0) ? `${streak.longestStreak} ${t.bestStreak}` : null,
+      accent: "bg-orange-50 border-orange-100 dark:bg-orange-950/20 dark:border-orange-900/30",
+    },
+    {
+      icon: <BookOpen className="h-4 w-4 text-primary" />,
+      value: totalStudied,
+      label: t.totalStudied,
+      sub: null,
+      accent: "bg-primary/5 border-primary/10",
+    },
+    {
+      icon: <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />,
+      value: activeLists,
+      label: t.activeLists,
+      sub: null,
+      accent: "bg-green-50 border-green-100 dark:bg-green-950/20 dark:border-green-900/30",
+    },
+    {
+      icon: <GraduationCap className="h-4 w-4 text-violet-500" />,
+      value: totalLists,
+      label: t.totalLists,
+      sub: null,
+      accent: "bg-violet-50 border-violet-100 dark:bg-violet-950/20 dark:border-violet-900/30",
+    },
+  ];
 
   return (
     <motion.div
-      className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-border bg-background px-4 py-3"
+      className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4"
       initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
     >
-      {streak && streak.currentStreak > 0 && (
-        <div className="flex items-center gap-1.5">
-          <Flame className="h-4 w-4 text-orange-500" />
-          <span className="text-sm font-semibold text-foreground">{streak.currentStreak}</span>
-          <span className="text-xs text-muted-foreground">{t.streakDays(streak.currentStreak)}</span>
-          {streak.longestStreak > streak.currentStreak && (
-            <span className="text-[10px] text-muted-foreground">
-              · {streak.longestStreak} {t.bestStreak}
-            </span>
-          )}
-        </div>
-      )}
-      {totalStudied > 0 && (
-        <>
-          {streak && streak.currentStreak > 0 && <span className="text-border">·</span>}
+      {stats.map((s, i) => (
+        <motion.div
+          key={i}
+          className={cn("flex flex-col gap-1 rounded-2xl border px-4 py-3", s.accent)}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, delay: 0.1 + i * 0.05 }}
+        >
           <div className="flex items-center gap-1.5">
-            <BookOpen className="h-3.5 w-3.5 text-primary" />
-            <span className="text-sm font-semibold text-foreground">{totalStudied}</span>
-            <span className="text-xs text-muted-foreground">{t.totalStudied}</span>
+            {s.icon}
+            <span className="text-xs text-muted-foreground">{s.label}</span>
           </div>
-        </>
-      )}
-      {activeLists > 0 && (
-        <>
-          <span className="text-border">·</span>
-          <div className="flex items-center gap-1.5">
-            <span className="text-sm font-semibold text-foreground">{activeLists}</span>
-            <span className="text-xs text-muted-foreground">{t.activeLists}</span>
-          </div>
-        </>
-      )}
+          <p className="text-2xl font-bold text-foreground">{s.value}</p>
+          {s.sub && <p className="text-[10px] text-muted-foreground">{s.sub}</p>}
+        </motion.div>
+      ))}
     </motion.div>
   );
 }
@@ -547,14 +565,23 @@ export function StudyHubClient({
   return (
     <Container maxWidth="7xl" className="flex min-h-screen flex-col px-4 py-8 lg:px-0">
       {/* Header */}
-      <motion.header className="mb-6" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-        <p className="text-muted-foreground mb-1 text-xs tracking-[0.18em] uppercase">{t.personal}</p>
-        <h1 className="text-foreground text-2xl font-semibold">{t.title}</h1>
-        <p className="text-muted-foreground mt-1 text-sm">{t.subtitle}</p>
+      <motion.header className="mb-6 flex items-end justify-between gap-4" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+        <div>
+          <div className="mb-2 flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10">
+              <GraduationCap className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-muted-foreground text-[10px] font-semibold tracking-[0.18em] uppercase">{t.personal}</p>
+              <h1 className="text-foreground text-xl font-bold leading-tight">{t.title}</h1>
+            </div>
+          </div>
+          <p className="text-muted-foreground text-sm">{t.subtitle}</p>
+        </div>
       </motion.header>
 
-      {/* Stats strip */}
-      <StatsStrip totalStudied={totalStudied} activeLists={activeLists} streak={streak} t={t} />
+      {/* Stats cards */}
+      <StatsCards totalStudied={totalStudied} activeLists={activeLists} totalLists={lists.length} streak={streak} t={t} />
 
       {/* Continue Today */}
       {continueToday && tab === "all" && (

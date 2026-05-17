@@ -53,8 +53,8 @@ export function useBibleNavData() {
   const bibleLinks: NavLink[] = [
     { href: `/bible/${langSegment}/read`, label: intl.t("langPageNavRead"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/read")) ?? false },
     { href: `/bible/${langSegment}/book-overviews`, label: intl.t("navBookOverviews"), isActive: pathname?.includes("/book-overviews") ?? false },
-    { href: `/bible/${langSegment}/topics`, label: intl.t("navTopicsExplorer"), isActive: (pathname?.includes("/topics") && !pathname?.includes("/topics-timeline")) ?? false, comingSoon: true },
-    { href: `/bible/${langSegment}/topics-timeline`, label: intl.t("navTopicsTimeline"), isActive: pathname?.includes("/topics-timeline") ?? false, comingSoon: true },
+    { href: `/bible/${langSegment}/topics`, label: intl.t("navTopicsExplorer"), isActive: (pathname?.includes("/topics") && !pathname?.includes("/topics-timeline")) ?? false },
+    { href: `/bible/${langSegment}/topics-timeline`, label: intl.t("navTopicsTimeline"), isActive: pathname?.includes("/topics-timeline") ?? false },
   ];
 
   const glossaryLinks: NavLink[] = [

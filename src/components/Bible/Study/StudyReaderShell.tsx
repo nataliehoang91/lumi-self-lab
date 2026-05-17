@@ -406,10 +406,8 @@ function InlineInsights({ bookId, chapter, version, t }: { bookId: string; chapt
   ];
 
   return (
-    <div className="mt-4 rounded-xl border border-violet-200 bg-violet-50 dark:border-violet-700/40 dark:bg-violet-950/20 p-4">
-      <div className="mb-3 flex items-center gap-2">
-        <Lightbulb className="text-primary h-4 w-4" />
-        <span className="text-xs font-semibold text-foreground">{t.chapterInsights}</span>
+    <div>
+      <div className="mb-3 flex items-center gap-1.5">
         <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-muted-foreground/30 px-1.5 py-0.5 text-[10px] text-muted-foreground">
           <Sparkles className="h-2.5 w-2.5" /> {t.aiGenerated}
         </span>
@@ -740,7 +738,10 @@ export function StudyReaderShell({
     });
   };
 
-  const handlePrint = () => window.print();
+  const handlePrint = () => {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`/api/study/print?url=${url}`, "_blank");
+  };
 
   const handleCopyAll = () => {
     const lines: string[] = [`# ${list.title}`, ""];
@@ -828,7 +829,7 @@ export function StudyReaderShell({
           </div>
         )}
 
-        <div className={cn("flex flex-col gap-6", !focusMode && "lg:flex-row lg:items-start")}>
+        <div className={cn("flex flex-col gap-6", !focusMode && "lg:flex-row lg:items-start lg:gap-4")}>
           {/* ── Sidebar ── */}
           {!focusMode && (
             <aside className="shrink-0 lg:w-64 xl:w-72">
@@ -1117,10 +1118,6 @@ export function StudyReaderShell({
                                   });})()}
                                 </div>
 
-                                {/* Inline insights */}
-                                {showInsights && (
-                                  <InlineInsights bookId={content.book.id} chapter={content.chapter} version={version} t={t} />
-                                )}
                               </div>
                             </article>
                           );
@@ -1132,6 +1129,38 @@ export function StudyReaderShell({
               </div>
             )}
           </main>
+
+          {/* ── Right: Insights Panel ── */}
+          {showInsights && !focusMode && sortedChapters.length > 0 && (
+            <aside className="shrink-0 lg:w-80 xl:w-96">
+              <div className="sticky top-20">
+                <div className="mb-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Lightbulb className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-semibold text-foreground">{t.chapterInsights}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowInsights(false)}
+                    className="text-muted-foreground hover:text-foreground rounded-lg p-1 transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+                <div className="max-h-[calc(100vh-6rem)] space-y-3 overflow-y-auto pr-1">
+                  {sortedChapters.map(({ key, content }) => (
+                    <div key={key} className="rounded-2xl border border-border bg-background/80 p-4">
+                      <p className="mb-3 text-xs font-semibold text-foreground">
+                        {lang === "vi" ? (content.book.nameVi ?? content.book.nameEn) : content.book.nameEn}{" "}
+                        {t.chapter(content.chapter)}
+                      </p>
+                      <InlineInsights bookId={content.book.id} chapter={content.chapter} version={version} t={t} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          )}
         </div>
       </Container>
     </div>

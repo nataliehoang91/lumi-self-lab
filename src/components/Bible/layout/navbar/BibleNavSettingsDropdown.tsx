@@ -36,7 +36,7 @@ export function BibleNavSettingsDropdown({ variant }: BibleNavSettingsDropdownPr
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Settings">
+        <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-border/60 bg-background/80 text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="Settings">
           <Settings className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
