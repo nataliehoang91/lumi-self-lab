@@ -53,9 +53,11 @@ export function BibleNavBar() {
           sm:px-6"
       >
         {/* Left: logo + search */}
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-5">
           <Link href="/bible" className="flex shrink-0 items-center gap-3">
-            <WhiteBibleLogo />
+            <div className="origin-left scale-[1.35] transform-gpu">
+              <WhiteBibleLogo />
+            </div>
             <h1 className="hidden truncate text-lg font-semibold 2xl:block">
               ScriptureSpace
             </h1>
