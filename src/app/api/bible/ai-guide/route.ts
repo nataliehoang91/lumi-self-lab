@@ -158,14 +158,28 @@ function searchTopics(query: string, category?: string) {
   }).slice(0, 5);
 }
 
+function normalizeBookName(s: string): string {
+  return s.toLowerCase().replace(/[-\s]/g, "");
+}
+
 function searchBooks(query: string) {
   const q = query.toLowerCase();
-  return BOOKS_DATA.filter(
-    (b) =>
-      b.nameEn.toLowerCase().includes(q) ||
-      b.nameVi.toLowerCase().includes(q) ||
-      b.slugEn.includes(q)
-  ).slice(0, 5);
+  const qNorm = normalizeBookName(query);
+  return BOOKS_DATA.filter((b) => {
+    const enLow = b.nameEn.toLowerCase();
+    const viLow = b.nameVi.toLowerCase();
+    const viNorm = normalizeBookName(b.nameVi);
+    const enNorm = normalizeBookName(b.nameEn);
+    return (
+      enLow.includes(q) ||
+      viLow.includes(q) ||
+      b.slugEn.includes(q) ||
+      viNorm.includes(qNorm) ||
+      enNorm.includes(qNorm) ||
+      qNorm.includes(viNorm) ||
+      qNorm.includes(enNorm)
+    );
+  }).slice(0, 5);
 }
 
 function getLearnArticles() {
