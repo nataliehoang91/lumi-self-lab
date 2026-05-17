@@ -26,6 +26,7 @@ export async function getBooks(): Promise<BibleBook[]> {
       nameZh: true,
       order: true,
       chapterCount: true,
+      slugEn: true,
     },
   });
   return rows as BibleBook[];

@@ -109,11 +109,11 @@ function StatsCards({
       accent: "bg-background/90 border-orange-200 dark:border-orange-800/40",
     },
     {
-      icon: <BookOpen className="h-4 w-4 text-primary" />,
+      icon: <BookOpen className="h-4 w-4 text-sky-500" />,
       value: totalStudied,
       label: t.totalStudied,
       sub: null,
-      accent: "bg-background/90 border-primary/20",
+      accent: "bg-background/90 border-sky-200 dark:border-sky-800/40",
     },
     {
       icon: <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />,

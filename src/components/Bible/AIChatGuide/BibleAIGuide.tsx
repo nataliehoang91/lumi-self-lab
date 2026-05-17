@@ -360,7 +360,7 @@ export function BibleAIGuide({ lang }: { lang: string }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed right-0 top-0 bottom-0 z-40 flex w-80 flex-col border-l border-border bg-background/95 shadow-2xl backdrop-blur-sm"
+            className="fixed right-0 top-0 bottom-0 z-40 flex w-[480px] flex-col border-l border-border bg-background/95 shadow-2xl backdrop-blur-sm"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -397,7 +397,8 @@ export function BibleAIGuide({ lang }: { lang: string }) {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="text-muted-foreground hover:text-foreground rounded-lg p-1.5 transition-colors"
+                  title={isVi ? "Đóng" : "Close"}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-muted/60 text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground"
                 >
                   <X className="h-4 w-4" />
                 </button>

@@ -10,6 +10,7 @@ export interface BibleBook {
   nameZh: string | null;
   order: number;
   chapterCount: number;
+  slugEn?: string | null;
 }
 
 export interface VerseRow {

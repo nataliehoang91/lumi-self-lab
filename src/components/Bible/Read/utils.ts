@@ -70,7 +70,7 @@ export function resolveBookFromParams(
   const list = testament === "ot" ? getOtBooks(books) : getNtBooks(books);
   if (list.length === 0) return books[0];
   if (bookId) {
-    const found = list.find((b) => b.id === bookId);
+    const found = list.find((b) => b.id === bookId || b.slugEn === bookId);
     if (found) return found;
   }
   return list[0];
