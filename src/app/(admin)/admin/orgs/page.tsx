@@ -2,7 +2,6 @@ import { AdminShell } from "@/components/Admin/AdminShell";
 import { OrgsClient } from "@/components/Admin/OrgsClient";
 import { getAdminOrgsList, getAccessPackages } from "@/app/actions/admin/packages";
 
-export const dynamic = "force-dynamic";
 
 export default async function AdminOrgsPage() {
   const [orgs, packages] = await Promise.all([

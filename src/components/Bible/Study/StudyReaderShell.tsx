@@ -33,6 +33,8 @@ import {
   CheckCircle2,
   ChevronLeft,
   Copy,
+  Eye,
+  EyeOff,
   Expand,
   Lightbulb,
   Link2,
@@ -47,6 +49,117 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+
+// ── i18n ──────────────────────────────────────────────────────────────────────
+
+const INTL = {
+  en: {
+    studyList: "Study list",
+    old: "Old",
+    new: "New",
+    version: "Version",
+    testament: "Testament",
+    book: "Book",
+    saveList: "Save list",
+    saving: "Saving…",
+    clearAll: "Clear all",
+    clearBook: "Clear book",
+    noChaptersSelected: "No chapters selected",
+    chaptersSelected: (n: number) => `${n} chapter${n !== 1 ? "s" : ""} selected`,
+    tapToAdd: "Tap chapters to add them to this study",
+    selectChapters: "Select chapters to start studying",
+    selectHint: "Choose a version and tap chapters from any book. They'll appear here side by side.",
+    savedVerses: "Saved Verses",
+    chapterInsights: "Chapter Insights",
+    aiGenerated: "AI generated",
+    context: "Context",
+    explanation: "Explanation",
+    reflection: "Reflection",
+    noteOnVerse: (n: number) => `Note on verse ${n}…`,
+    chapterNote: "Chapter note…",
+    save: "Save",
+    cancel: "Cancel",
+    deleteNote: "Delete note",
+    books: (n: number) => `${n} ${n === 1 ? "book" : "books"}`,
+    chapters: (n: number) => `${n} chapter${n !== 1 ? "s" : ""}`,
+    studied: (done: number, total: number) => `${done}/${total} studied`,
+    otLabel: "OT",
+    ntLabel: "NT",
+    chapter: (n: number) => `Chapter ${n}`,
+    markStudied: "Mark studied",
+    markUnread: "Mark unread",
+    chapterNote2: "Chapter note",
+    focusMode: "Focus mode",
+    exitFocus: "Exit focus",
+    copyAll: "Copy all text",
+    print: "Print / Export PDF",
+    share: "Share",
+    disableShare: "Disable sharing",
+    linkCopied: "Link copied!",
+    sharingDisabled: "Sharing disabled",
+    toggleInsights: "Toggle insights",
+    highlightedOnly: "Highlighted only",
+    showAll: "Show all verses",
+    versionLabels: {
+      vi: "Vietnamese 1925",
+      niv: "New International Version",
+      kjv: "King James Version",
+    },
+  },
+  vi: {
+    studyList: "Danh sách học",
+    old: "Cựu",
+    new: "Tân",
+    version: "Bản dịch",
+    testament: "Giao ước",
+    book: "Sách",
+    saveList: "Lưu danh sách",
+    saving: "Đang lưu…",
+    clearAll: "Xóa tất cả",
+    clearBook: "Xóa sách",
+    noChaptersSelected: "Chưa chọn chương nào",
+    chaptersSelected: (n: number) => `${n} chương đã chọn`,
+    tapToAdd: "Nhấn vào chương để thêm vào bài học này",
+    selectChapters: "Chọn chương để bắt đầu học",
+    selectHint: "Chọn bản dịch và nhấn vào chương từ bất kỳ sách nào. Chúng sẽ hiển thị ở đây.",
+    savedVerses: "Câu đã lưu",
+    chapterInsights: "Nhận xét chương",
+    aiGenerated: "AI tạo ra",
+    context: "Bối cảnh",
+    explanation: "Giải thích",
+    reflection: "Suy ngẫm",
+    noteOnVerse: (n: number) => `Ghi chú câu ${n}…`,
+    chapterNote: "Ghi chú chương…",
+    save: "Lưu",
+    cancel: "Hủy",
+    deleteNote: "Xóa ghi chú",
+    books: (n: number) => `${n} ${n === 1 ? "sách" : "sách"}`,
+    chapters: (n: number) => `${n} chương`,
+    studied: (done: number, total: number) => `${done}/${total} đã học`,
+    otLabel: "CT",
+    ntLabel: "TT",
+    chapter: (n: number) => `Chương ${n}`,
+    markStudied: "Đánh dấu đã học",
+    markUnread: "Đánh dấu chưa đọc",
+    chapterNote2: "Ghi chú chương",
+    focusMode: "Chế độ tập trung",
+    exitFocus: "Thoát tập trung",
+    copyAll: "Sao chép toàn bộ",
+    print: "In / Xuất PDF",
+    share: "Chia sẻ",
+    disableShare: "Tắt chia sẻ",
+    linkCopied: "Đã sao chép liên kết!",
+    sharingDisabled: "Đã tắt chia sẻ",
+    toggleInsights: "Nhận xét AI",
+    highlightedOnly: "Chỉ câu nổi bật",
+    showAll: "Hiện tất cả câu",
+    versionLabels: {
+      vi: "Bản Truyền Thống 1930",
+      niv: "New International Version",
+      kjv: "King James Version",
+    },
+  },
+} as const;
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -88,12 +201,15 @@ function highlightBg(color: HighlightColor) {
 
 // ── Note inline editor ────────────────────────────────────────────────────────
 
+type TIntl = typeof INTL.en;
+
 function NoteEditor({
   listId,
   bookId,
   chapter,
   verseNumber,
   existing,
+  t,
   onSave,
   onDelete,
   onClose,
@@ -103,6 +219,7 @@ function NoteEditor({
   chapter: number;
   verseNumber?: number | null;
   existing?: BibleStudyNote;
+  t: TIntl;
   onSave: (note: BibleStudyNote) => void;
   onDelete: (id: string) => void;
   onClose: () => void;
@@ -127,13 +244,13 @@ function NoteEditor({
   };
 
   return (
-    <div className="mt-1.5 rounded-xl border border-primary/30 bg-primary/5 p-3">
+    <div className="mt-1.5 rounded-xl border border-violet-300 bg-violet-50 p-3 dark:border-violet-700/50 dark:bg-violet-950/20">
       <textarea
         autoFocus
         value={text}
         onChange={(e) => setText(e.target.value)}
         rows={3}
-        placeholder={verseNumber ? `Note on verse ${verseNumber}…` : "Chapter note…"}
+        placeholder={verseNumber ? t.noteOnVerse(verseNumber) : t.chapterNote}
         className="w-full resize-none bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground"
       />
       <div className="mt-2 flex items-center justify-between gap-2">
@@ -142,16 +259,16 @@ function NoteEditor({
             type="button"
             onClick={handleSave}
             disabled={!text.trim()}
-            className="rounded-lg bg-primary px-3 py-1 text-[11px] font-semibold text-primary-foreground disabled:opacity-40"
+            className="rounded-lg bg-violet-600 px-3 py-1 text-[11px] font-semibold text-white disabled:opacity-40"
           >
-            Save
+            {t.save}
           </button>
           <button
             type="button"
             onClick={onClose}
             className="text-muted-foreground hover:text-foreground text-[11px] transition-colors"
           >
-            Cancel
+            {t.cancel}
           </button>
         </div>
         {existing && (
@@ -160,7 +277,7 @@ function NoteEditor({
             onClick={() => { start(async () => { await deleteNote(existing.id); onDelete(existing.id); onClose(); }); }}
             className="text-muted-foreground hover:text-destructive text-[11px] transition-colors"
           >
-            Delete note
+            {t.deleteNote}
           </button>
         )}
       </div>
@@ -212,11 +329,11 @@ function VerseRow({
         <span className="text-foreground text-sm leading-relaxed">{text}</span>
         {note && (
           <div
-            className="mt-1 flex items-start gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-2 py-1.5 cursor-pointer"
+            className="mt-1 flex items-start gap-1.5 rounded-lg border border-violet-200 bg-violet-50 dark:border-violet-700/40 dark:bg-violet-950/20 px-2 py-1.5 cursor-pointer"
             onClick={() => onNote(verseNum)}
           >
-            <Pencil className="text-primary mt-0.5 h-3 w-3 shrink-0" />
-            <p className="text-xs text-foreground/80 leading-snug">{note.content}</p>
+            <Pencil className="text-violet-500 mt-0.5 h-3 w-3 shrink-0" />
+            <p className="text-xs text-violet-800 dark:text-violet-200 leading-snug">{note.content}</p>
           </div>
         )}
       </div>
@@ -266,29 +383,35 @@ function VerseRow({
 
 // ── Insights panel (inline) ───────────────────────────────────────────────────
 
-function InlineInsights({ bookId, chapter, version }: { bookId: string; chapter: number; version: ReadVersionId }) {
+function InlineInsights({ bookId, chapter, version, t }: { bookId: string; chapter: number; version: ReadVersionId; t: TIntl }) {
   const [data, setData] = useState<ChapterInsightData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<"context" | "explanation" | "reflection">("context");
-  const lang = version === "vi" ? "VI" : "EN";
+  const [insightTab, setInsightTab] = useState<"context" | "explanation" | "reflection">("context");
+  const apiLang = version === "vi" ? "VI" : "EN";
 
   useEffect(() => {
     setLoading(true);
-    getInsightsForChapter(bookId, chapter, lang).then((res) => {
+    getInsightsForChapter(bookId, chapter, apiLang).then((res) => {
       setData(res.db ?? res.ai ?? null);
       setLoading(false);
     });
-  }, [bookId, chapter, lang]);
+  }, [bookId, chapter, apiLang]);
 
   if (!loading && !data) return null;
 
+  const insightTabs = [
+    { key: "context" as const, label: t.context },
+    { key: "explanation" as const, label: t.explanation },
+    { key: "reflection" as const, label: t.reflection },
+  ];
+
   return (
-    <div className="mt-4 rounded-xl border border-primary/20 bg-primary/5 p-4">
+    <div className="mt-4 rounded-xl border border-violet-200 bg-violet-50 dark:border-violet-700/40 dark:bg-violet-950/20 p-4">
       <div className="mb-3 flex items-center gap-2">
         <Lightbulb className="text-primary h-4 w-4" />
-        <span className="text-xs font-semibold text-foreground">Chapter Insights</span>
+        <span className="text-xs font-semibold text-foreground">{t.chapterInsights}</span>
         <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-muted-foreground/30 px-1.5 py-0.5 text-[10px] text-muted-foreground">
-          <Sparkles className="h-2.5 w-2.5" /> AI generated
+          <Sparkles className="h-2.5 w-2.5" /> {t.aiGenerated}
         </span>
       </div>
       {loading ? (
@@ -299,23 +422,23 @@ function InlineInsights({ bookId, chapter, version }: { bookId: string; chapter:
       ) : (
         <>
           <div className="mb-3 flex gap-1">
-            {(["context", "explanation", "reflection"] as const).map((t) => (
+            {insightTabs.map((it) => (
               <button
-                key={t}
+                key={it.key}
                 type="button"
-                onClick={() => setTab(t)}
+                onClick={() => setInsightTab(it.key)}
                 className={cn(
-                  "rounded-md px-2.5 py-1 text-[11px] font-medium capitalize transition-all",
-                  tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                  "rounded-md px-2.5 py-1 text-[11px] font-medium transition-all",
+                  insightTab === it.key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {t}
+                {it.label}
               </button>
             ))}
           </div>
-          {tab === "context" && <p className="text-xs leading-relaxed text-foreground/80">{data?.context}</p>}
-          {tab === "explanation" && <p className="text-xs leading-relaxed text-foreground/80">{data?.explanation}</p>}
-          {tab === "reflection" && (
+          {insightTab === "context" && <p className="text-xs leading-relaxed text-foreground/80">{data?.context}</p>}
+          {insightTab === "explanation" && <p className="text-xs leading-relaxed text-foreground/80">{data?.explanation}</p>}
+          {insightTab === "reflection" && (
             <div className="space-y-2">
               {data?.reflections.map((r, i) => (
                 <div key={i} className="flex gap-2">
@@ -364,6 +487,7 @@ function VerseQuoteCard({
 
   if (!book) return null;
 
+  const bookName = lang === "vi" ? (book.nameVi ?? book.nameEn) : book.nameEn;
   const testament = book.order <= OT_MAX ? "ot" : "nt";
   const readLink = `/bible/${lang}/read?version1=${version}&book1=${passage.bookId}&chapter1=${passage.chapter}&testament1=${testament}`;
   const verseLabel = passage.verseStart === passage.verseEnd
@@ -387,7 +511,7 @@ function VerseQuoteCard({
     <div className="border-border bg-background/80 flex flex-col gap-2 rounded-xl border px-4 py-3">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5">
-          <span className="text-foreground text-xs font-semibold">{book.nameEn}</span>
+          <span className="text-foreground text-xs font-semibold">{bookName}</span>
           <span className="text-muted-foreground text-xs">{passage.chapter}:{verseLabel}</span>
         </div>
         <div className="flex items-center gap-1">
@@ -442,8 +566,17 @@ export function StudyReaderShell({
   const [shareMsg, setShareMsg] = useState<string | null>(null);
   const [, startStudied] = useTransition();
   const [, startShare] = useTransition();
+  // Per-chapter highlighted-only toggle: key = `${bookId}:${chapter}`
+  const [highlightedOnlySet, setHighlightedOnlySet] = useState<Set<string>>(new Set());
+  const toggleHighlightedOnly = (key: string) =>
+    setHighlightedOnlySet((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      return next;
+    });
   const pathname = usePathname();
   const lang = pathname?.match(/^\/bible\/(en|vi)/)?.[1] ?? "en";
+  const t = (INTL[lang as "en" | "vi"] ?? INTL.en) as typeof INTL.en;
 
   // Split passages by type
   const chapterPassages = useMemo(() => passages.filter((p) => p.verseStart === null), [passages]);
@@ -513,7 +646,7 @@ export function StudyReaderShell({
         return prev.filter((p) => !(p.bookId === selectedBook.id && p.chapter === chapter && p.verseStart === null));
       }
       const now = new Date();
-      return [...prev, { id: key, listId: list.id, bookId: selectedBook.id, chapter, verseStart: null, verseEnd: null, isStudied: false, createdAt: now, updatedAt: now }];
+      return [...prev, { id: key, listId: list.id, bookId: selectedBook.id, chapter, verseStart: null, verseEnd: null, isStudied: false, studiedAt: null, createdAt: now, updatedAt: now }];
     });
     if (isSelected) {
       setLoadedChapters((prev) => { const n = { ...prev }; delete n[key]; return n; });
@@ -598,10 +731,10 @@ export function StudyReaderShell({
       if (pub && slug) {
         const url = `${window.location.origin}/study/shared/${slug}`;
         await navigator.clipboard.writeText(url);
-        setShareMsg("Link copied!");
+        setShareMsg(t.linkCopied);
         setTimeout(() => setShareMsg(null), 3000);
       } else {
-        setShareMsg("Sharing disabled");
+        setShareMsg(t.sharingDisabled);
         setTimeout(() => setShareMsg(null), 2000);
       }
     });
@@ -637,7 +770,7 @@ export function StudyReaderShell({
         {/* Header */}
         <header className="mb-5 flex items-start justify-between gap-4">
           <div>
-            <p className="text-muted-foreground mb-1 text-xs tracking-[0.18em] uppercase">Study list</p>
+            <p className="text-muted-foreground mb-1 text-xs tracking-[0.18em] uppercase">{t.studyList}</p>
             <h1 className="text-foreground text-2xl font-semibold">{list.title}</h1>
             {list.description && <p className="text-muted-foreground mt-1 max-w-xl text-sm">{list.description}</p>}
             {list.tags.length > 0 && (
@@ -652,20 +785,25 @@ export function StudyReaderShell({
           </div>
           {/* Toolbar */}
           <div className="flex shrink-0 flex-wrap items-center gap-1.5">
-            <button type="button" onClick={handleCopyAll} disabled={sortedChapters.length === 0} title="Copy all text" className="text-muted-foreground hover:text-foreground rounded-lg p-2 transition-colors disabled:opacity-30">
+            <button type="button" onClick={handleCopyAll} disabled={sortedChapters.length === 0} title={t.copyAll} className="text-muted-foreground hover:text-foreground rounded-lg p-2 transition-colors disabled:opacity-30">
               <Copy className="h-4 w-4" />
             </button>
-            <button type="button" onClick={handlePrint} title="Print / Export PDF" className="text-muted-foreground hover:text-foreground rounded-lg p-2 transition-colors">
+            <button type="button" onClick={handlePrint} title={t.print} className="text-muted-foreground hover:text-foreground rounded-lg p-2 transition-colors">
               <Printer className="h-4 w-4" />
             </button>
-            <button type="button" onClick={handleShare} title={isPublic ? "Disable sharing" : "Share"} className={cn("rounded-lg p-2 transition-colors", isPublic ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
+            <button
+              type="button"
+              onClick={handleShare}
+              title={isPublic ? t.disableShare : t.share}
+              className={cn("rounded-lg p-2 transition-colors", isPublic ? "text-primary" : "text-muted-foreground hover:text-foreground")}
+            >
               <Share2 className="h-4 w-4" />
             </button>
             {shareMsg && <span className="text-xs text-primary animate-in fade-in">{shareMsg}</span>}
-            <button type="button" onClick={() => setShowInsights((v) => !v)} title="Toggle insights" className={cn("rounded-lg p-2 transition-colors", showInsights ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
+<button type="button" onClick={() => setShowInsights((v) => !v)} title={t.toggleInsights} className={cn("rounded-lg p-2 transition-colors", showInsights ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
               <Lightbulb className="h-4 w-4" />
             </button>
-            <button type="button" onClick={() => setFocusMode((v) => !v)} title={focusMode ? "Exit focus" : "Focus mode"} className="text-muted-foreground hover:text-foreground rounded-lg p-2 transition-colors">
+            <button type="button" onClick={() => setFocusMode((v) => !v)} title={focusMode ? t.exitFocus : t.focusMode} className="text-muted-foreground hover:text-foreground rounded-lg p-2 transition-colors">
               {focusMode ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
             </button>
           </div>
@@ -674,16 +812,16 @@ export function StudyReaderShell({
         {/* Stats bar */}
         {totalSelected > 0 && (
           <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-border bg-card/50 px-4 py-3 text-xs">
-            <span className="text-muted-foreground">{uniqueBooks} {uniqueBooks === 1 ? "book" : "books"}</span>
-            <span className="text-muted-foreground">{totalSelected} chapters</span>
-            <span className="text-muted-foreground">OT {otCount} · NT {ntCount}</span>
+            <span className="text-muted-foreground">{t.books(uniqueBooks)}</span>
+            <span className="text-muted-foreground">{t.chapters(totalSelected)}</span>
+            <span className="text-muted-foreground">{t.otLabel} {otCount} · {t.ntLabel} {ntCount}</span>
             {totalSelected > 0 && (
               <>
                 <div className="flex flex-1 items-center gap-2">
                   <div className="bg-muted h-1.5 flex-1 overflow-hidden rounded-full">
                     <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%` }} />
                   </div>
-                  <span className="text-muted-foreground shrink-0">{totalStudied}/{totalSelected} studied</span>
+                  <span className="text-muted-foreground shrink-0">{t.studied(totalStudied, totalSelected)}</span>
                 </div>
               </>
             )}
@@ -697,7 +835,7 @@ export function StudyReaderShell({
               <div className="border-border bg-card/70 space-y-5 rounded-2xl border p-4 backdrop-blur">
                 {/* Version */}
                 <div>
-                  <p className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase">Version</p>
+                  <p className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase">{t.version}</p>
                   <div className="flex flex-col gap-1.5">
                     {VERSIONS.map((v) => (
                       <button key={v.id} type="button" onClick={() => setVersion(v.id)}
@@ -708,7 +846,7 @@ export function StudyReaderShell({
                           version === v.id ? "bg-background/20" : "bg-muted text-muted-foreground")}>
                           {v.short}
                         </span>
-                        <span className="font-medium">{v.label}</span>
+                        <span className="font-medium">{t.versionLabels[v.id]}</span>
                       </button>
                     ))}
                   </div>
@@ -718,13 +856,13 @@ export function StudyReaderShell({
 
                 {/* Testament */}
                 <div>
-                  <p className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase">Testament</p>
+                  <p className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase">{t.testament}</p>
                   <div className="grid grid-cols-2 gap-1 rounded-xl border border-border bg-muted/40 p-1">
-                    {(["ot", "nt"] as const).map((t) => (
-                      <button key={t} type="button" onClick={() => setTestament(t)}
+                    {(["ot", "nt"] as const).map((tst) => (
+                      <button key={tst} type="button" onClick={() => setTestament(tst)}
                         className={cn("rounded-lg py-1.5 text-xs font-medium transition-all",
-                          testament === t ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}>
-                        {t === "ot" ? "Old" : "New"}
+                          testament === tst ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}>
+                        {tst === "ot" ? t.old : t.new}
                       </button>
                     ))}
                   </div>
@@ -732,15 +870,16 @@ export function StudyReaderShell({
 
                 {/* Book list */}
                 <div>
-                  <p className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase">Book</p>
+                  <p className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase">{t.book}</p>
                   <div className="max-h-64 space-y-0.5 overflow-y-auto pr-1 lg:max-h-80">
                     {visibleBooks.map((b) => {
                       const count = passages.filter((p) => p.bookId === b.id && p.verseStart === null).length;
+                      const bookLabel = lang === "vi" ? (b.nameVi ?? b.nameEn) : b.nameEn;
                       return (
                         <button key={b.id} type="button" onClick={() => setSelectedBookId(b.id)}
                           className={cn("flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors",
                             selectedBookId === b.id ? "bg-primary/10 text-primary font-semibold" : "text-foreground/80 hover:bg-muted")}>
-                          <span>{b.nameEn}</span>
+                          <span>{bookLabel}</span>
                           {count > 0 && (
                             <span className={cn("flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-semibold",
                               selectedBookId === b.id ? "bg-primary text-primary-foreground" : "bg-muted-foreground/20 text-muted-foreground")}>
@@ -759,11 +898,11 @@ export function StudyReaderShell({
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <p className="text-muted-foreground text-xs">
-                      {totalSelected === 0 ? "No chapters selected" : `${totalSelected} chapter${totalSelected !== 1 ? "s" : ""} selected`}
+                      {totalSelected === 0 ? t.noChaptersSelected : t.chaptersSelected(totalSelected)}
                     </p>
                     {totalSelected > 0 && (
                       <button type="button" onClick={() => { setPassages([]); setLoadedChapters({}); }} className="text-muted-foreground hover:text-foreground text-xs underline underline-offset-2 transition-colors">
-                        Clear all
+                        {t.clearAll}
                       </button>
                     )}
                   </div>
@@ -772,7 +911,7 @@ export function StudyReaderShell({
                     disabled={totalSelected === 0 || isSaving}
                     className={cn("w-full rounded-xl py-2 text-xs font-semibold transition-colors",
                       totalSelected === 0 || isSaving ? "bg-muted text-muted-foreground cursor-not-allowed" : "bg-foreground text-background hover:bg-foreground/90")}>
-                    {isSaving ? "Saving…" : "Save list"}
+                    {isSaving ? t.saving : t.saveList}
                   </button>
                 </div>
               </div>
@@ -786,16 +925,18 @@ export function StudyReaderShell({
               <div className="border-border bg-card/50 mb-6 rounded-2xl border p-4 sm:p-5">
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-foreground text-sm font-semibold">{selectedBook.nameEn}</p>
+                    <p className="text-foreground text-sm font-semibold">
+                      {lang === "vi" ? (selectedBook.nameVi ?? selectedBook.nameEn) : selectedBook.nameEn}
+                    </p>
                     <p className="text-muted-foreground text-xs">
                       {chaptersForBook.length > 0
-                        ? `${chaptersForBook.length} chapter${chaptersForBook.length !== 1 ? "s" : ""} selected`
-                        : "Tap chapters to add them to this study"}
+                        ? t.chaptersSelected(chaptersForBook.length)
+                        : t.tapToAdd}
                     </p>
                   </div>
                   {chaptersForBook.length > 0 && (
                     <button type="button" onClick={handleClearBook} className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-xs transition-colors">
-                      <Trash2 className="h-3 w-3" />Clear book
+                      <Trash2 className="h-3 w-3" />{t.clearBook}
                     </button>
                   )}
                 </div>
@@ -822,7 +963,7 @@ export function StudyReaderShell({
               <div className="mb-6">
                 <div className="mb-3 flex items-center gap-2">
                   <Star className="text-primary h-4 w-4" />
-                  <h2 className="text-foreground text-sm font-semibold">Saved Verses</h2>
+                  <h2 className="text-foreground text-sm font-semibold">{t.savedVerses}</h2>
                   <span className="text-muted-foreground text-xs">· {versePassages.length}</span>
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2">
@@ -844,24 +985,24 @@ export function StudyReaderShell({
             {sortedChapters.length === 0 && versePassages.length === 0 ? (
               <div className="text-muted-foreground flex min-h-[40vh] flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border p-8 text-center">
                 <BookCircleIcon size="lg" className="mb-1 opacity-50" />
-                <p className="text-foreground text-sm font-medium">Select chapters to start studying</p>
-                <p className="max-w-xs text-xs">Choose a version and tap chapters from any book. They'll appear here side by side.</p>
+                <p className="text-foreground text-sm font-medium">{t.selectChapters}</p>
+                <p className="max-w-xs text-xs">{t.selectHint}</p>
               </div>
             ) : sortedChapters.length === 0 ? null : (
               <div className="space-y-6">
                 {(() => {
-                  const groups: { bookId: string; bookNameEn: string; order: number; chapters: typeof sortedChapters }[] = [];
+                  const groups: { bookId: string; bookNameEn: string; bookNameVi: string; order: number; chapters: typeof sortedChapters }[] = [];
                   for (const ch of sortedChapters) {
                     const last = groups[groups.length - 1];
                     if (last && last.bookId === ch.content.book.id) last.chapters.push(ch);
-                    else groups.push({ bookId: ch.content.book.id, bookNameEn: ch.content.book.nameEn, order: ch.content.book.order, chapters: [ch] });
+                    else groups.push({ bookId: ch.content.book.id, bookNameEn: ch.content.book.nameEn, bookNameVi: ch.content.book.nameVi ?? ch.content.book.nameEn, order: ch.content.book.order, chapters: [ch] });
                   }
                   return groups.map((group) => (
                     <section key={group.bookId}>
                       <div className="mb-3 flex items-center gap-2">
                         <BookOpen className="text-primary h-4 w-4" />
-                        <h2 className="text-foreground text-sm font-semibold">{group.bookNameEn}</h2>
-                        <span className="text-muted-foreground text-xs">· {group.chapters.length} chapter{group.chapters.length !== 1 ? "s" : ""}</span>
+                        <h2 className="text-foreground text-sm font-semibold">{lang === "vi" ? group.bookNameVi : group.bookNameEn}</h2>
+                        <span className="text-muted-foreground text-xs">· {t.chapters(group.chapters.length)}</span>
                       </div>
                       <div className="space-y-4">
                         {group.chapters.map(({ key, content }) => {
@@ -869,27 +1010,39 @@ export function StudyReaderShell({
                           const chapterNote = noteIndex[`${content.book.id}:${content.chapter}:`];
                           const isEditingChapterNote = editingNoteFor?.chapter === content.chapter && editingNoteFor?.verseNumber === null;
 
+                          const chapterHlKey = `${content.book.id}:${content.chapter}`;
+                          const isHighlightedOnly = highlightedOnlySet.has(chapterHlKey);
+
                           return (
                             <article key={key} className="border-border bg-background/80 rounded-2xl border">
                               <header className={cn(
-                                "border-border/60 flex items-center justify-between gap-3 border-b px-5 py-3",
-                                isStudied ? "from-green-500/10 bg-gradient-to-r to-transparent" : "from-primary/5 bg-gradient-to-r to-transparent"
+                                "border-border/60 sticky top-0 z-10 flex items-center justify-between gap-3 border-b px-5 py-3 rounded-t-2xl backdrop-blur-sm",
+                                isStudied ? "from-green-500/10 bg-gradient-to-r to-background/95" : "from-primary/5 bg-gradient-to-r to-background/95"
                               )}>
                                 <div className="flex items-center gap-2">
-                                  <h3 className="text-foreground text-sm font-semibold">Chapter {content.chapter}</h3>
+                                  <h3 className="text-foreground text-sm font-semibold">{t.chapter(content.chapter)}</h3>
                                   {content.sectionTitle?.trim() && (
                                     <span className="text-muted-foreground text-xs italic">{content.sectionTitle.trim()}</span>
                                   )}
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1.5">
                                   <span className="text-muted-foreground text-[10px] font-semibold tracking-[0.14em] uppercase">{version.toUpperCase()}</span>
+                                  {/* Highlighted-only toggle — per chapter */}
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleHighlightedOnly(chapterHlKey)}
+                                    title={isHighlightedOnly ? t.showAll : t.highlightedOnly}
+                                    className={cn("rounded-lg p-1 transition-colors", isHighlightedOnly ? "text-amber-500" : "text-muted-foreground hover:text-amber-500")}
+                                  >
+                                    {isHighlightedOnly ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                                  </button>
                                   <button type="button" onClick={() => setEditingNoteFor(isEditingChapterNote ? null : { chapter: content.chapter, verseNumber: null })}
-                                    title="Chapter note"
-                                    className={cn("rounded-lg p-1 transition-colors", chapterNote ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
+                                    title={t.chapterNote2}
+                                    className={cn("rounded-lg p-1 transition-colors", chapterNote ? "text-violet-500" : "text-muted-foreground hover:text-violet-500")}>
                                     <Pencil className="h-3.5 w-3.5" />
                                   </button>
                                   <button type="button" onClick={() => handleMarkStudied(content.book.id, content.chapter)}
-                                    title={isStudied ? "Mark unread" : "Mark studied"}
+                                    title={isStudied ? t.markUnread : t.markStudied}
                                     className={cn("rounded-lg p-1 transition-colors", isStudied ? "text-green-500" : "text-muted-foreground hover:text-green-500")}>
                                     <CheckCircle2 className="h-3.5 w-3.5" />
                                   </button>
@@ -899,10 +1052,10 @@ export function StudyReaderShell({
                               <div className="px-5 py-4">
                                 {/* Chapter note */}
                                 {chapterNote && !isEditingChapterNote && (
-                                  <div className="mb-3 flex items-start gap-1.5 rounded-xl border border-primary/20 bg-primary/5 px-3 py-2 cursor-pointer"
+                                  <div className="mb-3 flex items-start gap-1.5 rounded-xl border border-violet-200 bg-violet-50 dark:border-violet-700/40 dark:bg-violet-950/20 px-3 py-2 cursor-pointer"
                                     onClick={() => setEditingNoteFor({ chapter: content.chapter, verseNumber: null })}>
-                                    <Pencil className="text-primary mt-0.5 h-3.5 w-3.5 shrink-0" />
-                                    <p className="text-xs text-foreground/80">{chapterNote.content}</p>
+                                    <Pencil className="text-violet-500 mt-0.5 h-3.5 w-3.5 shrink-0" />
+                                    <p className="text-xs text-violet-800 dark:text-violet-200">{chapterNote.content}</p>
                                   </div>
                                 )}
                                 {isEditingChapterNote && (
@@ -913,6 +1066,7 @@ export function StudyReaderShell({
                                       chapter={content.chapter}
                                       verseNumber={null}
                                       existing={chapterNote}
+                                      t={t}
                                       onSave={handleNoteUpdated}
                                       onDelete={handleNoteDeleted}
                                       onClose={() => setEditingNoteFor(null)}
@@ -930,8 +1084,10 @@ export function StudyReaderShell({
                                     const vNote = noteIndex[`${content.book.id}:${content.chapter}:${v.number}`];
                                     const isEditingVerse = editingNoteFor?.chapter === content.chapter && editingNoteFor?.verseNumber === v.number;
                                     const isDimmed = verseRange !== undefined && !verseRange.has(v.number);
+                                    // Hide non-highlighted verses when per-chapter highlighted-only mode is on
+                                    if (isHighlightedOnly && !hl && !vNote && !isEditingVerse) return null;
                                     return (
-                                      <div key={v.number} className={cn(isDimmed && "opacity-30 select-none pointer-events-none")}>
+                                      <div key={v.number} className={cn(isDimmed && !isHighlightedOnly && "opacity-30 select-none pointer-events-none")}>
                                         <VerseRow
                                           listId={list.id}
                                           bookId={content.book.id}
@@ -950,6 +1106,7 @@ export function StudyReaderShell({
                                             chapter={content.chapter}
                                             verseNumber={v.number}
                                             existing={vNote}
+                                            t={t}
                                             onSave={handleNoteUpdated}
                                             onDelete={handleNoteDeleted}
                                             onClose={() => setEditingNoteFor(null)}
@@ -962,7 +1119,7 @@ export function StudyReaderShell({
 
                                 {/* Inline insights */}
                                 {showInsights && (
-                                  <InlineInsights bookId={content.book.id} chapter={content.chapter} version={version} />
+                                  <InlineInsights bookId={content.book.id} chapter={content.chapter} version={version} t={t} />
                                 )}
                               </div>
                             </article>

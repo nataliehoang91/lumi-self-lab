@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { BibleTopic } from "@/lib/bible-topics-data";
 import { TOPIC_CATEGORIES } from "@/lib/bible-topics-data";
+import type { TopicVerseText } from "@/app/actions/bible/topic-verses";
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Flame, Sparkles, RefreshCcw, Droplets, Wind, Heart, Shield, CloudRain,
@@ -37,9 +38,10 @@ interface TopicDetailClientProps {
   topic: BibleTopic;
   segment: string;
   relatedTopics: BibleTopic[];
+  verseTextMap?: Record<string, TopicVerseText>;
 }
 
-export function TopicDetailClient({ topic, segment, relatedTopics }: TopicDetailClientProps) {
+export function TopicDetailClient({ topic, segment, relatedTopics, verseTextMap = {} }: TopicDetailClientProps) {
   const isVi = segment === "vi";
   const { h1Class, bodyClass, bodyClassUp, bodyTitleClassUp } = useBibleFontClasses();
   const colors = CATEGORY_COLORS[topic.category] ?? CATEGORY_COLORS.faith;
@@ -84,9 +86,25 @@ export function TopicDetailClient({ topic, segment, relatedTopics }: TopicDetail
       {/* Verses */}
       <div className="space-y-4">
         {topic.verses.map((v, i) => {
-          const text = isVi ? v.textVi : v.textEn;
+          const dbKey = `${v.bookSlug}-${v.chapter}-${v.verse}`;
+          const dbVerse = verseTextMap[dbKey];
+
+          // Use real DB text if available, fall back to generated
+          const text = isVi
+            ? (dbVerse?.textVi ?? v.textVi)
+            : (dbVerse?.textEn ?? v.textEn);
+
+          // Build ref display — use VI book name in VI mode if available
+          const bookDisplayName = isVi
+            ? (dbVerse?.bookNameVi ?? v.ref.split(" ").slice(0, -1).join(" "))
+            : (dbVerse?.bookNameEn ?? v.ref.split(" ").slice(0, -1).join(" "));
+          const displayRef = `${bookDisplayName} ${v.chapter}:${v.verse}`;
+
           const note = isVi ? v.noteVi : v.noteEn;
-          const readHref = `/bible/${segment}/read?book1=${v.bookSlug}&chapter1=${v.chapter}&verse1=${v.verse}&version1=${isVi ? "vie" : "niv"}`;
+          const explanation = isVi ? v.explanationVi : v.explanationEn;
+          // book1 param must be a DB bookId (cuid), not a slug
+          const bookIdParam = dbVerse?.bookId ?? v.bookSlug;
+          const readHref = `/bible/${segment}/read?book1=${bookIdParam}&chapter1=${v.chapter}&verse1=${v.verse}&version1=${isVi ? "vi" : "niv"}`;
 
           return (
             <div
@@ -102,7 +120,15 @@ export function TopicDetailClient({ topic, segment, relatedTopics }: TopicDetail
                   )}>
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className={cn("text-muted-foreground font-mono text-sm font-medium")}>{v.ref}</span>
+                  <Link
+                    href={readHref}
+                    className={cn(
+                      "text-muted-foreground hover:text-second font-mono text-sm font-medium transition-colors",
+                      isVi && "font-vietnamese-flashcard"
+                    )}
+                  >
+                    {displayRef}
+                  </Link>
                 </div>
                 <Link
                   href={readHref}
@@ -125,11 +151,15 @@ export function TopicDetailClient({ topic, segment, relatedTopics }: TopicDetail
                 )}>
                   &ldquo;{text}&rdquo;
                 </p>
-                {note && (
+                {explanation ? (
+                  <p className={cn("text-muted-foreground mt-3 leading-relaxed", bodyClass, isVi && "font-vietnamese-flashcard")}>
+                    {explanation}
+                  </p>
+                ) : note ? (
                   <p className={cn("text-muted-foreground mt-3 leading-relaxed", bodyClass, isVi && "font-vietnamese-flashcard")}>
                     {note}
                   </p>
-                )}
+                ) : null}
               </div>
             </div>
           );

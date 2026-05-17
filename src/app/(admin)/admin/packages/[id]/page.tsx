@@ -3,7 +3,6 @@ import { AdminShell } from "@/components/Admin/AdminShell";
 import { PackageEditorClient } from "@/components/Admin/PackageEditorClient";
 import { getAccessPackageById, getAccessPackages } from "@/app/actions/admin/packages";
 
-export const dynamic = "force-dynamic";
 
 export default async function PackageEditorPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

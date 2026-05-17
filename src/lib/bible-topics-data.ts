@@ -20,6 +20,8 @@ export interface TopicVerse {
   textVi: string;
   noteEn: string;
   noteVi: string;
+  explanationEn?: string;
+  explanationVi?: string;
 }
 
 export interface BibleTopic {
@@ -51,7 +53,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Now faith is confidence in what we hope for and assurance about what we do not see.",
         "textVi": "Đức tin là sự chắc chắn của những điều mình đang trông mong, là bằng chứng của những điều mình không thấy.",
         "noteEn": "The Bible's foundational definition of faith",
-        "noteVi": "Định nghĩa nền tảng của đức tin trong Kinh Thánh"
+        "noteVi": "Định nghĩa nền tảng của đức tin trong Kinh Thánh",
+        "explanationEn": "Faith is described here as a deep inner confidence in things you hope will happen, even when you have no physical proof yet. It's like trusting that the sun will rise tomorrow — you can't see it at night, but you live with certainty that it will come. This verse defines faith as the bridge between what is invisible or future and your present sense of certainty.",
+        "explanationVi": "Đức tin ở đây được mô tả như một sự tin tưởng sâu sắc bên trong về những điều bạn hy vọng sẽ xảy ra, dù chưa có bằng chứng cụ thể nào. Giống như việc bạn tin rằng mặt trời sẽ mọc vào sáng mai dù đêm nay bạn không thể nhìn thấy nó. Câu này định nghĩa đức tin như cây cầu nối giữa những điều chưa thấy hoặc chưa xảy ra với sự chắc chắn bạn cảm nhận ngay lúc này."
       },
       {
         "ref": "Ephesians 2:8-9",
@@ -61,7 +65,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— not by works, so that no one can boast.",
         "textVi": "Vì nhờ ân điển, bởi đức tin mà anh em được cứu, điều đó không đến từ anh em, mà là tặng phẩm của Đức Chúa Trời; cũng không do việc làm của anh em, để không ai có thể tự hào.",
         "noteEn": "Faith, not works, is the means of salvation",
-        "noteVi": "Đức tin, không phải việc làm, là phương tiện cứu rỗi"
+        "noteVi": "Đức tin, không phải việc làm, là phương tiện cứu rỗi",
+        "explanationEn": "This verse teaches that, in Christian belief, being saved (rescued from wrongdoing and its consequences) is not something you earn through good deeds — it is a free gift from God. The role of faith here is to receive that gift, like opening your hands to accept something given to you. No one can claim credit for it, because it was never about personal achievement.",
+        "explanationVi": "Câu này dạy rằng, theo niềm tin Kitô giáo, sự cứu rỗi (được giải thoát khỏi tội lỗi và hậu quả của nó) không phải là thứ bạn kiếm được qua việc làm tốt — đó là món quà miễn phí từ Thiên Chúa. Vai trò của đức tin ở đây là đón nhận món quà đó, như việc mở lòng tay để nhận lấy thứ người khác tặng cho bạn. Không ai có thể tự hào về điều này, vì nó không bao giờ là chuyện thành tích cá nhân."
       },
       {
         "ref": "Romans 10:17",
@@ -71,7 +77,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Consequently, faith comes from hearing the message, and the message is heard through the word about Christ.",
         "textVi": "Như vậy, đức tin đến bởi sự nghe, mà sự nghe do lời của Đấng Christ.",
         "noteEn": "Faith is awakened through hearing God's Word",
-        "noteVi": "Đức tin được khơi dậy qua việc nghe Lời Đức Chúa Trời"
+        "noteVi": "Đức tin được khơi dậy qua việc nghe Lời Đức Chúa Trời",
+        "explanationEn": "This verse suggests that faith is not something people are simply born with — it grows when you hear and engage with ideas and stories about a subject, in this case about Jesus Christ. Think of it like how trust in a person grows the more you learn about who they are and what they have done. Faith, then, is a response to knowledge and story, not just a feeling that appears out of nowhere.",
+        "explanationVi": "Câu này gợi ý rằng đức tin không phải thứ người ta sinh ra đã có — nó lớn lên khi bạn lắng nghe và tiếp cận những ý tưởng, câu chuyện về một chủ đề, ở đây là về Chúa Giêsu. Hãy nghĩ như việc sự tin tưởng vào một người lớn dần khi bạn biết thêm về họ là ai và họ đã làm gì. Đức tin, vì vậy, là sự hồi đáp với kiến thức và câu chuyện, không chỉ là cảm xúc tự nhiên xuất hiện."
       },
       {
         "ref": "James 2:17",
@@ -81,7 +89,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "In the same way, faith by itself, if it is not accompanied by action, is dead.",
         "textVi": "Đức tin cũng vậy, nếu không có việc làm thì tự nó là chết.",
         "noteEn": "Genuine faith must be demonstrated through actions",
-        "noteVi": "Đức tin thật sự phải được thể hiện qua hành động"
+        "noteVi": "Đức tin thật sự phải được thể hiện qua hành động",
+        "explanationEn": "This verse makes a practical point: believing in something without acting on it is essentially meaningless, like saying you believe exercise is healthy but never moving your body. Genuine faith, according to this passage, must show itself through real actions and choices in daily life. It's a reminder that what you truly believe will always influence how you behave.",
+        "explanationVi": "Câu này đưa ra một điểm thực tế: tin vào điều gì đó mà không hành động theo đó thì về cơ bản là vô nghĩa, giống như nói bạn tin rằng tập thể dục tốt cho sức khỏe nhưng lại không bao giờ vận động. Đức tin thật sự, theo đoạn này, phải thể hiện qua hành động và lựa chọn cụ thể trong cuộc sống hàng ngày. Đây là lời nhắc nhở rằng điều bạn thực sự tin sẽ luôn ảnh hưởng đến cách bạn sống."
       },
       {
         "ref": "Habakkuk 2:4",
@@ -91,7 +101,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "See, the enemy is puffed up; his desires are not upright—but the righteous person will live by his faithfulness.",
         "textVi": "Kìa, kẻ kiêu ngạo không có tâm hồn ngay thẳng; nhưng người công chính sẽ sống bởi đức tin mình.",
         "noteEn": "The righteous live by faith, an Old Testament foundation",
-        "noteVi": "Người công chính sống bởi đức tin, nền tảng từ Cựu Ước"
+        "noteVi": "Người công chính sống bởi đức tin, nền tảng từ Cựu Ước",
+        "explanationEn": "This ancient verse contrasts arrogant, self-centered people with those who are righteous (living with integrity), saying the latter will thrive through their faithfulness. Faithfulness here means steady, loyal commitment to what is right, even when circumstances are difficult. It connects faith not just to belief, but to a consistent, reliable way of living over time.",
+        "explanationVi": "Câu cổ xưa này đối chiếu những người kiêu ngạo, chỉ nghĩ đến bản thân với những người sống ngay thẳng, nói rằng những người sau sẽ sống tốt nhờ sự trung thành của họ. Sự trung thành ở đây có nghĩa là cam kết bền vững, kiên định với điều đúng đắn, dù hoàn cảnh có khó khăn. Câu này kết nối đức tin không chỉ với niềm tin, mà còn với một lối sống nhất quán và đáng tin cậy theo thời gian."
       },
       {
         "ref": "Mark 11:22-23",
@@ -101,7 +113,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "\"Have faith in God,\" Jesus answered. \"Truly I tell you, if anyone says to this mountain, 'Go, throw yourself into the sea,' and does not doubt in their heart but believes that what they say will happen, it will be done for them.\"",
         "textVi": "Đức Chúa Jêsus đáp: \"Hãy có đức tin nơi Đức Chúa Trời. Thật, Ta nói với các con, nếu ai nói với núi nầy: Hãy cất mình lên và nhào xuống biển, mà trong lòng không nghi ngờ, nhưng tin rằng điều mình nói sẽ xảy ra, thì sẽ được như vậy.\"",
         "noteEn": "Jesus teaches the extraordinary power of unwavering faith",
-        "noteVi": "Chúa Giê-xu dạy về quyền năng phi thường của đức tin không lay chuyển"
+        "noteVi": "Chúa Giê-xu dạy về quyền năng phi thường của đức tin không lay chuyển",
+        "explanationEn": "Jesus uses the dramatic image of moving a mountain into the sea to illustrate how powerful genuine, doubt-free faith can be. He is not necessarily speaking literally, but rather emphasizing that when someone truly believes without inner conflict or hesitation, remarkable things can happen. This verse portrays faith as an active, focused trust that has real impact on the world around you.",
+        "explanationVi": "Chúa Giêsu dùng hình ảnh ấn tượng về việc dời một ngọn núi xuống biển để minh họa sức mạnh của đức tin thật sự, không nghi ngờ. Ngài không nhất thiết nói theo nghĩa đen, mà muốn nhấn mạnh rằng khi ai đó tin tưởng thật sự mà không có mâu thuẫn hay do dự bên trong, những điều phi thường có thể xảy ra. Câu này mô tả đức tin như một sự tin tưởng chủ động, tập trung và có tác động thực sự đến thế giới xung quanh bạn."
       }
     ]
   },
@@ -122,7 +136,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
         "textVi": "Vì Đức Chúa Trời yêu thương thế gian đến nỗi đã ban Con Một của Ngài, hầu cho hễ ai tin Con ấy không bị hư mất mà được sự sống đời đời.",
         "noteEn": "The foundation of God's saving love for all humanity.",
-        "noteVi": "Nền tảng tình yêu cứu rỗi của Đức Chúa Trời cho nhân loại."
+        "noteVi": "Nền tảng tình yêu cứu rỗi của Đức Chúa Trời cho nhân loại.",
+        "explanationEn": "This verse says that God loves every person in the world so deeply that He sent His own Son, Jesus, to earth — and that anyone who trusts in Jesus will not face spiritual death but will live forever. It is considered the core statement of salvation in Christianity: love is the reason, and belief is the door. You don't have to earn it — you simply have to trust.",
+        "explanationVi": "Câu này nói rằng Đức Chúa Trời yêu thương mọi người trên thế giới đến mức sai Con Ngài là Chúa Jêsus xuống trần gian, và bất kỳ ai tin vào Ngài sẽ không phải chết về mặt tâm linh mà được sống đời đời. Đây được xem là câu nói trọng tâm về sự cứu rỗi trong Cơ Đốc giáo: tình yêu thương là lý do, và đức tin là cánh cửa. Bạn không cần phải làm gì để xứng đáng — bạn chỉ cần tin tưởng."
       },
       {
         "ref": "Romans 10:9",
@@ -132,7 +148,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised him from the dead, you will be saved.",
         "textVi": "Vì nếu miệng ngươi xưng Đức Chúa Giê-xu là Chúa, và lòng ngươi tin rằng Đức Chúa Trời đã khiến Ngài từ kẻ chết sống lại, thì ngươi sẽ được cứu.",
         "noteEn": "Confession and faith are the pathway to salvation.",
-        "noteVi": "Xưng nhận và đức tin là con đường dẫn đến sự cứu rỗi."
+        "noteVi": "Xưng nhận và đức tin là con đường dẫn đến sự cứu rỗi.",
+        "explanationEn": "This verse describes two simple steps that Christians believe lead to salvation: openly saying that Jesus is your Lord (meaning your guide and authority), and genuinely believing in your heart that God brought Jesus back to life after death. It's not about performing rituals or following a long list of rules — it starts with an internal belief and an honest acknowledgment. According to this verse, that sincere commitment is what 'being saved' looks like.",
+        "explanationVi": "Câu này mô tả hai bước đơn giản mà người Cơ Đốc tin rằng dẫn đến sự cứu rỗi: công khai thừa nhận Chúa Jêsus là Chúa của mình (nghĩa là người hướng dẫn và có thẩm quyền trong cuộc đời bạn), và thật lòng tin rằng Đức Chúa Trời đã khiến Chúa Jêsus sống lại từ cõi chết. Đây không phải về việc thực hiện các nghi lễ hay tuân theo một danh sách dài các quy tắc — tất cả bắt đầu từ một niềm tin thật sự bên trong và sự thừa nhận chân thành. Theo câu này, chính sự cam kết chân thành đó là ý nghĩa của 'được cứu.'"
       },
       {
         "ref": "Ephesians 2:8-9",
@@ -142,7 +160,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— not by works, so that no one can boast.",
         "textVi": "Vả, ấy là nhờ ân điển, bởi đức tin, mà anh em được cứu, điều đó không phải đến từ anh em, bèn là sự ban cho của Đức Chúa Trời. Ấy chẳng phải bởi việc làm đâu, hầu cho không ai khoe mình.",
         "noteEn": "Salvation is God's gift of grace, not human achievement.",
-        "noteVi": "Sự cứu rỗi là món quà ân điển của Đức Chúa Trời, không phải công lao con người."
+        "noteVi": "Sự cứu rỗi là món quà ân điển của Đức Chúa Trời, không phải công lao con người.",
+        "explanationEn": "This passage explains that salvation is not something you can achieve through your own good deeds or efforts — it is described as a free gift from God, received through faith (trusting in Jesus). The word 'grace' here means undeserved kindness — something given freely, not because you earned it. This means no one can claim to be better than others because of their own actions; salvation is equally available to everyone as a gift.",
+        "explanationVi": "Đoạn này giải thích rằng sự cứu rỗi không phải là điều bạn có thể đạt được bằng việc làm tốt hay nỗ lực của bản thân — nó được mô tả là món quà miễn phí từ Đức Chúa Trời, nhận được qua đức tin (tin tưởng vào Chúa Jêsus). Từ 'ân điển' ở đây có nghĩa là lòng tốt không đáng được hưởng — điều gì đó được trao tặng tự do, không phải vì bạn xứng đáng. Điều này có nghĩa là không ai có thể tự hào rằng mình tốt hơn người khác nhờ hành động của bản thân; sự cứu rỗi được dành cho tất cả mọi người như nhau như một món quà."
       },
       {
         "ref": "Acts 4:12",
@@ -152,7 +172,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Salvation is found in no one else, for there is no other name under heaven given to mankind by which we must be saved.",
         "textVi": "Chẳng có sự cứu rỗi trong đấng nào khác; vì ở dưới trời, chẳng có danh nào khác ban cho loài người, để chúng ta phải nhờ đó mà được cứu.",
         "noteEn": "Jesus Christ is the only source of salvation for mankind.",
-        "noteVi": "Chúa Giê-xu Christ là nguồn cứu rỗi duy nhất cho loài người."
+        "noteVi": "Chúa Giê-xu Christ là nguồn cứu rỗi duy nhất cho loài người.",
+        "explanationEn": "This verse makes a bold and exclusive claim: that Jesus is the only path through which people can be saved, and no other person or system can provide what salvation offers. For a non-Christian, this means Christianity teaches that salvation is not found in good behavior, other religions, or self-improvement alone — it is specifically tied to Jesus. This is one of the most distinctive and sometimes controversial teachings of the Christian faith.",
+        "explanationVi": "Câu này đưa ra một tuyên bố mạnh mẽ và độc quyền: rằng Chúa Jêsus là con đường duy nhất mà qua đó con người có thể được cứu, và không có người nào hay hệ thống nào khác có thể cung cấp điều mà sự cứu rỗi mang lại. Đối với người chưa theo đạo, điều này có nghĩa là Cơ Đốc giáo dạy rằng sự cứu rỗi không đến từ hành vi tốt, các tôn giáo khác, hay sự tự hoàn thiện bản thân — mà gắn liền cụ thể với Chúa Jêsus. Đây là một trong những giáo lý đặc biệt nhất và đôi khi gây tranh cãi nhất của đức tin Cơ Đốc."
       },
       {
         "ref": "Romans 6:23",
@@ -162,7 +184,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord.",
         "textVi": "Vì tiền công của tội lỗi là sự chết; nhưng sự ban cho của Đức Chúa Trời là sự sống đời đời trong Đức Chúa Giê-xu Christ, Chúa chúng ta.",
         "noteEn": "Contrasts sin's deadly consequence with God's gift of life.",
-        "noteVi": "Tương phản hậu quả chết chóc của tội lỗi với món quà sự sống của Đức Chúa Trời."
+        "noteVi": "Tương phản hậu quả chết chóc của tội lỗi với món quà sự sống của Đức Chúa Trời.",
+        "explanationEn": "This verse uses a work-and-wages comparison to explain the human condition: just as a worker earns a paycheck, the natural result of living a sinful life (one disconnected from God) is spiritual death — permanent separation from God. However, the verse contrasts that with a gift: God freely offers eternal life through Jesus, which is something no one can earn or deserve. It highlights that salvation is not a reward for being good, but a generous gift offered despite human failings.",
+        "explanationVi": "Câu này dùng hình ảnh so sánh về công việc và tiền lương để giải thích tình trạng của con người: giống như người lao động nhận lương, kết quả tự nhiên của việc sống trong tội lỗi (cuộc sống xa cách Đức Chúa Trời) là cái chết về mặt tâm linh — sự tách biệt vĩnh viễn khỏi Ngài. Tuy nhiên, câu này đối lập điều đó với một món quà: Đức Chúa Trời tự nguyện ban sự sống đời đời qua Chúa Jêsus, điều mà không ai có thể kiếm được hay xứng đáng nhận. Câu này nhấn mạnh rằng sự cứu rỗi không phải là phần thưởng cho việc làm tốt, mà là món quà寛宏 được ban tặng dù con người có nhiều thiếu sót."
       },
       {
         "ref": "Titus 3:5",
@@ -172,7 +196,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "He saved us, not because of righteous things we had done, but because of his mercy. He saved us through the washing of rebirth and renewing by the Holy Spirit.",
         "textVi": "Thì không phải vì việc công bình chúng ta đã làm, nhưng vì lòng thương xót Ngài, Ngài cứu chúng ta bởi sự rửa về sự tái sanh và sự đổi mới của Đức Thánh Linh.",
         "noteEn": "Salvation through God's mercy and the Holy Spirit's renewal.",
-        "noteVi": "Sự cứu rỗi qua lòng thương xót của Đức Chúa Trời và sự đổi mới của Đức Thánh Linh."
+        "noteVi": "Sự cứu rỗi qua lòng thương xót của Đức Chúa Trời và sự đổi mới của Đức Thánh Linh.",
+        "explanationEn": "This verse emphasizes that God's decision to save people was not based on their past good behavior or moral record, but purely on His mercy — His compassionate desire to help people who couldn't help themselves. The phrase 'washing of rebirth' is a metaphor for a fresh start, like being completely cleaned and renewed from the inside, made possible by the Holy Spirit (God's active presence in a person's life). In simple terms, salvation is described here as God giving someone a completely new beginning, motivated entirely by kindness rather than what they deserve.",
+        "explanationVi": "Câu này nhấn mạnh rằng quyết định của Đức Chúa Trời để cứu con người không dựa trên hành vi tốt trong quá khứ hay thành tích đạo đức của họ, mà hoàn toàn dựa trên lòng thương xót của Ngài — mong muốn nhân từ giúp đỡ những người không thể tự giúp mình. Cụm từ 'sự tái sinh' là một hình ảnh ẩn dụ cho một sự khởi đầu mới hoàn toàn, như được rửa sạch và đổi mới từ bên trong, được thực hiện bởi Đức Thánh Linh (sự hiện diện tích cực của Đức Chúa Trời trong cuộc đời một người). Nói đơn giản, sự cứu rỗi ở đây được mô tả là Đức Chúa Trời ban cho ai đó một khởi đầu hoàn toàn mới, được thúc đẩy hoàn toàn bởi lòng tốt chứ không phải bởi điều họ xứng đáng."
       }
     ]
   },
@@ -193,7 +219,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— not by works, so that no one can boast.",
         "textVi": "Vì nhờ ân điển, bởi đức tin mà anh em được cứu; điều đó không đến từ anh em, bèn là sự ban cho của Đức Chúa Trời. Ấy chẳng phải bởi việc làm đâu, hầu cho không ai khoe mình.",
         "noteEn": "Salvation is entirely God's gift, not human effort",
-        "noteVi": "Sự cứu rỗi hoàn toàn là món quà của Đức Chúa Trời, không phải nỗ lực con người"
+        "noteVi": "Sự cứu rỗi hoàn toàn là món quà của Đức Chúa Trời, không phải nỗ lực con người",
+        "explanationEn": "This verse teaches that being accepted by God is not something you earn through good behavior or personal effort — it is a free gift. Grace, in this context, means undeserved favor: God offers it freely, and you simply receive it through trust. Because it is a gift, no one can claim they deserve it more than anyone else.",
+        "explanationVi": "Câu này dạy rằng việc được Đức Chúa Trời chấp nhận không phải là điều bạn kiếm được qua hành động tốt hay nỗ lực cá nhân — đó là một món quà miễn phí. Ân điển ở đây có nghĩa là ân huệ không đáng được hưởng: Đức Chúa Trời ban nó cách nhưng không, và bạn chỉ cần đón nhận qua sự tin tưởng. Vì đó là món quà, không ai có thể tự cho rằng mình xứng đáng hơn người khác."
       },
       {
         "ref": "Romans 3:23-24",
@@ -203,7 +231,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "for all have sinned and fall short of the glory of God, and all are justified freely by his grace through the redemption that came by Christ Jesus.",
         "textVi": "Vì mọi người đều đã phạm tội, thiếu mất sự vinh hiển của Đức Chúa Trời, và họ nhờ ân điển Ngài mà được xưng công bình nhưng không, bởi sự chuộc tội đã làm trọn trong Đức Chúa Jêsus Christ.",
         "noteEn": "All are freely justified by grace through Christ's redemption",
-        "noteVi": "Mọi người đều được xưng công bình nhưng không bởi ân điển qua sự cứu chuộc của Đấng Christ"
+        "noteVi": "Mọi người đều được xưng công bình nhưng không bởi ân điển qua sự cứu chuộc của Đấng Christ",
+        "explanationEn": "This verse acknowledges that every person falls short of their highest potential and makes mistakes — no one is perfect. Yet despite this, God freely pardons people, not because they earned it, but purely out of grace, meaning unmerited kindness. It is like a debt being cancelled not because you paid it off, but because someone else generously covered it for you.",
+        "explanationVi": "Câu này thừa nhận rằng mọi người đều có lỗi lầm và không ai là hoàn hảo. Tuy nhiên, dù vậy, Đức Chúa Trời vẫn tha thứ cách nhưng không — không phải vì con người xứng đáng, mà thuần túy vì ân điển, tức là lòng tốt không điều kiện. Điều này giống như một món nợ được xóa không phải vì bạn trả được, mà vì có người khác rộng lòng gánh chịu thay cho bạn."
       },
       {
         "ref": "John 1:14",
@@ -213,7 +243,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The Word became flesh and made his dwelling among us. We have seen his glory, the glory of the one and only Son, who came from the Father, full of grace and truth.",
         "textVi": "Ngôi Lời đã trở nên xác thịt và ở giữa chúng ta; chúng ta đã ngắm xem sự vinh hiển của Ngài, thật là vinh hiển của Con Một đến từ nơi Cha, đầy ơn và lẽ thật.",
         "noteEn": "Jesus Christ embodies the fullness of grace and truth",
-        "noteVi": "Chúa Giê-xu thể hiện sự trọn vẹn của ân điển và lẽ thật"
+        "noteVi": "Chúa Giê-xu thể hiện sự trọn vẹn của ân điển và lẽ thật",
+        "explanationEn": "This verse describes Jesus as a divine being who chose to live among ordinary humans, bringing with him both grace and truth. Grace here means that he came not to judge or condemn, but to show compassion and offer something people could not achieve on their own. His life was seen as a visible expression of God's generous, caring nature toward humanity.",
+        "explanationVi": "Câu này mô tả Chúa Giê-su là một đấng thiêng liêng đã chọn sống giữa những con người bình thường, mang theo cả ân điển lẫn sự thật. Ân điển ở đây có nghĩa là Ngài đến không phải để phán xét hay lên án, mà để bày tỏ lòng trắc ẩn và ban cho điều mà con người không thể tự đạt được. Cuộc đời Ngài được xem là sự thể hiện hữu hình của bản chất nhân từ và rộng lượng của Đức Chúa Trời đối với nhân loại."
       },
       {
         "ref": "2 Corinthians 12:9",
@@ -223,7 +255,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But he said to me, 'My grace is sufficient for you, for my power is made perfect in weakness.' Therefore I will boast all the more gladly about my weaknesses, so that Christ's power may rest on me.",
         "textVi": "Nhưng Chúa phán rằng: Ân điển ta đủ cho ngươi rồi, vì sức mạnh của ta nên trọn vẹn trong sự yếu đuối. Vậy, tôi sẽ vui lòng khoe mình về sự yếu đuối tôi, hầu cho sức mạnh của Đấng Christ ở trong tôi.",
         "noteEn": "God's grace is sufficient strength in our weakness",
-        "noteVi": "Ân điển của Đức Chúa Trời là sức mạnh đủ cho chúng ta trong sự yếu đuối"
+        "noteVi": "Ân điển của Đức Chúa Trời là sức mạnh đủ cho chúng ta trong sự yếu đuối",
+        "explanationEn": "In this verse, the apostle Paul shares that when he faced personal struggles and felt weak, God reminded him that divine support is enough to carry him through. Grace here acts like an invisible strength that fills the gaps where human ability runs out. The surprising idea is that admitting weakness is not shameful — it is actually the moment when outside help can work most powerfully in a person's life.",
+        "explanationVi": "Trong câu này, sứ đồ Phao-lô chia sẻ rằng khi ông đối mặt với những khó khăn cá nhân và cảm thấy yếu đuối, Đức Chúa Trời nhắc nhở ông rằng sự nâng đỡ thiêng liêng là đủ để giúp ông vượt qua. Ân điển ở đây hoạt động như một sức mạnh vô hình lấp đầy những chỗ mà khả năng con người không còn đủ nữa. Điều thú vị là thừa nhận sự yếu đuối không phải là xấu hổ — đó chính là lúc sự trợ giúp từ bên ngoài có thể hoạt động mạnh mẽ nhất trong cuộc đời một người."
       },
       {
         "ref": "Romans 5:8",
@@ -233,7 +267,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But God demonstrates his own love for us in this: While we were still sinners, Christ died for us.",
         "textVi": "Nhưng Đức Chúa Trời tỏ lòng yêu thương Ngài đối với chúng ta, khi chúng ta còn là người có tội, thì Đấng Christ vì chúng ta chịu chết.",
         "noteEn": "Grace demonstrated: Christ died for sinners unconditionally",
-        "noteVi": "Ân điển được bày tỏ: Đấng Christ chết vì tội nhân cách vô điều kiện"
+        "noteVi": "Ân điển được bày tỏ: Đấng Christ chết vì tội nhân cách vô điều kiện",
+        "explanationEn": "This verse highlights the most striking quality of God's love: it was offered even before people improved themselves or tried to deserve it. Grace is seen here as love that does not wait for conditions to be met — it acts first, freely and unconditionally. The death of Jesus is presented as the ultimate demonstration that this love is real and costly, not just words.",
+        "explanationVi": "Câu này nêu bật điều đặc biệt nhất trong tình yêu của Đức Chúa Trời: tình yêu đó được ban ra ngay cả trước khi con người cố gắng cải thiện bản thân hay xứng đáng với nó. Ân điển ở đây được thể hiện như một tình yêu không đợi điều kiện được đáp ứng — nó chủ động hành động trước, cách tự do và vô điều kiện. Cái chết của Chúa Giê-su được trình bày như bằng chứng rõ ràng nhất rằng tình yêu này là thật và có giá, không chỉ là lời nói."
       },
       {
         "ref": "Hebrews 4:16",
@@ -243,7 +279,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Let us then approach God's throne of grace with confidence, so that we may receive mercy and find grace to help us in our time of need.",
         "textVi": "Vậy, chúng ta hãy vững lòng đến gần ngôi ơn phước, hầu cho được thương xót và tìm được ân điển để giúp đỡ chúng ta trong thì giờ có cần dùng.",
         "noteEn": "We can boldly approach God to receive grace and mercy",
-        "noteVi": "Chúng ta có thể dạn dĩ đến gần Đức Chúa Trời để nhận ân điển và sự thương xót"
+        "noteVi": "Chúng ta có thể dạn dĩ đến gần Đức Chúa Trời để nhận ân điển và sự thương xót",
+        "explanationEn": "This verse invites people to approach God not with fear or shame, but with confidence, because God is portrayed as welcoming and ready to help. The phrase 'throne of grace' means that God's authority and power are paired with generosity, not harsh judgment. It suggests that whenever someone faces difficulty or need, they can turn to God and expect to find compassion and practical support.",
+        "explanationVi": "Câu này mời gọi mọi người đến gần Đức Chúa Trời không phải với sự sợ hãi hay xấu hổ, mà với sự tự tin, vì Đức Chúa Trời được mô tả là người chào đón và sẵn sàng giúp đỡ. Cụm từ 'ngôi ân điển' có nghĩa là quyền năng và uy quyền của Đức Chúa Trời đi kèm với lòng rộng rãi, chứ không phải sự phán xét nghiêm khắc. Điều này gợi ý rằng bất cứ khi nào ai đó gặp khó khăn hay có nhu cầu, họ có thể đến với Đức Chúa Trời và mong nhận được sự thương xót cùng sự hỗ trợ thiết thực."
       }
     ]
   },
@@ -264,7 +302,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Repent, then, and turn to God, so that your sins may be wiped out, that times of refreshing may come from the Lord,",
         "textVi": "Vậy, hãy ăn năn và trở lại, để tội lỗi anh em được xóa sạch, hầu cho thời kỳ tươi mới đến từ trước mặt Chúa,",
         "noteEn": "Repentance brings forgiveness and spiritual refreshing from God.",
-        "noteVi": "Sự ăn năn mang lại sự tha thứ và phục hồi tâm linh từ Đức Chúa Trời."
+        "noteVi": "Sự ăn năn mang lại sự tha thứ và phục hồi tâm linh từ Đức Chúa Trời.",
+        "explanationEn": "This verse invites people to change their mindset and behavior, turning away from harmful actions and toward a better path. The promise is that doing so brings a kind of inner cleansing and emotional renewal — like a fresh start. Repentance here is presented not as punishment, but as an opportunity for relief and restoration.",
+        "explanationVi": "Câu này mời gọi mọi người thay đổi suy nghĩ và hành động, rời bỏ những điều sai trái để bước vào một con đường tốt hơn. Lời hứa ở đây là sự thay đổi đó sẽ mang lại cảm giác được làm sạch từ bên trong và được bắt đầu lại. Sự ăn năn không được xem là hình phạt, mà là cơ hội để được giải thoát và phục hồi."
       },
       {
         "ref": "2 Chronicles 7:14",
@@ -274,7 +314,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "if my people, who are called by my name, will humble themselves and pray and seek my face and turn from their wicked ways, then I will hear from heaven, and I will forgive their sin and will heal their land.",
         "textVi": "nếu dân ta, là dân gọi bằng danh ta, hạ mình xuống, cầu nguyện, tìm kiếm mặt ta, và trở lại, bỏ con đường tà, thì ta ở trên trời sẽ nghe, tha thứ tội chúng, và chữa lành đất chúng.",
         "noteEn": "God's promise of healing follows humble repentance and prayer.",
-        "noteVi": "Lời hứa chữa lành của Đức Chúa Trời đến sau sự ăn năn khiêm nhường và cầu nguyện."
+        "noteVi": "Lời hứa chữa lành của Đức Chúa Trời đến sau sự ăn năn khiêm nhường và cầu nguyện.",
+        "explanationEn": "This verse describes a four-step process for those who have done wrong: be humble, pray, seek a relationship with God, and stop harmful behavior. In return, God promises to listen, forgive, and even bring healing to a broken community or nation. It shows that repentance is both a personal and a collective act with real-world consequences.",
+        "explanationVi": "Câu này mô tả bốn bước dành cho những người đã làm điều sai: hạ mình xuống, cầu nguyện, tìm kiếm mối quan hệ với Đức Chúa Trời, và từ bỏ những hành động xấu. Đổi lại, Đức Chúa Trời hứa sẽ lắng nghe, tha thứ và chữa lành cả một cộng đồng hay dân tộc đang bị tổn thương. Điều này cho thấy sự ăn năn không chỉ là việc cá nhân mà còn có tác động đến cả tập thể."
       },
       {
         "ref": "Luke 15:7",
@@ -284,7 +326,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I tell you that in the same way there will be more rejoicing in heaven over one sinner who repents than over ninety-nine righteous persons who do not need to repent.",
         "textVi": "Ta nói cùng các ngươi, trên thiên đàng cũng vậy, sẽ vui mừng về một kẻ có tội ăn năn hơn là chín mươi chín kẻ công bình không cần phải ăn năn.",
         "noteEn": "Heaven rejoices greatly over every single repentant sinner.",
-        "noteVi": "Thiên đàng vui mừng lớn lao trước mỗi tội nhân ăn năn trở lại."
+        "noteVi": "Thiên đàng vui mừng lớn lao trước mỗi tội nhân ăn năn trở lại.",
+        "explanationEn": "This verse uses a joyful image to explain how deeply meaningful it is when even one person decides to turn their life around. The idea is that genuine change in a single individual matters enormously — more than maintaining the status quo of those already living well. It highlights that repentance is celebrated, not judged.",
+        "explanationVi": "Câu này dùng một hình ảnh vui mừng để diễn tả ý nghĩa sâu sắc của việc chỉ một người quyết định thay đổi cuộc đời mình. Ý tưởng ở đây là sự thay đổi thật sự của một cá nhân có giá trị rất lớn — hơn cả việc duy trì hiện trạng của những người vốn đã sống tốt. Điều này nhấn mạnh rằng sự ăn năn là điều đáng được ăn mừng, không phải bị phán xét."
       },
       {
         "ref": "Isaiah 55:7",
@@ -294,7 +338,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Let the wicked forsake their ways and the unrighteous their thoughts. Let them turn to the Lord, and he will have mercy on them, and to our God, for he will freely pardon.",
         "textVi": "Kẻ hung ác hãy bỏ đường mình, kẻ bất nghĩa hãy bỏ những tư tưởng mình; hãy trở lại cùng Đức Giê-hô-va, thì Ngài sẽ thương xót cho; hãy đến cùng Đức Chúa Trời chúng ta, vì Ngài tha thứ dồi dào.",
         "noteEn": "God freely pardons all who turn from sin to Him.",
-        "noteVi": "Đức Chúa Trời tha thứ dư dật cho mọi người quay về với Ngài."
+        "noteVi": "Đức Chúa Trời tha thứ dư dật cho mọi người quay về với Ngài.",
+        "explanationEn": "This verse encourages people who have made wrong choices to simply stop, change direction, and turn toward God — with the assurance that they will be met with mercy, not condemnation. It removes the fear that past mistakes make someone unworthy of forgiveness. Repentance is portrayed as an open door that anyone can walk through at any time.",
+        "explanationVi": "Câu này khích lệ những người đã đưa ra những lựa chọn sai lầm hãy dừng lại, thay đổi hướng đi và quay về với Đức Chúa Trời — với sự đảm bảo rằng họ sẽ được đón nhận bằng lòng thương xót, không phải sự lên án. Nó xóa bỏ nỗi sợ rằng những lỗi lầm trong quá khứ khiến một người không xứng đáng được tha thứ. Sự ăn năn được miêu tả như một cánh cửa mở mà bất kỳ ai cũng có thể bước vào bất cứ lúc nào."
       },
       {
         "ref": "2 Corinthians 7:10",
@@ -304,7 +350,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Godly sorrow brings repentance that leads to salvation and leaves no regret, but worldly sorrow brings death.",
         "textVi": "Vì sự buồn rầu theo ý Đức Chúa Trời sanh ra sự ăn năn dẫn đến sự cứu rỗi mà chẳng hề hối hận; nhưng sự buồn rầu theo thế gian sanh ra sự chết.",
         "noteEn": "True godly sorrow produces genuine repentance leading to salvation.",
-        "noteVi": "Sự buồn rầu thật sự theo ý Đức Chúa Trời dẫn đến sự ăn năn và cứu rỗi."
+        "noteVi": "Sự buồn rầu thật sự theo ý Đức Chúa Trời dẫn đến sự ăn năn và cứu rỗi.",
+        "explanationEn": "This verse makes an important distinction between two types of regret: one that motivates genuine change (godly sorrow), and one that only leads to despair and destruction (worldly sorrow). True repentance is not just feeling bad about what you did — it is a sorrow that pushes you to actually change and move forward without being trapped by guilt. The verse suggests that the right kind of regret is ultimately life-giving, not life-draining.",
+        "explanationVi": "Câu này phân biệt hai loại hối hận: một loại thúc đẩy sự thay đổi thật sự (nỗi buồn theo ý Đức Chúa Trời), và một loại chỉ dẫn đến tuyệt vọng và hủy hoại (nỗi buồn theo thế gian). Sự ăn năn thật sự không chỉ là cảm thấy tội lỗi về những gì đã làm — mà là nỗi buồn thúc đẩy bạn thực sự thay đổi và tiến về phía trước mà không bị mắc kẹt trong mặc cảm. Câu này gợi ý rằng loại hối hận đúng đắn cuối cùng sẽ mang lại sự sống, không phải làm kiệt sức bạn."
       },
       {
         "ref": "Matthew 4:17",
@@ -314,7 +362,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "From that time on Jesus began to preach, \"Repent, for the kingdom of heaven has come near.\"",
         "textVi": "Từ lúc đó, Đức Chúa Giê-xu bắt đầu giảng dạy rằng: Hãy ăn năn, vì nước thiên đàng đã đến gần.",
         "noteEn": "Repentance is the first message of Jesus' earthly ministry.",
-        "noteVi": "Sự ăn năn là thông điệp đầu tiên trong chức vụ của Chúa Giê-xu."
+        "noteVi": "Sự ăn năn là thông điệp đầu tiên trong chức vụ của Chúa Giê-xu.",
+        "explanationEn": "This verse records one of the first and most central messages Jesus preached: change your ways, because a new and better way of living is now available. The phrase 'kingdom of heaven' refers to a way of life aligned with God's values — love, justice, and peace — that Jesus said was now within reach. Repentance, in this context, is the first step toward entering that kind of life.",
+        "explanationVi": "Câu này ghi lại một trong những thông điệp đầu tiên và quan trọng nhất mà Chúa Giê-su rao giảng: hãy thay đổi lối sống, vì một cách sống mới và tốt hơn đã có sẵn cho mọi người. Cụm từ 'nước thiên đàng' chỉ một lối sống phù hợp với các giá trị của Đức Chúa Trời — tình yêu thương, công lý và sự bình an — mà Chúa Giê-su nói rằng giờ đây đã ở trong tầm tay. Trong bối cảnh này, sự ăn năn là bước đầu tiên để bước vào cuộc sống như vậy."
       }
     ]
   },
@@ -335,7 +385,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit,",
         "textVi": "Vậy, hãy đi làm cho muôn dân trở nên môn đồ Ta, hãy nhân danh Đức Cha, Đức Con, và Đức Thánh Linh mà làm báp-têm cho họ,",
         "noteEn": "The Great Commission commands baptism for all disciples worldwide.",
-        "noteVi": "Đại Mạng Lệnh truyền báp-têm cho môn đồ khắp muôn dân."
+        "noteVi": "Đại Mạng Lệnh truyền báp-têm cho môn đồ khắp muôn dân.",
+        "explanationEn": "Jesus is telling his followers to go out into the world and teach people about his message, and to baptize those who believe — meaning to perform a water ritual as a sign of joining the faith. The three names mentioned (Father, Son, Holy Spirit) represent the three ways Christians understand God. This verse shows that baptism is meant to be a public act of commitment when someone chooses to follow Jesus.",
+        "explanationVi": "Đức Chúa Jêsus đang dặn các môn đồ hãy đi khắp thế giới để dạy dỗ mọi người về thông điệp của Ngài, và làm lễ báp-têm — tức là một nghi thức dùng nước — cho những ai tin theo. Ba danh hiệu được nhắc đến (Cha, Con, và Thánh Linh) là cách người Cơ Đốc hiểu về Đức Chúa Trời. Câu này cho thấy báp-têm là hành động công khai thể hiện sự cam kết khi một người quyết định theo Chúa Jêsus."
       },
       {
         "ref": "Acts 2:38",
@@ -345,7 +397,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Peter replied, 'Repent and be baptized, every one of you, in the name of Jesus Christ for the forgiveness of your sins. And you will receive the gift of the Holy Spirit.'",
         "textVi": "Phi-e-rơ trả lời: 'Hãy ăn năn và mỗi người hãy nhân danh Đức Chúa Giê-xu chịu báp-têm để được tha tội; rồi anh em sẽ nhận được ân tứ là Đức Thánh Linh.'",
         "noteEn": "Baptism is linked to repentance, forgiveness of sins, and the Holy Spirit.",
-        "noteVi": "Báp-têm gắn liền với sự ăn năn, tha tội và ân tứ Đức Thánh Linh."
+        "noteVi": "Báp-têm gắn liền với sự ăn năn, tha tội và ân tứ Đức Thánh Linh.",
+        "explanationEn": "Peter, one of Jesus's close followers, is telling a crowd that if they feel sorry for the wrong things they've done and want to change, they should be baptized as a sign of that change. He promises that by doing so, their past wrongs will be forgiven and they will receive inner guidance from the Holy Spirit — God's presence within a person. This verse links baptism with personal transformation, forgiveness, and a fresh start.",
+        "explanationVi": "Phi-e-rơ, một trong những người theo Chúa Jêsus, đang nói với đám đông rằng nếu họ hối hận về những điều sai trái mình đã làm và muốn thay đổi, họ nên chịu báp-têm như một dấu hiệu của sự thay đổi đó. Ông hứa rằng khi làm vậy, những lỗi lầm trong quá khứ sẽ được tha thứ và họ sẽ nhận được sự dẫn dắt từ Đức Thánh Linh — tức là sự hiện diện của Đức Chúa Trời bên trong con người. Câu này kết nối báp-têm với sự thay đổi nội tâm, sự tha thứ và một khởi đầu mới."
       },
       {
         "ref": "Romans 6:4",
@@ -355,7 +409,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "We were therefore buried with him through baptism into death in order that, just as Christ was raised from the dead through the glory of the Father, we too may live a new life.",
         "textVi": "Vậy chúng ta đã được chôn với Ngài qua phép báp-têm trong sự chết, hầu cho Đấng Christ đã được sống lại từ cõi chết bởi sự vinh hiển của Đức Cha thể nào, thì chúng ta cũng sống trong đời mới thể ấy.",
         "noteEn": "Baptism symbolizes dying and rising to new life with Christ.",
-        "noteVi": "Báp-têm tượng trưng cho sự chết và sống lại trong đời mới với Đấng Christ."
+        "noteVi": "Báp-têm tượng trưng cho sự chết và sống lại trong đời mới với Đấng Christ.",
+        "explanationEn": "Paul, a Christian writer, is using poetic language to say that being baptized is like symbolically dying and being buried alongside Jesus — letting go of your old self — and then rising up to live a completely new kind of life, just as Jesus came back to life after death. The water of baptism represents going down into death and coming back up renewed. This verse presents baptism not just as a ritual, but as a powerful symbol of personal transformation.",
+        "explanationVi": "Phao-lô, một tác giả Cơ Đốc, dùng ngôn ngữ hình ảnh để nói rằng khi chịu báp-têm, người ta tượng trưng như cùng chết và chôn với Chúa Jêsus — tức là từ bỏ con người cũ — rồi trỗi dậy để sống một cuộc đời hoàn toàn mới, giống như Chúa Jêsus sống lại sau khi chết. Nước báp-têm tượng trưng cho việc đi xuống trong sự chết và trở lên với sự đổi mới. Câu này cho thấy báp-têm không chỉ là một nghi lễ, mà còn là biểu tượng mạnh mẽ của sự thay đổi cá nhân."
       },
       {
         "ref": "Mark 1:9",
@@ -365,7 +421,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "At that time Jesus came from Nazareth in Galilee and was baptized by John in the Jordan.",
         "textVi": "Lúc ấy, Đức Chúa Giê-xu từ Na-xa-rét, xứ Ga-li-lê đến, và Giăng làm báp-têm cho Ngài tại sông Giô-đanh.",
         "noteEn": "Jesus himself submitted to baptism, setting the example for all believers.",
-        "noteVi": "Chính Chúa Giê-xu chịu báp-têm, làm gương mẫu cho mọi tín hữu."
+        "noteVi": "Chính Chúa Giê-xu chịu báp-têm, làm gương mẫu cho mọi tín hữu.",
+        "explanationEn": "This verse describes a historical moment when Jesus himself was baptized by a man named John in a river called the Jordan. Even though Jesus is considered sinless in Christian belief, he still went through the baptism ritual, showing that he identified with ordinary people. This moment is significant because it marks the beginning of Jesus's public life and sets an example that his followers would later imitate.",
+        "explanationVi": "Câu này mô tả một thời điểm lịch sử khi chính Đức Chúa Jêsus được một người tên Giăng làm báp-têm dưới sông Giô-đanh. Dù Chúa Jêsus được cho là không có tội trong niềm tin Cơ Đốc, Ngài vẫn trải qua nghi thức báp-têm, cho thấy Ngài đồng hóa mình với những người bình thường. Thời điểm này rất quan trọng vì nó đánh dấu sự bắt đầu cuộc sống công khai của Chúa Jêsus và là tấm gương mà những người theo Ngài sẽ noi theo."
       },
       {
         "ref": "Galatians 3:27",
@@ -375,7 +433,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "for all of you who were baptized into Christ have clothed yourselves with Christ.",
         "textVi": "Vì anh em thảy đều chịu báp-têm trong Đấng Christ, đều mặc lấy Đấng Christ vậy.",
         "noteEn": "Baptism into Christ means putting on Christ as a new identity.",
-        "noteVi": "Báp-têm vào Đấng Christ nghĩa là mặc lấy Ngài như một bản sắc mới."
+        "noteVi": "Báp-têm vào Đấng Christ nghĩa là mặc lấy Ngài như một bản sắc mới.",
+        "explanationEn": "Paul uses the image of putting on clothes to describe what happens spiritually when someone is baptized — it's as if they are 'wearing' Jesus, meaning his values, character, and way of life now wrap around them. This suggests that baptism is more than a one-time event; it's the beginning of a new identity. The verse emphasizes that through baptism, a person is closely united with Jesus and begins to live differently.",
+        "explanationVi": "Phao-lô dùng hình ảnh mặc quần áo để mô tả điều xảy ra về mặt tâm linh khi một người chịu báp-têm — như thể họ đang 'mặc lấy' Chúa Jêsus, nghĩa là các giá trị, tính cách và lối sống của Ngài nay bao phủ lấy họ. Điều này cho thấy báp-têm không chỉ là một sự kiện một lần; đó là sự khởi đầu của một bản sắc mới. Câu này nhấn mạnh rằng qua báp-têm, một người được kết hợp chặt chẽ với Chúa Jêsus và bắt đầu sống khác đi."
       },
       {
         "ref": "1 Peter 3:21",
@@ -385,7 +445,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "and this water symbolizes baptism that now saves you also—not the removal of dirt from the body but the pledge of a clear conscience toward God. It saves you by the resurrection of Jesus Christ,",
         "textVi": "Báp-têm cũng là hình bóng của điều đó, hiện nay cứu anh em—không phải sự tẩy sạch ô uế của thân xác, nhưng cam kết của một lương tâm tốt lành trước mặt Đức Chúa Trời—nhờ sự phục sinh của Đức Chúa Giê-xu Christ,",
         "noteEn": "Baptism represents a pledge of good conscience toward God through Christ's resurrection.",
-        "noteVi": "Báp-têm là cam kết của lương tâm tốt lành trước Đức Chúa Trời qua sự phục sinh của Đấng Christ."
+        "noteVi": "Báp-têm là cam kết của lương tâm tốt lành trước Đức Chúa Trời qua sự phục sinh của Đấng Christ.",
+        "explanationEn": "Peter compares baptism to the story of Noah's ark, where water both destroyed and saved — water washed away the old world while carrying Noah safely through. He clarifies that baptism isn't about physically cleaning the body, but about making a sincere inner commitment to God, and that this commitment is made possible because Jesus rose from the dead. This verse frames baptism as a deeply personal pledge — a promise from the heart — rather than just an outward ceremony.",
+        "explanationVi": "Phi-e-rơ so sánh báp-têm với câu chuyện chiếc tàu của Nô-ê, nơi nước vừa hủy diệt vừa cứu sống — nước xóa bỏ thế giới cũ trong khi đưa Nô-ê qua an toàn. Ông làm rõ rằng báp-têm không phải là việc làm sạch thân thể bên ngoài, mà là sự cam kết chân thành từ bên trong đối với Đức Chúa Trời, và sự cam kết này có thể thực hiện được vì Chúa Jêsus đã sống lại từ cõi chết. Câu này khắc họa báp-têm như một lời hứa sâu sắc từ tận đáy lòng — hơn là chỉ một nghi lễ bên ngoài."
       }
     ]
   },
@@ -406,7 +468,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But the Advocate, the Holy Spirit, whom the Father will send in my name, will teach you all things and will remind you of everything I have said to you.",
         "textVi": "Nhưng Đấng Bảo Hộ, tức là Đức Thánh Linh, mà Cha sẽ nhân danh Ta sai đến, Ngài sẽ dạy dỗ các con mọi điều và nhắc lại cho các con mọi điều Ta đã nói với các con.",
         "noteEn": "Jesus promises the Holy Spirit as Teacher and Comforter for believers",
-        "noteVi": "Chúa Giê-xu hứa Đức Thánh Linh là Thầy dạy và Đấng An Ủi cho tín hữu"
+        "noteVi": "Chúa Giê-xu hứa Đức Thánh Linh là Thầy dạy và Đấng An Ủi cho tín hữu",
+        "explanationEn": "Jesus is telling his followers that after he is gone, God will send a helper called the Holy Spirit — think of it as a divine guide living within people. This Spirit acts like a teacher and a reminder, helping people understand and remember the important lessons Jesus shared during his life.",
+        "explanationVi": "Chúa Giê-su nói với các môn đồ rằng sau khi Ngài ra đi, Đức Chúa Trời sẽ gửi đến một Đấng Phù Giúp gọi là Đức Thánh Linh — hãy hình dung đó như một người hướng dẫn thiêng liêng sống bên trong con người. Đức Thánh Linh đóng vai trò như một người thầy và người nhắc nhở, giúp con người hiểu và ghi nhớ những bài học quan trọng mà Chúa Giê-su đã chia sẻ."
       },
       {
         "ref": "Acts 2:4",
@@ -416,7 +480,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "All of them were filled with the Holy Spirit and began to speak in other tongues as the Spirit enabled them.",
         "textVi": "Tất cả đều được đầy dẫy Đức Thánh Linh và bắt đầu nói các thứ tiếng khác, tùy theo Thánh Linh cho họ nói.",
         "noteEn": "Pentecost marks the outpouring and filling of the Holy Spirit on believers",
-        "noteVi": "Lễ Ngũ Tuần đánh dấu sự đổ tràn Đức Thánh Linh trên các tín hữu"
+        "noteVi": "Lễ Ngũ Tuần đánh dấu sự đổ tràn Đức Thánh Linh trên các tín hữu",
+        "explanationEn": "This verse describes a remarkable moment when a group of Jesus's early followers suddenly received the Holy Spirit and were able to speak in languages they had never learned before. It shows that the Holy Spirit is described as a powerful force that can dramatically change and empower people from the inside out.",
+        "explanationVi": "Câu này mô tả một khoảnh khắc đặc biệt khi những người theo Chúa Giê-su đầu tiên bỗng nhiên nhận được Đức Thánh Linh và có thể nói các thứ tiếng mà họ chưa từng học. Điều này cho thấy Đức Thánh Linh được mô tả như một sức mạnh mạnh mẽ có thể thay đổi và trao năng lực cho con người một cách sâu sắc."
       },
       {
         "ref": "Romans 8:9",
@@ -426,7 +492,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "You, however, are not in the realm of the flesh but are in the realm of the Spirit, if indeed the Spirit of God lives in you. And if anyone does not have the Spirit of Christ, they do not belong to Christ.",
         "textVi": "Nhưng anh em không sống theo xác thịt mà sống theo Thánh Linh, nếu thật sự Thánh Linh của Đức Chúa Trời ngự trong anh em. Còn nếu ai không có Thánh Linh của Đấng Christ thì người ấy không thuộc về Ngài.",
         "noteEn": "The indwelling Spirit is the mark of belonging to Christ",
-        "noteVi": "Đức Thánh Linh ngự trong lòng là dấu hiệu của người thuộc về Đấng Christ"
+        "noteVi": "Đức Thánh Linh ngự trong lòng là dấu hiệu của người thuộc về Đấng Christ",
+        "explanationEn": "Paul is drawing a contrast between living driven purely by selfish, physical desires versus living guided by the Spirit of God — which Christians believe is the Holy Spirit dwelling inside a person. According to this verse, having the Holy Spirit living within you is what defines someone as a follower of Christ, making it a core part of Christian identity.",
+        "explanationVi": "Phao-lô đang so sánh giữa việc sống theo những ham muốn ích kỷ, xác thịt với việc sống được dẫn dắt bởi Thần của Đức Chúa Trời — tức Đức Thánh Linh ngự trong lòng người. Theo câu này, việc có Đức Thánh Linh sống trong bạn chính là điều xác định một người có thuộc về Chúa Giê-su hay không, làm cho điều đó trở thành phần cốt lõi của đức tin Cơ Đốc."
       },
       {
         "ref": "Galatians 5:22-23",
@@ -436,7 +504,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control. Against such things there is no law.",
         "textVi": "Nhưng trái của Thánh Linh là: tình yêu thương, vui mừng, bình an, nhịn nhục, nhân từ, hiền lành, trung tín, mềm mại, tiết độ. Không có luật pháp nào chống lại những điều đó.",
         "noteEn": "The Spirit produces godly character and fruit in the life of believers",
-        "noteVi": "Đức Thánh Linh sinh ra tính cách thánh khiết và hoa trái trong đời sống tín hữu"
+        "noteVi": "Đức Thánh Linh sinh ra tính cách thánh khiết và hoa trái trong đời sống tín hữu",
+        "explanationEn": "This passage lists nine positive qualities — like love, joy, patience, and kindness — that Christians believe naturally develop in a person's character when the Holy Spirit is active in their life. The idea is that the Holy Spirit works like a gardener tending a tree, and these good qualities are the fruit that grows as a result.",
+        "explanationVi": "Đoạn này liệt kê chín phẩm chất tốt đẹp — như tình yêu thương, niềm vui, sự nhẫn nhịn và lòng tốt — mà Cơ Đốc nhân tin rằng sẽ tự nhiên hình thành trong tính cách của một người khi Đức Thánh Linh đang hoạt động trong cuộc sống họ. Ý tưởng ở đây là Đức Thánh Linh hoạt động như một người làm vườn chăm sóc cây, và những phẩm chất tốt đẹp này chính là trái cây mọc ra từ đó."
       },
       {
         "ref": "1 Corinthians 6:19",
@@ -446,7 +516,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do you not know that your bodies are temples of the Holy Spirit, who is in you, whom you have received from God? You are not your own.",
         "textVi": "Anh em không biết rằng thân thể anh em là đền thờ của Đức Thánh Linh đang ngự trong anh em, mà anh em đã nhận từ Đức Chúa Trời, và anh em không thuộc về chính mình sao?",
         "noteEn": "Believers' bodies are sacred temples where the Holy Spirit dwells",
-        "noteVi": "Thân thể tín hữu là đền thờ thánh nơi Đức Thánh Linh ngự trị"
+        "noteVi": "Thân thể tín hữu là đền thờ thánh nơi Đức Thánh Linh ngự trị",
+        "explanationEn": "Paul is telling people that their physical bodies are not just ordinary containers, but are considered sacred dwelling places — like a temple — for the Holy Spirit. This means Christians believe the Holy Spirit actually lives inside each person who follows Christ, which gives their body a deep spiritual significance and calls them to treat it with respect.",
+        "explanationVi": "Phao-lô nói với mọi người rằng thân thể của họ không chỉ là những cái vỏ bình thường, mà được xem là nơi ở thiêng liêng — như một ngôi đền — của Đức Thánh Linh. Điều này có nghĩa là Cơ Đốc nhân tin rằng Đức Thánh Linh thực sự ngự trong mỗi người theo Chúa Giê-su, điều đó mang lại ý nghĩa tâm linh sâu sắc cho thân thể và kêu gọi họ trân trọng nó."
       },
       {
         "ref": "John 16:13",
@@ -456,7 +528,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But when he, the Spirit of truth, comes, he will guide you into all the truth. He will not speak on his own; he will speak only what he hears, and he will tell you what is yet to come.",
         "textVi": "Nhưng khi Ngài đến, tức là Thần Chân Lý, Ngài sẽ dẫn các con vào mọi lẽ thật. Ngài không nói theo ý riêng mình, nhưng nói những gì Ngài nghe, và báo cho các con biết những việc sẽ đến.",
         "noteEn": "The Spirit of truth guides believers into all divine truth and revelation",
-        "noteVi": "Thần Chân Lý dẫn dắt tín hữu vào mọi lẽ thật và sự mặc khải thiêng liêng"
+        "noteVi": "Thần Chân Lý dẫn dắt tín hữu vào mọi lẽ thật và sự mặc khải thiêng liêng",
+        "explanationEn": "Jesus describes the Holy Spirit as the 'Spirit of truth' — a guide that will lead people toward a full understanding of what is real and true, rather than speaking its own agenda. This verse presents the Holy Spirit as a trustworthy inner compass that points people toward truth and even offers insight about things that haven't happened yet.",
+        "explanationVi": "Chúa Giê-su mô tả Đức Thánh Linh là 'Thần của sự thật' — một người hướng dẫn sẽ dẫn dắt con người đến sự hiểu biết trọn vẹn về những gì là thật, thay vì nói theo ý kiến riêng của mình. Câu này giới thiệu Đức Thánh Linh như một la bàn nội tâm đáng tin cậy, chỉ cho con người biết sự thật và thậm chí mang lại sự hiểu biết về những điều chưa xảy ra."
       }
     ]
   },
@@ -477,7 +551,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
         "textVi": "Chớ lo phiền chi hết, nhưng trong mọi sự hãy dùng lời cầu nguyện, nài xin, và sự tạ ơn mà trình các sự cầu xin của mình cho Đức Chúa Trời. Sự bình an của Đức Chúa Trời vượt quá mọi sự hiểu biết, sẽ giữ gìn lòng và ý tưởng của anh em trong Đức Chúa Jêsus Christ.",
         "noteEn": "Replaces anxiety with prayer and God's surpassing peace",
-        "noteVi": "Thay thế lo lắng bằng cầu nguyện và sự bình an của Đức Chúa Trời"
+        "noteVi": "Thay thế lo lắng bằng cầu nguyện và sự bình an của Đức Chúa Trời",
+        "explanationEn": "This verse encourages people to bring their worries to God through prayer — which simply means talking honestly to God about what is troubling you — rather than carrying anxiety alone. It promises that doing so can bring a deep, calming peace that goes beyond what logic or willpower can achieve. Think of it as handing your heavy burdens to someone more capable of handling them, and feeling lighter as a result.",
+        "explanationVi": "Câu này khuyên con người hãy mang những lo lắng của mình đến với Đức Chúa Trời qua lời cầu nguyện — tức là nói thật lòng với Ngài về những điều đang làm bạn bất an — thay vì tự mình gánh chịu một mình. Lời hứa ở đây là bạn sẽ nhận được một sự bình an sâu sắc, vượt qua cả sức hiểu của lý trí. Hãy hình dung như việc trao gánh nặng cho ai đó đủ sức gánh thay bạn, và bạn cảm thấy nhẹ nhõm hơn."
       },
       {
         "ref": "Matthew 6:25-26",
@@ -487,7 +563,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Therefore I tell you, do not worry about your life, what you will eat or drink; or about your body, what you will wear. Is not life more than food, and the body more than clothes? Look at the birds of the air; they do not sow or reap or store away in barns, and yet your heavenly Father feeds them. Are you not much more valuable than they?",
         "textVi": "Vậy ta bảo các ngươi: Đừng lo lắng cho mạng sống mình về sự ăn uống, cũng đừng lo lắng cho thân thể mình về sự mặc. Mạng sống há chẳng quý trọng hơn đồ ăn, thân thể há chẳng quý trọng hơn quần áo sao? Hãy xem loài chim trời: chẳng có gieo, gặt, cũng chẳng có thâu trữ vào kho tàng, mà Cha các ngươi trên trời nuôi chúng nó. Các ngươi há chẳng phải là quý trọng hơn loài chim sao?",
         "noteEn": "Jesus commands trust in the Father's care over worry",
-        "noteVi": "Chúa Giê-xu dạy tin cậy Cha thay vì lo lắng"
+        "noteVi": "Chúa Giê-xu dạy tin cậy Cha thay vì lo lắng",
+        "explanationEn": "Jesus is pointing out that constant worry about basic needs like food and clothing often doesn't change the outcome, and that life holds deeper meaning than these concerns. He uses birds as an example — they don't plan ahead yet still find what they need — to suggest that nature is cared for, and people are considered even more valuable. The underlying message is that excessive anxiety may cause us to miss the bigger picture of what truly matters in life.",
+        "explanationVi": "Chúa Giêsu chỉ ra rằng việc lo lắng mãi về những nhu cầu cơ bản như ăn uống hay quần áo thường không thay đổi được kết quả, và cuộc sống có ý nghĩa sâu sắc hơn những điều đó. Ngài dùng hình ảnh chim trời — chúng không gieo trồng hay cất trữ mà vẫn được nuôi sống — để gợi ý rằng nếu thiên nhiên còn được chăm lo, thì con người càng được coi trọng hơn. Thông điệp cốt lõi là sự lo âu thái quá có thể khiến chúng ta bỏ lỡ những điều thực sự quan trọng trong cuộc sống."
       },
       {
         "ref": "1 Peter 5:7",
@@ -497,7 +575,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Cast all your anxiety on him because he cares for you.",
         "textVi": "lại hãy trao mọi điều lo lắng mình cho Ngài, vì Ngài hay săn sóc anh em.",
         "noteEn": "God personally cares and invites us to release our burdens",
-        "noteVi": "Đức Chúa Trời quan tâm và mời chúng ta trao gánh nặng cho Ngài"
+        "noteVi": "Đức Chúa Trời quan tâm và mời chúng ta trao gánh nặng cho Ngài",
+        "explanationEn": "This short but powerful verse invites people to release their anxieties rather than holding them inside, because God genuinely cares about what happens to them. The idea of 'casting' your anxiety is like throwing off a heavy backpack — you don't have to carry the weight by yourself. It reassures people that they are not alone in their struggles and that someone greater is willing to share that burden.",
+        "explanationVi": "Câu ngắn nhưng mạnh mẽ này mời gọi con người buông bỏ những lo âu thay vì ôm giữ chúng bên trong, vì Đức Chúa Trời thực sự quan tâm đến cuộc sống của họ. Hình ảnh 'trao gánh nặng' giống như việc cởi chiếc ba lô nặng trịch ra khỏi vai — bạn không cần phải tự mang một mình. Câu này nhắc nhở rằng bạn không cô đơn trong khó khăn, và có Đấng quyền năng hơn sẵn sàng gánh cùng bạn."
       },
       {
         "ref": "Psalm 55:22",
@@ -507,7 +587,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Cast your cares on the Lord and he will sustain you; he will never let the righteous be shaken.",
         "textVi": "Hãy trao gánh nặng ngươi cho Đức Giê-hô-va, Ngài sẽ nâng đỡ ngươi; Ngài sẽ chẳng hề cho người công bình bị rúng động.",
         "noteEn": "God promises to sustain those who surrender their burdens to Him",
-        "noteVi": "Đức Chúa Trời hứa nâng đỡ ai trao gánh nặng cho Ngài"
+        "noteVi": "Đức Chúa Trời hứa nâng đỡ ai trao gánh nặng cho Ngài",
+        "explanationEn": "This verse from the book of Psalms — a collection of ancient poems and songs — encourages people to give their troubles over to God, with a promise that He will provide the strength to keep going. The word 'righteous' here refers to those who try to live with honesty and integrity. It offers comfort that even when life feels unstable, there is a source of support that will not let you completely fall apart.",
+        "explanationVi": "Câu này từ sách Thi Thiên — một tập hợp các bài thơ và bài ca cổ xưa — khuyến khích con người trao những lo âu cho Đức Chúa Trời, với lời hứa rằng Ngài sẽ ban sức mạnh để tiếp tục bước đi. Từ 'người công chính' ở đây chỉ những ai cố gắng sống ngay thẳng và thành thật. Câu này mang lại sự an ủi rằng dù cuộc sống có bấp bênh, vẫn có một chỗ nương tựa sẽ không để bạn hoàn toàn sụp đổ."
       },
       {
         "ref": "Isaiah 41:10",
@@ -517,7 +599,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.",
         "textVi": "Đừng sợ, vì ta ở với ngươi; đừng kinh khiếp, vì ta là Đức Chúa Trời ngươi! Ta sẽ bổ sức cho ngươi; phải, ta sẽ giúp đỡ ngươi, phải, ta sẽ lấy tay hữu công bình ta mà nâng đỡ ngươi.",
         "noteEn": "God's presence and strength overcomes fear and anxiety",
-        "noteVi": "Sự hiện diện và sức mạnh của Đức Chúa Trời chiến thắng sự lo sợ"
+        "noteVi": "Sự hiện diện và sức mạnh của Đức Chúa Trời chiến thắng sự lo sợ",
+        "explanationEn": "God is speaking directly here, offering reassurance to someone who is fearful or overwhelmed by promising to be present with them and to give them strength. The phrase 'uphold you with my righteous right hand' is a vivid image of being steadied and supported, like a strong hand keeping you from falling. For anyone feeling anxious and alone, this verse conveys the message that you have a powerful source of help standing beside you.",
+        "explanationVi": "Đức Chúa Trời đang nói trực tiếp ở đây, trấn an người đang sợ hãi hay kiệt sức bằng lời hứa rằng Ngài luôn hiện diện và sẽ ban thêm sức mạnh cho họ. Hình ảnh 'nâng đỡ bằng tay hữu công chính' gợi lên cảm giác được một bàn tay vững chắc giữ cho bạn khỏi ngã. Với ai đang lo lắng và cảm thấy cô đơn, câu này truyền đạt thông điệp rằng bạn có một nguồn trợ giúp quyền năng đứng bên cạnh mình."
       },
       {
         "ref": "John 14:27",
@@ -527,7 +611,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Peace I leave with you; my peace I give you. I do not give to you as the world gives. Do not let your hearts be troubled and do not be afraid.",
         "textVi": "Ta để sự bình an lại cho các ngươi; ta ban sự bình an ta cho các ngươi; ta cho các ngươi sự bình an chẳng phải như thế gian cho. Lòng các ngươi chớ bối rối và đừng sợ hãi.",
         "noteEn": "Jesus offers His own peace as the cure for a troubled heart",
-        "noteVi": "Chúa Giê-xu ban sự bình an của Ngài để chữa lành tấm lòng lo sợ"
+        "noteVi": "Chúa Giê-xu ban sự bình an của Ngài để chữa lành tấm lòng lo sợ",
+        "explanationEn": "Jesus is offering a kind of peace that is different from what money, success, or other people can provide — it is a deeper, lasting inner calm even in the middle of difficult circumstances. He tells his followers not to let fear and anxiety take over their hearts, because this peace is a gift available to them. It is a reminder that true inner peace doesn't always depend on external conditions being perfect.",
+        "explanationVi": "Chúa Giêsu đang ban tặng một loại bình an khác với những gì tiền bạc, thành công hay người khác có thể mang lại — đó là sự bình yên nội tâm sâu sắc và bền vững ngay cả giữa hoàn cảnh khó khăn. Ngài bảo những người theo Ngài đừng để nỗi sợ hãi và lo âu lấn át tâm hồn, vì sự bình an này là món quà dành sẵn cho họ. Đây là lời nhắc rằng bình an thực sự bên trong không phụ thuộc vào việc mọi thứ bên ngoài phải hoàn hảo."
       }
     ]
   },
@@ -548,7 +634,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me.",
         "textVi": "Dù tôi đi trong trũng bóng chết, Tôi sẽ chẳng sợ tai họa nào; Vì Chúa ở cùng tôi; Cây trượng và cây gậy của Chúa an ủi tôi.",
         "noteEn": "God's presence removes fear even in life's darkest moments.",
-        "noteVi": "Sự hiện diện của Đức Chúa Trời xua tan sợ hãi trong lúc tối tăm nhất."
+        "noteVi": "Sự hiện diện của Đức Chúa Trời xua tan sợ hãi trong lúc tối tăm nhất.",
+        "explanationEn": "This verse uses the image of walking through a dangerous, dark valley to represent the scary or difficult moments in life. The writer says that even in those frightening situations, he feels no fear because he senses a protective presence beside him — like having a trusted guide who keeps him safe. It connects to fear by showing that companionship and support can remove the power that fear has over us.",
+        "explanationVi": "Câu này dùng hình ảnh đi qua một thung lũng tối tăm, nguy hiểm để nói về những lúc khó khăn hoặc đáng sợ nhất trong cuộc sống. Tác giả nói rằng dù trong hoàn cảnh đó, ông không sợ hãi vì cảm nhận có một sự hiện diện bảo vệ bên cạnh — giống như có một người dẫn đường đáng tin cậy luôn che chở mình. Câu này liên quan đến chủ đề sợ hãi bằng cách cho thấy rằng khi có sự đồng hành và nâng đỡ, nỗi sợ sẽ mất đi sức mạnh của nó."
       },
       {
         "ref": "Isaiah 41:10",
@@ -558,7 +646,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.",
         "textVi": "Đừng sợ, vì ta ở với ngươi; đừng kinh hãi, vì ta là Đức Chúa Trời ngươi! Ta sẽ bổ sức cho ngươi; phải, ta sẽ giúp đỡ ngươi, và lấy tay hữu công bình ta mà nâng đỡ ngươi.",
         "noteEn": "God's command not to fear is backed by His promise to strengthen us.",
-        "noteVi": "Mệnh lệnh đừng sợ của Đức Chúa Trời được bảo đảm bằng lời hứa ban sức mạnh."
+        "noteVi": "Mệnh lệnh đừng sợ của Đức Chúa Trời được bảo đảm bằng lời hứa ban sức mạnh.",
+        "explanationEn": "This is a direct, reassuring message telling people not to be afraid or discouraged, because they are not facing life's challenges alone. It promises that a higher power — referred to here as God — will provide strength, help, and steady support when things feel overwhelming. It addresses fear by offering the antidote of divine presence and practical assistance.",
+        "explanationVi": "Đây là một lời nhắn nhủ trực tiếp và đầy an ủi, nói với con người rằng đừng sợ hãi hay nản lòng, vì họ không phải đối mặt với những thử thách trong cuộc sống một mình. Câu này hứa rằng một quyền năng cao hơn — được gọi là Đức Chúa Trời — sẽ ban sức mạnh, giúp đỡ và nâng đỡ vững chắc khi mọi thứ cảm thấy quá sức chịu đựng. Câu này đề cập đến sự sợ hãi bằng cách đưa ra giải pháp là sự hiện diện và hỗ trợ thiết thực."
       },
       {
         "ref": "Proverbs 9:10",
@@ -568,7 +658,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The fear of the Lord is the beginning of wisdom, and knowledge of the Holy One is understanding.",
         "textVi": "Sự kính sợ Đức Giê-hô-va là khởi đầu của sự khôn ngoan, Còn sự nhận biết Đấng Thánh là sự hiểu biết.",
         "noteEn": "Reverent fear of God is the foundation of all true wisdom.",
-        "noteVi": "Sự kính sợ Đức Chúa Trời là nền tảng của mọi sự khôn ngoan thật."
+        "noteVi": "Sự kính sợ Đức Chúa Trời là nền tảng của mọi sự khôn ngoan thật.",
+        "explanationEn": "This verse introduces a specific kind of 'fear' — not the fear of danger, but a deep sense of respect and awe toward God, similar to how we might deeply respect a wise mentor. It says that this respectful attitude is actually the starting point of true wisdom and understanding. Here, 'fear' is not about being scared, but about recognizing something far greater than ourselves and approaching it with humility.",
+        "explanationVi": "Câu này đề cập đến một loại 'sợ hãi' đặc biệt — không phải sợ nguy hiểm, mà là sự kính sợ và tôn trọng sâu sắc đối với Đức Chúa Trời, giống như cách chúng ta kính trọng một người thầy khôn ngoan. Câu này nói rằng thái độ kính sợ đó chính là điểm khởi đầu của sự khôn ngoan thật sự. Ở đây, 'sợ hãi' không có nghĩa là hoảng loạn, mà là nhận ra điều gì đó vĩ đại hơn bản thân mình và đến gần với sự khiêm nhường."
       },
       {
         "ref": "2 Timothy 1:7",
@@ -578,7 +670,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For the Spirit God gave us does not make us timid, but gives us power, love and self-discipline.",
         "textVi": "Vì Đức Chúa Trời chẳng ban cho chúng ta tâm thần nhút nhát, bèn là tâm thần mạnh mẽ, yêu thương và dè giữ.",
         "noteEn": "The Holy Spirit empowers believers to overcome timidity and fear.",
-        "noteVi": "Đức Thánh Linh ban năng lực giúp người tin vượt qua sự nhút nhát và sợ hãi."
+        "noteVi": "Đức Thánh Linh ban năng lực giúp người tin vượt qua sự nhút nhát và sợ hãi.",
+        "explanationEn": "This verse says that the inner strength given by God does not produce timidity or fear, but instead brings power, love, and the ability to think clearly and act wisely. It is a reminder that fear and a spirit of cowardice do not have to be permanent states — people can be empowered to live boldly. It directly challenges the idea that feeling fearful is something we must simply accept.",
+        "explanationVi": "Câu này nói rằng sức mạnh nội tâm đến từ Đức Chúa Trời không tạo ra sự nhút nhát hay sợ hãi, mà thay vào đó mang lại năng lực, tình yêu thương và khả năng suy nghĩ rõ ràng, hành động khôn ngoan. Đây là lời nhắc nhở rằng sự sợ hãi và tính rụt rè không cần phải là trạng thái mãi mãi — con người có thể được trao sức mạnh để sống dạn dĩ hơn. Câu này trực tiếp thách thức quan niệm rằng cảm giác sợ hãi là điều chúng ta phải chấp nhận mà không thể thay đổi."
       },
       {
         "ref": "1 John 4:18",
@@ -588,7 +682,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "There is no fear in love. But perfect love drives out fear, because fear has to do with punishment. The one who fears is not made perfect in love.",
         "textVi": "Trong tình yêu thương không có sự sợ hãi; nhưng tình yêu thương trọn vẹn thì loại trừ sự sợ hãi; vì sợ hãi có hình phạt, và kẻ còn sợ hãi thì chưa được trọn vẹn trong tình yêu thương.",
         "noteEn": "God's perfect love completely casts out all fearful anxiety.",
-        "noteVi": "Tình yêu trọn vẹn của Đức Chúa Trời xua đuổi hoàn toàn mọi nỗi sợ hãi."
+        "noteVi": "Tình yêu trọn vẹn của Đức Chúa Trời xua đuổi hoàn toàn mọi nỗi sợ hãi.",
+        "explanationEn": "This verse explains that genuine, complete love and fear cannot fully coexist — when love is truly perfected, fear disappears. It specifically connects fear to the anxiety of being punished or rejected, suggesting that fear often comes from a lack of security in a relationship. The deeper idea is that feeling truly and unconditionally loved removes the root cause of fear.",
+        "explanationVi": "Câu này giải thích rằng tình yêu thương chân thật và hoàn hảo không thể cùng tồn tại với sự sợ hãi — khi tình yêu đạt đến mức trọn vẹn, nỗi sợ sẽ tan biến. Câu này kết nối sự sợ hãi với lo âu bị trừng phạt hoặc bị từ chối, cho thấy rằng nỗi sợ thường xuất phát từ việc thiếu cảm giác an toàn trong một mối quan hệ. Ý nghĩa sâu xa hơn là khi cảm thấy được yêu thương thật sự và vô điều kiện, nguyên nhân gốc rễ của sự sợ hãi sẽ bị loại bỏ."
       },
       {
         "ref": "Philippians 4:6-7",
@@ -598,7 +694,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
         "textVi": "Chớ lo phiền chi hết, nhưng trong mọi sự hãy dùng lời cầu nguyện, nài xin, và sự tạ ơn mà trình các sự cầu xin của mình cho Đức Chúa Trời. Sự bình an của Đức Chúa Trời vượt quá mọi sự hiểu biết, sẽ gìn giữ lòng và ý tưởng anh em trong Đức Chúa Jêsus Christ.",
         "noteEn": "Prayer transforms fear and anxiety into God's surpassing peace.",
-        "noteVi": "Cầu nguyện biến đổi sự sợ hãi lo lắng thành sự bình an vượt trội của Đức Chúa Trời."
+        "noteVi": "Cầu nguyện biến đổi sự sợ hãi lo lắng thành sự bình an vượt trội của Đức Chúa Trời.",
+        "explanationEn": "This passage encourages people not to be overwhelmed by worry or anxiety, but instead to bring their concerns to God through prayer — a personal conversation expressing both requests and gratitude. In return, it promises a deep, unexplainable sense of peace that will protect one's mind and heart from being consumed by fear. It is essentially a practical strategy for managing anxiety: shift your focus from worry to communication and trust.",
+        "explanationVi": "Đoạn này khuyến khích mọi người đừng để lo lắng hay sợ hãi nhấn chìm mình, mà thay vào đó hãy mang những âu lo đến với Đức Chúa Trời qua lời cầu nguyện — một cuộc trò chuyện cá nhân bày tỏ cả những điều mong muốn lẫn lòng biết ơn. Đổi lại, câu này hứa về một sự bình an sâu sắc, không thể giải thích được, sẽ bảo vệ tâm trí và trái tim khỏi bị nỗi sợ hãi nuốt chửng. Về cơ bản đây là một chiến lược thực tế để đối phó với lo âu: hãy chuyển sự tập trung từ nỗi lo sang sự giao tiếp và tin tưởng."
       }
     ]
   },
@@ -619,7 +717,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The Lord is close to the brokenhearted and saves those who are crushed in spirit.",
         "textVi": "Đức Giê-hô-va ở gần những người có lòng tan vỡ, Và cứu những ai có tâm thần thống hối.",
         "noteEn": "God draws near to those whose hearts are broken by grief.",
-        "noteVi": "Đức Chúa Trời đến gần những ai có lòng tan vỡ vì đau buồn."
+        "noteVi": "Đức Chúa Trời đến gần những ai có lòng tan vỡ vì đau buồn.",
+        "explanationEn": "This verse says that when you are deeply heartbroken or emotionally devastated, you are not alone — God is described as being especially near to people in that painful state. It's a reassurance that grief doesn't push you away from divine care, but actually draws it closer. Think of it as saying: the more broken you feel, the more support is available to you.",
+        "explanationVi": "Câu này nói rằng khi bạn đang đau khổ tột cùng hoặc tinh thần suy sụp, bạn không hề cô đơn — Thiên Chúa được mô tả là đặc biệt gần gũi với những người đang trong trạng thái đau đớn đó. Đây là lời trấn an rằng nỗi đau không khiến bạn bị bỏ rơi, mà ngược lại còn kéo sự che chở đến gần hơn. Hãy hiểu đơn giản rằng: bạn càng tan vỡ, sự nâng đỡ càng sẵn sàng dành cho bạn."
       },
       {
         "ref": "John 11:35",
@@ -629,7 +729,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Jesus wept.",
         "textVi": "Đức Chúa Jêsus khóc.",
         "noteEn": "Jesus himself grieved, showing God understands human sorrow deeply.",
-        "noteVi": "Chúa Giê-xu đau buồn, cho thấy Ngài hiểu nỗi sầu khổ của con người."
+        "noteVi": "Chúa Giê-xu đau buồn, cho thấy Ngài hiểu nỗi sầu khổ của con người.",
+        "explanationEn": "This is the shortest verse in the Bible, and it describes Jesus — a central figure in Christianity — crying at the grave of his close friend Lazarus. It shows that even someone considered holy and powerful experienced genuine human grief and was not ashamed to cry. This verse tells us that sadness and tears are a natural, dignified part of being human.",
+        "explanationVi": "Đây là câu ngắn nhất trong Kinh Thánh, mô tả cảnh Chúa Giêsu — nhân vật trung tâm của Kitô giáo — khóc bên mộ người bạn thân Lazarô. Câu này cho thấy ngay cả một người được xem là thánh thiện và quyền năng cũng trải qua nỗi đau thật sự và không ngại để lộ nước mắt. Điều này nhắc nhở chúng ta rằng buồn bã và khóc lóc là phần tự nhiên, xứng đáng của kiếp người."
       },
       {
         "ref": "Matthew 5:4",
@@ -639,7 +741,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Blessed are those who mourn, for they will be comforted.",
         "textVi": "Phước cho những kẻ than thở, vì sẽ được yên ủi!",
         "noteEn": "Jesus promises divine comfort to all who mourn and grieve.",
-        "noteVi": "Chúa Giê-xu hứa sự an ủi thiên thượng cho những ai đau buồn."
+        "noteVi": "Chúa Giê-xu hứa sự an ủi thiên thượng cho những ai đau buồn.",
+        "explanationEn": "The word 'blessed' here means something like 'fortunate' or 'in a good place deep down,' and 'mourn' simply means to grieve a loss. This verse suggests that people who allow themselves to fully feel their grief will eventually find comfort, rather than those who suppress or ignore it. It's an encouragement that going through sorrow honestly is a path toward healing.",
+        "explanationVi": "Từ 'phước' ở đây mang nghĩa gần giống 'may mắn' hoặc 'được ơn lành sâu thẳm', còn 'than khóc' đơn giản là đau buồn vì mất mát. Câu này gợi ý rằng những ai cho phép bản thân cảm nhận nỗi đau trọn vẹn rồi sẽ tìm thấy sự an ủi, thay vì cố kìm nén hay lờ đi. Đây là lời khích lệ rằng đối mặt thật thà với nỗi buồn chính là con đường dẫn đến sự chữa lành."
       },
       {
         "ref": "Psalm 23:4",
@@ -649,7 +753,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me.",
         "textVi": "Dầu khi tôi đi trong trũng bóng chết, Tôi sẽ chẳng sợ tai họa nào; Vì Chúa ở cùng tôi; Cây trượng và cây gậy của Chúa an ủi tôi.",
         "noteEn": "God's presence brings courage and comfort through the deepest grief.",
-        "noteVi": "Sự hiện diện của Đức Chúa Trời mang lại can đảm giữa nỗi đau buồn sâu nhất."
+        "noteVi": "Sự hiện diện của Đức Chúa Trời mang lại can đảm giữa nỗi đau buồn sâu nhất.",
+        "explanationEn": "The 'darkest valley' is a poetic image for life's most frightening and painful moments — including grief, loss, or despair. The speaker says that even in those moments, they feel accompanied and guided, like a shepherd caring for vulnerable sheep with a rod and staff as tools of protection. It's a way of saying that fear and grief don't have to be faced entirely alone.",
+        "explanationVi": "Hình ảnh 'thung lũng tối tăm nhất' là ẩn dụ thơ ca cho những khoảnh khắc đáng sợ và đau đớn nhất của cuộc đời — kể cả đau buồn, mất mát hay tuyệt vọng. Người nói khẳng định rằng dù trong những lúc đó, họ vẫn cảm thấy có người đồng hành và dẫn dắt, như người chăn chiên chăm sóc đàn chiên yếu đuối bằng gậy và trượng bảo vệ. Đây là cách nói rằng nỗi sợ hãi và đau buồn không nhất thiết phải đối mặt hoàn toàn một mình."
       },
       {
         "ref": "Revelation 21:4",
@@ -659,7 +765,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away.",
         "textVi": "Ngài sẽ lau ráo hết nước mắt khỏi mắt họ. Sẽ không còn sự chết, cũng không còn tang chế, kêu la, hay đau đớn nữa; vì những sự thứ nhất đã qua rồi.",
         "noteEn": "God promises a future where all grief and mourning will end forever.",
-        "noteVi": "Đức Chúa Trời hứa một tương lai không còn đau buồn hay than khóc."
+        "noteVi": "Đức Chúa Trời hứa một tương lai không còn đau buồn hay than khóc.",
+        "explanationEn": "This verse comes from a vision of the future described at the end of the Bible, where all suffering — including grief, death, and pain — is promised to end permanently. The image of God personally wiping away tears is a deeply tender one, suggesting that every sorrow will one day be acknowledged and healed. For someone grieving, it offers a hope that loss and pain are not the final word.",
+        "explanationVi": "Câu này đến từ một khải tượng về tương lai được mô tả ở cuối Kinh Thánh, nơi mọi đau khổ — kể cả đau buồn, cái chết và đớn đau — được hứa hẹn sẽ chấm dứt vĩnh viễn. Hình ảnh Thiên Chúa đích thân lau khô từng giọt nước mắt mang sự trìu mến sâu sắc, gợi lên rằng mọi nỗi đau rồi sẽ được nhìn nhận và chữa lành. Với người đang đau buồn, câu này mang đến hy vọng rằng mất mát và đớn đau không phải là hồi kết."
       },
       {
         "ref": "Romans 8:26",
@@ -669,7 +777,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "In the same way, the Spirit helps us in our weakness. We do not know what we ought to pray for, but the Spirit himself intercedes for us through wordless groans.",
         "textVi": "Cũng một lẽ ấy, Đức Thánh Linh giúp đỡ sự yếu đuối chúng ta. Vì chúng ta chẳng biết sự mình phải xin đặng cầu nguyện cho xứng đáng; nhưng chính Đức Thánh Linh lấy sự thở than không thể nói được mà cầu khẩn thay cho chúng ta.",
         "noteEn": "The Holy Spirit intercedes for us when grief leaves us without words.",
-        "noteVi": "Đức Thánh Linh cầu thay khi nỗi đau buồn khiến chúng ta không nói được."
+        "noteVi": "Đức Thánh Linh cầu thay khi nỗi đau buồn khiến chúng ta không nói được.",
+        "explanationEn": "This verse acknowledges that when we are deep in grief or weakness, we sometimes don't even have the words to express what we feel or ask for. The 'Spirit' in Christian belief refers to a divine presence that steps in during those silent, wordless moments and carries our pain on our behalf. It's a comforting idea that even when grief leaves you speechless, something greater still understands and advocates for you.",
+        "explanationVi": "Câu này thừa nhận rằng khi chìm sâu trong đau buồn hay kiệt sức, đôi khi chúng ta không tìm được lời nào để diễn đạt cảm xúc hay cầu xin điều gì. 'Thánh Linh' trong niềm tin Kitô giáo là sự hiện diện thần thánh bước vào chính những khoảnh khắc câm lặng, không lời đó và gánh thay nỗi đau của chúng ta. Đây là ý tưởng an ủi rằng dù đau buồn khiến bạn không thốt nên lời, vẫn có điều gì đó lớn lao hơn thấu hiểu và bênh vực cho bạn."
       }
     ]
   },
@@ -690,7 +800,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Nehemiah said, \"Go and enjoy choice food and sweet drinks, and send some to those who have nothing prepared. This day is holy to our Lord. Do not grieve, for the joy of the LORD is your strength.\"",
         "textVi": "Nê-hê-mi nói: \"Hãy đi ăn những thức ăn ngon, uống những thức uống ngọt và gửi phần cho những người không có gì sửa soạn, vì ngày nầy là ngày thánh cho Chúa chúng ta. Đừng buồn rầu, vì sự vui vẻ của Đức Giê-hô-va là sức lực của anh em.\"",
         "noteEn": "God's joy provides supernatural strength for His people",
-        "noteVi": "Niềm vui của Đức Chúa Trời là nguồn sức mạnh siêu nhiên cho dân Ngài"
+        "noteVi": "Niềm vui của Đức Chúa Trời là nguồn sức mạnh siêu nhiên cho dân Ngài",
+        "explanationEn": "Nehemiah encouraged people to celebrate with good food and drinks, and even share with those who had nothing — because this was a special, joyful occasion. The phrase 'joy of the LORD' means that finding happiness and gratitude in life gives you inner strength to keep going. In everyday terms, it's a reminder that joy and generosity can energize us, even in difficult times.",
+        "explanationVi": "Nehemiah khuyến khích mọi người ăn mừng với thức ăn ngon và đồ uống ngọt, đồng thời chia sẻ với những người không có gì — vì đây là một dịp đặc biệt và vui mừng. Cụm từ 'niềm vui của Chúa' ý muốn nói rằng khi chúng ta biết ơn và tìm thấy hạnh phúc trong cuộc sống, điều đó cho chúng ta sức mạnh nội tâm để tiếp tục. Nói một cách đơn giản, đây là lời nhắc nhở rằng niềm vui và sự寛 寛 관 rộng lượng có thể tiếp thêm năng lượng cho chúng ta, ngay cả trong những lúc khó khăn."
       },
       {
         "ref": "Psalm 16:11",
@@ -700,7 +812,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "You make known to me the path of life; you will fill me with joy in your presence, with eternal pleasures at your right hand.",
         "textVi": "Chúa sẽ chỉ cho con biết con đường sự sống; Trước mặt Chúa có sự vui mừng trọn vẹn, Tại bên phải Chúa có sự khoái lạc vô cùng.",
         "noteEn": "Fullness of joy is found in God's presence alone",
-        "noteVi": "Niềm vui trọn vẹn chỉ tìm thấy trong sự hiện diện của Đức Chúa Trời"
+        "noteVi": "Niềm vui trọn vẹn chỉ tìm thấy trong sự hiện diện của Đức Chúa Trời",
+        "explanationEn": "This verse describes the feeling of being guided toward a meaningful life and experiencing deep, lasting happiness — not just temporary pleasure. The idea is that true joy comes from being connected to something greater than yourself, like a sense of purpose or belonging. It suggests that the deepest kind of happiness isn't found in things, but in a relationship with what gives life meaning.",
+        "explanationVi": "Câu này mô tả cảm giác được dẫn dắt đến một cuộc sống có ý nghĩa và trải nghiệm niềm hạnh phúc sâu sắc, lâu bền — không chỉ là niềm vui nhất thời. Ý tưởng ở đây là niềm vui thật sự đến từ việc kết nối với điều gì đó lớn hơn bản thân mình, như cảm giác có mục đích hoặc thuộc về một nơi nào đó. Câu này gợi ý rằng hạnh phúc sâu sắc nhất không đến từ vật chất, mà từ mối quan hệ với điều mang lại ý nghĩa cho cuộc sống."
       },
       {
         "ref": "John 15:11",
@@ -710,7 +824,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I have told you this so that my joy may be in you and that your joy may be complete.",
         "textVi": "Ta đã phán điều đó với các ngươi, để sự vui mừng của ta ở trong các ngươi, và sự vui mừng các ngươi được trọn vẹn.",
         "noteEn": "Jesus desires His followers to experience complete joy",
-        "noteVi": "Chúa Giê-xu muốn các môn đồ Ngài có niềm vui trọn vẹn"
+        "noteVi": "Chúa Giê-xu muốn các môn đồ Ngài có niềm vui trọn vẹn",
+        "explanationEn": "Jesus is telling his followers that he shared his teachings with them so they could experience the same deep joy he had — and that this joy would be full and complete, not partial or fleeting. Think of it like a friend sharing the secret to their happiness so you can experience it too. The verse connects joy to living according to meaningful values and being in a close, supportive relationship.",
+        "explanationVi": "Chúa Giêsu nói với các môn đồ rằng Ngài chia sẻ những điều này để họ có thể trải nghiệm niềm vui sâu sắc giống như Ngài — và niềm vui đó sẽ trọn vẹn, không phải tạm thời hay một phần. Hãy hình dung như một người bạn chia sẻ bí quyết hạnh phúc của họ để bạn cũng có thể trải nghiệm điều đó. Câu này kết nối niềm vui với việc sống theo những giá trị có ý nghĩa và duy trì mối quan hệ gần gũi, hỗ trợ lẫn nhau."
       },
       {
         "ref": "Philippians 4:4",
@@ -720,7 +836,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Rejoice in the Lord always. I will say it again: Rejoice!",
         "textVi": "Hãy vui mừng trong Chúa luôn luôn. Tôi lại nói: hãy vui mừng đi.",
         "noteEn": "Christians are commanded to rejoice in the Lord always",
-        "noteVi": "Cơ Đốc nhân được lệnh vui mừng trong Chúa mọi lúc"
+        "noteVi": "Cơ Đốc nhân được lệnh vui mừng trong Chúa mọi lúc",
+        "explanationEn": "This is a straightforward and enthusiastic call to choose joy — not just once, but always, even when life is hard. The repetition ('I will say it again') shows how important and urgent this message is. It encourages people to actively practice a joyful attitude rather than waiting for perfect circumstances to feel happy.",
+        "explanationVi": "Đây là một lời kêu gọi thẳng thắn và nhiệt tình để chọn niềm vui — không chỉ một lần, mà luôn luôn, ngay cả khi cuộc sống khó khăn. Sự lặp lại ('Tôi xin nói lại một lần nữa') cho thấy thông điệp này quan trọng và cấp thiết như thế nào. Câu này khuyến khích mọi người chủ động thực hành thái độ vui mừng, thay vì chờ đợi hoàn cảnh hoàn hảo mới cảm thấy hạnh phúc."
       },
       {
         "ref": "Romans 15:13",
@@ -730,7 +848,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.",
         "textVi": "Nguyện Đức Chúa Trời của sự trông cậy làm cho anh em đầy dẫy mọi điều vui vẻ và bình an trong đức tin, hầu cho anh em nhờ quyền năng của Đức Thánh Linh được dư dật trong sự trông cậy.",
         "noteEn": "Joy and peace come through trusting in God by the Spirit",
-        "noteVi": "Niềm vui và bình an đến qua việc tin cậy Đức Chúa Trời bởi Đức Thánh Linh"
+        "noteVi": "Niềm vui và bình an đến qua việc tin cậy Đức Chúa Trời bởi Đức Thánh Linh",
+        "explanationEn": "This verse is like a blessing or a wish for someone — hoping that they would be filled with joy, peace, and hope as they place their trust in God. It connects joy with trust and hope, suggesting that when we let go of worry and trust in something greater, we naturally feel more joyful and at peace. The 'Holy Spirit' here refers to a divine inner power that Christians believe helps strengthen and guide people.",
+        "explanationVi": "Câu này giống như một lời chúc phúc — mong muốn rằng người nghe sẽ được tràn đầy niềm vui, bình an và hy vọng khi họ tin tưởng vào Thiên Chúa. Câu này kết nối niềm vui với sự tin tưởng và hy vọng, gợi ý rằng khi chúng ta buông bỏ lo âu và tin vào điều gì đó lớn lao hơn, chúng ta tự nhiên cảm thấy vui vẻ và bình an hơn. 'Đức Thánh Linh' ở đây đề cập đến một sức mạnh thần thánh bên trong mà người Kitô hữu tin rằng giúp củng cố và hướng dẫn con người."
       },
       {
         "ref": "James 1:2",
@@ -740,7 +860,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Consider it pure joy, my brothers and sisters, whenever you face trials of many kinds,",
         "textVi": "Hỡi anh em, hãy lấy làm vui mừng trọn vẹn khi anh em gặp nhiều sự thử thách khác nhau,",
         "noteEn": "Biblical joy endures and transcends even trials and suffering",
-        "noteVi": "Niềm vui theo Kinh Thánh vượt qua mọi thử thách và đau khổ"
+        "noteVi": "Niềm vui theo Kinh Thánh vượt qua mọi thử thách và đau khổ",
+        "explanationEn": "This verse surprises many people because it suggests that difficulties and hardships can actually be a source of joy — not because suffering is good, but because going through tough times helps us grow stronger and wiser. It's similar to the idea that our biggest challenges often teach us the most valuable lessons. The 'joy' here isn't about being happy that bad things happen, but about finding a deeper sense of meaning and growth through them.",
+        "explanationVi": "Câu này khiến nhiều người ngạc nhiên vì nó gợi ý rằng khó khăn và thử thách thực ra có thể là nguồn niềm vui — không phải vì đau khổ là điều tốt, mà vì vượt qua những thời điểm khó khăn giúp chúng ta trở nên mạnh mẽ và khôn ngoan hơn. Điều này tương tự như ý tưởng rằng những thách thức lớn nhất thường dạy cho chúng ta những bài học quý giá nhất. 'Niềm vui' ở đây không phải là vui mừng vì điều xấu xảy ra, mà là tìm thấy ý nghĩa sâu sắc hơn và sự trưởng thành qua những thử thách đó."
       }
     ]
   },
@@ -761,7 +883,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "\"In your anger do not sin\": Do not let the sun go down while you are still angry,",
         "textVi": "\"Anh em nổi giận mà đừng phạm tội\"; chớ để mặt trời lặn trong cơn giận của anh em,",
         "noteEn": "Commands believers to resolve anger before it becomes sin",
-        "noteVi": "Kêu gọi tín hữu giải quyết sự tức giận trước khi thành tội"
+        "noteVi": "Kêu gọi tín hữu giải quyết sự tức giận trước khi thành tội",
+        "explanationEn": "This verse acknowledges that feeling angry is a normal human emotion, but it warns against letting that anger push you into harmful actions. It also advises resolving conflicts before the day ends, rather than letting resentment build up overnight. The idea is that unresolved anger can grow into something destructive if left unchecked.",
+        "explanationVi": "Câu này thừa nhận rằng cảm giác tức giận là điều bình thường của con người, nhưng cảnh báo không nên để cơn giận dẫn đến những hành động có hại. Câu này cũng khuyên bạn nên giải quyết mâu thuẫn trước khi ngày kết thúc, thay vì để sự oán giận tích tụ qua đêm. Ý tưởng ở đây là cơn giận chưa được giải quyết có thể trở nên nguy hiểm nếu không được kiểm soát."
       },
       {
         "ref": "James 1:19-20",
@@ -771,7 +895,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "My dear brothers and sisters, take note of this: Everyone should be quick to listen, slow to speak and slow to become angry, because human anger does not produce the righteousness that God desires.",
         "textVi": "Anh em yêu dấu, hãy ghi nhớ điều nầy: mọi người phải mau nghe, chậm nói, chậm giận; vì cơn giận của người ta không thực hiện được sự công bình của Đức Chúa Trời.",
         "noteEn": "Human anger cannot accomplish God's righteous purposes",
-        "noteVi": "Cơn giận của con người không thể thực hiện mục đích công bình của Đức Chúa Trời"
+        "noteVi": "Cơn giận của con người không thể thực hiện mục đích công bình của Đức Chúa Trời",
+        "explanationEn": "This passage encourages people to listen more and talk less, especially when emotions are running high. It points out that acting out of anger rarely leads to good outcomes for anyone involved. Essentially, it is a reminder to pause and think before reacting when we feel upset.",
+        "explanationVi": "Đoạn này khuyến khích mọi người lắng nghe nhiều hơn và nói ít hơn, đặc biệt khi cảm xúc đang dâng cao. Nó chỉ ra rằng hành động trong cơn giận hiếm khi mang lại kết quả tốt cho bất kỳ ai. Về cơ bản, đây là lời nhắc nhở hãy dừng lại và suy nghĩ trước khi phản ứng khi chúng ta cảm thấy tức giận."
       },
       {
         "ref": "Proverbs 15:1",
@@ -781,7 +907,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "A gentle answer turns away wrath, but a harsh word stirs up anger.",
         "textVi": "Lời đáp êm nhẹ làm nguôi cơn giận, còn lời nói xẳng làm phừng thịnh nộ.",
         "noteEn": "Gentle words de-escalate conflict and defuse anger",
-        "noteVi": "Lời nói nhẹ nhàng có thể xoa dịu xung đột và cơn giận"
+        "noteVi": "Lời nói nhẹ nhàng có thể xoa dịu xung đột và cơn giận",
+        "explanationEn": "This proverb offers practical wisdom about how we respond to conflict: a calm, kind reply can defuse a tense situation, while a sharp or aggressive response usually makes things worse. It highlights the power our words have in either cooling down or escalating anger. In everyday life, choosing how we speak can determine whether a disagreement turns into a fight or a peaceful resolution.",
+        "explanationVi": "Câu châm ngôn này đưa ra lời khuyên thực tế về cách chúng ta phản ứng trong xung đột: một câu trả lời nhẹ nhàng, thân thiện có thể xoa dịu tình huống căng thẳng, trong khi lời nói gay gắt thường làm mọi thứ tồi tệ hơn. Nó nhấn mạnh sức mạnh của ngôn từ trong việc làm dịu hoặc leo thang cơn giận. Trong cuộc sống hàng ngày, cách chúng ta nói chuyện có thể quyết định liệu một bất đồng có trở thành cuộc cãi vã hay được giải quyết ổn thỏa."
       },
       {
         "ref": "Psalm 37:8",
@@ -791,7 +919,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Refrain from anger and turn from wrath; do not fret—it leads only to evil.",
         "textVi": "Hãy thôi giận và bỏ thịnh nộ; đừng tức mình, vì điều đó chỉ gây hại mà thôi.",
         "noteEn": "Warns that unchecked anger leads only toward evil",
-        "noteVi": "Cảnh báo rằng sự tức giận không kiểm soát chỉ dẫn đến điều ác"
+        "noteVi": "Cảnh báo rằng sự tức giận không kiểm soát chỉ dẫn đến điều ác",
+        "explanationEn": "This verse advises people to step back from anger and worry because dwelling on these feelings often leads to poor decisions and harmful behavior. It suggests that holding onto rage and bitterness creates more problems than it solves. The core message is that letting go of anger is healthier for both yourself and those around you.",
+        "explanationVi": "Câu này khuyên mọi người nên lùi lại khỏi cơn giận và sự lo lắng, vì việc nuôi dưỡng những cảm xúc này thường dẫn đến những quyết định sai lầm và hành vi có hại. Nó gợi ý rằng việc giữ mãi sự giận dữ và cay đắng tạo ra nhiều vấn đề hơn là giải quyết được. Thông điệp cốt lõi là buông bỏ cơn giận thực ra tốt hơn cho cả bạn lẫn những người xung quanh."
       },
       {
         "ref": "Proverbs 29:11",
@@ -801,7 +931,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Fools give full vent to their rage, but the wise bring calm in the end.",
         "textVi": "Kẻ ngu xuẩn trút hết cơn thịnh nộ mình ra, còn người khôn ngoan dẹp nó xuống và giữ im lặng.",
         "noteEn": "Wisdom is revealed in restraining and calming anger",
-        "noteVi": "Sự khôn ngoan được thể hiện qua việc kiềm chế cơn giận"
+        "noteVi": "Sự khôn ngoan được thể hiện qua việc kiềm chế cơn giận",
+        "explanationEn": "This proverb contrasts two types of people: those who explode and say everything they feel without a filter, and those who manage to stay composed and find a peaceful outcome. It suggests that venting rage freely is actually a sign of immaturity, while true wisdom involves self-control. In practical terms, the wisest people are not the ones who never get angry, but those who know how to handle it constructively.",
+        "explanationVi": "Câu châm ngôn này so sánh hai kiểu người: những người bùng nổ và nói tất cả những gì họ cảm thấy mà không kiểm soát, và những người giữ được bình tĩnh để tìm ra kết quả hòa bình. Nó cho rằng việc trút bỏ cơn giận một cách tự do thực ra là dấu hiệu của sự thiếu chín chắn, trong khi sự khôn ngoan thực sự đòi hỏi khả năng tự kiểm soát. Trong thực tế, những người khôn ngoan nhất không phải là người không bao giờ tức giận, mà là người biết cách xử lý cơn giận một cách xây dựng."
       },
       {
         "ref": "Colossians 3:8",
@@ -811,7 +943,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But now you must also rid yourselves of all such things as these: anger, rage, malice, slander, and filthy language from your lips.",
         "textVi": "Nhưng bây giờ, anh em hãy từ bỏ tất cả những điều nầy: giận dữ, thịnh nộ, hung ác, phỉ báng, và những lời tục tĩu từ miệng anh em.",
         "noteEn": "Believers are called to put away anger as part of new life",
-        "noteVi": "Tín hữu được kêu gọi từ bỏ sự tức giận trong đời sống mới"
+        "noteVi": "Tín hữu được kêu gọi từ bỏ sự tức giận trong đời sống mới",
+        "explanationEn": "This verse encourages people to actively remove negative behaviors from their lives, including uncontrolled anger, hatred, and hurtful speech. It treats these not as personality traits to be accepted, but as habits that can and should be changed. The underlying idea is that how we express ourselves — especially in moments of frustration — has a real impact on our relationships and community.",
+        "explanationVi": "Câu này khuyến khích mọi người chủ động loại bỏ những hành vi tiêu cực khỏi cuộc sống, bao gồm cơn giận mất kiểm soát, sự thù ghét và lời nói gây tổn thương. Nó coi những điều này không phải là đặc điểm tính cách phải chấp nhận, mà là những thói quen có thể và nên thay đổi. Ý tưởng cốt lõi là cách chúng ta thể hiện bản thân — đặc biệt trong những lúc bực bội — có tác động thực sự đến các mối quan hệ và cộng đồng xung quanh."
       }
     ]
   },
@@ -832,7 +966,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Be strong and courageous. Do not be afraid or terrified because of them, for the LORD your God goes with you; he will never leave you nor forsake you.",
         "textVi": "Hãy mạnh mẽ và can đảm. Đừng sợ hãi hay kinh khiếp vì họ, vì Giê-hô-va Đức Chúa Trời của con đi cùng với con. Ngài sẽ không lìa bỏ con và chẳng từ bỏ con đâu.",
         "noteEn": "God promises He will never leave or forsake us.",
-        "noteVi": "Đức Chúa Trời hứa sẽ không bao giờ lìa bỏ chúng ta."
+        "noteVi": "Đức Chúa Trời hứa sẽ không bao giờ lìa bỏ chúng ta.",
+        "explanationEn": "This verse encourages people to be brave because they are never truly alone — God is described as a constant companion who will never walk away or abandon you. It speaks directly to loneliness by offering the reassurance that no matter how isolated you feel, there is a presence that stays with you through everything.",
+        "explanationVi": "Câu này khuyến khích con người hãy mạnh mẽ vì họ không bao giờ thực sự cô đơn — Thiên Chúa được mô tả như một người bạn đồng hành luôn ở bên, không bao giờ rời bỏ hay từ chối bạn. Câu này nói thẳng vào nỗi cô đơn bằng cách nhắc nhở rằng dù bạn cảm thấy lẻ loi đến đâu, vẫn có một sự hiện diện ở lại với bạn qua mọi hoàn cảnh."
       },
       {
         "ref": "Psalm 23:4",
@@ -842,7 +978,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me.",
         "textVi": "Dù tôi đi trong trũng bóng chết, tôi sẽ không sợ điều dữ, vì Chúa ở cùng tôi; cây trượng và cây gậy của Chúa an ủi tôi.",
         "noteEn": "God's presence brings comfort even in the darkest moments.",
-        "noteVi": "Sự hiện diện của Đức Chúa Trời mang lại an ủi trong những lúc tối tăm nhất."
+        "noteVi": "Sự hiện diện của Đức Chúa Trời mang lại an ủi trong những lúc tối tăm nhất.",
+        "explanationEn": "The 'darkest valley' is a metaphor for life's most frightening and painful moments, and this verse says that even in those times, you are not alone. For someone experiencing loneliness, it offers comfort by suggesting that a guiding, protective presence walks alongside you even when life feels darkest.",
+        "explanationVi": "'Thung lũng tối tăm nhất' là hình ảnh ẩn dụ cho những khoảnh khắc đáng sợ và đau đớn nhất trong cuộc đời, và câu này nói rằng ngay cả lúc đó, bạn cũng không cô đơn. Với người đang trải qua nỗi cô đơn, câu này mang lại sự an ủi khi gợi ý rằng có một sự hiện diện dẫn dắt và bảo vệ đang đi bên cạnh bạn, dù cuộc sống có tối tăm đến mức nào."
       },
       {
         "ref": "Psalm 68:6",
@@ -852,7 +990,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "God sets the lonely in families, he leads out the prisoners with singing; but the rebellious live in a sun-scorched land.",
         "textVi": "Đức Chúa Trời đặt kẻ cô đơn vào gia đình, Ngài dẫn tù nhân ra với tiếng hát vui mừng; nhưng kẻ phản loạn ở trong đất khô cằn.",
         "noteEn": "God actively places the lonely into belonging and community.",
-        "noteVi": "Đức Chúa Trời đặt người cô đơn vào trong sự thuộc về và cộng đồng."
+        "noteVi": "Đức Chúa Trời đặt người cô đơn vào trong sự thuộc về và cộng đồng.",
+        "explanationEn": "This verse describes God as someone who actively works to give lonely people a sense of belonging, comparing it to placing them within a family or community. It addresses loneliness by suggesting that isolation is not meant to be a permanent state, and that connection and belonging are gifts that can be found.",
+        "explanationVi": "Câu này mô tả Thiên Chúa như một người chủ động tạo cho những ai cô đơn một cảm giác được thuộc về, ví như đặt họ vào trong một gia đình hay cộng đồng. Câu này chạm đến nỗi cô đơn bằng cách gợi ý rằng sự cô lập không phải là tình trạng mãi mãi, và sự gắn kết, sự thuộc về là những điều có thể tìm thấy."
       },
       {
         "ref": "Isaiah 41:10",
@@ -862,7 +1002,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.",
         "textVi": "Đừng sợ, vì Ta ở với ngươi; đừng kinh khiếp, vì Ta là Đức Chúa Trời của ngươi. Ta sẽ làm cho ngươi mạnh mẽ; phải, Ta sẽ giúp đỡ ngươi; phải, Ta sẽ nâng đỡ ngươi bằng tay phải công bình của Ta.",
         "noteEn": "God's presence replaces fear with strength and help.",
-        "noteVi": "Sự hiện diện của Đức Chúa Trời thay thế nỗi sợ bằng sức mạnh và sự trợ giúp."
+        "noteVi": "Sự hiện diện của Đức Chúa Trời thay thế nỗi sợ bằng sức mạnh và sự trợ giúp.",
+        "explanationEn": "This verse is a direct message of reassurance, telling people not to be afraid or overwhelmed because they have support from a power greater than themselves. In the context of loneliness, it offers the idea that you are not left to face struggles on your own — there is strength available to you when you feel too weak to carry on.",
+        "explanationVi": "Câu này là một lời trấn an trực tiếp, nói với con người rằng đừng sợ hãi hay nản lòng vì họ có sự hỗ trợ từ một sức mạnh lớn hơn bản thân. Trong bối cảnh cô đơn, câu này đưa ra ý tưởng rằng bạn không bị bỏ lại một mình để đối mặt với khó khăn — có sức mạnh sẵn sàng dành cho bạn khi bạn cảm thấy quá yếu đuối để tiếp tục."
       },
       {
         "ref": "Matthew 28:20",
@@ -872,7 +1014,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "and teaching them to obey everything I have commanded you. And surely I am with you always, to the very end of the age.",
         "textVi": "dạy họ giữ tất cả mọi điều Ta đã truyền cho các con. Và này, Ta ở cùng các con luôn luôn cho đến tận thế.",
         "noteEn": "Jesus promises His constant presence until the end of time.",
-        "noteVi": "Chúa Giê-xu hứa luôn ở cùng chúng ta cho đến tận thế."
+        "noteVi": "Chúa Giê-xu hứa luôn ở cùng chúng ta cho đến tận thế.",
+        "explanationEn": "These are the final words of Jesus to his followers before he left, and he promised that his presence would remain with them always — not just for a short time, but forever. For someone feeling lonely, this verse offers the comforting idea that there is a companionship that does not expire or fade away with time.",
+        "explanationVi": "Đây là những lời cuối cùng của Chúa Giêsu nói với các môn đệ trước khi Ngài rời đi, và Ngài hứa rằng sự hiện diện của Ngài sẽ ở lại với họ mãi mãi — không chỉ trong một thời gian ngắn, mà là cho đến muôn đời. Với người đang cảm thấy cô đơn, câu này mang lại sự an ủi rằng có một tình bạn đồng hành không bao giờ hết hạn hay phai nhạt theo thời gian."
       },
       {
         "ref": "John 14:16",
@@ -882,7 +1026,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And I will ask the Father, and he will give you another advocate to help you and be with you forever—",
         "textVi": "Ta sẽ cầu xin Cha, và Ngài sẽ ban cho các con một Đấng Bầu Cử khác để ở với các con đời đời—",
         "noteEn": "The Holy Spirit is given as an eternal Companion against loneliness.",
-        "noteVi": "Đức Thánh Linh được ban cho như Đấng đồng hành đời đời chống lại sự cô đơn."
+        "noteVi": "Đức Thánh Linh được ban cho như Đấng đồng hành đời đời chống lại sự cô đơn.",
+        "explanationEn": "Jesus promises to send an 'advocate' — a helper or counselor (referring to the Holy Spirit, understood as God's presence within a person) — who will stay with believers permanently. For someone struggling with loneliness, this verse suggests that a lasting inner companion is available, one that will never leave regardless of external circumstances.",
+        "explanationVi": "Chúa Giêsu hứa sẽ gửi đến một 'Đấng bảo trợ' — một người trợ giúp hay cố vấn (ám chỉ Chúa Thánh Thần, được hiểu là sự hiện diện của Thiên Chúa bên trong mỗi người) — người sẽ ở lại với các tín hữu mãi mãi. Với người đang vật lộn với nỗi cô đơn, câu này gợi ý rằng có một người bạn đồng hành bền vững ở bên trong, một sự hiện diện sẽ không bao giờ rời đi dù hoàn cảnh bên ngoài có như thế nào."
       }
     ]
   },
@@ -903,7 +1049,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.",
         "textVi": "Nguyện Đức Chúa Trời của hy vọng đổ đầy anh em mọi sự vui mừng và bình an trong đức tin, để anh em nhờ quyền năng của Đức Thánh Linh mà được tràn đầy hy vọng.",
         "noteEn": "God himself is the source of all overflowing hope",
-        "noteVi": "Đức Chúa Trời chính là nguồn gốc của mọi hy vọng tràn đầy"
+        "noteVi": "Đức Chúa Trời chính là nguồn gốc của mọi hy vọng tràn đầy",
+        "explanationEn": "This verse describes God as the source of hope, and expresses a wish that people would be filled with joy and peace simply by trusting in him. The idea is that hope is not just a feeling we create on our own — it can overflow from a deeper connection with something greater than ourselves.",
+        "explanationVi": "Câu này mô tả Đức Chúa Trời là nguồn gốc của hy vọng, và bày tỏ mong muốn rằng con người sẽ được tràn đầy niềm vui và bình an khi tin tưởng vào Ngài. Ý tưởng ở đây là hy vọng không chỉ là cảm xúc ta tự tạo ra — nó có thể tuôn tràn từ một mối liên kết sâu sắc hơn với điều gì đó lớn lao hơn bản thân chúng ta."
       },
       {
         "ref": "Jeremiah 29:11",
@@ -913,7 +1061,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "\"For I know the plans I have for you,\" declares the Lord, \"plans to prosper you and not to harm you, plans to give you hope and a future.\"",
         "textVi": "Đức Giê-hô-va phán: \"Vì Ta biết những kế hoạch Ta hoạch định cho các ngươi, là kế hoạch bình an, không phải tai họa, để cho các ngươi có một tương lai và một hy vọng.\"",
         "noteEn": "God's plans guarantee a future filled with real hope",
-        "noteVi": "Kế hoạch của Đức Chúa Trời bảo đảm tương lai đầy hy vọng thật sự"
+        "noteVi": "Kế hoạch của Đức Chúa Trời bảo đảm tương lai đầy hy vọng thật sự",
+        "explanationEn": "In this verse, God tells people that even in difficult times, he has a positive plan for their lives — one that leads toward a good future, not toward suffering. It is a message of reassurance and hope, reminding people that hardship does not mean life is without purpose or direction.",
+        "explanationVi": "Trong câu này, Đức Chúa Trời nói với con người rằng dù trong những lúc khó khăn, Ngài vẫn có một kế hoạch tốt đẹp cho cuộc đời họ — một kế hoạch hướng đến tương lai tươi sáng, không phải đau khổ. Đây là thông điệp an ủi và hy vọng, nhắc nhở mọi người rằng gian nan không có nghĩa là cuộc sống không có mục đích hay phương hướng."
       },
       {
         "ref": "Romans 8:24-25",
@@ -923,7 +1073,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For in this hope we were saved. But hope that is seen is no hope at all. Who hopes for what they already have? But if we hope for what we do not yet have, we wait for it patiently.",
         "textVi": "Vì chúng ta được cứu trong hy vọng đó. Nhưng hy vọng điều mình đã thấy thì không phải là hy vọng nữa, vì ai lại còn hy vọng điều mình đã thấy rồi? Nhưng nếu chúng ta hy vọng điều mình chưa thấy thì phải kiên nhẫn chờ đợi.",
         "noteEn": "Salvation itself is grounded in patient, faith-based hope",
-        "noteVi": "Chính sự cứu rỗi được đặt nền tảng trên hy vọng kiên nhẫn bởi đức tin"
+        "noteVi": "Chính sự cứu rỗi được đặt nền tảng trên hy vọng kiên nhẫn bởi đức tin",
+        "explanationEn": "These verses explain that real hope is about things we don't yet have — if something is already in our hands, we don't need to hope for it anymore. It encourages a patient, forward-looking attitude, trusting that good things are still ahead even when we cannot see them yet.",
+        "explanationVi": "Những câu này giải thích rằng hy vọng thật sự là về những điều chúng ta chưa có — nếu điều gì đó đã nằm trong tay ta rồi, ta không cần phải hy vọng nữa. Nó khuyến khích thái độ kiên nhẫn và hướng về phía trước, tin rằng những điều tốt đẹp vẫn đang ở phía trước dù ta chưa nhìn thấy chúng."
       },
       {
         "ref": "Hebrews 6:19",
@@ -933,7 +1085,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "We have this hope as an anchor for the soul, firm and secure. It enters the inner sanctuary behind the curtain,",
         "textVi": "Hy vọng đó là cái neo chắc chắn và bền vững cho linh hồn chúng ta, thấu vào bên trong bức màn,",
         "noteEn": "Hope anchors the soul firmly through every trial",
-        "noteVi": "Hy vọng neo đậu linh hồn vững chắc qua mọi thử thách"
+        "noteVi": "Hy vọng neo đậu linh hồn vững chắc qua mọi thử thách",
+        "explanationEn": "This verse uses the image of an anchor to describe hope — just as an anchor keeps a ship steady during a storm, hope keeps a person's inner life stable during life's difficulties. It suggests that hope is not fragile or wishful thinking, but something strong and reliable that holds us in place.",
+        "explanationVi": "Câu này dùng hình ảnh chiếc mỏ neo để mô tả hy vọng — giống như mỏ neo giữ con thuyền vững chắc trong bão tố, hy vọng giữ cho đời sống nội tâm của con người ổn định trong những lúc khó khăn. Nó gợi ý rằng hy vọng không phải là điều mong manh hay viển vông, mà là điều gì đó mạnh mẽ và đáng tin cậy, giữ chúng ta vững vàng."
       },
       {
         "ref": "Lamentations 3:22-23",
@@ -943,7 +1097,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Because of the Lord's great love we are not consumed, for his compassions never fail. They are new every morning; great is your faithfulness.",
         "textVi": "Ấy là nhờ sự nhân từ của Đức Giê-hô-va mà chúng ta chưa bị tiêu diệt, vì lòng thương xót của Ngài chẳng dứt. Mỗi buổi sáng thì mới lại; sự thành tín của Ngài là lớn lắm.",
         "noteEn": "God's daily faithfulness renews hope even in deepest grief",
-        "noteVi": "Sự thành tín hàng ngày của Đức Chúa Trời đổi mới hy vọng dù trong đau thương"
+        "noteVi": "Sự thành tín hàng ngày của Đức Chúa Trời đổi mới hy vọng dù trong đau thương",
+        "explanationEn": "Written during a time of great sorrow and loss, this passage finds hope in the idea that God's love and compassion never run out — they are renewed every single morning, no matter how bad the day before was. It is a reminder that each new day brings a fresh chance, and that care and goodness are never permanently gone.",
+        "explanationVi": "Được viết trong thời kỳ đau buồn và mất mát lớn lao, đoạn này tìm thấy hy vọng trong ý tưởng rằng tình yêu và lòng thương xót của Đức Chúa Trời không bao giờ cạn kiệt — chúng được đổi mới mỗi buổi sáng, dù ngày hôm trước có tệ đến đâu. Đây là lời nhắc nhở rằng mỗi ngày mới mang đến một cơ hội mới, và sự quan tâm cùng điều tốt lành không bao giờ biến mất vĩnh viễn."
       },
       {
         "ref": "1 Peter 1:3",
@@ -953,7 +1109,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Praise be to the God and Father of our Lord Jesus Christ! In his great mercy he has given us new birth into a living hope through the resurrection of Jesus Christ from the dead,",
         "textVi": "Ngợi khen Đức Chúa Trời là Cha của Chúa Giê-xu Christ, Chúa chúng ta! Theo lòng thương xót lớn lao của Ngài, Ngài đã ban cho chúng ta sự tái sinh để được một hy vọng sống, nhờ sự phục sinh của Chúa Giê-xu Christ từ cõi chết,",
         "noteEn": "Christ's resurrection transforms hope into a living, certain reality",
-        "noteVi": "Sự phục sinh của Chúa Giê-xu biến hy vọng thành thực tại sống động chắc chắn"
+        "noteVi": "Sự phục sinh của Chúa Giê-xu biến hy vọng thành thực tại sống động chắc chắn",
+        "explanationEn": "This verse celebrates the idea that the resurrection of Jesus — his return to life after death — opens the door to a living, active hope for all people, not just a vague wish but a confident expectation of something better. Even for someone unfamiliar with Christianity, the core message is that new beginnings are possible even after the darkest endings.",
+        "explanationVi": "Câu này ca ngợi ý tưởng rằng sự phục sinh của Chúa Giê-su — sự trở lại sự sống sau cái chết — mở ra cánh cửa cho một hy vọng sống động và mạnh mẽ dành cho mọi người, không chỉ là một mong ước mơ hồ mà là sự kỳ vọng chắc chắn vào điều tốt đẹp hơn. Dù không quen thuộc với Cơ Đốc giáo, thông điệp cốt lõi vẫn là: những khởi đầu mới hoàn toàn có thể xảy ra, ngay cả sau những kết thúc tăm tối nhất."
       }
     ]
   },
@@ -974,7 +1132,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Peace I leave with you; my peace I give you. I do not give to you as the world gives. Do not let your hearts be troubled and do not be afraid.",
         "textVi": "Ta để lại bình an cho các ngươi; ta ban bình an ta cho các ngươi. Ta cho các ngươi bình an không giống như thế gian cho. Lòng các ngươi chớ bối rối và đừng sợ hãi.",
         "noteEn": "Jesus offers a unique, surpassing peace the world cannot provide.",
-        "noteVi": "Chúa Giê-xu ban sự bình an đặc biệt mà thế gian không thể cho."
+        "noteVi": "Chúa Giê-xu ban sự bình an đặc biệt mà thế gian không thể cho.",
+        "explanationEn": "Jesus is saying that he offers a kind of inner calm that is different from the temporary relief the world provides through money, success, or comfort. This peace is not dependent on outside circumstances, so it can exist even in difficult times. It is an invitation to stop worrying and live without fear.",
+        "explanationVi": "Chúa Giê-su nói rằng Ngài ban cho con người một sự bình yên nội tâm khác hoàn toàn với sự an ủi tạm thời mà thế gian mang lại qua tiền bạc hay thành công. Sự bình an này không phụ thuộc vào hoàn cảnh bên ngoài, nên nó có thể tồn tại ngay cả trong những lúc khó khăn. Đây là lời mời gọi hãy buông bỏ lo âu và sống không sợ hãi."
       },
       {
         "ref": "Philippians 4:7",
@@ -984,7 +1144,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
         "textVi": "Sự bình an của Đức Chúa Trời vượt quá mọi sự hiểu biết, sẽ gìn giữ lòng và ý tưởng của anh em trong Đức Chúa Jêsus Christ.",
         "noteEn": "God's peace supernaturally guards believers' hearts and minds.",
-        "noteVi": "Sự bình an của Đức Chúa Trời siêu nhiên bảo vệ lòng và tâm trí tín hữu."
+        "noteVi": "Sự bình an của Đức Chúa Trời siêu nhiên bảo vệ lòng và tâm trí tín hữu.",
+        "explanationEn": "This verse describes a deep sense of peace that goes beyond what the human mind can fully explain or rationalize — it is not just the absence of stress, but a profound sense of calm and security. The idea is that this peace actively protects a person's emotions and thoughts, like a guard watching over them. It points to peace as something greater than what willpower or positive thinking alone can achieve.",
+        "explanationVi": "Câu này mô tả một sự bình an sâu sắc vượt qua khả năng lý giải của con người — không chỉ là sự vắng lặng của căng thẳng, mà là một cảm giác an ổn và vững vàng thật sự. Ý tưởng ở đây là sự bình an đó chủ động bảo vệ cảm xúc và suy nghĩ của một người, như một người lính gác canh giữ. Nó cho thấy bình an là điều lớn hơn những gì ý chí hay tư duy tích cực đơn thuần có thể mang lại."
       },
       {
         "ref": "Isaiah 26:3",
@@ -994,7 +1156,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "You will keep in perfect peace those whose minds are steadfast, because they trust in you.",
         "textVi": "Chúa sẽ gìn giữ kẻ nào có lòng vững chí trong sự bình an trọn vẹn, vì người nhờ cậy Chúa.",
         "noteEn": "Trusting God with a steadfast mind brings complete, perfect peace.",
-        "noteVi": "Tin cậy Đức Chúa Trời với lòng vững chí mang lại sự bình an trọn vẹn."
+        "noteVi": "Tin cậy Đức Chúa Trời với lòng vững chí mang lại sự bình an trọn vẹn.",
+        "explanationEn": "This verse from the ancient Hebrew scriptures suggests that a person who keeps their mind focused and places their trust in God will experience a complete and lasting peace. It connects mental steadiness — not being tossed around by worry — with the act of trusting something greater than oneself. In everyday terms, it is saying that a calm, anchored mind leads to a peaceful life.",
+        "explanationVi": "Câu này từ Kinh Thánh tiếng Do Thái cổ đại cho rằng người giữ tâm trí tập trung và đặt lòng tin vào Đức Chúa Trời sẽ được hưởng một sự bình an trọn vẹn và lâu bền. Nó kết nối sự ổn định trong suy nghĩ — không bị lung lay bởi lo lắng — với việc tin tưởng vào điều gì đó lớn hơn bản thân mình. Nói theo cách đơn giản, tâm trí bình tĩnh và vững chắc sẽ dẫn đến một cuộc sống bình an."
       },
       {
         "ref": "Romans 5:1",
@@ -1004,7 +1168,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Therefore, since we have been justified through faith, we have peace with God through our Lord Jesus Christ.",
         "textVi": "Vậy, chúng ta đã được xưng công bình bởi đức tin, chúng ta có hòa bình với Đức Chúa Trời, bởi Đức Chúa Jêsus Christ chúng ta.",
         "noteEn": "Faith in Christ restores the foundational peace between humanity and God.",
-        "noteVi": "Đức tin vào Chúa Giê-xu phục hồi sự bình an căn bản giữa con người và Đức Chúa Trời."
+        "noteVi": "Đức tin vào Chúa Giê-xu phục hồi sự bình an căn bản giữa con người và Đức Chúa Trời.",
+        "explanationEn": "This verse explains that through faith — a trusting relationship with God — a person can experience peace with God, meaning the tension or separation between humans and the divine is resolved. In everyday terms, it is like ending a long conflict and finally being at peace with someone important. This inner reconciliation is described as the foundation for lasting peace in a person's life.",
+        "explanationVi": "Câu này giải thích rằng qua đức tin — mối quan hệ tin tưởng với Đức Chúa Trời — một người có thể có được sự bình an với Ngài, nghĩa là sự căng thẳng hay xa cách giữa con người và Đấng Tối Cao được hóa giải. Nói theo cách đơn giản, đó giống như chấm dứt một mâu thuẫn kéo dài và cuối cùng hòa giải với người quan trọng. Sự hòa giải nội tâm này được mô tả là nền tảng cho sự bình an lâu dài trong cuộc đời một người."
       },
       {
         "ref": "Psalm 29:11",
@@ -1014,7 +1180,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The Lord gives strength to his people; the Lord blesses his people with peace.",
         "textVi": "Đức Giê-hô-va sẽ ban sức mạnh cho dân Ngài; Đức Giê-hô-va sẽ ban phước bình an cho dân Ngài.",
         "noteEn": "God personally blesses His people with both strength and peace.",
-        "noteVi": "Đức Chúa Trời ban phước cho dân Ngài bằng cả sức mạnh lẫn bình an."
+        "noteVi": "Đức Chúa Trời ban phước cho dân Ngài bằng cả sức mạnh lẫn bình an.",
+        "explanationEn": "This short verse from the ancient book of Psalms — a collection of Hebrew songs and poems — says that God gives both strength and peace to people. It presents peace not as something we earn through effort, but as a blessing, a gift that comes from a source beyond ourselves. The pairing of strength and peace suggests that true peace is not weakness, but something that empowers people.",
+        "explanationVi": "Câu ngắn này từ sách Thi Thiên cổ đại — một tuyển tập thơ ca và bài hát của người Do Thái — nói rằng Đức Chúa Trời ban cho con người cả sức mạnh lẫn sự bình an. Nó cho thấy bình an không phải là thứ ta đạt được bằng nỗ lực, mà là một ân điển, một món quà đến từ nguồn vượt ngoài bản thân chúng ta. Sự kết hợp giữa sức mạnh và bình an cho thấy bình an thật sự không phải là sự yếu đuối, mà là điều tiếp thêm năng lực cho con người."
       },
       {
         "ref": "Matthew 5:9",
@@ -1024,7 +1192,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Blessed are the peacemakers, for they will be called children of God.",
         "textVi": "Phước cho những kẻ làm cho người hòa thuận, vì sẽ được gọi là con Đức Chúa Trời!",
         "noteEn": "Actively making peace reflects true identity as God's children.",
-        "noteVi": "Tích cực tạo hòa thuận phản ánh danh tính thật sự là con cái Đức Chúa Trời."
+        "noteVi": "Tích cực tạo hòa thuận phản ánh danh tính thật sự là con cái Đức Chúa Trời.",
+        "explanationEn": "Jesus, in this famous teaching known as the Beatitudes, says that people who actively work to create peace between others are especially honored. The phrase 'children of God' is a way of saying they reflect the character of God himself, who values harmony and reconciliation. In practical terms, this is a call to be a bridge-builder — someone who reduces conflict and brings people together.",
+        "explanationVi": "Chúa Giê-su, trong bài giảng nổi tiếng được gọi là Bát Phúc, nói rằng những người chủ động xây dựng hòa bình giữa người với người được đặc biệt trân trọng. Cụm từ 'con cái của Đức Chúa Trời' là cách nói rằng họ phản ánh chính bản chất của Ngài — Đấng coi trọng sự hòa hợp và hòa giải. Nói theo nghĩa thực tế, đây là lời kêu gọi hãy trở thành người xây cầu nối — người làm giảm xung đột và kết nối mọi người lại với nhau."
       }
     ]
   },
@@ -1045,7 +1215,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
         "textVi": "Vì Đức Chúa Trời yêu thương thế gian đến nỗi đã ban Con Một của Ngài, hầu cho hễ ai tin Con ấy không bị hư mất mà được sự sống đời đời.",
         "noteEn": "The ultimate demonstration of God's sacrificial love for humanity",
-        "noteVi": "Sự bày tỏ tối thượng về tình yêu hy sinh của Đức Chúa Trời cho nhân loại"
+        "noteVi": "Sự bày tỏ tối thượng về tình yêu hy sinh của Đức Chúa Trời cho nhân loại",
+        "explanationEn": "This verse describes an act of ultimate sacrifice driven by love — the idea that a higher power cared so deeply for humanity that it gave up what was most precious to offer people a chance at a better, lasting life. It's often seen as the foundation of Christian belief, but at its core, it's a story about love so great it holds nothing back. Think of it like a parent willing to give everything they have to save their child.",
+        "explanationVi": "Câu này mô tả một hành động hy sinh tột cùng xuất phát từ tình yêu — ý tưởng rằng một đấng cao hơn yêu thương nhân loại đến mức sẵn sàng trao đi điều quý giá nhất để cho con người cơ hội có một cuộc sống tốt đẹp và trường tồn hơn. Đây thường được xem là nền tảng của đức tin Kitô giáo, nhưng cốt lõi của nó là câu chuyện về một tình yêu vĩ đại đến mức không giữ lại bất cứ điều gì. Hãy nghĩ như hình ảnh một người cha, người mẹ sẵn lòng cho đi tất cả để cứu con mình."
       },
       {
         "ref": "1 Corinthians 13:4-5",
@@ -1055,7 +1227,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It does not dishonor others, it is not self-seeking, it is not easily angered, it keeps no record of wrongs.",
         "textVi": "Tình yêu thương hay nhịn nhục, tình yêu thương hay nhân từ, không ghen ghét, không khoe mình, không tự cao, không làm điều trái phép, không kiếm tư lợi, không nóng giận, không nghi ngờ sự dữ.",
         "noteEn": "Defines the true character and qualities of genuine love",
-        "noteVi": "Xác định bản chất và phẩm chất thật sự của tình yêu thương chân thật"
+        "noteVi": "Xác định bản chất và phẩm chất thật sự của tình yêu thương chân thật",
+        "explanationEn": "This passage gives a practical, everyday definition of what real love looks and acts like — it's not about feelings alone, but about behavior: being patient, kind, humble, and forgiving. It points out that love doesn't keep score of mistakes or put itself first. It's essentially a checklist for how to treat the people you care about.",
+        "explanationVi": "Đoạn này đưa ra một định nghĩa thực tế, gần gũi về tình yêu thương thật sự trông như thế nào và thể hiện ra sao — không chỉ là cảm xúc, mà còn là hành động: kiên nhẫn, tử tế, khiêm tốn và tha thứ. Nó chỉ ra rằng tình yêu không giữ mãi sự tức giận hay đặt bản thân lên hàng đầu. Đây thực chất là một bộ tiêu chí về cách đối xử với những người mà bạn quan tâm."
       },
       {
         "ref": "1 John 4:8",
@@ -1065,7 +1239,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Whoever does not love does not know God, because God is love.",
         "textVi": "Ai không yêu thương thì không biết Đức Chúa Trời, vì Đức Chúa Trời là tình yêu thương.",
         "noteEn": "Reveals that love is the very nature and essence of God",
-        "noteVi": "Tiết lộ rằng tình yêu thương chính là bản chất và cốt lõi của Đức Chúa Trời"
+        "noteVi": "Tiết lộ rằng tình yêu thương chính là bản chất và cốt lõi của Đức Chúa Trời",
+        "explanationEn": "This verse makes a bold claim: that love and the concept of God are inseparable — in fact, they are the same thing. It suggests that anyone who truly understands and practices love has already touched something divine, whether they realize it or not. For a non-religious person, it's an invitation to see love itself as a profound, almost sacred force.",
+        "explanationVi": "Câu này đưa ra một tuyên bố mạnh mẽ: rằng tình yêu và khái niệm về Đức Chúa Trời là không thể tách rời — thực ra chúng là một. Nó gợi ý rằng bất kỳ ai thật sự hiểu và thực hành tình yêu thương đều đã chạm đến điều gì đó thiêng liêng, dù họ có nhận ra hay không. Với người chưa theo đạo, đây là lời mời để nhìn nhận bản thân tình yêu như một sức mạnh sâu sắc và gần như thiêng liêng."
       },
       {
         "ref": "Romans 8:38-39",
@@ -1075,7 +1251,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord.",
         "textVi": "Vì tôi chắc rằng bất kỳ sự chết, sự sống, các thiên sứ, các kẻ cầm quyền, việc hiện tại, việc tương lai, các quyền lực, bề cao, hay bề sâu, hay là một vật nào khác trong muôn vật thọ tạo, đều chẳng có thể phân rẽ chúng ta khỏi sự yêu thương mà Đức Chúa Trời đã chứng cho chúng ta trong Đức Chúa Jêsus Christ, là Chúa chúng ta.",
         "noteEn": "Assures believers of God's unbreakable and eternal love",
-        "noteVi": "Đảm bảo với các tín hữu về tình yêu thương vĩnh cửu và không thể phá vỡ của Đức Chúa Trời"
+        "noteVi": "Đảm bảo với các tín hữu về tình yêu thương vĩnh cửu và không thể phá vỡ của Đức Chúa Trời",
+        "explanationEn": "This passage is a powerful declaration that love — especially the kind described in this context — cannot be destroyed or taken away by any force, whether it's death, time, distance, or anything else imaginable. It's meant to bring comfort and security, reminding people that they are loved unconditionally, no matter what happens. Think of it as the ultimate promise that love will always find you.",
+        "explanationVi": "Đoạn này là một tuyên bố mạnh mẽ rằng tình yêu — đặc biệt là loại tình yêu được đề cập trong ngữ cảnh này — không thể bị phá hủy hay lấy đi bởi bất kỳ sức mạnh nào, dù là cái chết, thời gian, khoảng cách, hay bất cứ điều gì có thể tưởng tượng. Mục đích là mang lại sự an ủi và cảm giác an toàn, nhắc nhở mọi người rằng họ được yêu thương vô điều kiện, bất kể điều gì xảy ra. Hãy nghĩ đây như một lời hứa tối thượng rằng tình yêu sẽ luôn tìm đến bạn."
       },
       {
         "ref": "John 13:34",
@@ -1085,7 +1263,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "A new command I give you: Love one another. As I have loved you, so you must love one another.",
         "textVi": "Ta ban cho các ngươi một điều răn mới, nghĩa là các ngươi phải yêu nhau: như ta đã yêu các ngươi thể nào, thì các ngươi cũng hãy yêu nhau thể ấy.",
         "noteEn": "Christ commands believers to love others as He has loved us",
-        "noteVi": "Chúa Giê-xu truyền lệnh cho tín hữu yêu nhau như Ngài đã yêu chúng ta"
+        "noteVi": "Chúa Giê-xu truyền lệnh cho tín hữu yêu nhau như Ngài đã yêu chúng ta",
+        "explanationEn": "Here, Jesus gives a simple but demanding instruction: love each other the same way he loved his followers — deeply, selflessly, and without condition. It's not just advice; it's presented as a command, suggesting that love for others is a core responsibility, not just a nice feeling. It challenges people to make love an active, daily choice rather than a passive emotion.",
+        "explanationVi": "Ở đây, Chúa Giê-su đưa ra một chỉ dẫn đơn giản nhưng đòi hỏi cao: hãy yêu thương nhau theo cách Ngài đã yêu các môn đồ — sâu sắc, không vị kỷ và không điều kiện. Đây không chỉ là lời khuyên; nó được trình bày như một mệnh lệnh, gợi ý rằng tình yêu thương người khác là trách nhiệm cốt lõi, không chỉ là một cảm xúc tốt đẹp. Nó thách thức mọi người biến tình yêu thành một lựa chọn chủ động, hằng ngày, thay vì chỉ là một cảm xúc thụ động."
       },
       {
         "ref": "1 John 4:19",
@@ -1095,7 +1275,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "We love because he first loved us.",
         "textVi": "Chúng ta yêu, vì Chúa đã yêu chúng ta trước.",
         "noteEn": "Our ability to love originates entirely from God's prior love",
-        "noteVi": "Khả năng yêu thương của chúng ta hoàn toàn xuất phát từ tình yêu trước của Đức Chúa Trời"
+        "noteVi": "Khả năng yêu thương của chúng ta hoàn toàn xuất phát từ tình yêu trước của Đức Chúa Trời",
+        "explanationEn": "This short verse explains where the capacity to love comes from — the idea is that humans are able to love because they were first loved by something greater than themselves. It suggests that love is not something we invented, but something we received and then pass on to others. It's a reminder that giving love to others often starts with first experiencing it yourself.",
+        "explanationVi": "Câu ngắn gọn này giải thích khả năng yêu thương đến từ đâu — ý tưởng là con người có thể yêu thương vì trước tiên họ đã được yêu thương bởi một điều gì đó lớn lao hơn chính họ. Nó gợi ý rằng tình yêu không phải là thứ chúng ta tự tạo ra, mà là thứ chúng ta nhận được rồi truyền tiếp cho người khác. Đây là lời nhắc nhở rằng việc trao đi tình yêu cho người khác thường bắt đầu từ chính việc bạn được trải nghiệm tình yêu đó trước."
       }
     ]
   },
@@ -1116,7 +1298,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "That is why a man leaves his father and mother and is united to his wife, and they become one flesh.",
         "textVi": "Vì vậy, người nam sẽ lìa cha mẹ mà gắn bó với vợ mình, và cả hai sẽ trở nên một thịt.",
         "noteEn": "God's original design for lifelong marital union",
-        "noteVi": "Thiết kế ban đầu của Đức Chúa Trời cho hôn nhân trọn đời"
+        "noteVi": "Thiết kế ban đầu của Đức Chúa Trời cho hôn nhân trọn đời",
+        "explanationEn": "This verse describes marriage as the moment when a person chooses to leave their parents' home and build a new life with their spouse, becoming deeply united as one. It suggests that marriage is more than a legal agreement — it's a profound bond where two people merge their lives together. This is one of the oldest written descriptions of what marriage is meant to look like.",
+        "explanationVi": "Câu này mô tả hôn nhân là khoảnh khắc một người rời xa gia đình cha mẹ để xây dựng cuộc sống mới cùng người bạn đời, gắn kết sâu sắc như thể trở thành một. Nó cho thấy hôn nhân không chỉ là một thỏa thuận pháp lý mà là mối liên kết sâu xa khi hai người hòa nhập cuộc sống vào nhau. Đây là một trong những mô tả bằng văn bản lâu đời nhất về ý nghĩa của hôn nhân."
       },
       {
         "ref": "Matthew 19:6",
@@ -1126,7 +1310,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate.",
         "textVi": "Như vậy, họ không còn là hai nữa, nhưng là một thịt. Vậy, loài người không được phân rẽ những gì Đức Chúa Trời đã kết hợp.",
         "noteEn": "Jesus affirms marriage as an inseparable God-ordained bond",
-        "noteVi": "Chúa Giê-xu khẳng định hôn nhân là giao ước không thể tách rời"
+        "noteVi": "Chúa Giê-xu khẳng định hôn nhân là giao ước không thể tách rời",
+        "explanationEn": "This verse emphasizes that marriage creates such a strong union between two people that they should be considered one unit, not two separate individuals anymore. It argues that this bond is sacred and should not be broken lightly by anyone, including the couple themselves. It reflects the view that marriage is a serious, lifelong commitment.",
+        "explanationVi": "Câu này nhấn mạnh rằng hôn nhân tạo ra sự gắn kết mạnh mẽ đến mức hai người được xem như một thể thống nhất, không còn là hai cá nhân riêng biệt nữa. Nó cho rằng mối ràng buộc này là thiêng liêng và không nên bị phá vỡ một cách dễ dàng bởi bất kỳ ai. Câu này phản ánh quan điểm rằng hôn nhân là một cam kết nghiêm túc, trọn đời."
       },
       {
         "ref": "Ephesians 5:25",
@@ -1136,7 +1322,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Husbands, love your wives, just as Christ loved the church and gave himself up for her.",
         "textVi": "Người làm chồng hãy yêu vợ mình, như Đấng Christ đã yêu Hội Thánh và phó chính mình vì Hội Thánh.",
         "noteEn": "Husbands called to sacrificial love modeled after Christ",
-        "noteVi": "Người chồng được kêu gọi yêu thương hy sinh như Chúa Giê-xu"
+        "noteVi": "Người chồng được kêu gọi yêu thương hy sinh như Chúa Giê-xu",
+        "explanationEn": "This verse instructs husbands to love their wives with a selfless, sacrificial kind of love — the kind that puts the other person's well-being above one's own. It uses the example of Christ (a religious figure who, Christians believe, gave his life for others) as the highest standard of devoted love. In the context of marriage, it sets a high bar for how a husband should treat his wife.",
+        "explanationVi": "Câu này khuyên người chồng hãy yêu thương vợ bằng tình yêu vô điều kiện và hy sinh — loại tình yêu đặt hạnh phúc của người kia lên trên bản thân mình. Nó dùng hình ảnh của Chúa Giê-su (một nhân vật tôn giáo mà người Cơ Đốc tin rằng đã hiến dâng mạng sống vì người khác) như tiêu chuẩn cao nhất của tình yêu tận tụy. Trong hôn nhân, câu này đặt ra một chuẩn mực cao về cách người chồng nên đối xử với vợ mình."
       },
       {
         "ref": "Proverbs 18:22",
@@ -1146,7 +1334,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "He who finds a wife finds what is good and receives favor from the LORD.",
         "textVi": "Ai tìm được vợ là tìm được điều tốt lành, và được ơn của Đức Giê-hô-va.",
         "noteEn": "A godly wife is a blessing and gift from the Lord",
-        "noteVi": "Người vợ hiền là phước lành và ân tứ từ Đức Chúa Trời"
+        "noteVi": "Người vợ hiền là phước lành và ân tứ từ Đức Chúa Trời",
+        "explanationEn": "This verse expresses the idea that finding a good life partner is one of the greatest blessings a person can experience. It reflects a positive view of marriage as something that brings joy, fulfillment, and well-being to a person's life. Essentially, it's saying that a loving marriage is a wonderful gift.",
+        "explanationVi": "Câu này bày tỏ quan điểm rằng tìm được người bạn đời tốt là một trong những may mắn lớn nhất mà một người có thể có được. Nó phản ánh cái nhìn tích cực về hôn nhân như điều mang lại niềm vui, sự trọn vẹn và hạnh phúc trong cuộc sống. Về cơ bản, câu này muốn nói rằng một cuộc hôn nhân yêu thương là một món quà tuyệt vời."
       },
       {
         "ref": "Hebrews 13:4",
@@ -1156,7 +1346,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Marriage should be honored by all, and the marriage bed kept pure, for God will judge the adulterer and all the sexually immoral.",
         "textVi": "Mọi người phải tôn trọng hôn nhân, và giữ cho giường không bị ô uế; vì Đức Chúa Trời sẽ phán xét những kẻ gian dâm và ngoại tình.",
         "noteEn": "Marriage must be honored and kept pure before God",
-        "noteVi": "Hôn nhân phải được tôn trọng và giữ gìn tinh sạch trước Đức Chúa Trời"
+        "noteVi": "Hôn nhân phải được tôn trọng và giữ gìn tinh sạch trước Đức Chúa Trời",
+        "explanationEn": "This verse encourages everyone to respect and value the institution of marriage, and to remain faithful within it. It warns that being unfaithful or engaging in sexual relationships outside of marriage is considered seriously wrong. It reflects the view that loyalty and purity within marriage are important values to uphold.",
+        "explanationVi": "Câu này khuyến khích mọi người tôn trọng và trân trọng hôn nhân, đồng thời sống chung thủy trong mối quan hệ đó. Nó cảnh báo rằng việc ngoại tình hoặc quan hệ tình dục ngoài hôn nhân bị xem là sai trái nghiêm trọng. Câu này phản ánh quan điểm rằng sự chung thủy và trong sáng trong hôn nhân là những giá trị quan trọng cần giữ gìn."
       },
       {
         "ref": "Song of Solomon 8:7",
@@ -1166,7 +1358,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Many waters cannot quench love; rivers cannot sweep it away. If one were to give all the wealth of one's house for love, it would be utterly scorned.",
         "textVi": "Nước lớn không thể dập tắt tình yêu, sông cũng không thể nhấn chìm được. Dù ai đem cả gia sản đổi lấy tình yêu thì cũng bị khinh thường.",
         "noteEn": "True marital love is unconquerable and priceless",
-        "noteVi": "Tình yêu hôn nhân thật sự là vô giá và không thể chinh phục"
+        "noteVi": "Tình yêu hôn nhân thật sự là vô giá và không thể chinh phục",
+        "explanationEn": "This verse is a poetic declaration that true love is completely indestructible — no force of nature or amount of money can buy or destroy it. It comes from a collection of ancient love poetry and captures the depth and resilience of romantic love. In the context of marriage, it celebrates the idea that genuine love between partners is priceless and enduring.",
+        "explanationVi": "Câu này là một tuyên bố thơ ca rằng tình yêu chân thật hoàn toàn không thể bị phá hủy — không có sức mạnh thiên nhiên nào hay bất kỳ số tiền nào có thể mua hay dập tắt được nó. Câu này đến từ một tập thơ tình cổ đại và nắm bắt chiều sâu cũng như sức bền của tình yêu lãng mạn. Trong bối cảnh hôn nhân, nó ca ngợi ý tưởng rằng tình yêu chân thành giữa hai người là vô giá và bền vững mãi mãi."
       }
     ]
   },
@@ -1187,7 +1381,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "That is why a man leaves his father and mother and is united to his wife, and they become one flesh.",
         "textVi": "Vì vậy, người nam sẽ lìa cha mẹ mà gắn bó với vợ mình, và cả hai sẽ trở nên một thịt.",
         "noteEn": "God's original design for marriage and family foundation",
-        "noteVi": "Kế hoạch ban đầu của Đức Chúa Trời cho hôn nhân và nền tảng gia đình"
+        "noteVi": "Kế hoạch ban đầu của Đức Chúa Trời cho hôn nhân và nền tảng gia đình",
+        "explanationEn": "This verse describes marriage as the foundation of a new family unit, where a couple commits fully to each other and builds a life together. It suggests that starting a family means a person's primary bond shifts from their parents to their spouse, creating a deep and lasting partnership.",
+        "explanationVi": "Câu này mô tả hôn nhân là nền tảng của một gia đình mới, nơi hai người cam kết gắn bó trọn vẹn với nhau và cùng nhau xây dựng cuộc sống. Nó gợi ý rằng khi lập gia đình, mối liên kết chính của một người sẽ chuyển từ cha mẹ sang người bạn đời, tạo nên một mối quan hệ sâu sắc và bền vững."
       },
       {
         "ref": "Exodus 20:12",
@@ -1197,7 +1393,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Honor your father and your mother, so that you may live long in the land the LORD your God is giving you.",
         "textVi": "Hãy hiếu kính cha mẹ ngươi, để ngươi được sống lâu trên đất mà Giê-hô-va Đức Chúa Trời ngươi ban cho ngươi.",
         "noteEn": "God commands children to honor and respect their parents",
-        "noteVi": "Đức Chúa Trời truyền lệnh con cái phải hiếu kính cha mẹ"
+        "noteVi": "Đức Chúa Trời truyền lệnh con cái phải hiếu kính cha mẹ",
+        "explanationEn": "This is one of the famous Ten Commandments, and it calls on children — of any age — to treat their parents with respect and gratitude. The idea is that honoring one's parents creates a healthy, stable family and community life that benefits everyone across generations.",
+        "explanationVi": "Đây là một trong Mười Điều Răn nổi tiếng, kêu gọi con cái — ở bất kỳ lứa tuổi nào — hãy đối xử với cha mẹ bằng sự tôn trọng và lòng biết ơn. Ý tưởng ở đây là việc kính trọng cha mẹ sẽ tạo nên một gia đình và cộng đồng lành mạnh, ổn định, mang lại lợi ích cho mọi người qua nhiều thế hệ."
       },
       {
         "ref": "Deuteronomy 6:6-7",
@@ -1207,7 +1405,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "These commandments that I give you today are to be on your hearts. Impress them on your children. Talk about them when you sit at home and when you walk along the road, when you lie down and when you get up.",
         "textVi": "Các điều răn mà tôi truyền cho anh em hôm nay phải ghi tạc vào lòng anh em. Hãy dạy dỗ chúng cho con cái anh em. Hãy nói về những điều đó khi ngồi trong nhà, lúc đi đường, khi nằm xuống và khi thức dậy.",
         "noteEn": "Parents are called to teach God's Word to their children daily",
-        "noteVi": "Cha mẹ được kêu gọi dạy Lời Chúa cho con cái mỗi ngày"
+        "noteVi": "Cha mẹ được kêu gọi dạy Lời Chúa cho con cái mỗi ngày",
+        "explanationEn": "This passage encourages parents to weave important values and life lessons into everyday family moments — at meals, on walks, at bedtime. It emphasizes that the home is the most natural and powerful place to teach children how to live well.",
+        "explanationVi": "Đoạn này khuyến khích cha mẹ lồng ghép những giá trị quan trọng và bài học cuộc sống vào những khoảnh khắc bình thường hàng ngày trong gia đình — khi ăn cơm, khi đi dạo, khi đi ngủ. Nó nhấn mạnh rằng gia đình chính là nơi tự nhiên và mạnh mẽ nhất để dạy con cái cách sống tốt."
       },
       {
         "ref": "Proverbs 22:6",
@@ -1217,7 +1417,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Start children off on the way they should go, and even when they are old they will not turn from it.",
         "textVi": "Hãy dạy trẻ thơ con đường nó phải đi, dù khi về già nó cũng không lìa khỏi đó.",
         "noteEn": "Early godly training shapes children for a lifetime",
-        "noteVi": "Sự dạy dỗ kính Chúa từ sớm định hình cuộc đời con cái"
+        "noteVi": "Sự dạy dỗ kính Chúa từ sớm định hình cuộc đời con cái",
+        "explanationEn": "This proverb highlights the long-lasting impact of a child's upbringing, suggesting that the values and habits instilled early in life tend to stay with a person forever. It is a reminder to parents that the guidance they provide shapes who their children will become as adults.",
+        "explanationVi": "Câu châm ngôn này nhấn mạnh tầm ảnh hưởng lâu dài của việc nuôi dạy con cái, cho rằng những giá trị và thói quen được hình thành từ nhỏ thường gắn bó với một người suốt đời. Đây là lời nhắc nhở dành cho cha mẹ rằng sự định hướng họ trao cho con sẽ định hình con người mà đứa trẻ sẽ trở thành khi lớn lên."
       },
       {
         "ref": "Ephesians 6:1-4",
@@ -1227,7 +1429,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Children, obey your parents in the Lord, for this is right. 'Honor your father and mother'—which is the first commandment with a promise— 'so that it may go well with you and that you may enjoy long life on the earth.' Fathers, do not exasperate your children; instead, bring them up in the training and instruction of the Lord.",
         "textVi": "Hỡi các con cái, hãy vâng phục cha mẹ trong Chúa, vì điều nầy là phải. 'Hãy hiếu kính cha mẹ ngươi'—đây là điều răn thứ nhất có kèm theo lời hứa— 'để ngươi được hạnh phúc và sống lâu trên đất.' Hỡi các bậc cha, đừng chọc giận con cái mình; nhưng hãy nuôi nấng chúng trong sự dạy dỗ và khuyên bảo của Chúa.",
         "noteEn": "Paul outlines mutual responsibilities of children and fathers in family",
-        "noteVi": "Phao-lô nêu trách nhiệm của con cái và cha trong gia đình"
+        "noteVi": "Phao-lô nêu trách nhiệm của con cái và cha trong gia đình",
+        "explanationEn": "This passage outlines a two-way responsibility within families: children are encouraged to respect and listen to their parents, while parents are reminded not to be harsh or unreasonable, but to guide their children with patience and wisdom. It portrays a balanced family relationship built on mutual respect.",
+        "explanationVi": "Đoạn này nêu lên trách nhiệm hai chiều trong gia đình: con cái được khuyến khích tôn trọng và lắng nghe cha mẹ, trong khi cha mẹ được nhắc nhở không nên hà khắc hay vô lý, mà hãy dẫn dắt con cái bằng sự kiên nhẫn và khôn ngoan. Nó thể hiện một mối quan hệ gia đình cân bằng, được xây dựng trên sự tôn trọng lẫn nhau."
       },
       {
         "ref": "Psalm 127:3",
@@ -1237,7 +1441,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Children are a heritage from the LORD, offspring a reward from him.",
         "textVi": "Kìa, con cái là cơ nghiệp Đức Giê-hô-va ban cho; Bông trái của tử cung là phần thưởng của Ngài.",
         "noteEn": "Children are a precious gift and blessing from God",
-        "noteVi": "Con cái là món quà quý giá và phước lành từ Đức Chúa Trời"
+        "noteVi": "Con cái là món quà quý giá và phước lành từ Đức Chúa Trời",
+        "explanationEn": "This verse expresses the idea that children are one of life's greatest gifts — not something to be taken for granted, but a true blessing to be treasured. It encourages parents to see raising children as a meaningful and valuable part of life.",
+        "explanationVi": "Câu này diễn đạt ý tưởng rằng con cái là một trong những món quà quý giá nhất của cuộc đời — không phải điều hiển nhiên, mà là một phước lành thực sự đáng được trân trọng. Nó khuyến khích cha mẹ xem việc nuôi dạy con cái là một phần ý nghĩa và đáng giá của cuộc sống."
       }
     ]
   },
@@ -1258,7 +1464,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Greater love has no one than this: to lay down one's life for one's friends.",
         "textVi": "Chẳng có tình yêu nào lớn hơn tình yêu của người hy sinh mạng sống vì bạn hữu mình.",
         "noteEn": "Jesus defines the ultimate sacrifice of true friendship.",
-        "noteVi": "Chúa Giê-xu định nghĩa sự hy sinh cao nhất của tình bạn thật."
+        "noteVi": "Chúa Giê-xu định nghĩa sự hy sinh cao nhất của tình bạn thật.",
+        "explanationEn": "This verse says that the greatest act of love a person can show is being willing to give up their own life for someone they care about. It sets the highest possible standard for friendship — true friendship means putting someone else's well-being above your own. It challenges us to think about how deeply we are willing to commit to the people we call friends.",
+        "explanationVi": "Câu này nói rằng hành động yêu thương cao cả nhất mà một người có thể thể hiện là sẵn sàng hi sinh mạng sống của mình vì người mà họ quan tâm. Đây là tiêu chuẩn cao nhất của tình bạn — tình bạn thật sự có nghĩa là đặt lợi ích của người khác lên trên bản thân mình. Câu này khiến chúng ta suy nghĩ về mức độ cam kết sâu sắc mà ta dành cho những người mà ta gọi là bạn bè."
       },
       {
         "ref": "Proverbs 17:17",
@@ -1268,7 +1476,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "A friend loves at all times, and a brother is born for a time of adversity.",
         "textVi": "Bạn hữu thương nhau luôn luôn; Anh em sinh ra để giúp đỡ trong lúc hoạn nạn.",
         "noteEn": "True friends remain loyal through every season of life.",
-        "noteVi": "Bạn thật trung thành trong mọi hoàn cảnh của cuộc sống."
+        "noteVi": "Bạn thật trung thành trong mọi hoàn cảnh của cuộc sống.",
+        "explanationEn": "This verse describes a true friend as someone who stands by you not just when life is easy, but especially during hard and painful times. Unlike casual acquaintances who may disappear when things get tough, a genuine friend remains loyal no matter the circumstances. It highlights that the real test of friendship is how someone treats you when you are struggling.",
+        "explanationVi": "Câu này mô tả một người bạn thật sự là người luôn ở bên bạn không chỉ khi cuộc sống thuận lợi, mà đặc biệt là trong những lúc khó khăn và đau khổ. Không giống như những người quen thông thường có thể biến mất khi mọi thứ trở nên khó khăn, một người bạn chân thành sẽ luôn trung thành bất kể hoàn cảnh nào. Câu này nhấn mạnh rằng phép thử thật sự của tình bạn là cách người đó đối xử với bạn khi bạn đang gặp khó khăn."
       },
       {
         "ref": "Proverbs 27:17",
@@ -1278,7 +1488,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "As iron sharpens iron, so one person sharpens another.",
         "textVi": "Sắt mài sắt cho sắc; Người này mài giũa người kia.",
         "noteEn": "Godly friendship sharpens character and spiritual growth.",
-        "noteVi": "Tình bạn kính Chúa mài giũa tính cách và sự tăng trưởng thuộc linh."
+        "noteVi": "Tình bạn kính Chúa mài giũa tính cách và sự tăng trưởng thuộc linh.",
+        "explanationEn": "Just like two pieces of iron rubbing together can sharpen each other's edges, good friends push each other to grow, improve, and become better people. This verse celebrates the idea that healthy friendships are not just about comfort, but also about honest feedback and mutual challenge. Being around the right people can help you develop skills, character, and wisdom you wouldn't gain on your own.",
+        "explanationVi": "Giống như hai thanh sắt mài vào nhau có thể làm sắc bén cả hai, những người bạn tốt thúc đẩy nhau phát triển, tiến bộ và trở thành người tốt hơn. Câu này ca ngợi ý tưởng rằng tình bạn lành mạnh không chỉ là về sự thoải mái, mà còn là về những phản hồi thẳng thắn và sự thách thức lẫn nhau. Ở bên những người đúng đắn có thể giúp bạn phát triển kỹ năng, tính cách và sự khôn ngoan mà bạn không thể tự mình có được."
       },
       {
         "ref": "1 Samuel 18:1",
@@ -1288,7 +1500,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "After David had finished talking with Saul, Jonathan became one in spirit with David, and he loved him as himself.",
         "textVi": "Khi Đa-vít nói chuyện xong với Sau-lơ, thì linh hồn của Giô-na-than khắng khít với linh hồn của Đa-vít, và Giô-na-than yêu người như mạng sống mình.",
         "noteEn": "David and Jonathan model a deep covenant friendship in Scripture.",
-        "noteVi": "Đa-vít và Giô-na-than là mẫu mực về tình bạn giao ước sâu sắc."
+        "noteVi": "Đa-vít và Giô-na-than là mẫu mực về tình bạn giao ước sâu sắc.",
+        "explanationEn": "This passage describes the moment when two people — David and Jonathan — felt an instant and deep connection, as if their hearts and minds were completely in tune with each other. It captures how some friendships form quickly and powerfully, built on genuine understanding and care rather than shared history. This kind of bond, where you value a friend as much as yourself, is considered one of the most beautiful examples of friendship in the Bible.",
+        "explanationVi": "Đoạn này mô tả khoảnh khắc hai người — David và Jonathan — cảm nhận được sự kết nối sâu sắc và tức thì, như thể tâm hồn họ hoàn toàn hòa hợp với nhau. Nó nắm bắt được cách một số tình bạn hình thành nhanh chóng và mạnh mẽ, được xây dựng trên sự hiểu biết và quan tâm chân thật chứ không chỉ dựa vào lịch sử chung. Kiểu kết nối này, nơi bạn coi trọng một người bạn như chính bản thân mình, được xem là một trong những ví dụ đẹp nhất về tình bạn trong Kinh Thánh."
       },
       {
         "ref": "Ecclesiastes 4:9",
@@ -1298,7 +1512,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Two are better than one, because they have a good return for their labor.",
         "textVi": "Hai người hơn một, vì họ được công giá tốt về công lao của mình.",
         "noteEn": "Companionship brings strength, productivity, and mutual support.",
-        "noteVi": "Tình bạn mang lại sức mạnh, hiệu quả và sự hỗ trợ lẫn nhau."
+        "noteVi": "Tình bạn mang lại sức mạnh, hiệu quả và sự hỗ trợ lẫn nhau.",
+        "explanationEn": "This verse simply points out that working together with someone else produces better results than working alone. Applied to friendship, it means that having a supportive companion in life — someone to share burdens, celebrate wins, and solve problems with — makes everything more effective and meaningful. It is a practical reminder that human beings are naturally stronger and more capable when they collaborate.",
+        "explanationVi": "Câu này đơn giản chỉ ra rằng làm việc cùng với người khác sẽ mang lại kết quả tốt hơn so với làm một mình. Áp dụng vào tình bạn, điều đó có nghĩa là có một người bạn đồng hành hỗ trợ trong cuộc sống — người chia sẻ gánh nặng, ăn mừng thành công và cùng giải quyết vấn đề — làm cho mọi thứ trở nên hiệu quả và có ý nghĩa hơn. Đây là lời nhắc nhở thực tế rằng con người về bản chất mạnh mẽ và có năng lực hơn khi họ hợp tác cùng nhau."
       },
       {
         "ref": "John 15:15",
@@ -1308,7 +1524,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I no longer call you servants, because a servant does not know his master's business. Instead, I have called you friends, for everything that I learned from my Father I have made known to you.",
         "textVi": "Ta không còn gọi các ngươi là đầy tớ nữa, vì đầy tớ không biết điều chủ mình làm; nhưng ta đã gọi các ngươi là bạn hữu ta, vì ta đã tỏ cho các ngươi biết mọi điều ta đã nghe nơi Cha ta.",
         "noteEn": "Jesus calls his disciples friends, revealing intimate relationship with God.",
-        "noteVi": "Chúa Giê-xu gọi các môn đồ là bạn hữu, bày tỏ mối quan hệ thân mật với Đức Chúa Trời."
+        "noteVi": "Chúa Giê-xu gọi các môn đồ là bạn hữu, bày tỏ mối quan hệ thân mật với Đức Chúa Trời.",
+        "explanationEn": "In this verse, Jesus (a central figure in Christianity) is telling his closest followers that he no longer sees them as mere helpers who follow orders, but as true friends whom he trusts with everything he knows. It redefines friendship as a relationship based on openness, trust, and sharing — not hierarchy or obligation. This challenges us to reflect on whether our own friendships are built on genuine transparency and mutual respect.",
+        "explanationVi": "Trong câu này, Chúa Giêsu (một nhân vật trung tâm trong Kitô giáo) nói với những người thân cận nhất của mình rằng Ngài không còn coi họ là những người chỉ làm theo lệnh, mà là những người bạn thật sự mà Ngài tin tưởng chia sẻ mọi điều Ngài biết. Câu này tái định nghĩa tình bạn là một mối quan hệ dựa trên sự cởi mở, tin tưởng và chia sẻ — chứ không phải dựa trên thứ bậc hay nghĩa vụ. Điều này thách thức chúng ta suy ngẫm xem liệu tình bạn của chính mình có được xây dựng trên sự minh bạch thực sự và tôn trọng lẫn nhau hay không."
       }
     ]
   },
@@ -1329,7 +1547,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "If we confess our sins, he is faithful and just and will forgive us our sins and purify us from all unrighteousness.",
         "textVi": "Còn nếu chúng ta xưng tội mình, thì Ngài là thành tín công bình để tha tội cho chúng ta, và làm cho chúng ta sạch mọi điều gian ác.",
         "noteEn": "God promises full forgiveness to all who confess their sins.",
-        "noteVi": "Đức Chúa Trời hứa tha thứ hoàn toàn cho ai xưng nhận tội lỗi mình."
+        "noteVi": "Đức Chúa Trời hứa tha thứ hoàn toàn cho ai xưng nhận tội lỗi mình.",
+        "explanationEn": "This verse says that if you honestly admit the wrong things you've done, God will forgive you completely and make you clean inside. It's like a fresh start — no matter what mistakes you've made, honesty opens the door to forgiveness. The idea is that forgiveness isn't earned; it's given freely when you're willing to be truthful.",
+        "explanationVi": "Câu này nói rằng nếu bạn thành thật thừa nhận những điều sai trái mình đã làm, Đức Chúa Trời sẽ tha thứ hoàn toàn và giúp bạn được thanh thản trong lòng. Đó giống như một sự khởi đầu mới — dù bạn đã mắc sai lầm gì, sự thành thật sẽ mở ra cánh cửa tha thứ. Ý tưởng ở đây là sự tha thứ không cần phải kiếm được; nó được ban cho miễn phí khi bạn sẵn sàng thành thật."
       },
       {
         "ref": "Ephesians 1:7",
@@ -1339,7 +1559,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "In him we have redemption through his blood, the forgiveness of sins, in accordance with the riches of God's grace.",
         "textVi": "Ấy là trong Đấng đó, chúng ta có sự cứu chuộc bởi huyết Ngài, tức là sự tha tội, theo sự dư dật của ân điển Ngài.",
         "noteEn": "Forgiveness is rooted in Christ's atoning blood and God's grace.",
-        "noteVi": "Sự tha thứ được đặt nền tảng trên huyết chuộc tội của Chúa Giê-xu."
+        "noteVi": "Sự tha thứ được đặt nền tảng trên huyết chuộc tội của Chúa Giê-xu.",
+        "explanationEn": "This verse teaches that through Jesus's sacrifice, people can receive forgiveness for their wrongdoings as a gift from God's generosity. 'Redemption' here means being set free from the weight of past mistakes. It emphasizes that forgiveness is not something you buy or earn, but something freely given out of love.",
+        "explanationVi": "Câu này dạy rằng qua sự hy sinh của Chúa Giê-su, con người có thể nhận được sự tha thứ cho những lỗi lầm của mình như một món quà từ lòng rộng lượng của Đức Chúa Trời. 'Sự cứu chuộc' ở đây có nghĩa là được giải thoát khỏi gánh nặng của những sai lầm trong quá khứ. Câu này nhấn mạnh rằng sự tha thứ không phải là thứ bạn mua được hay kiếm được, mà là thứ được ban cho một cách nhưng không từ tình yêu thương."
       },
       {
         "ref": "Psalm 103:12",
@@ -1349,7 +1571,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "as far as the east is from the west, so far has he removed our transgressions from us.",
         "textVi": "Phương đông xa cách phương tây bao nhiêu, thì Ngài đã đem sự vi phạm chúng ta khỏi chúng ta bấy nhiêu.",
         "noteEn": "God removes forgiven sin completely and eternally from the believer.",
-        "noteVi": "Đức Chúa Trời loại bỏ tội lỗi đã được tha khỏi người tin Ngài hoàn toàn."
+        "noteVi": "Đức Chúa Trời loại bỏ tội lỗi đã được tha khỏi người tin Ngài hoàn toàn.",
+        "explanationEn": "Using a vivid image, this verse compares God's forgiveness to the distance between east and west — essentially saying that when God forgives, your wrongdoings are moved as far away as possible. It's a poetic way of saying forgiveness is total and complete, not partial. The idea is that God doesn't hold your past against you once forgiveness is given.",
+        "explanationVi": "Dùng một hình ảnh sinh động, câu này so sánh sự tha thứ của Đức Chúa Trời với khoảng cách giữa phương đông và phương tây — về cơ bản là nói rằng khi Ngài tha thứ, những lỗi lầm của bạn được đẩy ra xa nhất có thể. Đây là cách nói thơ mộng để diễn đạt rằng sự tha thứ là hoàn toàn và trọn vẹn, không phải chỉ một phần. Ý tưởng là Đức Chúa Trời sẽ không còn giữ lại quá khứ của bạn sau khi đã tha thứ."
       },
       {
         "ref": "Isaiah 43:25",
@@ -1359,7 +1583,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I, even I, am he who blots out your transgressions, for my own sake, and remembers your sins no more.",
         "textVi": "Ta, chính ta là Đấng vì cớ ta xóa các sự vi phạm ngươi, và không nhớ đến tội lỗi ngươi nữa.",
         "noteEn": "God sovereignly chooses to forget the sins He has forgiven.",
-        "noteVi": "Đức Chúa Trời chủ động quên đi những tội lỗi mà Ngài đã tha thứ."
+        "noteVi": "Đức Chúa Trời chủ động quên đi những tội lỗi mà Ngài đã tha thứ.",
+        "explanationEn": "This verse describes God choosing to completely erase people's wrongdoings from memory, as if they never happened. The phrase 'blots out' is like permanently deleting a file — it's gone for good. It highlights that true forgiveness means not bringing up past mistakes again, which is also a good model for how people can forgive each other.",
+        "explanationVi": "Câu này mô tả Đức Chúa Trời chủ động xóa bỏ hoàn toàn những lỗi lầm của con người khỏi ký ức, như thể chúng chưa bao giờ xảy ra. Cụm từ 'xóa bỏ' giống như xóa vĩnh viễn một tập tin — nó biến mất hoàn toàn. Câu này nhấn mạnh rằng sự tha thứ thật sự có nghĩa là không nhắc lại những sai lầm trong quá khứ, điều này cũng là một gương tốt cho cách con người tha thứ cho nhau."
       },
       {
         "ref": "Matthew 6:14",
@@ -1369,7 +1595,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For if you forgive other people when they sin against you, your heavenly Father will also forgive you.",
         "textVi": "Vì nếu các ngươi tha lỗi cho người ta, thì Cha các ngươi ở trên trời cũng sẽ tha thứ các ngươi.",
         "noteEn": "Receiving God's forgiveness calls us to forgive others likewise.",
-        "noteVi": "Nhận được sự tha thứ của Đức Chúa Trời thúc đẩy chúng ta tha thứ người khác."
+        "noteVi": "Nhận được sự tha thứ của Đức Chúa Trời thúc đẩy chúng ta tha thứ người khác.",
+        "explanationEn": "This verse connects two sides of forgiveness: if you forgive others who have wronged you, God will also forgive you. It suggests that forgiveness is not just something you receive, but something you are also meant to give. It's a reminder that holding grudges makes it harder to experience forgiveness yourself.",
+        "explanationVi": "Câu này kết nối hai khía cạnh của sự tha thứ: nếu bạn tha thứ cho những người đã xúc phạm bạn, Đức Chúa Trời cũng sẽ tha thứ cho bạn. Nó gợi ý rằng sự tha thứ không chỉ là điều bạn nhận được, mà còn là điều bạn cần trao đi. Đây là lời nhắc nhở rằng việc giữ lòng oán hận khiến bạn khó trải nghiệm được sự tha thứ trong chính cuộc sống của mình."
       },
       {
         "ref": "Colossians 3:13",
@@ -1379,7 +1607,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Bear with each other and forgive one another if any of you has a grievance against someone. Forgive as the Lord forgave you.",
         "textVi": "Hãy nhịn nhục nhau và tha thứ nhau, nếu người này có điều gì phàn nàn về người kia. Như Chúa đã tha thứ anh em thể nào, thì anh em cũng phải tha thứ thể ấy.",
         "noteEn": "Christ's forgiveness of us is the model for forgiving one another.",
-        "noteVi": "Sự tha thứ của Chúa Giê-xu là mẫu mực cho chúng ta tha thứ lẫn nhau."
+        "noteVi": "Sự tha thứ của Chúa Giê-xu là mẫu mực cho chúng ta tha thứ lẫn nhau.",
+        "explanationEn": "This verse encourages people to be patient with one another and to forgive each other when conflicts arise, using God's forgiveness as the standard to follow. It's a practical guide for relationships — reminding us that since everyone makes mistakes, everyone also deserves a chance to be forgiven. The core message is that forgiveness should flow naturally in our relationships with others.",
+        "explanationVi": "Câu này khuyến khích mọi người kiên nhẫn với nhau và tha thứ cho nhau khi có mâu thuẫn xảy ra, lấy sự tha thứ của Đức Chúa Trời làm tiêu chuẩn để noi theo. Đây là một hướng dẫn thực tế cho các mối quan hệ — nhắc nhở chúng ta rằng vì ai cũng mắc sai lầm, nên ai cũng xứng đáng được cho một cơ hội tha thứ. Thông điệp cốt lõi là sự tha thứ nên tự nhiên hiện diện trong các mối quan hệ của chúng ta với người khác."
       }
     ]
   },
@@ -1400,7 +1630,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Blessed are the peacemakers, for they will be called children of God.",
         "textVi": "Phước cho những kẻ làm cho người hòa thuận, vì sẽ được gọi là con Đức Chúa Trời!",
         "noteEn": "Christ calls believers to actively pursue peace amid conflict.",
-        "noteVi": "Chúa Giê-xu kêu gọi tín hữu chủ động tìm kiếm hòa bình giữa xung đột."
+        "noteVi": "Chúa Giê-xu kêu gọi tín hữu chủ động tìm kiếm hòa bình giữa xung đột.",
+        "explanationEn": "This verse says that people who work to resolve conflicts and bring harmony between others deserve great respect. It encourages us to be active peacemakers rather than bystanders when disagreements arise, recognizing that choosing peace over conflict is one of the most honorable things a person can do.",
+        "explanationVi": "Câu này nói rằng những người nỗ lực giải quyết xung đột và tạo ra sự hòa thuận giữa mọi người xứng đáng được tôn trọng. Nó khuyến khích chúng ta chủ động xây dựng hòa bình thay vì đứng ngoài khi có mâu thuẫn, vì chọn hòa giải thay vì xung đột là một trong những điều cao quý nhất con người có thể làm."
       },
       {
         "ref": "James 4:1",
@@ -1410,7 +1642,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "What causes fights and quarrels among you? Don't they come from your desires that battle within you?",
         "textVi": "Những cuộc chiến tranh, những cuộc tranh đấu trong anh em bởi đâu mà đến? Há chẳng phải từ tư dục anh em vẫn hay chiến đấu trong chi thể mình sao?",
         "noteEn": "Conflict's root is internal sinful desires, not external circumstances.",
-        "noteVi": "Gốc rễ của xung đột là những ham muốn tội lỗi bên trong, không phải hoàn cảnh bên ngoài."
+        "noteVi": "Gốc rễ của xung đột là những ham muốn tội lỗi bên trong, không phải hoàn cảnh bên ngoài.",
+        "explanationEn": "This verse points out that most conflicts between people actually start from unmet desires, jealousy, or selfishness within ourselves. It suggests that before blaming others for a fight, we should look inward and examine what internal frustrations or wants might be driving our behavior.",
+        "explanationVi": "Câu này chỉ ra rằng hầu hết các xung đột giữa con người thực ra bắt nguồn từ những ham muốn, ghen tị hoặc ích kỷ bên trong chính mình. Nó gợi ý rằng trước khi đổ lỗi cho người khác, chúng ta nên tự nhìn lại bản thân và xem xét những bực bội hay mong muốn nào đang chi phối hành động của mình."
       },
       {
         "ref": "Romans 12:18",
@@ -1420,7 +1654,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "If it is possible, as far as it depends on you, live at peace with everyone.",
         "textVi": "Nếu có thể được, thì hãy hết sức mình mà hòa thuận với mọi người.",
         "noteEn": "Believers bear personal responsibility to pursue peace with all.",
-        "noteVi": "Tín hữu có trách nhiệm cá nhân trong việc theo đuổi hòa bình với mọi người."
+        "noteVi": "Tín hữu có trách nhiệm cá nhân trong việc theo đuổi hòa bình với mọi người.",
+        "explanationEn": "This verse gives realistic and practical advice: do your best to get along with everyone, even if you cannot control how others behave. It acknowledges that peace is not always fully achievable, but emphasizes that we are each personally responsible for doing our part to avoid unnecessary conflict.",
+        "explanationVi": "Câu này đưa ra lời khuyên thực tế: hãy cố hết sức để sống hòa thuận với mọi người, dù bạn không thể kiểm soát hành động của người khác. Nó thừa nhận rằng hòa bình không phải lúc nào cũng đạt được hoàn toàn, nhưng nhấn mạnh rằng mỗi người chúng ta có trách nhiệm làm phần việc của mình để tránh xung đột không cần thiết."
       },
       {
         "ref": "Proverbs 15:1",
@@ -1430,7 +1666,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "A gentle answer turns away wrath, but a harsh word stirs up anger.",
         "textVi": "Lời đáp êm nhẹ làm nguôi cơn giận, còn lời xẳng xớm trêu thêm nộ khí.",
         "noteEn": "Gentle words are a God-given tool to de-escalate conflict.",
-        "noteVi": "Lời nói nhẹ nhàng là công cụ Chúa ban để giảm bớt xung đột."
+        "noteVi": "Lời nói nhẹ nhàng là công cụ Chúa ban để giảm bớt xung đột.",
+        "explanationEn": "This is a piece of timeless wisdom about how the way we respond during conflict can either calm a situation down or make it much worse. Responding to anger with gentleness and patience tends to de-escalate tension, while reacting harshly only adds fuel to the fire.",
+        "explanationVi": "Đây là một bài học khôn ngoan vượt thời gian về cách chúng ta phản ứng trong xung đột có thể làm dịu tình huống hoặc khiến nó trở nên tồi tệ hơn. Đáp lại sự tức giận bằng sự nhẹ nhàng và kiên nhẫn thường giúp giảm căng thẳng, trong khi phản ứng gay gắt chỉ đổ thêm dầu vào lửa."
       },
       {
         "ref": "Matthew 18:15",
@@ -1440,7 +1678,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "If your brother or sister sins, go and point out their fault, just between the two of you. If they listen to you, you have won them over.",
         "textVi": "Nếu anh em ngươi phạm tội cùng ngươi, hãy đi, và chỉ một mình ngươi với người ấy mà tỏ lỗi người. Nếu người nghe ngươi, thì ngươi đã được anh em lại rồi.",
         "noteEn": "Jesus gives a clear process for resolving interpersonal conflict directly.",
-        "noteVi": "Chúa Giê-xu chỉ ra quy trình rõ ràng để giải quyết xung đột giữa người với người."
+        "noteVi": "Chúa Giê-xu chỉ ra quy trình rõ ràng để giải quyết xung đột giữa người với người.",
+        "explanationEn": "This verse advises that when someone wrongs you, the best first step is to talk to them privately and directly rather than involving others or making it public. This approach respects the other person's dignity and gives the conflict the best chance of being resolved quietly and effectively.",
+        "explanationVi": "Câu này khuyên rằng khi ai đó làm sai với bạn, bước đầu tiên tốt nhất là nói chuyện riêng và thẳng thắn với họ, thay vì lôi kéo người khác hoặc công khai sự việc. Cách tiếp cận này tôn trọng phẩm giá của đối phương và tạo cơ hội tốt nhất để giải quyết xung đột một cách lặng lẽ và hiệu quả."
       },
       {
         "ref": "Ephesians 4:26",
@@ -1450,7 +1690,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "\"In your anger do not sin\": Do not let the sun go down while you are still angry,",
         "textVi": "Ví bằng anh em có tức giận, thì chớ phạm tội; chớ căm giận cho đến khi mặt trời lặn.",
         "noteEn": "Unresolved anger fuels ongoing conflict and opens the door to sin.",
-        "noteVi": "Cơn giận không được giải quyết nuôi dưỡng xung đột và mở cửa cho tội lỗi."
+        "noteVi": "Cơn giận không được giải quyết nuôi dưỡng xung đột và mở cửa cho tội lỗi.",
+        "explanationEn": "This verse acknowledges that feeling angry is a natural human emotion, but warns that staying angry for too long can lead us to say or do harmful things we later regret. It encourages people to resolve conflicts and let go of anger quickly, rather than letting resentment build up overnight.",
+        "explanationVi": "Câu này thừa nhận rằng cảm thấy tức giận là cảm xúc tự nhiên của con người, nhưng cảnh báo rằng giữ mãi sự tức giận có thể khiến chúng ta nói hoặc làm những điều tổn hại mà sau này hối tiếc. Nó khuyến khích mọi người giải quyết xung đột và buông bỏ cơn giận nhanh chóng, thay vì để sự oán giận tích tụ qua đêm."
       }
     ]
   },
@@ -1471,7 +1713,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Start children off on the way they should go, and even when they are old they will not turn from it.",
         "textVi": "Hãy dạy cho trẻ thơ con đường nó phải theo; Dù khi nó trở về già, cũng không hề lìa khỏi đó.",
         "noteEn": "Early godly training shapes a child's entire life.",
-        "noteVi": "Sự dạy dỗ kính Chúa từ sớm định hướng cả cuộc đời con trẻ."
+        "noteVi": "Sự dạy dỗ kính Chúa từ sớm định hướng cả cuộc đời con trẻ.",
+        "explanationEn": "This verse suggests that the values and habits parents teach their children early in life tend to stick with them as they grow older. It emphasizes that good parenting means intentionally guiding children in the right direction from a young age. The idea is that a strong foundation built during childhood shapes who a person becomes as an adult.",
+        "explanationVi": "Câu này gợi ý rằng những giá trị và thói quen mà cha mẹ dạy cho con từ nhỏ thường sẽ theo con suốt cuộc đời. Điều này nhấn mạnh tầm quan trọng của việc định hướng con cái đúng đắn ngay từ khi còn nhỏ. Ý tưởng cốt lõi là nền tảng vững chắc được xây dựng trong tuổi thơ sẽ định hình con người khi trưởng thành."
       },
       {
         "ref": "Deuteronomy 6:6-7",
@@ -1481,7 +1725,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "These commandments that I give you today are to be on your hearts. Impress them on your children. Talk about them when you sit at home and when you walk along the road, when you lie down and when you get up.",
         "textVi": "Các lời mà ta truyền cho ngươi ngày nay sẽ ở tại trong lòng ngươi; khá ân cần dạy dỗ điều đó cho con cái ngươi, và phải nói đến, hoặc khi ngươi ngồi trong nhà, hoặc khi đi ngoài đường, hoặc lúc ngươi nằm, hay là khi chỗi dậy.",
         "noteEn": "Parents must weave God's Word into daily family life.",
-        "noteVi": "Cha mẹ phải đan xen Lời Đức Chúa Trời vào cuộc sống gia đình hàng ngày."
+        "noteVi": "Cha mẹ phải đan xen Lời Đức Chúa Trời vào cuộc sống gia đình hàng ngày.",
+        "explanationEn": "This passage encourages parents to weave their core values into everyday family life rather than only teaching them in formal settings. Whether at the dinner table, on a walk, or at bedtime, every moment is an opportunity to pass on important lessons to children. It reflects the idea that the most effective parenting happens naturally throughout the day, not just in scheduled teaching moments.",
+        "explanationVi": "Đoạn này khuyến khích cha mẹ lồng ghép các giá trị cốt lõi vào cuộc sống gia đình hàng ngày, thay vì chỉ dạy trong những dịp trang trọng. Dù là bữa cơm, lúc đi dạo hay trước khi ngủ, mọi khoảnh khắc đều là cơ hội để truyền đạt bài học quan trọng cho con. Điều này phản ánh quan điểm rằng việc nuôi dạy con hiệu quả nhất diễn ra tự nhiên trong suốt cả ngày."
       },
       {
         "ref": "Ephesians 6:4",
@@ -1491,7 +1737,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Fathers, do not exasperate your children; instead, bring them up in the training and instruction of the Lord.",
         "textVi": "Hỡi các người cha, chớ chọc giận con cái mình, hãy dùng sự sửa phạt khuyên bảo của Chúa mà nuôi nấng chúng nó.",
         "noteEn": "Parents are called to nurture children with Christ-centered instruction.",
-        "noteVi": "Cha mẹ được kêu gọi nuôi dưỡng con cái bằng sự dạy dỗ lấy Chúa làm trung tâm."
+        "noteVi": "Cha mẹ được kêu gọi nuôi dưỡng con cái bằng sự dạy dỗ lấy Chúa làm trung tâm.",
+        "explanationEn": "This verse warns parents — particularly fathers — not to raise their children in ways that cause unnecessary frustration or anger. Instead, it encourages parents to guide children with patience, clear boundaries, and thoughtful teaching. The key message is that good parenting balances discipline with respect for a child's emotions and well-being.",
+        "explanationVi": "Câu này cảnh báo các bậc cha mẹ — đặc biệt là người cha — không nên nuôi dạy con theo cách gây ra sự bực bội hay tức giận không cần thiết. Thay vào đó, cha mẹ nên hướng dẫn con với sự kiên nhẫn, ranh giới rõ ràng và sự dạy dỗ chu đáo. Thông điệp cốt lõi là việc nuôi dạy con tốt cần cân bằng giữa kỷ luật và sự tôn trọng cảm xúc, sức khỏe tinh thần của trẻ."
       },
       {
         "ref": "Psalm 127:3",
@@ -1501,7 +1749,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Children are a heritage from the Lord, offspring a reward from him.",
         "textVi": "Kìa, con cái là cơ nghiệp bởi Đức Giê-hô-va mà ra; Bông trái của tử cung là phần thưởng.",
         "noteEn": "Children are a divine gift entrusted to parents by God.",
-        "noteVi": "Con cái là món quà thiêng liêng Đức Chúa Trời giao phó cho cha mẹ."
+        "noteVi": "Con cái là món quà thiêng liêng Đức Chúa Trời giao phó cho cha mẹ.",
+        "explanationEn": "This verse expresses the idea that children are a precious gift and a great blessing in a person's life. It encourages parents to view their children not as burdens but as something deeply valuable and meaningful. From a parenting perspective, this mindset of gratitude and appreciation can shape how lovingly and attentively a parent cares for their child.",
+        "explanationVi": "Câu này thể hiện quan điểm rằng con cái là món quà quý giá và là niềm hạnh phúc lớn lao trong cuộc đời mỗi người. Nó khuyến khích cha mẹ nhìn nhận con không phải là gánh nặng mà là điều vô cùng trân quý và ý nghĩa. Từ góc độ làm cha mẹ, tâm thế biết ơn và trân trọng này có thể định hình cách cha mẹ yêu thương và chăm sóc con cái."
       },
       {
         "ref": "Proverbs 13:24",
@@ -1511,7 +1761,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Whoever spares the rod hates their children, but the one who loves their children is careful to discipline them.",
         "textVi": "Kẻ nào kiêng roi là ghét con trai mình; Song ai thương con ắt cố lo sửa phạt nó.",
         "noteEn": "Loving discipline is a mark of true parental love.",
-        "noteVi": "Kỷ luật yêu thương là dấu hiệu của tình yêu cha mẹ thật sự."
+        "noteVi": "Kỷ luật yêu thương là dấu hiệu của tình yêu cha mẹ thật sự.",
+        "explanationEn": "This verse uses the metaphor of a 'rod' — an ancient symbol of guidance and discipline — to make the point that truly loving parents do not avoid correcting their children when necessary. Refusing to set boundaries or allow consequences actually harms children in the long run, while thoughtful discipline helps them learn and grow. The verse is not promoting harsh punishment, but rather the idea that love and accountability go hand in hand in good parenting.",
+        "explanationVi": "Câu này dùng hình ảnh 'cây roi' — biểu tượng xưa cho sự hướng dẫn và kỷ luật — để nói rằng cha mẹ thực sự yêu thương con sẽ không tránh né việc uốn nắn khi cần thiết. Việc không đặt ra ranh giới hay hậu quả cho hành vi sai trái thực ra gây hại cho con về lâu dài, trong khi kỷ luật đúng đắn giúp con học hỏi và trưởng thành. Câu này không cổ xúy hình phạt thô bạo, mà nhấn mạnh rằng tình yêu thương và trách nhiệm phải đi đôi với nhau trong việc nuôi dạy con."
       },
       {
         "ref": "Colossians 3:21",
@@ -1521,7 +1773,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Fathers, do not embitter your children, or they will become discouraged.",
         "textVi": "Hỡi các người cha, chớ hề chọc tức con cái mình, e chúng nó ngã lòng chăng.",
         "noteEn": "Harsh parenting can discourage children's spirits and faith.",
-        "noteVi": "Cách nuôi dạy khắc nghiệt có thể làm nản lòng tinh thần và đức tin của con cái."
+        "noteVi": "Cách nuôi dạy khắc nghiệt có thể làm nản lòng tinh thần và đức tin của con cái.",
+        "explanationEn": "This verse advises parents not to treat their children in harsh or unfair ways that leave them feeling hopeless or defeated. When children are constantly criticized, belittled, or treated without respect, they can lose confidence and motivation. The message for parents is to be mindful of how their words and actions emotionally affect their children's sense of self-worth.",
+        "explanationVi": "Câu này khuyên cha mẹ không nên đối xử với con một cách khắc nghiệt hay bất công khiến con cảm thấy tuyệt vọng hoặc chán nản. Khi trẻ liên tục bị chỉ trích, coi thường hoặc thiếu sự tôn trọng, chúng có thể mất đi sự tự tin và động lực. Thông điệp dành cho cha mẹ là hãy chú ý đến cách lời nói và hành động của mình ảnh hưởng đến lòng tự trọng và cảm xúc của con."
       }
     ]
   },
@@ -1542,7 +1796,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will.",
         "textVi": "Đừng làm theo đời này, nhưng hãy biến hóa bởi sự đổi mới của tâm trí mình, để thử nghiệm cho biết ý muốn tốt lành, đẹp lòng và trọn vẹn của Đức Chúa Trời là thể nào.",
         "noteEn": "Renewed minds can discern and embrace God's perfect will",
-        "noteVi": "Tâm trí được đổi mới giúp nhận biết ý muốn trọn vẹn của Đức Chúa Trời"
+        "noteVi": "Tâm trí được đổi mới giúp nhận biết ý muốn trọn vẹn của Đức Chúa Trời",
+        "explanationEn": "This verse encourages people not to simply follow whatever society or popular culture dictates, but instead to change the way they think so they can discover what is truly good and right. In terms of God's Will, it suggests that understanding what God wants requires an open, transformed mindset rather than just going along with the crowd.",
+        "explanationVi": "Câu này khuyến khích con người không nên chỉ làm theo những gì xã hội hay văn hóa đại chúng áp đặt, mà hãy thay đổi cách suy nghĩ để tìm ra điều thực sự tốt đẹp và đúng đắn. Về ý muốn Chúa, câu này cho thấy việc hiểu được điều Đức Chúa Trời mong muốn đòi hỏi một tâm trí cởi mở và được đổi mới, thay vì chỉ chạy theo đám đông."
       },
       {
         "ref": "1 Thessalonians 5:18",
@@ -1552,7 +1808,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "give thanks in all circumstances; for this is God's will for you in Christ Jesus.",
         "textVi": "Hãy tạ ơn trong mọi hoàn cảnh, vì đây là ý muốn của Đức Chúa Trời trong Đức Chúa Jêsus Christ đối với anh em.",
         "noteEn": "Thankfulness in all things is clearly stated as God's will",
-        "noteVi": "Tạ ơn trong mọi hoàn cảnh là ý muốn rõ ràng của Đức Chúa Trời"
+        "noteVi": "Tạ ơn trong mọi hoàn cảnh là ý muốn rõ ràng của Đức Chúa Trời",
+        "explanationEn": "This verse says that being grateful in every situation — even difficult ones — is something God desires for people. It reflects the idea that God's Will is not just about big life decisions, but also about the attitude and perspective we carry every single day.",
+        "explanationVi": "Câu này nói rằng việc biết ơn trong mọi hoàn cảnh — kể cả những lúc khó khăn — là điều Đức Chúa Trời mong muốn nơi con người. Điều này phản ánh ý tưởng rằng ý muốn Chúa không chỉ liên quan đến những quyết định lớn trong cuộc đời, mà còn là thái độ và cách nhìn mà chúng ta mang theo mỗi ngày."
       },
       {
         "ref": "Jeremiah 29:11",
@@ -1562,7 +1820,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
         "textVi": "Đức Giê-hô-va phán: Ta biết những kế hoạch Ta có cho các ngươi, là kế hoạch bình an, không phải tai họa, để cho các ngươi một tương lai và một hi vọng.",
         "noteEn": "God's will includes a hopeful and purposeful future for His people",
-        "noteVi": "Ý muốn Đức Chúa Trời bao gồm tương lai tươi sáng cho dân Ngài"
+        "noteVi": "Ý muốn Đức Chúa Trời bao gồm tương lai tươi sáng cho dân Ngài",
+        "explanationEn": "Here, God is described as someone who has a positive, hopeful plan for every person's life — not a plan to hurt them, but to help them thrive and have a meaningful future. This is central to the concept of God's Will: the belief that God's intentions toward people are genuinely good and full of purpose.",
+        "explanationVi": "Ở đây, Đức Chúa Trời được miêu tả là Đấng có một kế hoạch tốt đẹp và đầy hy vọng cho cuộc đời mỗi người — không phải để làm hại họ, mà để giúp họ phát triển và có một tương lai ý nghĩa. Đây là trọng tâm của ý muốn Chúa: niềm tin rằng Đức Chúa Trời thực sự có lòng tốt với con người và mọi điều Ngài sắp đặt đều có mục đích."
       },
       {
         "ref": "Matthew 6:10",
@@ -1572,7 +1832,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "your kingdom come, your will be done, on earth as it is in heaven.",
         "textVi": "Vương quốc Cha mau đến, Ý muốn Cha được nên, ở đất như trời.",
         "noteEn": "Jesus taught us to pray for God's will to be done on earth",
-        "noteVi": "Chúa Giê-xu dạy cầu nguyện cho ý muốn Đức Chúa Trời được thực hiện trên đất"
+        "noteVi": "Chúa Giê-xu dạy cầu nguyện cho ý muốn Đức Chúa Trời được thực hiện trên đất",
+        "explanationEn": "This is part of a well-known prayer where the speaker asks for God's intentions and values to be fully expressed in the world, just as they already are in heaven. It shows that God's Will is seen as the ideal standard — a perfect vision of how life should be — that humans are invited to hope and work toward.",
+        "explanationVi": "Đây là một phần của bài cầu nguyện nổi tiếng, trong đó người cầu nguyện xin cho ý định và giá trị của Đức Chúa Trời được thể hiện trọn vẹn trên thế gian, giống như đã có trên thiên đàng. Câu này cho thấy ý muốn Chúa được xem là tiêu chuẩn lý tưởng — một tầm nhìn hoàn hảo về cách cuộc sống nên được — mà con người được mời gọi hy vọng và hướng tới."
       },
       {
         "ref": "1 John 2:17",
@@ -1582,7 +1844,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The world and its desires pass away, but whoever does the will of God lives forever.",
         "textVi": "Thế gian và dục vọng của nó đều qua đi, nhưng ai làm theo ý muốn của Đức Chúa Trời thì còn lại đời đời.",
         "noteEn": "Doing God's will leads to eternal life, unlike worldly pursuits",
-        "noteVi": "Làm theo ý muốn Đức Chúa Trời dẫn đến sự sống đời đời"
+        "noteVi": "Làm theo ý muốn Đức Chúa Trời dẫn đến sự sống đời đời",
+        "explanationEn": "This verse contrasts things that are temporary — like wealth, fame, or pleasure — with living in alignment with God's purpose, which is described as lasting forever. It suggests that following God's Will gives life a lasting meaning that temporary things simply cannot provide.",
+        "explanationVi": "Câu này đối chiếu những thứ chóng qua — như tiền bạc, danh vọng hay lạc thú — với việc sống phù hợp với mục đích của Đức Chúa Trời, điều được mô tả là tồn tại mãi mãi. Điều này gợi ý rằng làm theo ý muốn Chúa mang lại cho cuộc sống một ý nghĩa lâu bền mà những thứ tạm thời không thể nào cung cấp được."
       },
       {
         "ref": "Proverbs 3:5-6",
@@ -1592,7 +1856,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
         "textVi": "Hãy hết lòng tin cậy Đức Giê-hô-va, Chớ nương cậy vào sự thông sáng của con; Trong mọi đường lối con, hãy nhận biết Ngài, Thì Ngài sẽ chỉ dẫn các nẻo con.",
         "noteEn": "Trusting God fully opens the way to discovering His will",
-        "noteVi": "Hết lòng tin cậy Đức Chúa Trời mở đường khám phá ý muốn Ngài"
+        "noteVi": "Hết lòng tin cậy Đức Chúa Trời mở đường khám phá ý muốn Ngài",
+        "explanationEn": "This passage advises people to rely on God's guidance rather than solely depending on their own limited understanding, and promises that doing so will lead them in the right direction. It connects to God's Will by suggesting that trusting God — rather than trying to figure everything out alone — is the key to finding a clear and purposeful path in life.",
+        "explanationVi": "Đoạn này khuyên con người nên nương tựa vào sự dẫn dắt của Đức Chúa Trời thay vì chỉ dựa vào sự hiểu biết hạn chế của bản thân, và hứa rằng làm như vậy sẽ dẫn họ đi đúng hướng. Câu này liên quan đến ý muốn Chúa bằng cách cho thấy rằng tin tưởng vào Đức Chúa Trời — thay vì cố tự mình giải quyết mọi thứ — là chìa khóa để tìm thấy con đường rõ ràng và có mục đích trong cuộc sống."
       }
     ]
   },
@@ -1613,7 +1879,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
         "textVi": "Hãy hết lòng tin cậy Đức Giê-hô-va, Chớ nương cậy vào sự thông sáng của con; Phàm trong các việc làm của con, khá nhận biết Ngài, Thì Ngài sẽ chỉ dẫn các nẻo của con.",
         "noteEn": "Trusting God fully leads to clear direction in every decision",
-        "noteVi": "Tin cậy Đức Chúa Trời hoàn toàn dẫn đến sự hướng dẫn rõ ràng"
+        "noteVi": "Tin cậy Đức Chúa Trời hoàn toàn dẫn đến sự hướng dẫn rõ ràng",
+        "explanationEn": "This verse encourages people to rely on a higher wisdom rather than only their own limited perspective when making decisions. Instead of thinking you have all the answers yourself, it suggests staying open and humble, trusting that a greater guide can help you find the right direction. It's a reminder that overconfidence in our own judgment can sometimes lead us astray.",
+        "explanationVi": "Câu này khuyến khích con người dựa vào sự khôn ngoan cao hơn thay vì chỉ tin vào góc nhìn hạn hẹp của bản thân khi đưa ra quyết định. Thay vì nghĩ rằng bạn có tất cả câu trả lời, câu này gợi ý hãy khiêm tốn và cởi mở, tin rằng có một sự dẫn dắt lớn hơn có thể giúp bạn tìm đúng hướng. Đây là lời nhắc rằng sự tự tin thái quá vào bản thân đôi khi có thể khiến chúng ta đi lạc đường."
       },
       {
         "ref": "James 1:5",
@@ -1623,7 +1891,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you.",
         "textVi": "Ví có người trong anh em thiếu khôn ngoan, hãy cầu xin Đức Chúa Trời, là Đấng ban cho mọi người cách rộng rãi, không trách móc ai, thì kẻ ấy sẽ được ban cho.",
         "noteEn": "God generously grants wisdom to those who sincerely ask Him",
-        "noteVi": "Đức Chúa Trời ban khôn ngoan cách rộng rãi cho ai thành tâm cầu xin"
+        "noteVi": "Đức Chúa Trời ban khôn ngoan cách rộng rãi cho ai thành tâm cầu xin",
+        "explanationEn": "This verse says that if you feel unsure or confused about what to do, you can ask God for wisdom and He will give it to you freely and without judgment. In everyday terms, it's like having access to a wise, non-judgmental advisor who is always available when you face a tough decision. It encourages people not to struggle alone but to seek guidance when they feel lost.",
+        "explanationVi": "Câu này nói rằng nếu bạn cảm thấy không chắc chắn hoặc bối rối về việc phải làm, bạn có thể cầu xin Đức Chúa Trời ban cho sự khôn ngoan và Ngài sẽ ban cho bạn một cách rộng rãi, không phán xét. Nói một cách đơn giản, đó giống như có một người cố vấn khôn ngoan, không phán xét, luôn sẵn sàng giúp bạn khi đối mặt với quyết định khó khăn. Câu này khuyến khích người ta đừng một mình vật lộn với khó khăn mà hãy tìm kiếm sự hướng dẫn khi cảm thấy lạc lối."
       },
       {
         "ref": "Psalm 119:105",
@@ -1633,7 +1903,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Your word is a lamp for my feet, a light on my path.",
         "textVi": "Lời Chúa là ngọn đèn cho chân tôi, Ánh sáng cho đường lối tôi.",
         "noteEn": "God's Word illuminates the right path for every decision",
-        "noteVi": "Lời Đức Chúa Trời soi sáng con đường đúng đắn cho mỗi quyết định"
+        "noteVi": "Lời Đức Chúa Trời soi sáng con đường đúng đắn cho mỗi quyết định",
+        "explanationEn": "This verse uses the image of a lamp lighting up a dark path to describe how sacred teachings can help guide a person's choices and actions in life. Just as a light helps you see where to step next without tripping, having a set of principles or values can help you navigate decisions one step at a time. It suggests that good guidance doesn't always show you the entire road ahead, but gives you enough clarity to move forward safely.",
+        "explanationVi": "Câu này dùng hình ảnh ngọn đèn soi sáng con đường tối để mô tả cách những lời dạy thiêng liêng có thể giúp định hướng các lựa chọn và hành động của một người trong cuộc sống. Cũng như ánh sáng giúp bạn nhìn thấy bước tiếp theo mà không bị vấp ngã, việc có một bộ nguyên tắc hay giá trị sống có thể giúp bạn đưa ra quyết định từng bước một. Câu này gợi ý rằng sự hướng dẫn tốt không phải lúc nào cũng cho bạn thấy toàn bộ con đường phía trước, nhưng cho bạn đủ sự rõ ràng để tiến về phía trước một cách an toàn."
       },
       {
         "ref": "Romans 12:2",
@@ -1643,7 +1915,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will.",
         "textVi": "Đừng làm theo đời này, nhưng hãy biến hóa bởi sự đổi mới của tâm thần mình, để thử nghiệm cho biết ý muốn tốt lành, đẹp lòng và trọn vẹn của Đức Chúa Trời là thể nào.",
         "noteEn": "A renewed mind helps discern God's perfect will in decisions",
-        "noteVi": "Tâm trí đổi mới giúp nhận biết ý muốn trọn vẹn của Đức Chúa Trời"
+        "noteVi": "Tâm trí đổi mới giúp nhận biết ý muốn trọn vẹn của Đức Chúa Trời",
+        "explanationEn": "This verse encourages people not to blindly follow popular trends or social pressure, but instead to develop a thoughtful, renewed mindset that helps them make better decisions. It suggests that when you change the way you think — moving away from impulsive or crowd-driven choices — you become better at figuring out what is truly good and right for your life. In practical terms, it's about developing critical thinking and personal values rather than just doing what everyone else is doing.",
+        "explanationVi": "Câu này khuyến khích người ta đừng mù quáng đi theo xu hướng hay áp lực xã hội, mà hãy phát triển tư duy suy nghĩ chín chắn, đổi mới để đưa ra quyết định tốt hơn. Câu này gợi ý rằng khi bạn thay đổi cách suy nghĩ — thoát khỏi những lựa chọn bốc đồng hay chạy theo đám đông — bạn sẽ giỏi hơn trong việc nhận ra điều gì thực sự tốt và đúng đắn cho cuộc sống của mình. Nói một cách thực tế, đây là về việc phát triển tư duy phản biện và các giá trị cá nhân thay vì chỉ làm theo những gì người khác đang làm."
       },
       {
         "ref": "Proverbs 15:22",
@@ -1653,7 +1927,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Plans fail for lack of counsel, but with many advisers they succeed.",
         "textVi": "Những mưu định không có sự bàn luận ắt hư đi; Song nhờ có nhiều mưu sĩ, mưu định mới được vững bền.",
         "noteEn": "Seeking godly counsel prevents failure in important decisions",
-        "noteVi": "Tìm kiếm lời khuyên khôn ngoan giúp tránh thất bại trong quyết định quan trọng"
+        "noteVi": "Tìm kiếm lời khuyên khôn ngoan giúp tránh thất bại trong quyết định quan trọng",
+        "explanationEn": "This verse offers practical advice that applies to anyone: plans are more likely to fail when made alone, but they tend to succeed when you seek input from multiple trusted people. It highlights the value of consulting others — friends, mentors, or experts — before making important decisions. This is essentially timeless wisdom about the power of collaboration and seeking diverse perspectives.",
+        "explanationVi": "Câu này đưa ra lời khuyên thực tế áp dụng được cho bất kỳ ai: các kế hoạch dễ thất bại hơn khi được lập một mình, nhưng thường thành công hơn khi bạn tham khảo ý kiến từ nhiều người đáng tin cậy. Câu này nhấn mạnh tầm quan trọng của việc hỏi ý kiến người khác — bạn bè, người cố vấn hoặc chuyên gia — trước khi đưa ra các quyết định quan trọng. Đây về cơ bản là lời khuyên khôn ngoan vượt thời gian về sức mạnh của sự hợp tác và tìm kiếm nhiều góc nhìn khác nhau."
       },
       {
         "ref": "Philippians 4:6-7",
@@ -1663,7 +1939,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
         "textVi": "Chớ lo phiền chi hết, nhưng trong mọi sự hãy dùng lời cầu nguyện, nài xin, và sự tạ ơn mà trình các sự cầu xin của mình cho Đức Chúa Trời. Sự bình an của Đức Chúa Trời vượt quá mọi sự hiểu biết, sẽ giữ gìn lòng và ý tưởng anh em trong Đức Chúa Jêsus Christ.",
         "noteEn": "Prayer brings God's peace as a guide and guard in decisions",
-        "noteVi": "Cầu nguyện mang lại sự bình an của Đức Chúa Trời dẫn dắt trong quyết định"
+        "noteVi": "Cầu nguyện mang lại sự bình an của Đức Chúa Trời dẫn dắt trong quyết định",
+        "explanationEn": "This verse advises that instead of letting worry and anxiety take over when facing difficult decisions, you should pause, reflect, and bring your concerns to God through prayer — which is essentially a form of mindful, intentional thinking. The promise is that doing so brings a deep sense of peace that goes beyond logical explanation, helping calm your mind so you can think more clearly. For anyone, the core message is that managing anxiety and finding inner calm are essential to making sound decisions.",
+        "explanationVi": "Câu này khuyên rằng thay vì để lo lắng và bất an lấn át khi đối mặt với những quyết định khó khăn, bạn nên dừng lại, suy ngẫm và mang những băn khoăn của mình đến với Đức Chúa Trời qua lời cầu nguyện — về cơ bản đây là một hình thức suy nghĩ có ý thức và chủ định. Lời hứa là khi làm điều đó, bạn sẽ có được sự bình an sâu sắc vượt ngoài sự giải thích logic, giúp tâm trí bạn bình tĩnh lại để suy nghĩ rõ ràng hơn. Với bất kỳ ai, thông điệp cốt lõi là kiểm soát lo lắng và tìm được sự bình yên nội tâm là điều thiết yếu để đưa ra những quyết định đúng đắn."
       }
     ]
   },
@@ -1684,7 +1962,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
         "textVi": "Hãy hết lòng tin cậy Đức Giê-hô-va, Chớ nương cậy nơi sự thông sáng của con; Phàm trong các việc làm của con, hãy nhận biết Ngài, Thì Ngài sẽ chỉ dẫn các nẻo của con.",
         "noteEn": "The foundational call to trust God above human reasoning.",
-        "noteVi": "Lời kêu gọi nền tảng tin cậy Đức Chúa Trời hơn lý trí con người."
+        "noteVi": "Lời kêu gọi nền tảng tin cậy Đức Chúa Trời hơn lý trí con người.",
+        "explanationEn": "This verse encourages people to rely on something greater than their own limited perspective, rather than assuming they always know best. It suggests that when we humbly trust in God and let that trust guide our decisions, life tends to move in a better direction. It is a reminder that full trust — not just partial trust — brings clarity and purpose.",
+        "explanationVi": "Câu này khuyến khích con người dựa vào một sức mạnh lớn hơn thay vì chỉ tin vào suy nghĩ giới hạn của bản thân. Khi chúng ta thực sự tin tưởng Chúa và để niềm tin đó dẫn dắt các quyết định, cuộc sống thường đi theo hướng tốt đẹp hơn. Đây là lời nhắc nhở rằng tin tưởng trọn vẹn — không phải nửa vời — sẽ mang lại sự rõ ràng và mục đích sống."
       },
       {
         "ref": "Psalm 23:1",
@@ -1694,7 +1974,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The Lord is my shepherd, I lack nothing.",
         "textVi": "Đức Giê-hô-va là Đấng chăn giữ tôi; Tôi sẽ chẳng thiếu thốn gì.",
         "noteEn": "God as faithful shepherd provides all we truly need.",
-        "noteVi": "Đức Chúa Trời là người chăn giữ trung tín cung cấp mọi nhu cầu của chúng ta."
+        "noteVi": "Đức Chúa Trời là người chăn giữ trung tín cung cấp mọi nhu cầu của chúng ta.",
+        "explanationEn": "This verse uses the image of a shepherd caring for sheep to describe how God looks after people who trust in Him. Just as a good shepherd makes sure his flock has food, water, and safety, the idea is that God provides everything a person truly needs. It expresses a deep sense of security that comes from trusting in God's care.",
+        "explanationVi": "Câu này dùng hình ảnh người chăn chiên chăm sóc đàn chiên để miêu tả cách Chúa quan tâm đến những ai tin tưởng Ngài. Cũng như người chăn chiên tốt bảo đảm đàn chiên có thức ăn, nước uống và sự an toàn, ý nghĩa ở đây là Chúa cung cấp mọi thứ con người thực sự cần. Câu này diễn đạt cảm giác an tâm sâu sắc đến từ việc tin tưởng vào sự chăm sóc của Chúa."
       },
       {
         "ref": "Isaiah 26:3",
@@ -1704,7 +1986,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "You will keep in perfect peace those whose minds are steadfast, because they trust in you.",
         "textVi": "Chúa sẽ gìn giữ kẻ nào có lòng kiên định trong sự bình an trọn vẹn; Vì người tin cậy nơi Chúa.",
         "noteEn": "Trusting God produces perfect and lasting peace of mind.",
-        "noteVi": "Tin tưởng Đức Chúa Trời mang lại sự bình an trọn vẹn và lâu dài."
+        "noteVi": "Tin tưởng Đức Chúa Trời mang lại sự bình an trọn vẹn và lâu dài.",
+        "explanationEn": "This verse connects inner peace directly to the act of trusting in God, suggesting that a steady, focused mind that relies on God will experience a calm that goes beyond normal circumstances. It is not about ignoring problems, but about having an anchor of trust that keeps a person stable even in difficult times. For someone unfamiliar with faith, it offers the idea that trust in something reliable can bring genuine mental peace.",
+        "explanationVi": "Câu này liên kết sự bình an nội tâm trực tiếp với hành động tin tưởng Chúa, cho thấy rằng một tâm trí kiên định và dựa vào Chúa sẽ có được sự bình yên vượt qua hoàn cảnh thông thường. Đây không phải là phớt lờ vấn đề, mà là có một chỗ dựa vững chắc giúp con người ổn định ngay cả trong giai đoạn khó khăn. Với người chưa có đức tin, câu này gợi ý rằng tin tưởng vào điều gì đó đáng tin cậy có thể mang lại sự bình an tâm lý thực sự."
       },
       {
         "ref": "Psalm 46:1",
@@ -1714,7 +1998,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "God is our refuge and strength, an ever-present help in trouble.",
         "textVi": "Đức Chúa Trời là nơi nương náu và sức lực của chúng tôi, Ngài sẵn sàng giúp đỡ trong cơn gian truân.",
         "noteEn": "God is a reliable refuge and strength in every trial.",
-        "noteVi": "Đức Chúa Trời là nơi nương náu và sức mạnh đáng tin cậy trong mọi thử thách."
+        "noteVi": "Đức Chúa Trời là nơi nương náu và sức mạnh đáng tin cậy trong mọi thử thách.",
+        "explanationEn": "This verse describes God as a safe shelter and a source of strength, especially during hard times — much like how a sturdy building protects people from a storm. The phrase 'ever-present' means this support is always available, not just occasionally. It speaks to the idea that trusting in God means you are never completely alone when facing trouble.",
+        "explanationVi": "Câu này mô tả Chúa như một nơi trú ẩn an toàn và nguồn sức mạnh, đặc biệt trong những lúc khó khăn — giống như một tòa nhà vững chắc bảo vệ con người khỏi cơn bão. Cụm từ 'luôn hiện diện' có nghĩa là sự hỗ trợ này luôn sẵn có, không phải chỉ thỉnh thoảng. Câu này nói lên ý tưởng rằng tin tưởng Chúa có nghĩa là bạn không bao giờ hoàn toàn cô đơn khi đối mặt với khó khăn."
       },
       {
         "ref": "Jeremiah 17:7",
@@ -1724,7 +2010,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But blessed is the one who trusts in the Lord, whose confidence is in him.",
         "textVi": "Phước cho người tin cậy nơi Đức Giê-hô-va, Và lấy Đức Giê-hô-va làm sự trông cậy mình!",
         "noteEn": "Genuine blessing flows from placing confidence fully in God.",
-        "noteVi": "Phước lành thực sự đến từ việc đặt trọn niềm tin vào Đức Chúa Trời."
+        "noteVi": "Phước lành thực sự đến từ việc đặt trọn niềm tin vào Đức Chúa Trời.",
+        "explanationEn": "This verse says that a person who places their confidence in God, rather than in temporary things like money or status, will experience a kind of deep happiness and blessing. It contrasts trusting in God with trusting in things that can easily fail or disappear. The core message is that lasting well-being comes from having a reliable foundation to place your trust in.",
+        "explanationVi": "Câu này nói rằng người đặt niềm tin vào Chúa, thay vì vào những thứ tạm thời như tiền bạc hay địa vị, sẽ trải nghiệm một loại hạnh phúc và phước lành sâu sắc. Câu này đối lập việc tin tưởng Chúa với việc tin vào những thứ dễ dàng thất bại hoặc biến mất. Thông điệp cốt lõi là sự an lạc lâu dài đến từ việc có một nền tảng đáng tin cậy để đặt niềm tin vào."
       },
       {
         "ref": "Philippians 4:6-7",
@@ -1734,7 +2022,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
         "textVi": "Chớ lo phiền chi hết, nhưng trong mọi sự hãy dùng lời cầu nguyện, nài xin, và sự tạ ơn mà trình các sự cầu xin của mình cho Đức Chúa Trời. Sự bình an của Đức Chúa Trời vượt quá mọi sự hiểu biết, sẽ gìn giữ lòng và ý tưởng của anh em trong Chúa Giê-xu Christ.",
         "noteEn": "Prayer and trust replace anxiety with God's surpassing peace.",
-        "noteVi": "Cầu nguyện và tin tưởng thay thế lo lắng bằng sự bình an vượt trội của Đức Chúa Trời."
+        "noteVi": "Cầu nguyện và tin tưởng thay thế lo lắng bằng sự bình an vượt trội của Đức Chúa Trời.",
+        "explanationEn": "This passage encourages people not to be overwhelmed by worry, but instead to bring their concerns to God through prayer — which is simply the act of talking honestly to God — with a grateful heart. The promise is that doing so brings a deep, unexplainable sense of peace that protects a person's emotional and mental state. It is a practical suggestion: instead of carrying anxiety alone, trust God enough to share your burdens with Him.",
+        "explanationVi": "Đoạn này khuyến khích con người không bị lo lắng nhấn chìm, mà thay vào đó hãy mang những mối bận tâm đến với Chúa qua lời cầu nguyện — tức là hành động nói chuyện thành thật với Chúa — với một tấm lòng biết ơn. Lời hứa là làm như vậy sẽ mang lại sự bình an sâu sắc, khó giải thích, bảo vệ trạng thái cảm xúc và tinh thần của con người. Đây là một gợi ý thực tế: thay vì một mình gánh chịu lo âu, hãy tin tưởng Chúa đủ để chia sẻ gánh nặng của bạn với Ngài."
       }
     ]
   },
@@ -1755,7 +2045,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "If you love me, keep my commands.",
         "textVi": "Nếu các ngươi yêu mến ta, thì giữ các điều răn ta.",
         "noteEn": "Obedience is the direct proof of love for Christ.",
-        "noteVi": "Sự vâng lời là bằng chứng trực tiếp của tình yêu dành cho Chúa Giê-xu."
+        "noteVi": "Sự vâng lời là bằng chứng trực tiếp của tình yêu dành cho Chúa Giê-xu.",
+        "explanationEn": "Jesus is saying that genuine love is shown through actions, not just words — if you truly love someone, you naturally want to do what they ask. This verse connects love and obedience, suggesting they are inseparable: following someone's guidance is a practical expression of caring for them.",
+        "explanationVi": "Chúa Giê-su nói rằng tình yêu thật sự được thể hiện qua hành động, không chỉ qua lời nói — nếu bạn thật sự yêu ai đó, bạn sẽ tự nhiên muốn làm theo điều họ yêu cầu. Câu này gắn kết tình yêu và sự vâng lời, cho thấy chúng không thể tách rời: làm theo hướng dẫn của người khác chính là cách thực tế để thể hiện tình yêu thương."
       },
       {
         "ref": "Acts 5:29",
@@ -1765,7 +2057,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Peter and the other apostles replied: 'We must obey God rather than human beings!'",
         "textVi": "Phi-e-rơ và các sứ đồ trả lời rằng: Thà phải vâng lời Đức Chúa Trời hơn là vâng lời người ta.",
         "noteEn": "God's authority surpasses all human authority in every situation.",
-        "noteVi": "Thẩm quyền của Đức Chúa Trời vượt trên mọi thẩm quyền con người."
+        "noteVi": "Thẩm quyền của Đức Chúa Trời vượt trên mọi thẩm quyền con người.",
+        "explanationEn": "When the apostles (early followers of Jesus) were ordered by authorities to stop spreading their beliefs, they firmly refused, stating that loyalty to God comes before loyalty to any human law or institution. This verse highlights a key principle in obedience: there is a higher moral authority that can override human rules when the two conflict.",
+        "explanationVi": "Khi các sứ đồ (những người theo Chúa Giê-su đầu tiên) bị chính quyền ra lệnh ngừng truyền bá đức tin, họ kiên quyết từ chối, tuyên bố rằng lòng trung thành với Đức Chúa Trời phải đặt lên trên luật lệ hay thể chế của con người. Câu này nhấn mạnh một nguyên tắc quan trọng trong sự vâng lời: có một thẩm quyền đạo đức cao hơn có thể vượt lên trên các quy tắc của con người khi hai điều này xung đột nhau."
       },
       {
         "ref": "Deuteronomy 28:1",
@@ -1775,7 +2069,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "If you fully obey the LORD your God and carefully follow all his commands I give you today, the LORD your God will set you high above all the nations on earth.",
         "textVi": "Nếu ngươi chăm chỉ nghe theo tiếng phán của Giê-hô-va Đức Chúa Trời ngươi, cẩn thận làm theo mọi điều răn của Ngài mà ta truyền cho ngươi ngày nay, thì Giê-hô-va Đức Chúa Trời ngươi sẽ đặt ngươi lên cao hơn mọi dân tộc trên thế gian.",
         "noteEn": "Full obedience to God brings His richest blessings upon His people.",
-        "noteVi": "Sự vâng lời hoàn toàn mang lại phước lành dồi dào từ Đức Chúa Trời."
+        "noteVi": "Sự vâng lời hoàn toàn mang lại phước lành dồi dào từ Đức Chúa Trời.",
+        "explanationEn": "This verse from the Old Testament describes a promise made to the ancient Israelites: if they fully committed to following God's instructions, they would be blessed and elevated among other nations. It frames obedience not as blind submission, but as a path that leads to prosperity and a good life.",
+        "explanationVi": "Câu này từ Cựu Ước mô tả một lời hứa dành cho người Y-sơ-ra-ên xưa: nếu họ thật lòng tuân theo các hướng dẫn của Đức Chúa Trời, họ sẽ được ban phước và được tôn cao hơn các dân tộc khác. Câu này cho thấy sự vâng lời không phải là sự phục tùng mù quáng, mà là con đường dẫn đến sự thịnh vượng và cuộc sống tốt đẹp."
       },
       {
         "ref": "Romans 5:19",
@@ -1785,7 +2081,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For just as through the disobedience of the one man the many were made sinners, so also through the obedience of the one man the many will be made righteous.",
         "textVi": "Vì, như bởi sự không vâng phục của một người mà muôn người trở nên có tội, thì cũng vậy, bởi sự vâng phục của một người mà muôn người trở nên công bình.",
         "noteEn": "Christ's perfect obedience secured righteousness and salvation for all believers.",
-        "noteVi": "Sự vâng lời hoàn hảo của Chúa Giê-xu mang lại sự công bình cho mọi tín hữu."
+        "noteVi": "Sự vâng lời hoàn hảo của Chúa Giê-xu mang lại sự công bình cho mọi tín hữu.",
+        "explanationEn": "This verse draws a contrast between two pivotal figures: the first man (Adam in biblical tradition) whose act of disobedience brought negative consequences for all humanity, and Jesus, whose perfect obedience reversed that damage and made it possible for people to be considered morally right before God. It presents obedience as having a transformative, far-reaching impact beyond just the individual.",
+        "explanationVi": "Câu này so sánh hai nhân vật quan trọng: người đàn ông đầu tiên (A-đam trong truyền thống Kinh Thánh) mà sự không vâng lời của ông đã mang đến hậu quả tiêu cực cho cả nhân loại, và Chúa Giê-su, Đấng mà sự vâng lời hoàn toàn đã khắc phục tổn hại đó và giúp con người được coi là công chính trước mặt Đức Chúa Trời. Câu này cho thấy sự vâng lời có tác động sâu rộng, vượt ra ngoài phạm vi cá nhân."
       },
       {
         "ref": "1 Samuel 15:22",
@@ -1795,7 +2093,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But Samuel replied: 'Does the LORD delight in burnt offerings and sacrifices as much as in obeying the LORD? To obey is better than sacrifice, and to heed is better than the fat of rams.'",
         "textVi": "Sa-mu-ên bèn nói: Đức Giê-hô-va há đẹp lòng của lễ thiêu và tế lễ bằng sự vâng theo lời phán của Ngài ư? Vả, sự vâng lời tốt hơn của tế lễ; sự nghe theo tốt hơn mỡ chiên đực.",
         "noteEn": "God values genuine obedience far more than religious ritual or sacrifice.",
-        "noteVi": "Đức Chúa Trời quý trọng sự vâng lời hơn mọi nghi lễ tôn giáo hay tế lễ."
+        "noteVi": "Đức Chúa Trời quý trọng sự vâng lời hơn mọi nghi lễ tôn giáo hay tế lễ.",
+        "explanationEn": "Samuel, a prophet (a person believed to speak on behalf of God), is telling King Saul that performing religious rituals means nothing if your heart is not genuinely committed to doing what is right. The verse teaches that true obedience — sincerely following moral guidance — is more valuable than any outward religious ceremony or offering.",
+        "explanationVi": "Sa-mu-ên, một nhà tiên tri (người được tin là nói thay cho Đức Chúa Trời), nói với Vua Sau-lơ rằng thực hiện các nghi lễ tôn giáo không có ý nghĩa gì nếu lòng bạn không thật sự cam kết làm điều đúng đắn. Câu này dạy rằng sự vâng lời thật sự — thành tâm làm theo những hướng dẫn đạo đức — có giá trị hơn bất kỳ nghi lễ hay lễ vật tôn giáo bên ngoài nào."
       },
       {
         "ref": "Hebrews 5:8",
@@ -1805,81 +2105,95 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Son though he was, he learned obedience from what he suffered.",
         "textVi": "Dù là Con, Ngài cũng đã học tập sự vâng lời bởi những sự khổ mình đã chịu.",
         "noteEn": "Even Jesus modeled obedience through suffering, setting the ultimate example.",
-        "noteVi": "Ngay cả Chúa Giê-xu cũng học sự vâng lời qua đau khổ, nêu gương tối thượng."
+        "noteVi": "Ngay cả Chúa Giê-xu cũng học sự vâng lời qua đau khổ, nêu gương tối thượng.",
+        "explanationEn": "This verse refers to Jesus, and it suggests that even he — despite being considered the Son of God — had to go through hardship and suffering in order to truly understand and practice obedience. It presents a deeply human insight: that real obedience is not easy or automatic, but something learned and developed through difficult experiences.",
+        "explanationVi": "Câu này nói về Chúa Giê-su và gợi ý rằng ngay cả Ngài — dù được coi là Con Đức Chúa Trời — cũng phải trải qua gian khổ và đau khổ để thật sự hiểu và thực hành sự vâng lời. Câu này mang đến một nhận thức rất con người: sự vâng lời thật sự không phải là điều dễ dàng hay tự nhiên mà có, mà là điều được học và rèn luyện qua những trải nghiệm khó khăn."
       }
     ]
   },
   {
-  "slug": "money",
-  "nameEn": "Money & Wealth",
-  "nameVi": "Tiền bạc & Tài sản",
-  "category": "guidance",
-  "icon": "Coins",
-  "introEn": "The Bible offers profound wisdom on money and wealth, reminding believers that true security comes from God, not material possessions. Scripture calls us to be generous, content, and to use resources as faithful stewards.",
-  "introVi": "Kinh Thánh cung cấp sự khôn ngoan sâu sắc về tiền bạc và tài sản, nhắc nhở tín đồ rằng sự an toàn thật sự đến từ Đức Chúa Trời. Kinh Thánh kêu gọi chúng ta rộng rãi, biết đủ và sử dụng tài nguyên như những người quản lý trung tín.",
-  "verses": [
-    {
-      "ref": "Matthew 6:24",
-      "bookSlug": "matthew",
-      "chapter": 6,
-      "verse": 24,
-      "textEn": "No one can serve two masters. Either you will hate the one and love the other, or you will be devoted to the one and despise the other. You cannot serve both God and money.",
-      "textVi": "Chẳng ai có thể làm tôi hai chủ; vì sẽ ghét người nầy mà yêu người kia, hoặc trọng người nầy mà khinh người kia. Các ngươi chẳng có thể làm tôi Đức Chúa Trời lại làm tôi Ma-môn nữa.",
-      "noteEn": "God demands undivided loyalty over wealth.",
-      "noteVi": "Đức Chúa Trời đòi hỏi lòng trung thành tuyệt đối hơn của cải."
-    },
-    {
-      "ref": "1 Timothy 6:10",
-      "bookSlug": "1-timothy",
-      "chapter": 6,
-      "verse": 10,
-      "textEn": "For the love of money is a root of all kinds of evil. Some people, eager for money, have wandered from the faith and pierced themselves with many griefs.",
-      "textVi": "Vì sự tham tiền bạc là cội rễ của mọi điều ác. Có kẻ vì đeo đuổi nó mà bội đạo, chuốc lấy nhiều điều đau khổ.",
-      "noteEn": "Loving money leads to spiritual ruin.",
-      "noteVi": "Yêu tiền bạc dẫn đến sự hủy hoại tâm linh."
-    },
-    {
-      "ref": "Proverbs 11:28",
-      "bookSlug": "proverbs",
-      "chapter": 11,
-      "verse": 28,
-      "textEn": "Those who trust in their riches will fall, but the righteous will thrive like a green leaf.",
-      "textVi": "Kẻ tin cậy nơi giàu có mình sẽ ngã; Song người công bình sẽ xanh tươi như lá cây.",
-      "noteEn": "Riches are an unreliable foundation for life.",
-      "noteVi": "Sự giàu có là nền tảng không đáng tin cậy."
-    },
-    {
-      "ref": "Luke 12:15",
-      "bookSlug": "luke",
-      "chapter": 12,
-      "verse": 15,
-      "textEn": "Then he said to them, 'Watch out! Be on your guard against all kinds of greed; life does not consist in an abundance of possessions.'",
-      "textVi": "Ngài bèn phán rằng: Hãy giữ mình về mọi sự tham lam; vì dù ai có dư dật, sự sống của người không phải bởi của cải mình đâu.",
-      "noteEn": "Life's meaning transcends material abundance.",
-      "noteVi": "Ý nghĩa cuộc sống vượt qua sự giàu có vật chất."
-    },
-    {
-      "ref": "Ecclesiastes 5:10",
-      "bookSlug": "ecclesiastes",
-      "chapter": 5,
-      "verse": 10,
-      "textEn": "Whoever loves money never has enough; whoever loves wealth is never satisfied with their income. This too is meaningless.",
-      "textVi": "Kẻ yêu tiền bạc chẳng hề no tiền bạc; kẻ yêu sự giàu có chẳng hề được lợi ích gì. Điều nầy cũng là hư không.",
-      "noteEn": "Wealth never fully satisfies the greedy heart.",
-      "noteVi": "Của cải không bao giờ thỏa mãn lòng tham lam."
-    },
-    {
-      "ref": "Philippians 4:11",
-      "bookSlug": "philippians",
-      "chapter": 4,
-      "verse": 11,
-      "textEn": "I am not saying this because I am in need, for I have learned to be content whatever the circumstances.",
-      "textVi": "Tôi nói vậy, chẳng phải vì muốn cho được gì đâu; nhưng tôi đã học biết sự bằng lòng trong mọi hoàn cảnh mình.",
-      "noteEn": "Contentment is learned, not inherited through wealth.",
-      "noteVi": "Sự thỏa lòng được học, không đến từ của cải."
-    }
-  ]
-},
+    "slug": "money",
+    "nameEn": "Money & Wealth",
+    "nameVi": "Tiền bạc & Tài sản",
+    "category": "guidance",
+    "icon": "Coins",
+    "introEn": "The Bible offers profound wisdom on money and wealth, reminding believers that true security comes from God, not material possessions. Scripture calls us to be generous, content, and to use resources as faithful stewards.",
+    "introVi": "Kinh Thánh cung cấp sự khôn ngoan sâu sắc về tiền bạc và tài sản, nhắc nhở tín đồ rằng sự an toàn thật sự đến từ Đức Chúa Trời. Kinh Thánh kêu gọi chúng ta rộng rãi, biết đủ và sử dụng tài nguyên như những người quản lý trung tín.",
+    "verses": [
+      {
+        "ref": "Matthew 6:24",
+        "bookSlug": "matthew",
+        "chapter": 6,
+        "verse": 24,
+        "textEn": "No one can serve two masters. Either you will hate the one and love the other, or you will be devoted to the one and despise the other. You cannot serve both God and money.",
+        "textVi": "Chẳng ai có thể làm tôi hai chủ; vì sẽ ghét người nầy mà yêu người kia, hoặc trọng người nầy mà khinh người kia. Các ngươi chẳng có thể làm tôi Đức Chúa Trời lại làm tôi Ma-môn nữa.",
+        "noteEn": "God demands undivided loyalty over wealth.",
+        "noteVi": "Đức Chúa Trời đòi hỏi lòng trung thành tuyệt đối hơn của cải.",
+        "explanationEn": "This verse uses the word 'master' to mean whatever controls your priorities and decisions. It suggests that if making money becomes your top priority in life, it will eventually conflict with other values like kindness, honesty, or relationships. You can't fully dedicate yourself to two opposing forces at the same time.",
+        "explanationVi": "Câu này dùng hình ảnh 'chủ nhân' để chỉ những gì chi phối ưu tiên và quyết định của bạn trong cuộc sống. Nó cho rằng nếu việc kiếm tiền trở thành mục tiêu tối thượng, nó sẽ xung đột với các giá trị khác như lòng tốt, sự trung thực hay các mối quan hệ. Bạn không thể toàn tâm toàn ý phục vụ hai thứ đối lập nhau cùng một lúc."
+      },
+      {
+        "ref": "1 Timothy 6:10",
+        "bookSlug": "1-timothy",
+        "chapter": 6,
+        "verse": 10,
+        "textEn": "For the love of money is a root of all kinds of evil. Some people, eager for money, have wandered from the faith and pierced themselves with many griefs.",
+        "textVi": "Vì sự tham tiền bạc là cội rễ của mọi điều ác. Có kẻ vì đeo đuổi nó mà bội đạo, chuốc lấy nhiều điều đau khổ.",
+        "noteEn": "Loving money leads to spiritual ruin.",
+        "noteVi": "Yêu tiền bạc dẫn đến sự hủy hoại tâm linh.",
+        "explanationEn": "This verse doesn't say money itself is evil, but rather that an obsessive love of money is the problem. When acquiring wealth becomes an unhealthy fixation, people may lie, cheat, or harm others — and ultimately end up miserable. It's a warning about how greed can quietly destroy a person's life and relationships.",
+        "explanationVi": "Câu này không nói tiền bạc là xấu xa, mà chỉ ra rằng sự yêu mê tiền bạc một cách thái quá mới là vấn đề. Khi việc kiếm tiền trở thành nỗi ám ảnh, người ta có thể nói dối, gian lận hoặc gây hại cho người khác — và cuối cùng lại rơi vào khổ đau. Đây là lời cảnh báo về cách lòng tham có thể âm thầm phá hủy cuộc sống và các mối quan hệ."
+      },
+      {
+        "ref": "Proverbs 11:28",
+        "bookSlug": "proverbs",
+        "chapter": 11,
+        "verse": 28,
+        "textEn": "Those who trust in their riches will fall, but the righteous will thrive like a green leaf.",
+        "textVi": "Kẻ tin cậy nơi giàu có mình sẽ ngã; Song người công bình sẽ xanh tươi như lá cây.",
+        "noteEn": "Riches are an unreliable foundation for life.",
+        "noteVi": "Sự giàu có là nền tảng không đáng tin cậy.",
+        "explanationEn": "This verse compares two types of people: those who place all their confidence in their wealth, and those who live with integrity and good values. It suggests that wealth alone is an unstable foundation — economic situations change — while living ethically leads to lasting wellbeing. Like a green leaf that keeps growing, a good life is built on more than just money.",
+        "explanationVi": "Câu này so sánh hai kiểu người: những ai đặt toàn bộ niềm tin vào sự giàu có, và những ai sống với phẩm giá và giá trị tốt đẹp. Nó cho thấy rằng chỉ dựa vào tài sản là một nền tảng bấp bênh — vì hoàn cảnh kinh tế luôn thay đổi — trong khi sống lương thiện mang lại sự thịnh vượng bền lâu. Như một chiếc lá xanh không ngừng lớn, cuộc sống tốt đẹp được xây dựng trên nhiều thứ hơn là tiền bạc."
+      },
+      {
+        "ref": "Luke 12:15",
+        "bookSlug": "luke",
+        "chapter": 12,
+        "verse": 15,
+        "textEn": "Then he said to them, 'Watch out! Be on your guard against all kinds of greed; life does not consist in an abundance of possessions.'",
+        "textVi": "Ngài bèn phán rằng: Hãy giữ mình về mọi sự tham lam; vì dù ai có dư dật, sự sống của người không phải bởi của cải mình đâu.",
+        "noteEn": "Life's meaning transcends material abundance.",
+        "noteVi": "Ý nghĩa cuộc sống vượt qua sự giàu có vật chất.",
+        "explanationEn": "Jesus is recorded here warning people to be careful about greed — the constant desire for more things and more money. He makes the point that a truly meaningful life isn't measured by how many possessions you own. This challenges the common assumption that accumulating more stuff automatically leads to a better life.",
+        "explanationVi": "Đây là lời cảnh báo được ghi lại của Chúa Giêsu về lòng tham — ham muốn không ngừng có thêm tiền bạc và của cải. Ông nhấn mạnh rằng một cuộc sống thực sự có ý nghĩa không được đo bằng số lượng tài sản bạn sở hữu. Điều này thách thức quan niệm phổ biến rằng tích lũy càng nhiều thứ thì cuộc sống càng tốt hơn."
+      },
+      {
+        "ref": "Ecclesiastes 5:10",
+        "bookSlug": "ecclesiastes",
+        "chapter": 5,
+        "verse": 10,
+        "textEn": "Whoever loves money never has enough; whoever loves wealth is never satisfied with their income. This too is meaningless.",
+        "textVi": "Kẻ yêu tiền bạc chẳng hề no tiền bạc; kẻ yêu sự giàu có chẳng hề được lợi ích gì. Điều nầy cũng là hư không.",
+        "noteEn": "Wealth never fully satisfies the greedy heart.",
+        "noteVi": "Của cải không bao giờ thỏa mãn lòng tham lam.",
+        "explanationEn": "This ancient observation points out that the more you love money, the more you always want — satisfaction never arrives. It's describing what modern psychology calls the 'hedonic treadmill': no matter how much wealth you gain, the feeling of 'enough' keeps moving further away. The writer calls this cycle meaningless because it never truly fulfills a person.",
+        "explanationVi": "Quan sát cổ xưa này chỉ ra rằng càng yêu tiền, bạn càng luôn muốn có thêm — sự thỏa mãn không bao giờ đến. Đây là điều mà tâm lý học hiện đại gọi là 'vòng quay khoái lạc': dù kiếm được bao nhiêu, cảm giác 'đủ rồi' vẫn cứ lùi xa mãi. Tác giả gọi vòng lặp này là vô nghĩa vì nó không bao giờ thực sự làm thỏa lòng người."
+      },
+      {
+        "ref": "Philippians 4:11",
+        "bookSlug": "philippians",
+        "chapter": 4,
+        "verse": 11,
+        "textEn": "I am not saying this because I am in need, for I have learned to be content whatever the circumstances.",
+        "textVi": "Tôi nói vậy, chẳng phải vì muốn cho được gì đâu; nhưng tôi đã học biết sự bằng lòng trong mọi hoàn cảnh mình.",
+        "noteEn": "Contentment is learned, not inherited through wealth.",
+        "noteVi": "Sự thỏa lòng được học, không đến từ của cải.",
+        "explanationEn": "The apostle Paul wrote this while in prison, saying he had learned to feel okay regardless of whether he was rich or poor. This is not about ignoring financial needs, but about developing an inner sense of 'enough' that doesn't depend entirely on external circumstances. It suggests that contentment is a skill you can practice, not just a feeling that arrives when you have enough money.",
+        "explanationVi": "Sứ đồ Phao-lô viết điều này khi đang ở trong tù, nói rằng ông đã học được cách cảm thấy ổn dù giàu hay nghèo. Đây không phải là lời kêu gọi bỏ qua các nhu cầu tài chính, mà là về việc phát triển cảm giác 'đủ' từ bên trong, không phụ thuộc hoàn toàn vào hoàn cảnh bên ngoài. Điều này gợi ý rằng sự bằng lòng là một kỹ năng có thể rèn luyện, không chỉ là cảm xúc tự nhiên xuất hiện khi bạn có đủ tiền."
+      }
+    ]
+  },
   {
     "slug": "work",
     "nameEn": "Work & Purpose",
@@ -1897,7 +2211,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Whatever you do, work at it with all your heart, as working for the Lord, not for human masters,",
         "textVi": "Hễ làm việc gì, hãy hết lòng mà làm, như làm cho Chúa, chứ không phải làm cho người ta;",
         "noteEn": "Every task becomes worship when done for God",
-        "noteVi": "Mọi công việc trở thành sự thờ phượng khi làm vì Đức Chúa Trời"
+        "noteVi": "Mọi công việc trở thành sự thờ phượng khi làm vì Đức Chúa Trời",
+        "explanationEn": "This verse encourages people to give their best effort in everything they do, not just to impress others or a boss, but because the work itself has deeper meaning. It suggests that true motivation comes from an internal sense of purpose rather than external approval. In everyday life, this means approaching any task — from a big project to a small chore — with genuine dedication and care.",
+        "explanationVi": "Câu này khuyến khích mọi người hết lòng với mọi việc họ làm, không chỉ để gây ấn tượng với người khác hay cấp trên, mà vì bản thân công việc đó có ý nghĩa sâu sắc hơn. Nó gợi ý rằng động lực thật sự đến từ bên trong, từ cảm giác có mục đích, thay vì từ sự công nhận bên ngoài. Trong cuộc sống hàng ngày, điều này có nghĩa là hãy làm mọi việc — dù lớn hay nhỏ — với sự tận tâm và cẩn thận thật sự."
       },
       {
         "ref": "Genesis 2:15",
@@ -1907,7 +2223,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The Lord God took the man and put him in the Garden of Eden to work it and take care of it.",
         "textVi": "Giê-hô-va Đức Chúa Trời đem người đặt vào vườn Ê-đen để trồng và giữ vườn.",
         "noteEn": "Work was God's gift to humanity before the Fall",
-        "noteVi": "Công việc là ân tứ Đức Chúa Trời ban cho loài người trước khi sa ngã"
+        "noteVi": "Công việc là ân tứ Đức Chúa Trời ban cho loài người trước khi sa ngã",
+        "explanationEn": "This ancient text describes humans being placed in a garden with a clear responsibility: to tend and care for it, suggesting that work is a fundamental and dignified part of human existence. It implies that people were designed not for idleness, but to have a role and contribute to the world around them. Work, in this view, is not a punishment but a natural and meaningful part of life.",
+        "explanationVi": "Đoạn văn cổ xưa này mô tả con người được đặt vào một khu vườn với trách nhiệm rõ ràng: chăm sóc và gìn giữ nó, cho thấy rằng lao động là một phần cơ bản và đáng trân trọng của sự tồn tại của con người. Nó ngụ ý rằng con người không được tạo ra để nhàn rỗi, mà để có vai trò và đóng góp cho thế giới xung quanh. Theo quan điểm này, công việc không phải là hình phạt mà là một phần tự nhiên và có ý nghĩa của cuộc sống."
       },
       {
         "ref": "Proverbs 16:3",
@@ -1917,7 +2235,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Commit to the Lord whatever you do, and he will establish your plans.",
         "textVi": "Hãy phó thác công việc mình cho Đức Giê-hô-va, Thì những mưu định của con sẽ được thành công.",
         "noteEn": "Surrendering our plans to God brings true fruitfulness",
-        "noteVi": "Phó thác kế hoạch cho Đức Chúa Trời mang lại kết quả thật sự"
+        "noteVi": "Phó thác kế hoạch cho Đức Chúa Trời mang lại kết quả thật sự",
+        "explanationEn": "This proverb advises that when you align your goals and actions with something greater than yourself — a higher purpose or set of values — your plans are more likely to succeed and feel fulfilling. It speaks to the idea that selfish or short-sighted goals often fall apart, while purpose-driven ones tend to stand firm. Practically, it encourages people to reflect on their deeper motivations before committing to a path.",
+        "explanationVi": "Câu châm ngôn này khuyên rằng khi bạn gắn kết mục tiêu và hành động của mình với điều gì đó lớn hơn bản thân — một mục đích cao hơn hoặc một bộ giá trị sống — thì kế hoạch của bạn có nhiều khả năng thành công và mang lại sự thỏa mãn. Nó đề cập đến ý tưởng rằng những mục tiêu ích kỷ hay thiển cận thường thất bại, trong khi những mục tiêu hướng đến ý nghĩa lại vững bền hơn. Trong thực tế, câu này khuyến khích mọi người suy ngẫm về động lực sâu xa của mình trước khi cam kết với một con đường nào đó."
       },
       {
         "ref": "Ephesians 2:10",
@@ -1927,7 +2247,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.",
         "textVi": "Vì chúng ta là việc Ngài làm ra, đã được dựng nên trong Đức Chúa Jêsus Christ để làm việc lành mà Đức Chúa Trời đã sắm sẵn trước cho chúng ta làm theo.",
         "noteEn": "God pre-designed our purpose and good works in Christ",
-        "noteVi": "Đức Chúa Trời đã định sẵn mục đích và việc lành của chúng ta trong Chúa Giê-xu"
+        "noteVi": "Đức Chúa Trời đã định sẵn mục đích và việc lành của chúng ta trong Chúa Giê-xu",
+        "explanationEn": "This verse expresses the belief that every person is uniquely crafted with intention and that each individual has a specific contribution to make in the world. Rather than seeing life as random or meaningless, it suggests that people are born with built-in potential and a purpose to do good. For someone exploring meaning in life, this is an encouraging message that your existence and your work genuinely matter.",
+        "explanationVi": "Câu này thể hiện niềm tin rằng mỗi người được tạo ra một cách độc đáo và có chủ đích, và mỗi cá nhân có một đóng góp riêng để thực hiện trên thế giới. Thay vì coi cuộc sống là ngẫu nhiên hay vô nghĩa, nó gợi ý rằng mỗi người sinh ra đã mang trong mình tiềm năng và mục đích để làm điều tốt. Đối với ai đang tìm kiếm ý nghĩa cuộc sống, đây là một thông điệp đáng khích lệ rằng sự tồn tại và công việc của bạn thực sự có giá trị."
       },
       {
         "ref": "Ecclesiastes 9:10",
@@ -1937,7 +2259,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Whatever your hand finds to do, do it with all your might, for in the realm of the dead, where you are going, there is neither working nor planning nor knowledge nor wisdom.",
         "textVi": "Phàm tay ngươi làm được, hãy làm hết sức mình; vì dưới âm phủ, là nơi ngươi đi đến, chẳng có việc làm, chẳng có mưu kế, chẳng có tri thức, cũng chẳng có sự khôn ngoan.",
         "noteEn": "Life's brevity calls us to work with full diligence now",
-        "noteVi": "Sự ngắn ngủi của cuộc đời nhắc chúng ta làm việc hết lòng ngay hôm nay"
+        "noteVi": "Sự ngắn ngủi của cuộc đời nhắc chúng ta làm việc hết lòng ngay hôm nay",
+        "explanationEn": "Written as practical wisdom, this verse urges people to throw themselves fully into whatever they are doing right now, because life is short and opportunities don't last forever. It's a reminder that procrastination and half-hearted effort waste the limited time we have. This is one of the Bible's most direct motivational messages: act with energy and purpose while you still can.",
+        "explanationVi": "Được viết như một lời khuyên thực tế, câu này thúc giục mọi người dồn hết sức vào bất cứ điều gì họ đang làm lúc này, vì cuộc sống ngắn ngủi và cơ hội không tồn tại mãi mãi. Đây là lời nhắc nhở rằng sự trì hoãn và nỗ lực nửa vời sẽ lãng phí khoảng thời gian hữu hạn chúng ta có. Đây là một trong những thông điệp tạo động lực trực tiếp nhất của Kinh Thánh: hãy hành động với năng lượng và mục đích trong khi bạn còn có thể."
       },
       {
         "ref": "Jeremiah 29:11",
@@ -1947,7 +2271,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
         "textVi": "Vì Ta biết những ý tưởng Ta nghĩ đến các ngươi, Đức Giê-hô-va phán, là ý tưởng bình an, không phải tai họa, để cho các ngươi được sự trông cậy trong lúc cuối cùng của các ngươi.",
         "noteEn": "God's purposeful plans for us bring hope and assurance",
-        "noteVi": "Kế hoạch đầy mục đích của Đức Chúa Trời mang lại hy vọng và sự chắc chắn"
+        "noteVi": "Kế hoạch đầy mục đích của Đức Chúa Trời mang lại hy vọng và sự chắc chắn",
+        "explanationEn": "This is one of the most well-known verses in the Bible, offering a message of hope that the future holds good things — even when the present feels uncertain or difficult. It reassures people that there is a meaningful plan and direction to their lives, not just chaos or chance. For anyone feeling lost in their career or life path, this verse speaks to the possibility that purpose and a positive future are still ahead.",
+        "explanationVi": "Đây là một trong những câu nổi tiếng nhất trong Kinh Thánh, mang đến thông điệp hy vọng rằng tương lai chứa đựng những điều tốt đẹp — ngay cả khi hiện tại cảm thấy bất định hay khó khăn. Nó trấn an mọi người rằng cuộc sống của họ có một kế hoạch và hướng đi có ý nghĩa, chứ không chỉ là sự hỗn loạn hay ngẫu nhiên. Đối với bất kỳ ai đang cảm thấy lạc lối trong sự nghiệp hay con đường sống, câu này nói lên khả năng rằng mục đích và một tương lai tươi sáng vẫn đang chờ phía trước."
       }
     ]
   },
@@ -1968,7 +2294,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!",
         "textVi": "Vậy, nếu ai ở trong Đấng Christ thì người ấy là một tạo vật mới; những gì cũ đã qua đi, này, mọi thứ đều trở nên mới.",
         "noteEn": "Believers are completely new creations in Christ.",
-        "noteVi": "Người tin Chúa là tạo vật hoàn toàn mới trong Đấng Christ."
+        "noteVi": "Người tin Chúa là tạo vật hoàn toàn mới trong Đấng Christ.",
+        "explanationEn": "This verse says that when a person chooses to follow Christ, they experience a kind of inner transformation — like becoming a brand new person on the inside. Old habits, guilt, or a broken self-image no longer have to define who you are. In terms of identity, it means your past does not have the final word on who you are becoming.",
+        "explanationVi": "Câu này nói rằng khi một người chọn tin theo Chúa Giê-su, họ trải qua một sự biến đổi bên trong — giống như trở thành một con người hoàn toàn mới. Những thói quen cũ, mặc cảm tội lỗi, hay hình ảnh tiêu cực về bản thân không còn là thứ định nghĩa bạn nữa. Về danh tính, điều này có nghĩa là quá khứ không phải là lời cuối cùng về con người bạn đang trở thành."
       },
       {
         "ref": "John 1:12",
@@ -1978,7 +2306,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Yet to all who did receive him, to those who believed in his name, he gave the right to become children of God—",
         "textVi": "Nhưng bất cứ ai tiếp nhận Ngài, tức là những kẻ tin danh Ngài, thì Ngài ban cho họ quyền trở nên con cái Đức Chúa Trời.",
         "noteEn": "Faith in Christ grants us the right to be God's children.",
-        "noteVi": "Đức tin vào Chúa Giê-xu ban cho chúng ta quyền làm con Đức Chúa Trời."
+        "noteVi": "Đức tin vào Chúa Giê-xu ban cho chúng ta quyền làm con Đức Chúa Trời.",
+        "explanationEn": "This verse explains that anyone who chooses to trust in Jesus is given a new relational identity — they become part of God's family, like an adopted child. It is not about being born into a certain religion or culture, but about a personal choice to believe. This means your identity shifts from being just a person in the world to being someone who belongs to God as a beloved child.",
+        "explanationVi": "Câu này giải thích rằng bất kỳ ai chọn tin vào Chúa Giê-su đều được ban cho một danh tính mới trong mối quan hệ — họ trở thành một phần trong gia đình của Đức Chúa Trời, giống như một đứa con được nhận nuôi. Điều này không phụ thuộc vào việc bạn sinh ra trong tôn giáo hay văn hóa nào, mà là một lựa chọn cá nhân để tin tưởng. Điều đó có nghĩa là danh tính của bạn thay đổi từ một người bình thường trong thế giới này thành người thuộc về Đức Chúa Trời như một đứa con yêu dấu."
       },
       {
         "ref": "Galatians 2:20",
@@ -1988,7 +2318,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I have been crucified with Christ and I no longer live, but Christ lives in me. The life I now live in the body, I live by faith in the Son of God, who loved me and gave himself for me.",
         "textVi": "Tôi đã bị đóng đinh vào thập tự giá với Đấng Christ, nên tôi sống, không phải là tôi sống nữa, mà là Đấng Christ sống trong tôi; và sự sống hiện tại của tôi trong xác thịt là sống trong đức tin của Con Đức Chúa Trời, là Đấng đã yêu tôi và phó chính mình Ngài vì tôi.",
         "noteEn": "Our old self is replaced by Christ living within us.",
-        "noteVi": "Bản ngã cũ được thay thế bởi Đấng Christ sống trong chúng ta."
+        "noteVi": "Bản ngã cũ được thay thế bởi Đấng Christ sống trong chúng ta.",
+        "explanationEn": "Paul, the writer of this verse, is saying that his old way of living — driven by self-interest and fear — has effectively 'died,' and now a new way of living has taken over, shaped by the love and example of Jesus. It is a way of describing a deep identity shift where your core motivation in life changes. Instead of living for yourself alone, you live connected to something — and someone — much greater.",
+        "explanationVi": "Phao-lô, người viết câu này, đang nói rằng lối sống cũ của ông — được thúc đẩy bởi lợi ích cá nhân và nỗi sợ hãi — đã thực sự 'chết đi,' và giờ đây một cách sống mới đã tiếp quản, được định hình bởi tình yêu và gương mẫu của Chúa Giê-su. Đây là cách mô tả một sự thay đổi danh tính sâu sắc, nơi động lực cốt lõi trong cuộc sống của bạn thay đổi. Thay vì chỉ sống cho bản thân, bạn sống trong sự kết nối với điều gì đó — và ai đó — vĩ đại hơn nhiều."
       },
       {
         "ref": "Ephesians 2:10",
@@ -1998,7 +2330,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.",
         "textVi": "Vì chúng ta là tác phẩm của Ngài, được tạo dựng trong Đấng Christ Giê-xu để làm những việc lành mà Đức Chúa Trời đã chuẩn bị trước cho chúng ta làm.",
         "noteEn": "We are God's masterpiece, created with divine purpose.",
-        "noteVi": "Chúng ta là kiệt tác của Đức Chúa Trời, được tạo dựng với mục đích thiêng liêng."
+        "noteVi": "Chúng ta là kiệt tác của Đức Chúa Trời, được tạo dựng với mục đích thiêng liêng.",
+        "explanationEn": "This verse compares each person to a unique piece of craftsmanship made by God — meaning you are not an accident or without purpose. The idea is that your identity includes a specific reason for existing: to do good in the world in ways that are uniquely suited to you. It gives life a sense of direction and meaning beyond just getting through each day.",
+        "explanationVi": "Câu này so sánh mỗi người với một tác phẩm thủ công độc đáo do Đức Chúa Trời tạo ra — có nghĩa là bạn không phải là sự tình cờ hay người không có mục đích. Ý tưởng ở đây là danh tính của bạn bao gồm một lý do cụ thể để tồn tại: làm điều tốt cho thế giới theo cách phù hợp riêng với bạn. Điều này mang lại cho cuộc sống một ý nghĩa và hướng đi vượt ra ngoài việc chỉ qua từng ngày một."
       },
       {
         "ref": "Romans 8:17",
@@ -2008,7 +2342,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Now if we are children, then we are heirs—heirs of God and co-heirs with Christ, if indeed we share in his sufferings in order that we may also share in his glory.",
         "textVi": "Lại nếu chúng ta là con, thì cũng là kẻ thừa tự: thừa tự Đức Chúa Trời và đồng thừa tự với Đấng Christ, miễn chúng ta cùng chịu khổ với Ngài, hầu cùng được vinh hiển với Ngài.",
         "noteEn": "As God's children, we are co-heirs with Christ in glory.",
-        "noteVi": "Là con cái Đức Chúa Trời, chúng ta là đồng thừa kế với Đấng Christ."
+        "noteVi": "Là con cái Đức Chúa Trời, chúng ta là đồng thừa kế với Đấng Christ.",
+        "explanationEn": "This verse builds on the idea that believers are like children in God's family, and children in a family inherit what belongs to their parents. Here, it means those who follow Christ share in a future of glory — a life of deep meaning, restoration, and closeness with God. It is a remarkable identity claim: not just surviving life, but inheriting something extraordinary alongside Jesus himself.",
+        "explanationVi": "Câu này xây dựng trên ý tưởng rằng những người tin đạo giống như những đứa con trong gia đình Đức Chúa Trời, và những đứa con trong một gia đình được thừa hưởng những gì thuộc về cha mẹ chúng. Ở đây, điều đó có nghĩa là những người theo Chúa Giê-su được chia sẻ một tương lai vinh quang — một cuộc sống có ý nghĩa sâu sắc, sự phục hồi và sự gần gũi với Đức Chúa Trời. Đây là một tuyên bố danh tính đáng kinh ngạc: không chỉ là tồn tại qua cuộc đời, mà còn thừa hưởng điều gì đó phi thường cùng với chính Chúa Giê-su."
       },
       {
         "ref": "1 Peter 2:9",
@@ -2018,7 +2354,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But you are a chosen people, a royal priesthood, a holy nation, God's special possession, that you may declare the praises of him who called you out of darkness into his wonderful light.",
         "textVi": "Nhưng anh em là dòng giống được tuyển chọn, là chức tế lễ nhà vua, là dân thánh, là dân thuộc riêng về Đức Chúa Trời, để anh em công bố những đức tính tuyệt vời của Đấng đã gọi anh em ra khỏi nơi tối tăm vào trong ánh sáng kỳ diệu của Ngài.",
         "noteEn": "Believers hold a royal, holy identity as God's treasured possession.",
-        "noteVi": "Người tin Chúa có danh tính hoàng gia và thánh khiết là tài sản quý báu của Đức Chúa Trời."
+        "noteVi": "Người tin Chúa có danh tính hoàng gia và thánh khiết là tài sản quý báu của Đức Chúa Trời.",
+        "explanationEn": "This verse uses powerful titles — 'chosen people,' 'royal priesthood,' 'God's special possession' — to describe how believers are seen by God, not as ordinary or forgotten, but as deeply valued and set apart for a meaningful purpose. The image of being called 'out of darkness into light' suggests moving from confusion or emptiness into clarity and belonging. It is one of the strongest statements in the Bible about how God views the identity of those who follow him.",
+        "explanationVi": "Câu này sử dụng những danh hiệu đầy sức mạnh — 'dân tộc được chọn lựa,' 'chức tế lễ hoàng gia,' 'sở hữu đặc biệt của Đức Chúa Trời' — để mô tả cách Đức Chúa Trời nhìn nhận những người tin đạo, không phải là những người bình thường hay bị lãng quên, mà là những người được trân trọng sâu sắc và được dành riêng cho một mục đích có ý nghĩa. Hình ảnh được gọi 'ra khỏi bóng tối vào ánh sáng' gợi lên sự chuyển dịch từ sự mơ hồ hoặc trống rỗng sang sự rõ ràng và thuộc về. Đây là một trong những tuyên bố mạnh mẽ nhất trong Kinh Thánh về cách Đức Chúa Trời nhìn nhận danh tính của những người theo Ngài."
       }
     ]
   },
@@ -2039,7 +2377,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
         "textVi": "Vì Đức Chúa Trời yêu thương thế gian đến nỗi đã ban Con Một của Ngài, hầu cho hễ ai tin Con ấy không bị hư mất mà được sự sống đời đời.",
         "noteEn": "God's sacrifice reveals the infinite worth of every person.",
-        "noteVi": "Sự hy sinh của Đức Chúa Trời bày tỏ giá trị vô hạn của mỗi người."
+        "noteVi": "Sự hy sinh của Đức Chúa Trời bày tỏ giá trị vô hạn của mỗi người.",
+        "explanationEn": "This verse says that God loved humanity so deeply that he was willing to sacrifice his own Son so that people could live forever rather than face destruction. It's a statement about how much every human life is worth — not based on achievements or status, but simply because we exist and are loved. To God, people are valuable enough to pay the highest possible price for.",
+        "explanationVi": "Câu này nói rằng Đức Chúa Trời yêu thương nhân loại đến mức sẵn sàng hy sinh Con của Ngài để con người được sống mãi mãi thay vì bị hủy diệt. Đây là tuyên bố về giá trị của mỗi con người — không dựa trên thành tích hay địa vị, mà đơn giản vì chúng ta tồn tại và được yêu thương. Với Đức Chúa Trời, con người có giá trị đến mức Ngài sẵn lòng trả cái giá cao nhất có thể."
       },
       {
         "ref": "Psalm 139:14",
@@ -2049,7 +2389,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I praise you because I am fearfully and wonderfully made; your works are wonderful, I know that full well.",
         "textVi": "Tôi cảm tạ Chúa, vì tôi được dựng nên cách đáng sợ và lạ lùng. Công việc Chúa thật diệu kỳ, lòng tôi biết rõ lắm.",
         "noteEn": "You are deliberately and beautifully crafted by God Himself.",
-        "noteVi": "Bạn được Đức Chúa Trời tạo dựng một cách có chủ đích và kỳ diệu."
+        "noteVi": "Bạn được Đức Chúa Trời tạo dựng một cách có chủ đích và kỳ diệu.",
+        "explanationEn": "The writer is expressing amazement at how intricately and beautifully the human body and mind are put together, crediting God as the creator behind that design. The phrase 'fearfully and wonderfully made' means that we are crafted with such precision and care that it inspires awe. This verse encourages people to see themselves not as ordinary or insignificant, but as something remarkable and intentionally created.",
+        "explanationVi": "Tác giả bày tỏ sự kinh ngạc trước sự tinh tế và kỳ diệu trong cách cơ thể và tâm trí con người được tạo ra, quy công điều đó cho Đức Chúa Trời là Đấng thiết kế nên tất cả. Cụm từ 'được dựng nên cách đáng sợ và kỳ diệu' có nghĩa là chúng ta được tạo ra với sự tỉ mỉ và quan tâm đến mức khiến người ta phải kinh ngạc. Câu này khuyến khích mỗi người nhìn nhận bản thân không phải là tầm thường hay vô nghĩa, mà là điều gì đó phi thường và được tạo ra một cách có chủ đích."
       },
       {
         "ref": "Genesis 1:27",
@@ -2059,7 +2401,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So God created mankind in his own image, in the image of God he created them; male and female he created them.",
         "textVi": "Đức Chúa Trời dựng nên loài người theo hình ảnh Ngài; Ngài dựng nên loài người giống như hình ảnh Đức Chúa Trời; Ngài dựng nên họ có nam có nữ.",
         "noteEn": "Bearing God's image grants every person inherent dignity and worth.",
-        "noteVi": "Mang hình ảnh Đức Chúa Trời ban cho mỗi người phẩm giá và giá trị vốn có."
+        "noteVi": "Mang hình ảnh Đức Chúa Trời ban cho mỗi người phẩm giá và giá trị vốn có.",
+        "explanationEn": "This verse teaches that every human being — regardless of gender, race, or background — was made to reflect something of God's own nature and character. Being made 'in God's image' means that people carry an inherent dignity and worth that no one can take away. It places every person on equal footing, suggesting that our value comes from who made us, not from what we do or how others see us.",
+        "explanationVi": "Câu này dạy rằng mỗi con người — bất kể giới tính, chủng tộc hay xuất thân — đều được tạo ra để phản chiếu bản chất và phẩm hạnh của Đức Chúa Trời. Được tạo dựng 'theo hình ảnh của Đức Chúa Trời' có nghĩa là con người mang trong mình một phẩm giá và giá trị bẩm sinh mà không ai có thể lấy đi được. Điều này đặt mọi người ngang bằng nhau, ngụ ý rằng giá trị của chúng ta đến từ Đấng tạo ra chúng ta, chứ không phải từ việc chúng ta làm gì hay người khác nhìn nhận chúng ta như thế nào."
       },
       {
         "ref": "1 Peter 2:9",
@@ -2069,7 +2413,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But you are a chosen people, a royal priesthood, a holy nation, God's special possession, that you may declare the praises of him who called you out of darkness into his wonderful light.",
         "textVi": "Nhưng anh em là dòng giống được lựa chọn, là chức thầy tế lễ nhà vua, là dân thánh, là dân thuộc riêng về Đức Chúa Trời, để anh em rao truyền nhân đức của Đấng đã gọi anh em ra khỏi nơi tối tăm, đến nơi sáng láng lạ lùng của Ngài.",
         "noteEn": "Believers are chosen and treasured as God's own special people.",
-        "noteVi": "Các tín hữu được chọn lựa và trân quý như dân riêng đặc biệt của Đức Chúa Trời."
+        "noteVi": "Các tín hữu được chọn lựa và trân quý như dân riêng đặc biệt của Đức Chúa Trời.",
+        "explanationEn": "This verse uses royal and honorable language — 'chosen,' 'royal,' 'special possession' — to describe how God sees the people who follow him. It's saying that each person is not an accident or an afterthought, but someone specifically selected and treasured. This speaks directly to self-worth, reminding people that they are seen as precious and set apart, not overlooked or forgotten.",
+        "explanationVi": "Câu này dùng ngôn ngữ cao quý và vinh dự — 'được chọn lựa,' 'hoàng tộc,' 'sở hữu đặc biệt' — để mô tả cách Đức Chúa Trời nhìn nhận những người theo Ngài. Điều này muốn nói rằng mỗi người không phải là một sự tình cờ hay một ý nghĩ thêm vào, mà là người được lựa chọn cụ thể và được trân trọng. Câu này nói thẳng đến giá trị bản thân, nhắc nhở mỗi người rằng họ được xem là quý giá và đặc biệt, chứ không bị bỏ qua hay lãng quên."
       },
       {
         "ref": "Matthew 10:31",
@@ -2079,7 +2425,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So don't be afraid; you are worth more than many sparrows.",
         "textVi": "Vậy, đừng sợ chi: các ngươi quý hơn nhiều con chim sẻ.",
         "noteEn": "Jesus declares your value surpasses all of creation's creatures.",
-        "noteVi": "Chúa Giê-xu tuyên bố giá trị của bạn vượt trội hơn mọi sinh vật."
+        "noteVi": "Chúa Giê-xu tuyên bố giá trị của bạn vượt trội hơn mọi sinh vật.",
+        "explanationEn": "Jesus is telling his followers not to let fear or worry consume them, using small birds (sparrows) as a comparison — if even those tiny, common creatures are cared for by God, then people matter even more. This is a direct reassurance that human beings hold significant worth in the eyes of God. It's a reminder that no person is too small, too ordinary, or too forgotten to have real value.",
+        "explanationVi": "Chúa Giê-xu đang nói với các môn đồ rằng đừng để nỗi sợ hãi hay lo lắng chi phối họ, dùng hình ảnh những con chim sẻ nhỏ bé để so sánh — nếu ngay cả những sinh vật nhỏ bé, bình thường đó còn được Đức Chúa Trời quan tâm, thì con người còn quan trọng hơn nhiều. Đây là lời trấn an trực tiếp rằng con người có giá trị đáng kể trong mắt Đức Chúa Trời. Đó là lời nhắc nhở rằng không có ai quá nhỏ bé, quá tầm thường hay quá bị lãng quên mà không có giá trị thực sự."
       },
       {
         "ref": "Ephesians 2:10",
@@ -2089,7 +2437,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.",
         "textVi": "Vì chúng ta là tác phẩm của Ngài, đã được dựng nên trong Đức Chúa Jêsus Christ để làm các việc lành mà Đức Chúa Trời đã chuẩn bị trước cho chúng ta làm.",
         "noteEn": "You are God's masterpiece, created with divine purpose and meaning.",
-        "noteVi": "Bạn là kiệt tác của Đức Chúa Trời, được tạo dựng với mục đích thiêng liêng."
+        "noteVi": "Bạn là kiệt tác của Đức Chúa Trời, được tạo dựng với mục đích thiêng liêng.",
+        "explanationEn": "This verse compares each person to a work of art or a masterpiece ('handiwork'), saying that God intentionally designed every individual with a specific purpose in mind. It suggests that people are not here by accident — they were made with meaning, and there are good things they are uniquely equipped to contribute to the world. This gives a sense of worth rooted not just in being loved, but in having a meaningful role to play.",
+        "explanationVi": "Câu này so sánh mỗi người với một tác phẩm nghệ thuật hay một kiệt tác ('công trình tay'), nói rằng Đức Chúa Trời đã cố tình thiết kế mỗi cá nhân với một mục đích cụ thể trong tâm trí. Điều này gợi ý rằng con người không có mặt ở đây một cách tình cờ — họ được tạo ra có ý nghĩa, và có những điều tốt đẹp mà họ được trang bị riêng để đóng góp cho thế giới. Điều này mang lại cảm giác về giá trị bản thân không chỉ dựa trên việc được yêu thương, mà còn dựa trên việc có một vai trò có ý nghĩa để thực hiện."
       }
     ]
   },
@@ -2110,7 +2460,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
         "textVi": "Đức Giê-hô-va phán: Ta biết những kế hoạch Ta hoạch định cho các ngươi, đó là kế hoạch bình an, không phải tai họa, để cho các ngươi một tương lai và một hi vọng.",
         "noteEn": "God's plans for us are filled with hope and purpose.",
-        "noteVi": "Kế hoạch của Đức Chúa Trời dành cho chúng ta đầy hi vọng và mục đích."
+        "noteVi": "Kế hoạch của Đức Chúa Trời dành cho chúng ta đầy hi vọng và mục đích.",
+        "explanationEn": "This verse expresses the idea that God has a positive, intentional plan mapped out for each person's life — not one filled with suffering, but one pointing toward hope and a meaningful future. It speaks directly to the topic of calling and purpose by suggesting that your life is not random or accidental, but guided by a greater design. Even in difficult seasons, this verse encourages people to trust that something better lies ahead.",
+        "explanationVi": "Câu này diễn đạt ý tưởng rằng Đức Chúa Trời có một kế hoạch tốt đẹp và có chủ đích cho cuộc đời mỗi người — không phải cuộc đời đầy đau khổ, mà là cuộc đời hướng đến hy vọng và tương lai có ý nghĩa. Câu này liên quan trực tiếp đến chủ đề sứ mệnh và mục đích, gợi ý rằng cuộc sống của bạn không phải là ngẫu nhiên mà được dẫn dắt bởi một thiết kế lớn hơn. Ngay cả trong những giai đoạn khó khăn, câu này khuyến khích con người tin tưởng rằng điều tốt đẹp hơn đang chờ phía trước."
       },
       {
         "ref": "Ephesians 2:10",
@@ -2120,7 +2472,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.",
         "textVi": "Vì chúng ta là công trình của Đức Chúa Trời, được dựng nên trong Đấng Christ Jêsus để làm những việc lành mà Đức Chúa Trời đã chuẩn bị trước cho chúng ta làm.",
         "noteEn": "We are God's masterpiece, created for good works He planned.",
-        "noteVi": "Chúng ta là kiệt tác của Đức Chúa Trời, được tạo dựng cho công việc lành."
+        "noteVi": "Chúng ta là kiệt tác của Đức Chúa Trời, được tạo dựng cho công việc lành.",
+        "explanationEn": "This verse compares every person to a carefully crafted work of art made by God, suggesting that each individual has unique value and was created with a specific purpose in mind. The phrase 'good works prepared in advance' implies that meaningful things for you to do in life already exist, waiting for you to discover and live them out. It connects to calling and purpose by affirming that your life has intentional direction, not just chance.",
+        "explanationVi": "Câu này so sánh mỗi người với một tác phẩm nghệ thuật được Đức Chúa Trời tạo ra cẩn thận, gợi ý rằng mỗi cá nhân đều có giá trị độc đáo và được tạo dựng với một mục đích cụ thể. Cụm từ 'những việc tốt lành được chuẩn bị trước' ngụ ý rằng những điều có ý nghĩa mà bạn cần làm trong cuộc sống đã tồn tại sẵn, chờ bạn khám phá và sống trọn vẹn. Câu này liên quan đến sứ mệnh và mục đích bằng cách khẳng định rằng cuộc sống của bạn có định hướng có chủ đích, không chỉ là sự ngẫu nhiên."
       },
       {
         "ref": "Romans 8:28",
@@ -2130,7 +2484,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
         "textVi": "Chúng ta biết rằng mọi sự đều hiệp lại làm ích cho những người yêu mến Đức Chúa Trời, tức là những người được gọi theo ý định của Ngài.",
         "noteEn": "God's calling shapes every circumstance for our ultimate good.",
-        "noteVi": "Sự kêu gọi của Đức Chúa Trời định hình mọi hoàn cảnh vì lợi ích của chúng ta."
+        "noteVi": "Sự kêu gọi của Đức Chúa Trời định hình mọi hoàn cảnh vì lợi ích của chúng ta.",
+        "explanationEn": "This verse offers a reassuring perspective that even painful or confusing life experiences can ultimately contribute to something good for those who trust in God and are living according to His purpose. It doesn't promise that life will always be easy, but suggests there is a larger, redemptive story being written through every circumstance. For the topic of calling and purpose, it means your experiences — even the hard ones — are not wasted but woven into a bigger plan.",
+        "explanationVi": "Câu này mang đến một góc nhìn an ủi rằng ngay cả những trải nghiệm đau đớn hay khó hiểu trong cuộc sống cũng có thể đóng góp vào điều tốt đẹp cho những ai tin tưởng vào Đức Chúa Trời và sống theo mục đích của Ngài. Câu này không hứa hẹn rằng cuộc sống sẽ luôn dễ dàng, nhưng gợi ý rằng có một câu chuyện lớn hơn đang được viết nên qua mọi hoàn cảnh. Đối với chủ đề sứ mệnh và mục đích, điều này có nghĩa là những trải nghiệm của bạn — kể cả những điều khó khăn — không bị lãng phí mà được dệt vào một kế hoạch lớn hơn."
       },
       {
         "ref": "Psalm 139:13-14",
@@ -2140,7 +2496,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For you created my inmost being; you knit me together in my mother's womb. I praise you because I am fearfully and wonderfully made; your works are wonderful, I know that full well.",
         "textVi": "Vì chính Ngài tạo dựng tâm thần tôi, Dệt tôi trong lòng mẹ tôi. Tôi cảm tạ Ngài vì tôi được tạo dựng cách đáng sợ và diệu kỳ; Công việc Ngài thật diệu kỳ, linh hồn tôi biết rõ điều đó.",
         "noteEn": "God intentionally designed each person with unique purpose from conception.",
-        "noteVi": "Đức Chúa Trời cố ý tạo dựng mỗi người với mục đích riêng từ khi thành thai."
+        "noteVi": "Đức Chúa Trời cố ý tạo dựng mỗi người với mục đích riêng từ khi thành thai.",
+        "explanationEn": "These verses express a profound sense of wonder at how intricately and intentionally each human being is formed, comparing the process to a skilled craftsperson carefully knitting something together. The word 'fearfully' here means with awe and reverence, not with fear — it highlights how remarkable human life is. In terms of calling and purpose, it affirms that your existence is not an accident; you were designed with care and have inherent worth.",
+        "explanationVi": "Những câu này bày tỏ sự ngạc nhiên sâu sắc về cách mỗi con người được hình thành một cách tỉ mỉ và có chủ đích, so sánh quá trình đó với một người thợ lành nghề đang cẩn thận đan dệt một thứ gì đó. Từ 'kỳ diệu đáng kính sợ' ở đây mang nghĩa tôn kính và ngưỡng mộ, không phải sợ hãi — nó nhấn mạnh sự phi thường của sự sống con người. Về chủ đề sứ mệnh và mục đích, câu này khẳng định rằng sự tồn tại của bạn không phải là tai nạn; bạn được tạo ra một cách cẩn thận và có giá trị vốn có."
       },
       {
         "ref": "Matthew 28:19-20",
@@ -2150,7 +2508,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, and teaching them to obey everything I have commanded you.",
         "textVi": "Vậy, hãy đi và môn đồ hóa muôn dân, làm báp-tem cho họ nhân danh Đức Cha, Đức Con và Đức Thánh Linh, dạy họ giữ mọi điều Ta đã truyền cho các con.",
         "noteEn": "Christ gives every believer a clear mission to make disciples.",
-        "noteVi": "Chúa Giê-xu ban cho mỗi tín đồ một sứ mệnh rõ ràng là môn đồ hóa muôn dân."
+        "noteVi": "Chúa Giê-xu ban cho mỗi tín đồ một sứ mệnh rõ ràng là môn đồ hóa muôn dân.",
+        "explanationEn": "Known as the 'Great Commission,' this is Jesus giving his followers a clear, outward-focused mission: to go into the world, share what they've learned, and help others grow in faith. It frames calling and purpose not as something inward and private, but as something active and community-oriented — your purpose involves contributing to the lives of others. For a non-Christian, it illustrates how a sense of calling can give life direction and motivate meaningful action in the world.",
+        "explanationVi": "Được gọi là 'Đại Mệnh Lệnh,' đây là lời Chúa Giê-su giao cho các môn đệ một sứ mệnh rõ ràng, hướng ra bên ngoài: đi vào thế giới, chia sẻ những gì họ đã học được và giúp người khác trưởng thành trong đức tin. Câu này định hình sứ mệnh và mục đích không phải là điều gì đó nội tâm và riêng tư, mà là điều gì đó chủ động và hướng đến cộng đồng — mục đích của bạn liên quan đến việc đóng góp cho cuộc sống của người khác. Đối với người chưa theo đạo, câu này minh họa cách cảm giác được kêu gọi có thể định hướng cuộc sống và thúc đẩy hành động có ý nghĩa trong thế giới."
       },
       {
         "ref": "1 Peter 2:9",
@@ -2160,7 +2520,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But you are a chosen people, a royal priesthood, a holy nation, God's special possession, that you may declare the praises of him who called you out of darkness into his wonderful light.",
         "textVi": "Nhưng anh em là dòng giống được lựa chọn, là chức tế lễ nhà vua, là dân thánh, là dân thuộc riêng về Đức Chúa Trời, để anh em công bố những đức tính tốt lành của Đấng đã gọi anh em ra khỏi nơi tối tăm vào trong ánh sáng kỳ diệu của Ngài.",
         "noteEn": "Believers are chosen and called to proclaim God's glory to the world.",
-        "noteVi": "Tín đồ được chọn lựa và kêu gọi để công bố sự vinh hiển của Đức Chúa Trời."
+        "noteVi": "Tín đồ được chọn lựa và kêu gọi để công bố sự vinh hiển của Đức Chúa Trời.",
+        "explanationEn": "This verse describes believers as a specially chosen group with a meaningful identity and a clear role: to share with others the transformation they have experienced — moving from darkness (confusion, lostness) into light (clarity, purpose). It connects to calling and purpose by suggesting that your identity itself is tied to a mission, and that being 'called' means you have both a place to belong and something important to do. Even for a non-Christian, it reflects the universal human longing to feel chosen, valued, and part of something larger than oneself.",
+        "explanationVi": "Câu này mô tả những người tin đạo là một nhóm được chọn lọc đặc biệt với một bản sắc có ý nghĩa và một vai trò rõ ràng: chia sẻ với người khác sự biến đổi mà họ đã trải nghiệm — từ bóng tối (sự mơ hồ, lạc lối) sang ánh sáng (sự rõ ràng, mục đích). Câu này liên quan đến sứ mệnh và mục đích bằng cách gợi ý rằng bản thân bản sắc của bạn gắn liền với một sứ mệnh, và việc được 'kêu gọi' có nghĩa là bạn có cả một nơi để thuộc về và một điều quan trọng để làm. Ngay cả với người chưa theo đạo, câu này phản ánh khao khát phổ quát của con người là được cảm thấy được chọn lựa, được trân trọng và là một phần của điều gì đó lớn hơn bản thân mình."
       }
     ]
   },
@@ -2181,7 +2543,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do nothing out of selfish ambition or vain conceit. Rather, in humility value others above yourselves, not looking to your own interests but each of you to the interests of the others.",
         "textVi": "Đừng làm điều gì vì tham vọng ích kỷ hay vì hư vinh, nhưng hãy khiêm tốn, coi người khác hơn mình. Đừng ai chỉ lo lợi ích cho mình, nhưng hãy lo lợi ích cho người khác.",
         "noteEn": "Commands believers to place others' needs above their own",
-        "noteVi": "Truyền lệnh đặt nhu cầu người khác lên trên bản thân mình"
+        "noteVi": "Truyền lệnh đặt nhu cầu người khác lên trên bản thân mình",
+        "explanationEn": "This verse encourages people to act without selfishness or the desire to show off, and instead genuinely care about others' needs as much as — or even more than — their own. It defines humility not as weakness, but as a conscious choice to put others first. In everyday life, this looks like listening more than you speak, or helping someone without expecting credit.",
+        "explanationVi": "Câu này khuyến khích con người hành động mà không vì lợi ích cá nhân hay muốn phô trương, thay vào đó hãy thật sự quan tâm đến nhu cầu của người khác như của chính mình — thậm chí hơn thế nữa. Sự khiêm nhường ở đây không phải là yếu đuối, mà là sự lựa chọn có ý thức để đặt người khác lên trước. Trong cuộc sống hàng ngày, điều này thể hiện qua việc lắng nghe nhiều hơn nói, hoặc giúp đỡ người khác mà không cần được ghi nhận."
       },
       {
         "ref": "Proverbs 22:4",
@@ -2191,7 +2555,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Humility is the fear of the LORD; its wages are riches and honor and life.",
         "textVi": "Sự khiêm nhường và kính sợ Đức Giê-hô-va mang lại sự giàu có, danh dự và sự sống.",
         "noteEn": "Links humility with fearing God and receiving His blessings",
-        "noteVi": "Liên kết sự khiêm nhường với lòng kính sợ Đức Chúa Trời và phước lành Ngài"
+        "noteVi": "Liên kết sự khiêm nhường với lòng kính sợ Đức Chúa Trời và phước lành Ngài",
+        "explanationEn": "This proverb links humility with deep respect for God — meaning living with an awareness that there is something greater than yourself — and suggests that this attitude naturally leads to a fulfilling and honorable life. It implies that people who stay grounded and don't let pride drive them tend to earn genuine respect and inner richness. Humility here is presented as the foundation of a truly good life.",
+        "explanationVi": "Câu châm ngôn này kết nối sự khiêm nhường với lòng kính sợ Đức Chúa Trời — tức là sống với ý thức rằng có điều gì đó lớn lao hơn bản thân mình — và gợi ý rằng thái độ này tự nhiên dẫn đến một cuộc sống trọn vẹn và đáng kính. Điều này ám chỉ rằng những người giữ được sự khiêm tốn và không để kiêu ngạo chi phối thường nhận được sự tôn trọng thật sự và sự giàu có nội tâm. Sự khiêm nhường ở đây được xem là nền tảng của một cuộc sống tốt đẹp."
       },
       {
         "ref": "Matthew 23:12",
@@ -2201,7 +2567,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For those who exalt themselves will be humbled, and those who humble themselves will be exalted.",
         "textVi": "Vì ai tự nâng cao mình lên sẽ bị hạ xuống, còn ai hạ mình xuống sẽ được tôn cao.",
         "noteEn": "Jesus declares God's principle of reversing pride and humility",
-        "noteVi": "Chúa Giê-xu công bố nguyên tắc của Đức Chúa Trời về sự đảo ngược kiêu ngạo và khiêm nhường"
+        "noteVi": "Chúa Giê-xu công bố nguyên tắc của Đức Chúa Trời về sự đảo ngược kiêu ngạo và khiêm nhường",
+        "explanationEn": "This verse from Jesus teaches a principle that feels counterintuitive: the more you try to make yourself look important, the more likely you are to eventually be brought down, while those who stay humble tend to be the ones truly respected in the end. It's a warning against arrogance and a reminder that real status comes from character, not self-promotion. Think of it as a timeless observation about how pride often backfires.",
+        "explanationVi": "Câu này của Chúa Giê-su dạy một nguyên tắc có vẻ ngược đời: càng cố gắng làm cho mình trông quan trọng, bạn càng dễ bị hạ xuống, trong khi những người khiêm tốn lại thường là những người được tôn trọng thật sự vào cuối cùng. Đây là lời cảnh báo chống lại sự kiêu ngạo và nhắc nhở rằng địa vị thật sự đến từ phẩm cách, không phải từ việc tự đề cao bản thân. Hãy xem đây như một quan sát vượt thời gian về việc sự kiêu ngạo thường phản tác dụng."
       },
       {
         "ref": "James 4:10",
@@ -2211,7 +2579,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Humble yourselves before the Lord, and he will lift you up.",
         "textVi": "Hãy hạ mình xuống trước mặt Chúa, thì Ngài sẽ nhấc anh em lên.",
         "noteEn": "A direct promise that God exalts those who humble themselves",
-        "noteVi": "Lời hứa trực tiếp rằng Đức Chúa Trời tôn cao người hạ mình"
+        "noteVi": "Lời hứa trực tiếp rằng Đức Chúa Trời tôn cao người hạ mình",
+        "explanationEn": "This verse encourages people to adopt a humble posture before God — meaning to stop relying solely on your own strength and acknowledge that you don't have all the answers — and promises that doing so will lead to being lifted up or supported. It's a call to let go of ego and trust in something beyond yourself. In practical terms, it reflects the idea that admitting your limits often opens the door to genuine growth.",
+        "explanationVi": "Câu này khuyến khích con người có thái độ khiêm nhường trước Đức Chúa Trời — tức là ngừng chỉ dựa vào sức mạnh của bản thân và thừa nhận rằng bạn không có tất cả câu trả lời — và hứa rằng làm như vậy sẽ dẫn đến việc được nâng đỡ. Đây là lời kêu gọi buông bỏ cái tôi và tin tưởng vào điều gì đó vượt ra ngoài bản thân. Về mặt thực tế, nó phản ánh ý tưởng rằng việc thừa nhận giới hạn của mình thường mở ra cánh cửa cho sự phát triển thật sự."
       },
       {
         "ref": "Micah 6:8",
@@ -2221,7 +2591,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God.",
         "textVi": "Hỡi người, Ngài đã chỉ cho ngươi điều thiện. Đức Giê-hô-va đòi hỏi ngươi điều gì, nếu chẳng phải là làm điều công bằng, ưa sự nhân từ và bước đi khiêm nhường với Đức Chúa Trời ngươi?",
         "noteEn": "Walking humbly with God is a core divine requirement for humanity",
-        "noteVi": "Bước đi khiêm nhường với Đức Chúa Trời là yêu cầu cốt lõi dành cho con người"
+        "noteVi": "Bước đi khiêm nhường với Đức Chúa Trời là yêu cầu cốt lõi dành cho con người",
+        "explanationEn": "This verse summarizes what a meaningful life looks like according to the Bible: treat people fairly, show compassion, and live with humility — especially in your relationship with God, meaning staying open to guidance beyond your own understanding. It's a simple but powerful checklist for how to be a good human being. Humility here is presented alongside justice and kindness as one of the three core pillars of a good life.",
+        "explanationVi": "Câu này tóm tắt một cuộc sống có ý nghĩa trông như thế nào theo Kinh Thánh: đối xử công bằng với mọi người, thể hiện lòng trắc ẩn và sống với sự khiêm nhường — đặc biệt trong mối quan hệ của bạn với Đức Chúa Trời, tức là luôn cởi mở với sự hướng dẫn vượt ra ngoài sự hiểu biết của chính mình. Đây là một danh sách đơn giản nhưng mạnh mẽ về cách trở thành một con người tốt. Sự khiêm nhường ở đây được đặt cạnh công lý và lòng nhân từ như một trong ba trụ cột cốt lõi của một cuộc sống tốt đẹp."
       },
       {
         "ref": "1 Peter 5:6",
@@ -2231,7 +2603,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Humble yourselves, therefore, under God's mighty hand, that he may lift you up in due time.",
         "textVi": "Vậy, hãy hạ mình xuống dưới bàn tay quyền năng của Đức Chúa Trời, để đến thời kỳ thích hợp Ngài sẽ nhấc anh em lên.",
         "noteEn": "Encourages trust in God's timing through humble submission to Him",
-        "noteVi": "Khuyến khích tin tưởng vào thời điểm của Đức Chúa Trời qua sự hạ mình vâng phục Ngài"
+        "noteVi": "Khuyến khích tin tưởng vào thời điểm của Đức Chúa Trời qua sự hạ mình vâng phục Ngài",
+        "explanationEn": "Similar to James 4:10, this verse encourages people to humble themselves under God's authority — meaning to stop fighting for control over everything and trust that a greater power is at work — with the reassurance that the right moment for recognition or reward will come. It's a call to patience and trust rather than forcing your own way. The phrase 'in due time' reminds us that humility often requires waiting, and that good things can come to those who don't demand them immediately.",
+        "explanationVi": "Tương tự như Gia-cơ 4:10, câu này khuyến khích mọi người hạ mình xuống dưới quyền năng của Đức Chúa Trời — tức là ngừng cố kiểm soát mọi thứ và tin tưởng rằng có một quyền năng lớn hơn đang vận hành — với sự đảm bảo rằng thời điểm thích hợp để được công nhận hay ban thưởng sẽ đến. Đây là lời kêu gọi sự kiên nhẫn và tin tưởng thay vì ép buộc mọi việc theo ý mình. Cụm từ 'đúng thời điểm' nhắc nhở chúng ta rằng sự khiêm nhường thường đòi hỏi sự chờ đợi, và những điều tốt đẹp có thể đến với những ai không đòi hỏi chúng ngay lập tức."
       }
     ]
   },
@@ -2252,7 +2626,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the LORD your God will be with you wherever you go.",
         "textVi": "Ta há chẳng truyền lệnh cho ngươi sao? Hãy vững lòng bền chí, chớ kinh khiếp và chớ nản lòng; vì Giê-hô-va Đức Chúa Trời ngươi sẽ ở cùng ngươi trong mọi nơi ngươi đi.",
         "noteEn": "God's direct command to be courageous, backed by His presence",
-        "noteVi": "Lệnh truyền trực tiếp của Đức Chúa Trời kêu gọi sự can đảm"
+        "noteVi": "Lệnh truyền trực tiếp của Đức Chúa Trời kêu gọi sự can đảm",
+        "explanationEn": "This verse is a direct encouragement to a leader named Joshua who faced an overwhelming challenge — leading an entire nation into unknown territory. It reminds him not to let fear or doubt hold him back, because he is not walking the journey alone. The core message about courage is that bravery is easier when you believe you have a powerful source of support behind you.",
+        "explanationVi": "Câu này là lời động viên dành cho một nhà lãnh đạo tên Giô-suê, người đang đối mặt với thử thách lớn là dẫn dắt cả một dân tộc vào vùng đất xa lạ. Ông được nhắc nhở đừng để nỗi sợ hãi hay sự chán nản cản bước mình, vì ông không đi một mình. Thông điệp cốt lõi về sự can đảm ở đây là: dũng cảm sẽ dễ dàng hơn khi bạn tin rằng có một chỗ dựa vững chắc luôn ở bên."
       },
       {
         "ref": "Deuteronomy 31:6",
@@ -2262,7 +2638,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Be strong and courageous. Do not be afraid or terrified because of them, for the LORD your God goes with you; he will never leave you nor forsake you.",
         "textVi": "Hãy vững lòng bền chí, chớ sợ hãi và kinh khiếp các dân đó; vì Giê-hô-va Đức Chúa Trời ngươi đi cùng ngươi, Ngài sẽ chẳng lìa ngươi, chẳng bỏ ngươi đâu.",
         "noteEn": "Courage flows from the promise that God never abandons His people",
-        "noteVi": "Sự can đảm đến từ lời hứa Đức Chúa Trời không bỏ rơi dân Ngài"
+        "noteVi": "Sự can đảm đến từ lời hứa Đức Chúa Trời không bỏ rơi dân Ngài",
+        "explanationEn": "This verse was spoken to an entire community of people who were afraid of powerful enemies standing in their way. It encourages them to face those fears head-on, not because the danger isn't real, but because they have a companion who will never abandon them. The message about courage here is that we can move forward even when we are scared, especially when we feel we are not alone.",
+        "explanationVi": "Câu này được nói với cả một cộng đồng đang lo sợ trước những kẻ thù mạnh hơn họ. Họ được khuyến khích đối mặt với nỗi sợ đó, không phải vì nguy hiểm không có thật, mà vì họ có người đồng hành sẽ không bao giờ bỏ rơi họ. Thông điệp về sự can đảm ở đây là: chúng ta vẫn có thể tiến lên dù đang sợ hãi, đặc biệt khi cảm thấy không phải đi một mình."
       },
       {
         "ref": "Psalm 27:1",
@@ -2272,7 +2650,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The LORD is my light and my salvation — whom shall I fear? The LORD is the stronghold of my life — of whom shall I be afraid?",
         "textVi": "Đức Giê-hô-va là ánh sáng và sự cứu rỗi tôi; tôi sẽ sợ ai? Đức Giê-hô-va là đồn lũy của mạng sống tôi; tôi sẽ kinh khiếp ai?",
         "noteEn": "God as our refuge removes every reason for fear",
-        "noteVi": "Đức Chúa Trời là nơi nương náu xóa bỏ mọi lý do sợ hãi"
+        "noteVi": "Đức Chúa Trời là nơi nương náu xóa bỏ mọi lý do sợ hãi",
+        "explanationEn": "This is a poem written by a man named David who had survived many life-threatening situations, and he is reflecting on why he chooses not to live in fear. He uses the images of 'light' and a 'stronghold' — a fortress — to describe his source of confidence and safety. The connection to courage is that fear loses its grip when you have something greater giving you clarity and a sense of protection.",
+        "explanationVi": "Đây là một bài thơ của một người tên Đa-vít, người đã trải qua nhiều tình huống nguy hiểm đến tính mạng, và ông đang suy ngẫm về lý do mình chọn không sống trong sợ hãi. Ông dùng hình ảnh 'ánh sáng' và 'thành lũy' — một pháo đài kiên cố — để mô tả nguồn tự tin và sự an toàn của mình. Liên hệ đến sự can đảm là: nỗi sợ sẽ mất đi sức mạnh khi bạn có điều gì đó lớn hơn mang lại cho bạn sự rõ ràng và cảm giác được bảo vệ."
       },
       {
         "ref": "Isaiah 41:10",
@@ -2282,7 +2662,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.",
         "textVi": "Đừng sợ, vì ta ở với ngươi; chớ kinh khiếp, vì ta là Đức Chúa Trời ngươi! Ta sẽ bổ sức cho ngươi; phải, ta sẽ giúp đỡ ngươi, phải, ta sẽ lấy tay hữu công bình ta mà nâng đỡ ngươi.",
         "noteEn": "God's personal promise to strengthen and uphold the fearful",
-        "noteVi": "Lời hứa của Đức Chúa Trời ban sức mạnh cho người sợ hãi"
+        "noteVi": "Lời hứa của Đức Chúa Trời ban sức mạnh cho người sợ hãi",
+        "explanationEn": "In this verse, God speaks directly to people who are overwhelmed and discouraged, promising not just to be present but to actively strengthen and support them. The phrase 'uphold you with my righteous right hand' paints a picture of someone physically reaching out to keep you from falling. This relates to courage because it suggests that inner strength is not something we have to manufacture alone — it can come from a source outside ourselves.",
+        "explanationVi": "Trong câu này, Đức Chúa Trời nói trực tiếp với những người đang kiệt sức và nản lòng, hứa không chỉ hiện diện mà còn chủ động tiếp thêm sức mạnh và nâng đỡ họ. Hình ảnh 'nâng đỡ bằng tay phải công bình' gợi lên cảnh một ai đó đang chìa tay ra để giữ bạn khỏi ngã. Điều này liên quan đến sự can đảm vì nó cho thấy sức mạnh nội tâm không nhất thiết phải tự mình tạo ra — nó có thể đến từ một nguồn bên ngoài chúng ta."
       },
       {
         "ref": "2 Timothy 1:7",
@@ -2292,7 +2674,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For the Spirit God gave us does not make us timid, but gives us power, love and self-discipline.",
         "textVi": "Vì Đức Chúa Trời chẳng ban cho chúng ta tâm thần nhút nhát, bèn là tâm thần mạnh mẽ, có tình thương yêu và dè giữ.",
         "noteEn": "The Holy Spirit empowers believers with boldness, not timidity",
-        "noteVi": "Đức Thánh Linh ban cho tín hữu sự dạn dĩ, không phải nhút nhát"
+        "noteVi": "Đức Thánh Linh ban cho tín hữu sự dạn dĩ, không phải nhút nhát",
+        "explanationEn": "This verse from a letter written by the apostle Paul challenges the idea that being spiritually connected to God makes a person weak or passive. Instead, it says that inner spirit produces power, love, and self-discipline — all qualities that are essential for courageous living. The message is that true courage is not reckless boldness, but a combination of strength, care for others, and clear-headed self-control.",
+        "explanationVi": "Câu này trích từ một bức thư của sứ đồ Phao-lô, thách thức quan niệm rằng việc tin vào Đức Chúa Trời khiến người ta trở nên yếu đuối hay thụ động. Thay vào đó, ông nói rằng tâm linh bên trong tạo ra sức mạnh, tình yêu thương và sự tự chủ — tất cả đều là những phẩm chất cần thiết để sống can đảm. Thông điệp là: sự can đảm thực sự không phải là sự liều lĩnh, mà là sự kết hợp giữa sức mạnh, quan tâm đến người khác và khả năng kiểm soát bản thân sáng suốt."
       },
       {
         "ref": "John 16:33",
@@ -2302,7 +2686,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I have told you these things, so that in me you may have peace. In this world you will have trouble. But take heart! I have overcome the world.",
         "textVi": "Ta đã bảo các ngươi những điều đó, hầu cho các ngươi có lòng bình yên trong ta. Các ngươi sẽ có sự hoạn nạn trong thế gian, nhưng hãy cứ vững lòng, ta đã thắng thế gian rồi!",
         "noteEn": "Chúa Giê-xu calls for courage because He has already conquered the world",
-        "noteVi": "Chúa Giê-xu kêu gọi can đảm vì Ngài đã chiến thắng thế gian"
+        "noteVi": "Chúa Giê-xu kêu gọi can đảm vì Ngài đã chiến thắng thế gian",
+        "explanationEn": "Jesus says this to his followers right before facing his own death, acknowledging honestly that life will bring real hardship and trouble — he is not promising an easy path. However, he encourages them to take heart, meaning to find inner peace and courage, because he has found a way through the worst the world can offer. The lesson about courage is that it is not the absence of trouble, but the decision to remain hopeful and steady in spite of it.",
+        "explanationVi": "Chúa Giê-su nói điều này với các môn đồ ngay trước khi đối mặt với cái chết của chính mình, thành thật thừa nhận rằng cuộc sống sẽ mang đến những khó khăn và gian nan thực sự — Ngài không hứa một con đường bằng phẳng. Tuy nhiên, Ngài khuyến khích họ hãy vững lòng, tức là tìm thấy bình an nội tâm và sự can đảm, vì Ngài đã tìm được con đường vượt qua những điều tồi tệ nhất mà thế gian có thể mang lại. Bài học về sự can đảm ở đây là: can đảm không phải là không gặp khó khăn, mà là quyết tâm vẫn giữ hy vọng và bình tĩnh dù khó khăn đang hiện diện."
       }
     ]
   },
@@ -2323,7 +2709,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "This, then, is how you should pray: 'Our Father in heaven, hallowed be your name,'",
         "textVi": "Vậy, các ngươi hãy cầu nguyện như vầy: Lạy Cha chúng tôi ở trên trời, danh Cha được thánh,",
         "noteEn": "Jesus provides the model prayer for all believers",
-        "noteVi": "Chúa Giê-xu ban mẫu cầu nguyện cho mọi tín hữu"
+        "noteVi": "Chúa Giê-xu ban mẫu cầu nguyện cho mọi tín hữu",
+        "explanationEn": "Jesus is teaching his followers a simple model for how to talk to God, starting by recognizing God as a caring father figure and showing respect for who he is. Think of it like learning the basic structure of a letter before you write one — this opening sets the right tone and attitude before making any requests. In the context of prayer, it reminds us that the relationship matters as much as the words we say.",
+        "explanationVi": "Chúa Giê-su đang dạy các môn đồ một mẫu đơn giản để nói chuyện với Đức Chúa Trời, bắt đầu bằng cách nhìn nhận Ngài như một người cha yêu thương và bày tỏ sự tôn kính. Hãy nghĩ đến việc học cách mở đầu một bức thư trước khi viết — phần mở đầu này tạo ra thái độ và tông điệu phù hợp trước khi đưa ra bất kỳ yêu cầu nào. Trong chủ đề cầu nguyện, câu này nhắc nhở chúng ta rằng mối quan hệ quan trọng không kém gì những lời chúng ta nói."
       },
       {
         "ref": "Philippians 4:6",
@@ -2333,7 +2721,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.",
         "textVi": "Chớ lo phiền chi hết, nhưng trong mọi sự hãy dùng lời cầu nguyện, nài xin, và sự tạ ơn mà trình các sự cầu xin của mình cho Đức Chúa Trời.",
         "noteEn": "Prayer replaces anxiety with God's peace",
-        "noteVi": "Cầu nguyện thay thế lo lắng bằng sự bình an của Đức Chúa Trời"
+        "noteVi": "Cầu nguyện thay thế lo lắng bằng sự bình an của Đức Chúa Trời",
+        "explanationEn": "This verse encourages people to stop worrying and instead bring their concerns to God through prayer — which is simply an honest conversation with God — while also expressing gratitude for what they already have. It's similar to the relief you feel when you share a problem with a trusted friend instead of bottling it up alone. Prayer here is presented as a healthy outlet for anxiety, replacing worry with a sense of peace.",
+        "explanationVi": "Câu này khuyến khích mọi người ngừng lo lắng và thay vào đó hãy mang những nỗi lo của mình đến với Đức Chúa Trời qua lời cầu nguyện — tức là một cuộc trò chuyện thành thật với Ngài — đồng thời bày tỏ lòng biết ơn về những gì họ đã có. Điều này giống như cảm giác nhẹ nhõm khi bạn chia sẻ vấn đề với một người bạn đáng tin thay vì một mình chịu đựng. Ở đây, cầu nguyện được xem là cách lành mạnh để giải tỏa lo âu, thay thế sự lo lắng bằng sự bình an."
       },
       {
         "ref": "1 Thessalonians 5:17",
@@ -2343,7 +2733,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "pray continually,",
         "textVi": "hãy cầu nguyện không thôi,",
         "noteEn": "Believers are called to a lifestyle of constant prayer",
-        "noteVi": "Tín hữu được kêu gọi sống trong cầu nguyện liên tục"
+        "noteVi": "Tín hữu được kêu gọi sống trong cầu nguyện liên tục",
+        "explanationEn": "This short but powerful phrase suggests that prayer shouldn't be a rare or formal event, but rather an ongoing, natural part of daily life — like maintaining a constant, open line of communication with someone you trust. It doesn't mean you have to be on your knees every second, but rather that you keep an attitude of openness and connection with God throughout your day. It reframes prayer from a religious ritual into a continuous, living relationship.",
+        "explanationVi": "Cụm từ ngắn gọn nhưng mạnh mẽ này gợi ý rằng cầu nguyện không nên là điều hiếm hoi hay trang trọng, mà là một phần tự nhiên và liên tục trong cuộc sống hàng ngày — giống như duy trì một kênh giao tiếp cởi mở với người bạn tin tưởng. Điều này không có nghĩa là bạn phải quỳ gối mỗi giây, mà là giữ một thái độ cởi mở và kết nối với Đức Chúa Trời trong suốt cả ngày. Câu này chuyển hóa cầu nguyện từ một nghi lễ tôn giáo thành một mối quan hệ sống động và liên tục."
       },
       {
         "ref": "James 5:16",
@@ -2353,7 +2745,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective.",
         "textVi": "Vậy hãy xưng tội với nhau, và cầu nguyện cho nhau, hầu cho anh em được lành bịnh: người công bình lấy lòng sốt sắng cầu nguyện, thật có linh nghiệm nhiều.",
         "noteEn": "Fervent righteous prayer brings healing and power",
-        "noteVi": "Lời cầu nguyện sốt sắng của người công bình có linh nghiệm"
+        "noteVi": "Lời cầu nguyện sốt sắng của người công bình có linh nghiệm",
+        "explanationEn": "This verse highlights two ideas: the value of being honest and vulnerable with others about your mistakes, and the power of praying on behalf of someone else — often called intercession. It suggests that sincere, morally grounded prayers have real impact, much like how genuine advice from a trustworthy person carries more weight. In the context of prayer, it shows that praying for others, not just yourself, is meaningful and can bring about real change.",
+        "explanationVi": "Câu này nhấn mạnh hai ý: giá trị của việc thành thật và dễ bị tổn thương với người khác về những lỗi lầm của mình, và sức mạnh của việc cầu nguyện thay cho người khác. Điều này gợi ý rằng những lời cầu nguyện chân thành từ người sống ngay thẳng có tác động thực sự, giống như lời khuyên chân thật từ người đáng tin cậy có sức nặng hơn. Trong chủ đề cầu nguyện, câu này cho thấy việc cầu nguyện cho người khác, không chỉ cho bản thân, là điều có ý nghĩa và có thể tạo ra sự thay đổi thật sự."
       },
       {
         "ref": "Matthew 7:7",
@@ -2363,7 +2757,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Ask and it will be given to you; seek and you will find; knock and the door will be opened to you.",
         "textVi": "Hãy xin, sẽ được; hãy tìm, sẽ gặp; hãy gõ cửa, sẽ mở cho.",
         "noteEn": "Jesus promises God responds to persistent, seeking prayer",
-        "noteVi": "Chúa Giê-xu hứa Đức Chúa Trời đáp lời cầu nguyện kiên trì"
+        "noteVi": "Chúa Giê-xu hứa Đức Chúa Trời đáp lời cầu nguyện kiên trì",
+        "explanationEn": "Jesus uses three action words — ask, seek, knock — to encourage people to actively and persistently bring their needs and questions to God, rather than remaining passive or giving up. It's like being told that a door is open to you, but you still need to walk up and knock on it. This verse presents prayer as an active, two-way engagement where reaching out is met with a response.",
+        "explanationVi": "Chúa Giê-su dùng ba động từ hành động — xin, tìm, gõ — để khuyến khích mọi người chủ động và kiên trì mang những nhu cầu và câu hỏi của mình đến với Đức Chúa Trời, thay vì thụ động hay bỏ cuộc. Giống như được nói rằng có một cánh cửa đang mở cho bạn, nhưng bạn vẫn cần bước đến và gõ vào đó. Câu này trình bày cầu nguyện như một sự tương tác chủ động, hai chiều, trong đó việc chủ động tìm kiếm sẽ được đáp lại."
       },
       {
         "ref": "Psalm 145:18",
@@ -2373,7 +2769,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The Lord is near to all who call on him, to all who call on him in truth.",
         "textVi": "Đức Giê-hô-va ở gần mọi người cầu khẩn Ngài, tức là gần mọi người thành tâm cầu khẩn Ngài.",
         "noteEn": "God draws near to all who call on Him sincerely",
-        "noteVi": "Đức Chúa Trời đến gần mọi người thành tâm kêu cầu Ngài"
+        "noteVi": "Đức Chúa Trời đến gần mọi người thành tâm kêu cầu Ngài",
+        "explanationEn": "This verse from the book of Psalms — a collection of ancient songs and poems — reassures people that God is not distant or unreachable, but close to anyone who sincerely calls out to him. The phrase 'in truth' suggests that honesty and genuine intent matter more than using perfect words or religious formulas. It's an open invitation: prayer doesn't require expertise, only sincerity.",
+        "explanationVi": "Câu này từ sách Thi Thiên — một tuyển tập các bài ca và thơ cổ đại — trấn an mọi người rằng Đức Chúa Trời không xa cách hay khó tiếp cận, mà ở gần bất kỳ ai thành tâm kêu cầu Ngài. Cụm từ 'trong sự thật' gợi ý rằng sự thành thật và ý định chân thành quan trọng hơn là dùng những từ ngữ hoàn hảo hay công thức tôn giáo. Đây là một lời mời mở: cầu nguyện không đòi hỏi sự chuyên sâu, chỉ cần sự chân thành."
       }
     ]
   },
@@ -2394,7 +2792,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Let everything that has breath praise the LORD. Praise the LORD.",
         "textVi": "Nguyện mọi vật có hơi thở đều ca ngợi Đức Giê-hô-va! Ha-lê-lu-gia!",
         "noteEn": "The universal call for all creation to praise God",
-        "noteVi": "Lời kêu gọi toàn thể tạo vật hãy ca ngợi Đức Chúa Trời"
+        "noteVi": "Lời kêu gọi toàn thể tạo vật hãy ca ngợi Đức Chúa Trời",
+        "explanationEn": "This verse says that every living creature — anything that breathes — should praise God. It's a sweeping invitation that includes all of humanity, not just religious people, to express gratitude and admiration toward the source of life itself.",
+        "explanationVi": "Câu này nói rằng mọi sinh vật — bất cứ thứ gì có hơi thở — đều nên ca ngợi Đức Chúa Trời. Đây là lời mời rộng mở dành cho toàn nhân loại, không chỉ riêng người có đạo, để bày tỏ lòng biết ơn và sự tôn kính đối với nguồn gốc của sự sống."
       },
       {
         "ref": "John 4:23",
@@ -2404,7 +2804,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Yet a time is coming and has now come when the true worshipers will worship the Father in the Spirit and in truth, for they are the kind of worshipers the Father seeks.",
         "textVi": "Nhưng giờ đến, và đã đến rồi, khi những người thờ phượng thật sẽ thờ phượng Cha trong tâm linh và lẽ thật; vì Cha tìm kiếm những người thờ phượng Ngài như vậy.",
         "noteEn": "Jesus defines authentic worship as spiritual and truthful",
-        "noteVi": "Chúa Giê-xu định nghĩa sự thờ phượng thật sự là trong tâm linh và lẽ thật"
+        "noteVi": "Chúa Giê-xu định nghĩa sự thờ phượng thật sự là trong tâm linh và lẽ thật",
+        "explanationEn": "Jesus is saying here that true worship isn't about performing rituals in a specific holy place, but about connecting with God sincerely from the heart and with an honest, genuine spirit. God isn't looking for perfect religious ceremonies — He values authentic, heartfelt devotion above all else.",
+        "explanationVi": "Chúa Giê-su nói rằng việc thờ phượng thật sự không phải là thực hiện các nghi lễ ở một nơi thánh cụ thể, mà là kết nối với Đức Chúa Trời bằng tấm lòng chân thành và tinh thần trung thực. Đức Chúa Trời không tìm kiếm những nghi thức tôn giáo hoàn hảo — Ngài coi trọng sự thành tâm xuất phát từ tận đáy lòng hơn bất cứ điều gì."
       },
       {
         "ref": "Psalm 95:1-2",
@@ -2414,7 +2816,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Come, let us sing for joy to the LORD; let us shout aloud to the Rock of our salvation. Let us come before him with thanksgiving and extol him with music and song.",
         "textVi": "Hãy đến, chúng ta hãy ca hát mừng Đức Giê-hô-va, hãy reo mừng Đá của sự cứu rỗi chúng ta. Chúng ta hãy đến trước mặt Ngài với lời cảm tạ, hãy reo mừng Ngài với các bài ca.",
         "noteEn": "An invitation to joyful, communal praise and thanksgiving",
-        "noteVi": "Lời mời gọi ngợi khen vui mừng và tạ ơn cùng nhau"
+        "noteVi": "Lời mời gọi ngợi khen vui mừng và tạ ơn cùng nhau",
+        "explanationEn": "This passage is an enthusiastic call for people to come together, sing loudly, and celebrate God with music and thankfulness. Think of it like a joyful community celebration where gratitude is expressed openly through song — worship here is vibrant, communal, and full of energy.",
+        "explanationVi": "Đoạn này là lời kêu gọi nhiệt huyết mời mọi người cùng nhau ca hát vang lên và tôn vinh Đức Chúa Trời bằng âm nhạc và lòng biết ơn. Hãy hình dung như một buổi lễ cộng đồng vui tươi, nơi sự biết ơn được bày tỏ công khai qua những bài ca — việc thờ phượng ở đây sống động, mang tính tập thể và tràn đầy năng lượng."
       },
       {
         "ref": "Romans 12:1",
@@ -2424,7 +2828,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Therefore, I urge you, brothers and sisters, in view of God's mercy, to offer your bodies as a living sacrifice, holy and pleasing to God—this is your true and proper worship.",
         "textVi": "Vậy, thưa anh chị em, tôi nài xin anh chị em, vì sự thương xót của Đức Chúa Trời, hãy dâng thân thể mình làm của lễ sống và thánh, đẹp lòng Đức Chúa Trời; đó là sự thờ phượng thật của anh chị em.",
         "noteEn": "True worship is living a holy, surrendered life before God",
-        "noteVi": "Thờ phượng thật là sống một cuộc đời thánh khiết, dâng hiến cho Đức Chúa Trời"
+        "noteVi": "Thờ phượng thật là sống một cuộc đời thánh khiết, dâng hiến cho Đức Chúa Trời",
+        "explanationEn": "Paul is expanding the idea of worship beyond singing in a church — he says that offering your entire life, your daily choices and actions, as something good and meaningful is itself a form of worship. In other words, living with integrity and purpose in response to kindness received is the deepest kind of praise.",
+        "explanationVi": "Phao-lô mở rộng khái niệm thờ phượng ra ngoài việc hát trong nhà thờ — ông nói rằng dâng cả cuộc đời mình, những lựa chọn và hành động hàng ngày, như một điều tốt đẹp và có ý nghĩa, tự nó đã là một hình thức thờ phượng. Nói cách khác, sống với sự chính trực và mục đích để đáp lại lòng tốt đã nhận được chính là hình thức ca ngợi sâu sắc nhất."
       },
       {
         "ref": "Hebrews 13:15",
@@ -2434,7 +2840,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Through Jesus, therefore, let us continually offer to God a sacrifice of praise—the fruit of lips that openly profess his name.",
         "textVi": "Vậy, qua Ngài, chúng ta hãy liên tục dâng lên Đức Chúa Trời tế lễ bằng lời ca ngợi, tức là bông trái của môi miệng tôn vinh danh Ngài.",
         "noteEn": "Praise through Christ is a continual spiritual sacrifice to God",
-        "noteVi": "Ngợi khen qua Chúa Giê-xu là tế lễ thuộc linh liên tục dâng lên Đức Chúa Trời"
+        "noteVi": "Ngợi khen qua Chúa Giê-xu là tế lễ thuộc linh liên tục dâng lên Đức Chúa Trời",
+        "explanationEn": "This verse encourages believers to make praise a continuous habit — not just something done occasionally, but an ongoing, regular expression of gratitude spoken openly. The phrase 'sacrifice of praise' suggests that sometimes worship takes effort or courage, but it is still worth offering consistently.",
+        "explanationVi": "Câu này khuyến khích người tin Chúa biến việc ca ngợi thành một thói quen liên tục — không chỉ thực hiện thỉnh thoảng, mà là sự bày tỏ lòng biết ơn thường xuyên và công khai. Cụm từ 'tế lễ bằng lời ca ngợi' cho thấy đôi khi việc thờ phượng đòi hỏi nỗ lực hoặc can đảm, nhưng vẫn xứng đáng được dâng lên một cách đều đặn."
       },
       {
         "ref": "Ephesians 5:19-20",
@@ -2444,7 +2852,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "speaking to one another with psalms, hymns, and songs from the Spirit. Sing and make music from your heart to the Lord, always giving thanks to God the Father for everything, in the name of our Lord Jesus Christ.",
         "textVi": "hãy nói với nhau bằng những bài thi thiên, thánh ca và linh ca; hãy hết lòng ca hát và tôn vinh Chúa; hãy luôn luôn vì mọi sự tạ ơn Đức Chúa Trời là Cha, nhân danh Chúa chúng ta là Đức Chúa Jêsus Christ.",
         "noteEn": "Believers are called to worship together with Spirit-filled songs",
-        "noteVi": "Các tín hữu được kêu gọi thờ phượng cùng nhau với những bài ca đầy Đức Thánh Linh"
+        "noteVi": "Các tín hữu được kêu gọi thờ phượng cùng nhau với những bài ca đầy Đức Thánh Linh",
+        "explanationEn": "Paul encourages people to use music and songs as a way to connect with each other and with God, making gratitude a natural part of everyday life and community. Worship here isn't just a private act — it's something shared, where uplifting one another through music becomes an expression of thankfulness to God.",
+        "explanationVi": "Phao-lô khuyến khích mọi người dùng âm nhạc và những bài ca như một cách để kết nối với nhau và với Đức Chúa Trời, biến lòng biết ơn thành một phần tự nhiên của cuộc sống hàng ngày và cộng đồng. Thờ phượng ở đây không chỉ là hành động riêng tư — đó là điều được chia sẻ, nơi việc khích lệ nhau qua âm nhạc trở thành sự bày tỏ lòng biết ơn đối với Đức Chúa Trời."
       }
     ]
   },
@@ -2465,7 +2875,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "When you fast, do not look somber as the hypocrites do, for they disfigure their faces to show others they are fasting. Truly I tell you, they have received their reward in full. But when you fast, put oil on your head and wash your face,",
         "textVi": "Khi các ngươi kiêng ăn, đừng làm bộ buồn rầu như những kẻ giả hình; vì họ có ý làm cho mặt mình xấu xí, để cho thiên hạ thấy họ kiêng ăn. Quả thật, ta nói cùng các ngươi, họ đã được phần thưởng của họ rồi. Nhưng khi ngươi kiêng ăn, hãy xức dầu trên đầu và rửa mặt,",
         "noteEn": "Jesus teaches fasting should be sincere and private, not performative",
-        "noteVi": "Chúa Giê-xu dạy kiêng ăn phải thành thật và kín đáo, không phô trương"
+        "noteVi": "Chúa Giê-xu dạy kiêng ăn phải thành thật và kín đáo, không phô trương",
+        "explanationEn": "Jesus is warning against fasting just to impress other people — like someone who looks miserable on purpose so everyone notices they're making a sacrifice. He says that if you fast, do it quietly and naturally, as if it's a normal day. The real point of fasting is a personal, private commitment, not a public performance.",
+        "explanationVi": "Chúa Giê-su cảnh báo rằng việc kiêng ăn không nên được thực hiện để gây ấn tượng với người khác — như người cố tình trông ủ rũ để mọi người chú ý đến sự hy sinh của mình. Ông nói rằng nếu bạn kiêng ăn, hãy làm điều đó một cách lặng lẽ và tự nhiên, như thể đó là một ngày bình thường. Ý nghĩa thực sự của việc kiêng ăn là một cam kết cá nhân và riêng tư, không phải một màn trình diễn trước công chúng."
       },
       {
         "ref": "Isaiah 58:6",
@@ -2475,7 +2887,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Is not this the kind of fasting I have chosen: to loose the chains of injustice and untie the cords of the yoke, to set the oppressed free and break every yoke?",
         "textVi": "Sự kiêng ăn mà ta chọn há chẳng phải là thế này sao: mở xiềng hung ác, tháo các gánh nặng, thả cho kẻ bị ức hiếp được tự do, bẻ gãy mọi ách sao?",
         "noteEn": "God desires fasting joined with justice and compassion for the oppressed",
-        "noteVi": "Đức Chúa Trời muốn kiêng ăn đi kèm với công lý và lòng thương xót"
+        "noteVi": "Đức Chúa Trời muốn kiêng ăn đi kèm với công lý và lòng thương xót",
+        "explanationEn": "This verse challenges the idea that fasting is only about skipping meals — God says the fasting He truly values is about taking action to help people who are suffering or treated unfairly. In other words, real fasting should go hand-in-hand with caring for others and fighting injustice. It redefines fasting as something outward and practical, not just an inner spiritual ritual.",
+        "explanationVi": "Câu này thách thức quan niệm rằng kiêng ăn chỉ là nhịn ăn — Thiên Chúa nói rằng việc kiêng ăn mà Ngài thực sự coi trọng là hành động giúp đỡ những người đang đau khổ hoặc bị đối xử bất công. Nói cách khác, việc kiêng ăn thực sự phải đi đôi với việc quan tâm đến người khác và chống lại sự bất công. Câu này định nghĩa lại kiêng ăn như một điều thiết thực và hướng đến bên ngoài, không chỉ là một nghi lễ tâm linh bên trong."
       },
       {
         "ref": "Matthew 4:2",
@@ -2485,7 +2899,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "After fasting forty days and forty nights, he was hungry.",
         "textVi": "Ngài đã kiêng ăn bốn mươi ngày bốn mươi đêm, đoạn Ngài thấy đói.",
         "noteEn": "Jesus fasted forty days, modeling fasting as preparation for ministry",
-        "noteVi": "Chúa Giê-xu kiêng ăn bốn mươi ngày, làm gương về sự chuẩn bị tâm linh"
+        "noteVi": "Chúa Giê-xu kiêng ăn bốn mươi ngày, làm gương về sự chuẩn bị tâm linh",
+        "explanationEn": "This verse describes Jesus going without food for forty days and forty nights in the wilderness, showing that fasting can be an extreme and demanding spiritual discipline. At the end of it, he was simply hungry — a very human detail that makes the experience feel real and relatable. It shows that fasting can be a way of focusing one's mind and spirit by voluntarily setting aside physical needs.",
+        "explanationVi": "Câu này mô tả Chúa Giê-su nhịn ăn trong bốn mươi ngày bốn mươi đêm trong hoang dã, cho thấy việc kiêng ăn có thể là một kỷ luật tâm linh khắc nghiệt và đòi hỏi cao. Vào cuối thời gian đó, Ngài đơn giản là cảm thấy đói — một chi tiết rất con người khiến trải nghiệm này trở nên thực tế và dễ cảm thông. Điều này cho thấy kiêng ăn có thể là cách tập trung tâm trí và tinh thần bằng cách tự nguyện gác lại những nhu cầu thể chất."
       },
       {
         "ref": "Joel 2:12",
@@ -2495,7 +2911,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Even now, declares the Lord, return to me with all your heart, with fasting and weeping and mourning.",
         "textVi": "Đức Giê-hô-va phán: Dầu vậy, bây giờ hãy hết lòng trở về cùng ta, kiêng ăn, than khóc và rên siết.",
         "noteEn": "God calls His people to return through wholehearted fasting and repentance",
-        "noteVi": "Đức Chúa Trời kêu gọi dân Ngài trở về qua sự kiêng ăn và ăn năn thật lòng"
+        "noteVi": "Đức Chúa Trời kêu gọi dân Ngài trở về qua sự kiêng ăn và ăn năn thật lòng",
+        "explanationEn": "God is calling people to turn back to Him sincerely, using fasting along with weeping and mourning as signs of genuine regret and a desire to change. It's similar to how someone might stop eating when they're deeply troubled or remorseful about something important in their life. Fasting here is an outward expression of deep inner emotion and a heartfelt desire to reconnect.",
+        "explanationVi": "Thiên Chúa đang kêu gọi mọi người quay trở lại với Ngài một cách chân thành, sử dụng việc kiêng ăn cùng với khóc lóc và than thở như những dấu hiệu của sự hối hận thật sự và mong muốn thay đổi. Điều này giống như cách một người có thể bỏ ăn khi họ đang vô cùng lo lắng hoặc ân hận về điều gì đó quan trọng trong cuộc sống. Kiêng ăn ở đây là biểu hiện bên ngoài của cảm xúc sâu sắc bên trong và mong muốn chân thành để kết nối lại."
       },
       {
         "ref": "Acts 13:2-3",
@@ -2505,7 +2923,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "While they were worshiping the Lord and fasting, the Holy Spirit said, Set apart for me Barnabas and Saul for the work to which I have called them. So after they had fasted and prayed, they placed their hands on them and sent them off.",
         "textVi": "Đang khi họ thờ phượng Chúa và kiêng ăn, thì Đức Thánh Linh phán rằng: Hãy để riêng Ba-na-ba và Sau-lơ cho ta, để làm công việc ta đã gọi họ. Bấy giờ, sau khi đã kiêng ăn và cầu nguyện xong, họ đặt tay lên hai người, rồi để cho đi.",
         "noteEn": "Fasting and prayer precede the Holy Spirit's commissioning of missionaries",
-        "noteVi": "Kiêng ăn và cầu nguyện đi trước sự sai phái của Đức Thánh Linh cho công việc"
+        "noteVi": "Kiêng ăn và cầu nguyện đi trước sự sai phái của Đức Thánh Linh cho công việc",
+        "explanationEn": "A group of early believers were praying and fasting together when they felt spiritually guided to send two of their members, Barnabas and Saul, on an important mission. They fasted and prayed once more before officially sending them off, showing that fasting was used as a way to seek guidance and prepare for significant decisions. This shows fasting as a communal practice tied to focus, discernment, and commitment.",
+        "explanationVi": "Một nhóm tín đồ thời kỳ đầu đang cầu nguyện và kiêng ăn cùng nhau khi họ cảm thấy được hướng dẫn về mặt tâm linh để cử hai thành viên là Barnabas và Saul đi thực hiện một sứ mệnh quan trọng. Họ lại kiêng ăn và cầu nguyện một lần nữa trước khi chính thức tiễn họ ra đi, cho thấy việc kiêng ăn được dùng như một cách tìm kiếm sự hướng dẫn và chuẩn bị cho những quyết định quan trọng. Điều này cho thấy kiêng ăn là một thực hành cộng đồng gắn liền với sự tập trung, sự phân định và cam kết."
       },
       {
         "ref": "Ezra 8:23",
@@ -2515,7 +2935,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So we fasted and petitioned our God about this, and he answered our prayer.",
         "textVi": "Vậy chúng tôi kiêng ăn và cầu xin Đức Chúa Trời chúng tôi về điều đó, và Ngài đã nhậm lời chúng tôi.",
         "noteEn": "Fasting combined with prayer brings God's answered intervention and protection",
-        "noteVi": "Kiêng ăn kết hợp với cầu nguyện mang lại sự đáp lời và bảo vệ của Đức Chúa Trời"
+        "noteVi": "Kiêng ăn kết hợp với cầu nguyện mang lại sự đáp lời và bảo vệ của Đức Chúa Trời",
+        "explanationEn": "Ezra and a group of people fasted together and prayed to ask God for help and protection during a dangerous journey, and they believed God answered them. This shows fasting being used as a serious, focused act of asking for help when facing a difficult situation. It illustrates fasting as something paired with sincere prayer, where people set aside eating to concentrate fully on their urgent need.",
+        "explanationVi": "Ê-xơ-ra cùng một nhóm người kiêng ăn và cầu nguyện cùng nhau để xin Đức Chúa Trời giúp đỡ và bảo vệ họ trong một hành trình nguy hiểm, và họ tin rằng Ngài đã đáp lời. Điều này cho thấy việc kiêng ăn được sử dụng như một hành động nghiêm túc và tập trung để xin giúp đỡ khi đối mặt với tình huống khó khăn. Nó minh họa kiêng ăn như điều đi kèm với lời cầu nguyện chân thành, nơi mọi người từ bỏ việc ăn uống để tập trung hoàn toàn vào nhu cầu cấp bách của họ."
       }
     ]
   },
@@ -2536,7 +2958,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "give thanks in all circumstances; for this is God's will for you in Christ Jesus.",
         "textVi": "Hãy tạ ơn trong mọi hoàn cảnh, vì đó là ý muốn của Đức Chúa Trời trong Chúa Cứu Thế Giê-xu dành cho anh chị em.",
         "noteEn": "God commands thankfulness in every situation as His will.",
-        "noteVi": "Đức Chúa Trời truyền dạy tạ ơn trong mọi hoàn cảnh là ý muốn Ngài."
+        "noteVi": "Đức Chúa Trời truyền dạy tạ ơn trong mọi hoàn cảnh là ý muốn Ngài.",
+        "explanationEn": "This verse encourages people to find something to be grateful for even in difficult situations, not just when life is going well. The idea is that a thankful mindset — no matter the circumstances — is considered the right way to live according to this teaching. It's a reminder that gratitude isn't only for good times, but can be a source of strength during hard times too.",
+        "explanationVi": "Câu này khuyến khích con người tìm lý do để biết ơn ngay cả trong những hoàn cảnh khó khăn, không chỉ khi cuộc sống thuận lợi. Ý tưởng ở đây là thái độ biết ơn — dù trong bất kỳ hoàn cảnh nào — được xem là cách sống đúng đắn theo lời dạy này. Đây là lời nhắc nhở rằng lòng biết ơn không chỉ dành cho những lúc tốt đẹp, mà còn có thể là nguồn sức mạnh trong những lúc gian khó."
       },
       {
         "ref": "Psalm 107:1",
@@ -2546,7 +2970,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Give thanks to the Lord, for he is good; his love endures forever.",
         "textVi": "Hãy cảm tạ Đức Giê-hô-va vì Ngài là tốt lành; Sự nhân từ Ngài còn đến đời đời.",
         "noteEn": "God's eternal goodness is the foundation of all thanksgiving.",
-        "noteVi": "Sự tốt lành đời đời của Đức Chúa Trời là nền tảng của mọi lời tạ ơn."
+        "noteVi": "Sự tốt lành đời đời của Đức Chúa Trời là nền tảng của mọi lời tạ ơn.",
+        "explanationEn": "This verse is a simple call to express gratitude toward God, highlighting that his kindness and love never run out or fade away. The phrase 'his love endures forever' suggests that gratitude is a fitting response to something constant and reliable. For anyone exploring thankfulness, this verse frames it as a natural reaction to receiving goodness from a dependable source.",
+        "explanationVi": "Câu này là lời kêu gọi đơn giản để bày tỏ lòng biết ơn đối với Thiên Chúa, nhấn mạnh rằng sự tốt lành và tình yêu của Ngài không bao giờ cạn kiệt hay phai nhạt. Cụm từ 'tình yêu của Ngài tồn tại mãi mãi' gợi ý rằng lòng biết ơn là phản ứng phù hợp trước điều gì đó bền vững và đáng tin cậy. Với bất kỳ ai đang tìm hiểu về sự biết ơn, câu này cho thấy đó là phản ứng tự nhiên khi nhận được điều tốt đẹp từ một nguồn đáng tin cậy."
       },
       {
         "ref": "Colossians 3:17",
@@ -2556,7 +2982,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And whatever you do, whether in word or deed, do it all in the name of the Lord Jesus, giving thanks to God the Father through him.",
         "textVi": "Dù anh chị em làm gì, nói gì, hãy nhân danh Chúa Giê-xu mà làm, và nhờ Ngài tạ ơn Đức Chúa Trời là Cha.",
         "noteEn": "Every action should be accompanied by gratitude through Christ.",
-        "noteVi": "Mọi hành động đều phải kèm theo lòng biết ơn qua Chúa Giê-xu."
+        "noteVi": "Mọi hành động đều phải kèm theo lòng biết ơn qua Chúa Giê-xu.",
+        "explanationEn": "This verse suggests that every action in life — whether something you say or something you do — should be carried out with a spirit of gratitude. It's not just about formal moments of giving thanks, but about weaving thankfulness into everyday activities. The underlying message is that a grateful attitude can transform ordinary, daily tasks into something more meaningful.",
+        "explanationVi": "Câu này gợi ý rằng mọi hành động trong cuộc sống — dù là lời nói hay việc làm — đều nên được thực hiện với tinh thần biết ơn. Đây không chỉ là về những khoảnh khắc cảm tạ trang trọng, mà là về việc đưa lòng biết ơn vào các hoạt động hàng ngày. Thông điệp cốt lõi là thái độ biết ơn có thể biến những công việc bình thường, hàng ngày trở nên có ý nghĩa hơn."
       },
       {
         "ref": "Philippians 4:6",
@@ -2566,7 +2994,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.",
         "textVi": "Đừng lo lắng gì cả, nhưng trong mọi sự, hãy dùng lời cầu nguyện, nài xin, và tạ ơn mà trình các nhu cầu của anh chị em lên Đức Chúa Trời.",
         "noteEn": "Thanksgiving transforms anxious prayer into peaceful communion with God.",
-        "noteVi": "Lời tạ ơn biến đổi lời cầu nguyện lo âu thành sự tương giao bình an với Đức Chúa Trời."
+        "noteVi": "Lời tạ ơn biến đổi lời cầu nguyện lo âu thành sự tương giao bình an với Đức Chúa Trời.",
+        "explanationEn": "This verse offers practical advice for dealing with worry: instead of letting anxiety take over, try expressing your concerns and requests with a thankful heart. It combines the act of asking for help with an attitude of gratitude, suggesting that the two go hand in hand. Essentially, it teaches that approaching life's challenges with thankfulness can bring a sense of peace.",
+        "explanationVi": "Câu này đưa ra lời khuyên thực tế để đối phó với lo lắng: thay vì để sự lo âu chiếm lĩnh, hãy thử bày tỏ những mối bận tâm và yêu cầu của bạn với một tấm lòng biết ơn. Câu này kết hợp hành động cầu xin sự giúp đỡ với thái độ biết ơn, gợi ý rằng hai điều này đi đôi với nhau. Về cơ bản, câu này dạy rằng tiếp cận những thách thức trong cuộc sống với lòng biết ơn có thể mang lại cảm giác bình yên."
       },
       {
         "ref": "Psalm 100:4",
@@ -2576,7 +3006,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Enter his gates with thanksgiving and his courts with praise; give thanks to him and praise his name.",
         "textVi": "Hãy vào các cổng Ngài với lời cảm tạ, Vào hành lang Ngài với lời ca ngợi; Hãy cảm tạ Ngài và chúc tụng danh Ngài.",
         "noteEn": "Thanksgiving is the proper posture for entering God's presence in worship.",
-        "noteVi": "Tạ ơn là thái độ thích hợp khi bước vào sự hiện diện của Đức Chúa Trời."
+        "noteVi": "Tạ ơn là thái độ thích hợp khi bước vào sự hiện diện của Đức Chúa Trời.",
+        "explanationEn": "This verse uses the image of entering a special, welcoming place — like walking through a gate into a beautiful courtyard — as a way of describing how to approach God: with thankfulness and praise. It paints gratitude as an attitude you bring with you, like a gift, when you come into someone's presence. For a non-religious reader, it's a poetic way of saying that appreciation and a positive mindset are the best ways to connect with something greater than yourself.",
+        "explanationVi": "Câu này dùng hình ảnh bước vào một nơi đặc biệt và chào đón — như đi qua cổng vào một sân đẹp — như một cách mô tả cách tiếp cận Thiên Chúa: với lòng biết ơn và sự ca ngợi. Nó vẽ ra lòng biết ơn như một thái độ bạn mang theo, như một món quà, khi bạn đến trước sự hiện diện của ai đó. Với người đọc chưa theo đạo, đây là cách nói thơ mộng rằng sự trân trọng và tư duy tích cực là cách tốt nhất để kết nối với điều gì đó lớn hơn bản thân mình."
       },
       {
         "ref": "Ephesians 5:20",
@@ -2586,7 +3018,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "always giving thanks to God the Father for everything, in the name of our Lord Jesus Christ.",
         "textVi": "Hãy thường xuyên nhân danh Chúa Giê-xu Christ chúng ta tạ ơn Đức Chúa Trời là Cha về mọi sự.",
         "noteEn": "Continual thanksgiving to the Father through Christ marks Spirit-filled living.",
-        "noteVi": "Lòng tạ ơn liên tục dâng lên Đức Chúa Cha qua Chúa Giê-xu là dấu hiệu của đời sống đầy Thánh Linh."
+        "noteVi": "Lòng tạ ơn liên tục dâng lên Đức Chúa Cha qua Chúa Giê-xu là dấu hiệu của đời sống đầy Thánh Linh.",
+        "explanationEn": "This verse encourages a habit of continuous, all-encompassing gratitude — not just thanking God occasionally, but making thankfulness a constant part of life for everything received. It emphasizes that gratitude should be a default attitude rather than just a reaction to extraordinary moments. For anyone new to this idea, it's an invitation to cultivate a lifestyle where appreciation becomes second nature.",
+        "explanationVi": "Câu này khuyến khích thói quen biết ơn liên tục và toàn diện — không chỉ thỉnh thoảng cảm ơn Thiên Chúa, mà biến lòng biết ơn thành một phần thường trực của cuộc sống vì mọi điều nhận được. Câu này nhấn mạnh rằng sự biết ơn nên là thái độ mặc định thay vì chỉ là phản ứng trước những khoảnh khắc đặc biệt. Với bất kỳ ai mới làm quen với ý tưởng này, đây là lời mời để nuôi dưỡng một lối sống mà sự trân trọng trở thành điều tự nhiên."
       }
     ]
   },
@@ -2607,7 +3041,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The fear of the LORD is the beginning of knowledge, but fools despise wisdom and instruction.",
         "textVi": "Kính sợ Đức Giê-hô-va là khởi đầu của sự tri thức, nhưng kẻ ngu dại khinh thường sự khôn ngoan và lời dạy dỗ.",
         "noteEn": "The foundation of all wisdom is reverence for God.",
-        "noteVi": "Nền tảng của mọi sự khôn ngoan là lòng kính sợ Đức Chúa Trời."
+        "noteVi": "Nền tảng của mọi sự khôn ngoan là lòng kính sợ Đức Chúa Trời.",
+        "explanationEn": "This verse suggests that true knowledge begins with a deep respect for something greater than ourselves — in this context, God. The idea is that recognizing our own limitations is actually the foundation of becoming wise, while those who think they already know everything reject the chance to learn and grow.",
+        "explanationVi": "Câu này gợi ý rằng kiến thức thật sự bắt đầu từ sự kính trọng sâu sắc đối với điều gì đó lớn hơn bản thân chúng ta — ở đây là Thiên Chúa. Ý tưởng cốt lõi là nhận ra giới hạn của bản thân chính là nền tảng để trở nên khôn ngoan, trong khi những ai tự cho mình biết hết mọi thứ sẽ bỏ lỡ cơ hội học hỏi và trưởng thành."
       },
       {
         "ref": "James 1:5",
@@ -2617,7 +3053,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you.",
         "textVi": "Nếu ai trong anh em thiếu khôn ngoan, hãy cầu xin Đức Chúa Trời, là Đấng ban cho mọi người cách rộng rãi, không quở trách, thì sẽ được ban cho.",
         "noteEn": "God freely gives wisdom to all who ask in faith.",
-        "noteVi": "Đức Chúa Trời ban sự khôn ngoan cho tất cả những ai cầu xin với đức tin."
+        "noteVi": "Đức Chúa Trời ban sự khôn ngoan cho tất cả những ai cầu xin với đức tin.",
+        "explanationEn": "This verse encourages anyone who feels uncertain or confused about life's decisions to simply ask God for guidance, with the promise that He will answer generously and without judgment. It presents wisdom not as something only smart people possess, but as a gift available to everyone who is humble enough to seek it.",
+        "explanationVi": "Câu này khuyến khích bất kỳ ai đang cảm thấy không chắc chắn hoặc bối rối trước các quyết định trong cuộc sống hãy cầu xin Thiên Chúa chỉ dẫn, với lời hứa rằng Ngài sẽ ban cho một cách rộng rãi và không phán xét. Câu này cho thấy sự khôn ngoan không chỉ dành riêng cho những người thông minh, mà là món quà dành cho tất cả những ai đủ khiêm tốn để tìm kiếm nó."
       },
       {
         "ref": "Proverbs 3:5-6",
@@ -2627,7 +3065,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Trust in the LORD with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
         "textVi": "Hãy hết lòng tin cậy Đức Giê-hô-va, chớ nương cậy nơi sự thông sáng của con; Trong mọi đường lối con, hãy nhận biết Ngài, thì Ngài sẽ chỉ dẫn các nẻo của con.",
         "noteEn": "True wisdom trusts God rather than human understanding.",
-        "noteVi": "Sự khôn ngoan thật là tin cậy Đức Chúa Trời hơn là sự hiểu biết của con người."
+        "noteVi": "Sự khôn ngoan thật là tin cậy Đức Chúa Trời hơn là sự hiểu biết của con người.",
+        "explanationEn": "This verse advises against relying solely on your own judgment and instead encourages trusting in a higher wisdom — God's guidance — especially in important life decisions. The reward for this humility and trust is that your life's path will become clearer and more purposeful.",
+        "explanationVi": "Câu này khuyên rằng đừng chỉ dựa vào sự phán đoán của bản thân, mà hãy tin tưởng vào một sự khôn ngoan cao hơn — sự dẫn dắt của Thiên Chúa — đặc biệt trong những quyết định quan trọng của cuộc đời. Phần thưởng cho sự khiêm tốn và tin tưởng đó là con đường cuộc sống của bạn sẽ trở nên rõ ràng và có ý nghĩa hơn."
       },
       {
         "ref": "1 Corinthians 1:30",
@@ -2637,7 +3077,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "It is because of him that you are in Christ Jesus, who has become for us wisdom from God—that is, our righteousness, holiness and redemption.",
         "textVi": "Ấy chính nhờ Ngài mà anh em ở trong Đức Chúa Jêsus Christ, là Đấng mà Đức Chúa Trời đã làm cho chúng ta sự khôn ngoan, sự công bình, sự nên thánh, và sự cứu chuộc.",
         "noteEn": "Christ Jesus himself is the ultimate wisdom from God.",
-        "noteVi": "Chúa Giê-xu chính là sự khôn ngoan tối thượng đến từ Đức Chúa Trời."
+        "noteVi": "Chúa Giê-xu chính là sự khôn ngoan tối thượng đến từ Đức Chúa Trời.",
+        "explanationEn": "This verse teaches that true wisdom isn't something humans create on their own — it comes through a relationship with God, as expressed through Jesus Christ. In this view, wisdom is deeply connected to living rightly, being made whole, and being set free from mistakes and failures.",
+        "explanationVi": "Câu này dạy rằng sự khôn ngoan thật sự không phải là thứ con người tự tạo ra — nó đến qua mối quan hệ với Thiên Chúa, được thể hiện qua Chúa Giê-su. Theo quan điểm này, sự khôn ngoan gắn liền sâu sắc với việc sống đúng đắn, được chữa lành và được giải thoát khỏi những sai lầm và thất bại trong cuộc đời."
       },
       {
         "ref": "Proverbs 4:7",
@@ -2647,7 +3089,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The beginning of wisdom is this: Get wisdom, and whatever you get, get insight.",
         "textVi": "Sự khôn ngoan là điều hàng đầu; vậy hãy được sự khôn ngoan; dù phải dùng tất cả những gì con có, hãy được sự thông hiểu.",
         "noteEn": "Pursuing wisdom is the highest priority in life.",
-        "noteVi": "Tìm kiếm sự khôn ngoan là ưu tiên hàng đầu trong cuộc sống."
+        "noteVi": "Tìm kiếm sự khôn ngoan là ưu tiên hàng đầu trong cuộc sống.",
+        "explanationEn": "This verse makes a simple but powerful point: the first step to becoming wise is to actively pursue wisdom and deeper understanding as a top priority in life. It's a call to be intentional — rather than waiting for wisdom to come naturally, we should consciously seek it out.",
+        "explanationVi": "Câu này đưa ra một điểm đơn giản nhưng sâu sắc: bước đầu tiên để trở nên khôn ngoan là chủ động tìm kiếm sự khôn ngoan và hiểu biết sâu sắc hơn như một ưu tiên hàng đầu trong cuộc sống. Đây là lời kêu gọi sống có chủ đích — thay vì chờ đợi sự khôn ngoan tự nhiên đến, chúng ta cần có ý thức tìm kiếm nó."
       },
       {
         "ref": "James 3:17",
@@ -2657,7 +3101,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But the wisdom that comes from heaven is first of all pure; then peace-loving, considerate, submissive, full of mercy and good fruit, impartial and sincere.",
         "textVi": "Nhưng sự khôn ngoan từ trên cao xuống thì trước hết là thanh sạch, sau lại hòa thuận, nhu mì, hay nhường nhịn, đầy dẫy lòng thương xót và bông trái lành, không có sự tây vị, cũng không có sự giả dối.",
         "noteEn": "Heavenly wisdom is recognized by its pure and peaceable fruit.",
-        "noteVi": "Sự khôn ngoan từ trên trời được nhận biết qua bông trái thanh sạch và hòa thuận."
+        "noteVi": "Sự khôn ngoan từ trên trời được nhận biết qua bông trái thanh sạch và hòa thuận.",
+        "explanationEn": "This verse describes what genuine, heaven-inspired wisdom looks like in practice — it shows up as purity of heart, a desire for peace, kindness, fairness, and sincerity rather than selfishness or hidden agendas. It offers a practical checklist for evaluating whether the advice or decisions we make are truly wise or just clever.",
+        "explanationVi": "Câu này mô tả sự khôn ngoan thật sự — loại khôn ngoan đến từ trên cao — trông như thế nào trong thực tế: đó là sự trong sáng của tâm hồn, mong muốn hòa bình, lòng tốt bụng, sự công bằng và thành thật, thay vì ích kỷ hay có mưu đồ ẩn giấu. Đây là một danh sách thực tế giúp chúng ta tự kiểm tra xem những lời khuyên hay quyết định của mình có thực sự khôn ngoan hay chỉ đơn giản là khéo léo."
       }
     ]
   },
@@ -2678,7 +3124,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "So give your servant a discerning heart to govern your people and to distinguish between right and wrong. For who is able to govern this great people of yours?",
         "textVi": "Xin ban cho tôi tớ Chúa một tâm trí thông sáng để xét đoán dân Chúa, phân biệt điều thiện và điều ác; vì ai có thể xét đoán dân Chúa là dân đông đúc này?",
         "noteEn": "Solomon's prayer models seeking God-given discernment above all else",
-        "noteVi": "Lời cầu nguyện của Sa-lô-môn mẫu mực về việc tìm kiếm sự phân biệt từ Đức Chúa Trời"
+        "noteVi": "Lời cầu nguyện của Sa-lô-môn mẫu mực về việc tìm kiếm sự phân biệt từ Đức Chúa Trời",
+        "explanationEn": "In this verse, a young king named Solomon asks God for the ability to make wise and fair decisions rather than asking for wealth or power. He recognized that leading people well requires the ability to tell right from wrong, which is the core of discernment. It's a reminder that good judgment is one of the most valuable qualities a person in any position of responsibility can have.",
+        "explanationVi": "Trong câu này, một vị vua trẻ tên Solomon cầu xin Đức Chúa Trời ban cho ông khả năng đưa ra quyết định khôn ngoan và công bằng, thay vì xin của cải hay quyền lực. Ông nhận ra rằng để lãnh đạo tốt, người ta cần có khả năng phân biệt đúng sai — đó chính là cốt lõi của sự phân biệt. Đây là lời nhắc nhở rằng khả năng phán đoán tốt là một trong những phẩm chất quý giá nhất mà bất kỳ ai có trách nhiệm đều cần có."
       },
       {
         "ref": "Proverbs 3:21",
@@ -2688,7 +3136,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "My son, do not let wisdom and understanding out of your sight, preserve sound judgment and discretion;",
         "textVi": "Hỡi con, chớ để chúng lìa khỏi mắt con; hãy giữ sự khôn ngoan và suy xét thận trọng.",
         "noteEn": "Discernment must be guarded and preserved as a daily discipline",
-        "noteVi": "Sự phân biệt phải được gìn giữ như một kỷ luật hằng ngày"
+        "noteVi": "Sự phân biệt phải được gìn giữ như một kỷ luật hằng ngày",
+        "explanationEn": "This verse encourages people to always keep wisdom and good judgment close, as if they were valuable tools you should never set down. The idea is that sound thinking and careful decision-making should be constant guides in everyday life, not just used in special situations. Discernment here is portrayed as something worth actively protecting and maintaining, not something that just comes naturally without effort.",
+        "explanationVi": "Câu này khuyến khích mọi người luôn giữ sự khôn ngoan và phán đoán tốt bên mình, như thể chúng là những công cụ quý giá mà bạn không bao giờ nên buông xuống. Ý tưởng ở đây là tư duy sáng suốt và quyết định cẩn thận nên là kim chỉ nam thường xuyên trong cuộc sống hàng ngày, không chỉ dùng trong những tình huống đặc biệt. Sự phân biệt được miêu tả là điều đáng chủ động gìn giữ, chứ không phải tự nhiên có được mà không cần nỗ lực."
       },
       {
         "ref": "Romans 12:2",
@@ -2698,7 +3148,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will.",
         "textVi": "Đừng làm theo đời này, nhưng hãy được biến hóa bởi sự đổi mới của tâm trí mình, để thử nghiệm cho biết ý muốn tốt lành, đẹp lòng và trọn vẹn của Đức Chúa Trời là thế nào.",
         "noteEn": "Renewed minds enable believers to discern God's perfect will",
-        "noteVi": "Tâm trí được đổi mới giúp tín hữu nhận biết ý muốn trọn vẹn của Đức Chúa Trời"
+        "noteVi": "Tâm trí được đổi mới giúp tín hữu nhận biết ý muốn trọn vẹn của Đức Chúa Trời",
+        "explanationEn": "This verse suggests that instead of simply following whatever trends or pressures society pushes on us, we should develop our thinking so we can evaluate what is truly good and right. The phrase 'renewing of your mind' means actively reshaping how we think, which sharpens our ability to make better choices. It connects to discernment by showing that clear judgment comes from a mind that has been thoughtfully developed, not one that just goes along with the crowd.",
+        "explanationVi": "Câu này gợi ý rằng thay vì chỉ đơn giản đi theo những xu hướng hay áp lực của xã hội, chúng ta nên phát triển tư duy để có thể đánh giá điều gì thực sự tốt và đúng đắn. Cụm từ 'đổi mới tâm trí' có nghĩa là chủ động định hình lại cách chúng ta suy nghĩ, từ đó mài giũa khả năng đưa ra lựa chọn tốt hơn. Điều này liên quan đến sự phân biệt vì nó cho thấy sự phán đoán rõ ràng đến từ một tâm trí được rèn luyện cẩn thận, chứ không phải từ việc chỉ đi theo đám đông."
       },
       {
         "ref": "Hebrews 4:12",
@@ -2708,7 +3160,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For the word of God is alive and active. Sharper than any double-edged sword, it penetrates even to dividing soul and spirit, joints and marrow; it judges the thoughts and attitudes of the heart.",
         "textVi": "Vì lời Đức Chúa Trời là lời sống và linh nghiệm, sắc hơn gươm hai lưỡi, thấu vào đến nỗi chia hồn và thần, xương và tủy, phán xét những tư tưởng và ý định của lòng.",
         "noteEn": "God's Word is the primary tool for spiritual discernment",
-        "noteVi": "Lời Đức Chúa Trời là công cụ chính yếu cho sự phân biệt thuộc linh"
+        "noteVi": "Lời Đức Chúa Trời là công cụ chính yếu cho sự phân biệt thuộc linh",
+        "explanationEn": "This verse uses the image of a sharp sword to describe how the Bible, according to Christian belief, can cut through confusion and reveal what is truly going on inside a person's mind and heart. It suggests that honest self-examination can expose hidden motivations and attitudes we might not even be aware of. In terms of discernment, it points to the idea that true clarity about ourselves and our intentions requires a deep and honest tool for self-reflection.",
+        "explanationVi": "Câu này dùng hình ảnh thanh kiếm sắc bén để mô tả cách Kinh Thánh, theo niềm tin Cơ Đốc, có thể xuyên qua sự nhầm lẫn và bộc lộ những gì thực sự đang diễn ra trong tâm trí và trái tim con người. Nó gợi ý rằng việc tự xem xét bản thân một cách thành thật có thể phơi bày những động cơ và thái độ ẩn giấu mà ta có thể chưa nhận ra. Liên quan đến sự phân biệt, câu này chỉ ra rằng để hiểu rõ bản thân và ý định của mình, cần có một công cụ sâu sắc và trung thực để tự nhìn lại."
       },
       {
         "ref": "1 John 4:1",
@@ -2718,7 +3172,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Dear friends, do not believe every spirit, but test the spirits to see whether they are from God, because many false prophets have gone out into the world.",
         "textVi": "Hỡi những kẻ yêu dấu, chớ tin cậy mọi thần, nhưng hãy thử các thần xem có phải đến từ Đức Chúa Trời không, vì có nhiều tiên tri giả đã ra vào trong thế gian.",
         "noteEn": "Believers must test spirits to guard against spiritual deception",
-        "noteVi": "Tín hữu phải thử các thần để phòng ngừa sự lừa dối thuộc linh"
+        "noteVi": "Tín hữu phải thử các thần để phòng ngừa sự lừa dối thuộc linh",
+        "explanationEn": "This verse warns people not to accept every idea, message, or influence they encounter without first questioning and evaluating it carefully. Just because something sounds good or spiritual does not automatically mean it is true or trustworthy, which is why testing and critical thinking are important. This is essentially a call to practice discernment — to think critically rather than accepting everything at face value.",
+        "explanationVi": "Câu này cảnh báo mọi người không nên chấp nhận mọi ý tưởng, thông điệp hay ảnh hưởng mà không đặt câu hỏi và đánh giá cẩn thận trước. Chỉ vì điều gì đó nghe hay hoặc có vẻ tâm linh không có nghĩa là nó đúng hay đáng tin, đó là lý do tại sao việc kiểm tra và tư duy phản biện rất quan trọng. Về cơ bản, đây là lời kêu gọi thực hành sự phân biệt — suy nghĩ có phê phán thay vì chấp nhận mọi thứ theo nghĩa đen."
       },
       {
         "ref": "Philippians 1:9-10",
@@ -2728,7 +3184,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And this is my prayer: that your love may abound more and more in knowledge and depth of insight, so that you may be able to discern what is best and may be pure and blameless for the day of Christ,",
         "textVi": "Điều tôi cầu xin là lòng yêu thương của anh em càng ngày càng chan chứa hơn, trong sự thông biết và sự hiểu biết sâu nhiệm, để anh em phân biệt những điều tốt lành hơn, hầu cho anh em được tinh sạch không chỗ trách được cho đến ngày của Đấng Christ,",
         "noteEn": "Love and knowledge together produce the discernment needed for righteous living",
-        "noteVi": "Tình yêu và sự hiểu biết cùng nhau tạo ra sự phân biệt cần thiết cho đời sống công chính"
+        "noteVi": "Tình yêu và sự hiểu biết cùng nhau tạo ra sự phân biệt cần thiết cho đời sống công chính",
+        "explanationEn": "In this passage, the author expresses a hope that people's love for others will grow alongside their knowledge and insight, so they can consistently choose what is truly best. It suggests that discernment is not just about logic, but is also deepened by genuine care for others and a desire to act with integrity. The verse connects discernment to both the mind and the heart, showing that the wisest choices come from combining understanding with good values.",
+        "explanationVi": "Trong đoạn này, tác giả bày tỏ mong muốn rằng tình yêu thương của mọi người dành cho nhau sẽ lớn lên cùng với kiến thức và sự hiểu biết sâu sắc, để họ có thể liên tục chọn điều thực sự tốt nhất. Điều này cho thấy sự phân biệt không chỉ là về logic, mà còn được mài sắc bởi sự quan tâm chân thành đến người khác và mong muốn hành động với phẩm giá. Câu này kết nối sự phân biệt với cả tâm trí lẫn trái tim, cho thấy những lựa chọn khôn ngoan nhất đến từ việc kết hợp sự hiểu biết với các giá trị tốt đẹp."
       }
     ]
   },
@@ -2749,7 +3207,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "because you know that the testing of your faith produces perseverance. Let perseverance finish its work so that you may be mature and complete, not lacking anything.",
         "textVi": "vì biết rằng sự thử thách đức tin anh em sanh ra sự nhịn nhục. Hãy để cho sự nhịn nhục được trọn vẹn trong công việc của nó, hầu cho chính mình anh em cũng được trọn vẹn, toàn vẹn, không thiếu thốn chi hết.",
         "noteEn": "Trials produce perseverance that leads to spiritual maturity.",
-        "noteVi": "Thử thách tạo ra sự nhịn nhục dẫn đến sự trưởng thành thuộc linh."
+        "noteVi": "Thử thách tạo ra sự nhịn nhục dẫn đến sự trưởng thành thuộc linh.",
+        "explanationEn": "This verse suggests that going through difficult challenges actually builds your ability to keep going — like how muscles grow stronger through exercise. The idea is that if you let yourself work through hard times instead of giving up, you become a more well-rounded and capable person. Patience, in this sense, is not passive waiting but an active process of growing through difficulty.",
+        "explanationVi": "Câu này cho rằng việc trải qua những thử thách khó khăn thực sự giúp bạn rèn luyện khả năng tiếp tục tiến bước — giống như cơ bắp trở nên mạnh hơn khi tập luyện. Ý tưởng ở đây là nếu bạn kiên trì vượt qua giai đoạn khó khăn thay vì bỏ cuộc, bạn sẽ trở thành người trưởng thành và hoàn thiện hơn. Sự kiên nhẫn, theo nghĩa này, không phải là ngồi chờ thụ động mà là một quá trình chủ động trưởng thành qua gian khó."
       },
       {
         "ref": "Romans 5:3-4",
@@ -2759,7 +3219,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Not only so, but we also glory in our sufferings, because we know that suffering produces perseverance; perseverance, character; and character, hope.",
         "textVi": "Nào những thế thôi, nhưng chúng ta cũng vui vẻ trong những sự hoạn nạn, vì biết rằng hoạn nạn sanh ra sự nhịn nhục, sự nhịn nhục sanh ra sự rèn luyện, sự rèn luyện sanh ra sự trông cậy.",
         "noteEn": "Suffering builds perseverance, character, and ultimately hope in God.",
-        "noteVi": "Hoạn nạn xây dựng sự nhịn nhục, nhân cách, và cuối cùng là hi vọng nơi Đức Chúa Trời."
+        "noteVi": "Hoạn nạn xây dựng sự nhịn nhục, nhân cách, và cuối cùng là hi vọng nơi Đức Chúa Trời.",
+        "explanationEn": "This verse presents a chain reaction: going through hardship teaches you to endure, enduring builds your character, and strong character gives you a sense of hope for the future. Rather than seeing suffering as purely negative, it reframes pain as something that can shape who you are for the better. Patience is the crucial middle step — without it, suffering leads nowhere.",
+        "explanationVi": "Câu này trình bày một chuỗi phản ứng: trải qua gian khổ dạy bạn biết chịu đựng, chịu đựng xây dựng nhân cách, và nhân cách vững vàng mang lại cho bạn niềm hy vọng vào tương lai. Thay vì xem đau khổ là hoàn toàn tiêu cực, câu này định hình lại nỗi đau như điều có thể tôi rèn bạn tốt hơn. Sự kiên nhẫn là bước trung gian then chốt — nếu thiếu nó, đau khổ sẽ chẳng dẫn đến đâu."
       },
       {
         "ref": "Hebrews 12:1",
@@ -2769,7 +3231,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Therefore, since we are surrounded by such a great cloud of witnesses, let us throw off everything that hinders and the sin that so easily entangles. And let us run with perseverance the race marked out for us.",
         "textVi": "Vậy, vì chúng ta được một đám mây nhân chứng lớn như vậy bao quanh, chúng ta cũng hãy quăng hết gánh nặng và tội lỗi dễ vấn vít chúng ta, và hãy kiên nhẫn chạy cuộc đua đặt trước mặt chúng ta.",
         "noteEn": "Believers are called to run life's race with enduring perseverance.",
-        "noteVi": "Các tín hữu được kêu gọi chạy cuộc đời với sự kiên nhẫn bền bỉ."
+        "noteVi": "Các tín hữu được kêu gọi chạy cuộc đời với sự kiên nhẫn bền bỉ.",
+        "explanationEn": "Using the image of a long-distance race, this verse encourages people to shed anything that slows them down and to keep running steadily toward their goal. The 'cloud of witnesses' refers to people from history who have already finished the race, serving as inspiration that the finish line is reachable. It is a reminder that patience in life is like pacing yourself in a marathon — steady persistence matters more than speed.",
+        "explanationVi": "Dùng hình ảnh một cuộc đua đường dài, câu này khuyến khích mọi người loại bỏ bất cứ điều gì làm họ chậm lại và tiếp tục chạy đều đặn hướng đến mục tiêu. 'Đám mây nhân chứng' ám chỉ những người trong lịch sử đã hoàn thành cuộc đua, như nguồn cảm hứng rằng đích đến là có thể đạt được. Đây là lời nhắc nhở rằng sự kiên nhẫn trong cuộc sống giống như việc điều chỉnh nhịp độ trong một cuộc chạy marathon — sự bền bỉ ổn định quan trọng hơn tốc độ."
       },
       {
         "ref": "Psalm 40:1",
@@ -2779,7 +3243,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I waited patiently for the Lord; he turned to me and heard my cry.",
         "textVi": "Tôi đã kiên nhẫn trông đợi Đức Giê-hô-va; Ngài nghiêng tai qua cùng tôi và nghe tiếng kêu cầu của tôi.",
         "noteEn": "Patient waiting on the Lord is rewarded with His faithful response.",
-        "noteVi": "Kiên nhẫn chờ đợi Chúa được đền đáp bằng sự đáp lời thành tín của Ngài."
+        "noteVi": "Kiên nhẫn chờ đợi Chúa được đền đáp bằng sự đáp lời thành tín của Ngài.",
+        "explanationEn": "This verse, written as a personal reflection, describes someone who waited a long time for help and eventually found that their call was answered. It captures the emotional experience of patient waiting — not knowing when relief will come, but trusting that it will. It connects patience with the idea that holding on through uncertainty can lead to a meaningful response.",
+        "explanationVi": "Câu này, được viết như một suy tư cá nhân, mô tả về ai đó đã chờ đợi lâu để được giúp đỡ và cuối cùng nhận thấy tiếng kêu cầu của mình được lắng nghe. Nó nắm bắt được trải nghiệm cảm xúc của sự chờ đợi kiên nhẫn — không biết khi nào sự giải cứu sẽ đến, nhưng tin rằng nó sẽ đến. Câu này kết nối sự kiên nhẫn với ý tưởng rằng kiên trì qua sự không chắc chắn có thể dẫn đến một kết quả có ý nghĩa."
       },
       {
         "ref": "Romans 8:25",
@@ -2789,7 +3255,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But if we hope for what we do not yet have, we wait for it patiently.",
         "textVi": "Nhưng nếu chúng ta trông mong điều mình chưa thấy, thì phải nhịn nhục chờ đợi.",
         "noteEn": "Christian hope is sustained by patient waiting for God's promises.",
-        "noteVi": "Hi vọng Cơ Đốc nhân được duy trì bằng sự kiên nhẫn chờ đợi lời hứa của Đức Chúa Trời."
+        "noteVi": "Hi vọng Cơ Đốc nhân được duy trì bằng sự kiên nhẫn chờ đợi lời hứa của Đức Chúa Trời.",
+        "explanationEn": "This verse makes a simple but profound point: if you are hoping for something you do not have yet, then waiting patiently is the only reasonable response. It acknowledges that hope and patience go hand in hand — you cannot truly hope for something while being unwilling to wait for it. It encourages a calm, steady mindset when outcomes are uncertain.",
+        "explanationVi": "Câu này đưa ra một điểm đơn giản nhưng sâu sắc: nếu bạn đang hy vọng điều gì đó mà bạn chưa có, thì chờ đợi một cách kiên nhẫn là phản ứng hợp lý duy nhất. Nó thừa nhận rằng hy vọng và kiên nhẫn đi đôi với nhau — bạn không thể thực sự hy vọng điều gì đó trong khi không sẵn sàng chờ đợi nó. Câu này khuyến khích một tâm thế bình tĩnh, vững vàng khi kết quả còn chưa chắc chắn."
       },
       {
         "ref": "James 5:11",
@@ -2799,7 +3267,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "As you know, we count as blessed those who have persevered. You have heard of Job's perseverance and have seen what the Lord finally brought about. The Lord is full of compassion and mercy.",
         "textVi": "Anh em đã nghe về sự bền chí của Gióp và đã thấy kết cuộc mà Chúa đã định cho người, vì Chúa là đầy lòng thương xót và hay thương xót.",
         "noteEn": "Job's example shows God rewards steadfast patience with compassion and blessing.",
-        "noteVi": "Gương của Gióp cho thấy Đức Chúa Trời thưởng cho sự kiên nhẫn vững bền bằng lòng thương xót và phước lành."
+        "noteVi": "Gương của Gióp cho thấy Đức Chúa Trời thưởng cho sự kiên nhẫn vững bền bằng lòng thương xót và phước lành.",
+        "explanationEn": "This verse references Job, a well-known figure in ancient literature who endured extreme loss and suffering without giving up, and eventually saw his life restored. The point is that people who persist through the hardest circumstances are the ones who ultimately experience good outcomes. It uses Job's story as real-world proof that patience and endurance are worth it in the long run.",
+        "explanationVi": "Câu này nhắc đến Job, một nhân vật nổi tiếng trong văn học cổ đại, người đã chịu đựng mất mát và đau khổ tột cùng mà không bỏ cuộc, và cuối cùng thấy cuộc đời mình được phục hồi. Điểm mấu chốt là những người kiên trì qua những hoàn cảnh khó khăn nhất mới là những người cuối cùng có được kết quả tốt đẹp. Câu này dùng câu chuyện của Job như bằng chứng thực tế rằng sự kiên nhẫn và bền chí xứng đáng trong dài hạn."
       }
     ]
   },
@@ -2820,7 +3290,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The integrity of the upright guides them, but the unfaithful are destroyed by their duplicity.",
         "textVi": "Sự thanh liêm của người ngay thẳng sẽ dẫn dắt họ, Nhưng sự gian tà của kẻ phản bội sẽ hủy diệt chúng.",
         "noteEn": "Integrity serves as a reliable guide for righteous living.",
-        "noteVi": "Sự liêm chính là kim chỉ nam dẫn dắt người ngay thẳng."
+        "noteVi": "Sự liêm chính là kim chỉ nam dẫn dắt người ngay thẳng.",
+        "explanationEn": "This verse says that living honestly acts like a compass — it naturally guides you toward good decisions. On the other hand, people who are deceptive or two-faced tend to create problems that eventually trap them. Integrity, simply put, is a reliable life guide that keeps you on a stable path.",
+        "explanationVi": "Câu này nói rằng sống trung thực giống như có một chiếc la bàn — nó tự nhiên dẫn bạn đến những quyết định đúng đắn. Ngược lại, những người sống hai mặt hay lừa dối thường tự tạo ra rắc rối cuối cùng bẫy chính mình. Sự liêm chính, nói đơn giản, là kim chỉ nam đáng tin cậy giúp cuộc sống bạn ổn định hơn."
       },
       {
         "ref": "Psalm 25:21",
@@ -2830,7 +3302,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "May integrity and uprightness protect me, because my hope, LORD, is in you.",
         "textVi": "Nguyện sự thanh liêm và ngay thẳng gìn giữ tôi, Vì tôi trông đợi nơi Chúa.",
         "noteEn": "Integrity and trust in God provide spiritual protection.",
-        "noteVi": "Sự liêm chính và tin cậy Chúa là sự bảo vệ thuộc linh."
+        "noteVi": "Sự liêm chính và tin cậy Chúa là sự bảo vệ thuộc linh.",
+        "explanationEn": "The writer of this verse is expressing a personal wish: that living with honesty and moral straightforwardness will serve as a kind of protection in life. He connects his inner integrity with his trust in something greater than himself. This reflects the idea that being a person of principle is itself a form of strength and security.",
+        "explanationVi": "Người viết câu này đang bày tỏ một mong ước cá nhân: rằng sống trung thực và ngay thẳng về mặt đạo đức sẽ là một dạng bảo vệ trong cuộc sống. Ông gắn sự liêm chính bên trong mình với niềm tin vào điều gì đó lớn lao hơn bản thân. Điều này phản ánh ý tưởng rằng là một người có nguyên tắc tự nó đã là một hình thức sức mạnh và sự an toàn."
       },
       {
         "ref": "Proverbs 10:9",
@@ -2840,7 +3314,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Whoever walks in integrity walks securely, but whoever takes crooked paths will be found out.",
         "textVi": "Ai bước đi cách thanh liêm thì được an toàn, Còn kẻ theo đường vòng co sẽ bị lộ ra.",
         "noteEn": "A life of integrity leads to lasting security and confidence.",
-        "noteVi": "Cuộc sống liêm chính mang lại sự bình an và an toàn bền vững."
+        "noteVi": "Cuộc sống liêm chính mang lại sự bình an và an toàn bền vững.",
+        "explanationEn": "This proverb uses a simple walking metaphor: if you move through life honestly, you can do so with confidence and without fear of being exposed. But if you cut corners or act dishonestly, sooner or later the truth catches up with you. It is a timeless observation about how integrity creates lasting stability while dishonesty creates hidden risk.",
+        "explanationVi": "Câu châm ngôn này dùng hình ảnh đơn giản về việc đi đường: nếu bạn sống trung thực, bạn có thể tự tin bước đi mà không sợ bị lộ tẩy. Nhưng nếu bạn gian lận hay hành động không trung thực, sớm hay muộn sự thật cũng sẽ bắt kịp bạn. Đây là một nhận xét vượt thời gian về việc liêm chính tạo ra sự ổn định lâu dài, còn sự không trung thực tạo ra rủi ro tiềm ẩn."
       },
       {
         "ref": "Titus 2:7",
@@ -2850,7 +3326,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "In everything set them an example by doing what is good. In your teaching show integrity, seriousness",
         "textVi": "Về mọi mặt, hãy tự làm gương về việc lành; trong sự dạy dỗ phải có sự thanh liêm và nghiêm túc,",
         "noteEn": "Integrity in teaching and example reflects godly leadership.",
-        "noteVi": "Sự liêm chính trong dạy dỗ và gương mẫu thể hiện lãnh đạo tin kính."
+        "noteVi": "Sự liêm chính trong dạy dỗ và gương mẫu thể hiện lãnh đạo tin kính.",
+        "explanationEn": "Here, Paul (a early Christian leader) is advising a young mentor named Titus to lead not just by what he says, but by how he actually lives and teaches. Integrity here means that your actions and your words must match — there should be no gap between what you preach and what you practice. This is a universal principle of trustworthy leadership applicable in any context.",
+        "explanationVi": "Ở đây, Phao-lô (một nhà lãnh đạo Cơ Đốc giáo thời kỳ đầu) đang khuyên một người hướng dẫn trẻ tên Tít rằng hãy lãnh đạo không chỉ bằng lời nói mà còn bằng cách bạn thực sự sống và dạy dỗ. Sự liêm chính ở đây có nghĩa là hành động và lời nói của bạn phải nhất quán — không được có khoảng cách giữa điều bạn nói và điều bạn làm. Đây là nguyên tắc phổ quát của sự lãnh đạo đáng tin cậy, có thể áp dụng trong bất kỳ bối cảnh nào."
       },
       {
         "ref": "Job 2:3",
@@ -2860,7 +3338,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Then the LORD said to Satan, \"Have you considered my servant Job? There is no one on earth like him; he is blameless and upright, a man who fears God and shuns evil. And he still maintains his integrity, though you incited me against him to ruin him without any reason.\"",
         "textVi": "Đức Giê-hô-va phán với Sa-tan rằng: \"Ngươi có để ý đến Gióp, tôi tớ Ta không? Vì trên đất chẳng có ai giống như người ấy: người trọn vẹn, ngay thẳng, kính sợ Đức Chúa Trời và xa lánh điều ác. Người vẫn giữ vững sự thanh liêm của mình, dù ngươi đã xúi giục Ta hại người vô cớ.\"",
         "noteEn": "Job's integrity under suffering demonstrates unwavering godly character.",
-        "noteVi": "Sự liêm chính của Gióp trong đau khổ thể hiện phẩm chất tin kính không lay chuyển."
+        "noteVi": "Sự liêm chính của Gióp trong đau khổ thể hiện phẩm chất tin kính không lay chuyển.",
+        "explanationEn": "This passage describes a man named Job who is praised for maintaining his honesty and moral character even when he was being made to suffer unfairly. It highlights that true integrity is not just about being good when life is easy — it is about staying true to your values under extreme pressure. Job's story is essentially about the rare and admirable quality of keeping one's principles when everything falls apart.",
+        "explanationVi": "Đoạn văn này mô tả một người tên Gióp, được ca ngợi vì giữ vững sự trung thực và phẩm giá đạo đức ngay cả khi ông phải chịu đựng đau khổ một cách bất công. Nó nhấn mạnh rằng sự liêm chính thực sự không chỉ là sống tốt khi cuộc sống thuận lợi — mà là trung thành với các giá trị của mình dưới áp lực khắc nghiệt. Câu chuyện của Gióp về cơ bản nói về phẩm chất hiếm có và đáng ngưỡng mộ của việc giữ nguyên tắc khi mọi thứ sụp đổ."
       },
       {
         "ref": "1 Chronicles 29:17",
@@ -2870,7 +3350,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I know, my God, that you test the heart and are pleased with integrity. All these things I have given willingly and with honest intent. And now I have seen with joy how willingly your people who are here have given to you.",
         "textVi": "Lạy Đức Chúa Trời của con, con biết rằng Ngài thử nghiệm lòng người và lấy sự thanh liêm làm đẹp lòng. Con đã vui lòng dâng hiến tất cả những thứ này với lòng thành thật. Và bây giờ con đã vui mừng thấy dân Ngài hiện diện ở đây cũng vui lòng dâng hiến cho Ngài.",
         "noteEn": "God tests hearts and is pleased with genuine integrity in giving.",
-        "noteVi": "Đức Chúa Trời thử lòng người và vui lòng với sự liêm chính chân thật."
+        "noteVi": "Đức Chúa Trời thử lòng người và vui lòng với sự liêm chính chân thật.",
+        "explanationEn": "King David (a historical ruler in ancient Israel) is reflecting on the fact that true generosity cannot be faked — it must come from an honest and willing heart. He observes that God (understood here as a moral standard-bearer) values the sincerity behind an action, not just the action itself. This speaks to the deeper dimension of integrity: it is not only about what you do, but why and how you do it.",
+        "explanationVi": "Vua Đa-vít (một vị vua lịch sử ở Israel cổ đại) đang suy ngẫm rằng sự hào phóng thực sự không thể giả tạo — nó phải xuất phát từ một tấm lòng trung thực và tự nguyện. Ông nhận thấy rằng Đức Chúa Trời (được hiểu ở đây như một chuẩn mực đạo đức) đánh giá cao sự chân thành đằng sau một hành động, chứ không chỉ bản thân hành động đó. Điều này nói lên chiều sâu hơn của sự liêm chính: không chỉ là bạn làm gì, mà còn là tại sao và bạn làm điều đó như thế nào."
       }
     ]
   },
@@ -2891,7 +3373,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Consider it pure joy, my brothers and sisters, whenever you face trials of many kinds, because you know that the testing of your faith produces perseverance. Let perseverance finish its work so that you may be mature and complete, not lacking anything.",
         "textVi": "Hỡi anh em, hãy coi sự thử thách trăm bề xảy đến cho mình như là điều vui mừng trọn vẹn, vì biết rằng sự thử nghiệm đức tin anh em sinh ra sự nhịn nhục. Nhưng sự nhịn nhục phải làm trọn việc nó, hầu cho anh em trở nên trọn vẹn, đầy đủ, không thiếu thốn chút nào.",
         "noteEn": "Trials refine faith and produce godly maturity in believers",
-        "noteVi": "Thử thách rèn giũa đức tin và tạo nên sự trưởng thành thuộc linh"
+        "noteVi": "Thử thách rèn giũa đức tin và tạo nên sự trưởng thành thuộc linh",
+        "explanationEn": "This verse suggests that going through hard times isn't something to just endure — it can actually be a source of growth and even joy. Just like muscles get stronger through resistance, our character and resilience are built through facing and pushing through difficulties. The idea is that trials, when met with patience, shape us into more complete, mature people.",
+        "explanationVi": "Câu này gợi ý rằng trải qua những giai đoạn khó khăn không chỉ là điều phải chịu đựng — mà thực ra có thể là nguồn gốc của sự trưởng thành và niềm vui. Giống như cơ bắp trở nên mạnh mẽ hơn khi chịu áp lực, bản lĩnh và sức chịu đựng của chúng ta được rèn luyện qua những thử thách. Ý tưởng ở đây là những gian nan, khi được đối mặt với sự kiên nhẫn, sẽ giúp chúng ta trở thành con người hoàn thiện hơn."
       },
       {
         "ref": "Romans 8:28",
@@ -2901,7 +3385,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
         "textVi": "Vả, chúng ta biết rằng mọi sự hiệp lại làm ích cho kẻ yêu mến Đức Chúa Trời, tức là cho kẻ được gọi theo ý muốn Ngài.",
         "noteEn": "God sovereignly uses all suffering for his good purposes",
-        "noteVi": "Đức Chúa Trời dùng mọi khổ đau để thực hiện mục đích tốt lành của Ngài"
+        "noteVi": "Đức Chúa Trời dùng mọi khổ đau để thực hiện mục đích tốt lành của Ngài",
+        "explanationEn": "This verse expresses the belief that even in the worst situations, there is a larger purpose or plan at work that can ultimately lead to something good. It's a message of hope for people who feel like their pain has no meaning — suggesting that nothing we go through is ever truly wasted. For those who trust in God, even suffering is seen as part of a bigger story with a positive outcome.",
+        "explanationVi": "Câu này thể hiện niềm tin rằng ngay cả trong những hoàn cảnh tồi tệ nhất, vẫn có một mục đích hoặc kế hoạch lớn hơn đang vận hành, và cuối cùng có thể dẫn đến điều tốt đẹp. Đây là thông điệp hy vọng cho những ai cảm thấy nỗi đau của mình không có ý nghĩa — gợi ý rằng không có điều gì chúng ta trải qua là hoàn toàn vô ích. Với những người tin vào Thiên Chúa, ngay cả đau khổ cũng được xem là một phần của câu chuyện lớn hơn với kết quả tốt đẹp."
       },
       {
         "ref": "2 Corinthians 4:17",
@@ -2911,7 +3397,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For our light and momentary troubles are achieving for us an eternal glory that far outweighs them all.",
         "textVi": "Vì sự hoạn nạn nhẹ và tạm thời của chúng ta sanh cho chúng ta sự vinh hiển cao trọng đời đời, vô lượng vô biên.",
         "noteEn": "Present suffering is incomparable to the eternal glory awaiting believers",
-        "noteVi": "Khổ đau hiện tại không thể sánh với vinh quang đời đời đang chờ đợi"
+        "noteVi": "Khổ đau hiện tại không thể sánh với vinh quang đời đời đang chờ đợi",
+        "explanationEn": "This verse puts our present-day pain into a much wider perspective, comparing it to something brief and light when measured against an eternal reward. It doesn't dismiss the reality of suffering, but encourages people to see their current struggles as temporary compared to the lasting good that can come from them. It's essentially saying: the hard season you're in right now won't last forever, and what lies ahead is far greater.",
+        "explanationVi": "Câu này đặt nỗi đau hiện tại của chúng ta vào một góc nhìn rộng hơn nhiều, so sánh nó như điều gì đó ngắn ngủi và nhẹ nhàng khi đặt cạnh phần thưởng vĩnh cửu. Câu này không phủ nhận thực tế của đau khổ, nhưng khuyến khích mọi người nhìn những khó khăn hiện tại là tạm thời so với điều tốt lành lâu dài có thể đến. Về cơ bản, ý nghĩa là: giai đoạn khó khăn bạn đang trải qua bây giờ sẽ không kéo dài mãi, và những gì ở phía trước còn tốt đẹp hơn nhiều."
       },
       {
         "ref": "Psalm 34:18",
@@ -2921,7 +3409,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "The LORD is close to the brokenhearted and saves those who are crushed in spirit.",
         "textVi": "Đức Giê-hô-va ở gần những người có lòng đau thương, Và cứu những ai có tâm hồn thống hối.",
         "noteEn": "God draws nearest to those who are most broken and suffering",
-        "noteVi": "Đức Chúa Trời đến gần nhất với những ai đau khổ và tan vỡ"
+        "noteVi": "Đức Chúa Trời đến gần nhất với những ai đau khổ và tan vỡ",
+        "explanationEn": "This verse offers comfort by saying that when we are at our lowest — heartbroken or emotionally crushed — we are not alone. In the Bible, 'the LORD' refers to God, and this line describes God as someone who draws near specifically to those who are hurting the most. It's a reminder that suffering doesn't isolate us; even in our darkest moments, we can find connection and support.",
+        "explanationVi": "Câu này mang lại sự an ủi bằng cách nói rằng khi chúng ta ở điểm thấp nhất — đau lòng hoặc tinh thần bị suy sụp — chúng ta không đơn độc. Trong Kinh Thánh, 'Đức Chúa' dùng để chỉ Thiên Chúa, và câu này mô tả Ngài là người đặc biệt đến gần những ai đang đau khổ nhất. Đây là lời nhắc nhở rằng đau khổ không cô lập chúng ta; ngay cả trong những khoảnh khắc tối tăm nhất, chúng ta vẫn có thể tìm thấy sự kết nối và nâng đỡ."
       },
       {
         "ref": "1 Peter 5:10",
@@ -2931,7 +3421,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And the God of all grace, who called you to his eternal glory in Christ, after you have suffered a little while, will himself restore you and make you strong, firm and steadfast.",
         "textVi": "Đức Chúa Trời là nguồn mọi ơn, đã gọi anh em đến sự vinh hiển đời đời của Ngài trong Đấng Christ, sau khi anh em chịu khổ ít lâu, chính Ngài sẽ làm cho anh em trở nên trọn lành, vững vàng, mạnh mẽ, và kiên cố.",
         "noteEn": "God promises to restore and strengthen believers after suffering",
-        "noteVi": "Đức Chúa Trời hứa phục hồi và làm vững mạnh tín hữu sau khổ đau"
+        "noteVi": "Đức Chúa Trời hứa phục hồi và làm vững mạnh tín hữu sau khổ đau",
+        "explanationEn": "This verse acknowledges that suffering is real and can be intense, but frames it as a temporary phase rather than a permanent state. It promises that after the difficult period passes, there is restoration — a return to strength, stability, and groundedness. The underlying message is one of resilience: pain has an end, and healing and wholeness are possible on the other side.",
+        "explanationVi": "Câu này thừa nhận rằng đau khổ là có thật và có thể rất dữ dội, nhưng xem nó như một giai đoạn tạm thời chứ không phải trạng thái vĩnh viễn. Câu này hứa hẹn rằng sau khi giai đoạn khó khăn qua đi, sẽ có sự phục hồi — trở lại với sức mạnh, sự ổn định và vững chắc. Thông điệp cốt lõi là về sức bền: đau khổ có hồi kết, và sự chữa lành cũng như sự toàn vẹn là điều có thể đạt được ở phía bên kia."
       },
       {
         "ref": "Romans 5:3-4",
@@ -2941,7 +3433,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Not only so, but we also glory in our sufferings, because we know that suffering produces perseverance; perseverance, character; and character, hope.",
         "textVi": "Nào những vậy thôi, nhưng chúng ta cũng khoe mình trong hoạn nạn nữa, vì biết rằng hoạn nạn sanh ra sự nhịn nhục, sự nhịn nhục sanh ra sự rèn tập, sự rèn tập sanh ra sự trông cậy.",
         "noteEn": "Suffering follows a divine path leading ultimately to hope",
-        "noteVi": "Khổ đau đi theo con đường thiêng liêng dẫn đến hy vọng cuối cùng"
+        "noteVi": "Khổ đau đi theo con đường thiêng liêng dẫn đến hy vọng cuối cùng",
+        "explanationEn": "This verse outlines a kind of chain reaction that suffering can trigger: going through hard times builds endurance, endurance shapes who we are as a person, and a stronger character gives us hope for the future. Rather than seeing suffering as something purely destructive, this passage presents it as a process that can refine and deepen us. It's a perspective that finds meaning in pain rather than simply trying to escape it.",
+        "explanationVi": "Câu này phác thảo một chuỗi phản ứng mà đau khổ có thể kích hoạt: trải qua những giai đoạn khó khăn xây dựng sức chịu đựng, sức chịu đựng định hình con người chúng ta, và một nhân cách mạnh mẽ hơn mang lại cho chúng ta hy vọng về tương lai. Thay vì xem đau khổ là điều hoàn toàn phá hủy, đoạn này trình bày nó như một quá trình có thể tôi luyện và làm sâu sắc thêm con người chúng ta. Đây là góc nhìn tìm thấy ý nghĩa trong đau khổ thay vì chỉ đơn giản cố gắng trốn tránh nó."
       }
     ]
   },
@@ -2962,7 +3456,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "My Father's house has many rooms; if that were not so, would I have told you that I am going there to prepare a place for you?",
         "textVi": "Trong nhà Cha Ta có nhiều chỗ ở; nếu không vậy, Ta đã nói với các con rồi. Ta đi để sửa soạn chỗ cho các con.",
         "noteEn": "Jesus personally promises to prepare a place in heaven for believers.",
-        "noteVi": "Chúa Giê-xu hứa sẽ sửa soạn chỗ ở thiên đàng cho người tin Ngài."
+        "noteVi": "Chúa Giê-xu hứa sẽ sửa soạn chỗ ở thiên đàng cho người tin Ngài.",
+        "explanationEn": "Jesus is telling his followers that heaven — described as his Father's house — is a vast place with room for everyone, and that he is personally going ahead to get things ready for them. It's like a host leaving early to prepare a home before guests arrive. This verse presents heaven as a welcoming, prepared destination rather than an unknown or frightening place.",
+        "explanationVi": "Chúa Giêsu nói với các môn đệ rằng thiên đàng — được gọi là nhà của Cha Ngài — là một nơi rộng lớn, có chỗ cho tất cả mọi người, và Ngài đi trước để chuẩn bị chỗ cho họ. Giống như một người chủ nhà rời đi sớm để sắp xếp mọi thứ trước khi khách đến. Câu này mô tả thiên đàng như một nơi chào đón, được chuẩn bị chu đáo, không phải là nơi xa lạ hay đáng sợ."
       },
       {
         "ref": "Revelation 21:4",
@@ -2972,7 +3468,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away.",
         "textVi": "Ngài sẽ lau ráo hết nước mắt khỏi mắt họ. Sẽ không còn sự chết, cũng không còn than thở, kêu la hay đau đớn nữa, vì những điều cũ đã qua đi rồi.",
         "noteEn": "Heaven is a place of complete restoration, with no more suffering.",
-        "noteVi": "Thiên đàng là nơi phục hồi hoàn toàn, không còn đau khổ nữa."
+        "noteVi": "Thiên đàng là nơi phục hồi hoàn toàn, không còn đau khổ nữa.",
+        "explanationEn": "This verse from the book of Revelation — the last book of the Bible, filled with visions about the future — describes heaven as a place completely free from suffering, loss, and pain. Everything that makes life on earth hard and heartbreaking simply no longer exists there. It paints heaven as the ultimate experience of peace and healing.",
+        "explanationVi": "Câu này từ sách Khải Huyền — cuốn sách cuối cùng của Kinh Thánh, chứa đầy những khải tượng về tương lai — mô tả thiên đàng là nơi hoàn toàn không có đau khổ, mất mát hay đau đớn. Tất cả những gì khiến cuộc sống trên trái đất trở nên khó khăn và đau lòng đơn giản là không còn tồn tại ở đó nữa. Câu này vẽ nên thiên đàng như một trải nghiệm tuyệt vời nhất về sự bình an và chữa lành."
       },
       {
         "ref": "John 3:16",
@@ -2982,7 +3480,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
         "textVi": "Vì Đức Chúa Trời yêu thương thế gian đến nỗi đã ban Con Một của Ngài, hầu cho hễ ai tin Con ấy không bị hư mất mà được sự sống đời đời.",
         "noteEn": "Eternal life in heaven is God's gift to all who believe in Jesus.",
-        "noteVi": "Sự sống đời đời là món quà Đức Chúa Trời ban cho người tin Chúa Giê-xu."
+        "noteVi": "Sự sống đời đời là món quà Đức Chúa Trời ban cho người tin Chúa Giê-xu.",
+        "explanationEn": "This is one of the most famous verses in the Bible, stating that God loves humanity so deeply that he sent his son Jesus to earth, and that anyone who puts their trust in Jesus will not face permanent death but instead receive eternal life — meaning life in heaven that never ends. It frames heaven not as something earned, but as a gift offered out of love. For non-Christians, it helps explain why Christians see belief in Jesus as the pathway to heaven.",
+        "explanationVi": "Đây là một trong những câu nổi tiếng nhất trong Kinh Thánh, nói rằng Đức Chúa Trời yêu thương nhân loại đến mức Ngài sai Con Ngài là Chúa Giêsu đến trần gian, và bất kỳ ai tin tưởng vào Chúa Giêsu sẽ không chết vĩnh viễn mà được sống đời đời — tức là sống ở thiên đàng mãi mãi. Câu này cho thấy thiên đàng không phải là thứ phải tự kiếm được, mà là món quà được trao tặng vì tình yêu thương. Đối với người chưa theo đạo, câu này giúp giải thích tại sao người Kitô hữu xem đức tin vào Chúa Giêsu là con đường dẫn đến thiên đàng."
       },
       {
         "ref": "Philippians 3:20",
@@ -2992,7 +3492,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But our citizenship is in heaven. And we eagerly await a Savior from there, the Lord Jesus Christ,",
         "textVi": "Nhưng quê hương chúng ta ở trên trời, nơi đó chúng ta đang trông chờ Cứu Chúa là Đức Chúa Giê-xu Christ.",
         "noteEn": "Believers are citizens of heaven, awaiting Christ's return.",
-        "noteVi": "Người tin Chúa là công dân thiên đàng, đang chờ đợi Đấng Christ trở lại."
+        "noteVi": "Người tin Chúa là công dân thiên đàng, đang chờ đợi Đấng Christ trở lại.",
+        "explanationEn": "The apostle Paul is telling early Christians that even though they live on earth, their true home and ultimate loyalty belong to heaven — similar to how a person living abroad still holds citizenship in their home country. They are living in one place while truly belonging to another. This verse encourages the idea that life on earth is temporary, and heaven is where believers truly belong.",
+        "explanationVi": "Sứ đồ Phaolô nói với các tín hữu đầu tiên rằng dù họ đang sống trên trái đất, nhà thật sự và sự trung thành cuối cùng của họ thuộc về thiên đàng — giống như một người sống ở nước ngoài nhưng vẫn mang quốc tịch của đất nước gốc. Họ đang sống ở một nơi nhưng thực sự thuộc về một nơi khác. Câu này khuyến khích quan niệm rằng cuộc sống trên trái đất chỉ là tạm thời, và thiên đàng mới là nơi người tin thực sự thuộc về."
       },
       {
         "ref": "2 Corinthians 5:1",
@@ -3002,7 +3504,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For we know that if the earthly tent we live in is destroyed, we have a building from God, an eternal house in heaven, not built by human hands.",
         "textVi": "Vì chúng ta biết rằng nếu nhà tạm của chúng ta dưới đất bị phá hủy đi, thì chúng ta có một tòa nhà bởi Đức Chúa Trời dựng lên, một nhà đời đời ở trên trời, không phải bởi tay người làm ra.",
         "noteEn": "Heaven holds an eternal, God-built home awaiting every believer.",
-        "noteVi": "Thiên đàng có một ngôi nhà đời đời do Đức Chúa Trời xây dựng cho mỗi tín nhân."
+        "noteVi": "Thiên đàng có một ngôi nhà đời đời do Đức Chúa Trời xây dựng cho mỗi tín nhân.",
+        "explanationEn": "Paul uses a metaphor here, comparing the human body to a temporary tent — something fragile and impermanent — and saying that when it is gone, believers will receive a permanent, perfect home in heaven made by God, not by people. It's a way of saying that physical death is not the end, but a transition to something far more lasting and solid. This verse reassures people that there is a durable, eternal existence waiting beyond this life.",
+        "explanationVi": "Phaolô dùng một hình ảnh so sánh ở đây, ví thân xác con người như một chiếc lều tạm — thứ dễ vỡ và không bền — và nói rằng khi nó mất đi, người tin sẽ nhận được một ngôi nhà vĩnh cửu, hoàn hảo trên thiên đàng do Đức Chúa Trời tạo ra, không phải do con người xây dựng. Đây là cách nói rằng cái chết thể xác không phải là kết thúc, mà là sự chuyển tiếp sang điều gì đó bền vững và vĩ đại hơn nhiều. Câu này trấn an mọi người rằng có một sự tồn tại vĩnh cửu đang chờ đợi phía sau cuộc sống này."
       },
       {
         "ref": "Revelation 21:1",
@@ -3012,7 +3516,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Then I saw a new heaven and a new earth, for the first heaven and the first earth had passed away, and there was no longer any sea.",
         "textVi": "Tôi thấy trời mới và đất mới, vì trời thứ nhất và đất thứ nhất đã biến mất, và biển cũng không còn nữa.",
         "noteEn": "God promises a renewed creation as the final eternal home for his people.",
-        "noteVi": "Đức Chúa Trời hứa tạo dựng mới trời đất làm nơi ở đời đời cho dân Ngài."
+        "noteVi": "Đức Chúa Trời hứa tạo dựng mới trời đất làm nơi ở đời đời cho dân Ngài.",
+        "explanationEn": "This verse from Revelation describes a vision of a completely renewed universe — a 'new heaven and new earth' — replacing the old, broken world we know today. It suggests that the ultimate future is not just about going to a distant place, but about the entire world being remade and restored. For those unfamiliar with the Bible, this paints heaven not as a floating world in the clouds, but as a transformed and perfected version of reality itself.",
+        "explanationVi": "Câu này từ sách Khải Huyền mô tả một khải tượng về một vũ trụ được đổi mới hoàn toàn — 'trời mới và đất mới' — thay thế thế giới cũ, đổ vỡ mà chúng ta biết ngày nay. Câu này gợi ý rằng tương lai cuối cùng không chỉ là việc đi đến một nơi xa xôi, mà là toàn bộ thế giới được tạo dựng lại và phục hồi. Đối với người chưa quen với Kinh Thánh, câu này vẽ nên thiên đàng không phải là một thế giới trôi nổi trên mây, mà là một phiên bản thực tại được biến đổi và hoàn hảo hóa."
       }
     ]
   },
@@ -3033,7 +3539,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
         "textVi": "Vì Đức Chúa Trời yêu thương thế gian đến nỗi đã ban Con một của Ngài, hầu cho hễ ai tin Con ấy không bị hư mất mà được sự sống đời đời.",
         "noteEn": "God's love is the foundation of the gift of eternal life.",
-        "noteVi": "Tình yêu của Đức Chúa Trời là nền tảng của món quà sự sống đời đời."
+        "noteVi": "Tình yêu của Đức Chúa Trời là nền tảng của món quà sự sống đời đời.",
+        "explanationEn": "This verse says that God loves all people so deeply that he sent his own Son, Jesus, as the ultimate gift to humanity. The core idea is simple: anyone who trusts in Jesus will not face permanent death but will instead receive eternal life — a life that never ends. It is often called the most famous summary of the Christian message.",
+        "explanationVi": "Câu này nói rằng Đức Chúa Trời yêu thương tất cả mọi người đến mức sai Con Ngài là Chúa Giê-su đến thế gian như một món quà vô giá. Ý tưởng cốt lõi rất đơn giản: bất kỳ ai tin tưởng vào Chúa Giê-su sẽ không chết mãi mãi mà được nhận sự sống đời đời — một cuộc sống không bao giờ kết thúc. Đây thường được xem là câu tóm tắt nổi tiếng nhất của thông điệp Cơ Đốc giáo."
       },
       {
         "ref": "John 17:3",
@@ -3043,7 +3551,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Now this is eternal life: that they know you, the only true God, and Jesus Christ, whom you have sent.",
         "textVi": "Vả, sự sống đời đời là nhận biết Cha, tức là Đức Chúa Trời có một và thật, cùng Jêsus Christ mà Cha đã sai đến.",
         "noteEn": "Eternal life is defined as knowing God personally through Christ.",
-        "noteVi": "Sự sống đời đời được định nghĩa là biết Đức Chúa Trời cách cá nhân qua Đấng Christ."
+        "noteVi": "Sự sống đời đời được định nghĩa là biết Đức Chúa Trời cách cá nhân qua Đấng Christ.",
+        "explanationEn": "Here, Jesus defines eternal life not simply as living forever, but as knowing and having a real relationship with God and with Jesus himself. Think of it less like an endless timeline and more like a deep, meaningful connection with the source of all life. This verse suggests that eternal life is something you can begin experiencing right now, not just after death.",
+        "explanationVi": "Ở đây, Chúa Giê-su định nghĩa sự sống đời đời không chỉ đơn giản là sống mãi mãi, mà là biết và có mối quan hệ thật sự với Đức Chúa Trời và với chính Ngài. Hãy nghĩ đó không phải là một dòng thời gian vô tận, mà là một sự kết nối sâu sắc, ý nghĩa với nguồn gốc của mọi sự sống. Câu này gợi ý rằng sự sống đời đời là điều bạn có thể bắt đầu trải nghiệm ngay bây giờ, không chỉ sau khi chết."
       },
       {
         "ref": "Romans 6:23",
@@ -3053,7 +3563,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord.",
         "textVi": "Vì tiền công của tội lỗi là sự chết; nhưng sự ban cho của Đức Chúa Trời là sự sống đời đời trong Đức Chúa Jêsus Christ, Chúa chúng ta.",
         "noteEn": "Eternal life is a free gift contrasted against sin's deadly consequence.",
-        "noteVi": "Sự sống đời đời là món quà miễn phí tương phản với hậu quả chết chóc của tội lỗi."
+        "noteVi": "Sự sống đời đời là món quà miễn phí tương phản với hậu quả chết chóc của tội lỗi.",
+        "explanationEn": "This verse uses a work analogy: just as a worker earns wages for their labor, wrongdoing ('sin' meaning actions that go against God's standards) leads to a kind of spiritual death as its natural consequence. However, eternal life is described not as something earned, but as a free gift from God through Jesus. The contrast highlights that eternal life cannot be achieved by human effort alone — it is freely given.",
+        "explanationVi": "Câu này dùng hình ảnh công việc: cũng như người lao động nhận lương cho công việc của mình, việc làm sai trái ('tội lỗi' — tức những hành động đi ngược lại tiêu chuẩn của Đức Chúa Trời) dẫn đến một loại cái chết thuộc linh như hậu quả tự nhiên. Tuy nhiên, sự sống đời đời được mô tả không phải là thứ bạn kiếm được, mà là món quà miễn phí từ Đức Chúa Trời qua Chúa Giê-su. Sự tương phản này nhấn mạnh rằng sự sống đời đời không thể đạt được bằng nỗ lực của con người — nó được ban cho hoàn toàn nhưng không."
       },
       {
         "ref": "1 John 5:11-12",
@@ -3063,7 +3575,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And this is the testimony: God has given us eternal life, and this life is in his Son. Whoever has the Son has life; whoever does not have the Son of God does not have life.",
         "textVi": "Nầy là chứng ấy: Đức Chúa Trời đã ban sự sống đời đời cho chúng ta, và sự sống ấy ở trong Con Ngài. Ai có Đức Chúa Con thì có sự sống; ai không có Con Đức Chúa Trời thì không có sự sống.",
         "noteEn": "Possessing eternal life is directly tied to having Jesus the Son.",
-        "noteVi": "Có sự sống đời đời gắn liền trực tiếp với việc có Chúa Giê-xu là Con Đức Chúa Trời."
+        "noteVi": "Có sự sống đời đời gắn liền trực tiếp với việc có Chúa Giê-xu là Con Đức Chúa Trời.",
+        "explanationEn": "This passage makes a direct and bold claim: eternal life is not something humans create or discover on their own — God gives it, and it comes specifically through his Son, Jesus. The analogy is like a power source: just as a device only works when connected to electricity, a person only has this eternal life when connected to Jesus. It is a straightforward either/or statement about where this life comes from.",
+        "explanationVi": "Đoạn này đưa ra một tuyên bố thẳng thắn và táo bạo: sự sống đời đời không phải là thứ con người tự tạo ra hay khám phá — Đức Chúa Trời ban cho nó, và nó đến cụ thể qua Con Ngài là Chúa Giê-su. Hình ảnh giống như nguồn điện: cũng như thiết bị chỉ hoạt động khi được kết nối với điện, một người chỉ có sự sống đời đời khi kết nối với Chúa Giê-su. Đây là một tuyên bố đơn giản, rõ ràng về nguồn gốc của sự sống đó."
       },
       {
         "ref": "John 11:25-26",
@@ -3073,7 +3587,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Jesus said to her, 'I am the resurrection and the life. The one who believes in me will live, even though they die; and whoever lives by believing in me will never die. Do you believe this?'",
         "textVi": "Đức Chúa Jêsus phán rằng: Ta là sự sống lại và sự sống; kẻ nào tin ta thì sẽ sống, mặc dầu đã chết rồi. Còn ai sống và tin ta thì không hề chết. Ngươi có tin điều đó chăng?",
         "noteEn": "Jesus declares Himself the source of resurrection and eternal life.",
-        "noteVi": "Chúa Giê-xu tuyên bố chính Ngài là nguồn của sự sống lại và sự sống đời đời."
+        "noteVi": "Chúa Giê-xu tuyên bố chính Ngài là nguồn của sự sống lại và sự sống đời đời.",
+        "explanationEn": "Jesus is speaking to a woman whose brother had just died, and he makes the striking claim that he himself is the source of resurrection and life — meaning he has power over death. He promises that anyone who trusts in him will continue to live even after physical death, and in a deeper sense, will never truly die. This verse portrays eternal life as being directly tied to a personal relationship with Jesus, not just a future event.",
+        "explanationVi": "Chúa Giê-su đang nói chuyện với một người phụ nữ vừa mất anh trai, và Ngài đưa ra tuyên bố đáng kinh ngạc rằng chính Ngài là nguồn gốc của sự phục sinh và sự sống — nghĩa là Ngài có quyền năng trên cái chết. Ngài hứa rằng bất kỳ ai tin tưởng vào Ngài sẽ tiếp tục sống dù đã chết về thể xác, và theo nghĩa sâu xa hơn, sẽ không bao giờ thật sự chết. Câu này cho thấy sự sống đời đời gắn liền trực tiếp với mối quan hệ cá nhân với Chúa Giê-su, không chỉ là một sự kiện trong tương lai."
       },
       {
         "ref": "Revelation 21:4",
@@ -3083,7 +3599,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away.",
         "textVi": "Ngài sẽ lau ráo hết nước mắt khỏi mắt chúng, sẽ không có sự chết, cũng không có than thở, kêu la, hay là đau đớn nữa; vì những sự thứ nhất đã qua rồi.",
         "noteEn": "Eternal life promises complete freedom from suffering and death forever.",
-        "noteVi": "Sự sống đời đời hứa hẹn sự giải thoát hoàn toàn khỏi đau khổ và sự chết mãi mãi."
+        "noteVi": "Sự sống đời đời hứa hẹn sự giải thoát hoàn toàn khỏi đau khổ và sự chết mãi mãi.",
+        "explanationEn": "This verse paints a vivid picture of what eternal life will look like in its fullness: a future reality completely free from suffering, loss, grief, and death. The image of God personally wiping away every tear is a powerful way of saying he will eliminate every source of pain. For someone unfamiliar with the Bible, this verse describes eternal life as the ultimate restoration of everything that is broken in human experience.",
+        "explanationVi": "Câu này vẽ nên một bức tranh sống động về sự sống đời đời trong trọn vẹn ý nghĩa của nó: một thực tại tương lai hoàn toàn không có đau khổ, mất mát, buồn đau và cái chết. Hình ảnh Đức Chúa Trời đích thân lau khô từng giọt nước mắt là một cách mạnh mẽ để nói rằng Ngài sẽ xóa bỏ mọi nguồn gốc của nỗi đau. Với người chưa quen với Kinh Thánh, câu này mô tả sự sống đời đời như sự phục hồi trọn vẹn mọi điều đổ vỡ trong cuộc sống con người."
       }
     ]
   },
@@ -3104,7 +3622,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "Jesus said to her, 'I am the resurrection and the life. The one who believes in me will live, even though they die; and whoever lives by believing in me will never die. Do you believe this?'",
         "textVi": "Đức Chúa Jêsus phán: 'Ta là sự sống lại và sự sống; người nào tin Ta thì sẽ sống, dù đã chết rồi. Còn ai sống mà tin Ta thì không chết bao giờ. Ngươi có tin điều đó chăng?'",
         "noteEn": "Jesus declares Himself the source and power of resurrection.",
-        "noteVi": "Chúa Giê-xu tuyên bố chính Ngài là nguồn và quyền năng của sự phục sinh."
+        "noteVi": "Chúa Giê-xu tuyên bố chính Ngài là nguồn và quyền năng của sự phục sinh.",
+        "explanationEn": "Jesus declares that he himself is the source and power of resurrection — meaning life beyond physical death. He promises that anyone who trusts in him will continue to exist even after their body dies. This verse presents resurrection not just as an event, but as something personally connected to Jesus.",
+        "explanationVi": "Chúa Giêsu tuyên bố rằng chính Ngài là nguồn gốc và quyền năng của sự phục sinh — tức là sự sống vượt qua cái chết thể xác. Ngài hứa rằng bất kỳ ai tin vào Ngài sẽ tiếp tục tồn tại ngay cả sau khi thân xác qua đời. Câu này cho thấy sự phục sinh không chỉ là một sự kiện, mà còn gắn liền mật thiết với bản thân Chúa Giêsu."
       },
       {
         "ref": "1 Corinthians 15:20",
@@ -3114,7 +3634,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "But Christ has indeed been raised from the dead, the firstfruits of those who have fallen asleep.",
         "textVi": "Nhưng bây giờ, Đấng Christ đã từ kẻ chết sống lại, Ngài là trái đầu mùa của những kẻ ngủ rồi.",
         "noteEn": "Christ's resurrection guarantees the future resurrection of all believers.",
-        "noteVi": "Sự phục sinh của Đấng Christ bảo đảm sự phục sinh tương lai của mọi người tin."
+        "noteVi": "Sự phục sinh của Đấng Christ bảo đảm sự phục sinh tương lai của mọi người tin.",
+        "explanationEn": "This verse uses the farming image of 'firstfruits' — the first crops harvested as a sign that more will follow — to describe Jesus rising from the dead. The idea is that Jesus was the first person to be permanently resurrected, and his resurrection is a guarantee that others will follow. It frames resurrection as a process that has already begun, not just a future hope.",
+        "explanationVi": "Câu này dùng hình ảnh nông nghiệp về 'hoa quả đầu mùa' — những mẻ thu hoạch đầu tiên báo hiệu rằng còn nhiều hơn nữa sẽ đến — để mô tả việc Chúa Giêsu sống lại từ cõi chết. Ý tưởng ở đây là Chúa Giêsu là người đầu tiên được phục sinh vĩnh viễn, và sự phục sinh của Ngài là bảo đảm cho những người khác cũng sẽ được như vậy. Câu này cho thấy sự phục sinh là một quá trình đã bắt đầu, không chỉ là một hy vọng trong tương lai."
       },
       {
         "ref": "Romans 6:4",
@@ -3124,7 +3646,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "We were therefore buried with him through baptism into death in order that, just as Christ was raised from the dead through the glory of the Father, we too may live a new life.",
         "textVi": "Vậy chúng ta đã bị chôn với Ngài bởi phép báp-têm trong sự chết Ngài, hầu cho Đấng Christ nhờ vinh hiển của Đức Chúa Cha mà sống lại từ kẻ chết thể nào, thì chúng ta cũng sống trong đời mới thể ấy.",
         "noteEn": "Believers share in Christ's resurrection, walking in new life.",
-        "noteVi": "Người tin được dự phần vào sự phục sinh của Đấng Christ, sống trong đời mới."
+        "noteVi": "Người tin được dự phần vào sự phục sinh của Đấng Christ, sống trong đời mới.",
+        "explanationEn": "Baptism (a water ritual symbolizing cleansing and commitment) is described here as a kind of symbolic death and rebirth, mirroring what happened to Jesus. Just as Jesus died and came back to life in a transformed way, the verse suggests believers can experience a spiritual renewal — a new way of living — on this side of physical death. Resurrection here applies not only to the body after death, but also to a transformed life right now.",
+        "explanationVi": "Phép báp-têm (một nghi lễ dùng nước tượng trưng cho sự thanh tẩy và cam kết) được mô tả ở đây như một cái chết và tái sinh mang tính biểu tượng, phản chiếu những gì đã xảy ra với Chúa Giêsu. Cũng như Chúa Giêsu đã chết và sống lại theo một cách biến đổi, câu này gợi ý rằng người tin có thể trải nghiệm sự đổi mới tâm linh — một cách sống mới — ngay trong cuộc đời này. Sự phục sinh ở đây không chỉ áp dụng cho thân xác sau khi chết, mà còn cho cuộc sống được biến đổi ngay lúc này."
       },
       {
         "ref": "1 Thessalonians 4:16",
@@ -3134,7 +3658,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For the Lord himself will come down from heaven, with a loud command, with the voice of the archangel and with the trumpet call of God, and the dead in Christ will rise first.",
         "textVi": "Vì chính Chúa sẽ từ trên trời giáng xuống, có tiếng kêu lớn, có tiếng của thiên sứ lớn, và có tiếng kèn của Đức Chúa Trời, thì những kẻ chết trong Đấng Christ sẽ sống lại trước.",
         "noteEn": "The dead in Christ will be resurrected at His glorious return.",
-        "noteVi": "Những người chết trong Đấng Christ sẽ sống lại khi Ngài trở lại vinh hiển."
+        "noteVi": "Những người chết trong Đấng Christ sẽ sống lại khi Ngài trở lại vinh hiển.",
+        "explanationEn": "This verse paints a dramatic picture of a future moment when Jesus returns and those who have died believing in him will be brought back to life first. The loud trumpet and commanding voice are vivid imagery meant to convey the significance and certainty of this event. It directly addresses the resurrection of the dead as a real, future occurrence that believers can look forward to.",
+        "explanationVi": "Câu này vẽ nên một bức tranh đầy kịch tính về một thời điểm trong tương lai khi Chúa Giêsu trở lại và những người đã chết trong niềm tin vào Ngài sẽ được sống lại trước tiên. Tiếng kèn vang lớn và giọng nói uy quyền là những hình ảnh sinh động nhằm truyền đạt tầm quan trọng và sự chắc chắn của sự kiện này. Câu này trực tiếp đề cập đến sự phục sinh của người chết như một sự việc thực sự sẽ xảy ra trong tương lai mà người tin có thể trông chờ."
       },
       {
         "ref": "Job 19:25-26",
@@ -3144,7 +3670,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "I know that my redeemer lives, and that in the end he will stand on the earth. And after my skin has been destroyed, yet in my flesh I will see God.",
         "textVi": "Tôi biết rằng Đấng Cứu Chuộc tôi vẫn sống, Ngài sẽ đứng sau hết trên đất. Sau khi da tôi bị hủy hoại như vầy, thì dầu không còn xác thịt, tôi sẽ thấy Đức Chúa Trời.",
         "noteEn": "An Old Testament affirmation of bodily resurrection and hope in the Redeemer.",
-        "noteVi": "Lời khẳng định về sự phục sinh thể xác và niềm hy vọng nơi Đấng Cứu Chuộc trong Cựu Ước."
+        "noteVi": "Lời khẳng định về sự phục sinh thể xác và niềm hy vọng nơi Đấng Cứu Chuộc trong Cựu Ước.",
+        "explanationEn": "Written long before Jesus, this is one of the oldest expressions of hope in resurrection found in the Bible, spoken by a man named Job who was suffering greatly. Job expresses confidence that even after his body is gone, he will somehow see God in a physical form — pointing to a belief in life and restoration beyond death. This verse shows that the idea of resurrection existed as a human hope long before it became central to Christianity.",
+        "explanationVi": "Được viết ra từ rất lâu trước thời Chúa Giêsu, đây là một trong những biểu hiện cổ xưa nhất về hy vọng phục sinh trong Kinh Thánh, được thốt ra bởi một người tên Gióp đang chịu đựng đau khổ cùng cực. Gióp bày tỏ sự tin tưởng rằng ngay cả sau khi thân xác ông tan rã, ông vẫn sẽ bằng cách nào đó nhìn thấy Đức Chúa Trời trong hình dạng thể xác — hướng đến niềm tin vào sự sống và phục hồi vượt qua cái chết. Câu này cho thấy ý tưởng về sự phục sinh đã tồn tại như một hy vọng của con người từ rất lâu trước khi nó trở thành trung tâm của Cơ Đốc giáo."
       },
       {
         "ref": "Revelation 1:18",
@@ -3154,7 +3682,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "and the Living One; I was dead, and now look, I am alive for ever and ever! And I hold the keys of death and Hades.",
         "textVi": "và là Đấng Sống; ta đã chết, kìa nay ta sống đời đời, và ta cầm chìa khóa của sự chết và âm phủ.",
         "noteEn": "The risen Christ holds authority over death and the grave forever.",
-        "noteVi": "Đấng Christ phục sinh nắm giữ quyền năng trên sự chết và âm phủ đời đời."
+        "noteVi": "Đấng Christ phục sinh nắm giữ quyền năng trên sự chết và âm phủ đời đời.",
+        "explanationEn": "In this verse, Jesus speaks about himself in the book of Revelation (the final book of the Bible), describing how he once died but is now alive forever. He claims to hold 'the keys of death and Hades (the realm of the dead),' meaning he has authority and power over death itself. This positions his resurrection as not just a personal comeback, but as a victory over death that affects all of humanity.",
+        "explanationVi": "Trong câu này, Chúa Giêsu nói về chính mình trong sách Khải Huyền (cuốn sách cuối cùng của Kinh Thánh), mô tả cách Ngài đã từng chết nhưng nay sống mãi mãi. Ngài tuyên bố cầm giữ 'chìa khóa của sự chết và âm phủ (cõi của người chết),' nghĩa là Ngài có quyền năng và thẩm quyền trên cái chết. Điều này đặt sự phục sinh của Ngài không chỉ là sự trở lại cá nhân, mà là một chiến thắng trước cái chết có ảnh hưởng đến toàn thể nhân loại."
       }
     ]
   },
@@ -3175,7 +3705,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "And if I go and prepare a place for you, I will come back and take you to be with me that you also may be where I am.",
         "textVi": "Khi Ta đã đi và sắm sẵn chỗ cho các ngươi rồi, Ta sẽ trở lại đem các ngươi đi với Ta, hầu cho Ta ở đâu thì các ngươi cũng ở đó.",
         "noteEn": "Jesus personally promises to return and receive His followers",
-        "noteVi": "Chúa Giê-xu đích thân hứa sẽ trở lại và đón nhận những người theo Ngài"
+        "noteVi": "Chúa Giê-xu đích thân hứa sẽ trở lại và đón nhận những người theo Ngài",
+        "explanationEn": "In this verse, Jesus is telling his followers that after he leaves, he will go to prepare a special place for them and then return to bring them there. This is one of the earliest and clearest promises Jesus made about coming back a second time. The idea of the Second Coming is rooted in this personal promise — that his return is not just an event, but a reunion.",
+        "explanationVi": "Trong câu này, Chúa Giê-su nói với các môn đồ rằng sau khi Ngài rời đi, Ngài sẽ chuẩn bị một nơi cho họ và sau đó quay lại để đón họ về. Đây là một trong những lời hứa sớm nhất và rõ ràng nhất của Chúa Giê-su về việc trở lại lần thứ hai. Ý tưởng về Sự Tái Lâm bắt nguồn từ lời hứa cá nhân này — rằng sự trở lại của Ngài không chỉ là một sự kiện, mà là một cuộc đoàn tụ."
       },
       {
         "ref": "Acts 1:11",
@@ -3185,7 +3717,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "\"Men of Galilee,\" they said, \"why do you stand here looking into the sky? This same Jesus, who has been taken from you into heaven, will come back in the same way you have seen him go into heaven.\"",
         "textVi": "Họ nói rằng: Hỡi người Ga-li-lê, sao các ngươi đứng nhìn lên trời làm chi? Jêsus nầy đã được cất lên trời khỏi giữa các ngươi, cũng sẽ trở lại như cách các ngươi đã thấy Ngài lên trời vậy.",
         "noteEn": "Angels confirm Christ's return will be visible and bodily",
-        "noteVi": "Các thiên sứ xác nhận sự trở lại của Đấng Christ sẽ hữu hình và thực thể"
+        "noteVi": "Các thiên sứ xác nhận sự trở lại của Đấng Christ sẽ hữu hình và thực thể",
+        "explanationEn": "After Jesus rose into the sky, two heavenly messengers appeared and told his stunned followers not to keep staring upward — because Jesus would return in the same visible, physical way he had just left. This verse is a direct confirmation that the Second Coming is a real, future event, not just a symbol or metaphor. It assures believers that his departure was not permanent.",
+        "explanationVi": "Sau khi Chúa Giê-su bay lên trời, hai sứ giả thiên thượng xuất hiện và nói với những người đang đứng nhìn lên không nên cứ nhìn mãi — vì Chúa Giê-su sẽ trở lại theo đúng cách hữu hình và thực tế như Ngài vừa rời đi. Câu này là sự xác nhận trực tiếp rằng Sự Tái Lâm là một sự kiện thực sự trong tương lai, không chỉ là biểu tượng hay ẩn dụ. Nó đảm bảo với những người tin rằng sự ra đi của Ngài không phải là mãi mãi."
       },
       {
         "ref": "1 Thessalonians 4:16",
@@ -3195,7 +3729,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "For the Lord himself will come down from heaven, with a loud command, with the voice of the archangel and with the trumpet call of God, and the dead in Christ will rise first.",
         "textVi": "Vì chính Chúa sẽ từ trời giáng xuống, có tiếng kêu lớn, có tiếng của thiên sứ lớn, và có tiếng kèn của Đức Chúa Trời, thì những kẻ chết trong Đấng Christ sẽ sống lại trước hết.",
         "noteEn": "Describes the glorious and triumphant manner of Christ's return",
-        "noteVi": "Mô tả cách thức vinh quang và khải hoàn trong sự tái lâm của Đấng Christ"
+        "noteVi": "Mô tả cách thức vinh quang và khải hoàn trong sự tái lâm của Đấng Christ",
+        "explanationEn": "This verse describes the Second Coming as a dramatic, unmistakable event — announced by a powerful command, a mighty voice, and the sound of a trumpet. It also introduces the idea that even people who have already died and believed in Jesus will be raised back to life at that moment. In Christian belief, the Second Coming is not just about the living, but also about the resurrection of the dead.",
+        "explanationVi": "Câu này mô tả Sự Tái Lâm như một sự kiện kịch tính, không thể nhầm lẫn — được báo hiệu bằng một mệnh lệnh mạnh mẽ, một giọng nói oai nghiêm và tiếng kèn vang lên. Nó cũng giới thiệu ý tưởng rằng ngay cả những người đã qua đời mà tin vào Chúa Giê-su sẽ được sống lại vào thời điểm đó. Trong niềm tin Cơ Đốc, Sự Tái Lâm không chỉ dành cho người đang sống, mà còn liên quan đến sự phục sinh của người đã chết."
       },
       {
         "ref": "Matthew 24:30",
@@ -3205,7 +3741,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "\"Then will appear the sign of the Son of Man in heaven. And then all the peoples of the earth will mourn when they see the Son of Man coming on the clouds of heaven, with power and great glory.\"",
         "textVi": "Bấy giờ, điềm Con người sẽ hiện ra ở trên trời, mọi dân tộc dưới đất sẽ than vãn, và thấy Con người ngự trên mây trời với đại quyền và vinh hiển.",
         "noteEn": "Jesus foretells His return in power and great glory for all to see",
-        "noteVi": "Chúa Giê-xu tiên đoán sự trở lại của Ngài trong quyền năng và vinh quang cho mọi người thấy"
+        "noteVi": "Chúa Giê-xu tiên đoán sự trở lại của Ngài trong quyền năng và vinh quang cho mọi người thấy",
+        "explanationEn": "Jesus, referred to here as the 'Son of Man,' is described as returning visibly in the sky with immense power and brilliance, and every person on earth will witness it. The widespread mourning suggests that his return will bring a moment of universal reckoning — people will realize the significance of who he is. This verse paints the Second Coming as a globally visible, world-changing event.",
+        "explanationVi": "Chúa Giê-su, được gọi ở đây là 'Con Người,' được mô tả là trở lại một cách rõ ràng trên bầu trời với quyền năng và sự huy hoàng vĩ đại, và mọi người trên trái đất đều sẽ chứng kiến điều đó. Sự ai oán lan rộng cho thấy sự trở lại của Ngài sẽ mang đến một khoảnh khắc phán xét toàn cầu — mọi người sẽ nhận ra tầm quan trọng của Ngài là ai. Câu này khắc họa Sự Tái Lâm như một sự kiện có thể nhìn thấy trên toàn thế giới và thay đổi thế giới."
       },
       {
         "ref": "Revelation 22:12",
@@ -3215,7 +3753,9 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "\"Look, I am coming soon! My reward is with me, and I will give to each person according to what they have done.\"",
         "textVi": "Nầy, ta đến mau chóng, và đem theo phần thưởng của ta, để trả cho mỗi người tùy theo công việc họ làm.",
         "noteEn": "Christ declares His imminent return with judgment and reward",
-        "noteVi": "Đấng Christ tuyên bố sự tái lâm sắp đến kèm theo sự phán xét và phần thưởng"
+        "noteVi": "Đấng Christ tuyên bố sự tái lâm sắp đến kèm theo sự phán xét và phần thưởng",
+        "explanationEn": "In this verse, Jesus announces that he is coming soon and that when he does, he will bring rewards or consequences for each person based on how they lived their life. It connects the Second Coming directly to the idea of accountability — every action matters and will be evaluated. This serves as both a motivation and a warning for how people choose to live.",
+        "explanationVi": "Trong câu này, Chúa Giê-su tuyên bố rằng Ngài sắp đến và khi đó, Ngài sẽ mang theo phần thưởng hoặc hậu quả cho mỗi người dựa trên cách họ đã sống. Điều này kết nối Sự Tái Lâm trực tiếp với ý tưởng về trách nhiệm — mọi hành động đều quan trọng và sẽ được xem xét. Điều này vừa là động lực vừa là lời cảnh tỉnh cho cách mọi người lựa chọn sống."
       },
       {
         "ref": "Titus 2:13",
@@ -3225,7 +3765,1586 @@ export const BIBLE_TOPICS: BibleTopic[] = [
         "textEn": "while we wait for the blessed hope—the appearing of the glory of our great God and Savior, Jesus Christ,",
         "textVi": "đang chờ đợi sự trông cậy hạnh phước, và sự hiện ra của vinh hiển Đức Chúa Trời lớn và Cứu Chúa chúng ta, là Đức Chúa Jêsus Christ,",
         "noteEn": "The Second Coming is called the 'blessed hope' of every believer",
-        "noteVi": "Sự tái lâm được gọi là 'niềm hy vọng phúc lành' của mỗi người tin Chúa"
+        "noteVi": "Sự tái lâm được gọi là 'niềm hy vọng phúc lành' của mỗi người tin Chúa",
+        "explanationEn": "This verse describes the Second Coming as a 'blessed hope' — something that Christians eagerly and joyfully look forward to, not with fear but with anticipation. It frames the return of Jesus as a glorious, long-awaited appearance of someone deeply loved. For believers, the Second Coming is not a dreaded event but the fulfillment of their greatest hope.",
+        "explanationVi": "Câu này mô tả Sự Tái Lâm là một 'hy vọng phước hạnh' — điều mà những người Cơ Đốc mong chờ một cách vui mừng và háo hức, không phải với sự sợ hãi mà với sự trông đợi. Nó khắc họa sự trở lại của Chúa Giê-su như sự xuất hiện rực rỡ của một người được yêu thương sâu sắc. Đối với những người tin, Sự Tái Lâm không phải là sự kiện đáng sợ mà là sự hoàn thành của hy vọng lớn nhất của họ."
+      }
+    ]
+  },
+  {
+    "slug": "mother",
+    "nameEn": "Mother",
+    "nameVi": "Người mẹ",
+    "category": "relationships",
+    "icon": "Heart",
+    "introEn": "The Bible honors mothers as vital figures of love, wisdom, and sacrifice. From Eve, the mother of all living, to Mary, the mother of Jesus, Scripture presents motherhood as a sacred calling. God even uses the tender love of a mother to illustrate His own compassion for His people.",
+    "introVi": "Kinh Thánh tôn vinh người mẹ như những nhân vật quan trọng của tình yêu thương, sự khôn ngoan và hy sinh. Từ Ê-va, mẹ của tất cả người sống, đến Ma-ri, mẹ của Chúa Giê-xu, Kinh Thánh trình bày thiên chức làm mẹ là một sứ mệnh thiêng liêng. Đức Chúa Trời còn dùng tình yêu dịu dàng của người mẹ để minh họa lòng thương xót của Ngài dành cho dân sự.",
+    "verses": [
+      {
+        "ref": "Proverbs 31:25",
+        "bookSlug": "proverbs",
+        "chapter": 31,
+        "verse": 25,
+        "textEn": "She is clothed with strength and dignity; she can laugh at the days to come.",
+        "textVi": "Sức mạnh và oai nghi là áo xống của người; Người sẽ vui cười trong ngày sau rốt.",
+        "noteEn": "A godly mother faces the future with joy.",
+        "noteVi": "Người mẹ kính Chúa đối mặt tương lai với niềm vui.",
+        "explanationEn": "This verse describes a strong, confident woman who faces the future without fear. It paints a picture of a mother whose inner strength and self-respect are her greatest qualities, more valuable than outward appearances. She is someone who can handle life's uncertainties with grace and even joy.",
+        "explanationVi": "Câu này mô tả một người phụ nữ mạnh mẽ và tự tin, không sợ hãi trước tương lai. Đây là hình ảnh người mẹ mà sức mạnh nội tâm và lòng tự trọng chính là những phẩm chất quý giá nhất của bà, hơn cả vẻ bề ngoài. Bà là người có thể đối mặt với những bất trắc trong cuộc sống bằng sự bình tĩnh và thậm chí là niềm vui."
+      },
+      {
+        "ref": "Proverbs 22:6",
+        "bookSlug": "proverbs",
+        "chapter": 22,
+        "verse": 6,
+        "textEn": "Start children off on the way they should go, and even when they are old they will not turn from it.",
+        "textVi": "Hãy dạy cho trẻ thơ con đường nó phải theo; Dầu khi nó trở về già, cũng không hề lìa khỏi đó.",
+        "noteEn": "Mothers shape children's faith from the beginning.",
+        "noteVi": "Người mẹ định hình đức tin con từ thuở nhỏ.",
+        "explanationEn": "This verse emphasizes the lasting impact of a parent's guidance on a child's life. It suggests that the values and habits taught early on — often by a mother — will stay with a child throughout their entire life. In other words, a mother's teachings shape who her children become as adults.",
+        "explanationVi": "Câu này nhấn mạnh tầm ảnh hưởng lâu dài của sự dạy dỗ từ cha mẹ đối với cuộc đời con cái. Nó cho thấy rằng những giá trị và thói quen được dạy từ sớm — thường là từ người mẹ — sẽ theo con suốt cả cuộc đời. Nói cách khác, sự dạy dỗ của người mẹ góp phần định hình con người mà đứa trẻ sẽ trở thành khi lớn lên."
+      },
+      {
+        "ref": "Isaiah 66:13",
+        "bookSlug": "isaiah",
+        "chapter": 66,
+        "verse": 13,
+        "textEn": "As a mother comforts her child, so will I comfort you; and you will be comforted over Jerusalem.",
+        "textVi": "Ta sẽ an ủi các ngươi như mẹ an ủi con; các ngươi sẽ được an ủi tại Giê-ru-sa-lem.",
+        "noteEn": "God's comfort mirrors a mother's tender care.",
+        "noteVi": "Sự an ủi của Đức Chúa Trời như tình mẹ dịu dàng.",
+        "explanationEn": "Here, God is compared to a mother comforting her child, showing how deeply nurturing and tender this kind of care is meant to be. The verse uses the familiar image of a mother's comfort — one of the most universally understood forms of love — to describe a profound sense of being cared for. It highlights that a mother's comfort is one of the purest expressions of love humans can experience.",
+        "explanationVi": "Ở đây, Thiên Chúa được so sánh với người mẹ đang an ủi con mình, cho thấy sự chăm sóc đó mang tính yêu thương và dịu dàng đến nhường nào. Câu này dùng hình ảnh quen thuộc về sự vỗ về của người mẹ — một trong những biểu hiện tình yêu được hiểu rộng rãi nhất trên thế giới — để diễn tả cảm giác được che chở sâu sắc. Điều này cho thấy sự an ủi của người mẹ là một trong những biểu hiện thuần túy nhất của tình yêu thương mà con người có thể cảm nhận."
+      },
+      {
+        "ref": "Exodus 20:12",
+        "bookSlug": "exodus",
+        "chapter": 20,
+        "verse": 12,
+        "textEn": "Honor your father and your mother, so that you may live long in the land the LORD your God is giving you.",
+        "textVi": "Hãy hiếu kính cha mẹ ngươi, hầu cho ngươi được sống lâu trên đất mà Giê-hô-va Đức Chúa Trời ngươi ban cho.",
+        "noteEn": "God commands children to honor their mothers.",
+        "noteVi": "Đức Chúa Trời truyền con cái phải hiếu kính mẹ.",
+        "explanationEn": "This is one of the Ten Commandments, a set of fundamental rules in the Bible, and it calls on children to respect and value their parents. Honoring your mother means appreciating her sacrifices, listening to her wisdom, and treating her with kindness. The verse suggests that a life built on respect for parents is a life well-lived.",
+        "explanationVi": "Đây là một trong Mười Điều Răn — bộ quy tắc căn bản trong Kinh Thánh — kêu gọi con cái phải tôn trọng và trân trọng cha mẹ. Tôn kính người mẹ có nghĩa là biết ơn những hy sinh của bà, lắng nghe sự khôn ngoan của bà và đối xử với bà bằng sự tử tế. Câu này gợi ý rằng một cuộc sống được xây dựng trên nền tảng kính trọng cha mẹ là một cuộc sống có ý nghĩa."
+      },
+      {
+        "ref": "2 Timothy 1:5",
+        "bookSlug": "2-timothy",
+        "chapter": 1,
+        "verse": 5,
+        "textEn": "I am reminded of your sincere faith, which first lived in your grandmother Lois and in your mother Eunice and, I am persuaded, now lives in you also.",
+        "textVi": "Ta nhớ lại đức tin thành thật của con, đức tin trước đã ở trong Lô-ít, tổ mẫu con, và trong Ơ-nít, mẫu thân con, ta chắc rằng nay cũng ở trong con nữa.",
+        "noteEn": "A faithful mother passes living faith to her children.",
+        "noteVi": "Người mẹ tin kính truyền đức tin sống cho con cái.",
+        "explanationEn": "This verse acknowledges how a mother's personal values and beliefs can be passed down through generations to her children and grandchildren. It recognizes the powerful, quiet influence a mother has in shaping the character of her family. The faith mentioned here refers to sincere, heartfelt belief — something that was lived out in daily life and naturally inherited by the next generation.",
+        "explanationVi": "Câu này ghi nhận cách mà các giá trị và niềm tin của người mẹ có thể được truyền lại qua nhiều thế hệ, từ bà đến con rồi đến cháu. Nó thừa nhận sức ảnh hưởng mạnh mẽ nhưng thầm lặng mà người mẹ có trong việc định hình nhân cách của cả gia đình. Đức tin được nhắc đến ở đây là niềm tin chân thành, xuất phát từ trái tim — được sống qua từng ngày và tự nhiên được thế hệ tiếp theo tiếp nhận."
+      },
+      {
+        "ref": "John 19:26-27",
+        "bookSlug": "john",
+        "chapter": 19,
+        "verse": 26,
+        "textEn": "When Jesus saw his mother there, and the disciple whom he loved standing nearby, he said to her, 'Woman, here is your son,' and to the disciple, 'Here is your mother.'",
+        "textVi": "Đức Chúa Jêsus thấy mẹ mình và môn đồ Ngài yêu đứng gần đó, bèn nói với mẹ rằng: Hỡi đàn bà kia, đó là con của ngươi! Rồi Ngài nói với môn đồ rằng: Đó là mẹ của ngươi!",
+        "noteEn": "Even dying, Jesus lovingly provided for his mother.",
+        "noteVi": "Ngay khi hấp hối, Chúa Giê-xu vẫn chăm lo mẹ.",
+        "explanationEn": "In this scene, Jesus — even while facing death — made sure his mother would be cared for by entrusting her to his closest friend. It shows that a son's love and responsibility toward his mother does not end even in the most difficult moments. This act reflects a deep human value: the duty to protect and care for one's mother, no matter the circumstances.",
+        "explanationVi": "Trong cảnh này, Chúa Giêsu — ngay cả khi đang đối mặt với cái chết — vẫn đảm bảo rằng mẹ mình sẽ được chăm sóc bằng cách giao bà cho người bạn thân nhất của Ngài. Điều này cho thấy tình yêu và trách nhiệm của người con đối với mẹ không chấm dứt ngay cả trong những khoảnh khắc khó khăn nhất. Hành động này phản ánh một giá trị nhân văn sâu sắc: bổn phận bảo vệ và chăm sóc người mẹ, dù trong hoàn cảnh nào."
+      }
+    ]
+  },
+  {
+    "slug": "father",
+    "nameEn": "Father",
+    "nameVi": "Người cha",
+    "category": "relationships",
+    "icon": "Shield",
+    "introEn": "The Bible presents fatherhood as a sacred responsibility, reflecting God's own nature as a loving and faithful Father. Earthly fathers are called to nurture, discipline, and guide their children in wisdom and faith. The relationship between a father and his children serves as a profound image of God's relationship with His people.",
+    "introVi": "Kinh Thánh trình bày vai trò làm cha là một trách nhiệm thiêng liêng, phản ánh bản tính của Đức Chúa Trời là Cha yêu thương và thành tín. Những người cha trần thế được kêu gọi nuôi dưỡng, dạy dỗ và dẫn dắt con cái trong sự khôn ngoan và đức tin. Mối quan hệ giữa cha và con là hình ảnh sâu sắc về mối quan hệ giữa Đức Chúa Trời và dân Ngài.",
+    "verses": [
+      {
+        "ref": "Proverbs 22:6",
+        "bookSlug": "proverbs",
+        "chapter": 22,
+        "verse": 6,
+        "textEn": "Start children off on the way they should go, and even when they are old they will not turn from it.",
+        "textVi": "Hãy dạy cho trẻ thơ con đường nó phải theo; Dầu khi nó trở về già, cũng không hề lìa khỏi đó.",
+        "noteEn": "Fathers shape children's lifelong spiritual direction.",
+        "noteVi": "Người cha định hướng tâm linh suốt đời con cái.",
+        "explanationEn": "This verse teaches that the values and habits we instill in children early on tend to stay with them for life. It highlights a father's responsibility to guide his children well from a young age, because that early foundation shapes who they become as adults.",
+        "explanationVi": "Câu này dạy rằng những giá trị và thói quen chúng ta dạy cho trẻ từ nhỏ thường sẽ gắn bó với chúng suốt cuộc đời. Đây là lời nhắc nhở về trách nhiệm của người cha trong việc định hướng con cái từ sớm, vì nền tảng đó sẽ ảnh hưởng đến con người chúng khi trưởng thành."
+      },
+      {
+        "ref": "Ephesians 6:4",
+        "bookSlug": "ephesians",
+        "chapter": 6,
+        "verse": 4,
+        "textEn": "Fathers, do not exasperate your children; instead, bring them up in the training and instruction of the Lord.",
+        "textVi": "Hỡi các người làm cha, chớ chọc cho con cái mình giận dữ, hãy dùng sự sửa phạt khuyên bảo của Chúa mà nuôi nấng chúng nó.",
+        "noteEn": "Fathers nurture with patience and godly instruction.",
+        "noteVi": "Người cha nuôi dạy con bằng sự khuyên bảo của Chúa.",
+        "explanationEn": "This verse advises fathers not to be harsh or unreasonable with their children in ways that cause frustration or resentment. Instead, a good father raises his children with patient guidance, teaching them right from wrong in a loving and constructive way.",
+        "explanationVi": "Câu này khuyên người cha không nên hà khắc hay thiếu lý lẽ với con cái đến mức khiến chúng nản lòng hoặc oán giận. Thay vào đó, người cha tốt nuôi dạy con bằng sự hướng dẫn kiên nhẫn, dạy chúng phân biệt đúng sai theo cách yêu thương và tích cực."
+      },
+      {
+        "ref": "Psalm 103:13",
+        "bookSlug": "psalms",
+        "chapter": 103,
+        "verse": 13,
+        "textEn": "As a father has compassion on his children, so the Lord has compassion on those who fear him.",
+        "textVi": "Đức Giê-hô-va thương xót kẻ kính sợ Ngài, Khác nào cha thương xót con cái mình vậy.",
+        "noteEn": "A father's compassion mirrors God's own love.",
+        "noteVi": "Tình thương của cha phản chiếu tình yêu Đức Chúa Trời.",
+        "explanationEn": "This verse uses the tender care a father has for his children as a way to describe how God relates to people who respect and trust him. It suggests that just as a loving father naturally feels deep concern and kindness toward his children, God feels the same way toward humanity.",
+        "explanationVi": "Câu này dùng hình ảnh tình thương của người cha dành cho con để mô tả cách Đức Chúa Trời đối xử với những người kính trọng và tin tưởng Ngài. Nó gợi lên rằng cũng như người cha yêu thương luôn quan tâm và nhân từ với con cái, Đức Chúa Trời cũng cảm nhận điều tương tự với con người."
+      },
+      {
+        "ref": "Proverbs 3:12",
+        "bookSlug": "proverbs",
+        "chapter": 3,
+        "verse": 12,
+        "textEn": "because the Lord disciplines those he loves, as a father the son he delights in.",
+        "textVi": "Vì Đức Giê-hô-va sửa phạt kẻ Ngài yêu thương, Khác nào người cha sửa phạt con trai mình vậy.",
+        "noteEn": "Loving discipline is a mark of true fatherhood.",
+        "noteVi": "Kỷ luật yêu thương là dấu hiệu của người cha thật.",
+        "explanationEn": "This verse explains that correction or discipline from someone who loves you is actually a sign of care, not cruelty. Just like a devoted father corrects his child because he wants the best for them, the idea here is that true love sometimes involves guiding someone back onto the right path.",
+        "explanationVi": "Câu này giải thích rằng sự sửa phạt hay uốn nắn từ người yêu thương bạn thực chất là dấu hiệu của sự quan tâm, chứ không phải sự tàn nhẫn. Cũng như người cha tận tâm sửa dạy con vì muốn điều tốt nhất cho con, tình yêu thật sự đôi khi đòi hỏi phải hướng dẫn ai đó trở lại con đường đúng đắn."
+      },
+      {
+        "ref": "Luke 15:20",
+        "bookSlug": "luke",
+        "chapter": 15,
+        "verse": 20,
+        "textEn": "So he got up and went to his father. But while he was still a long way off, his father saw him and was filled with compassion for him; he ran to his son, threw his arms around him and kissed him.",
+        "textVi": "Vậy, người con đứng dậy trở về cùng cha mình. Khi còn ở đằng xa, cha thấy con, thì động lòng thương xót, chạy ra ôm lấy cổ mà hôn.",
+        "noteEn": "The father's welcome pictures God's forgiving grace.",
+        "noteVi": "Người cha đón con mô tả ân điển tha thứ của Đức Chúa Trời.",
+        "explanationEn": "This is part of the famous 'Prodigal Son' story, where a son who had left home and wasted everything returns in shame. The father's reaction — running to meet him, hugging him before he could even apologize — illustrates what unconditional love looks like, and is used to show how a truly loving father (and by extension, God) welcomes back those who have made mistakes.",
+        "explanationVi": "Đây là một phần trong câu chuyện nổi tiếng 'Người con hoang đàng', kể về người con rời nhà, phung phí tất cả rồi trở về trong xấu hổ. Phản ứng của người cha — chạy ra đón con, ôm chầm lấy con trước khi con kịp xin lỗi — minh họa tình yêu vô điều kiện trông như thế nào, và được dùng để thể hiện cách người cha thật sự yêu thương (và rộng hơn là Đức Chúa Trời) đón nhận lại những người đã phạm sai lầm."
+      },
+      {
+        "ref": "Deuteronomy 6:6-7",
+        "bookSlug": "deuteronomy",
+        "chapter": 6,
+        "verse": 6,
+        "textEn": "These commandments that I give you today are to be on your hearts. Impress them on your children. Talk about them when you sit at home and when you walk along the road, when you lie down and when you get up.",
+        "textVi": "Các lời ta truyền cho ngươi ngày nay sẽ ở tại trong lòng ngươi; khá ân cần dạy dỗ điều đó cho con cái ngươi, và phải nói đến, hoặc khi ngươi ngồi trong nhà, hoặc khi đi ngoài đường, hoặc khi ngươi nằm, hay là khi chổi dậy.",
+        "noteEn": "Fathers teach God's Word in every daily moment.",
+        "noteVi": "Người cha dạy Lời Chúa trong mọi thời điểm hằng ngày.",
+        "explanationEn": "This passage encourages parents to weave important life lessons and values into everyday conversations with their children, not just save them for formal occasions. It reflects the idea that a father's role includes being a constant, natural teacher — sharing wisdom during meals, walks, bedtime, and morning routines.",
+        "explanationVi": "Đoạn này khuyến khích cha mẹ lồng ghép những bài học và giá trị quan trọng vào các cuộc trò chuyện hàng ngày với con cái, chứ không chỉ để dành cho những dịp trang trọng. Điều này phản ánh quan điểm rằng vai trò của người cha bao gồm việc là một người thầy tự nhiên và thường xuyên — chia sẻ sự khôn ngoan trong bữa ăn, lúc đi dạo, trước khi ngủ và buổi sáng thức dậy."
+      }
+    ]
+  },
+  {
+    "slug": "children",
+    "nameEn": "Children",
+    "nameVi": "Con cái",
+    "category": "relationships",
+    "icon": "Baby",
+    "introEn": "The Bible presents children as a precious gift from God, entrusted to parents for nurturing and instruction. Scripture calls believers to raise children in faith, discipline, and love, reflecting God's own fatherly care. Children are also held up as models of humility and trust in the kingdom of God.",
+    "introVi": "Kinh Thánh xem con cái là món quà quý báu từ Đức Chúa Trời, được giao phó cho cha mẹ để nuôi dưỡng và dạy dỗ. Lời Chúa kêu gọi các bậc cha mẹ hướng dẫn con cái trong đức tin, kỷ luật và tình yêu thương. Chúa Giê-xu cũng dùng trẻ nhỏ làm hình mẫu về sự khiêm nhường và lòng tin cậy trong Nước Đức Chúa Trời.",
+    "verses": [
+      {
+        "ref": "Psalm 127:3",
+        "bookSlug": "psalms",
+        "chapter": 127,
+        "verse": 3,
+        "textEn": "Children are a heritage from the Lord, offspring a reward from him.",
+        "textVi": "Kìa, con cái là cơ nghiệp bởi Đức Giê-hô-va mà ra; Bông trái của tử cung là phần thưởng Ngài ban cho.",
+        "noteEn": "Children are God's blessing and reward to parents.",
+        "noteVi": "Con cái là phước lành và phần thưởng từ Đức Chúa Trời.",
+        "explanationEn": "This verse expresses the idea that children are one of the greatest gifts a person can receive in life, not just a biological outcome. From a biblical perspective, having children is seen as something precious and meaningful, not accidental. It encourages parents to treasure and appreciate their children rather than take them for granted.",
+        "explanationVi": "Câu này nói rằng con cái là một trong những món quà quý giá nhất mà một người có thể nhận được trong cuộc đời, không chỉ đơn thuần là kết quả sinh học. Theo quan điểm Kinh Thánh, việc có con được xem là điều trân trọng và có ý nghĩa sâu sắc. Câu này khuyến khích các bậc cha mẹ biết ơn và trân quý con cái của mình."
+      },
+      {
+        "ref": "Proverbs 22:6",
+        "bookSlug": "proverbs",
+        "chapter": 22,
+        "verse": 6,
+        "textEn": "Start children off on the way they should go, and even when they are old they will not turn from it.",
+        "textVi": "Hãy dạy cho trẻ thơ con đường nó phải theo; Dù khi nó trở về già, cũng không hề lìa khỏi đó.",
+        "noteEn": "Early godly training shapes a child's lifelong path.",
+        "noteVi": "Dạy dỗ sớm định hình con đường cả cuộc đời.",
+        "explanationEn": "This verse highlights the lasting impact that early upbringing has on a child's character and values throughout their life. It suggests that the habits, ethics, and life principles taught during childhood tend to stay with a person even into old age. In everyday terms, it is a reminder that good parenting and early education shape who a child becomes as an adult.",
+        "explanationVi": "Câu này nhấn mạnh tầm ảnh hưởng lâu dài của việc nuôi dạy từ thuở nhỏ đối với tính cách và giá trị sống của một đứa trẻ. Nó gợi ý rằng những thói quen, đạo đức và nguyên tắc sống được dạy từ khi còn nhỏ thường theo người đó đến khi về già. Hiểu đơn giản, đây là lời nhắc nhở rằng cách nuôi dạy con tốt từ sớm sẽ định hình con người trưởng thành sau này."
+      },
+      {
+        "ref": "Ephesians 6:4",
+        "bookSlug": "ephesians",
+        "chapter": 6,
+        "verse": 4,
+        "textEn": "Fathers, do not exasperate your children; instead, bring them up in the training and instruction of the Lord.",
+        "textVi": "Hỡi các người làm cha, chớ chọc tức con cái mình, hãy dùng sự sửa phạt khuyên bảo của Chúa mà nuôi nấng chúng nó.",
+        "noteEn": "Fathers must nurture children with godly discipline and instruction.",
+        "noteVi": "Cha phải nuôi dưỡng con cái bằng sự dạy dỗ của Chúa.",
+        "explanationEn": "This verse advises parents, especially fathers, not to be overly harsh or frustrating toward their children, as that can discourage them. Instead, it encourages raising children with patience, guidance, and positive values. The core message is about balanced parenting — firm but caring — which is relevant to any family regardless of religious belief.",
+        "explanationVi": "Câu này khuyên các bậc cha mẹ, đặc biệt là người cha, không nên quá khắc nghiệt hay gây ra sự bực bội cho con cái, vì điều đó có thể làm chúng nản lòng. Thay vào đó, hãy nuôi dạy con bằng sự kiên nhẫn, hướng dẫn và những giá trị tích cực. Thông điệp cốt lõi là về cách làm cha mẹ cân bằng — nghiêm khắc nhưng yêu thương — điều này phù hợp với bất kỳ gia đình nào dù có theo đạo hay không."
+      },
+      {
+        "ref": "Matthew 19:14",
+        "bookSlug": "matthew",
+        "chapter": 19,
+        "verse": 14,
+        "textEn": "Jesus said, \"Let the little children come to me, and do not hinder them, for the kingdom of heaven belongs to such as these.\"",
+        "textVi": "Đức Chúa Giê-xu phán rằng: Hãy để con trẻ đến cùng ta, đừng ngăn trở; vì nước thiên đàng thuộc về những kẻ giống như vậy.",
+        "noteEn": "Jesus welcomes children; they model kingdom faith.",
+        "noteVi": "Chúa Giê-xu tiếp nhận trẻ nhỏ như hình mẫu đức tin.",
+        "explanationEn": "In this moment, Jesus was welcoming young children when his followers were trying to keep them away, thinking children were not important enough to take up his time. His response shows that he valued children deeply and believed they had just as much worth and dignity as adults. This verse is often used to remind people that children deserve respect, inclusion, and care.",
+        "explanationVi": "Trong khoảnh khắc này, Chúa Giêsu đang chào đón những đứa trẻ nhỏ trong khi các môn đệ của Ngài đang cố ngăn chúng lại, cho rằng trẻ con không đủ quan trọng để chiếm thời gian của Ngài. Phản ứng của Ngài cho thấy Ngài rất coi trọng trẻ em và tin rằng chúng có giá trị và phẩm giá ngang bằng người lớn. Câu này thường được dùng để nhắc nhở mọi người rằng trẻ em xứng đáng được tôn trọng, hòa nhập và yêu thương."
+      },
+      {
+        "ref": "Deuteronomy 6:6-7",
+        "bookSlug": "deuteronomy",
+        "chapter": 6,
+        "verse": 6,
+        "textEn": "These commandments that I give you today are to be on your hearts. Impress them on your children. Talk about them when you sit at home and when you walk along the road, when you lie down and when you get up.",
+        "textVi": "Các lời ta truyền cho ngươi ngày nay sẽ ở tại trong lòng ngươi; khá ân cần dạy dỗ điều đó cho con cái ngươi, và phải nói đến, hoặc khi ngươi ngồi trong nhà, hoặc khi đi ngoài đường, hoặc lúc ngươi nằm, hay là khi chỗi dậy.",
+        "noteEn": "God's Word must be taught to children constantly.",
+        "noteVi": "Lời Đức Chúa Trời phải được dạy cho con cái mọi lúc.",
+        "explanationEn": "This passage encourages parents to make important values and life lessons a natural part of everyday family life, not just formal lessons or occasional talks. It suggests weaving these conversations into daily routines — at meals, on walks, at bedtime — so that children absorb them naturally over time. The key idea is that consistent, everyday guidance is more effective than rare, formal instruction.",
+        "explanationVi": "Đoạn này khuyến khích cha mẹ biến những giá trị quan trọng và bài học cuộc sống thành một phần tự nhiên trong sinh hoạt gia đình hàng ngày, không chỉ là những buổi dạy dỗ chính thức hay những lần nói chuyện hiếm hoi. Nó gợi ý lồng ghép những cuộc trò chuyện này vào sinh hoạt thường ngày — trong bữa ăn, khi đi dạo, khi đi ngủ — để trẻ em dần dần tiếp thu một cách tự nhiên. Ý tưởng cốt lõi là sự hướng dẫn đều đặn mỗi ngày hiệu quả hơn những buổi dạy bảo chính thức và hiếm gặp."
+      },
+      {
+        "ref": "3 John 1:4",
+        "bookSlug": "3-john",
+        "chapter": 1,
+        "verse": 4,
+        "textEn": "I have no greater joy than to hear that my children are walking in the truth.",
+        "textVi": "Tôi không có sự vui mừng nào lớn hơn là nghe rằng con cái tôi bước đi trong lẽ thật.",
+        "noteEn": "Nothing brings more joy than children walking in truth.",
+        "noteVi": "Không niềm vui nào lớn hơn khi con cái sống trong lẽ thật.",
+        "explanationEn": "This verse expresses a parent's or mentor's deepest joy — knowing that the young people they care for are living honest, good, and principled lives. The word 'truth' here refers to living with integrity and good values, not just believing certain things. It reflects the universal feeling that seeing the next generation thrive and make good choices is one of life's greatest satisfactions.",
+        "explanationVi": "Câu này diễn đạt niềm vui sâu sắc nhất của một người cha, người mẹ hay người hướng dẫn — khi biết rằng những người trẻ mà họ yêu thương đang sống trung thực, tốt đẹp và có nguyên tắc. Chữ 'sự thật' ở đây ám chỉ việc sống với sự chính trực và các giá trị tốt đẹp, không chỉ là tin vào một điều gì đó. Câu này phản ánh cảm xúc phổ quát rằng nhìn thấy thế hệ tiếp theo phát triển và đưa ra những lựa chọn đúng đắn là một trong những niềm hạnh phúc lớn nhất của cuộc đời."
+      }
+    ]
+  },
+  {
+    "slug": "siblings",
+    "nameEn": "Brothers & Sisters",
+    "nameVi": "Anh chị em",
+    "category": "relationships",
+    "icon": "Users",
+    "introEn": "The Bible places great importance on the bond between brothers and sisters, both biological and spiritual. From the Old Testament stories of Joseph and his brothers to the New Testament call to love one another as family, Scripture teaches that these relationships reflect God's design for community, forgiveness, and sacrificial love.",
+    "introVi": "Kinh Thánh đặt tầm quan trọng lớn vào mối quan hệ giữa anh chị em, cả theo huyết thống lẫn tâm linh. Từ câu chuyện Giô-sép và các anh trong Cựu Ước đến lời kêu gọi yêu thương nhau như gia đình trong Tân Ước, Kinh Thánh dạy rằng những mối quan hệ này phản ánh thiết kế của Đức Chúa Trời cho cộng đồng, sự tha thứ và tình yêu hy sinh.",
+    "verses": [
+      {
+        "ref": "Proverbs 17:17",
+        "bookSlug": "proverbs",
+        "chapter": 17,
+        "verse": 17,
+        "textEn": "A friend loves at all times, and a brother is born for a time of adversity.",
+        "textVi": "Bạn hữu thương mến nhau luôn luôn; Và anh em sinh ra để giúp đỡ trong lúc hoạn nạn.",
+        "noteEn": "Brothers are made for standing firm in hardship.",
+        "noteVi": "Anh em sinh ra để giúp nhau trong hoạn nạn.",
+        "explanationEn": "This verse says that a true friend shows up for you no matter what, but a brother (or close family member) is especially meant to be there during the hardest moments of your life. It highlights the idea that siblings share a unique bond — one built not just on good times, but on showing up when things get tough. The verse encourages us to value relationships that go deep enough to weather any storm.",
+        "explanationVi": "Câu này nói rằng một người bạn thật sự luôn ở bên bạn dù trong hoàn cảnh nào, nhưng anh chị em ruột thịt đặc biệt được sinh ra để sát cánh cùng bạn trong những lúc khó khăn nhất. Nó nhấn mạnh rằng tình anh chị em không chỉ tồn tại lúc vui vẻ mà còn bền chặt nhất khi gặp thử thách. Câu châm ngôn này khuyến khích chúng ta trân trọng những mối quan hệ đủ sâu sắc để vượt qua mọi sóng gió."
+      },
+      {
+        "ref": "Proverbs 18:24",
+        "bookSlug": "proverbs",
+        "chapter": 18,
+        "verse": 24,
+        "textEn": "One who has unreliable friends soon comes to ruin, but there is a friend who sticks closer than a brother.",
+        "textVi": "Người có nhiều bạn hữu sẽ bị hại; Nhưng có kẻ bạn thiết thân hơn anh em ruột.",
+        "noteEn": "Loyal friendship can surpass even brotherhood.",
+        "noteVi": "Tình bạn trung thành có thể vượt hơn anh em ruột.",
+        "explanationEn": "This verse points out that not all friendships are equal — some people we call friends may not truly be reliable, but occasionally we find someone whose loyalty surpasses even that of a sibling. It suggests that the bond of brotherhood or sisterhood is a high standard of closeness, and that a truly devoted friend can reach that same level. It encourages us to seek and cherish relationships built on deep, genuine commitment.",
+        "explanationVi": "Câu này chỉ ra rằng không phải tình bạn nào cũng như nhau — một số người chúng ta gọi là bạn bè có thể không thực sự đáng tin, nhưng đôi khi chúng ta gặp được người có lòng trung thành vượt qua cả tình anh chị em ruột thịt. Nó cho thấy tình anh chị em là tiêu chuẩn cao nhất của sự gần gũi, và một người bạn thật sự có thể đạt đến mức độ đó. Câu này khuyến khích chúng ta tìm kiếm và trân trọng những mối quan hệ được xây dựng trên sự gắn bó chân thành và sâu sắc."
+      },
+      {
+        "ref": "Genesis 50:21",
+        "bookSlug": "genesis",
+        "chapter": 50,
+        "verse": 21,
+        "textEn": "So then, don't be afraid. I will provide for you and your children. And he reassured them and spoke kindly to them.",
+        "textVi": "Vậy, chớ sợ chi; ta sẽ nuôi các anh và con cái các anh. Người an ủi và nói những lời nhân từ với họ.",
+        "noteEn": "Joseph forgave and cared for his brothers graciously.",
+        "noteVi": "Giô-sép tha thứ và chăm sóc các anh mình.",
+        "explanationEn": "This is part of the story of Joseph, who was sold into slavery by his own brothers but later rose to a powerful position in Egypt. Instead of taking revenge, Joseph forgave his brothers and promised to take care of them and their families. It is a powerful example of how sibling love can overcome betrayal and hurt, choosing kindness over bitterness.",
+        "explanationVi": "Đây là một phần trong câu chuyện của Giô-sép, người đã bị chính các anh em mình bán làm nô lệ nhưng sau đó trở thành người có quyền lực ở Ai Cập. Thay vì trả thù, Giô-sép đã tha thứ cho các anh và hứa sẽ chăm lo cho họ cùng gia đình họ. Đây là một ví dụ xúc động về cách tình anh chị em có thể vượt qua sự phản bội và tổn thương, chọn lòng tốt thay vì oán hận."
+      },
+      {
+        "ref": "Romans 12:10",
+        "bookSlug": "romans",
+        "chapter": 12,
+        "verse": 10,
+        "textEn": "Be devoted to one another in love. Honor one another above yourselves.",
+        "textVi": "Hãy lấy lòng yêu thương mà mến nhau như anh em; hãy lấy lẽ kính nhường mà tôn nhau làm trọng hơn mình.",
+        "noteEn": "Christians are called to honor each other as family.",
+        "noteVi": "Hãy yêu thương và tôn trọng nhau như anh chị em.",
+        "explanationEn": "This verse encourages people to treat one another with deep affection and genuine respect, putting others' needs and dignity before their own. In the context of brothers and sisters, it describes the ideal family dynamic — where love is not just a feeling but an active choice to honor each other. It is a practical guide for building caring, respectful relationships with anyone we are close to.",
+        "explanationVi": "Câu này khuyến khích mọi người đối xử với nhau bằng tình cảm chân thành và sự tôn trọng thật sự, đặt nhu cầu và phẩm giá của người khác lên trên bản thân mình. Trong bối cảnh anh chị em, nó mô tả mối quan hệ gia đình lý tưởng — nơi tình yêu không chỉ là cảm xúc mà còn là sự lựa chọn chủ động để tôn vinh nhau. Đây là hướng dẫn thực tế để xây dựng những mối quan hệ quan tâm và tôn trọng với những người thân thiết."
+      },
+      {
+        "ref": "1 John 4:21",
+        "bookSlug": "1-john",
+        "chapter": 4,
+        "verse": 21,
+        "textEn": "And he has given us this command: Anyone who loves God must also love their brother and sister.",
+        "textVi": "Chúng ta có điều răn nầy từ Ngài: Ai yêu Đức Chúa Trời, thì cũng phải yêu anh em mình.",
+        "noteEn": "Loving God requires loving your brother and sister.",
+        "noteVi": "Yêu Đức Chúa Trời đòi hỏi phải yêu anh chị em.",
+        "explanationEn": "This verse from the Bible's New Testament teaches that loving God and loving the people around you cannot be separated — if you claim to care about something greater than yourself, that must show up in how you treat others. The phrase 'brother and sister' here refers to all fellow human beings, not just biological family. It is a call to extend the same warmth and care you would give a sibling to everyone in your life.",
+        "explanationVi": "Câu này trong Tân Ước dạy rằng yêu Đức Chúa Trời và yêu người xung quanh là hai điều không thể tách rời — nếu bạn nói rằng bạn quan tâm đến điều gì đó lớn lao hơn bản thân, điều đó phải được thể hiện qua cách bạn đối xử với người khác. Cụm từ 'anh và chị em' ở đây không chỉ nói về gia đình ruột thịt mà chỉ tất cả mọi người xung quanh. Đây là lời kêu gọi hãy dành sự ấm áp và quan tâm như đối với anh chị em ruột cho tất cả mọi người trong cuộc sống của bạn."
+      },
+      {
+        "ref": "Matthew 5:23-24",
+        "bookSlug": "matthew",
+        "chapter": 5,
+        "verse": 23,
+        "textEn": "Therefore, if you are offering your gift at the altar and there remember that your brother or sister has something against you, leave your gift there in front of the altar. First go and be reconciled to them; then come and offer your gift.",
+        "textVi": "Vậy, nếu ngươi đang dâng của lễ nơi bàn thờ, mà nhớ lại rằng anh em có điều gì nghịch cùng ngươi, thì hãy để của lễ trước bàn thờ, đi giảng hòa với anh em trước đã, rồi hãy đến dâng của lễ.",
+        "noteEn": "Reconcile with siblings before worshiping God.",
+        "noteVi": "Hãy hòa giải với anh chị em trước khi thờ phượng.",
+        "explanationEn": "This verse uses the image of bringing a gift to a religious altar (a place of worship and offering) to make a practical point: before you do something meaningful or ceremonial, fix any broken relationships first. If someone — especially a brother or sister — has a problem with you, go make it right before anything else. It teaches that healthy relationships and reconciliation matter more than outward rituals or gestures.",
+        "explanationVi": "Câu này dùng hình ảnh dâng lễ vật tại bàn thờ (nơi thờ phượng) để đưa ra một bài học thực tế: trước khi làm điều gì đó có ý nghĩa hay nghi lễ, hãy sửa chữa những mối quan hệ đổ vỡ trước đã. Nếu ai đó — đặc biệt là anh chị em — đang có điều gì đó không hài lòng với bạn, hãy đi giải hòa với họ trước tiên. Câu này dạy rằng các mối quan hệ lành mạnh và sự hòa giải quan trọng hơn bất kỳ nghi thức hay cử chỉ bên ngoài nào."
+      }
+    ]
+  },
+  {
+    "slug": "elderly",
+    "nameEn": "Honoring the Elderly",
+    "nameVi": "Kính trọng người lớn",
+    "category": "relationships",
+    "icon": "Star",
+    "introEn": "The Bible consistently calls believers to honor and respect the elderly as a reflection of godly wisdom and love. From the Law of Moses to the New Testament letters, Scripture affirms that treating older people with dignity is both a moral duty and an act of worship. This value reflects God's heart for community, continuity, and the honoring of those who carry life's hard-won wisdom.",
+    "introVi": "Kinh Thánh kêu gọi các tín hữu phải tôn kính và kính trọng người lớn tuổi như một biểu hiện của sự khôn ngoan và tình yêu thương của Đức Chúa Trời. Từ Luật pháp Môi-se đến các thư tín Tân Ước, Kinh Thánh khẳng định rằng đối xử với người cao tuổi bằng sự tôn trọng là bổn phận đạo đức và là hành động thờ phượng. Giá trị này phản ánh tấm lòng của Đức Chúa Trời đối với cộng đồng và sự trân trọng những người mang trí tuệ của cuộc đời.",
+    "verses": [
+      {
+        "ref": "Leviticus 19:32",
+        "bookSlug": "leviticus",
+        "chapter": 19,
+        "verse": 32,
+        "textEn": "Stand up in the presence of the aged, show respect for the elderly and revere your God. I am the LORD.",
+        "textVi": "Ngươi phải đứng dậy trước mặt người tóc bạc, tôn kính người già cả, và kính sợ Đức Chúa Trời ngươi. Ta là Đức Giê-hô-va.",
+        "noteEn": "Honoring elders is directly linked to fearing God.",
+        "noteVi": "Kính trọng người già gắn liền với kính sợ Đức Chúa Trời.",
+        "explanationEn": "This verse instructs people to physically stand up when an elderly person enters the room as a sign of deep respect. It connects showing honor to older people with living a good, moral life. In everyday terms, it is a reminder that small gestures of respect toward the elderly reflect our overall character and values.",
+        "explanationVi": "Câu này hướng dẫn mọi người đứng dậy khi có người lớn tuổi bước vào phòng như một cách thể hiện sự tôn trọng sâu sắc. Nó gắn việc kính trọng người cao tuổi với lối sống tốt đẹp và đạo đức. Nói đơn giản, những cử chỉ nhỏ như vậy phản ánh phẩm cách và giá trị của chúng ta."
+      },
+      {
+        "ref": "Proverbs 16:31",
+        "bookSlug": "proverbs",
+        "chapter": 16,
+        "verse": 31,
+        "textEn": "Gray hair is a crown of splendor; it is attained in the way of righteousness.",
+        "textVi": "Tóc bạc là mão triều thiên vinh hiển; người ta được nó bởi con đường công bình.",
+        "noteEn": "Old age achieved through righteousness is a glorious crown.",
+        "noteVi": "Tuổi già sống công bình là mão triều thiên vinh quang.",
+        "explanationEn": "This verse uses 'gray hair' as a symbol of a long life well-lived, comparing it to a crown — something beautiful and worthy of admiration. It suggests that reaching old age with integrity and good choices is itself an achievement deserving respect. In other words, the elderly deserve honor because their years represent wisdom and experience earned over a lifetime.",
+        "explanationVi": "Câu này dùng hình ảnh 'tóc bạc' như một biểu tượng của cuộc đời dài đẹp đẽ, ví nó như một vương miện — điều gì đó đáng ngưỡng mộ. Nó gợi ý rằng việc sống đến tuổi già với phẩm giá và những lựa chọn đúng đắn tự nó đã là một thành tựu đáng trân trọng. Nói cách khác, người cao tuổi xứng đáng được kính trọng vì những năm tháng của họ đại diện cho sự khôn ngoan và kinh nghiệm tích lũy cả đời."
+      },
+      {
+        "ref": "Proverbs 23:22",
+        "bookSlug": "proverbs",
+        "chapter": 23,
+        "verse": 22,
+        "textEn": "Listen to your father, who gave you life, and do not despise your mother when she is old.",
+        "textVi": "Hãy nghe cha ngươi, là người đã sinh ra ngươi; chớ khinh dể mẹ ngươi khi người già.",
+        "noteEn": "Never despise aging parents; honor them always.",
+        "noteVi": "Đừng khinh thường cha mẹ già; hãy luôn tôn kính.",
+        "explanationEn": "This verse encourages children to listen to and value the advice of their parents, especially as those parents grow older. It specifically warns against dismissing or looking down on a mother simply because she has aged. This is a direct call to honor elderly parents by remaining attentive and caring toward them throughout their lives.",
+        "explanationVi": "Câu này khuyến khích con cái lắng nghe và trân trọng lời khuyên của cha mẹ, đặc biệt khi cha mẹ đã lớn tuổi. Nó đặc biệt nhắc nhở không nên xem thường hay coi nhẹ người mẹ chỉ vì bà đã già đi. Đây là lời kêu gọi trực tiếp hãy kính trọng cha mẹ cao tuổi bằng cách tiếp tục quan tâm và chăm sóc họ suốt cuộc đời."
+      },
+      {
+        "ref": "Job 12:12",
+        "bookSlug": "job",
+        "chapter": 12,
+        "verse": 12,
+        "textEn": "Is not wisdom found among the aged? Does not long life bring understanding?",
+        "textVi": "Sự khôn ngoan há chẳng thuộc về người già sao? Sự thông sáng há chẳng đến với tuổi thọ sao?",
+        "noteEn": "The elderly carry wisdom and deep understanding.",
+        "noteVi": "Người cao tuổi mang sự khôn ngoan và thông sáng sâu sắc.",
+        "explanationEn": "This verse poses a thoughtful question: don't older people naturally have more wisdom because they have lived longer and experienced more? It frames old age not as a weakness but as a source of deep understanding and insight. The message is that we should look to elderly people as a valuable resource of knowledge, not ignore or undervalue them.",
+        "explanationVi": "Câu này đặt ra một câu hỏi sâu sắc: người lớn tuổi không phải tự nhiên có nhiều sự khôn ngoan hơn vì họ đã sống lâu hơn và trải nghiệm nhiều hơn sao? Nó nhìn nhận tuổi già không phải là điểm yếu mà là nguồn hiểu biết và sự thông tuệ sâu sắc. Thông điệp ở đây là chúng ta nên coi người cao tuổi là nguồn tri thức quý giá, không nên phớt lờ hay xem thường họ."
+      },
+      {
+        "ref": "1 Timothy 5:1",
+        "bookSlug": "1-timothy",
+        "chapter": 5,
+        "verse": 1,
+        "textEn": "Do not rebuke an older man harshly, but exhort him as if he were your father. Treat younger men as brothers,",
+        "textVi": "Chớ quở trách người già cả, nhưng hãy khuyên bảo họ như cha; còn người trẻ như anh em;",
+        "noteEn": "Speak to older men with gentleness, as a father.",
+        "noteVi": "Nói với người lớn tuổi bằng sự nhẹ nhàng như cha.",
+        "explanationEn": "This verse advises that if you disagree with or need to correct an older man, you should do so gently and respectfully — the way you would speak to your own father. It emphasizes kindness and patience in how we communicate with those who are older. The underlying idea is that age deserves a tone of care and dignity, not harshness or disrespect.",
+        "explanationVi": "Câu này khuyên rằng nếu bạn không đồng ý hoặc cần góp ý với một người đàn ông lớn tuổi, hãy làm điều đó nhẹ nhàng và tôn trọng — giống như cách bạn nói chuyện với cha của mình. Nó nhấn mạnh sự tử tế và kiên nhẫn trong cách chúng ta giao tiếp với những người lớn tuổi hơn. Ý tưởng cốt lõi là tuổi tác xứng đáng được đối xử với sự quan tâm và phẩm giá, không phải sự thô lỗ hay thiếu tôn trọng."
+      },
+      {
+        "ref": "1 Peter 5:5",
+        "bookSlug": "1-peter",
+        "chapter": 5,
+        "verse": 5,
+        "textEn": "In the same way, you who are younger, submit yourselves to your elders. All of you, clothe yourselves with humility toward one another, because, 'God opposes the proud but shows favor to the humble.'",
+        "textVi": "Hỡi kẻ trẻ tuổi, hãy phục dưới người trưởng lão; và hết thảy anh em hãy lấy lòng khiêm nhường mà đối đãi nhau, vì Đức Chúa Trời chống cự kẻ kiêu ngạo, nhưng ban ơn cho kẻ khiêm nhường.",
+        "noteEn": "Humility toward elders reflects submission before God.",
+        "noteVi": "Khiêm nhường với người lớn tuổi là phục trước Đức Chúa Trời.",
+        "explanationEn": "This verse encourages younger people to be willing to learn from and defer to those who are older and more experienced. It connects this attitude of respect with the broader virtue of humility — not thinking of yourself as always knowing best. The practical takeaway is that a humble, respectful attitude toward elders benefits everyone and builds a healthier community.",
+        "explanationVi": "Câu này khuyến khích người trẻ sẵn sàng học hỏi và tôn trọng những người lớn tuổi và có nhiều kinh nghiệm hơn. Nó gắn thái độ tôn trọng này với đức tính khiêm tốn — không cho rằng mình luôn biết tất cả. Bài học thực tế ở đây là thái độ khiêm nhường và tôn trọng người lớn tuổi mang lại lợi ích cho tất cả mọi người và xây dựng một cộng đồng lành mạnh hơn."
+      }
+    ]
+  },
+  {
+    "slug": "depression",
+    "nameEn": "Depression",
+    "nameVi": "Trầm cảm",
+    "category": "emotions",
+    "icon": "CloudRain",
+    "introEn": "The Bible acknowledges the reality of depression and emotional suffering, offering comfort and hope through God's presence. Many biblical figures, including David and Elijah, experienced deep despair and cried out to God. Scripture assures believers that God is near to the brokenhearted and provides strength in their darkest moments.",
+    "introVi": "Kinh Thánh thừa nhận thực tế của trầm cảm và nỗi đau tinh thần, mang lại sự an ủi qua sự hiện diện của Đức Chúa Trời. Nhiều nhân vật trong Kinh Thánh như Đa-vít và Ê-li đã trải qua sự tuyệt vọng sâu sắc và kêu cầu Đức Chúa Trời. Kinh Thánh bảo đảm rằng Đức Chúa Trời ở gần những tấm lòng tan vỡ và ban sức mạnh trong những lúc tối tăm nhất.",
+    "verses": [
+      {
+        "ref": "Psalm 34:18",
+        "bookSlug": "psalms",
+        "chapter": 34,
+        "verse": 18,
+        "textEn": "The Lord is close to the brokenhearted and saves those who are crushed in spirit.",
+        "textVi": "Đức Giê-hô-va ở gần những người có lòng tan vỡ, và cứu những ai có tâm thần thống hối.",
+        "noteEn": "God draws near to those in deepest pain.",
+        "noteVi": "Đức Chúa Trời ở gần những người đau khổ nhất.",
+        "explanationEn": "This verse describes a caring presence that draws near to people who are heartbroken or emotionally shattered. It suggests that in moments of deep pain or depression, you are not abandoned or alone — something greater is close to you. It offers comfort by saying that those who feel completely broken inside can still be lifted up.",
+        "explanationVi": "Câu này nói rằng có một sự hiện diện yêu thương luôn đến gần những ai đang đau lòng hoặc tan vỡ về mặt cảm xúc. Nó gợi lên rằng trong những lúc trầm cảm sâu sắc nhất, bạn không bị bỏ rơi hay cô đơn — có điều gì đó lớn lao hơn đang ở bên cạnh bạn. Đây là lời an ủi rằng dù bạn cảm thấy kiệt sức hoàn toàn, bạn vẫn có thể được nâng đỡ."
+      },
+      {
+        "ref": "Matthew 11:28",
+        "bookSlug": "matthew",
+        "chapter": 11,
+        "verse": 28,
+        "textEn": "Come to me, all you who are weary and burdened, and I will give you rest.",
+        "textVi": "Hỡi những kẻ mệt mỏi và gánh nặng, hãy đến cùng ta, ta sẽ cho các ngươi được yên nghỉ.",
+        "noteEn": "Jesus invites the weary to find rest in Him.",
+        "noteVi": "Chúa Giê-xu mời những người mệt mỏi đến cùng Ngài.",
+        "explanationEn": "This is an open invitation to anyone who feels exhausted, overwhelmed, or crushed by life's burdens — a promise that rest and relief are available. In the context of depression, it acknowledges that the weight people carry is real and valid. Rather than demanding strength, it offers a place to simply stop, breathe, and be cared for.",
+        "explanationVi": "Đây là lời mời mở rộng đến bất kỳ ai đang kiệt sức, choáng ngợp hoặc bị đè nặng bởi gánh nặng cuộc sống — một lời hứa rằng sự nghỉ ngơi và nhẹ nhõm là điều có thể đạt được. Trong bối cảnh trầm cảm, câu này thừa nhận rằng gánh nặng mà người ta đang mang là có thật và đáng được cảm thông. Thay vì đòi hỏi sức mạnh, nó cung cấp một nơi để bạn chỉ cần dừng lại, thở, và được chăm sóc."
+      },
+      {
+        "ref": "Psalm 42:11",
+        "bookSlug": "psalms",
+        "chapter": 42,
+        "verse": 11,
+        "textEn": "Why, my soul, are you downcast? Why so disturbed within me? Put your hope in God, for I will yet praise him, my Savior and my God.",
+        "textVi": "Hỡi linh hồn ta, cớ sao ngươi sờn ngã, và bồn chồn trong ta? Hãy trông cậy Đức Chúa Trời; vì ta sẽ còn ngợi khen Ngài, là sự cứu rỗi của mặt ta, và là Đức Chúa Trời ta.",
+        "noteEn": "Hope in God lifts the downcast soul.",
+        "noteVi": "Hy vọng nơi Đức Chúa Trời nâng đỡ linh hồn sờn ngã.",
+        "explanationEn": "This verse shows someone honestly talking to themselves, questioning why they feel so low and troubled inside — a very human experience familiar to those with depression. Rather than pretending the sadness doesn't exist, the speaker chooses to hold onto hope even while still in pain. It's a reminder that it's okay to feel down, and that choosing to look forward — even slowly — is a meaningful act.",
+        "explanationVi": "Câu này cho thấy một người đang thành thật tự hỏi bản thân tại sao mình lại cảm thấy buồn bã và rối loạn đến vậy — một trải nghiệm rất con người mà nhiều người trầm cảm hiểu rõ. Thay vì giả vờ nỗi buồn không tồn tại, người nói chọn cách tiếp tục hy vọng dù vẫn đang đau. Đây là lời nhắc rằng cảm thấy tệ là điều bình thường, và việc chọn nhìn về phía trước — dù chậm rãi — là một hành động có ý nghĩa."
+      },
+      {
+        "ref": "Isaiah 41:10",
+        "bookSlug": "isaiah",
+        "chapter": 41,
+        "verse": 10,
+        "textEn": "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.",
+        "textVi": "Đừng sợ, vì ta ở với ngươi; đừng kinh khiếp, vì ta là Đức Chúa Trời ngươi! Ta sẽ bổ sức cho ngươi; phải, ta sẽ giúp đỡ ngươi, và lấy tay hữu công bình ta mà nâng đỡ ngươi.",
+        "noteEn": "God promises strength and support in fear.",
+        "noteVi": "Đức Chúa Trời hứa ban sức mạnh và nâng đỡ chúng ta.",
+        "explanationEn": "This verse speaks directly to fear and despair, reassuring the listener that they are not facing their struggles alone and that strength will be provided when they need it most. For someone dealing with depression, this is a message that even when you feel too weak to stand, support is available to hold you up. It replaces the paralysis of anxiety with a promise of stability and help.",
+        "explanationVi": "Câu này nói trực tiếp đến nỗi sợ hãi và tuyệt vọng, trấn an rằng bạn không đối mặt với khó khăn một mình và sức mạnh sẽ đến khi bạn cần nhất. Với người đang trầm cảm, đây là thông điệp rằng dù bạn cảm thấy quá yếu đuối để đứng vững, vẫn có điều gì đó nâng đỡ bạn. Nó thay thế sự tê liệt của lo âu bằng lời hứa về sự ổn định và trợ giúp."
+      },
+      {
+        "ref": "1 Kings 19:5",
+        "bookSlug": "1-kings",
+        "chapter": 19,
+        "verse": 5,
+        "textEn": "Then he lay down under the bush and fell asleep. All at once an angel touched him and said, 'Get up and eat.'",
+        "textVi": "Rồi người nằm ngủ dưới cây giếng giót; nhưng có một thiên sứ đụng đến người mà nói rằng: Hãy chỗi dậy mà ăn đi.",
+        "noteEn": "God gently restores the exhausted and despairing prophet.",
+        "noteVi": "Đức Chúa Trời nhẹ nhàng phục hồi vị tiên tri kiệt sức.",
+        "explanationEn": "This verse tells the story of a prophet named Elijah who was so exhausted and hopeless that he lay down and simply went to sleep — a picture many people with depression can relate to. Instead of being judged for his weakness, he was gently woken and given food and rest. It shows that even in total burnout, care and recovery are possible, and basic human needs like sleep and nourishment matter.",
+        "explanationVi": "Câu này kể về một nhà tiên tri tên Ê-li, người đã kiệt sức và tuyệt vọng đến mức chỉ nằm xuống và ngủ thiếp đi — một hình ảnh mà nhiều người trầm cảm có thể dễ dàng đồng cảm. Thay vì bị phán xét vì sự yếu đuối của mình, ông được nhẹ nhàng đánh thức và được cho ăn uống và nghỉ ngơi. Điều này cho thấy rằng ngay cả khi hoàn toàn kiệt sức, sự chăm sóc và phục hồi vẫn có thể xảy ra, và những nhu cầu cơ bản như ngủ và ăn uống đều quan trọng."
+      },
+      {
+        "ref": "Romans 8:38-39",
+        "bookSlug": "romans",
+        "chapter": 8,
+        "verse": 38,
+        "textEn": "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord.",
+        "textVi": "Vì tôi chắc rằng bất kỳ sự chết, sự sống, các thiên sứ, các kẻ cầm quyền, việc hiện tại, việc hầu đến, các quyền phép, bề cao, hay là bề sâu, hoặc một vật nào khác trong muôn vật thọ tạo, đều chẳng có thể phân rẽ chúng ta khỏi sự yêu thương mà Đức Chúa Trời đã chứng cho chúng ta trong Đức Chúa Jêsus Christ, là Chúa chúng ta.",
+        "noteEn": "Nothing can separate us from God's love.",
+        "noteVi": "Không gì có thể tách chúng ta khỏi tình yêu Đức Chúa Trời.",
+        "explanationEn": "This passage makes an extraordinary claim: that no force in existence — not death, not suffering, not time, not any power — can cut you off from being loved. For someone in depression who feels utterly alone or unworthy of love, this is a radical statement that love can reach you no matter how dark or deep your situation feels. It is essentially saying: there is nowhere you can go where you would stop being loved.",
+        "explanationVi": "Đoạn này đưa ra một tuyên bố phi thường: rằng không có sức mạnh nào tồn tại — không phải cái chết, không phải đau khổ, không phải thời gian, không phải bất kỳ quyền lực nào — có thể cắt đứt bạn khỏi tình yêu thương. Với người đang trầm cảm và cảm thấy hoàn toàn cô đơn hoặc không xứng đáng được yêu, đây là một tuyên bố mạnh mẽ rằng tình yêu vẫn có thể chạm đến bạn dù hoàn cảnh của bạn tối tăm hay sâu thẳm đến đâu. Về cơ bản, nó nói rằng: không có nơi nào bạn đến mà bạn sẽ không còn được yêu thương."
+      }
+    ]
+  },
+  {
+    "slug": "shame",
+    "nameEn": "Shame & Guilt",
+    "nameVi": "Xấu hổ & Tội lỗi",
+    "category": "emotions",
+    "icon": "Moon",
+    "introEn": "The Bible addresses shame and guilt as universal human experiences stemming from sin and broken relationship with God. Scripture offers both honest acknowledgment of guilt and the profound promise of forgiveness, restoration, and freedom from shame through Christ. God's redemptive plan transforms shame into honor and replaces guilt with grace.",
+    "introVi": "Kinh Thánh đề cập đến sự xấu hổ và tội lỗi như những trải nghiệm phổ quát của con người xuất phát từ tội lỗi và mối quan hệ bị phá vỡ với Đức Chúa Trời. Kinh Thánh vừa thành thật thừa nhận tội lỗi vừa hứa hẹn sự tha thứ, phục hồi và giải thoát khỏi sự xấu hổ qua Chúa Giê-xu. Chương trình cứu chuộc của Đức Chúa Trời biến đổi sự xấu hổ thành danh dự và thay thế tội lỗi bằng ân điển.",
+    "verses": [
+      {
+        "ref": "Psalm 34:5",
+        "bookSlug": "psalms",
+        "chapter": 34,
+        "verse": 5,
+        "textEn": "Those who look to him are radiant; their faces are never covered with shame.",
+        "textVi": "Những kẻ nhìn xem Ngài đều được sáng láng, mặt họ không hề bị hổ thẹn.",
+        "noteEn": "Looking to God replaces shame with radiant joy.",
+        "noteVi": "Nhìn lên Đức Chúa Trời thay thế hổ thẹn bằng niềm vui.",
+        "explanationEn": "This verse uses the image of a glowing face to describe what happens when people turn toward God for help — their shame fades away. It suggests that shame doesn't have to be permanent; looking beyond yourself to a higher source of worth can restore your dignity. In the context of shame and guilt, it offers the idea that you don't have to carry a dark, hidden face forever.",
+        "explanationVi": "Câu này dùng hình ảnh khuôn mặt rạng rỡ để mô tả điều xảy ra khi con người hướng về Đức Chúa Trời — sự xấu hổ dần tan biến. Nó gợi ý rằng cảm giác xấu hổ không phải là mãi mãi; khi bạn tìm đến một nguồn giá trị cao hơn chính mình, phẩm giá của bạn có thể được phục hồi. Trong chủ đề xấu hổ và tội lỗi, câu này mang đến hy vọng rằng bạn không phải mang mãi gánh nặng đó suốt đời."
+      },
+      {
+        "ref": "Romans 8:1",
+        "bookSlug": "romans",
+        "chapter": 8,
+        "verse": 1,
+        "textEn": "Therefore, there is now no condemnation for those who are in Christ Jesus,",
+        "textVi": "Vậy, hiện nay chẳng còn có sự đoán phạt nào cho những kẻ ở trong Đức Chúa Jêsus Christ.",
+        "noteEn": "Believers in Christ are fully free from condemnation.",
+        "noteVi": "Người tin Chúa được giải thoát hoàn toàn khỏi sự đoán phạt.",
+        "explanationEn": "This verse declares that for those who follow Jesus, there is no longer any verdict of guilt hanging over them — like a court case that has been completely dropped. It speaks directly to the heavy feeling of guilt, saying that it doesn't have to define you or condemn you. Think of it as a fresh start where your past mistakes no longer determine your standing.",
+        "explanationVi": "Câu này tuyên bố rằng với những ai theo Chúa Giê-su, không còn bản án tội lỗi nào đè nặng lên họ nữa — giống như một vụ kiện đã được hủy bỏ hoàn toàn. Nó nói thẳng vào cảm giác tội lỗi nặng nề, rằng điều đó không cần phải định nghĩa hay kết án bạn. Hãy xem đây như một sự khởi đầu mới, nơi những lỗi lầm trong quá khứ không còn quyết định giá trị của bạn nữa."
+      },
+      {
+        "ref": "1 John 1:9",
+        "bookSlug": "1-john",
+        "chapter": 1,
+        "verse": 9,
+        "textEn": "If we confess our sins, he is faithful and just and will forgive us our sins and purify us from all unrighteousness.",
+        "textVi": "Còn nếu chúng ta xưng tội mình, thì Ngài là thành tín công bình để tha tội cho chúng ta, và làm cho chúng ta sạch mọi điều gian ác.",
+        "noteEn": "Confession brings complete forgiveness and cleansing from guilt.",
+        "noteVi": "Xưng tội mang lại sự tha thứ và thanh tẩy tội lỗi.",
+        "explanationEn": "This verse says that if you honestly admit the wrong things you've done, God will forgive you completely and clean the slate — not just partially, but fully. It addresses both guilt (the wrongdoing itself) and shame (the feeling of being unclean or unworthy) by promising total restoration. It's like telling someone: honesty about your failures is the first step toward being truly free from them.",
+        "explanationVi": "Câu này nói rằng nếu bạn thành thật thừa nhận những điều sai trái mình đã làm, Đức Chúa Trời sẽ tha thứ hoàn toàn và xóa sạch tất cả — không phải một phần, mà là toàn bộ. Nó chạm đến cả tội lỗi (những việc sai đã làm) lẫn sự xấu hổ (cảm giác ô uế hay không xứng đáng) bằng lời hứa phục hồi trọn vẹn. Đây giống như lời nhắn nhủ: sự thành thật về thất bại của bạn chính là bước đầu tiên để được tự do thật sự."
+      },
+      {
+        "ref": "Isaiah 61:7",
+        "bookSlug": "isaiah",
+        "chapter": 61,
+        "verse": 7,
+        "textEn": "Instead of your shame you will receive a double portion, and instead of disgrace you will rejoice in your inheritance.",
+        "textVi": "Thay vì bị hổ thẹn, các ngươi sẽ được phần gấp đôi; thay vì nhục nhã, các ngươi sẽ vui mừng về phần mình.",
+        "noteEn": "God promises double honor in place of shame.",
+        "noteVi": "Đức Chúa Trời hứa ban danh dự thay thế sự hổ thẹn.",
+        "explanationEn": "This verse, written as a message of hope to people who had suffered humiliation, promises that shame will be replaced with something far greater — double the honor and joy. It reframes shame not as a permanent identity but as a season that can be transformed. For anyone weighed down by disgrace or embarrassment, it offers the vision of a completely reversed outcome.",
+        "explanationVi": "Câu này, được viết như một thông điệp hy vọng cho những người đã chịu nhục nhã, hứa rằng sự xấu hổ sẽ được thay thế bằng điều lớn lao hơn gấp bội — danh dự và niềm vui gấp đôi. Nó định nghĩa lại sự xấu hổ không phải là một danh tính vĩnh viễn mà là một giai đoạn có thể được biến đổi. Với bất kỳ ai đang bị đè nặng bởi sự ô nhục hay xấu hổ, câu này mang đến hình ảnh về một kết cục được đảo ngược hoàn toàn."
+      },
+      {
+        "ref": "Hebrews 12:2",
+        "bookSlug": "hebrews",
+        "chapter": 12,
+        "verse": 2,
+        "textEn": "fixing our eyes on Jesus, the pioneer and perfecter of faith. For the joy set before him he endured the cross, scorning its shame, and sat down at the right hand of the throne of God.",
+        "textVi": "nhìn xem Đức Chúa Jêsus, là cội rễ và cuối cùng của đức tin, tức là Đấng vì sự vui mừng đã đặt trước mặt mình, chịu lấy thập tự giá, khinh điều sỉ nhục, và hiện nay ngồi bên tay hữu ngai Đức Chúa Trời.",
+        "noteEn": "Jesus endured the cross, conquering shame for our sake.",
+        "noteVi": "Chúa Giê-xu chịu thập tự giá, chinh phục sự hổ thẹn cho chúng ta.",
+        "explanationEn": "This verse describes how Jesus willingly went through one of the most shameful forms of public execution in the ancient world, but chose to focus on the joy waiting on the other side rather than the shame itself. It shows that shame was not ignored or denied, but faced and overcome. For someone struggling with shame, it presents a model of moving through — not around — that pain toward something better.",
+        "explanationVi": "Câu này mô tả cách Chúa Giê-su tự nguyện chịu đựng một trong những hình thức hành hình nhục nhã nhất thời cổ đại, nhưng Ngài chọn tập trung vào niềm vui phía trước thay vì sự xấu hổ. Nó cho thấy rằng sự xấu hổ không bị phớt lờ hay phủ nhận, mà được đối mặt và vượt qua. Với người đang vật lộn với cảm giác xấu hổ, câu này đưa ra một hình mẫu: đi xuyên qua — chứ không phải né tránh — nỗi đau đó để đến với điều tốt đẹp hơn."
+      },
+      {
+        "ref": "Psalm 51:2",
+        "bookSlug": "psalms",
+        "chapter": 51,
+        "verse": 2,
+        "textEn": "Wash away all my iniquity and cleanse me from my sin.",
+        "textVi": "Xin hãy rửa sạch tội lỗi tôi cho thật, và thanh khiết tôi khỏi tội lỗi tôi.",
+        "noteEn": "David's honest plea for cleansing from deep guilt.",
+        "noteVi": "Lời cầu xin chân thành của Đa-vít để được thanh tẩy tội lỗi.",
+        "explanationEn": "This is part of a heartfelt prayer where the writer, overwhelmed by guilt, begs to be thoroughly cleaned from the inside out — using the image of washing to describe moral and emotional cleansing. It honestly captures the raw feeling of guilt: the sense that something inside you is dirty and needs to be made clean again. It shows that acknowledging the need for forgiveness, even desperately, is a deeply human and valid response to wrongdoing.",
+        "explanationVi": "Đây là một phần của lời cầu nguyện chân thành, nơi tác giả, đang chìm ngập trong tội lỗi, khẩn cầu được tẩy sạch từ bên trong ra bên ngoài — dùng hình ảnh tắm rửa để nói về sự thanh tẩy về mặt đạo đức và cảm xúc. Nó nắm bắt chân thực cảm giác tội lỗi thô sơ: cảm giác rằng có điều gì đó bên trong bạn đang ô uế và cần được làm sạch trở lại. Câu này cho thấy rằng việc thừa nhận nhu cầu tha thứ, dù trong tuyệt vọng, là một phản ứng rất con người và hoàn toàn chính đáng trước những sai lầm đã gây ra."
+      }
+    ]
+  },
+  {
+    "slug": "gratitude",
+    "nameEn": "Gratitude",
+    "nameVi": "Lòng biết ơn",
+    "category": "emotions",
+    "icon": "Gift",
+    "introEn": "Gratitude is a central theme throughout Scripture, calling believers to give thanks to God in all circumstances. The Bible teaches that a thankful heart reflects trust in God's goodness and sovereignty. From the Psalms to Paul's letters, gratitude is presented as both a command and a natural response to God's grace.",
+    "introVi": "Lòng biết ơn là chủ đề xuyên suốt trong Kinh Thánh, kêu gọi tín hữu tạ ơn Đức Chúa Trời trong mọi hoàn cảnh. Kinh Thánh dạy rằng tấm lòng biết ơn phản ánh sự tin cậy vào sự tốt lành và chủ quyền của Đức Chúa Trời. Từ sách Thi Thiên đến các thư tín của Phao-lô, lòng biết ơn được trình bày vừa là mệnh lệnh vừa là phản ứng tự nhiên trước ân điển của Đức Chúa Trời.",
+    "verses": [
+      {
+        "ref": "1 Thessalonians 5:18",
+        "bookSlug": "1-thessalonians",
+        "chapter": 5,
+        "verse": 18,
+        "textEn": "give thanks in all circumstances; for this is God's will for you in Christ Jesus.",
+        "textVi": "Hãy tạ ơn trong mọi hoàn cảnh, vì đó là ý muốn của Đức Chúa Trời trong Đức Chúa Jêsus Christ đối với anh em.",
+        "noteEn": "Gratitude in all situations is God's will.",
+        "noteVi": "Tạ ơn trong mọi hoàn cảnh là ý muốn Đức Chúa Trời.",
+        "explanationEn": "This verse encourages people to find something to be thankful for even in difficult situations, not just when life is going well. It suggests that practicing gratitude in all circumstances — good or bad — is a valuable and intentional way to live. Rather than waiting for perfect conditions to feel grateful, this verse challenges us to cultivate thankfulness as a daily habit.",
+        "explanationVi": "Câu này khuyến khích con người tìm điều gì đó để biết ơn ngay cả trong những hoàn cảnh khó khăn, chứ không chỉ khi mọi thứ đang tốt đẹp. Nó gợi ý rằng việc thực hành lòng biết ơn trong mọi tình huống — dù vui hay buồn — là một cách sống có giá trị và có chủ đích. Thay vì chờ đợi điều kiện hoàn hảo mới cảm thấy biết ơn, câu này thách thức chúng ta xây dựng lòng biết ơn như một thói quen hằng ngày."
+      },
+      {
+        "ref": "Psalm 107:1",
+        "bookSlug": "psalms",
+        "chapter": 107,
+        "verse": 1,
+        "textEn": "Give thanks to the LORD, for he is good; his love endures forever.",
+        "textVi": "Hãy cảm tạ Đức Giê-hô-va, vì Ngài là tốt lành; Sự nhân từ Ngài còn đến đời đời.",
+        "noteEn": "God's eternal goodness is the foundation of thanks.",
+        "noteVi": "Sự tốt lành đời đời của Đức Chúa Trời là nền tảng tạ ơn.",
+        "explanationEn": "This verse expresses gratitude rooted in the belief that goodness and love are constant, reliable forces in the world. It reflects the idea that thankfulness is a natural response when we recognize something dependable and kind in our lives. For anyone, it serves as a reminder to appreciate the enduring good things around us, rather than taking them for granted.",
+        "explanationVi": "Câu này bày tỏ lòng biết ơn xuất phát từ niềm tin rằng sự tốt lành và tình yêu thương là những điều luôn hiện diện và đáng tin cậy trong cuộc đời. Nó phản ánh ý tưởng rằng lòng biết ơn là phản ứng tự nhiên khi chúng ta nhận ra điều gì đó tốt đẹp và bền vững trong cuộc sống. Với bất kỳ ai, câu này nhắc nhở chúng ta trân trọng những điều tốt lành lâu dài xung quanh mình, thay vì coi chúng là điều hiển nhiên."
+      },
+      {
+        "ref": "Colossians 3:17",
+        "bookSlug": "colossians",
+        "chapter": 3,
+        "verse": 17,
+        "textEn": "And whatever you do, whether in word or deed, do it all in the name of the Lord Jesus, giving thanks to God the Father through him.",
+        "textVi": "Dù anh em làm điều gì, bằng lời nói hay việc làm, hãy nhân danh Chúa Jêsus mà làm mọi việc, nhờ Ngài mà tạ ơn Đức Chúa Trời, là Đức Chúa Cha.",
+        "noteEn": "Every action should be accompanied by thankfulness.",
+        "noteVi": "Mọi hành động nên đi kèm với lòng biết ơn.",
+        "explanationEn": "This verse teaches that everything we do — our words and our actions — can be done with a spirit of gratitude and meaning, not just going through the motions. It encourages people to bring intentionality and thankfulness into even ordinary, everyday tasks. Essentially, it says that a grateful mindset can transform how we approach everything we do.",
+        "explanationVi": "Câu này dạy rằng mọi việc chúng ta làm — lời nói hay hành động — đều có thể được thực hiện với tinh thần biết ơn và có ý nghĩa, chứ không chỉ làm cho xong. Nó khuyến khích mọi người mang sự có chủ đích và lòng biết ơn vào cả những công việc bình thường hằng ngày. Về cơ bản, câu này nói rằng một tâm thế biết ơn có thể thay đổi cách chúng ta tiếp cận mọi việc mình làm."
+      },
+      {
+        "ref": "Psalm 100:4",
+        "bookSlug": "psalms",
+        "chapter": 100,
+        "verse": 4,
+        "textEn": "Enter his gates with thanksgiving and his courts with praise; give thanks to him and praise his name.",
+        "textVi": "Hãy vào các cổng Ngài với sự cảm tạ, Vào hành lang Ngài với sự ca ngợi; Hãy tạ ơn Ngài và chúc tụng danh Ngài.",
+        "noteEn": "Thanksgiving is our posture when approaching God.",
+        "noteVi": "Tạ ơn là thái độ khi đến gần Đức Chúa Trời.",
+        "explanationEn": "Using the image of entering a special place with joy and appreciation, this verse suggests that gratitude and praise are the right attitudes to bring into moments of reflection or worship. It paints a picture of approaching something sacred not with emptiness, but with a full heart of thankfulness. For anyone, it is a reminder that gratitude can be a meaningful way to enter into quiet, reflective moments in life.",
+        "explanationVi": "Dùng hình ảnh bước vào một nơi đặc biệt với niềm vui và sự trân trọng, câu này gợi ý rằng lòng biết ơn và sự ca ngợi là thái độ phù hợp để mang vào những khoảnh khắc suy ngẫm hoặc thờ phượng. Nó vẽ nên bức tranh về việc tiếp cận điều gì đó thiêng liêng không phải với tâm hồn trống rỗng, mà với trái tim tràn đầy lòng biết ơn. Với bất kỳ ai, đây là lời nhắc rằng lòng biết ơn có thể là cách có ý nghĩa để bước vào những khoảnh khắc yên tĩnh, suy tư trong cuộc sống."
+      },
+      {
+        "ref": "Philippians 4:6",
+        "bookSlug": "philippians",
+        "chapter": 4,
+        "verse": 6,
+        "textEn": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.",
+        "textVi": "Đừng lo lắng về bất cứ điều gì, nhưng trong mọi hoàn cảnh, hãy dâng lên Đức Chúa Trời lời cầu nguyện, nài xin và tạ ơn để trình các điều mình xin.",
+        "noteEn": "Thanksgiving transforms anxiety into peaceful prayer.",
+        "noteVi": "Tạ ơn biến lo âu thành lời cầu nguyện bình an.",
+        "explanationEn": "This verse offers a practical approach to managing anxiety: instead of worrying, bring your concerns forward with a grateful heart, acknowledging what you already have even as you ask for what you need. It connects gratitude with mental peace, suggesting that thankfulness can actually reduce stress and worry. For anyone struggling with anxiety, this is a gentle reminder that shifting focus to what we are thankful for can help bring calm.",
+        "explanationVi": "Câu này đưa ra một cách tiếp cận thực tế để đối phó với lo lắng: thay vì lo âu, hãy bày tỏ những mối quan tâm của bạn với một trái tim biết ơn, nhận ra những gì bạn đã có ngay cả khi bạn xin những gì bạn cần. Nó kết nối lòng biết ơn với sự bình yên trong tâm hồn, gợi ý rằng lòng biết ơn thực sự có thể giảm bớt căng thẳng và lo lắng. Với bất kỳ ai đang phải vật lộn với sự lo âu, đây là lời nhắc nhẹ nhàng rằng chuyển sự chú ý sang những điều chúng ta biết ơn có thể giúp mang lại sự bình tĩnh."
+      },
+      {
+        "ref": "2 Corinthians 9:15",
+        "bookSlug": "2-corinthians",
+        "chapter": 9,
+        "verse": 15,
+        "textEn": "Thanks be to God for his indescribable gift!",
+        "textVi": "Tạ ơn Đức Chúa Trời vì ân tứ không thể tả xiết của Ngài!",
+        "noteEn": "Christ is the ultimate reason for all gratitude.",
+        "noteVi": "Chúa Giê-xu là lý do tối thượng của mọi lòng biết ơn.",
+        "explanationEn": "This short but powerful verse expresses deep gratitude for something so wonderful that words cannot fully describe it — in context, this refers to the gift of grace and salvation, but broadly it captures the feeling of being overwhelmed with thankfulness. It reminds us that some of life's greatest gifts are beyond what language can adequately express. It is an invitation to pause and feel genuine, heartfelt gratitude for the most meaningful things in our lives.",
+        "explanationVi": "Câu ngắn nhưng đầy sức mạnh này bày tỏ lòng biết ơn sâu sắc trước điều gì đó tuyệt vời đến mức ngôn từ không thể diễn tả hết — trong bối cảnh này, điều đó đề cập đến ân điển và sự cứu rỗi, nhưng rộng hơn, nó nắm bắt cảm giác bị choáng ngợp bởi lòng biết ơn. Nó nhắc chúng ta rằng một số món quà lớn nhất trong cuộc sống vượt ra ngoài những gì ngôn ngữ có thể diễn đạt đầy đủ. Đây là lời mời để dừng lại và cảm nhận lòng biết ơn chân thành, xuất phát từ trái tim đối với những điều có ý nghĩa nhất trong cuộc sống của chúng ta."
+      }
+    ]
+  },
+  {
+    "slug": "contentment",
+    "nameEn": "Contentment",
+    "nameVi": "Sự thỏa lòng",
+    "category": "emotions",
+    "icon": "Sun",
+    "introEn": "The Bible teaches that true contentment comes not from wealth or circumstances, but from trust in God's provision and care. The apostle Paul declared that contentment is a learned discipline rooted in a relationship with Christ. Scripture consistently calls believers to find satisfaction in God rather than in the fleeting things of this world.",
+    "introVi": "Kinh Thánh dạy rằng sự thỏa lòng thật sự không đến từ của cải hay hoàn cảnh, mà từ sự tin cậy vào sự cung ứng của Đức Chúa Trời. Sứ đồ Phao-lô tuyên bố rằng sự thỏa lòng là một kỷ luật được học hỏi, bắt nguồn từ mối quan hệ với Chúa Giê-xu. Kinh Thánh kêu gọi các tín hữu tìm sự thỏa mãn nơi Đức Chúa Trời thay vì nơi những điều tạm thời của thế gian.",
+    "verses": [
+      {
+        "ref": "Philippians 4:11",
+        "bookSlug": "philippians",
+        "chapter": 4,
+        "verse": 11,
+        "textEn": "I am not saying this because I am in need, for I have learned to be content whatever the circumstances.",
+        "textVi": "Tôi không nói vì cớ thiếu thốn, vì tôi đã tập hễ ở trong hoàn cảnh nào cũng được thỏa lòng.",
+        "noteEn": "Paul learned contentment as a spiritual discipline.",
+        "noteVi": "Phao-lô học được sự thỏa lòng qua rèn luyện thuộc linh.",
+        "explanationEn": "The apostle Paul wrote this while in prison, saying that he had trained himself to feel at peace whether he had plenty or very little. Contentment, in his view, was not something that came naturally — it was a skill developed over time through experience and a shift in mindset. This verse teaches that true satisfaction comes from within, not from your circumstances changing.",
+        "explanationVi": "Sứ đồ Phao-lô viết điều này khi đang ở trong tù, nói rằng ông đã tự rèn luyện để cảm thấy bình an dù có nhiều hay có ít. Theo ông, sự thỏa lòng không phải điều tự nhiên mà có — đó là kỹ năng được xây dựng qua thời gian và sự thay đổi trong cách suy nghĩ. Câu này dạy rằng sự thỏa mãn thật sự đến từ bên trong, không phụ thuộc vào hoàn cảnh bên ngoài."
+      },
+      {
+        "ref": "1 Timothy 6:6",
+        "bookSlug": "1-timothy",
+        "chapter": 6,
+        "verse": 6,
+        "textEn": "But godliness with contentment is great gain.",
+        "textVi": "Duy có sự tin kính cùng lòng thỏa nguyện, ấy là nguồn lợi lớn.",
+        "noteEn": "Godliness combined with contentment yields great spiritual reward.",
+        "noteVi": "Sự tin kính cùng thỏa lòng mang lại ích lợi lớn.",
+        "explanationEn": "This verse suggests that living a principled, virtuous life combined with a sense of contentment is more valuable than any material wealth. The word 'godliness' here simply refers to living with good values and integrity. It is a reminder that a person who is both ethical and genuinely satisfied with what they have has found something truly precious.",
+        "explanationVi": "Câu này gợi ý rằng sống một cuộc đời có đạo đức, ngay thẳng kết hợp với sự thỏa lòng còn quý giá hơn bất kỳ tài sản vật chất nào. Từ 'sự tin kính' ở đây đơn giản có nghĩa là sống với các giá trị tốt đẹp và phẩm chất chính trực. Đây là lời nhắc nhở rằng người vừa sống đúng đắn vừa thật sự hài lòng với những gì mình có đã tìm thấy điều thực sự quý báu."
+      },
+      {
+        "ref": "Hebrews 13:5",
+        "bookSlug": "hebrews",
+        "chapter": 13,
+        "verse": 5,
+        "textEn": "Keep your lives free from the love of money and be content with what you have, because God has said, 'Never will I leave you; never will I forsake you.'",
+        "textVi": "Chớ tham tiền; hãy lấy điều mình có làm đủ rồi, vì chính Đức Chúa Trời có phán rằng: Ta sẽ chẳng lìa ngươi đâu, chẳng bỏ ngươi đâu.",
+        "noteEn": "God's presence is the foundation of true contentment.",
+        "noteVi": "Sự hiện diện của Đức Chúa Trời là nền tảng của thỏa lòng.",
+        "explanationEn": "This verse warns against letting the desire for money control your life, and encourages people to find satisfaction in what they already have. The reasoning given is that you are not alone — God has promised to always be present and supportive, so there is no need to chase more out of fear or insecurity. It connects contentment directly to a sense of being cared for and never abandoned.",
+        "explanationVi": "Câu này cảnh báo không nên để ham muốn tiền bạc kiểm soát cuộc sống, và khuyến khích mọi người tìm thấy sự thỏa mãn trong những gì họ đã có. Lý do được đưa ra là bạn không cô đơn — Đức Chúa Trời đã hứa luôn hiện diện và nâng đỡ bạn, vì vậy không cần phải chạy theo nhiều hơn vì sợ hãi hay bất an. Câu này gắn kết sự thỏa lòng với cảm giác được chăm sóc và không bao giờ bị bỏ rơi."
+      },
+      {
+        "ref": "Psalm 23:1",
+        "bookSlug": "psalms",
+        "chapter": 23,
+        "verse": 1,
+        "textEn": "The Lord is my shepherd, I lack nothing.",
+        "textVi": "Đức Giê-hô-va là Đấng chăn giữ tôi; tôi sẽ chẳng thiếu thốn gì.",
+        "noteEn": "The Lord as shepherd ensures every need is met.",
+        "noteVi": "Đức Giê-hô-va là Mục tử đáp ứng mọi nhu cầu.",
+        "explanationEn": "Using the image of a shepherd caring for sheep, this verse expresses a deep sense of trust that all one's real needs will be provided for. A good shepherd ensures the flock has food, water, safety, and rest — nothing essential is missing. For the topic of contentment, this verse captures the feeling of having 'enough' because you trust that someone reliable is watching over you.",
+        "explanationVi": "Dùng hình ảnh người chăn chiên chăm sóc đàn chiên, câu này thể hiện niềm tin sâu sắc rằng mọi nhu cầu thật sự của mình sẽ được đáp ứng. Một người chăn chiên tốt đảm bảo đàn chiên có thức ăn, nước uống, sự an toàn và nghỉ ngơi — không thiếu thứ gì cần thiết. Về chủ đề thỏa lòng, câu này nắm bắt cảm giác có 'đủ' vì bạn tin rằng có người đáng tin cậy đang trông nom mình."
+      },
+      {
+        "ref": "Matthew 6:31-32",
+        "bookSlug": "matthew",
+        "chapter": 6,
+        "verse": 31,
+        "textEn": "So do not worry, saying, 'What shall we eat?' or 'What shall we drink?' or 'What shall we wear?' For the pagans run after all these things, and your heavenly Father knows that you need them.",
+        "textVi": "Vậy, chớ lo lắng mà nói rằng: Chúng ta sẽ ăn gì? uống gì? mặc gì? Vì những người ngoại tìm kiếm mọi thứ ấy, và Cha các ngươi ở trên trời biết các ngươi cần dùng những điều đó rồi.",
+        "noteEn": "God knows our needs; worry undermines trust and contentment.",
+        "noteVi": "Đức Chúa Trời biết nhu cầu chúng ta; đừng lo lắng.",
+        "explanationEn": "Jesus is telling his listeners not to be consumed by anxiety over basic necessities like food, drink, and clothing, because obsessing over these things is exhausting and ultimately unproductive. He points out that a caring, all-knowing God is already aware of what people need, so excessive worry is unnecessary. This verse encourages a mindset of trust and contentment rather than constant striving and fear.",
+        "explanationVi": "Chúa Jêsus đang nói với những người nghe rằng đừng để lo lắng về những nhu cầu cơ bản như thức ăn, nước uống và quần áo chiếm hết tâm trí, vì ám ảnh về những điều này vừa mệt mỏi vừa không hiệu quả. Ngài chỉ ra rằng Đức Chúa Trời yêu thương và thông suốt mọi sự đã biết con người cần gì, vì vậy lo lắng quá mức là không cần thiết. Câu này khuyến khích thái độ tin tưởng và thỏa lòng thay vì liên tục cố gắng vì sợ hãi."
+      },
+      {
+        "ref": "Philippians 4:19",
+        "bookSlug": "philippians",
+        "chapter": 4,
+        "verse": 19,
+        "textEn": "And my God will meet all your needs according to the riches of his glory in Christ Jesus.",
+        "textVi": "Đức Chúa Trời tôi sẽ làm cho đầy đủ mọi sự cần dùng của anh em y theo sự giàu có của Ngài ở nơi vinh hiển trong Đức Chúa Jêsus Christ.",
+        "noteEn": "God's unlimited riches fully supply all our needs.",
+        "noteVi": "Sự giàu có của Đức Chúa Trời đáp ứng mọi nhu cầu chúng ta.",
+        "explanationEn": "This verse is a confident assurance that God will provide everything a person truly needs, drawing from his boundless generosity. It is not a promise of luxury, but a promise that genuine needs — physical, emotional, and spiritual — will be met. For contentment, this verse offers a foundation of trust: because your needs will be taken care of, you do not need to live in a state of constant want or worry.",
+        "explanationVi": "Câu này là sự đảm bảo chắc chắn rằng Đức Chúa Trời sẽ cung cấp mọi thứ một người thực sự cần, xuất phát từ sự rộng lượng vô hạn của Ngài. Đây không phải lời hứa về sự xa hoa, mà là lời hứa rằng những nhu cầu thật sự — thể xác, cảm xúc và tâm linh — sẽ được đáp ứng. Về chủ đề thỏa lòng, câu này cung cấp nền tảng của sự tin tưởng: vì nhu cầu của bạn sẽ được lo liệu, bạn không cần phải sống trong trạng thái thiếu thốn hay lo âu liên tục."
+      }
+    ]
+  },
+  {
+    "slug": "generosity",
+    "nameEn": "Generosity & Giving",
+    "nameVi": "Sự hào phóng",
+    "category": "guidance",
+    "icon": "HandHeart",
+    "introEn": "The Bible consistently calls believers to give generously, reflecting God's own generous character. From the Old Testament's commands on tithing to Jesus' teachings on sacrificial giving, Scripture presents generosity as an act of worship and trust in God's provision. Giving freely to others mirrors the grace God has shown us in Christ.",
+    "introVi": "Kinh Thánh liên tục kêu gọi các tín nhân hãy hào phóng, phản ánh bản tính rộng rãi của Đức Chúa Trời. Từ các mệnh lệnh về dâng phần mười trong Cựu Ước đến những lời dạy của Chúa Giê-xu về sự dâng hiến hy sinh, Kinh Thánh trình bày sự hào phóng như một hành động thờ phượng và tin cậy vào sự cung cấp của Đức Chúa Trời. Cho đi cách rộng rãi phản ánh ân điển mà Đức Chúa Trời đã bày tỏ cho chúng ta trong Đấng Christ.",
+    "verses": [
+      {
+        "ref": "2 Corinthians 9:7",
+        "bookSlug": "2-corinthians",
+        "chapter": 9,
+        "verse": 7,
+        "textEn": "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",
+        "textVi": "Mỗi người hãy cho tùy theo lòng mình đã định, không phải vì tiếc rẻ, cũng không phải vì ép buộc, vì Đức Chúa Trời yêu người dâng hiến vui lòng.",
+        "noteEn": "God delights in willing, joyful generosity from the heart.",
+        "noteVi": "Đức Chúa Trời yêu thích sự dâng hiến vui vẻ, tự nguyện.",
+        "explanationEn": "This verse encourages people to give willingly and joyfully, not because they feel pressured or guilty. True generosity comes from a genuine desire to help others, not from obligation. The idea is that giving freely — with a happy heart — is far more meaningful than giving out of duty.",
+        "explanationVi": "Câu này khuyến khích mọi người cho đi một cách tự nguyện và vui vẻ, không phải vì bị ép buộc hay cảm thấy có lỗi. Sự hào phóng thật sự xuất phát từ mong muốn chân thành muốn giúp đỡ người khác. Ý tưởng ở đây là cho đi với tấm lòng vui vẻ có giá trị hơn nhiều so với việc cho vì bổn phận."
+      },
+      {
+        "ref": "Luke 6:38",
+        "bookSlug": "luke",
+        "chapter": 6,
+        "verse": 38,
+        "textEn": "Give, and it will be given to you. A good measure, pressed down, shaken together and running over, will be poured into your lap. For with the measure you use, it will be measured to you.",
+        "textVi": "Hãy cho, thì sẽ được cho lại các ngươi; họ sẽ lấy đấu lớn, đã dằn, đã lắc, đã đầy tràn mà đổ vào lòng các ngươi. Vì các ngươi lường cho người ta mực nào, thì họ cũng lường lại cho các ngươi mực ấy.",
+        "noteEn": "Generous giving invites God's abundant return and blessing.",
+        "noteVi": "Cho đi hào phóng mời sự ban thưởng dư dật của Đức Chúa Trời.",
+        "explanationEn": "This verse uses a vivid image of a overflowing grain measure to say that generosity tends to come back to you abundantly. In everyday terms, the more openly and freely you give to others, the more goodness tends to return to your own life. It's a timeless observation that a generous spirit often creates a cycle of kindness and abundance.",
+        "explanationVi": "Câu này dùng hình ảnh sinh động của một đấu ngũ cốc đầy tràn để nói rằng sự hào phóng thường được đền đáp dồi dào. Nói theo cách đời thường, bạn càng cho đi rộng rãi thì điều tốt đẹp càng có xu hướng quay trở lại với cuộc sống của bạn. Đây là quan sát muôn đời rằng tinh thần hào phóng thường tạo ra một vòng tuần hoàn của lòng tốt và sự sung túc."
+      },
+      {
+        "ref": "Proverbs 11:24-25",
+        "bookSlug": "proverbs",
+        "chapter": 11,
+        "verse": 24,
+        "textEn": "One person gives freely, yet gains even more; another withholds unduly, but comes to poverty. A generous person will prosper; whoever refreshes others will be refreshed.",
+        "textVi": "Có kẻ bố thí rộng rãi lại được thêm nhiều hơn; Có kẻ bủn xỉn quá lẽ, lại bị nghèo túng thêm. Người rộng rãi sẽ được thịnh vượng; Còn ai tưới kẻ khác, cũng sẽ được tưới lại.",
+        "noteEn": "Freely giving leads to prosperity; stinginess leads to poverty.",
+        "noteVi": "Cho đi tự do dẫn đến thịnh vượng; bủn xỉn dẫn đến nghèo khó.",
+        "explanationEn": "These verses make a counterintuitive point: people who give generously often end up with more, while those who hold tightly to what they have may end up with less. It suggests that generosity enriches not only others but also the giver — emotionally, relationally, and sometimes even materially. The underlying wisdom is that sharing what you have tends to bring greater fulfillment than hoarding it.",
+        "explanationVi": "Những câu này đưa ra một điểm đáng ngạc nhiên: những người cho đi hào phóng thường có nhiều hơn, trong khi những người giữ chặt tài sản của mình có thể cuối cùng lại thiếu thốn hơn. Điều này cho thấy sự hào phóng không chỉ làm giàu cho người khác mà còn cho chính người cho — về mặt cảm xúc, các mối quan hệ, và đôi khi cả vật chất. Triết lý căn bản ở đây là chia sẻ những gì bạn có thường mang lại sự thỏa mãn hơn là tích trữ."
+      },
+      {
+        "ref": "Matthew 6:3-4",
+        "bookSlug": "matthew",
+        "chapter": 6,
+        "verse": 3,
+        "textEn": "But when you give to the needy, do not let your left hand know what your right hand is doing, so that your giving may be in secret. Then your Father, who sees what is done in secret, will reward you.",
+        "textVi": "Nhưng khi ngươi bố thí, đừng cho tay tả biết tay hữu làm việc gì, hầu cho sự bố thí của ngươi được kín nhiệm; và Cha ngươi, là Đấng thấy trong chỗ kín nhiệm, sẽ thưởng cho ngươi.",
+        "noteEn": "Give secretly; God sees and rewards humble, quiet generosity.",
+        "noteVi": "Cho đi kín đáo; Đức Chúa Trời thấy và ban thưởng sự hào phóng khiêm nhường.",
+        "explanationEn": "This verse advises that when you help others, you shouldn't do it to show off or gain recognition — even the 'left hand' and 'right hand' metaphor means you should barely even remind yourself of your own good deeds. The focus is on giving purely for the benefit of others, not for personal praise or reputation. True generosity is quiet, humble, and motivated by genuine care rather than the desire for admiration.",
+        "explanationVi": "Câu này khuyên rằng khi bạn giúp đỡ người khác, bạn không nên làm vì muốn khoe khoang hay được công nhận — hình ảnh ẩn dụ 'tay trái không biết việc tay phải làm' có nghĩa là bạn thậm chí không nên tự nhắc nhở mình về những việc tốt của mình. Điều quan trọng là cho đi hoàn toàn vì lợi ích của người khác, không phải vì lời khen hay danh tiếng. Sự hào phóng thật sự là lặng lẽ, khiêm tốn và được thúc đẩy bởi sự quan tâm chân thành chứ không phải mong muốn được ngưỡng mộ."
+      },
+      {
+        "ref": "Malachi 3:10",
+        "bookSlug": "malachi",
+        "chapter": 3,
+        "verse": 10,
+        "textEn": "Bring the whole tithe into the storehouse, that there may be food in my house. Test me in this, says the Lord Almighty, and see if I will not throw open the floodgates of heaven and pour out so much blessing that there will not be room enough to store it.",
+        "textVi": "Hãy đem toàn bộ phần mười vào kho, để có lương thực trong nhà Ta; hãy thử Ta trong điều này, Đức Giê-hô-va vạn quân phán, xem Ta có mở các cửa sổ trên trời và đổ phước xuống cho ngươi đến nỗi không còn chỗ chứa nữa không.",
+        "noteEn": "Faithful tithing opens heaven's blessing upon God's people.",
+        "noteVi": "Dâng phần mười thành tín mở ra phước lành từ trời cho dân Ngài.",
+        "explanationEn": "This verse comes from an ancient practice where people contributed a tenth ('tithe') of their income to support the community and those in need. The verse is essentially a bold challenge: try being consistently generous and see if it doesn't lead to unexpected blessings. It reflects the belief that committed, regular giving opens up possibilities and abundance that people might not expect.",
+        "explanationVi": "Câu này xuất phát từ một phong tục cổ xưa, nơi mọi người đóng góp một phần mười ('phần mười' hay 'thập phân') thu nhập của mình để hỗ trợ cộng đồng và những người thiếu thốn. Về cơ bản, câu này là một thách thức táo bạo: hãy thử sống hào phóng một cách nhất quán và xem liệu điều đó có dẫn đến những điều tốt đẹp bất ngờ hay không. Nó phản ánh niềm tin rằng việc cho đi đều đặn và cam kết sẽ mở ra những khả năng và sự dư dật mà mọi người có thể không ngờ tới."
+      },
+      {
+        "ref": "1 Timothy 6:18",
+        "bookSlug": "1-timothy",
+        "chapter": 6,
+        "verse": 18,
+        "textEn": "Command them to do good, to be rich in good deeds, and to be generous and willing to share.",
+        "textVi": "Hãy dạy họ làm lành, trở nên giàu có về việc lành, hay bố thí, sẵn lòng chia sẻ với kẻ khác.",
+        "noteEn": "Believers should be rich in generosity and good deeds.",
+        "noteVi": "Tín nhân nên giàu có trong sự hào phóng và việc lành.",
+        "explanationEn": "This verse encourages people — especially those with wealth or resources — to use what they have for the good of others through generous actions and a willingness to share. It redefines what it means to be truly 'rich': not by how much you keep, but by how much good you do and how freely you share. The message is that a meaningful, well-lived life is built on generosity and helping others, not just personal accumulation.",
+        "explanationVi": "Câu này khuyến khích mọi người — đặc biệt là những người có của cải hoặc tài nguyên — sử dụng những gì họ có để mang lại điều tốt cho người khác thông qua hành động hào phóng và sẵn lòng chia sẻ. Nó định nghĩa lại ý nghĩa của việc thật sự 'giàu có': không phải bởi bạn giữ lại bao nhiêu, mà bởi bạn làm được bao nhiêu điều tốt và bạn chia sẻ rộng rãi đến mức nào. Thông điệp ở đây là một cuộc sống ý nghĩa và trọn vẹn được xây dựng trên sự hào phóng và giúp đỡ người khác, chứ không chỉ là tích lũy cho bản thân."
+      }
+    ]
+  },
+  {
+    "slug": "rest",
+    "nameEn": "Rest & Sabbath",
+    "nameVi": "Nghỉ ngơi & An nghỉ",
+    "category": "guidance",
+    "icon": "Moon",
+    "introEn": "The Bible presents rest as a gift from God, established at creation when He rested on the seventh day. The Sabbath principle runs throughout Scripture, culminating in Jesus' invitation to find true rest in Him and the promised eternal rest for God's people.",
+    "introVi": "Kinh Thánh trình bày sự nghỉ ngơi là món quà từ Đức Chúa Trời, được thiết lập từ buổi sáng tạo khi Ngài nghỉ vào ngày thứ bảy. Nguyên tắc An息 chạy suốt Kinh Thánh, đỉnh điểm là lời mời của Chúa Giê-xu để tìm sự nghỉ ngơi thật sự trong Ngài và sự an nghỉ đời đời dành cho dân sự Đức Chúa Trời.",
+    "verses": [
+      {
+        "ref": "Genesis 2:2-3",
+        "bookSlug": "genesis",
+        "chapter": 2,
+        "verse": 2,
+        "textEn": "By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work. Then God blessed the seventh day and made it holy, because on it he rested from all the work of creating that he had done.",
+        "textVi": "Đến ngày thứ bảy, Đức Chúa Trời làm xong các công việc Ngài đã làm, thì ngày thứ bảy Ngài nghỉ các công việc đó. Đức Chúa Trời ban phước cho ngày thứ bảy và thánh hóa ngày đó, vì trong ngày đó Ngài nghỉ các công việc sáng tạo của Ngài.",
+        "noteEn": "God's rest establishes the pattern for Sabbath.",
+        "noteVi": "Sự nghỉ ngơi của Đức Chúa Trời lập nền tảng An Tức.",
+        "explanationEn": "According to the Bible, after creating the world in six days, God chose to rest on the seventh day — not because He was tired, but to set an example that rest is meaningful and valuable. By calling this day 'holy,' the Bible teaches that taking a break is not laziness, but something worth honoring and protecting.",
+        "explanationVi": "Theo Kinh Thánh, sau khi tạo dựng thế giới trong sáu ngày, Đức Chúa Trời đã nghỉ ngơi vào ngày thứ bảy — không phải vì Ngài mệt mỏi, mà để làm gương rằng sự nghỉ ngơi có ý nghĩa và giá trị thực sự. Bằng cách gọi ngày đó là 'thánh,' Kinh Thánh dạy rằng việc dừng lại và nghỉ ngơi không phải là lười biếng, mà là điều đáng được trân trọng."
+      },
+      {
+        "ref": "Exodus 20:8-10",
+        "bookSlug": "exodus",
+        "chapter": 20,
+        "verse": 8,
+        "textEn": "Remember the Sabbath day by keeping it holy. Six days you shall labor and do all your work, but the seventh day is a sabbath to the Lord your God.",
+        "textVi": "Hãy nhớ ngày Sa-bát mà giữ cho thánh. Ngươi sẽ lao động sáu ngày và làm mọi công việc, nhưng ngày thứ bảy là ngày Sa-bát của Giê-hô-va Đức Chúa Trời ngươi.",
+        "noteEn": "The Sabbath commandment calls for holy rest.",
+        "noteVi": "Điều răn Sa-bát kêu gọi nghỉ ngơi thánh khiết.",
+        "explanationEn": "This is one of the Ten Commandments, a set of core rules in the Bible, which instructs people to work hard for six days but to fully stop and rest on the seventh day. The idea is that humans need a regular, intentional pause from work — a rhythm of labor and rest built into life itself.",
+        "explanationVi": "Đây là một trong Mười Điều Răn — bộ quy tắc nền tảng trong Kinh Thánh — hướng dẫn con người làm việc chăm chỉ sáu ngày nhưng phải dừng lại và nghỉ ngơi hoàn toàn vào ngày thứ bảy. Ý tưởng ở đây là con người cần có những khoảng dừng thường xuyên và có chủ ý khỏi công việc — một nhịp điệu giữa lao động và nghỉ ngơi được tích hợp vào cuộc sống."
+      },
+      {
+        "ref": "Matthew 11:28-29",
+        "bookSlug": "matthew",
+        "chapter": 11,
+        "verse": 28,
+        "textEn": "Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls.",
+        "textVi": "Hỡi những kẻ mệt mỏi và gánh nặng, hãy đến cùng Ta, Ta sẽ cho các ngươi được nghỉ ngơi. Hãy mang lấy ách Ta và học theo Ta, vì Ta có lòng nhu mì, khiêm nhường; thì linh hồn các ngươi sẽ được yên nghỉ.",
+        "noteEn": "Jesus offers soul rest to the weary.",
+        "noteVi": "Chúa Giê-xu ban sự yên nghỉ cho người mệt mỏi.",
+        "explanationEn": "Jesus is speaking here to people who feel exhausted and overwhelmed by life's pressures, offering them a different kind of rest — not just physical, but emotional and spiritual peace. Rather than carrying every burden alone, He invites people to find inner calm by trusting in Him and His gentle guidance.",
+        "explanationVi": "Chúa Giê-su đang nói với những người cảm thấy kiệt sức và bị áp lực cuộc sống đè nặng, và Ngài đề nghị một loại nghỉ ngơi khác — không chỉ là nghỉ thể xác, mà còn là sự bình an trong tâm hồn. Thay vì gánh mọi nặng nề một mình, Ngài mời con người tìm thấy sự an yên bên trong bằng cách tin tưởng vào Ngài và sự dẫn dắt nhẹ nhàng của Ngài."
+      },
+      {
+        "ref": "Psalm 23:2",
+        "bookSlug": "psalms",
+        "chapter": 23,
+        "verse": 2,
+        "textEn": "He makes me lie down in green pastures, he leads me beside quiet waters.",
+        "textVi": "Ngài khiến tôi nằm nghỉ trong đồng cỏ xanh tươi, dẫn tôi đến mé nước bình tịnh.",
+        "noteEn": "God leads His people into peaceful rest.",
+        "noteVi": "Đức Chúa Trời dẫn dân Ngài vào sự nghỉ bình an.",
+        "explanationEn": "Using the image of a shepherd caring for sheep, this verse paints a picture of God as someone who guides people to peaceful, restorative places — green fields and calm water — symbolizing safety, calm, and renewal. It connects rest with being cared for and led by someone trustworthy.",
+        "explanationVi": "Sử dụng hình ảnh người chăn chiên chăm sóc đàn chiên, câu thơ này vẽ nên bức tranh về Đức Chúa Trời như người dẫn dắt con người đến những nơi bình yên và phục hồi — đồng cỏ xanh và dòng nước êm — tượng trưng cho sự an toàn, yên tĩnh và sức sống mới. Câu này gắn kết sự nghỉ ngơi với việc được chăm sóc và dẫn dắt bởi một người đáng tin cậy."
+      },
+      {
+        "ref": "Hebrews 4:9-10",
+        "bookSlug": "hebrews",
+        "chapter": 4,
+        "verse": 9,
+        "textEn": "There remains, then, a Sabbath-rest for the people of God; for anyone who enters God's rest also rests from their works, just as God did from his.",
+        "textVi": "Vậy thì vẫn còn lại một ngày Sa-bát nghỉ ngơi cho dân Đức Chúa Trời; vì ai vào trong sự yên nghỉ của Ngài thì cũng yên nghỉ về công việc mình, như Đức Chúa Trời đã yên nghỉ về công việc Ngài vậy.",
+        "noteEn": "Eternal Sabbath rest awaits God's people.",
+        "noteVi": "Sự yên nghỉ Sa-bát đời đời chờ đợi dân Ngài.",
+        "explanationEn": "This passage suggests that true, lasting rest is not just about taking a day off, but about reaching a deeper state of peace — where you stop striving and trust that things are taken care of, just as God rested after completing His work. It points to rest as an ongoing spiritual reality, not just a weekly event.",
+        "explanationVi": "Đoạn văn này gợi ý rằng sự nghỉ ngơi thật sự và lâu dài không chỉ là nghỉ một ngày, mà là đạt đến trạng thái bình an sâu sắc hơn — nơi bạn ngừng vật lộn và tin rằng mọi thứ đã được lo liệu, giống như Đức Chúa Trời đã nghỉ ngơi sau khi hoàn thành công việc sáng tạo. Câu này chỉ ra rằng nghỉ ngơi là một thực tại tâm linh liên tục, không chỉ là một sự kiện hằng tuần."
+      },
+      {
+        "ref": "Isaiah 40:31",
+        "bookSlug": "isaiah",
+        "chapter": 40,
+        "verse": 31,
+        "textEn": "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
+        "textVi": "Nhưng những kẻ trông đợi Đức Giê-hô-va sẽ được thêm sức mới. Họ sẽ bay lên với cánh như chim ưng; họ chạy mà không mệt mỏi, đi mà không kiệt sức.",
+        "noteEn": "Trusting God renews strength and brings true rest.",
+        "noteVi": "Tin cậy Đức Chúa Trời đổi mới sức lực thật sự.",
+        "explanationEn": "This verse promises that people who place their hope and trust in God will not stay depleted — instead, they will experience a renewal of energy and strength, like an eagle catching an updraft and soaring effortlessly. It connects rest and renewal with the act of waiting on and trusting in something greater than oneself.",
+        "explanationVi": "Câu này hứa rằng những ai đặt hy vọng và tin tưởng vào Đức Chúa Trời sẽ không mãi kiệt sức — thay vào đó, họ sẽ được phục hồi năng lượng và sức mạnh, như con đại bàng bắt luồng gió nâng cánh và bay lượn nhẹ nhàng. Câu này gắn kết sự nghỉ ngơi và tái tạo sức lực với việc chờ đợi và tin tưởng vào điều gì đó lớn lao hơn bản thân mình."
+      }
+    ]
+  },
+  {
+    "slug": "leadership",
+    "nameEn": "Leadership",
+    "nameVi": "Lãnh đạo",
+    "category": "guidance",
+    "icon": "Crown",
+    "introEn": "The Bible presents leadership as a sacred responsibility rooted in servanthood, wisdom, and integrity. God calls leaders to shepherd others with humility, justice, and courage, following the ultimate example of Jesus Christ. Scripture consistently teaches that true leadership flows from a heart surrendered to God.",
+    "introVi": "Kinh Thánh trình bày lãnh đạo là trách nhiệm thiêng liêng bắt nguồn từ sự phục vụ, khôn ngoan và liêm chính. Đức Chúa Trời kêu gọi các nhà lãnh đạo chăn dắt người khác với sự khiêm nhường, công bằng và can đảm, noi theo gương mẫu tối cao của Chúa Giê-xu. Kinh Thánh dạy rằng sự lãnh đạo thật sự xuất phát từ tấm lòng quy phục Đức Chúa Trời.",
+    "verses": [
+      {
+        "ref": "Mark 10:43-44",
+        "bookSlug": "mark",
+        "chapter": 10,
+        "verse": 43,
+        "textEn": "Whoever wants to become great among you must be your servant, and whoever wants to be first must be slave of all.",
+        "textVi": "Trong các ngươi, ai muốn làm lớn, thì sẽ làm đầy tớ các ngươi; và ai muốn làm đầu, thì sẽ làm tôi mọi mọi người.",
+        "noteEn": "Jesus redefines greatness through humble servanthood.",
+        "noteVi": "Chúa Giê-xu định nghĩa lại sự vĩ đại qua sự phục vụ khiêm nhường.",
+        "explanationEn": "This verse flips the common idea of leadership upside down — instead of power meaning control over others, true greatness comes from serving others first. A great leader, according to this teaching, is someone who prioritizes the needs of their team over their own status or comfort. It challenges the idea that rank and authority are about privilege, and instead frames them as responsibility.",
+        "explanationVi": "Câu này đảo ngược quan niệm thông thường về lãnh đạo — thay vì quyền lực có nghĩa là kiểm soát người khác, sự vĩ đại thực sự đến từ việc phục vụ người khác trước. Theo lời dạy này, một nhà lãnh đạo giỏi là người đặt nhu cầu của đội nhóm lên trên địa vị hay sự thoải mái của bản thân. Điều này thách thức quan niệm rằng chức vụ là đặc quyền, thay vào đó xem nó như một trách nhiệm."
+      },
+      {
+        "ref": "Proverbs 11:14",
+        "bookSlug": "proverbs",
+        "chapter": 11,
+        "verse": 14,
+        "textEn": "For lack of guidance a nation falls, but victory is won through many advisers.",
+        "textVi": "Vì thiếu sự chỉ dẫn, dân sự bị bại; nhưng nơi có nhiều mưu sĩ, thì được an toàn.",
+        "noteEn": "Wise counsel is essential for effective leadership.",
+        "noteVi": "Lời khuyên khôn ngoan rất cần thiết cho lãnh đạo hiệu quả.",
+        "explanationEn": "This proverb highlights that no leader — no matter how talented — can succeed alone; having trusted advisers and listening to multiple perspectives is essential for good decision-making. A team or organization without proper guidance and counsel is likely to fail, while one that welcomes diverse input tends to thrive. It encourages leaders to build a culture of open advice and collaborative thinking.",
+        "explanationVi": "Câu châm ngôn này nhấn mạnh rằng không có nhà lãnh đạo nào — dù tài giỏi đến đâu — có thể thành công một mình; việc có những cố vấn đáng tin và lắng nghe nhiều góc nhìn là điều thiết yếu để đưa ra quyết định đúng đắn. Một tập thể thiếu sự định hướng và tham vấn thì dễ thất bại, trong khi tập thể biết lắng nghe ý kiến đa chiều thường thành công hơn. Câu này khuyến khích người lãnh đạo xây dựng văn hóa cởi mở và tư duy hợp tác."
+      },
+      {
+        "ref": "Joshua 1:9",
+        "bookSlug": "joshua",
+        "chapter": 1,
+        "verse": 9,
+        "textEn": "Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.",
+        "textVi": "Ta há chẳng có truyền lệnh cho ngươi sao? Hãy vững lòng bền chí, chớ run sợ, chớ kinh khủng; vì Giê-hô-va Đức Chúa Trời ngươi ở cùng ngươi trong mọi nơi ngươi đi.",
+        "noteEn": "God commands leaders to be courageous and fearless.",
+        "noteVi": "Đức Chúa Trời truyền lệnh lãnh đạo phải can đảm và không sợ hãi.",
+        "explanationEn": "This is a motivational charge given to Joshua, a military leader, before a daunting mission — essentially telling him not to let fear or self-doubt stop him from moving forward. In leadership terms, it speaks to the importance of courage and resilience, especially when facing uncertainty or overwhelming challenges. The underlying message is that a leader must press on even when the path ahead feels risky.",
+        "explanationVi": "Đây là lời khích lệ dành cho Giô-suê, một nhà lãnh đạo quân sự, trước một nhiệm vụ đầy thử thách — về cơ bản là nhắc ông đừng để nỗi sợ hãi hay sự tự ti cản bước. Trong lãnh đạo, câu này nói về tầm quan trọng của sự can đảm và bền bỉ, đặc biệt khi đối mặt với sự bất định hay thách thức lớn. Thông điệp cốt lõi là người lãnh đạo phải tiến bước dù con đường phía trước còn nhiều rủi ro."
+      },
+      {
+        "ref": "1 Peter 5:2-3",
+        "bookSlug": "1-peter",
+        "chapter": 5,
+        "verse": 2,
+        "textEn": "Be shepherds of God's flock that is under your care, watching over them—not because you must, but because you are willing, as God wants you to be; not pursuing dishonest gain, but eager to serve; not lording it over those entrusted to you, but being examples to the flock.",
+        "textVi": "Hãy chăn bầy của Đức Chúa Trời đã giao phó cho anh em, săn sóc họ, chẳng phải vì ép buộc, bèn là vì tình nguyện, theo ý Đức Chúa Trời; chẳng phải vì lợi lộc xấu hổ, bèn là vì lòng sốt sắng; chẳng phải như người chuyên quyền trị dân Chúa đã giao cho mình, bèn là làm gương tốt cho bầy chiên.",
+        "noteEn": "Leaders must shepherd willingly, not domineeringly.",
+        "noteVi": "Lãnh đạo phải chăn dắt tự nguyện, không độc đoán.",
+        "explanationEn": "Using the image of a shepherd caring for a flock, this passage describes what good leadership looks like: it is willing, honest, service-oriented, and leads by example rather than by force or intimidation. A leader who genuinely cares — not one who is in it for personal gain or to show off authority — earns real trust and respect. It emphasizes that the best leaders model the behavior they want to see, rather than simply issuing commands.",
+        "explanationVi": "Dùng hình ảnh người chăn chiên chăm sóc đàn chiên, đoạn này mô tả lãnh đạo tốt trông như thế nào: tự nguyện, trung thực, hướng đến phục vụ, và dẫn dắt bằng gương mẫu thay vì bằng áp lực hay uy quyền. Một nhà lãnh đạo thực sự quan tâm — không phải người làm vì lợi ích cá nhân hay để thể hiện quyền lực — mới nhận được sự tin tưởng và tôn trọng thật sự. Câu này nhấn mạnh rằng những nhà lãnh đạo giỏi nhất tự mình làm gương, thay vì chỉ ra lệnh."
+      },
+      {
+        "ref": "Romans 12:8",
+        "bookSlug": "romans",
+        "chapter": 12,
+        "verse": 8,
+        "textEn": "If it is to lead, do it diligently; if it is to show mercy, do it cheerfully.",
+        "textVi": "Ai cai trị, hãy lấy lòng siêng năng mà cai trị; ai làm phước, hãy lấy lòng vui mà làm.",
+        "noteEn": "Leadership is a gift to be exercised with diligence.",
+        "noteVi": "Lãnh đạo là ân tứ cần được thực hiện với sự siêng năng.",
+        "explanationEn": "This verse is a short but powerful reminder that leadership is not just about having a title — it requires diligence, full effort, and doing the job wholeheartedly. It also links leadership with showing compassion and doing so with a positive, genuine attitude rather than reluctantly. The takeaway is that effective leaders are both hardworking and kind, and they bring energy and care to everything they do.",
+        "explanationVi": "Câu này ngắn gọn nhưng mạnh mẽ — nhắc nhở rằng lãnh đạo không chỉ là có chức danh, mà đòi hỏi sự chăm chỉ, nỗ lực hết mình và làm việc bằng cả tấm lòng. Câu này cũng gắn kết lãnh đạo với lòng trắc ẩn, và kêu gọi thực hiện điều đó với thái độ tích cực, chân thành thay vì miễn cưỡng. Bài học rút ra là những nhà lãnh đạo hiệu quả vừa chăm chỉ vừa tử tế, và họ mang đến năng lượng lẫn sự quan tâm trong mọi việc họ làm."
+      },
+      {
+        "ref": "Micah 6:8",
+        "bookSlug": "micah",
+        "chapter": 6,
+        "verse": 8,
+        "textEn": "He has shown you, O mortal, what is good. And what does the Lord require of you? To act justly and to love mercy and to walk humbly with your God.",
+        "textVi": "Hỡi người, Ngài đã tỏ cho ngươi điều gì là thiện; cái điều mà Đức Giê-hô-va đòi ngươi há chẳng phải là làm điều công bình, ưa sự nhân từ và bước đi cách khiêm nhường với Đức Chúa Trời ngươi sao?",
+        "noteEn": "Justice, mercy, and humility define godly leadership.",
+        "noteVi": "Công bằng, nhân từ và khiêm nhường định nghĩa lãnh đạo tin kính.",
+        "explanationEn": "This verse outlines three core values that define good character and, by extension, good leadership: fairness (acting justly), compassion (loving mercy), and humility (not thinking too highly of oneself). A leader who is fair, kind, and humble creates an environment where people feel respected and valued. These qualities are not religiously exclusive — they are universally recognized as the foundation of ethical, trustworthy leadership.",
+        "explanationVi": "Câu này nêu ra ba giá trị cốt lõi tạo nên nhân cách tốt và theo đó là lãnh đạo tốt: sự công bằng (hành động ngay thẳng), lòng trắc ẩn (yêu thương sự nhân từ), và sự khiêm tốn (không tự cao về bản thân). Một nhà lãnh đạo công bằng, nhân ái và khiêm tốn sẽ tạo ra môi trường mà ở đó mọi người cảm thấy được tôn trọng và trân quý. Những phẩm chất này không chỉ thuộc về tôn giáo — chúng được thừa nhận rộng rãi là nền tảng của lãnh đạo đạo đức và đáng tin cậy."
+      }
+    ]
+  },
+  {
+    "slug": "justice",
+    "nameEn": "Justice & Mercy",
+    "nameVi": "Công lý & Thương xót",
+    "category": "guidance",
+    "icon": "Scale",
+    "introEn": "The Bible consistently holds justice and mercy together as inseparable expressions of God's character. From the Law to the Prophets to the New Testament, God calls His people to pursue fairness for the oppressed while extending compassion to the broken. Jesus embodied this balance perfectly, fulfilling justice through the cross while lavishing mercy on all who call on Him.",
+    "introVi": "Kinh Thánh luôn gắn kết công lý và thương xót như hai biểu hiện không thể tách rời của bản tính Đức Chúa Trời. Từ Luật Pháp đến các Tiên tri rồi Tân Ước, Đức Chúa Trời kêu gọi dân Ngài bảo vệ người bị áp bức và đồng thời bày tỏ lòng nhân từ với kẻ tan vỡ. Chúa Giê-xu đã thể hiện sự cân bằng này hoàn hảo, thực thi công lý qua thập tự giá và ban thương xót dư dật cho tất cả những ai kêu cầu Ngài.",
+    "verses": [
+      {
+        "ref": "Micah 6:8",
+        "bookSlug": "micah",
+        "chapter": 6,
+        "verse": 8,
+        "textEn": "He has shown you, O mortal, what is good. And what does the Lord require of you? To act justly and to love mercy and to walk humbly with your God.",
+        "textVi": "Hỡi người, Ngài đã tỏ cho ngươi điều gì là thiện; Đức Giê-hô-va đòi ngươi điều chi, há chẳng phải là làm điều công bình, ưa sự nhân từ và bước đi khiêm nhường với Đức Chúa Trời ngươi sao?",
+        "noteEn": "God's core requirement: justice, mercy, and humility.",
+        "noteVi": "Điều Đức Chúa Trời đòi hỏi: công bình, nhân từ, khiêm nhường.",
+        "explanationEn": "This verse says that living a good life comes down to three things: treating people fairly, showing kindness even when it's not required, and staying humble. It's a simple but powerful summary of what justice and mercy look like in everyday behavior. Rather than following a long list of rules, the focus is on how we treat others and how we carry ourselves.",
+        "explanationVi": "Câu này nói rằng sống tốt chỉ cần ba điều: đối xử công bằng với mọi người, thể hiện lòng tốt ngay cả khi không bắt buộc, và giữ thái độ khiêm tốn. Đây là cách diễn đạt đơn giản nhưng sâu sắc về công lý và lòng thương xót trong cuộc sống hàng ngày. Thay vì tuân theo một danh sách quy tắc dài, điều quan trọng là cách chúng ta đối xử với người khác."
+      },
+      {
+        "ref": "Matthew 23:23",
+        "bookSlug": "matthew",
+        "chapter": 23,
+        "verse": 23,
+        "textEn": "Woe to you, teachers of the law and Pharisees, you hypocrites! You give a tenth of your spices—mint, dill and cumin. But you have neglected the more important matters of the law—justice, mercy and faithfulness.",
+        "textVi": "Khốn cho các ngươi, thầy thông giáo và người Pha-ri-si, là kẻ giả hình! vì các ngươi nộp một phần mười bạc hà, hồi hương, và rau cần, mà bỏ qua những điều hệ trọng hơn trong luật pháp, tức là sự công bình, thương xót và trung tín.",
+        "noteEn": "Jesus rebukes neglecting justice and mercy in religion.",
+        "noteVi": "Chúa Giê-xu quở trách sự bỏ bê công lý và thương xót.",
+        "explanationEn": "Jesus is criticizing religious leaders who carefully followed minor technicalities of their rules while completely ignoring the bigger picture — being fair, showing compassion, and being trustworthy. He's pointing out that performing religious rituals means nothing if you neglect justice and mercy in real life. It's a warning that outward religious behavior without genuine care for others is hollow.",
+        "explanationVi": "Chúa Giêsu đang phê phán những nhà lãnh đạo tôn giáo chỉ chú trọng vào các quy tắc nhỏ nhặt mà bỏ qua điều quan trọng hơn — sự công bằng, lòng thương xót và sự trung thực. Ngài chỉ ra rằng việc thực hiện các nghi lễ tôn giáo không có nghĩa gì nếu bạn bỏ qua công lý và lòng nhân ái trong cuộc sống thực. Đây là lời cảnh báo rằng hành vi tôn giáo bề ngoài mà không có sự quan tâm thật sự đến người khác thì rỗng tuếch."
+      },
+      {
+        "ref": "Psalm 89:14",
+        "bookSlug": "psalms",
+        "chapter": 89,
+        "verse": 14,
+        "textEn": "Righteousness and justice are the foundation of your throne; love and faithfulness go before you.",
+        "textVi": "Sự công bình và sự công lý là nền của ngôi Chúa; sự nhân từ và lẽ thật đi trước mặt Chúa.",
+        "noteEn": "Justice and love form the very foundation of God's rule.",
+        "noteVi": "Công lý và tình yêu là nền tảng ngôi Đức Chúa Trời.",
+        "explanationEn": "This verse describes God's character using the image of a throne's foundation — meaning fairness and doing right are at the very core of who God is, not optional extras. Love and faithfulness are pictured as always accompanying him, like companions that never leave. Together, justice and love are presented not as opposites but as inseparable qualities of a truly good ruler.",
+        "explanationVi": "Câu này mô tả bản chất của Đức Chúa Trời bằng hình ảnh nền móng của ngai vàng — nghĩa là sự công bằng và làm điều đúng là cốt lõi của Ngài, không phải điều tùy chọn. Tình yêu và sự thành tín được hình dung như những người bạn đồng hành luôn bên cạnh Ngài. Công lý và tình yêu thương không phải là hai thứ đối lập mà là hai phẩm chất không thể tách rời của một đấng lãnh đạo thật sự tốt lành."
+      },
+      {
+        "ref": "Isaiah 30:18",
+        "bookSlug": "isaiah",
+        "chapter": 30,
+        "verse": 18,
+        "textEn": "Yet the Lord longs to be gracious to you; therefore he will rise up to show you compassion. For the Lord is a God of justice. Blessed are all who wait for him!",
+        "textVi": "Vậy nên Đức Giê-hô-va chờ đợi để làm ơn cho các ngươi; vì vậy Ngài sẽ dấy lên để thương xót các ngươi. Vì Đức Giê-hô-va là Đức Chúa Trời công bình; phước cho những kẻ trông đợi Ngài!",
+        "noteEn": "God is both just and eager to show compassion.",
+        "noteVi": "Đức Chúa Trời vừa công bình vừa khao khát ban thương xót.",
+        "explanationEn": "This verse presents an interesting balance: God deeply wants to show kindness and compassion, yet he is also described as a God of justice who won't ignore wrongdoing. The idea is that grace and justice are not in conflict — a truly just God also cares about the wellbeing of those who are hurting. Those who patiently trust in this kind of God are described as fortunate.",
+        "explanationVi": "Câu này thể hiện sự cân bằng thú vị: Đức Chúa Trời tha thiết muốn bày tỏ lòng nhân từ và sự thương xót, nhưng Ngài cũng được mô tả là Đức Chúa Trời của công lý, không bỏ qua điều sai trái. Ý tưởng ở đây là ân sủng và công lý không mâu thuẫn nhau — một Đức Chúa Trời thật sự công bằng cũng quan tâm đến những người đang đau khổ. Những ai kiên nhẫn tin tưởng vào Ngài được xem là người có phúc."
+      },
+      {
+        "ref": "Luke 18:7-8",
+        "bookSlug": "luke",
+        "chapter": 18,
+        "verse": 7,
+        "textEn": "And will not God bring about justice for his chosen ones, who cry out to him day and night? Will he keep putting them off? I tell you, he will see that they get justice, and quickly.",
+        "textVi": "Huống chi Đức Chúa Trời há chẳng xét lẽ công bình cho những kẻ đã được chọn của Ngài, là kẻ kêu la với Ngài ngày và đêm, mà Ngài lại chậm trễ vì họ sao? Ta nói cùng các ngươi, Ngài sẽ mau mau xét lẽ công bình cho họ.",
+        "noteEn": "God promises swift justice for those who cry to Him.",
+        "noteVi": "Đức Chúa Trời hứa xét công bình nhanh chóng cho dân Ngài.",
+        "explanationEn": "Jesus is making the point that if even an imperfect human judge eventually gives fair rulings to someone who keeps asking, then surely a perfectly good God will deliver justice to those who cry out to him. This verse is meant to encourage people who feel ignored or oppressed — their calls for justice are heard. It emphasizes that justice will come, and it won't be delayed forever.",
+        "explanationVi": "Chúa Giêsu muốn nói rằng nếu ngay cả một quan tòa không hoàn hảo cuối cùng cũng xét xử công bằng cho người cứ kiên trì kêu xin, thì chắc chắn một Đức Chúa Trời hoàn toàn tốt lành sẽ đem lại công lý cho những ai kêu cầu Ngài. Câu này nhằm khích lệ những người cảm thấy bị phớt lờ hoặc áp bức — tiếng kêu đòi công lý của họ được lắng nghe. Nó nhấn mạnh rằng công lý sẽ đến và sẽ không bị trì hoãn mãi mãi."
+      },
+      {
+        "ref": "Romans 3:25-26",
+        "bookSlug": "romans",
+        "chapter": 3,
+        "verse": 25,
+        "textEn": "God presented Christ as a sacrifice of atonement, through the shedding of his blood—to be received by faith. He did this to demonstrate his righteousness... so as to be just and the one who justifies those who have faith in Jesus.",
+        "textVi": "Đức Chúa Trời đã đặt Ngài làm của lễ chuộc tội, bởi đức tin trong huyết Ngài, để tỏ ra sự công bình Ngài... hầu cho Ngài được công bình và xưng công bình kẻ nào tin đến Đức Chúa Giê-xu.",
+        "noteEn": "The cross satisfies both God's justice and His mercy perfectly.",
+        "noteVi": "Thập tự giá thỏa mãn cả công lý lẫn thương xót của Đức Chúa Trời.",
+        "explanationEn": "This verse explains a core Christian belief: that Jesus's death served as a way for God to both uphold justice (wrongdoing has consequences) and offer mercy (people can be forgiven through faith). In other words, God didn't simply overlook wrongdoing, but also didn't leave people without a path to forgiveness. It presents justice and mercy not as opposites, but as two things simultaneously honored through one act.",
+        "explanationVi": "Câu này giải thích một niềm tin cốt lõi của Kitô giáo: cái chết của Chúa Giêsu là cách để Đức Chúa Trời vừa duy trì công lý (hành động sai trái phải có hậu quả) vừa bày tỏ lòng thương xót (con người có thể được tha thứ nhờ đức tin). Nói cách khác, Đức Chúa Trời không đơn giản bỏ qua điều sai trái, nhưng cũng không để con người không có con đường được tha thứ. Câu này cho thấy công lý và lòng thương xót không phải là hai thứ đối lập, mà cùng được thực hiện qua một hành động duy nhất."
+      }
+    ]
+  },
+  {
+    "slug": "temptation",
+    "nameEn": "Temptation",
+    "nameVi": "Cám dỗ",
+    "category": "wisdom",
+    "icon": "Zap",
+    "introEn": "Temptation is a universal human experience addressed throughout Scripture, from the fall in Eden to Jesus's own testing in the wilderness. The Bible teaches that while temptation itself is not sin, God is faithful to provide a way of escape for those who trust in Him.",
+    "introVi": "Cám dỗ là trải nghiệm chung của mọi người, được đề cập xuyên suốt Kinh Thánh, từ sự sa ngã trong vườn Ê-đen đến việc Chúa Giê-xu bị thử thách trong đồng vắng. Kinh Thánh dạy rằng Đức Chúa Trời thành tín và luôn mở đường thoát khỏi cám dỗ cho những ai tin cậy Ngài.",
+    "verses": [
+      {
+        "ref": "1 Corinthians 10:13",
+        "bookSlug": "1-corinthians",
+        "chapter": 10,
+        "verse": 13,
+        "textEn": "No temptation has overtaken you except what is common to mankind. And God is faithful; he will not let you be tempted beyond what you can bear. But when you are tempted, he will also provide a way out so that you can endure it.",
+        "textVi": "Những sự cám dỗ đến cho anh em, chẳng có sự nào quá sức người ta; Đức Chúa Trời là thành tín, Ngài chẳng hề cho anh em bị cám dỗ quá sức mình đâu; nhưng trong sự cám dỗ, Ngài cũng mở đường cho ra khỏi, để anh em có thể chịu được.",
+        "noteEn": "God always provides an escape from every temptation.",
+        "noteVi": "Đức Chúa Trời luôn mở đường thoát khỏi cám dỗ.",
+        "explanationEn": "This verse reassures us that everyone faces temptation — the urge to do something harmful or wrong — and we are never alone in that struggle. It promises that no temptation will ever be too overwhelming to handle, and that there is always a way to get through it without giving in. Think of it as a guarantee that you always have an exit door when you feel pulled toward a bad decision.",
+        "explanationVi": "Câu này nhắc nhở chúng ta rằng mọi người đều trải qua cám dỗ — sự thôi thúc muốn làm điều gì đó có hại hoặc sai trái — và chúng ta không bao giờ phải đối mặt một mình. Lời hứa ở đây là không có cám dỗ nào quá lớn đến mức bạn không thể vượt qua, và luôn có một lối thoát nếu bạn tìm kiếm nó. Hãy nghĩ đây như một sự đảm bảo rằng bạn luôn có cửa thoát khi cảm thấy bị kéo vào một quyết định tồi."
+      },
+      {
+        "ref": "Matthew 4:1",
+        "bookSlug": "matthew",
+        "chapter": 4,
+        "verse": 1,
+        "textEn": "Then Jesus was led by the Spirit into the wilderness to be tempted by the devil.",
+        "textVi": "Bấy giờ, Đức Thánh Linh đưa Đức Chúa Jêsus vào đồng vắng, để chịu ma quỉ cám dỗ.",
+        "noteEn": "Jesus himself faced real temptation and overcame it.",
+        "noteVi": "Chúa Giê-xu chính mình đối mặt và chiến thắng cám dỗ.",
+        "explanationEn": "This verse describes a moment where Jesus — the central figure of Christianity — was taken into a deserted place and faced with temptations by a force of evil. It shows that even the most morally upright person in Christian belief was not immune to being tempted. This establishes that temptation is a universal human experience, not a sign of personal weakness or failure.",
+        "explanationVi": "Câu này mô tả một khoảnh khắc mà Chúa Giêsu — nhân vật trung tâm của Kitô giáo — bị dẫn vào vùng hoang vắng và đối mặt với cám dỗ từ một thế lực xấu xa. Điều này cho thấy ngay cả người được xem là mẫu mực đạo đức nhất trong đức tin Kitô giáo cũng không tránh khỏi bị cám dỗ. Điều đó khẳng định rằng cám dỗ là trải nghiệm chung của con người, không phải dấu hiệu của sự yếu đuối hay thất bại cá nhân."
+      },
+      {
+        "ref": "James 1:14",
+        "bookSlug": "james",
+        "chapter": 1,
+        "verse": 14,
+        "textEn": "but each person is tempted when they are dragged away by their own evil desire and enticed.",
+        "textVi": "nhưng mỗi người bị cám dỗ khi mắc tư dục xui giục mình.",
+        "noteEn": "Temptation originates from within our own sinful desires.",
+        "noteVi": "Cám dỗ bắt nguồn từ tư dục bên trong mỗi người.",
+        "explanationEn": "This verse points out that temptation often comes from within ourselves — our own desires, cravings, or selfish impulses — rather than from some outside force alone. It suggests that when we are tempted, our inner wants play a major role in drawing us toward harmful choices. Understanding this helps us take personal responsibility for our actions instead of always blaming outside circumstances.",
+        "explanationVi": "Câu này chỉ ra rằng cám dỗ thường đến từ bên trong chính chúng ta — những ham muốn, khao khát hay thôi thúc ích kỷ của bản thân — chứ không chỉ từ một lực lượng bên ngoài. Nó gợi ý rằng khi chúng ta bị cám dỗ, chính những mong muốn nội tâm đóng vai trò lớn trong việc kéo ta về phía những lựa chọn có hại. Hiểu điều này giúp chúng ta chịu trách nhiệm cá nhân về hành động của mình thay vì luôn đổ lỗi cho hoàn cảnh bên ngoài."
+      },
+      {
+        "ref": "Hebrews 4:15",
+        "bookSlug": "hebrews",
+        "chapter": 4,
+        "verse": 15,
+        "textEn": "For we do not have a high priest who is unable to empathize with our weaknesses, but we have one who has been tempted in every way, just as we are—yet he did not sin.",
+        "textVi": "Vì chúng ta không có thầy tế lễ thượng phẩm chẳng có thể cảm thương sự yếu đuối chúng ta, bèo có một thầy tế lễ bị thử thách trong mọi việc cũng như chúng ta, song chẳng phạm tội.",
+        "noteEn": "Christ was tempted like us yet remained without sin.",
+        "noteVi": "Chúa Giê-xu bị cám dỗ như chúng ta nhưng không phạm tội.",
+        "explanationEn": "This verse highlights that Jesus, according to Christian belief, experienced the full range of human struggles and temptations just like any ordinary person — yet he never gave in to them. This is meant to be comforting: the figure Christians look to for guidance truly understands what it feels like to be tempted. It makes the idea of resisting temptation feel more relatable, because it was faced and overcome by someone who walked the same human path.",
+        "explanationVi": "Câu này nhấn mạnh rằng Chúa Giêsu, theo niềm tin Kitô giáo, đã trải qua đầy đủ những khó khăn và cám dỗ của con người giống như bất kỳ người bình thường nào — nhưng Ngài không bao giờ khuất phục. Điều này mang lại sự an ủi: nhân vật mà người Kitô hữu hướng đến để tìm sự hướng dẫn thực sự hiểu cảm giác bị cám dỗ là như thế nào. Nó khiến việc chống lại cám dỗ trở nên dễ đồng cảm hơn, vì đó là điều đã được đối mặt và vượt qua bởi một người từng đi trên cùng con đường con người."
+      },
+      {
+        "ref": "Matthew 6:13",
+        "bookSlug": "matthew",
+        "chapter": 6,
+        "verse": 13,
+        "textEn": "And lead us not into temptation, but deliver us from the evil one.",
+        "textVi": "Xin chớ để chúng con bị cám dỗ, mà cứu chúng con khỏi điều ác.",
+        "noteEn": "Jesus taught us to pray for deliverance from temptation.",
+        "noteVi": "Chúa Giê-xu dạy cầu nguyện xin thoát khỏi cám dỗ.",
+        "explanationEn": "This is a line from a well-known prayer in Christianity asking for protection from temptation and from harmful influences. In everyday terms, it is a request for help in avoiding situations where we might be led to make bad or destructive choices. It reflects the honest acknowledgment that humans need support to navigate the pull of temptation.",
+        "explanationVi": "Đây là một câu trong bài cầu nguyện nổi tiếng của Kitô giáo, xin được bảo vệ khỏi cám dỗ và khỏi những ảnh hưởng có hại. Theo nghĩa thông thường, đây là lời xin giúp đỡ để tránh những tình huống có thể dẫn chúng ta đến những lựa chọn xấu hoặc có hại. Nó phản ánh sự thừa nhận thành thật rằng con người cần sự hỗ trợ để vượt qua sức kéo của cám dỗ."
+      },
+      {
+        "ref": "James 4:7",
+        "bookSlug": "james",
+        "chapter": 4,
+        "verse": 7,
+        "textEn": "Submit yourselves, then, to God. Resist the devil, and he will flee from you.",
+        "textVi": "Vậy hãy phục dưới quyền Đức Chúa Trời; hãy chống trả ma quỉ, thì nó sẽ lánh xa anh em.",
+        "noteEn": "Submitting to God empowers believers to resist the devil.",
+        "noteVi": "Phục dưới Đức Chúa Trời giúp chúng ta chống trả ma quỷ.",
+        "explanationEn": "This verse offers a practical two-step approach: align yourself with what is good and right, and actively push back against negative influences — and they will lose their power over you. In simple terms, the more you commit to positive values and choices, the weaker temptation becomes. It encourages an active stance rather than passively hoping temptation will just go away on its own.",
+        "explanationVi": "Câu này đưa ra một cách tiếp cận thực tế gồm hai bước: hướng bản thân về phía điều tốt đẹp và đúng đắn, đồng thời chủ động chống lại những ảnh hưởng tiêu cực — và chúng sẽ mất đi sức mạnh đối với bạn. Nói đơn giản, bạn càng cam kết với những giá trị và lựa chọn tích cực, cám dỗ càng trở nên yếu hơn. Câu này khuyến khích một thái độ chủ động thay vì thụ động chờ đợi cám dỗ tự biến mất."
+      }
+    ]
+  },
+  {
+    "slug": "healing",
+    "nameEn": "Healing & Sickness",
+    "nameVi": "Chữa lành & Bệnh tật",
+    "category": "wisdom",
+    "icon": "Heart",
+    "introEn": "The Bible presents healing as a central part of God's nature and Jesus's ministry on earth. Scripture addresses both physical and spiritual sickness, pointing to God as the ultimate healer of body and soul. From the Old Testament promises to the New Testament miracles, healing reflects God's compassion and redemptive power.",
+    "introVi": "Kinh Thánh cho thấy sự chữa lành là một phần trọng tâm trong bản chất của Đức Chúa Trời và chức vụ của Chúa Giê-xu. Kinh Thánh đề cập đến cả bệnh tật thể xác lẫn tâm linh, chỉ ra Đức Chúa Trời là Đấng chữa lành tối thượng cho thân xác và linh hồn. Từ những lời hứa trong Cựu Ước đến các phép lạ trong Tân Ước, sự chữa lành phản ánh lòng thương xót và quyền năng cứu chuộc của Đức Chúa Trời.",
+    "verses": [
+      {
+        "ref": "Exodus 15:26",
+        "bookSlug": "exodus",
+        "chapter": 15,
+        "verse": 26,
+        "textEn": "He said, 'If you listen carefully to the LORD your God and do what is right in his eyes, if you pay attention to his commands and keep all his decrees, I will not bring on you any of the diseases I brought on the Egyptians, for I am the LORD, who heals you.'",
+        "textVi": "Ngài phán rằng: Nếu ngươi chăm chú nghe lời Giê-hô-va Đức Chúa Trời ngươi, làm điều ngay thẳng trước mặt Ngài, lắng tai nghe các điều răn Ngài, và giữ mọi luật lệ Ngài, thì ta sẽ không giáng cho ngươi một trong các bệnh dịch mà ta đã giáng cho người Ê-díp-tô; vì ta là Đức Giê-hô-va, Đấng chữa lành cho ngươi.",
+        "noteEn": "God declares Himself Jehovah-Rapha, our divine Healer.",
+        "noteVi": "Đức Chúa Trời tự xưng là Đấng Chữa Lành của chúng ta.",
+        "explanationEn": "In this verse, God is making a promise to the ancient Israelites: if they follow his guidance and live rightly, he will protect them from terrible illnesses like those that struck Egypt. It essentially presents God as a healer, someone who actively keeps people well rather than just curing them after they fall sick. The verse introduces the idea that health and wholeness are connected to living in relationship with God.",
+        "explanationVi": "Trong câu này, Đức Chúa Trời hứa với người Israel xưa rằng nếu họ vâng theo sự dẫn dắt của Ngài và sống đúng đắn, Ngài sẽ bảo vệ họ khỏi những căn bệnh kinh khủng từng giáng xuống Ai Cập. Câu này giới thiệu Đức Chúa Trời như một Đấng chữa lành — không chỉ chữa bệnh sau khi nó xảy ra, mà còn chủ động gìn giữ sức khỏe cho con người. Ý tưởng cốt lõi là sức khỏe và sự bình an gắn liền với việc sống trong mối quan hệ với Ngài."
+      },
+      {
+        "ref": "Psalm 103:2-3",
+        "bookSlug": "psalms",
+        "chapter": 103,
+        "verse": 2,
+        "textEn": "Praise the LORD, my soul, and forget not all his benefits— who forgives all your sins and heals all your diseases.",
+        "textVi": "Hỡi linh hồn ta, hãy ngợi khen Đức Giê-hô-va, chớ quên các ân huệ của Ngài. Ấy là Ngài tha thứ mọi tội ác ngươi, chữa lành mọi bệnh tật ngươi.",
+        "noteEn": "God both forgives sin and heals all diseases.",
+        "noteVi": "Đức Chúa Trời tha tội và chữa lành mọi bệnh tật.",
+        "explanationEn": "This is a song of gratitude that lists the good things God does for people, and healing from disease is placed right alongside forgiveness — treated as equally important gifts. The verse suggests that God cares about both a person's moral failures and their physical suffering. For someone unfamiliar with the Bible, it paints a picture of God as deeply compassionate toward the whole person, body and soul.",
+        "explanationVi": "Đây là một bài ca tạ ơn liệt kê những điều tốt lành mà Đức Chúa Trời ban cho con người, trong đó việc chữa lành bệnh tật được đặt ngang hàng với sự tha thứ — như hai món quà có giá trị như nhau. Câu này cho thấy Đức Chúa Trời quan tâm đến cả lỗi lầm lẫn nỗi đau thể xác của con người. Với người chưa quen Kinh Thánh, hình ảnh này vẽ lên một Đức Chúa Trời đầy lòng trắc ẩn, quan tâm đến toàn bộ con người — cả thể xác lẫn tâm hồn."
+      },
+      {
+        "ref": "Isaiah 53:5",
+        "bookSlug": "isaiah",
+        "chapter": 53,
+        "verse": 5,
+        "textEn": "But he was pierced for our transgressions, he was crushed for our iniquities; the punishment that brought us peace was on him, and by his wounds we are healed.",
+        "textVi": "Nhưng Người đã bị vết thương vì sự vi phạm của chúng ta, bị tan nát vì sự gian ác của chúng ta; sự hình phạt để chúng ta được bình an đổ trên Người, và chúng ta được lành bởi những lằn đòn của Người.",
+        "noteEn": "Christ's suffering provides healing for all humanity.",
+        "noteVi": "Sự đau khổ của Chúa Giê-xu mang lại sự chữa lành cho nhân loại.",
+        "explanationEn": "Written hundreds of years before Jesus, this prophecy describes a figure who suffers on behalf of others so that they can experience peace and healing. Christians believe this passage predicted Jesus, whose death they see as taking on the pain and wrongdoing of humanity. The phrase 'by his wounds we are healed' is one of the most quoted verses in the Bible when people talk about spiritual and physical restoration.",
+        "explanationVi": "Được viết hàng trăm năm trước khi Chúa Giê-su ra đời, lời tiên tri này mô tả một nhân vật chịu đau khổ thay cho người khác để họ được bình an và chữa lành. Người Cơ Đốc tin rằng đoạn này đã tiên đoán về Chúa Giê-su, người mà họ cho là đã gánh chịu nỗi đau và tội lỗi của nhân loại. Câu 'bởi những vết thương của Ngài, chúng ta được chữa lành' là một trong những câu được trích dẫn nhiều nhất trong Kinh Thánh khi nói về sự phục hồi cả tâm linh lẫn thể xác."
+      },
+      {
+        "ref": "Matthew 8:16-17",
+        "bookSlug": "matthew",
+        "chapter": 8,
+        "verse": 16,
+        "textEn": "When evening came, many who were demon-possessed were brought to him, and he drove out the spirits with a word and healed all the sick. This was to fulfill what was spoken through the prophet Isaiah: 'He took up our infirmities and bore our diseases.'",
+        "textVi": "Đến chiều tối, người ta đem đến cho Ngài nhiều kẻ bị quỷ ám; Ngài chỉ dùng lời mà đuổi các quỷ ra, và chữa lành mọi kẻ đau ốm, hầu cho được ứng nghiệm lời của đấng tiên tri Ê-sai rằng: Chính Ngài đã lấy tật nguyền của chúng ta và mang bệnh hoạn của chúng ta.",
+        "noteEn": "Jesus fulfilled Isaiah's prophecy by healing all the sick.",
+        "noteVi": "Chúa Giê-xu ứng nghiệm lời tiên tri bằng cách chữa lành mọi người.",
+        "explanationEn": "This passage describes Jesus healing large numbers of sick people in a single evening, showing that healing was a central part of his public ministry. The author connects this directly to the ancient prophecy in Isaiah, arguing that Jesus was fulfilling a long-standing promise that someone would come to take away human suffering. For a non-religious reader, it presents Jesus as someone who treated physical healing as inseparable from his broader message of hope.",
+        "explanationVi": "Đoạn này mô tả Chúa Giê-su chữa lành cho rất nhiều người bệnh chỉ trong một buổi tối, cho thấy việc chữa bệnh là một phần trọng tâm trong sứ vụ công khai của Ngài. Tác giả liên kết điều này trực tiếp với lời tiên tri cổ xưa trong sách Ê-sai, lập luận rằng Chúa Giê-su đang thực hiện một lời hứa lâu đời rằng sẽ có người đến gánh chịu nỗi đau khổ của nhân loại. Với người không theo đạo, đoạn này cho thấy Chúa Giê-su xem việc chữa lành thể xác là không thể tách rời khỏi thông điệp hy vọng rộng lớn hơn của Ngài."
+      },
+      {
+        "ref": "James 5:14-15",
+        "bookSlug": "james",
+        "chapter": 5,
+        "verse": 14,
+        "textEn": "Is anyone among you sick? Let them call the elders of the church to pray over them and anoint them with oil in the name of the Lord. And the prayer offered in faith will make the sick person well; the Lord will raise them up. If they have sinned, they will be forgiven.",
+        "textVi": "Trong anh em có ai đau ốm chăng? Hãy mời các trưởng lão Hội thánh đến, sau khi nhân danh Chúa xức dầu cho người bệnh rồi, thì hãy cầu nguyện cho người. Sự cầu nguyện bởi đức tin sẽ cứu kẻ bệnh, Chúa sẽ đỡ người dậy; nếu người đã phạm tội, cũng sẽ được tha.",
+        "noteEn": "Prayer of faith and anointing bring healing to the sick.",
+        "noteVi": "Lời cầu nguyện đức tin và xức dầu mang lại sự chữa lành.",
+        "explanationEn": "This is a practical instruction from an early Christian letter, advising people who are sick to seek out community leaders (called 'elders') who will pray for them and anoint them with oil — a traditional act of blessing and care. It reflects the early Christian belief that prayer, community support, and faith can contribute to physical recovery. The verse also links healing with forgiveness, suggesting the Bible often sees physical and spiritual wellbeing as deeply connected.",
+        "explanationVi": "Đây là một hướng dẫn thực tế từ một bức thư Cơ Đốc thời kỳ đầu, khuyên người bệnh hãy tìm đến các trưởng lão trong cộng đồng — những người lãnh đạo của hội thánh — để được cầu nguyện và xức dầu, một hành động truyền thống mang ý nghĩa chúc phước và quan tâm. Câu này phản ánh niềm tin của Cơ Đốc nhân thời kỳ đầu rằng cầu nguyện, sự hỗ trợ của cộng đồng và đức tin có thể góp phần vào sự phục hồi thể xác. Câu này cũng liên kết việc chữa lành với sự tha thứ, cho thấy Kinh Thánh thường xem sức khỏe thể chất và tâm linh là hai điều gắn bó mật thiết với nhau."
+      },
+      {
+        "ref": "Revelation 21:4",
+        "bookSlug": "revelation",
+        "chapter": 21,
+        "verse": 4,
+        "textEn": "'He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away.'",
+        "textVi": "Ngài sẽ lau ráo hết nước mắt khỏi mắt họ. Sẽ không có sự chết, cũng không có than thở, kêu ca hay là đau đớn nữa; vì những sự thứ nhất đã qua rồi.",
+        "noteEn": "God promises ultimate healing — no more pain or death.",
+        "noteVi": "Đức Chúa Trời hứa sẽ không còn đau đớn hay sự chết.",
+        "explanationEn": "This verse comes from the final book of the Bible and describes a future vision where all suffering — death, grief, crying, and pain — will completely disappear. It offers a picture of ultimate healing, not just for individuals but for all of humanity and creation. For someone unfamiliar with the Bible, it expresses the Christian hope that the current world with all its pain is not the final word — something better is coming.",
+        "explanationVi": "Câu này đến từ cuốn sách cuối cùng trong Kinh Thánh và mô tả một viễn cảnh tương lai nơi mọi đau khổ — cái chết, nỗi buồn, tiếng khóc và cơn đau — sẽ hoàn toàn biến mất. Nó vẽ lên hình ảnh về sự chữa lành trọn vẹn, không chỉ cho từng cá nhân mà cho toàn thể nhân loại. Với người chưa quen Kinh Thánh, câu này thể hiện niềm hy vọng của Cơ Đốc nhân rằng thế giới hiện tại với mọi nỗi đau của nó không phải là kết thúc — một điều tốt đẹp hơn đang chờ phía trước."
+      }
+    ]
+  },
+  {
+    "slug": "perseverance",
+    "nameEn": "Perseverance",
+    "nameVi": "Sự kiên trì",
+    "category": "wisdom",
+    "icon": "Flame",
+    "introEn": "The Bible calls believers to steadfast perseverance through trials, trusting that God refines character and produces hope. Scripture consistently encourages endurance in faith, knowing that those who remain faithful to the end will receive the crown of life. Perseverance is not merely human willpower but a Spirit-empowered commitment to walk with God through every season.",
+    "introVi": "Kinh Thánh kêu gọi các tín nhân kiên trì bền vững qua mọi thử thách, tin tưởng rằng Đức Chúa Trời tôi luyện tính cách và sinh ra hi vọng. Lời Chúa liên tục khuyến khích sự nhẫn nại trong đức tin, biết rằng ai trung tín đến cuối cùng sẽ nhận mão triều thiên của sự sống. Sự kiên trì không chỉ là ý chí con người mà là sự cam kết được Đức Thánh Linh ban năng lực để đồng hành cùng Đức Chúa Trời qua mọi mùa.",
+    "verses": [
+      {
+        "ref": "James 1:12",
+        "bookSlug": "james",
+        "chapter": 1,
+        "verse": 12,
+        "textEn": "Blessed is the one who perseveres under trial because, having stood the test, that person will receive the crown of life that the Lord has promised to those who love him.",
+        "textVi": "Phước cho người nào bền lòng chịu đựng sự thử thách! Vì sau khi đã chịu thử thách, người đó sẽ được mão triều thiên của sự sống mà Đức Chúa Trời đã hứa cho những kẻ yêu mến Ngài.",
+        "noteEn": "Enduring trials leads to the crown of life.",
+        "noteVi": "Chịu đựng thử thách dẫn đến mão triều thiên sự sống.",
+        "explanationEn": "This verse says that a person who keeps going through hard times and doesn't give up is truly fortunate. The idea is that enduring difficulties — rather than quitting — builds something valuable in a person, and that effort will ultimately be rewarded. It encourages perseverance by framing life's trials as a test worth passing.",
+        "explanationVi": "Câu này nói rằng người nào kiên trì vượt qua những giai đoạn khó khăn mà không bỏ cuộc thì thật sự là người may mắn và đáng trân trọng. Ý tưởng ở đây là chịu đựng thử thách — thay vì từ bỏ — sẽ tạo nên điều gì đó quý giá trong con người, và sự nỗ lực đó cuối cùng sẽ được đền đáp. Câu này khuyến khích sự kiên trì bằng cách xem những thử thách trong cuộc sống là những bài kiểm tra đáng để vượt qua."
+      },
+      {
+        "ref": "Romans 5:3-4",
+        "bookSlug": "romans",
+        "chapter": 5,
+        "verse": 3,
+        "textEn": "Not only so, but we also glory in our sufferings, because we know that suffering produces perseverance; perseverance, character; and character, hope.",
+        "textVi": "Nào những thế thôi, chúng ta lại còn khoe mình trong hoạn nạn nữa, vì biết rằng hoạn nạn sanh ra sự nhịn nhục, sự nhịn nhục sanh ra sự rèn luyện, sự rèn luyện sanh ra hi vọng.",
+        "noteEn": "Suffering builds perseverance, character, and hope.",
+        "noteVi": "Hoạn nạn sinh ra nhịn nhục, rèn luyện và hi vọng.",
+        "explanationEn": "This passage suggests that suffering is not just painful — it is actually useful, because it teaches us to keep going even when things are hard. That ability to keep going then shapes our character, and a strong character gives us hope for the future. It presents perseverance as a stepping stone, not an end in itself, but part of a growth process.",
+        "explanationVi": "Đoạn này cho rằng đau khổ không chỉ đơn thuần là điều đau buồn — mà thực ra rất có ích, bởi vì nó dạy chúng ta tiếp tục tiến lên dù mọi thứ đang rất khó khăn. Khả năng tiếp tục đó sau đó sẽ rèn giũa tính cách của chúng ta, và một tính cách vững mạnh sẽ mang lại cho chúng ta hy vọng về tương lai. Câu này xem sự kiên trì như một bước đệm, không phải là đích đến, mà là một phần của quá trình trưởng thành."
+      },
+      {
+        "ref": "Hebrews 12:1",
+        "bookSlug": "hebrews",
+        "chapter": 12,
+        "verse": 1,
+        "textEn": "Therefore, since we are surrounded by such a great cloud of witnesses, let us throw off everything that hinders and the sin that so easily entangles. And let us run with perseverance the race marked out for us.",
+        "textVi": "Vậy, chúng ta cũng vậy, vì có nhiều người chứng kiến như đám mây bao quanh chúng ta, hãy quăng bỏ mọi gánh nặng và tội lỗi dễ vấn vương chúng ta, hãy kiên nhẫn chạy đường trường đã định sẵn cho chúng ta.",
+        "noteEn": "Run life's race with steadfast endurance.",
+        "noteVi": "Hãy kiên nhẫn chạy đường trường Đức Chúa Trời định sẵn.",
+        "explanationEn": "This verse uses the image of a long-distance race to describe life, suggesting we should drop anything that slows us down and keep running steadily toward our goal. The 'cloud of witnesses' refers to people from the past who lived with courage and can serve as inspiration for us today. The core message is to stay focused and not let distractions or bad habits stop you from finishing what you started.",
+        "explanationVi": "Câu này dùng hình ảnh một cuộc chạy đường dài để mô tả cuộc sống, gợi ý rằng chúng ta nên bỏ đi bất cứ điều gì làm mình chậm lại và tiếp tục chạy đều đặn hướng đến mục tiêu. 'Đám mây nhân chứng' ám chỉ những người trong quá khứ đã sống can đảm và có thể là nguồn cảm hứng cho chúng ta ngày nay. Thông điệp cốt lõi là hãy tập trung và đừng để những phiền nhiễu hay thói quen xấu ngăn bạn hoàn thành những gì đã bắt đầu."
+      },
+      {
+        "ref": "Galatians 6:9",
+        "bookSlug": "galatians",
+        "chapter": 6,
+        "verse": 9,
+        "textEn": "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.",
+        "textVi": "Chớ mệt nhọc về sự làm lành, vì nếu chúng ta không nản lòng, thì đến kỳ chúng ta sẽ gặt.",
+        "noteEn": "Don't give up; harvest comes in due time.",
+        "noteVi": "Đừng nản lòng; đến kỳ sẽ được gặt hái.",
+        "explanationEn": "This verse is a straightforward encouragement not to get tired of doing the right thing, even when results are slow to come. It compares perseverance to farming — just as a farmer must wait patiently for a harvest, our consistent good efforts will eventually produce results. The key message is: don't give up before you see the outcome.",
+        "explanationVi": "Câu này là một lời khích lệ đơn giản, rằng đừng mệt mỏi khi làm điều tốt, dù kết quả có đến chậm. Nó so sánh sự kiên trì với nghề nông — cũng như người nông dân phải kiên nhẫn chờ đợi vụ mùa, những nỗ lực tốt đẹp liên tục của chúng ta cuối cùng cũng sẽ sinh ra kết quả. Thông điệp chính là: đừng bỏ cuộc trước khi nhìn thấy thành quả."
+      },
+      {
+        "ref": "Isaiah 40:31",
+        "bookSlug": "isaiah",
+        "chapter": 40,
+        "verse": 31,
+        "textEn": "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
+        "textVi": "Nhưng những kẻ trông đợi Đức Giê-hô-va thì được thêm sức mới. Họ bay lên như chim ưng; họ chạy mà không mệt nhọc, đi mà không mòn mỏi.",
+        "noteEn": "Hope in God renews strength for endurance.",
+        "noteVi": "Trông cậy Đức Chúa Trời được sức mới không mệt mỏi.",
+        "explanationEn": "This verse, written as a poem, describes how people who hold onto hope find their energy renewed rather than depleted over time. The image of soaring like an eagle represents a kind of strength that goes beyond ordinary human effort. It speaks to the idea that perseverance is sustained not just by willpower, but by drawing on something greater than ourselves.",
+        "explanationVi": "Câu này, được viết theo thể thơ, mô tả cách những người giữ vững hy vọng sẽ thấy năng lượng của mình được phục hồi thay vì cạn kiệt theo thời gian. Hình ảnh bay cao như đại bàng tượng trưng cho một loại sức mạnh vượt ra ngoài khả năng thông thường của con người. Câu này nói đến ý tưởng rằng sự kiên trì được duy trì không chỉ bằng ý chí, mà còn bằng cách dựa vào điều gì đó lớn lao hơn bản thân chúng ta."
+      },
+      {
+        "ref": "Revelation 3:10",
+        "bookSlug": "revelation",
+        "chapter": 3,
+        "verse": 10,
+        "textEn": "Since you have kept my command to endure patiently, I will also keep you from the hour of trial that is going to come on the whole world to test the inhabitants of the earth.",
+        "textVi": "Vì ngươi đã giữ lời nhịn nhục của ta, ta cũng sẽ giữ ngươi khỏi giờ thử thách sẽ đến trên toàn thế giới, để thử những kẻ ở trên đất.",
+        "noteEn": "Patient endurance brings God's faithful protection.",
+        "noteVi": "Kiên nhẫn nhịn nhục được Chúa Giê-xu bảo vệ thành tín.",
+        "explanationEn": "This verse acknowledges someone who has already shown patience and endurance, and promises that their faithfulness will be recognized and protected. It reinforces the idea that perseverance is not overlooked — those who keep going through hard times are seen and valued. The underlying message is that enduring difficult seasons leads to a form of protection or reward.",
+        "explanationVi": "Câu này ghi nhận người đã thể hiện sự kiên nhẫn và bền bỉ, đồng thời hứa rằng lòng trung thành của họ sẽ được nhìn nhận và bảo vệ. Nó củng cố ý tưởng rằng sự kiên trì không bị bỏ qua — những ai tiếp tục bước đi qua những giai đoạn khó khăn đều được nhìn thấy và trân trọng. Thông điệp sâu xa là chịu đựng những mùa khó khăn sẽ dẫn đến một hình thức bảo vệ hoặc phần thưởng."
+      }
+    ]
+  },
+  {
+    "slug": "community",
+    "nameEn": "Community & Church",
+    "nameVi": "Cộng đồng & Hội thánh",
+    "category": "wisdom",
+    "icon": "Users",
+    "introEn": "The Bible presents the community of believers as the Body of Christ, called to worship, serve, and encourage one another. From the early church in Acts to Paul's letters, Scripture emphasizes unity, love, and mutual accountability among God's people. The church is not merely an institution but a living family bound together by faith in Jesus Christ.",
+    "introVi": "Kinh Thánh mô tả cộng đồng tín hữu là Thân Thể của Đấng Christ, được kêu gọi thờ phượng, phục vụ và khích lệ lẫn nhau. Từ Hội thánh đầu tiên trong sách Công Vụ đến các thư tín của Phao-lô, Kinh Thánh nhấn mạnh sự hiệp nhất, tình yêu thương và trách nhiệm giữa dân Đức Chúa Trời. Hội thánh không chỉ là một tổ chức mà là một gia đình sống động được gắn kết bởi đức tin nơi Chúa Giê-xu.",
+    "verses": [
+      {
+        "ref": "Acts 2:42",
+        "bookSlug": "acts",
+        "chapter": 2,
+        "verse": 42,
+        "textEn": "They devoted themselves to the apostles' teaching and to fellowship, to the breaking of bread and to prayer.",
+        "textVi": "Họ bền lòng giữ lời dạy của các sứ đồ, sự thông công, lễ bẻ bánh, và sự cầu nguyện.",
+        "noteEn": "The early church's four pillars of community life.",
+        "noteVi": "Bốn trụ cột của đời sống cộng đồng Hội thánh đầu tiên.",
+        "explanationEn": "This verse describes the early Christian community forming habits that kept them connected: learning together, sharing meals, and praying as a group. It shows that from the very beginning, being part of this community meant more than just believing alone — it meant actively participating in shared life with others. These four practices became the foundation of what a church community looked like in action.",
+        "explanationVi": "Câu này mô tả cộng đồng Cơ Đốc nhân đầu tiên xây dựng những thói quen giúp họ gắn kết với nhau: cùng học hỏi, chia sẻ bữa ăn và cầu nguyện theo nhóm. Điều này cho thấy ngay từ đầu, việc thuộc về cộng đồng không chỉ là tin tưởng một mình — mà còn là chủ động tham gia vào cuộc sống chung với những người khác. Bốn thực hành này trở thành nền tảng cho một cộng đồng hội thánh trong thực tế."
+      },
+      {
+        "ref": "1 Corinthians 12:27",
+        "bookSlug": "1-corinthians",
+        "chapter": 12,
+        "verse": 27,
+        "textEn": "Now you are the body of Christ, and each one of you is a part of it.",
+        "textVi": "Vả, anh em là thân thể của Đấng Christ, và ai nấy đều là chi thể của thân.",
+        "noteEn": "Every believer belongs and contributes to Christ's body.",
+        "noteVi": "Mỗi tín hữu thuộc về và đóng góp cho thân thể Đấng Christ.",
+        "explanationEn": "This verse uses the human body as a metaphor to describe how a church community works — just like a body has many different parts that all serve a purpose, every person in the community has a unique and valuable role. No one is more important or less important than another; everyone belongs and contributes. It encourages people to see themselves as essential pieces of something larger than themselves.",
+        "explanationVi": "Câu này dùng hình ảnh cơ thể con người như một phép ẩn dụ để mô tả cách cộng đồng hội thánh vận hành — giống như cơ thể có nhiều bộ phận khác nhau và mỗi bộ phận đều có vai trò riêng, mỗi người trong cộng đồng đều có một vị trí độc đáo và quý giá. Không ai quan trọng hơn hay kém hơn người khác; tất cả đều thuộc về nhau và đóng góp cho nhau. Câu này khuyến khích mọi người nhìn nhận bản thân là một phần thiết yếu của điều gì đó lớn hơn chính mình."
+      },
+      {
+        "ref": "Hebrews 10:25",
+        "bookSlug": "hebrews",
+        "chapter": 10,
+        "verse": 25,
+        "textEn": "not giving up meeting together, as some are in the habit of doing, but encouraging one another—and all the more as you see the Day approaching.",
+        "textVi": "chớ bỏ sự nhóm lại như mấy kẻ quen làm, nhưng phải khuyên bảo nhau, và hễ anh em thấy ngày đó đến càng gần, thì càng phải làm như vậy.",
+        "noteEn": "Gathering together is essential, especially as the end nears.",
+        "noteVi": "Nhóm lại là điều thiết yếu, nhất là khi ngày Chúa đến gần.",
+        "explanationEn": "This verse is a practical reminder not to isolate yourself from your community, especially during difficult times. It emphasizes that regularly gathering with others is important not just for yourself, but so you can encourage and support the people around you. The idea is that showing up for each other consistently is what holds a community together.",
+        "explanationVi": "Câu này là lời nhắc nhở thực tế rằng đừng tự cô lập bản thân khỏi cộng đồng, đặc biệt trong những lúc khó khăn. Nó nhấn mạnh rằng việc thường xuyên gặp gỡ cùng nhau không chỉ quan trọng cho bản thân bạn, mà còn để bạn có thể khích lệ và hỗ trợ những người xung quanh. Ý tưởng cốt lõi là việc kiên định hiện diện vì nhau chính là điều giúp một cộng đồng gắn kết bền vững."
+      },
+      {
+        "ref": "Romans 12:5",
+        "bookSlug": "romans",
+        "chapter": 12,
+        "verse": 5,
+        "textEn": "so in Christ we, though many, form one body, and each member belongs to all the others.",
+        "textVi": "thì chúng ta tuy nhiều người, cũng chỉ là một thân trong Đấng Christ, và hết thảy chúng ta đều là các chi thể của nhau.",
+        "noteEn": "Unity in diversity defines the church community.",
+        "noteVi": "Sự hiệp nhất trong đa dạng định hình cộng đồng Hội thánh.",
+        "explanationEn": "This verse says that even though a community is made up of many different individuals, they are all deeply connected — like different organs in one living body. It challenges the idea that people are truly independent, suggesting instead that we naturally belong to and affect one another. In a church context, this means the well-being of one person is tied to the well-being of everyone else.",
+        "explanationVi": "Câu này nói rằng dù một cộng đồng gồm nhiều cá nhân khác nhau, tất cả đều gắn kết sâu sắc với nhau — như các cơ quan khác nhau trong một cơ thể sống. Nó thách thức quan niệm rằng con người thực sự độc lập, thay vào đó gợi ý rằng chúng ta tự nhiên thuộc về nhau và ảnh hưởng lẫn nhau. Trong bối cảnh hội thánh, điều này có nghĩa là sự an lành của một người gắn liền với sự an lành của tất cả mọi người."
+      },
+      {
+        "ref": "Galatians 6:2",
+        "bookSlug": "galatians",
+        "chapter": 6,
+        "verse": 2,
+        "textEn": "Carry each other's burdens, and in this way you will fulfill the law of Christ.",
+        "textVi": "Hãy mang lấy gánh nặng cho nhau, như vậy anh em sẽ làm trọn luật pháp của Đấng Christ.",
+        "noteEn": "Mutual burden-bearing fulfills Christ's command to love.",
+        "noteVi": "Gánh nặng lẫn nhau là trọn vẹn luật pháp của Đấng Christ.",
+        "explanationEn": "This verse gives a simple but powerful instruction: help each other through hard times, and don't let people carry their struggles alone. It reflects the core value of a caring community — that love is shown through action, especially when someone is going through something difficult. In everyday terms, it means showing up for a friend in need is itself a form of living out these values.",
+        "explanationVi": "Câu này đưa ra một hướng dẫn đơn giản nhưng mạnh mẽ: hãy giúp nhau vượt qua những lúc khó khăn và đừng để ai phải gánh chịu một mình. Nó phản ánh giá trị cốt lõi của một cộng đồng quan tâm lẫn nhau — rằng tình yêu thương được thể hiện qua hành động, đặc biệt khi ai đó đang trải qua điều gì đó khó khăn. Nói một cách đơn giản, việc xuất hiện để giúp đỡ một người bạn trong lúc cần chính là cách sống thực tế những giá trị này."
+      },
+      {
+        "ref": "Ephesians 4:16",
+        "bookSlug": "ephesians",
+        "chapter": 4,
+        "verse": 16,
+        "textEn": "From him the whole body, joined and held together by every supporting ligament, grows and builds itself up in love, as each part does its work.",
+        "textVi": "Toàn thân nhờ Ngài mà rất khéo léo kết lại và liên lạc nhau bởi những gân mối, tùy lượng sức mạnh của mỗi phần, đều được tăng trưởng và gây dựng chính mình trong sự yêu thương.",
+        "noteEn": "The church grows when every member serves faithfully.",
+        "noteVi": "Hội thánh lớn mạnh khi mỗi chi thể phục vụ trung tín.",
+        "explanationEn": "This verse describes a healthy community as something like a well-functioning body — every part is connected, every part has a job, and when each person does their part, the whole group grows stronger. The key word here is 'love,' which is described as the force that holds everything together and drives that growth. It suggests that a community doesn't thrive through one powerful leader alone, but through every member contributing and caring for one another.",
+        "explanationVi": "Câu này mô tả một cộng đồng lành mạnh giống như một cơ thể hoạt động tốt — mỗi bộ phận đều được kết nối, mỗi bộ phận đều có nhiệm vụ, và khi mỗi người làm tốt phần của mình, cả nhóm trở nên mạnh mẽ hơn. Từ khóa quan trọng ở đây là 'tình yêu thương,' được mô tả là lực lượng gắn kết tất cả lại và thúc đẩy sự tăng trưởng đó. Câu này gợi ý rằng một cộng đồng không phát triển nhờ một người lãnh đạo quyền lực duy nhất, mà nhờ mọi thành viên cùng đóng góp và quan tâm lẫn nhau."
+      }
+    ]
+  },
+  {
+    "slug": "evangelism",
+    "nameEn": "Sharing Your Faith",
+    "nameVi": "Chia sẻ đức tin",
+    "category": "faith",
+    "icon": "Megaphone",
+    "introEn": "Sharing your faith is a central calling for every believer in Scripture. The Bible consistently urges Christians to proclaim the gospel, witness boldly, and make disciples of all nations. From the Great Commission to Paul's letters, God's Word equips and motivates believers to share the good news of Jesus Christ.",
+    "introVi": "Chia sẻ đức tin là sứ mệnh trung tâm của mỗi tín đồ trong Kinh Thánh. Kinh Thánh liên tục kêu gọi Cơ Đốc nhân rao giảng Tin Lành, làm chứng dạn dĩ, và môn đồ hóa muôn dân. Từ Đại Mạng Lệnh đến các thư tín của Phao-lô, Lời Đức Chúa Trời trang bị và thúc đẩy tín đồ chia sẻ tin lành của Chúa Giê-xu.",
+    "verses": [
+      {
+        "ref": "Matthew 28:19",
+        "bookSlug": "matthew",
+        "chapter": 28,
+        "verse": 19,
+        "textEn": "Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit,",
+        "textVi": "Vậy, hãy đi và môn đồ hóa muôn dân, hãy nhân danh Đức Cha, Đức Con, và Đức Thánh Linh mà làm báp-têm cho họ,",
+        "noteEn": "The Great Commission calls every believer to make disciples.",
+        "noteVi": "Đại Mạng Lệnh kêu gọi mọi tín đồ môn đồ hóa muôn dân.",
+        "explanationEn": "Jesus is telling his followers to go out into the world and teach others about his message, not just keep it to themselves. The word 'disciples' simply means students or learners. This verse is the foundation of sharing your faith — it's a direct call to spread what you believe to everyone, everywhere.",
+        "explanationVi": "Chúa Giêsu đang kêu gọi những người theo Ngài hãy ra đi và chia sẻ thông điệp của Ngài với mọi người trên thế giới, thay vì chỉ giữ riêng cho mình. Từ 'môn đồ' ở đây có nghĩa đơn giản là học trò hoặc người học hỏi. Đây là nền tảng của việc chia sẻ đức tin — một lời kêu gọi trực tiếp hãy truyền đạt những gì bạn tin tưởng đến tất cả mọi người, ở khắp nơi."
+      },
+      {
+        "ref": "Acts 1:8",
+        "bookSlug": "acts",
+        "chapter": 1,
+        "verse": 8,
+        "textEn": "But you will receive power when the Holy Spirit comes on you; and you will be my witnesses in Jerusalem, and in all Judea and Samaria, and to the ends of the earth.",
+        "textVi": "Nhưng khi Đức Thánh Linh giáng trên các ngươi, thì các ngươi sẽ nhận lấy quyền năng và làm chứng nhân cho ta tại Giê-ru-sa-lem, cả xứ Giu-đê, Sa-ma-ri, cho đến tận cùng trái đất.",
+        "noteEn": "The Holy Spirit empowers believers to witness everywhere.",
+        "noteVi": "Đức Thánh Linh ban năng quyền để làm chứng khắp nơi.",
+        "explanationEn": "This verse promises that believers will receive inner strength and courage — described here as the Holy Spirit — to talk about their faith confidently, starting with people nearby and reaching out to the wider world. A 'witness' is simply someone who shares what they have personally seen or experienced. It connects to sharing your faith by showing that this is meant to start small and grow outward, touching every corner of the earth.",
+        "explanationVi": "Câu này hứa rằng những người tin sẽ nhận được sức mạnh và can đảm từ bên trong — được gọi là Đức Thánh Linh — để nói về đức tin của mình một cách tự tin, bắt đầu từ những người xung quanh và lan rộng ra toàn thế giới. Một 'nhân chứng' đơn giản là người chia sẻ những gì họ đã trực tiếp trải nghiệm. Câu này liên quan đến việc chia sẻ đức tin bằng cách cho thấy điều đó bắt đầu từ những điều nhỏ bé và dần lan rộng ra khắp nơi trên trái đất."
+      },
+      {
+        "ref": "Romans 10:14",
+        "bookSlug": "romans",
+        "chapter": 10,
+        "verse": 14,
+        "textEn": "How, then, can they call on the one they have not believed in? And how can they believe in the one of whom they have not heard? And how can they hear without someone preaching to them?",
+        "textVi": "Nhưng họ chưa tin Ngài thì kêu cầu Ngài thế nào? Chưa nghe nói về Ngài thì làm thể nào mà tin? Không có ai rao giảng thì nghe thể nào?",
+        "noteEn": "Faith comes through hearing; someone must share the gospel.",
+        "noteVi": "Đức tin đến qua nghe; ai đó phải rao giảng Tin Lành.",
+        "explanationEn": "Paul is making a logical point here: if nobody ever tells someone about a belief, how can that person ever come to understand or embrace it? It's like asking someone to love a book they've never heard of. This verse highlights that sharing your faith is essential — someone has to speak up, because beliefs don't spread on their own.",
+        "explanationVi": "Phao-lô đang đưa ra một lập luận rất logic: nếu không ai nói cho người khác biết về một niềm tin, thì làm sao người đó có thể hiểu hoặc đón nhận nó được? Cũng giống như việc yêu cầu ai đó yêu thích một cuốn sách mà họ chưa từng nghe đến. Câu này nhấn mạnh rằng việc chia sẻ đức tin là điều cần thiết — phải có người lên tiếng, vì niềm tin không thể tự lan truyền."
+      },
+      {
+        "ref": "1 Peter 3:15",
+        "bookSlug": "1-peter",
+        "chapter": 3,
+        "verse": 15,
+        "textEn": "But in your hearts revere Christ as Lord. Always be prepared to give an answer to everyone who asks you to give the reason for the hope that you have. But do this with gentleness and respect,",
+        "textVi": "Nhưng hãy tôn Đấng Christ là Chúa trong lòng mình. Hãy thường thường sẵn sàng trả lời mọi kẻ hỏi lẽ về sự trông cậy trong anh em, song phải hiền lành và kính sợ mà trả lời.",
+        "noteEn": "Be ready to explain your faith with gentleness.",
+        "noteVi": "Hãy sẵn sàng giải thích đức tin với sự hiền lành.",
+        "explanationEn": "This verse encourages believers to always be ready to explain why they have hope and peace in their lives, whenever someone is curious enough to ask. Importantly, it emphasizes doing this with kindness and respect, not with pressure or judgment. It's a reminder that sharing your faith should feel like a calm, honest conversation, not a debate or a lecture.",
+        "explanationVi": "Câu này khuyến khích những người tin hãy luôn sẵn sàng giải thích lý do tại sao họ có hy vọng và bình an trong cuộc sống, khi có người tò mò muốn hỏi. Điều quan trọng là câu này nhấn mạnh phải làm điều đó với sự tử tế và tôn trọng, không phải bằng áp lực hay phán xét. Đây là lời nhắc nhở rằng việc chia sẻ đức tin nên cảm thấy như một cuộc trò chuyện bình thản và chân thành, không phải một cuộc tranh luận hay bài giảng."
+      },
+      {
+        "ref": "2 Timothy 4:2",
+        "bookSlug": "2-timothy",
+        "chapter": 4,
+        "verse": 2,
+        "textEn": "Preach the word; be prepared in season and out of season; correct, rebuke and encourage—with great patience and careful instruction.",
+        "textVi": "Hãy rao giảng đạo, cố khuyên, bất luận gặp thời hay không gặp thời, hãy đem lòng rất nhịn nhục mà bẻ trách, nài khuyên, sửa trị, cùng dạy dỗ chẳng thôi.",
+        "noteEn": "Preach the Word consistently, whether convenient or not.",
+        "noteVi": "Rao giảng Lời Chúa kiên trì, dù thuận tiện hay không.",
+        "explanationEn": "Paul is advising a young leader named Timothy to share his beliefs consistently — whether the timing feels right or not — and to do so with patience and clear teaching. 'Preach the word' simply means to communicate what you believe openly and honestly. This verse shows that sharing your faith is not just for convenient moments; it requires steady commitment and a willingness to be both honest and caring.",
+        "explanationVi": "Phao-lô đang khuyên một người lãnh đạo trẻ tên Ti-mô-thê hãy chia sẻ đức tin của mình một cách nhất quán — dù thời điểm có thuận tiện hay không — và phải làm điều đó với sự kiên nhẫn và hướng dẫn rõ ràng. 'Rao giảng lời Chúa' đơn giản có nghĩa là truyền đạt những gì bạn tin tưởng một cách cởi mở và trung thực. Câu này cho thấy việc chia sẻ đức tin không chỉ dành cho những lúc thuận tiện; nó đòi hỏi sự cam kết bền bỉ và tinh thần sẵn sàng vừa thành thật vừa quan tâm đến người khác."
+      },
+      {
+        "ref": "Colossians 4:6",
+        "bookSlug": "colossians",
+        "chapter": 4,
+        "verse": 6,
+        "textEn": "Let your conversation be always full of grace, seasoned with salt, so that you may know how to answer everyone.",
+        "textVi": "Lời nói anh em phải có ân huệ luôn luôn, thêm muối vào, hầu cho anh em biết nên đáp lại mỗi người là thể nào.",
+        "noteEn": "Gracious, wise speech opens doors for sharing faith.",
+        "noteVi": "Lời nói ân huệ và khôn ngoan mở cửa chia sẻ đức tin.",
+        "explanationEn": "This verse uses two vivid images — 'grace' meaning warmth and goodwill, and 'salt' meaning something that adds flavor and makes things interesting — to describe how believers should speak with others about their faith. It's essentially saying: be pleasant, thoughtful, and engaging in your conversations, not harsh or boring. For sharing your faith, this is practical advice to be a good communicator who draws people in rather than pushing them away.",
+        "explanationVi": "Câu này sử dụng hai hình ảnh sinh động — 'ân huệ' có nghĩa là sự ấm áp và thiện chí, còn 'muối' tượng trưng cho điều gì đó thêm hương vị và làm cho cuộc trò chuyện thú vị hơn — để mô tả cách những người tin nên nói chuyện với người khác về đức tin của mình. Về cơ bản, câu này muốn nói: hãy dễ chịu, suy nghĩ thấu đáo và cuốn hút trong các cuộc trò chuyện, chứ không phải gay gắt hay nhàm chán. Đối với việc chia sẻ đức tin, đây là lời khuyên thực tế để trở thành người giao tiếp tốt, thu hút người khác lại gần thay vì đẩy họ ra xa."
+      }
+    ]
+  },
+  {
+    "slug": "death-dying",
+    "nameEn": "Death & Dying",
+    "nameVi": "Cái chết",
+    "category": "eternity",
+    "icon": "Sunset",
+    "introEn": "The Bible addresses death honestly, acknowledging its reality as a consequence of sin while offering profound hope through resurrection. Scripture teaches that physical death is not the end, but a transition, and that through Jesus Christ, believers can have confidence of eternal life. God's Word comforts the grieving and transforms fear of death into hope.",
+    "introVi": "Kinh Thánh nói thẳng về cái chết, nhìn nhận nó như hậu quả của tội lỗi nhưng vẫn ban cho niềm hy vọng qua sự phục sinh. Lời Chúa dạy rằng cái chết thể xác không phải là kết thúc, mà là một sự chuyển tiếp, và nhờ Chúa Giê-xu, những ai tin có thể chắc chắn về sự sống đời đời. Đức Chúa Trời an ủi người đau buồn và biến nỗi sợ chết thành niềm hy vọng.",
+    "verses": [
+      {
+        "ref": "John 11:25-26",
+        "bookSlug": "john",
+        "chapter": 11,
+        "verse": 25,
+        "textEn": "Jesus said to her, 'I am the resurrection and the life. The one who believes in me will live, even though they die; and whoever lives by believing in me will never die. Do you believe this?'",
+        "textVi": "Đức Chúa Jêsus phán rằng: Ta là sự sống lại và sự sống; kẻ nào tin ta thì sẽ sống, mặc dầu đã chết rồi. Còn ai sống và tin ta thì không hề chết. Ngươi có tin điều đó chăng?",
+        "noteEn": "Jesus conquers death and offers resurrection life.",
+        "noteVi": "Chúa Giê-xu chiến thắng sự chết, ban sự sống lại.",
+        "explanationEn": "Jesus is claiming that he has power over death itself, and that people who trust in him will experience a life that goes beyond physical dying. In other words, death is not the final ending for those who believe — there is something more on the other side. This verse is central to the Christian understanding that physical death is not the ultimate conclusion of a person's existence.",
+        "explanationVi": "Chúa Giê-su tuyên bố rằng Ngài có quyền năng chiến thắng cái chết, và những ai tin vào Ngài sẽ có một cuộc sống vượt qua cả cái chết thể xác. Nói cách khác, đối với những người tin, cái chết không phải là dấu chấm hết cuối cùng — vẫn còn điều gì đó ở phía bên kia. Đây là câu Kinh Thánh cốt lõi trong quan điểm của người Cơ Đốc rằng cái chết thể xác không phải là kết thúc tuyệt đối của một con người."
+      },
+      {
+        "ref": "Romans 6:23",
+        "bookSlug": "romans",
+        "chapter": 6,
+        "verse": 23,
+        "textEn": "For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord.",
+        "textVi": "Vì tiền công của tội lỗi là sự chết; nhưng sự ban cho của Đức Chúa Trời là sự sống đời đời trong Đức Chúa Jêsus Christ, Chúa chúng ta.",
+        "noteEn": "Death is sin's wage; eternal life is God's gift.",
+        "noteVi": "Sự chết là hậu quả tội lỗi; sự sống là ân tứ.",
+        "explanationEn": "This verse uses the image of wages — like a paycheck — to say that wrongdoing naturally leads to death, both physical and spiritual. But it contrasts that with the idea of a free gift: a life without end, offered through Jesus. It frames death not as an unavoidable dead end, but as something that can be overcome through a relationship with God.",
+        "explanationVi": "Câu này dùng hình ảnh tiền lương — giống như tiền công nhận được — để nói rằng sự sai trái tự nhiên dẫn đến cái chết, cả về thể xác lẫn tâm linh. Nhưng nó đối lập điều đó với ý tưởng về một món quà miễn phí: một cuộc sống không có hồi kết, được ban tặng qua Chúa Giê-su. Câu này cho thấy cái chết không phải là ngõ cụt không thể tránh khỏi, mà là điều có thể được vượt qua thông qua mối quan hệ với Đức Chúa Trời."
+      },
+      {
+        "ref": "Psalm 23:4",
+        "bookSlug": "psalms",
+        "chapter": 23,
+        "verse": 4,
+        "textEn": "Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me.",
+        "textVi": "Dầu khi tôi đi trong trũng bóng chết, tôi sẽ chẳng sợ tai họa nào; vì Chúa ở cùng tôi; cây trượng và cây gậy của Chúa an ủi tôi.",
+        "noteEn": "God's presence removes fear in death's shadow.",
+        "noteVi": "Chúa đồng hành, xóa tan nỗi sợ bóng chết.",
+        "explanationEn": "The 'darkest valley' is a poetic way of describing the most frightening and difficult moments of life, including facing death. The writer is saying that even in those moments, they do not feel alone — there is a sense of God's comforting presence guiding them through. This verse is often read at funerals because it speaks directly to the fear and grief that surrounds death.",
+        "explanationVi": "'Thung lũng tối tăm nhất' là cách nói thơ mộng để mô tả những khoảnh khắc đáng sợ và khó khăn nhất trong cuộc đời, bao gồm cả việc đối mặt với cái chết. Tác giả muốn nói rằng ngay cả trong những lúc đó, họ không cảm thấy cô đơn — có sự hiện diện an ủi của Đức Chúa Trời dẫn dắt họ vượt qua. Câu này thường được đọc trong các đám tang vì nó nói thẳng vào nỗi sợ hãi và đau buồn xung quanh cái chết."
+      },
+      {
+        "ref": "1 Corinthians 15:55",
+        "bookSlug": "1-corinthians",
+        "chapter": 15,
+        "verse": 55,
+        "textEn": "'Where, O death, is your victory? Where, O death, is your sting?'",
+        "textVi": "Hỡi sự chết, sự thắng của mày ở đâu? Hỡi sự chết, cái nọc của mày ở đâu?",
+        "noteEn": "Death's power is defeated through Christ's resurrection.",
+        "noteVi": "Sự chết đã bị đánh bại bởi sự phục sinh.",
+        "explanationEn": "This line reads like a victory chant, mocking death as though it has lost all its power. In the Christian belief, Jesus rising from the dead means death no longer has the final say over human beings. The verse expresses a bold confidence that death, while real, is not something to be ultimately feared.",
+        "explanationVi": "Câu này nghe như một bài ca chiến thắng, chế giễu cái chết như thể nó đã mất hết sức mạnh. Trong niềm tin Cơ Đốc, việc Chúa Giê-su sống lại từ cõi chết có nghĩa là cái chết không còn là tiếng nói cuối cùng đối với con người. Câu này bày tỏ sự tự tin mạnh mẽ rằng dù cái chết là thật, nhưng nó không phải là điều cuối cùng cần phải sợ hãi."
+      },
+      {
+        "ref": "Revelation 21:4",
+        "bookSlug": "revelation",
+        "chapter": 21,
+        "verse": 4,
+        "textEn": "'He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away.'",
+        "textVi": "Ngài sẽ lau ráo hết nước mắt khỏi mắt chúng, sẽ không có sự chết, cũng không có than thở, khóc lóc, hay là đau đớn nữa; vì những sự thứ nhất đã qua rồi.",
+        "noteEn": "Heaven promises no more death or sorrow.",
+        "noteVi": "Thiên đàng hứa không còn sự chết hay đau buồn.",
+        "explanationEn": "This verse describes a future state — often called heaven — where all suffering, grief, and death will no longer exist. It paints a picture of complete healing and restoration, where everything painful about human life, including loss and dying, is permanently gone. For those grieving, this offers a hope that pain and death are not permanent realities but temporary ones.",
+        "explanationVi": "Câu này mô tả một trạng thái tương lai — thường được gọi là thiên đàng — nơi mà mọi đau khổ, buồn bã và cái chết sẽ không còn tồn tại nữa. Nó vẽ nên một bức tranh về sự chữa lành và phục hồi hoàn toàn, nơi mọi điều đau đớn trong cuộc sống con người, bao gồm cả sự mất mát và cái chết, đều biến mất vĩnh viễn. Đối với những người đang đau buồn, điều này mang lại hy vọng rằng đau khổ và cái chết không phải là thực tại vĩnh cửu mà chỉ là tạm thời."
+      },
+      {
+        "ref": "Hebrews 2:14-15",
+        "bookSlug": "hebrews",
+        "chapter": 2,
+        "verse": 14,
+        "textEn": "Since the children have flesh and blood, he too shared in their humanity so that by his death he might break the power of him who holds the power of death—that is, the devil—and free those who all their lives were held in slavery by their fear of death.",
+        "textVi": "Vậy thì, vì con cái có phần về huyết và thịt, nên chính Ngài cũng có phần vào đó, hầu cho Ngài bởi sự chết mình mà phá diệt kẻ cầm quyền sự chết, là ma quỉ, và giải thoát những kẻ vì sợ chết, bị cầm trong vòng tôi mọi trong suốt đời mình.",
+        "noteEn": "Christ's death frees us from slavery to fear.",
+        "noteVi": "Cái chết của Chúa giải phóng ta khỏi sợ hãi.",
+        "explanationEn": "This passage explains that Jesus became a human being specifically so he could experience death and, through that, destroy death's grip on people. The idea is that many people live their whole lives controlled by fear of dying, and Jesus came to break that fear. It offers the view that death is not a master to be terrified of, but a power that has already been defeated.",
+        "explanationVi": "Đoạn này giải thích rằng Chúa Giê-su trở thành một con người chính là để Ngài có thể trải qua cái chết, và qua đó, phá vỡ sự kìm kẹp của cái chết đối với con người. Ý tưởng ở đây là nhiều người sống cả cuộc đời bị kiểm soát bởi nỗi sợ chết, và Chúa Giê-su đến để phá vỡ nỗi sợ đó. Câu này mang lại quan điểm rằng cái chết không phải là một chủ nhân đáng khiếp sợ, mà là một thế lực đã bị đánh bại."
       }
     ]
   }
@@ -3234,7 +5353,7 @@ export const BIBLE_TOPICS: BibleTopic[] = [
 export const TOPIC_CATEGORIES: Record<TopicCategory, { labelEn: string; labelVi: string }> = {
   faith:         { labelEn: "Faith",         labelVi: "Đức tin" },
   emotions:      { labelEn: "Emotions",      labelVi: "Cảm xúc" },
-  relationships: { labelEn: "Relationships", labelVi: "Quan hệ" },
+  relationships: { labelEn: "Relationships", labelVi: "Mối quan hệ" },
   guidance:      { labelEn: "Guidance",      labelVi: "Hướng dẫn" },
   identity:      { labelEn: "Identity",      labelVi: "Danh tính" },
   prayer:        { labelEn: "Prayer",        labelVi: "Cầu nguyện" },

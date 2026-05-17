@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react";
 import {
   Flame, Sparkles, RefreshCcw, Droplets, Wind, Heart, Shield, CloudRain,
   Sun, Zap, User, Sunrise, Anchor, Home, Users, HeartHandshake, Baby,
@@ -45,10 +46,11 @@ export function TopicCard({ topic, segment }: TopicCardProps) {
   const firstVerse = topic.verses[0];
 
   return (
+    <motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2 }} className="h-full">
     <Link
       href={`/bible/${segment}/topics/${topic.slug}`}
       className={cn(
-        "group flex flex-col gap-3 rounded-2xl border p-5 transition-all duration-200 hover:shadow-md",
+        "group flex h-full flex-col gap-3 rounded-2xl border p-5 transition-all duration-200 hover:shadow-md",
         "bg-card",
         colors.border
       )}
@@ -77,5 +79,6 @@ export function TopicCard({ topic, segment }: TopicCardProps) {
         {firstVerse?.ref}
       </p>
     </Link>
+    </motion.div>
   );
 }

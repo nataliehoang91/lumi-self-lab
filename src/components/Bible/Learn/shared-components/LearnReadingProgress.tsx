@@ -15,7 +15,9 @@ export function LearnReadingProgress() {
   const parts = pathname?.split("/") ?? [];
   const isLearnModule =
     (parts[3] === "learn" && parts[4] != null && parts[4] !== "") ||
-    (parts[3] === "book-overviews" && parts[4] != null && parts[4] !== "");
+    parts[3] === "book-overviews" ||
+    parts[3] === "topics" ||
+    parts[3] === "topics-timeline";
 
   useEffect(() => {
     setMounted(true);

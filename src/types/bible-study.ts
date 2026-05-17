@@ -9,6 +9,9 @@ export interface BibleStudyList {
   isPublic: boolean;
   publicSlug: string | null;
   sortOrder: number;
+  targetDate: Date | null;
+  dailyGoalChapters: number | null;
+  lastStudiedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,6 +29,7 @@ export interface BibleStudyPassage {
   verseStart: number | null;
   verseEnd: number | null;
   isStudied: boolean;
+  studiedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -51,4 +55,33 @@ export interface BibleStudyHighlight {
   verseNumber: number;
   color: HighlightColor;
   createdAt: Date;
+}
+
+export interface StudyStreak {
+  currentStreak: number;
+  longestStreak: number;
+  lastStudiedDate: Date | null;
+  totalDaysStudied: number;
+}
+
+export interface ChecklistBook {
+  bookId: string;
+  bookNameEn: string;
+  bookNameVi: string;
+  bookOrder: number;
+  passages: {
+    id: string;
+    chapter: number;
+    isStudied: boolean;
+    studiedAt: Date | null;
+  }[];
+}
+
+export interface ContinueTodayItem {
+  listId: string;
+  listTitle: string;
+  bookId: string;
+  bookNameEn: string;
+  bookNameVi: string;
+  chapter: number;
 }
