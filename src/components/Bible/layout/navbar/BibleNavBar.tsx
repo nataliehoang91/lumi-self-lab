@@ -62,7 +62,7 @@ export function BibleNavBar() {
               ScriptureSpace
             </h1>
           </Link>
-          <div className="hidden md:block">
+          <div className="hidden md:block ml-4">
             <BibleReferenceSearch />
           </div>
         </div>
