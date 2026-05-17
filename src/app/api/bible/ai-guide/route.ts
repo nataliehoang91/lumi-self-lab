@@ -263,7 +263,7 @@ export async function POST(req: NextRequest) {
 
   while (true) {
     const response = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
+      model: "claude-haiku-4-5-20251001",
       max_tokens: 600,
       system: systemPrompt,
       tools,
