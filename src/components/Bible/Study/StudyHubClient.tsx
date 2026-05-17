@@ -203,14 +203,45 @@ function ContinueTodayBanner({
   );
 }
 
+// ── Tag color palette ─────────────────────────────────────────────────────────
+
+const TAG_COLORS = [
+  "bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/20 dark:text-teal-300 dark:border-teal-800/30",
+  "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/20 dark:text-indigo-300 dark:border-indigo-800/30",
+  "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-300 dark:border-emerald-800/30",
+  "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-300 dark:border-amber-800/30",
+  "bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-950/20 dark:text-rose-300 dark:border-rose-800/30",
+  "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/20 dark:text-sky-300 dark:border-sky-800/30",
+  "bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/20 dark:text-violet-300 dark:border-violet-800/30",
+  "bg-lime-50 text-lime-700 border-lime-200 dark:bg-lime-950/20 dark:text-lime-300 dark:border-lime-800/30",
+];
+
+const CARD_BORDER_COLORS = [
+  "border-t-teal-300/60",
+  "border-t-indigo-300/60",
+  "border-t-emerald-300/60",
+  "border-t-amber-300/60",
+  "border-t-sky-300/60",
+  "border-t-violet-300/60",
+  "border-t-rose-300/60",
+  "border-t-lime-300/60",
+];
+
+function strHash(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h;
+}
+
 // ── Tag Pill ──────────────────────────────────────────────────────────────────
 
 function TagPill({ tag, onRemove }: { tag: string; onRemove?: () => void }) {
+  const colorClass = TAG_COLORS[strHash(tag) % TAG_COLORS.length]!;
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+    <span className={cn("inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium", colorClass)}>
       {tag}
       {onRemove && (
-        <button type="button" onClick={onRemove} className="hover:text-primary/60">
+        <button type="button" onClick={onRemove} className="opacity-60 hover:opacity-100">
           <X className="h-2.5 w-2.5" />
         </button>
       )}
@@ -288,11 +319,14 @@ function StudyListCard({
 
   const progressPct = list.passageCount > 0 ? Math.round((list.studiedCount / list.passageCount) * 100) : 0;
 
+  const cardAccent = CARD_BORDER_COLORS[strHash(list.id) % CARD_BORDER_COLORS.length]!;
+
   return (
     <div className={cn(
-      "border-border bg-background group flex flex-col rounded-2xl border transition-all",
-      "hover:border-primary/30 hover:shadow-sm",
-      list.isFavorite && "border-primary/30 bg-primary/3"
+      "border-border bg-background group flex flex-col rounded-2xl border border-t-2 transition-all",
+      cardAccent,
+      "hover:shadow-sm",
+      list.isFavorite && "bg-amber-50/30 dark:bg-amber-950/10"
     )}>
       {/* Header */}
       <div className="bg-muted/60 flex items-start justify-between gap-2 rounded-t-2xl px-4 py-3">
