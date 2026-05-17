@@ -177,17 +177,17 @@ function ContinueTodayBanner({
     <motion.button
       type="button"
       onClick={() => router.push(href)}
-      className="mb-5 flex w-full items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-background/90 px-4 py-3 text-left shadow-sm transition-colors hover:border-primary/50 hover:bg-background"
+      className="mb-5 flex w-full items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-left shadow-sm transition-colors hover:border-amber-300 hover:bg-amber-50 dark:border-amber-800/40 dark:bg-amber-950/20"
       initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.15 }}
     >
       <div className="flex items-center gap-3">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-          <BookOpen className="h-4 w-4 text-primary" />
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/30">
+          <BookOpen className="h-4 w-4 text-amber-600 dark:text-amber-400" />
         </div>
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-primary">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-400">
             {t.continueToday}
           </p>
           <p className="text-sm font-medium text-foreground">
@@ -198,7 +198,7 @@ function ContinueTodayBanner({
           </p>
         </div>
       </div>
-      <ArrowRight className="h-4 w-4 shrink-0 text-primary" />
+      <ArrowRight className="h-4 w-4 shrink-0 text-amber-500" />
     </motion.button>
   );
 }

@@ -87,8 +87,8 @@ export function ChecklistPanel({
                     "flex h-7 items-center justify-center rounded-lg border px-1.5 text-[11px] font-medium transition-all",
                     p.verseStart != null ? "min-w-10" : "w-7",
                     p.isStudied
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-muted/30 text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                      ? "border-teal-400 bg-teal-100 text-teal-700 dark:border-teal-600 dark:bg-teal-900/40 dark:text-teal-300"
+                      : "border-border bg-muted/30 text-muted-foreground hover:border-teal-300 hover:text-foreground"
                   )}
                 >
                   {p.isStudied ? <Check className="h-3 w-3" /> : p.verseStart != null ? `${p.chapter}:${p.verseStart}` : p.chapter}
