@@ -158,12 +158,12 @@ export function SharedStudyView({ list, passages, books }: SharedStudyViewProps)
                       className={cn(
                         "flex items-center gap-2.5 rounded-xl border px-3 py-2 text-left text-xs transition-colors",
                         version === v.id
-                          ? "bg-primary text-primary-foreground border-primary"
+                          ? "bg-indigo-600 text-white border-indigo-600"
                           : "bg-background text-foreground/80 border-border hover:bg-muted"
                       )}
                     >
                       <span className={cn("flex h-5 w-8 shrink-0 items-center justify-center rounded text-[10px] font-bold",
-                        version === v.id ? "bg-primary-foreground/20 text-primary-foreground" : "bg-muted text-muted-foreground")}>
+                        version === v.id ? "bg-white/20 text-white" : "bg-muted text-muted-foreground")}>
                         {v.short}
                       </span>
                       <span className="font-medium">{v.label}</span>

@@ -807,7 +807,7 @@ export function StudyReaderShell({
             {list.tags.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {list.tags.map((tag) => (
-                  <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+                  <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-500 dark:bg-slate-800/50 dark:text-slate-400">
                     <Tag className="h-2.5 w-2.5" />{tag}
                   </span>
                 ))}
@@ -884,10 +884,10 @@ export function StudyReaderShell({
                     {VERSIONS.map((v) => (
                       <button key={v.id} type="button" onClick={() => setVersion(v.id)}
                         className={cn("flex items-center gap-2.5 rounded-xl border px-3 py-2 text-left text-xs transition-colors",
-                          version === v.id ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground/80 border-border hover:bg-muted"
+                          version === v.id ? "bg-indigo-600 text-white border-indigo-600" : "bg-background text-foreground/80 border-border hover:bg-muted"
                         )}>
                         <span className={cn("flex h-5 w-8 shrink-0 items-center justify-center rounded text-[10px] font-bold",
-                          version === v.id ? "bg-primary-foreground/20 text-primary-foreground" : "bg-muted text-muted-foreground")}>
+                          version === v.id ? "bg-white/20 text-white" : "bg-muted text-muted-foreground")}>
                           {v.short}
                         </span>
                         <span className="font-medium">{t.versionLabels[v.id]}</span>
@@ -922,11 +922,11 @@ export function StudyReaderShell({
                       return (
                         <button key={b.id} type="button" onClick={() => setSelectedBookId(b.id)}
                           className={cn("flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors",
-                            selectedBookId === b.id ? "bg-primary/10 text-primary font-semibold" : "text-foreground/80 hover:bg-muted")}>
+                            selectedBookId === b.id ? "bg-sky-50 text-sky-700 font-semibold dark:bg-sky-950/30 dark:text-sky-300" : "text-foreground/80 hover:bg-muted")}>
                           <span>{bookLabel}</span>
                           {count > 0 && (
                             <span className={cn("flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-semibold",
-                              selectedBookId === b.id ? "bg-primary text-primary-foreground" : "bg-muted-foreground/20 text-muted-foreground")}>
+                              selectedBookId === b.id ? "bg-sky-600 text-white" : "bg-muted-foreground/20 text-muted-foreground")}>
                               {count}
                             </span>
                           )}
