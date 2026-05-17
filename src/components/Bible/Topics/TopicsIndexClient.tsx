@@ -120,19 +120,19 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
 
   const sidebar = (
     <aside className="hidden lg:block lg:w-60 xl:w-72 shrink-0">
-      <div className="sticky top-20 space-y-6">
+      <div className="sticky top-20 divide-y divide-border space-y-0">
         {/* Favorites */}
         {favoriteTopics.length > 0 && (
-          <div>
+          <div className="pb-5">
             <SectionHeader
               icon={<Heart className="h-3.5 w-3.5 text-rose-500" />}
               label={isVi ? "Yêu thích" : "Favorites"}
               bodyClass={bodyClass}
               isVi={isVi}
             />
-            <div className="space-y-0.5">
+            <div className="flex flex-wrap gap-1.5">
               {favoriteTopics.map((topic) => (
-                <SidebarTopicLink key={topic.slug} topic={topic} segment={segment} />
+                <TopicBadge key={topic.slug} topic={topic} segment={segment} />
               ))}
             </div>
           </div>
@@ -140,7 +140,7 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
 
         {/* Recently viewed */}
         {recentTopics.length > 0 && (
-          <div>
+          <div className="py-5">
             <SectionHeader
               icon={<Clock className="h-3.5 w-3.5" />}
               label={isVi ? "Gần đây" : "Recent"}
@@ -156,7 +156,7 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
         )}
 
         {/* Popular */}
-        <div>
+        <div className="py-5">
           <SectionHeader
             icon={<TrendingUp className="h-3.5 w-3.5" />}
             label={isVi ? "Phổ biến" : "Popular"}
@@ -172,16 +172,16 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
 
         {/* Suggested */}
         {suggestedTopics.length > 0 && (
-          <div>
+          <div className="pt-5">
             <SectionHeader
               icon={<Sparkles className="h-3.5 w-3.5" />}
               label={isVi ? "Gợi ý" : "Suggested"}
               bodyClass={bodyClass}
               isVi={isVi}
             />
-            <div className="space-y-0.5">
+            <div className="flex flex-wrap gap-1.5">
               {suggestedTopics.map((topic) => (
-                <SidebarTopicLink key={topic.slug} topic={topic} segment={segment} />
+                <TopicBadge key={topic.slug} topic={topic} segment={segment} />
               ))}
             </div>
           </div>

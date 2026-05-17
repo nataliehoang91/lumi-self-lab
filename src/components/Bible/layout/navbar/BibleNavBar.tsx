@@ -85,8 +85,8 @@ export function BibleNavBar() {
               className={cn(
                 "flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-all",
                 isStudy
-                  ? "bg-violet-600 text-white shadow-md shadow-violet-500/25"
-                  : "border border-violet-200 bg-violet-50 text-violet-700 hover:border-violet-300 hover:bg-violet-100 dark:border-violet-800/50 dark:bg-violet-950/30 dark:text-violet-300 dark:hover:bg-violet-900/40"
+                  ? "bg-indigo-500 text-white shadow-sm shadow-indigo-400/30"
+                  : "border border-indigo-200 bg-indigo-50 text-indigo-600 hover:border-indigo-300 hover:bg-indigo-100 dark:border-indigo-800/50 dark:bg-indigo-950/30 dark:text-indigo-300 dark:hover:bg-indigo-900/40"
               )}
             >
               <GraduationCap className="h-3.5 w-3.5 shrink-0" />
