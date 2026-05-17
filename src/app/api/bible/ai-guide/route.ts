@@ -187,12 +187,14 @@ function getLearnArticles() {
 }
 
 export async function POST(req: NextRequest) {
-  const { message, lang, history = [], recentTopics = [] } = (await req.json()) as {
+  const { message, lang, history = [], recentTopics = [], preferredVersion } = (await req.json()) as {
     message: string;
     lang: "en" | "vi";
     history: { role: "user" | "assistant"; content: string }[];
     recentTopics?: string[];
+    preferredVersion?: "vi" | "niv" | "kjv";
   };
+  const bookVersion = preferredVersion ?? (lang === "vi" ? "vi" : "niv");
 
   if (!message?.trim()) {
     return new Response("Missing message", { status: 400 });
@@ -315,7 +317,7 @@ export async function POST(req: NextRequest) {
               const testament = b.id >= 40 ? "&testament1=nt" : "&testament1=ot";
               toolLinks.push({
                 label: isVi ? b.nameVi : b.nameEn,
-                href: `/bible/${lang}/read?version1=${lang === "vi" ? "vi" : "kjv"}&book1=${b.slugEn}&chapter1=1${testament}`,
+                href: `/bible/${lang}/read?version1=${bookVersion}&book1=${b.slugEn}&chapter1=1${testament}`,
                 type: "book",
               });
             });

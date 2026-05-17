@@ -16,7 +16,11 @@ interface Message { role: "user" | "assistant"; content: string; links?: NavLink
 
 const LINKS_MARKER = "\n\nLINKS:";
 const STORAGE_KEY = "bible-ai-chat";
+const VERSION_PREF_KEY = "bible-ai-version-pref";
 const MAX_MESSAGES = 100; // 50 exchanges
+
+type BibleVersionPref = "vi" | "niv" | "kjv";
+const VERSION_LABELS: Record<BibleVersionPref, string> = { vi: "VI 1925", niv: "NIV", kjv: "KJV" };
 
 // ── Static maps ──────────────────────────────────────────────────────────────
 
@@ -232,23 +236,36 @@ function saveHistory(msgs: Message[]) {
 
 export function BibleAIGuide({ lang }: { lang: string }) {
   const isVi = lang === "vi";
+  const defaultVersion: BibleVersionPref = isVi ? "vi" : "niv";
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newestId, setNewestId] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [recentTopics, setRecentTopics] = useState<string[]>([]);
+  const [prefVersion, setPrefVersion] = useState<BibleVersionPref>(defaultVersion);
+  const [showVersionPicker, setShowVersionPicker] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Load persisted chat + recent topics on mount
+  // Load persisted chat + recent topics + version pref on mount
   useEffect(() => {
     setMessages(loadHistory());
     try {
       const raw = localStorage.getItem("bible-recent-topics");
       if (raw) setRecentTopics(JSON.parse(raw) as string[]);
     } catch { /* ignore */ }
+    try {
+      const v = localStorage.getItem(VERSION_PREF_KEY) as BibleVersionPref | null;
+      if (v && (v === "vi" || v === "niv" || v === "kjv")) setPrefVersion(v);
+    } catch { /* ignore */ }
   }, []);
+
+  const setVersion = (v: BibleVersionPref) => {
+    setPrefVersion(v);
+    setShowVersionPicker(false);
+    try { localStorage.setItem(VERSION_PREF_KEY, v); } catch { /* ignore */ }
+  };
 
   // Persist whenever messages change
   useEffect(() => {
@@ -285,7 +302,7 @@ export function BibleAIGuide({ lang }: { lang: string }) {
       const res = await fetch("/api/bible/ai-guide", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, lang, history, recentTopics }),
+        body: JSON.stringify({ message: text, lang, history, recentTopics, preferredVersion: prefVersion }),
       });
       if (!res.body) throw new Error("No body");
 
@@ -383,7 +400,45 @@ export function BibleAIGuide({ lang }: { lang: string }) {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
+                {/* Version badge */}
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setShowVersionPicker((v) => !v)}
+                    title={isVi ? "Đổi bản dịch" : "Change version"}
+                    className="rounded-full border border-primary/30 bg-primary/8 px-2 py-0.5 text-[10px] font-semibold text-primary transition-colors hover:bg-primary/15"
+                  >
+                    {VERSION_LABELS[prefVersion]}
+                  </button>
+                  <AnimatePresence>
+                    {showVersionPicker && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95, y: -4 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 top-7 z-50 flex flex-col gap-1 rounded-xl border border-border bg-background p-1.5 shadow-lg"
+                      >
+                        {(["vi", "niv", "kjv"] as BibleVersionPref[]).map((v) => (
+                          <button
+                            key={v}
+                            type="button"
+                            onClick={() => setVersion(v)}
+                            className={cn(
+                              "rounded-lg px-3 py-1.5 text-left text-xs font-medium transition-colors",
+                              prefVersion === v
+                                ? "bg-primary/10 text-primary"
+                                : "text-foreground hover:bg-muted"
+                            )}
+                          >
+                            {VERSION_LABELS[v]}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
                 {messages.length > 0 && (
                   <button
                     type="button"
@@ -413,6 +468,33 @@ export function BibleAIGuide({ lang }: { lang: string }) {
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-4"
                 >
+                  {/* Version welcome card */}
+                  <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
+                    <p className="text-xs font-semibold text-foreground mb-2">
+                      {isVi ? "Bản dịch ưa thích của bạn?" : "Your preferred Bible version?"}
+                    </p>
+                    <div className="flex gap-2">
+                      {(["vi", "niv", "kjv"] as BibleVersionPref[]).map((v) => (
+                        <button
+                          key={v}
+                          type="button"
+                          onClick={() => setVersion(v)}
+                          className={cn(
+                            "flex-1 rounded-lg border py-1.5 text-xs font-semibold transition-colors",
+                            prefVersion === v
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                          )}
+                        >
+                          {VERSION_LABELS[v]}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-[10px] text-muted-foreground">
+                      {isVi ? "Bạn có thể đổi bất cứ lúc nào ở góc trên." : "You can change this anytime from the top."}
+                    </p>
+                  </div>
+
                   <p className="text-[11px] text-center text-muted-foreground">
                     {isVi
                       ? "Hỏi tôi về chủ đề, sách Kinh Thánh, hoặc cách điều hướng"
