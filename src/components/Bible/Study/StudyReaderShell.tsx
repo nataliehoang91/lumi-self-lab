@@ -1101,28 +1101,28 @@ export function StudyReaderShell({
 
         {/* Stats bar */}
         {totalSelected > 0 && (
-          <div className="mb-5 flex flex-wrap items-center gap-2 rounded-2xl border border-lime-800 bg-lime-50/40 px-4 py-3 text-xs dark:border-lime-700/60 dark:bg-lime-950/10">
-            <span className="inline-flex items-center rounded-full border border-lime-700/40 bg-lime-100/60 px-2.5 py-0.5 text-[11px] font-medium text-lime-900 dark:border-lime-700/30 dark:bg-lime-900/20 dark:text-lime-300">
+          <div className="mb-5 flex flex-wrap items-center gap-2 rounded-2xl border border-amber-400/70 bg-amber-50/50 px-4 py-3 text-xs dark:border-amber-700/40 dark:bg-amber-950/10">
+            <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-100/70 px-2.5 py-0.5 text-[11px] font-medium text-amber-900 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
               {uniqueBooks} {uniqueBooks === 1 ? t.otLabel === "OT" ? "book" : "sách" : t.otLabel === "OT" ? "books" : "sách"}
             </span>
-            <span className="inline-flex items-center rounded-full border border-lime-700/40 bg-lime-100/60 px-2.5 py-0.5 text-[11px] font-medium text-lime-900 dark:border-lime-700/30 dark:bg-lime-900/20 dark:text-lime-300">
+            <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-100/70 px-2.5 py-0.5 text-[11px] font-medium text-amber-900 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
               {totalSelected} {t.otLabel === "OT" ? totalSelected === 1 ? "chapter" : "chapters" : "chương"}
             </span>
             {otCount > 0 && (
-              <span className="inline-flex items-center rounded-full border border-lime-700/40 bg-lime-100/60 px-2.5 py-0.5 text-[11px] font-medium text-lime-900 dark:border-lime-700/30 dark:bg-lime-900/20 dark:text-lime-300">
+              <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-100/70 px-2.5 py-0.5 text-[11px] font-medium text-amber-900 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
                 {t.otLabel} {otCount}
               </span>
             )}
             {ntCount > 0 && (
-              <span className="inline-flex items-center rounded-full border border-lime-700/40 bg-lime-100/60 px-2.5 py-0.5 text-[11px] font-medium text-lime-900 dark:border-lime-700/30 dark:bg-lime-900/20 dark:text-lime-300">
+              <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-100/70 px-2.5 py-0.5 text-[11px] font-medium text-amber-900 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
                 {t.ntLabel} {ntCount}
               </span>
             )}
             <div className="flex flex-1 items-center gap-2">
-              <div className="bg-muted h-1.5 flex-1 overflow-hidden rounded-full">
-                <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, background: "linear-gradient(to right, #a3e635, #d9f99d)" }} />
+              <div className="bg-amber-100 h-1.5 flex-1 overflow-hidden rounded-full dark:bg-amber-950/30">
+                <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, background: "linear-gradient(to right, #f59e0b, #fde68a)" }} />
               </div>
-              <span className="text-muted-foreground shrink-0 text-[11px]">{t.studied(totalStudied, totalSelected)}</span>
+              <span className="text-amber-800/70 shrink-0 text-[11px] dark:text-amber-400/70">{t.studied(totalStudied, totalSelected)}</span>
             </div>
           </div>
         )}
