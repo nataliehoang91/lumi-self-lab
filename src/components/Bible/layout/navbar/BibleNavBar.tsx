@@ -86,7 +86,7 @@ export function BibleNavBar() {
                 "flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-all",
                 isStudy
                   ? "bg-primary text-primary-foreground shadow-sm"
-                  : "border border-primary/30 bg-primary/10 text-primary hover:border-primary/50 hover:bg-primary/20"
+                  : "border border-primary/30 bg-primary/10 text-foreground/70 hover:border-primary/50 hover:bg-primary/20 hover:text-foreground"
               )}
             >
               <GraduationCap className="h-3.5 w-3.5 shrink-0" />
