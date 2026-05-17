@@ -11,6 +11,8 @@ import { TOPIC_CATEGORIES, getTopicBySlug } from "@/lib/bible-topics-data";
 import { TopicCard, ICON_MAP, CATEGORY_COLORS } from "./TopicCard";
 import { useRecentTopics, useFavoriteTopics } from "./useRecentTopics";
 
+// ── Badge chip (used in sidebar + mobile sections) ───────────────────────────
+
 function TopicBadge({ topic, segment }: { topic: BibleTopic; segment: string }) {
   const isVi = segment === "vi";
   const colors = CATEGORY_COLORS[topic.category] ?? CATEGORY_COLORS.faith;
@@ -31,15 +33,48 @@ function TopicBadge({ topic, segment }: { topic: BibleTopic; segment: string }) 
   );
 }
 
+// ── Sidebar list item (desktop favorites) ─────────────────────────────────────
+
+function SidebarTopicLink({ topic, segment }: { topic: BibleTopic; segment: string }) {
+  const isVi = segment === "vi";
+  const colors = CATEGORY_COLORS[topic.category] ?? CATEGORY_COLORS.faith;
+  const Icon = ICON_MAP[topic.icon] ?? Flame;
+  const name = isVi ? topic.nameVi : topic.nameEn;
+  return (
+    <Link
+      href={`/bible/${segment}/topics/${topic.slug}`}
+      className="group flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm transition-colors hover:bg-muted"
+    >
+      <Icon className={cn("h-4 w-4 shrink-0", colors.icon)} />
+      <span className="text-foreground/80 group-hover:text-foreground truncate">{name}</span>
+    </Link>
+  );
+}
+
+// ── Section header ────────────────────────────────────────────────────────────
+
+function SectionHeader({ icon, label, bodyClass, isVi }: {
+  icon: React.ReactNode; label: string; bodyClass: string; isVi: boolean;
+}) {
+  return (
+    <div className="mb-3 flex items-center gap-2">
+      <span className="text-muted-foreground">{icon}</span>
+      <span className={cn("text-foreground text-xs font-semibold tracking-wide uppercase", bodyClass, isVi && "font-vietnamese-flashcard")}>
+        {label}
+      </span>
+    </div>
+  );
+}
+
+// ── Constants ─────────────────────────────────────────────────────────────────
+
 const ALL_KEY = "all";
 
-// Curated popular topics by slug
 const POPULAR_SLUGS = [
   "anxiety", "love", "hope", "forgiveness", "faith",
   "identity-in-christ", "peace", "calling",
 ];
 
-// Suggest topics from the same categories as recently-read ones
 function getSuggested(topics: BibleTopic[], recentSlugs: string[], limit = 6): BibleTopic[] {
   if (recentSlugs.length === 0) return [];
   const recentSet = new Set(recentSlugs);
@@ -47,32 +82,14 @@ function getSuggested(topics: BibleTopic[], recentSlugs: string[], limit = 6): B
     .map((s) => topics.find((t) => t.slug === s)?.category)
     .filter(Boolean) as TopicCategory[];
   const catSet = new Set(recentCategories);
-  return topics
-    .filter((t) => catSet.has(t.category) && !recentSet.has(t.slug))
-    .slice(0, limit);
+  return topics.filter((t) => catSet.has(t.category) && !recentSet.has(t.slug)).slice(0, limit);
 }
+
+// ── Main component ────────────────────────────────────────────────────────────
 
 interface TopicsIndexClientProps {
   topics: BibleTopic[];
   segment: string;
-}
-
-interface SectionHeaderProps {
-  icon: React.ReactNode;
-  label: string;
-  bodyClass: string;
-  isVi: boolean;
-}
-
-function SectionHeader({ icon, label, bodyClass, isVi }: SectionHeaderProps) {
-  return (
-    <div className="mb-4 flex items-center gap-2">
-      <span className="text-muted-foreground">{icon}</span>
-      <span className={cn("text-foreground text-sm font-semibold tracking-wide uppercase", bodyClass, isVi && "font-vietnamese-flashcard")}>
-        {label}
-      </span>
-    </div>
-  );
 }
 
 export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
@@ -99,14 +116,90 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
 
   const categories = Object.entries(TOPIC_CATEGORIES) as [TopicCategory, { labelEn: string; labelVi: string }][];
 
-  return (
-    <div>
+  // ── Left sidebar (desktop only) ───────────────────────────────────────────
+
+  const sidebar = (
+    <aside className="hidden lg:block lg:w-60 xl:w-72 shrink-0">
+      <div className="sticky top-20 space-y-6">
+        {/* Favorites */}
+        {favoriteTopics.length > 0 && (
+          <div>
+            <SectionHeader
+              icon={<Heart className="h-3.5 w-3.5 text-rose-500" />}
+              label={isVi ? "Yêu thích" : "Favorites"}
+              bodyClass={bodyClass}
+              isVi={isVi}
+            />
+            <div className="space-y-0.5">
+              {favoriteTopics.map((topic) => (
+                <SidebarTopicLink key={topic.slug} topic={topic} segment={segment} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Recently viewed */}
+        {recentTopics.length > 0 && (
+          <div>
+            <SectionHeader
+              icon={<Clock className="h-3.5 w-3.5" />}
+              label={isVi ? "Gần đây" : "Recent"}
+              bodyClass={bodyClass}
+              isVi={isVi}
+            />
+            <div className="flex flex-wrap gap-1.5">
+              {recentTopics.map((topic) => (
+                <TopicBadge key={topic.slug} topic={topic} segment={segment} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Popular */}
+        <div>
+          <SectionHeader
+            icon={<TrendingUp className="h-3.5 w-3.5" />}
+            label={isVi ? "Phổ biến" : "Popular"}
+            bodyClass={bodyClass}
+            isVi={isVi}
+          />
+          <div className="flex flex-wrap gap-1.5">
+            {popularTopics.map((topic) => (
+              <TopicBadge key={topic.slug} topic={topic} segment={segment} />
+            ))}
+          </div>
+        </div>
+
+        {/* Suggested */}
+        {suggestedTopics.length > 0 && (
+          <div>
+            <SectionHeader
+              icon={<Sparkles className="h-3.5 w-3.5" />}
+              label={isVi ? "Gợi ý" : "Suggested"}
+              bodyClass={bodyClass}
+              isVi={isVi}
+            />
+            <div className="space-y-0.5">
+              {suggestedTopics.map((topic) => (
+                <SidebarTopicLink key={topic.slug} topic={topic} segment={segment} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </aside>
+  );
+
+  // ── Right main area ───────────────────────────────────────────────────────
+
+  const mainContent = (
+    <div className="min-w-0 flex-1">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="mb-10 max-w-2xl"
+        className="mb-8 max-w-2xl"
       >
         <div className="bg-second/10 theme-warm:bg-second/15 mb-4 inline-flex items-center rounded-full px-3 py-1">
           <span className={cn("text-second font-mono font-semibold tracking-widest uppercase", bodyClass, isVi && "font-vietnamese-flashcard")}>
@@ -116,15 +209,15 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
         <h1 className={cn("text-foreground font-serif leading-tight font-semibold", h1Class, isVi && "font-vietnamese-flashcard")}>
           {isVi ? "Kinh Thánh nói gì?" : "What does the Bible say?"}
         </h1>
-        <p className={cn("text-muted-foreground mt-4 leading-relaxed", subtitleClass, isVi && "font-vietnamese-flashcard")}>
+        <p className={cn("text-muted-foreground mt-3 leading-relaxed", subtitleClass, isVi && "font-vietnamese-flashcard")}>
           {isVi
-            ? "Khám phá những gì Kinh Thánh dạy về các chủ đề trong cuộc sống — từ đức tin, cảm xúc, đến các mối quan hệ và ý nghĩa sống."
-            : "Explore what the Bible teaches about life's most important topics — faith, emotions, relationships, and purpose."}
+            ? "Khám phá những gì Kinh Thánh dạy về các chủ đề trong cuộc sống."
+            : "Explore what the Bible teaches about life's most important topics."}
         </p>
       </motion.div>
 
       {/* Search */}
-      <div className="relative mb-6">
+      <div className="relative mb-5">
         <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
         <input
           type="text"
@@ -140,12 +233,11 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
       </div>
 
       {/* Category filters */}
-      <div className="mb-8 flex flex-wrap gap-2">
+      <div className="mb-7 flex flex-wrap gap-2">
         <button
           onClick={() => setActiveCategory(ALL_KEY)}
           className={cn(
-            "rounded-full border px-4 py-1.5 transition-all",
-            bodyClass,
+            "rounded-full border px-4 py-1.5 transition-all", bodyClass,
             isVi && "font-vietnamese-flashcard",
             activeCategory === ALL_KEY
               ? "border-second bg-second/10 text-second font-semibold"
@@ -159,8 +251,7 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
             key={key}
             onClick={() => setActiveCategory(key)}
             className={cn(
-              "rounded-full border px-4 py-1.5 transition-all",
-              bodyClass,
+              "rounded-full border px-4 py-1.5 transition-all", bodyClass,
               isVi && "font-vietnamese-flashcard",
               activeCategory === key
                 ? "border-second bg-second/10 text-second font-semibold"
@@ -172,29 +263,69 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
         ))}
       </div>
 
+      {/* Mobile-only: Favorites + Recent + Popular (above all topics) */}
+      {!isFiltering && (
+        <div className="lg:hidden mb-10 space-y-8">
+          {favoriteTopics.length > 0 && (
+            <section>
+              <SectionHeader icon={<Heart className="h-4 w-4 text-rose-500" />} label={isVi ? "Yêu thích" : "Favorites"} bodyClass={bodyClass} isVi={isVi} />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {favoriteTopics.map((topic, i) => (
+                  <motion.div key={topic.slug} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: i * 0.06 }}>
+                    <TopicCard topic={topic} segment={segment} />
+                  </motion.div>
+                ))}
+              </div>
+            </section>
+          )}
+          {recentTopics.length > 0 && (
+            <section>
+              <SectionHeader icon={<Clock className="h-4 w-4" />} label={isVi ? "Gần đây" : "Recent"} bodyClass={bodyClass} isVi={isVi} />
+              <div className="flex flex-wrap gap-2">
+                {recentTopics.map((t, i) => (
+                  <motion.div key={t.slug} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.2, delay: i * 0.04 }}>
+                    <TopicBadge topic={t} segment={segment} />
+                  </motion.div>
+                ))}
+              </div>
+            </section>
+          )}
+          <section>
+            <SectionHeader icon={<TrendingUp className="h-4 w-4" />} label={isVi ? "Phổ biến" : "Popular"} bodyClass={bodyClass} isVi={isVi} />
+            <div className="flex flex-wrap gap-2">
+              {popularTopics.map((t, i) => (
+                <motion.div key={t.slug} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.2, delay: i * 0.04 }}>
+                  <TopicBadge topic={t} segment={segment} />
+                </motion.div>
+              ))}
+            </div>
+          </section>
+          {suggestedTopics.length > 0 && (
+            <section>
+              <SectionHeader icon={<Sparkles className="h-4 w-4" />} label={isVi ? "Gợi ý cho bạn" : "Suggested"} bodyClass={bodyClass} isVi={isVi} />
+              <div className="flex flex-wrap gap-2">
+                {suggestedTopics.map((t, i) => (
+                  <motion.div key={t.slug} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.2, delay: i * 0.04 }}>
+                    <TopicBadge topic={t} segment={segment} />
+                  </motion.div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
+
       <AnimatePresence mode="wait">
         {isFiltering ? (
-          /* ── Filtered results ── */
-          <motion.div
-            key="filtered"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
+          <motion.div key="filtered" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             <p className={cn("text-muted-foreground mb-6", bodyClass, isVi && "font-vietnamese-flashcard")}>
               {filtered.length} {isVi ? "chủ đề" : "topics"}
               {activeCategory !== ALL_KEY && ` · ${isVi ? TOPIC_CATEGORIES[activeCategory].labelVi : TOPIC_CATEGORIES[activeCategory].labelEn}`}
             </p>
             {filtered.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {filtered.map((topic, i) => (
-                  <motion.div
-                    key={topic.slug}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: Math.min(i * 0.04, 0.6) }}
-                  >
+                  <motion.div key={topic.slug} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: Math.min(i * 0.04, 0.6) }}>
                     <TopicCard topic={topic} segment={segment} />
                   </motion.div>
                 ))}
@@ -206,127 +337,18 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
             )}
           </motion.div>
         ) : (
-          /* ── Discovery sections ── */
-          <motion.div
-            key="discovery"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="space-y-14"
-          >
-            {/* Favorites */}
-            {favoriteTopics.length > 0 && (
-              <section>
-                <SectionHeader
-                  icon={<Heart className="h-4 w-4 text-rose-500" />}
-                  label={isVi ? "Yêu thích" : "Favorites"}
-                  bodyClass={bodyClass}
-                  isVi={isVi}
-                />
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {favoriteTopics.map((topic, i) => (
-                    <motion.div
-                      key={topic.slug}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: i * 0.06 }}
-                    >
-                      <TopicCard topic={topic} segment={segment} />
-                    </motion.div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Recently viewed */}
-            {recentTopics.length > 0 && (
-              <section>
-                <SectionHeader
-                  icon={<Clock className="h-4 w-4" />}
-                  label={isVi ? "Đã xem gần đây" : "Recently Viewed"}
-                  bodyClass={bodyClass}
-                  isVi={isVi}
-                />
-                <div className="flex flex-wrap gap-2">
-                  {recentTopics.map((topic, i) => (
-                    <motion.div
-                      key={topic.slug}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.2, delay: i * 0.04 }}
-                    >
-                      <TopicBadge topic={topic} segment={segment} />
-                    </motion.div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Suggested for you (based on recent) */}
-            {suggestedTopics.length > 0 && (
-              <section>
-                <SectionHeader
-                  icon={<Sparkles className="h-4 w-4" />}
-                  label={isVi ? "Gợi ý cho bạn" : "Suggested For You"}
-                  bodyClass={bodyClass}
-                  isVi={isVi}
-                />
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {suggestedTopics.map((topic, i) => (
-                    <motion.div
-                      key={topic.slug}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: i * 0.05 }}
-                    >
-                      <TopicCard topic={topic} segment={segment} />
-                    </motion.div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Popular topics */}
+          <motion.div key="discovery" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="space-y-12">
+            {/* All topics */}
             <section>
               <SectionHeader
-                icon={<TrendingUp className="h-4 w-4" />}
-                label={isVi ? "Chủ đề phổ biến" : "Popular Topics"}
+                icon={null}
+                label={isVi ? `Tất cả ${topics.length} chủ đề` : `All ${topics.length} Topics`}
                 bodyClass={bodyClass}
                 isVi={isVi}
               />
-              <div className="flex flex-wrap gap-2">
-                {popularTopics.map((topic, i) => (
-                  <motion.div
-                    key={topic.slug}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.2, delay: i * 0.04 }}
-                  >
-                    <TopicBadge topic={topic} segment={segment} />
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-
-            {/* All topics */}
-            <section>
-              <div className="mb-4 flex items-center justify-between">
-                <SectionHeader
-                  icon={null}
-                  label={isVi ? `Tất cả ${topics.length} chủ đề` : `All ${topics.length} Topics`}
-                  bodyClass={bodyClass}
-                  isVi={isVi}
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {topics.map((topic, i) => (
-                  <motion.div
-                    key={topic.slug}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: Math.min(i * 0.03, 0.5) }}
-                  >
+                  <motion.div key={topic.slug} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: Math.min(i * 0.03, 0.5) }}>
                     <TopicCard topic={topic} segment={segment} />
                   </motion.div>
                 ))}
@@ -335,6 +357,13 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+  );
+
+  return (
+    <div className="flex gap-10 items-start">
+      {sidebar}
+      {mainContent}
     </div>
   );
 }

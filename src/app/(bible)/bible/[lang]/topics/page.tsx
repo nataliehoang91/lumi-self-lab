@@ -19,7 +19,7 @@ export default async function TopicsPage({
   return (
     <div className="bg-read min-h-screen dark:bg-[#050408]">
       <main>
-        <Container maxWidth="5xl" className="px-4 py-16">
+        <Container maxWidth="7xl" className="px-4 py-16">
           <TopicsIndexClient topics={BIBLE_TOPICS} segment={segment} />
         </Container>
       </main>

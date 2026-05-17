@@ -594,11 +594,11 @@ export function StudyHubClient({
           <button key={tc.key} type="button"
             onClick={() => { setTab(tc.key); setActiveTag(null); }}
             className={cn("flex items-center gap-1.5 border-b-2 px-3 pb-2.5 text-sm font-medium transition-colors",
-              tab === tc.key ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}>
+              tab === tc.key ? "border-indigo-500 text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}>
             {tc.label}
             {tc.count !== undefined && tc.count > 0 && (
               <span className={cn("rounded-full px-1.5 py-0.5 text-[10px] font-semibold",
-                tab === tc.key ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
+                tab === tc.key ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300" : "bg-muted text-muted-foreground")}>
                 {tc.count}
               </span>
             )}
@@ -611,13 +611,13 @@ export function StudyHubClient({
         <div className="mb-4 flex flex-wrap items-center gap-1.5">
           <button type="button" onClick={() => setActiveTag(null)}
             className={cn("rounded-full border px-3 py-1 text-[11px] font-medium transition-all",
-              activeTag === null ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground")}>
+              activeTag === null ? "border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-700/50 dark:bg-indigo-950/30 dark:text-indigo-300" : "border-border text-muted-foreground hover:border-indigo-300/60 hover:text-foreground")}>
             {t.allTags}
           </button>
           {allTags.map((tag) => (
             <button key={tag} type="button" onClick={() => setActiveTag(activeTag === tag ? null : tag)}
               className={cn("inline-flex items-center gap-1 rounded-full border px-3 py-1 text-[11px] font-medium transition-all",
-                activeTag === tag ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground")}>
+                activeTag === tag ? "border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-700/50 dark:bg-indigo-950/30 dark:text-indigo-300" : "border-border text-muted-foreground hover:border-indigo-300/60 hover:text-foreground")}>
               <Tag className="h-2.5 w-2.5" />{tag}
             </button>
           ))}
