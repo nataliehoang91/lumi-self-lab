@@ -113,21 +113,21 @@ function StatsCards({
       value: totalStudied,
       label: t.totalStudied,
       sub: null,
-      accent: "bg-background/90 border-sky-200 dark:border-sky-800/40",
+      accent: "bg-background/90 border-second/30 dark:border-second/20",
     },
     {
-      icon: <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />,
+      icon: <TrendingUp className="h-4 w-4 text-sage dark:text-sage" />,
       value: activeLists,
       label: t.activeLists,
       sub: null,
-      accent: "bg-background/90 border-green-200 dark:border-green-800/40",
+      accent: "bg-background/90 border-sage-200 dark:border-sage-800/40",
     },
     {
       icon: <GraduationCap className="h-4 w-4 text-violet-500" />,
       value: totalLists,
       label: t.totalLists,
       sub: null,
-      accent: "bg-background/90 border-violet-200 dark:border-violet-800/40",
+      accent: "bg-background/90 border-primary/20 dark:border-primary/20",
     },
   ];
 
@@ -206,25 +206,25 @@ function ContinueTodayBanner({
 // ── Tag color palette ─────────────────────────────────────────────────────────
 
 const TAG_COLORS = [
-  "bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/20 dark:text-teal-300 dark:border-teal-800/30",
-  "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/20 dark:text-indigo-300 dark:border-indigo-800/30",
-  "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-300 dark:border-emerald-800/30",
+  "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/20 dark:text-orange-300 dark:border-orange-800/30",
   "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-300 dark:border-amber-800/30",
   "bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-950/20 dark:text-rose-300 dark:border-rose-800/30",
-  "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/20 dark:text-sky-300 dark:border-sky-800/30",
-  "bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/20 dark:text-violet-300 dark:border-violet-800/30",
-  "bg-lime-50 text-lime-700 border-lime-200 dark:bg-lime-950/20 dark:text-lime-300 dark:border-lime-800/30",
+  "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/20 dark:text-red-300 dark:border-red-800/30",
+  "bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-950/20 dark:text-yellow-300 dark:border-yellow-800/30",
+  "bg-stone-100 text-stone-600 border-stone-200 dark:bg-stone-950/20 dark:text-stone-300 dark:border-stone-800/30",
+  "bg-pink-50 text-pink-700 border-pink-200 dark:bg-pink-950/20 dark:text-pink-300 dark:border-pink-800/30",
+  "bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-950/25 dark:text-orange-200 dark:border-orange-700/40",
 ];
 
 const CARD_BORDER_COLORS = [
-  "border-t-teal-300/60",
-  "border-t-indigo-300/60",
-  "border-t-emerald-300/60",
-  "border-t-amber-300/60",
-  "border-t-sky-300/60",
-  "border-t-violet-300/60",
-  "border-t-rose-300/60",
-  "border-t-lime-300/60",
+  "border-t-orange-400",
+  "border-t-orange-400",
+  "border-t-orange-400",
+  "border-t-orange-400",
+  "border-t-orange-400",
+  "border-t-orange-400",
+  "border-t-orange-400",
+  "border-t-orange-400",
 ];
 
 function strHash(s: string): number {
@@ -319,12 +319,9 @@ function StudyListCard({
 
   const progressPct = list.passageCount > 0 ? Math.round((list.studiedCount / list.passageCount) * 100) : 0;
 
-  const cardAccent = CARD_BORDER_COLORS[strHash(list.id) % CARD_BORDER_COLORS.length]!;
-
   return (
     <div className={cn(
-      "border-border bg-background group flex flex-col rounded-2xl border border-t-2 transition-all",
-      cardAccent,
+      "border-border bg-background group flex flex-col rounded-2xl border border-t-2 border-t-primary/40 transition-all",
       "hover:shadow-sm",
       list.isFavorite && "bg-amber-50/30 dark:bg-amber-950/10"
     )}>
@@ -432,7 +429,7 @@ function StudyListCard({
         {list.passageCount > 0 && (
           <div className="mb-1.5 mt-2">
             <div className="bg-muted h-1 w-full overflow-hidden rounded-full">
-              <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${progressPct}%` }} />
+              <div className="h-full rounded-full transition-all" style={{ width: `${progressPct}%`, backgroundColor: "#f4956a" }} />
             </div>
           </div>
         )}
@@ -441,7 +438,7 @@ function StudyListCard({
             <BookOpen className="h-3.5 w-3.5" />
             {list.passageCount} {t.chapters(list.passageCount)}
             {list.studiedCount > 0 && (
-              <span className="text-green-600 dark:text-green-400">· {list.studiedCount} {t.studied}</span>
+              <span className="text-[#5a6b1e] dark:text-lime-500">· {list.studiedCount} {t.studied}</span>
             )}
           </span>
           <span>{list.createdAt.toLocaleDateString()}</span>
@@ -628,11 +625,11 @@ export function StudyHubClient({
           <button key={tc.key} type="button"
             onClick={() => { setTab(tc.key); setActiveTag(null); }}
             className={cn("flex items-center gap-1.5 border-b-2 px-3 pb-2.5 text-sm font-medium transition-colors",
-              tab === tc.key ? "border-indigo-500 text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}>
+              tab === tc.key ? "border-second text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}>
             {tc.label}
             {tc.count !== undefined && tc.count > 0 && (
               <span className={cn("rounded-full px-1.5 py-0.5 text-[10px] font-semibold",
-                tab === tc.key ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300" : "bg-muted text-muted-foreground")}>
+                tab === tc.key ? "bg-second/15 text-second" : "bg-muted text-muted-foreground")}>
                 {tc.count}
               </span>
             )}
@@ -645,13 +642,13 @@ export function StudyHubClient({
         <div className="mb-4 flex flex-wrap items-center gap-1.5">
           <button type="button" onClick={() => setActiveTag(null)}
             className={cn("rounded-full border px-3 py-1 text-[11px] font-medium transition-all",
-              activeTag === null ? "border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-700/50 dark:bg-indigo-950/30 dark:text-indigo-300" : "border-border text-muted-foreground hover:border-indigo-300/60 hover:text-foreground")}>
+              activeTag === null ? "border-second/40 bg-second/10 text-second" : "border-border text-muted-foreground hover:border-second/30 hover:text-foreground")}>
             {t.allTags}
           </button>
           {allTags.map((tag) => (
             <button key={tag} type="button" onClick={() => setActiveTag(activeTag === tag ? null : tag)}
               className={cn("inline-flex items-center gap-1 rounded-full border px-3 py-1 text-[11px] font-medium transition-all",
-                activeTag === tag ? "border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-700/50 dark:bg-indigo-950/30 dark:text-indigo-300" : "border-border text-muted-foreground hover:border-indigo-300/60 hover:text-foreground")}>
+                activeTag === tag ? "border-second/40 bg-second/10 text-second" : "border-border text-muted-foreground hover:border-second/30 hover:text-foreground")}>
               <Tag className="h-2.5 w-2.5" />{tag}
             </button>
           ))}

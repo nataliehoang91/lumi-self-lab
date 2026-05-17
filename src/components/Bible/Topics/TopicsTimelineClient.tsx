@@ -40,9 +40,9 @@ const ERAS: Era[] = [
     descVi: "Đức Chúa Trời dựng nên thế giới và con người. A-đam và Ê-va sống với Ngài trong vườn — rồi tội lỗi xâm nhập qua một sự bất tuân, thay đổi tất cả.",
     topicSlugs: ["identity-in-christ", "worth", "marriage", "faith"],
     testament: "ot",
-    dotColor: "bg-red-200 dark:bg-red-400/60",
-    pill: "bg-red-50 text-red-600 border border-red-100 dark:bg-red-950/20 dark:text-red-300 dark:border-red-800/30",
-    accent: "border-l-red-200 dark:border-l-red-600/40",
+    dotColor: "bg-[#fcd5ce]",
+    pill: "bg-[#fff0ed] text-[#b5635a] border border-[#fcd5ce]",
+    accent: "border-l-[#fcd5ce]",
   },
   {
     id: "patriarchs",
@@ -55,9 +55,9 @@ const ERAS: Era[] = [
     descVi: "Đức Chúa Trời kêu gọi Áp-ra-ham rời bỏ tất cả. Qua Áp-ra-ham, Y-sác, Gia-cốp, Giô-sép — một gia đình trở thành một dân tộc.",
     topicSlugs: ["faith", "gods-will", "trust", "calling"],
     testament: "ot",
-    dotColor: "bg-orange-200 dark:bg-orange-400/60",
-    pill: "bg-orange-50 text-orange-600 border border-orange-100 dark:bg-orange-950/20 dark:text-orange-300 dark:border-orange-800/30",
-    accent: "border-l-orange-200 dark:border-l-orange-600/40",
+    dotColor: "bg-[#fbbfb0]",
+    pill: "bg-[#fde8e4] text-[#a0504a] border border-[#fbbfb0]",
+    accent: "border-l-[#fbbfb0]",
   },
   {
     id: "exodus",
@@ -70,9 +70,9 @@ const ERAS: Era[] = [
     descVi: "Đức Chúa Trời giải cứu Y-sơ-ra-ên khỏi 400 năm nô lệ tại Ai Cập và ban Mười Điều Răn — luật sống trong mối quan hệ với Đức Chúa Trời và nhau.",
     topicSlugs: ["salvation", "obedience", "prayer", "mother", "father"],
     testament: "ot",
-    dotColor: "bg-yellow-200 dark:bg-yellow-400/60",
-    pill: "bg-yellow-50 text-yellow-700 border border-yellow-100 dark:bg-yellow-950/20 dark:text-yellow-300 dark:border-yellow-800/30",
-    accent: "border-l-yellow-200 dark:border-l-yellow-600/40",
+    dotColor: "bg-[#fdd9b5]",
+    pill: "bg-[#fff3e4] text-[#a06830] border border-[#fdd9b5]",
+    accent: "border-l-[#fdd9b5]",
   },
   {
     id: "conquest",
@@ -85,9 +85,9 @@ const ERAS: Era[] = [
     descVi: "Y-sơ-ra-ên vào Đất Hứa. Một chu kỳ trung thành và thất bại tiếp diễn — dân tộc liên tục quay lưng rồi trở về với Đức Chúa Trời.",
     topicSlugs: ["courage", "trust", "leadership", "family", "friendship"],
     testament: "ot",
-    dotColor: "bg-teal-200 dark:bg-teal-400/60",
-    pill: "bg-teal-50 text-teal-600 border border-teal-100 dark:bg-teal-950/20 dark:text-teal-300 dark:border-teal-800/30",
-    accent: "border-l-teal-200 dark:border-l-teal-600/40",
+    dotColor: "bg-[#fce8a0]",
+    pill: "bg-[#fffbe6] text-[#8a7020] border border-[#fce8a0]",
+    accent: "border-l-[#fce8a0]",
   },
   {
     id: "kingdom",
@@ -100,9 +100,9 @@ const ERAS: Era[] = [
     descVi: "Sau-lơ, Đa-vít và Sa-lô-môn trị vì. Đa-vít viết Thi Thiên — những lời cầu nguyện chân thật. Sa-lô-môn viết Châm Ngôn — sự khôn ngoan thực tiễn.",
     topicSlugs: ["wisdom", "prayer", "praise", "humility", "leadership", "anger"],
     testament: "ot",
-    dotColor: "bg-cyan-200 dark:bg-cyan-400/60",
-    pill: "bg-cyan-50 text-cyan-600 border border-cyan-100 dark:bg-cyan-950/20 dark:text-cyan-300 dark:border-cyan-800/30",
-    accent: "border-l-cyan-200 dark:border-l-cyan-600/40",
+    dotColor: "bg-[#c5e8c0]",
+    pill: "bg-[#edf8ec] text-[#4a7a45] border border-[#c5e8c0]",
+    accent: "border-l-[#c5e8c0]",
   },
   {
     id: "prophets",
@@ -115,9 +115,9 @@ const ERAS: Era[] = [
     descVi: "Đức Chúa Trời sai tiên tri cảnh báo Y-sơ-ra-ên. Dân tộc bị lưu đày — nhưng giữa bóng tối, những lời hứa về Đấng Cứu Thế vẫn vang lên.",
     topicSlugs: ["repentance", "hope", "justice", "suffering", "perseverance", "grief"],
     testament: "ot",
-    dotColor: "bg-blue-200 dark:bg-blue-400/60",
-    pill: "bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-950/20 dark:text-blue-300 dark:border-blue-800/30",
-    accent: "border-l-blue-200 dark:border-l-blue-600/40",
+    dotColor: "bg-[#b5d5f0]",
+    pill: "bg-[#e8f3fc] text-[#3a6a96] border border-[#b5d5f0]",
+    accent: "border-l-[#b5d5f0]",
   },
   {
     id: "jesus",
@@ -130,9 +130,9 @@ const ERAS: Era[] = [
     descVi: "Chúa Giê-xu sinh tại Bê-them, bắt đầu rao giảng lúc 30 tuổi. Ngài chữa lành người bệnh, yêu người bị ruồng bỏ, chết trên thập tự và sống lại sau ba ngày.",
     topicSlugs: ["salvation", "grace", "forgiveness", "love", "healing", "baptism"],
     testament: "nt",
-    dotColor: "bg-sky-200 dark:bg-sky-400/60",
-    pill: "bg-sky-50 text-sky-600 border border-sky-100 dark:bg-sky-950/20 dark:text-sky-300 dark:border-sky-800/30",
-    accent: "border-l-sky-200 dark:border-l-sky-600/40",
+    dotColor: "bg-[#c8c0f0]",
+    pill: "bg-[#f0eeff] text-[#5548a0] border border-[#c8c0f0]",
+    accent: "border-l-[#c8c0f0]",
   },
   {
     id: "early-church",
@@ -145,9 +145,9 @@ const ERAS: Era[] = [
     descVi: "Đức Thánh Linh đến và hội thánh lan rộng khắp đế quốc La Mã. Phao-lô viết thư cho các hội thánh trẻ về cách sống theo Chúa Giê-xu.",
     topicSlugs: ["holy-spirit", "community", "evangelism", "suffering", "prayer", "generosity"],
     testament: "nt",
-    dotColor: "bg-indigo-200 dark:bg-indigo-400/60",
-    pill: "bg-indigo-50 text-indigo-600 border border-indigo-100 dark:bg-indigo-950/20 dark:text-indigo-300 dark:border-indigo-800/30",
-    accent: "border-l-indigo-200 dark:border-l-indigo-600/40",
+    dotColor: "bg-[#b8d8f8]",
+    pill: "bg-[#e6f3ff] text-[#2e5f8a] border border-[#b8d8f8]",
+    accent: "border-l-[#b8d8f8]",
   },
   {
     id: "eternity",
@@ -160,9 +160,9 @@ const ERAS: Era[] = [
     descVi: "Giăng nhận được khải tượng về sự kết thúc lịch sử: Đức Chúa Trời đánh bại sự ác, kẻ chết sống lại, và Ngài làm mọi sự trở nên mới. Thiên đàng đến với trái đất.",
     topicSlugs: ["heaven", "eternal-life", "resurrection", "second-coming", "death-dying", "hope"],
     testament: "nt",
-    dotColor: "bg-violet-200 dark:bg-violet-400/60",
-    pill: "bg-violet-50 text-violet-600 border border-violet-100 dark:bg-violet-950/20 dark:text-violet-300 dark:border-violet-800/30",
-    accent: "border-l-violet-200 dark:border-l-violet-600/40",
+    dotColor: "bg-[#d8c8f8]",
+    pill: "bg-[#f3eeff] text-[#6040b0] border border-[#d8c8f8]",
+    accent: "border-l-[#d8c8f8]",
   },
 ];
 
@@ -213,7 +213,7 @@ function EraCard({
         <div className="px-5 pt-5 pb-4">
           {/* Period + books */}
           <div className="mb-2.5 flex flex-wrap items-center gap-2">
-            <span className={cn("inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-xs font-semibold", era.pill)}>
+            <span className="inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 font-mono text-xs font-semibold text-muted-foreground">
               {era.period}
             </span>
             <span className={cn("text-muted-foreground font-mono text-xs", isVi && "font-vietnamese-flashcard")}>
@@ -255,8 +255,7 @@ function EraCard({
                   href={`/bible/${segment}/topics/${topic.slug}`}
                   onClick={(e) => e.stopPropagation()}
                   className={cn(
-                    "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-all hover:opacity-70 active:scale-95",
-                    era.pill,
+                    "inline-flex items-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground transition-all hover:opacity-70 active:scale-95",
                     isVi && "font-vietnamese-flashcard"
                   )}
                 >
@@ -309,9 +308,11 @@ export function TopicsTimelineClient({ segment }: { segment: string }) {
         transition={{ duration: 0.55 }}
         className="mb-10 max-w-2xl"
       >
-        <p className={cn("text-primary mb-2 font-mono text-xs font-semibold uppercase tracking-widest", isVi && "font-vietnamese-flashcard")}>
-          {isVi ? "Hành Trình Qua Kinh Thánh" : "Journey Through the Bible"}
-        </p>
+        <div className="bg-second/10 theme-warm:bg-second/15 mb-4 inline-flex items-center rounded-full px-3 py-1">
+          <span className={cn("text-second font-mono font-semibold tracking-widest uppercase", bodyClass, isVi && "font-vietnamese-flashcard")}>
+            {isVi ? "Hành Trình Qua Kinh Thánh" : "Journey Through the Bible"}
+          </span>
+        </div>
         <h1 className={cn("text-foreground font-serif font-semibold leading-tight", h1Class, isVi && "font-vietnamese-flashcard")}>
           {isVi ? "Dòng Thời Gian Các Chủ Đề" : "Topics Timeline"}
         </h1>
@@ -346,7 +347,8 @@ export function TopicsTimelineClient({ segment }: { segment: string }) {
                 isVi && "font-vietnamese-flashcard",
                 active
                   ? "bg-primary border-primary text-white shadow-sm"
-                  : "border-border text-muted-foreground hover:text-foreground"
+                  : "border-border text-muted-foreground hover:text-foreground",
+                isVi && "font-vietnamese-flashcard"
               )}
             >
               {isVi ? labels[key].vi : labels[key].en}
@@ -377,7 +379,7 @@ export function TopicsTimelineClient({ segment }: { segment: string }) {
             {filter !== "nt" && (
               <>
                 <div className="mb-5 flex items-center gap-4 pl-9">
-                  <span className={cn("text-muted-foreground font-mono text-xs font-semibold uppercase tracking-widest")}>
+                  <span className={cn("text-muted-foreground font-mono text-xs font-semibold uppercase tracking-widest", isVi && "font-vietnamese-flashcard")}>
                     {isVi ? "Cựu Ước" : "Old Testament"}
                   </span>
                   <div className="bg-border h-px flex-1" />
@@ -394,7 +396,7 @@ export function TopicsTimelineClient({ segment }: { segment: string }) {
             {filter !== "ot" && (
               <>
                 <div className={cn("mb-5 flex items-center gap-4 pl-9", filter !== "nt" && "mt-6")}>
-                  <span className={cn("text-muted-foreground font-mono text-xs font-semibold uppercase tracking-widest")}>
+                  <span className={cn("text-muted-foreground font-mono text-xs font-semibold uppercase tracking-widest", isVi && "font-vietnamese-flashcard")}>
                     {isVi ? "Tân Ước" : "New Testament"}
                   </span>
                   <div className="bg-border h-px flex-1" />
