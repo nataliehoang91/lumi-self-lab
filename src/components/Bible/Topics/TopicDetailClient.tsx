@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
 import {
-  Flame, Sparkles, RefreshCcw, Droplets, Wind, Heart, Shield, CloudRain,
+  ArrowLeft, ArrowRight, BookOpen, Heart,
+  Flame, Sparkles, RefreshCcw, Droplets, Wind, Shield, CloudRain,
   Sun, Zap, User, Sunrise, Anchor, Home, Users, HeartHandshake, Baby,
   Compass, GitBranch, Lock, CheckCircle, Coins, Briefcase, Star, Gem,
   Target, ArrowDown, Music, Moon, Gift, Eye, Clock, Scale,
@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
-import { trackTopicView } from "./useRecentTopics";
+import { trackTopicView, useFavoriteTopics, toggleFavoriteTopic } from "./useRecentTopics";
 import type { BibleTopic } from "@/lib/bible-topics-data";
 import { TOPIC_CATEGORIES } from "@/lib/bible-topics-data";
 import type { TopicVerseText } from "@/app/actions/bible/topic-verses";
@@ -48,6 +48,9 @@ export function TopicDetailClient({ topic, segment, relatedTopics, verseTextMap 
   const { h1Class, bodyClass, bodyClassUp, bodyTitleClassUp } = useBibleFontClasses();
 
   useEffect(() => { trackTopicView(topic.slug); }, [topic.slug]);
+  const favoriteSlugs = useFavoriteTopics();
+  const [isFav, setIsFav] = useState(false);
+  useEffect(() => { setIsFav(favoriteSlugs.includes(topic.slug)); }, [favoriteSlugs, topic.slug]);
   const colors = CATEGORY_COLORS[topic.category] ?? CATEGORY_COLORS.faith;
   const Icon = ICON_MAP[topic.icon] ?? Flame;
   const name = isVi ? topic.nameVi : topic.nameEn;
@@ -76,6 +79,19 @@ export function TopicDetailClient({ topic, segment, relatedTopics, verseTextMap 
           <span className={cn("rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide", colors.pill)}>
             {categoryLabel}
           </span>
+          <button
+            type="button"
+            onClick={() => setIsFav(toggleFavoriteTopic(topic.slug))}
+            title={isFav ? (isVi ? "Bỏ yêu thích" : "Remove from favorites") : (isVi ? "Thêm vào yêu thích" : "Add to favorites")}
+            className={cn(
+              "ml-auto flex h-9 w-9 items-center justify-center rounded-full border transition-colors",
+              isFav
+                ? "border-rose-300 bg-rose-50 text-rose-500 dark:border-rose-700/50 dark:bg-rose-950/30 dark:text-rose-400"
+                : "border-border bg-background text-muted-foreground hover:border-rose-300 hover:text-rose-500"
+            )}
+          >
+            <Heart className={cn("h-4 w-4", isFav && "fill-current")} />
+          </button>
         </div>
         <h1 className={cn("text-foreground font-serif font-semibold leading-tight", h1Class, isVi && "font-vietnamese-flashcard")}>
           {name}

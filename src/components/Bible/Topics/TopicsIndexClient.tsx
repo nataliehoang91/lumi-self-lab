@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Search, TrendingUp, Clock, Sparkles } from "lucide-react";
+import { Search, TrendingUp, Clock, Sparkles, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { BibleTopic, TopicCategory } from "@/lib/bible-topics-data";
 import { TOPIC_CATEGORIES, getTopicBySlug } from "@/lib/bible-topics-data";
 import { TopicCard } from "./TopicCard";
-import { useRecentTopics } from "./useRecentTopics";
+import { useRecentTopics, useFavoriteTopics } from "./useRecentTopics";
 
 const ALL_KEY = "all";
 
@@ -60,6 +60,7 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<TopicCategory | typeof ALL_KEY>(ALL_KEY);
   const recentSlugs = useRecentTopics();
+  const favoriteSlugs = useFavoriteTopics();
 
   const isFiltering = search !== "" || activeCategory !== ALL_KEY;
 
@@ -70,6 +71,7 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
     return matchesSearch && matchesCat;
   });
 
+  const favoriteTopics = favoriteSlugs.map((s) => getTopicBySlug(s)).filter(Boolean) as BibleTopic[];
   const popularTopics = POPULAR_SLUGS.map((s) => getTopicBySlug(s)).filter(Boolean) as BibleTopic[];
   const recentTopics = recentSlugs.map((s) => getTopicBySlug(s)).filter(Boolean) as BibleTopic[];
   const suggestedTopics = getSuggested(topics, recentSlugs);
@@ -192,6 +194,30 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
             transition={{ duration: 0.2 }}
             className="space-y-14"
           >
+            {/* Favorites */}
+            {favoriteTopics.length > 0 && (
+              <section>
+                <SectionHeader
+                  icon={<Heart className="h-4 w-4 text-rose-500" />}
+                  label={isVi ? "Yêu thích" : "Favorites"}
+                  bodyClass={bodyClass}
+                  isVi={isVi}
+                />
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {favoriteTopics.map((topic, i) => (
+                    <motion.div
+                      key={topic.slug}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.06 }}
+                    >
+                      <TopicCard topic={topic} segment={segment} />
+                    </motion.div>
+                  ))}
+                </div>
+              </section>
+            )}
+
             {/* Recently viewed */}
             {recentTopics.length > 0 && (
               <section>

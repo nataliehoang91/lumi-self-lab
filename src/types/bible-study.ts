@@ -72,6 +72,8 @@ export interface ChecklistBook {
   passages: {
     id: string;
     chapter: number;
+    verseStart: number | null;
+    verseEnd: number | null;
     isStudied: boolean;
     studiedAt: Date | null;
   }[];

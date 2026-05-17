@@ -272,6 +272,8 @@ export async function getChecklistData(listId: string): Promise<ChecklistBook[]>
     grouped.get(p.bookId)!.passages.push({
       id: p.id,
       chapter: p.chapter,
+      verseStart: p.verseStart,
+      verseEnd: p.verseEnd,
       isStudied: p.isStudied,
       studiedAt: p.studiedAt,
     });

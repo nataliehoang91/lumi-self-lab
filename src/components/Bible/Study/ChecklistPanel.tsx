@@ -82,15 +82,16 @@ export function ChecklistPanel({
                   key={p.id}
                   type="button"
                   onClick={() => togglePassage(book, p.id, p.isStudied)}
-                  title={`Chapter ${p.chapter}${p.isStudied ? " · Studied" : ""}`}
+                  title={`${p.chapter}${p.verseStart != null ? `:${p.verseStart}` : ""}${p.isStudied ? " · Studied" : ""}`}
                   className={cn(
-                    "flex h-7 w-7 items-center justify-center rounded-lg border text-[11px] font-medium transition-all",
+                    "flex h-7 items-center justify-center rounded-lg border px-1.5 text-[11px] font-medium transition-all",
+                    p.verseStart != null ? "min-w-10" : "w-7",
                     p.isStudied
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-border bg-muted/30 text-muted-foreground hover:border-primary/40 hover:text-foreground"
                   )}
                 >
-                  {p.isStudied ? <Check className="h-3 w-3" /> : p.chapter}
+                  {p.isStudied ? <Check className="h-3 w-3" /> : p.verseStart != null ? `${p.chapter}:${p.verseStart}` : p.chapter}
                 </button>
               ))}
             </div>

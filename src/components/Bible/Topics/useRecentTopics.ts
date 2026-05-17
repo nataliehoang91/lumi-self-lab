@@ -30,3 +30,36 @@ export function trackTopicView(slug: string): void {
     // ignore
   }
 }
+
+// ── Favorite topics ───────────────────────────────────────────────────────────
+
+const FAVORITES_KEY = "bible-favorite-topics";
+
+export function useFavoriteTopics(): string[] {
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(FAVORITES_KEY);
+      if (raw) setFavorites(JSON.parse(raw) as string[]);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  return favorites;
+}
+
+/** Toggles favorite; returns true if now favorited. */
+export function toggleFavoriteTopic(slug: string): boolean {
+  try {
+    const raw = localStorage.getItem(FAVORITES_KEY);
+    const prev: string[] = raw ? (JSON.parse(raw) as string[]) : [];
+    const isFav = prev.includes(slug);
+    const next = isFav ? prev.filter((s) => s !== slug) : [slug, ...prev];
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
+    return !isFav;
+  } catch {
+    return false;
+  }
+}

@@ -106,28 +106,28 @@ function StatsCards({
       value: streak?.currentStreak ?? 0,
       label: t.streakDays(streak?.currentStreak ?? 0),
       sub: streak && streak.longestStreak > (streak.currentStreak ?? 0) ? `${streak.longestStreak} ${t.bestStreak}` : null,
-      accent: "bg-orange-50 border-orange-100 dark:bg-orange-950/20 dark:border-orange-900/30",
+      accent: "bg-background/90 border-orange-200 dark:border-orange-800/40",
     },
     {
       icon: <BookOpen className="h-4 w-4 text-primary" />,
       value: totalStudied,
       label: t.totalStudied,
       sub: null,
-      accent: "bg-primary/5 border-primary/10",
+      accent: "bg-background/90 border-primary/20",
     },
     {
       icon: <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />,
       value: activeLists,
       label: t.activeLists,
       sub: null,
-      accent: "bg-green-50 border-green-100 dark:bg-green-950/20 dark:border-green-900/30",
+      accent: "bg-background/90 border-green-200 dark:border-green-800/40",
     },
     {
       icon: <GraduationCap className="h-4 w-4 text-violet-500" />,
       value: totalLists,
       label: t.totalLists,
       sub: null,
-      accent: "bg-violet-50 border-violet-100 dark:bg-violet-950/20 dark:border-violet-900/30",
+      accent: "bg-background/90 border-violet-200 dark:border-violet-800/40",
     },
   ];
 
@@ -177,7 +177,7 @@ function ContinueTodayBanner({
     <motion.button
       type="button"
       onClick={() => router.push(href)}
-      className="mb-5 flex w-full items-center justify-between gap-3 rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-primary/8"
+      className="mb-5 flex w-full items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-background/90 px-4 py-3 text-left shadow-sm transition-colors hover:border-primary/50 hover:bg-background"
       initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.15 }}
