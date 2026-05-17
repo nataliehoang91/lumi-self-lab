@@ -48,7 +48,11 @@ import {
   Tag,
   Trash2,
   X,
+  MessageCircle,
 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { VerseChatPanel } from "./VerseChatPanel";
+import type { VerseRef } from "@/app/api/bible/verse-chat/route";
 
 // ── i18n ──────────────────────────────────────────────────────────────────────
 
@@ -295,8 +299,10 @@ function VerseRow({
   text,
   highlight,
   note,
+  isSelected,
   onHighlight,
   onNote,
+  onSelect,
 }: {
   listId: string;
   bookId: string;
@@ -305,8 +311,10 @@ function VerseRow({
   text: string;
   highlight?: BibleStudyHighlight;
   note?: BibleStudyNote;
+  isSelected?: boolean;
   onHighlight: (verseNum: number, color: HighlightColor) => void;
   onNote: (verseNum: number) => void;
+  onSelect: (verseNum: number) => void;
 }) {
   const [showTools, setShowTools] = useState(false);
   const [, startHL] = useTransition();
@@ -316,15 +324,24 @@ function VerseRow({
   return (
     <div
       className={cn(
-        "group relative flex gap-2 rounded-lg px-2 py-0.5 -mx-2 transition-colors",
-        highlight ? highlightBg(highlight.color) : "hover:bg-muted/40"
+        "group relative flex gap-2 rounded-lg px-2 py-0.5 -mx-2 transition-all",
+        isSelected
+          ? "border-l-2 border-primary bg-primary/5 pl-3"
+          : highlight ? highlightBg(highlight.color) : "hover:bg-muted/40"
       )}
       onMouseEnter={() => setShowTools(true)}
       onMouseLeave={() => setShowTools(false)}
     >
-      <span className="text-muted-foreground mt-0.5 w-5 shrink-0 text-[11px] font-medium select-none">
+      <button
+        type="button"
+        onClick={() => onSelect(verseNum)}
+        title={isSelected ? "Deselect verse" : "Select verse to ask AI"}
+        className={cn(
+          "mt-0.5 w-5 shrink-0 text-[11px] font-medium transition-colors",
+          isSelected ? "text-primary font-bold" : "text-muted-foreground hover:text-primary"
+        )}>
         {verseNum}
-      </span>
+      </button>
       <div className="flex-1">
         <span className="text-foreground text-sm leading-relaxed">{text}</span>
         {note && (
@@ -558,6 +575,8 @@ export function StudyReaderShell({
   const [isSaving, startSaving] = useTransition();
   const [focusMode, setFocusMode] = useState(false);
   const [showInsights, setShowInsights] = useState(false);
+  const [selectedVerses, setSelectedVerses] = useState<VerseRef[]>([]);
+  const [chatOpen, setChatOpen] = useState(false);
   const [editingNoteFor, setEditingNoteFor] = useState<{ chapter: number; verseNumber: number | null } | null>(null);
   const [isPublic, setIsPublic] = useState(list.isPublic);
   const [publicSlug, setPublicSlug] = useState(list.publicSlug);
@@ -573,8 +592,19 @@ export function StudyReaderShell({
       return next;
     });
   const pathname = usePathname();
-  const lang = pathname?.match(/^\/bible\/(en|vi)/)?.[1] ?? "en";
-  const t = (INTL[lang as "en" | "vi"] ?? INTL.en) as typeof INTL.en;
+  const lang = (pathname?.match(/^\/bible\/(en|vi)/)?.[1] ?? "en") as "en" | "vi";
+  const t = (INTL[lang] ?? INTL.en) as typeof INTL.en;
+
+  const handleSelectVerse = useCallback((bookId: string, chapter: number, verseNum: number, text: string, bookNameEn: string, bookNameVi: string) => {
+    const bookName = lang === "vi" ? bookNameVi : bookNameEn;
+    const key = `${bookId}:${chapter}:${verseNum}`;
+    setSelectedVerses((prev) => {
+      const exists = prev.find((v) => `${v.bookName}:${v.chapter}:${v.verseNum}` === `${bookName}:${chapter}:${verseNum}`);
+      if (exists) return prev.filter((v) => !(v.bookName === bookName && v.chapter === chapter && v.verseNum === verseNum));
+      return [...prev, { bookName, chapter, verseNum, text }];
+    });
+    void key;
+  }, [lang]);
 
   // Split passages by type
   const chapterPassages = useMemo(() => passages.filter((p) => p.verseStart === null), [passages]);
@@ -801,8 +831,21 @@ export function StudyReaderShell({
               <Share2 className="h-4 w-4" />
             </button>
             {shareMsg && <span className="text-xs text-primary animate-in fade-in">{shareMsg}</span>}
-<button type="button" onClick={() => setShowInsights((v) => !v)} title={t.toggleInsights} className={cn("rounded-lg p-2 transition-colors", showInsights ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
+            <button type="button" onClick={() => setShowInsights((v) => !v)} title={t.toggleInsights} className={cn("rounded-lg p-2 transition-colors", showInsights ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
               <Lightbulb className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setChatOpen((v) => !v)}
+              title="Ask AI about verses"
+              className={cn("relative rounded-lg p-2 transition-colors", chatOpen ? "text-primary" : "text-muted-foreground hover:text-foreground")}
+            >
+              <MessageCircle className="h-4 w-4" />
+              {selectedVerses.length > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
+                  {selectedVerses.length}
+                </span>
+              )}
             </button>
             <button type="button" onClick={() => setFocusMode((v) => !v)} title={focusMode ? t.exitFocus : t.focusMode} className="text-muted-foreground hover:text-foreground rounded-lg p-2 transition-colors">
               {focusMode ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
@@ -1097,8 +1140,13 @@ export function StudyReaderShell({
                                           text={v.text}
                                           highlight={hl}
                                           note={vNote}
+                                          isSelected={selectedVerses.some(s => s.bookName === (lang === "vi" ? (content.book.nameVi ?? content.book.nameEn) : content.book.nameEn) && s.chapter === content.chapter && s.verseNum === v.number)}
                                           onHighlight={(vn, color) => handleHighlight(content.book.id, content.chapter, vn, color)}
                                           onNote={(vn) => setEditingNoteFor(isEditingVerse ? null : { chapter: content.chapter, verseNumber: vn })}
+                                          onSelect={(vn) => {
+                                            handleSelectVerse(content.book.id, content.chapter, vn, v.text, content.book.nameEn, content.book.nameVi ?? content.book.nameEn);
+                                            setChatOpen(true);
+                                          }}
                                         />
                                         {isEditingVerse && (
                                           <NoteEditor
@@ -1161,7 +1209,37 @@ export function StudyReaderShell({
               </div>
             </aside>
           )}
+
+          {/* ── Right: AI Chat Panel ── */}
+          <AnimatePresence>
+            {chatOpen && !focusMode && (
+              <VerseChatPanel
+                selectedVerses={selectedVerses}
+                lang={lang}
+                onClose={() => setChatOpen(false)}
+                onClearSelection={() => setSelectedVerses([])}
+              />
+            )}
+          </AnimatePresence>
         </div>
+
+        {/* Floating "Ask AI" button when verses selected and chat closed */}
+        <AnimatePresence>
+          {selectedVerses.length > 0 && !chatOpen && (
+            <motion.button
+              type="button"
+              onClick={() => setChatOpen(true)}
+              className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg hover:bg-primary/90 transition-colors"
+              initial={{ opacity: 0, scale: 0.8, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 12 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
+              <MessageCircle className="h-4 w-4" />
+              {lang === "vi" ? `Hỏi AI về ${selectedVerses.length} câu` : `Ask AI · ${selectedVerses.length} verse${selectedVerses.length > 1 ? "s" : ""}`}
+            </motion.button>
+          )}
+        </AnimatePresence>
       </Container>
     </div>
   );
