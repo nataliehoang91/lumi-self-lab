@@ -569,6 +569,8 @@ export async function markChapterStudied(params: {
     });
     await updateStreak(userId);
   }
+  revalidatePath("/bible/en/study");
+  revalidatePath("/bible/vi/study");
 }
 
 export async function markPassageStudied(params: {

@@ -73,7 +73,7 @@ export function ChecklistPanel({
             <div className="mb-1.5 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-foreground">{bookName}</span>
               <span className="text-[10px] text-muted-foreground">
-                {done}/{total}
+                <span className="text-primary font-semibold">{done}</span>/{total}
               </span>
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -84,14 +84,15 @@ export function ChecklistPanel({
                   onClick={() => togglePassage(book, p.id, p.isStudied)}
                   title={`${p.chapter}${p.verseStart != null ? `:${p.verseStart}` : ""}${p.isStudied ? " · Studied" : ""}`}
                   className={cn(
-                    "flex h-7 items-center justify-center rounded-lg border px-1.5 text-[11px] font-medium transition-all",
-                    p.verseStart != null ? "min-w-10" : "w-7",
+                    "flex h-7 items-center gap-1 rounded-lg border px-1.5 text-[11px] font-medium transition-all",
+                    p.isStudied ? "min-w-fit" : p.verseStart != null ? "min-w-10" : "w-7",
                     p.isStudied
-                      ? "border-teal-400 bg-teal-100 text-teal-700 dark:border-teal-600 dark:bg-teal-900/40 dark:text-teal-300"
-                      : "border-border bg-muted/30 text-muted-foreground hover:border-teal-300 hover:text-foreground"
+                      ? "border-lime-400/60 bg-lime-50 text-lime-800 dark:border-lime-600/40 dark:bg-lime-950/20 dark:text-lime-300"
+                      : "border-border bg-muted/30 text-muted-foreground hover:border-lime-300/50 hover:text-foreground"
                   )}
                 >
-                  {p.isStudied ? <Check className="h-3 w-3" /> : p.verseStart != null ? `${p.chapter}:${p.verseStart}` : p.chapter}
+                  {p.isStudied && <Check className="h-3 w-3 shrink-0 text-[#5a6b1e] dark:text-lime-500" />}
+                  {p.verseStart != null ? `${p.chapter}:${p.verseStart}` : p.chapter}
                 </button>
               ))}
             </div>

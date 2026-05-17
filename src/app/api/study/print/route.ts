@@ -28,26 +28,25 @@ export async function GET(req: NextRequest) {
     });
 
     const page = await browser.newPage();
-    await page.setViewport({ width: 1280, height: 900 });
+    await page.setViewport({ width: 1024, height: 900 });
 
     const cookie = req.headers.get("cookie") ?? "";
     if (cookie) {
-      const parsed = cookie.split(";").map((c) => {
+      const parsed = cookie.split(";").flatMap((c) => {
         const [name, ...rest] = c.trim().split("=");
-        return { name: name.trim(), value: rest.join("="), url };
+        const n = name?.trim();
+        if (!n) return [];
+        return [{ name: n, value: rest.join("="), url }];
       });
-      await page.setCookie(...parsed);
+      if (parsed.length) await page.setCookie(...parsed);
     }
 
     await page.goto(url, { waitUntil: "networkidle0", timeout: 30_000 });
-    await page.addStyleTag({
-      content: `nav, [data-hide-print] { display: none !important; } body { padding-top: 0 !important; }`,
-    });
 
     const pdfBuffer = await page.pdf({
       format: "A4",
-      printBackground: true,
-      margin: { top: "20mm", right: "16mm", bottom: "20mm", left: "16mm" },
+      printBackground: false,
+      margin: { top: "15mm", right: "15mm", bottom: "15mm", left: "15mm" },
     });
 
     await browser.close();
@@ -55,7 +54,7 @@ export async function GET(req: NextRequest) {
     return new NextResponse(Buffer.from(pdfBuffer), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="study-list.pdf"`,
+        "Content-Disposition": `inline; filename="study-list.pdf"`,
       },
     });
   } catch (err) {

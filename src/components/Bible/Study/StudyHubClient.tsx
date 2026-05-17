@@ -429,7 +429,7 @@ function StudyListCard({
         {list.passageCount > 0 && (
           <div className="mb-1.5 mt-2">
             <div className="bg-muted h-1 w-full overflow-hidden rounded-full">
-              <div className="h-full rounded-full transition-all" style={{ width: `${progressPct}%`, backgroundColor: "#f4956a" }} />
+              <div className="h-full rounded-full bg-indigo-400 transition-all dark:bg-indigo-500" style={{ width: `${progressPct}%` }} />
             </div>
           </div>
         )}
@@ -438,7 +438,7 @@ function StudyListCard({
             <BookOpen className="h-3.5 w-3.5" />
             {list.passageCount} {t.chapters(list.passageCount)}
             {list.studiedCount > 0 && (
-              <span className="text-[#5a6b1e] dark:text-lime-500">· {list.studiedCount} {t.studied}</span>
+              <span className="text-[#5a6b1e] dark:text-lime-400">· {list.studiedCount} {t.studied}</span>
             )}
           </span>
           <span>{list.createdAt.toLocaleDateString()}</span>

@@ -940,8 +940,9 @@ export function StudyReaderShell({
   };
 
   const handlePrint = () => {
-    const url = encodeURIComponent(window.location.href);
-    window.open(`/api/study/print?url=${url}`, "_blank");
+    // Open standalone server-rendered print page — user can Cmd+P to save as PDF
+    const listId = window.location.pathname.split("/").pop() ?? "";
+    window.open(`/print/study/${listId}?lang=${lang}&version=${version}`, "_blank");
   };
 
   const handleCopyAll = () => {
@@ -1023,7 +1024,7 @@ export function StudyReaderShell({
 
         {/* Stats bar */}
         {totalSelected > 0 && (
-          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-indigo-200/70 bg-indigo-50/50 px-4 py-3 text-xs dark:border-indigo-800/30 dark:bg-indigo-950/10">
+          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-amber-300/70 bg-amber-50/40 px-4 py-3 text-xs dark:border-amber-700/30 dark:bg-amber-950/10">
             <span className="text-muted-foreground">{t.books(uniqueBooks)}</span>
             <span className="text-muted-foreground">{t.chapters(totalSelected)}</span>
             <span className="text-muted-foreground">{t.otLabel} {otCount} · {t.ntLabel} {ntCount}</span>
@@ -1031,7 +1032,7 @@ export function StudyReaderShell({
               <>
                 <div className="flex flex-1 items-center gap-2">
                   <div className="bg-muted h-1.5 flex-1 overflow-hidden rounded-full">
-                    <div className="bg-primary h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%` }} />
+                    <div className="bg-indigo-400 h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%` }} />
                   </div>
                   <span className="text-muted-foreground shrink-0">{t.studied(totalStudied, totalSelected)}</span>
                 </div>
@@ -1162,7 +1163,7 @@ export function StudyReaderShell({
                         className={cn("relative h-8 rounded-xl border text-xs font-medium transition-all",
                           active ? "bg-primary text-primary-foreground border-primary shadow-sm scale-105" : "bg-muted/60 text-foreground hover:bg-primary/10 hover:border-primary/30 border-transparent")}>
                         {ch}
-                        {studied && <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-green-500 border border-background" />}
+                        {studied && <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-lime-600 border border-background" />}
                       </button>
                     );
                   })}
@@ -1232,7 +1233,7 @@ export function StudyReaderShell({
                             <article key={key} className="border-border bg-background/80 rounded-2xl border">
                               <header className={cn(
                                 "border-border/60 sticky top-0 z-10 flex items-center justify-between gap-3 border-b px-5 py-3 rounded-t-2xl backdrop-blur-sm",
-                                isStudied ? "from-green-500/10 bg-gradient-to-r to-background/95" : "from-primary/5 bg-gradient-to-r to-background/95"
+                                isStudied ? "from-lime-500/10 bg-gradient-to-r to-background/95" : "from-primary/5 bg-gradient-to-r to-background/95"
                               )}>
                                 <button
                                   type="button"
@@ -1279,7 +1280,7 @@ export function StudyReaderShell({
                                   </button>
                                   <button type="button" onClick={() => handleMarkStudied(content.book.id, content.chapter)}
                                     title={isStudied ? t.markUnread : t.markStudied}
-                                    className={cn("rounded-lg p-1 transition-colors", isStudied ? "text-green-500" : "text-muted-foreground hover:text-green-500")}>
+                                    className={cn("rounded-lg p-1 transition-colors", isStudied ? "text-[#5a6b1e] dark:text-lime-500" : "text-muted-foreground hover:text-[#5a6b1e]")}>
                                     <CheckCircle2 className="h-3.5 w-3.5" />
                                   </button>
                                 </div>
