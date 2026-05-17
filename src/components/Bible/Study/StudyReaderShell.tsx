@@ -347,10 +347,66 @@ function NoteEditor({
 
 // ── Verse row ─────────────────────────────────────────────────────────────────
 
+function MarkdownResponse({ text }: { text: string }) {
+  // Render a subset of markdown: ##/###, **bold**, *italic*, bullet lists, line breaks
+  const lines = text.split("\n");
+  const elements: React.ReactNode[] = [];
+  let i = 0;
+
+  const renderInline = (str: string): React.ReactNode[] => {
+    const parts: React.ReactNode[] = [];
+    const re = /(\*\*(.+?)\*\*|\*(.+?)\*)/g;
+    let last = 0, match: RegExpExecArray | null;
+    while ((match = re.exec(str)) !== null) {
+      if (match.index > last) parts.push(str.slice(last, match.index));
+      if (match[2]) parts.push(<strong key={match.index} className="font-semibold text-foreground">{match[2]}</strong>);
+      else if (match[3]) parts.push(<em key={match.index}>{match[3]}</em>);
+      last = match.index + match[0].length;
+    }
+    if (last < str.length) parts.push(str.slice(last));
+    return parts;
+  };
+
+  while (i < lines.length) {
+    const line = lines[i];
+    if (/^###\s/.test(line)) {
+      elements.push(<p key={i} className="mt-2.5 mb-0.5 text-[11px] font-bold uppercase tracking-wide text-foreground/70">{renderInline(line.replace(/^###\s/, ""))}</p>);
+    } else if (/^##\s/.test(line)) {
+      elements.push(<p key={i} className="mt-3 mb-1 text-[12px] font-bold text-foreground">{renderInline(line.replace(/^##\s/, ""))}</p>);
+    } else if (/^[-*]\s/.test(line)) {
+      // Collect consecutive bullet lines
+      const bullets: string[] = [];
+      while (i < lines.length && /^[-*]\s/.test(lines[i])) {
+        bullets.push(lines[i].replace(/^[-*]\s/, ""));
+        i++;
+      }
+      elements.push(
+        <ul key={`ul-${i}`} className="my-1 space-y-0.5 pl-3">
+          {bullets.map((b, bi) => (
+            <li key={bi} className="flex gap-1.5 text-xs leading-relaxed text-foreground/80">
+              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary/60" />
+              <span>{renderInline(b)}</span>
+            </li>
+          ))}
+        </ul>
+      );
+      continue;
+    } else if (line.trim() === "") {
+      elements.push(<div key={i} className="h-1" />);
+    } else {
+      elements.push(<p key={i} className="text-xs leading-relaxed text-foreground/80">{renderInline(line)}</p>);
+    }
+    i++;
+  }
+
+  return <div className="space-y-0.5">{elements}</div>;
+}
+
 function VerseAskAI({ verseRef, lang, onClose }: { verseRef: { bookNameEn: string; chapter: number; verseNum: number; text: string }; lang: string; onClose: () => void }) {
   const [input, setInput] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { setTimeout(() => inputRef.current?.focus(), 50); }, []);
@@ -388,6 +444,12 @@ function VerseAskAI({ verseRef, lang, onClose }: { verseRef: { bookNameEn: strin
     }
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(response);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="mt-2 rounded-xl border border-border bg-background shadow-sm">
       <div className="flex items-center justify-between border-b border-border/60 px-3 py-2">
@@ -401,11 +463,26 @@ function VerseAskAI({ verseRef, lang, onClose }: { verseRef: { bookNameEn: strin
         </button>
       </div>
       {response && (
-        <div className="px-3 py-2.5">
-          <p className="text-xs leading-relaxed text-foreground/80">{response}</p>
+        <div className="px-3 py-3">
+          <MarkdownResponse text={response} />
+          {!loading && (
+            <button
+              type="button"
+              onClick={handleCopy}
+              className={cn(
+                "mt-2.5 flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-medium transition-all",
+                copied
+                  ? "bg-lime-50 text-[#5a6b1e] dark:bg-lime-950/20 dark:text-lime-400"
+                  : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
+            >
+              {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+              {copied ? (lang === "vi" ? "Đã sao chép" : "Copied!") : (lang === "vi" ? "Sao chép" : "Copy")}
+            </button>
+          )}
         </div>
       )}
-      <div className="flex items-center gap-2 px-3 py-2">
+      <div className="flex items-center gap-2 border-t border-border/40 px-3 py-2">
         <input
           ref={inputRef}
           value={input}
@@ -1024,7 +1101,7 @@ export function StudyReaderShell({
 
         {/* Stats bar */}
         {totalSelected > 0 && (
-          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-amber-300/70 bg-amber-50/40 px-4 py-3 text-xs dark:border-amber-700/30 dark:bg-amber-950/10">
+          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-lime-400/60 bg-lime-50/30 px-4 py-3 text-xs dark:border-lime-700/40 dark:bg-lime-950/10">
             <span className="text-muted-foreground">{t.books(uniqueBooks)}</span>
             <span className="text-muted-foreground">{t.chapters(totalSelected)}</span>
             <span className="text-muted-foreground">{t.otLabel} {otCount} · {t.ntLabel} {ntCount}</span>
@@ -1032,7 +1109,7 @@ export function StudyReaderShell({
               <>
                 <div className="flex flex-1 items-center gap-2">
                   <div className="bg-muted h-1.5 flex-1 overflow-hidden rounded-full">
-                    <div className="bg-indigo-400 h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%` }} />
+                    <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, backgroundColor: "#5a6b1e" }} />
                   </div>
                   <span className="text-muted-foreground shrink-0">{t.studied(totalStudied, totalSelected)}</span>
                 </div>
