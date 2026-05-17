@@ -331,36 +331,30 @@ export function BibleAIGuide({ lang }: { lang: string }) {
 
   return (
     <>
-      {/* ── Floating button ── */}
-      <motion.button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className={cn(
-          "fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full px-4 py-3 shadow-lg transition-colors",
-          open ? "bg-foreground text-background" : "bg-primary text-primary-foreground hover:bg-primary/90"
+      {/* ── Floating button — hidden when panel is open ── */}
+      <AnimatePresence>
+        {!open && (
+          <motion.button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-primary-foreground shadow-lg hover:bg-primary/90"
+            initial={{ opacity: 0, scale: 0.8, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 8 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+          >
+            <Sparkles className="h-4 w-4" />
+            <span className="text-sm font-semibold">{isVi ? "Hỏi AI" : "Ask AI"}</span>
+            {messages.length > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-foreground text-[9px] font-bold text-background">
+                {Math.ceil(messages.length / 2)}
+              </span>
+            )}
+          </motion.button>
         )}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.96 }}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          {open ? (
-            <motion.span key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-              <X className="h-4 w-4" />
-            </motion.span>
-          ) : (
-            <motion.span key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-              <Sparkles className="h-4 w-4" />
-            </motion.span>
-          )}
-        </AnimatePresence>
-        <span className="text-sm font-semibold">{isVi ? "Hỏi AI" : "Ask AI"}</span>
-        {/* Unread badge — show count when panel closed and has history */}
-        {!open && messages.length > 0 && (
-          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-foreground text-[9px] font-bold text-background">
-            {Math.ceil(messages.length / 2)}
-          </span>
-        )}
-      </motion.button>
+      </AnimatePresence>
 
       {/* ── Sliding panel ── */}
       <AnimatePresence>

@@ -522,6 +522,28 @@ export async function getListsContainingPassage({
   return passages.map((p) => p.listId);
 }
 
+/** Returns verse numbers (verseStart) already saved by this user for a chapter. */
+export async function getSavedVerseNumsForChapter({
+  bookId,
+  chapter,
+}: {
+  bookId: string;
+  chapter: number;
+}): Promise<number[]> {
+  const { userId } = await auth();
+  if (!userId) return [];
+  const passages = await prisma.bibleStudyPassage.findMany({
+    where: {
+      list: { clerkUserId: userId, isArchived: false },
+      bookId,
+      chapter,
+      verseStart: { not: null },
+    },
+    select: { verseStart: true },
+  });
+  return [...new Set(passages.map((p) => p.verseStart).filter((v): v is number => v !== null))];
+}
+
 export async function markChapterStudied(params: {
   listId: string;
   bookId: string;

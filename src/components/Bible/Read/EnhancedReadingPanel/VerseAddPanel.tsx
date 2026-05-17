@@ -64,16 +64,15 @@ export function VerseAddPanel({
 
       {/* Verse chip — layoutId matches the one in toolbar */}
       <div className="border-b border-border/50 bg-primary/3 px-4 py-3">
-        <motion.div
+        <div
           ref={chipRef}
-          layoutId="verse-add-chip"
           className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5"
         >
           <BookmarkPlus className="h-3 w-3 text-primary" />
           <span className="text-xs font-semibold text-primary">
             {bookName} {chapter}:{verseNum}
           </span>
-        </motion.div>
+        </div>
         <p className="mt-2 line-clamp-2 text-[11px] italic leading-relaxed text-muted-foreground">
           "{verseText}"
         </p>

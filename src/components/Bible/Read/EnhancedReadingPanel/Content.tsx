@@ -16,7 +16,7 @@ import { useRead } from "../context/ReadContext";
 import { READ_FONT_SIZE_REM, READ_FONT_FACES_EN, READ_FONT_FACES_VI } from "../readTextConstants";
 import { BookCircleIcon } from "../../GeneralComponents/book-circle-icon";
 import { useAuth } from "@clerk/nextjs";
-import { getStudyListsForCurrentUser, getListsContainingPassage, toggleStudyPassage } from "@/app/actions/bible/study";
+import { getStudyListsForCurrentUser, getListsContainingPassage, toggleStudyPassage, getSavedVerseNumsForChapter } from "@/app/actions/bible/study";
 import type { BibleStudyListWithCount } from "@/types/bible-study";
 import { useRouter } from "next/navigation";
 import { VerseAddPanel, FlyingChip } from "./VerseAddPanel";
@@ -97,25 +97,36 @@ export function ReadingPanelContent({
   const highlightSet = highlightedVerses.length > 0 ? new Set(highlightedVerses) : null;
   // ── Verse-save panel state ───────────────────────────────────────────────────
   const { isSignedIn } = useAuth();
-  const { setStudyPanelOpen } = useRead();
+  const { studyPanelOpen, setStudyPanelOpen } = useRead();
   const router = useRouter();
   const [activeVerse, setActiveVerse] = useState<{ num: number; text: string } | null>(null);
   const [lists, setLists] = useState<BibleStudyListWithCount[]>([]);
   const [listsLoading, setListsLoading] = useState(false);
   const [added, setAdded] = useState<Record<string, boolean>>({});
   const [flyingChip, setFlyingChip] = useState<{ from: DOMRect; to: DOMRect; label: string } | null>(null);
+  const [savedVerseNums, setSavedVerseNums] = useState<Set<number>>(new Set());
   const [, startAddTransition] = useTransition();
+
+  // Load saved verse numbers whenever book/chapter changes
+  useEffect(() => {
+    if (!book || !content || !isSignedIn) return;
+    getSavedVerseNumsForChapter({ bookId: book.id, chapter: content.chapter })
+      .then((nums) => setSavedVerseNums(new Set(nums)))
+      .catch(() => {/* ignore */});
+  }, [book?.id, content?.chapter, isSignedIn]);
 
   const openPanel = async (verseNum: number, verseText: string) => {
     if (!book || !content) return;
     setActiveVerse({ num: verseNum, text: verseText });
     setStudyPanelOpen(true);
     setListsLoading(true);
-    const [allLists, containedIn] = await Promise.all([
+    const [allLists, containedIn, savedNums] = await Promise.all([
       lists.length === 0 ? getStudyListsForCurrentUser() : Promise.resolve(lists),
       getListsContainingPassage({ bookId: book.id, chapter: content.chapter, verseStart: verseNum }),
+      getSavedVerseNumsForChapter({ bookId: book.id, chapter: content.chapter }),
     ]);
     if (lists.length === 0) setLists(allLists);
+    setSavedVerseNums(new Set(savedNums));
     const initial: Record<string, boolean> = {};
     for (const id of containedIn) initial[id] = true;
     setAdded(initial);
@@ -140,6 +151,12 @@ export function ReadingPanelContent({
         verseEnd: activeVerse.num,
       });
       setAdded((prev) => ({ ...prev, [listId]: result.added }));
+      // Sync the saved-verse highlight set
+      setSavedVerseNums((prev) => {
+        const next = new Set(prev);
+        if (result.added) next.add(activeVerse.num); else next.delete(activeVerse.num);
+        return next;
+      });
     });
   };
 
@@ -207,12 +224,15 @@ export function ReadingPanelContent({
 
         const isDropdownOpen = openDropdownVerse === verseNum;
         const showToolbar = (isHovered || isDropdownOpen) && !focusMode;
+        const isSaved = savedVerseNums.has(verseNum);
 
         return (
           <div
             key={verse.number}
             id={`verse-${verse.number}`}
-            className="group relative scroll-mt-28 transition-colors duration-300"
+            className={cn(
+              "group relative scroll-mt-28 rounded-md transition-colors duration-300"
+            )}
             onMouseEnter={() => onVerseHover(verse.number)}
             onMouseLeave={() => { if (!isDropdownOpen) onVerseHover(null); }}
           >
@@ -232,7 +252,8 @@ export function ReadingPanelContent({
                     isHovered &&
                       !isTarget &&
                       "bg-primary/10 text-primary dark:text-primary-dark",
-                    isTarget && "bg-second-600 dark:bg-second-700 text-white"
+                    isTarget && "bg-second-600 dark:bg-second-700 text-white",
+                    isSaved && !isTarget && studyPanelOpen && "bg-rose-300/60 text-rose-700 dark:bg-rose-800/50 dark:text-rose-300"
                   )}
                 >
                   {verse.number}
@@ -246,7 +267,8 @@ export function ReadingPanelContent({
                     focusMode ? "text-sm" : "text-xs",
                     "text-primary-dark",
                     isHovered && !isTarget && "bg-primary/10 text-primary-dark",
-                    isTarget && "bg-second-100 dark:bg-second-200/90 text-primary"
+                    isTarget && "bg-second-100 dark:bg-second-200/90 text-primary",
+                    isSaved && !isTarget && studyPanelOpen && "bg-rose-300/60 text-rose-700 dark:bg-rose-800/50 dark:text-rose-300"
                   )}
                 >
                   {verse.number}
@@ -256,11 +278,12 @@ export function ReadingPanelContent({
                 className={cn(
                   `text-foreground min-w-0 flex-1 px-1.5 py-1 text-pretty
                   transition-colors duration-300`,
-                  (isHovered || isTarget) && "rounded-md",
+                  (isHovered || isTarget || (isSaved && studyPanelOpen)) && "rounded-md",
                   isHovered && !isTarget && "bg-primary/10",
                   isTarget &&
                     `bg-second-100 dark:bg-second-700/30 dark:border-second-700
-                    bible-verse--highlight font-semibold dark:border`
+                    bible-verse--highlight font-semibold dark:border`,
+                  isSaved && !isTarget && studyPanelOpen && "bg-rose-100/90 dark:bg-rose-900/25"
                 )}
               >
                 {parsed && parsed.notes.length > 0 ? (
@@ -298,31 +321,20 @@ export function ReadingPanelContent({
                   <Copy className="text-muted-foreground h-3.5 w-3.5" />
                 </Button>
                 {book && content && isSignedIn && (
-                  <Button
+                  <button
                     type="button"
-                    variant="outline"
-                    size="icon"
-                    title="Save verse to study list"
-                    onClick={(e) => { e.stopPropagation(); openPanel(verseNum, text); }}
+                    onClick={(e) => { e.stopPropagation(); void openPanel(verseNum, text); }}
                     className={cn(
-                      "border-border bg-card hover:bg-accent h-8 w-8 rounded transition-colors",
-                      activeVerse?.num === verseNum && "border-primary/40 bg-primary/10"
+                      "flex h-8 w-8 items-center justify-center rounded border transition-colors",
+                      activeVerse?.num === verseNum
+                        ? "border-primary/40 bg-primary/10"
+                        : isSaved
+                          ? "border-rose-300/60 bg-rose-100 dark:border-rose-700/40 dark:bg-rose-900/30 hover:bg-rose-200 dark:hover:bg-rose-900/50"
+                          : "border-border bg-card hover:bg-accent"
                     )}
                   >
-                    {/* layoutId so the chip morphs from here into the panel */}
-                    <AnimatePresence>
-                      {activeVerse?.num === verseNum ? (
-                        <motion.div
-                          layoutId="verse-add-chip"
-                          className="flex h-full w-full items-center justify-center"
-                        >
-                          <BookmarkPlus className="h-3.5 w-3.5 text-primary" />
-                        </motion.div>
-                      ) : (
-                        <BookmarkPlus className="text-muted-foreground h-3.5 w-3.5" />
-                      )}
-                    </AnimatePresence>
-                  </Button>
+                    <BookmarkPlus className={cn("h-3.5 w-3.5", isSaved || activeVerse?.num === verseNum ? "text-primary" : "text-muted-foreground")} />
+                  </button>
                 )}
                 <Button
                   type="button"
