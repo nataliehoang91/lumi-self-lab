@@ -312,9 +312,10 @@ export async function POST(req: NextRequest) {
             const matches = searchBooks(input.query);
             result = matches;
             matches.forEach((b) => {
+              const testament = b.id >= 40 ? "&testament1=nt" : "&testament1=ot";
               toolLinks.push({
                 label: isVi ? b.nameVi : b.nameEn,
-                href: `/bible/${lang}/read?version1=${lang === "vi" ? "vi" : "kjv"}&book1Id=${b.slugEn}&chapter1=1`,
+                href: `/bible/${lang}/read?version1=${lang === "vi" ? "vi" : "kjv"}&book1=${b.slugEn}&chapter1=1${testament}`,
                 type: "book",
               });
             });
