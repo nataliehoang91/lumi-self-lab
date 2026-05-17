@@ -154,7 +154,7 @@ export function BibleNavMobileSheet({ open, onOpenChange }: BibleNavMobileSheetP
             className="bg-primary-dark text-primary-foreground hover:bg-primary-dark w-full hover:opacity-90"
             onClick={() => onOpenChange(false)}
           >
-            <Link href={`/bible/${learnLang}/read`}>Open Bible</Link>
+            <Link href={`/bible/${learnLang}/study`}>{intl.t("navStudy")}</Link>
           </Button>
         </SheetFooter>
       </SheetContent>
