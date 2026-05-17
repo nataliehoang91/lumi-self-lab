@@ -1,16 +1,9 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
-import { Copy, BookmarkPlus, StickyNote, Check, Loader2 } from "lucide-react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { Copy, BookmarkPlus, StickyNote } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { parseKJVNotes, hasKJVNotes } from "@/components/Bible/FlashCard/flashCardShared";
 import { normalizeVerseTextForDisplay } from "../utils";
@@ -25,6 +18,7 @@ import { useAuth } from "@clerk/nextjs";
 import { getStudyListsForCurrentUser, toggleStudyPassage } from "@/app/actions/bible/study";
 import type { BibleStudyListWithCount } from "@/types/bible-study";
 import { useRouter } from "next/navigation";
+import { VerseAddPanel, FlyingChip } from "./VerseAddPanel";
 
 export interface ReadingPanelContentProps {
   version: VersionId;
@@ -44,107 +38,7 @@ export interface ReadingPanelContentProps {
   t: TFunction;
 }
 
-function VerseBookmarkDropdown({
-  book,
-  chapter,
-  verseNum,
-  onOpenChange,
-}: {
-  book: BibleBook;
-  chapter: number;
-  verseNum: number;
-  onOpenChange: (open: boolean) => void;
-}) {
-  const { isSignedIn } = useAuth();
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [lists, setLists] = useState<BibleStudyListWithCount[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [added, setAdded] = useState<Record<string, boolean>>({});
-  const [, startTransition] = useTransition();
-
-  if (!isSignedIn) return null;
-
-  const handleOpen = async (isOpen: boolean) => {
-    setOpen(isOpen);
-    onOpenChange(isOpen);
-    if (isOpen && lists.length === 0) {
-      setLoading(true);
-      const result = await getStudyListsForCurrentUser();
-      setLists(result);
-      setLoading(false);
-    }
-  };
-
-  const handleAdd = (listId: string) => {
-    startTransition(async () => {
-      const result = await toggleStudyPassage({
-        listId,
-        bookId: book.id,
-        chapter,
-        verseStart: verseNum,
-        verseEnd: verseNum,
-      });
-      setAdded((prev) => ({ ...prev, [listId]: result.added }));
-    });
-  };
-
-  return (
-    <DropdownMenu open={open} onOpenChange={handleOpen}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          title="Save verse to study list"
-          className="border-border bg-card hover:bg-accent h-8 w-8 rounded"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <BookmarkPlus className="text-muted-foreground h-3.5 w-3.5" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56" onClick={(e) => e.stopPropagation()}>
-        <DropdownMenuLabel className="text-xs">
-          Save {book.nameEn} {chapter}:{verseNum} to…
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {loading ? (
-          <div className="flex items-center justify-center py-4">
-            <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
-          </div>
-        ) : lists.length === 0 ? (
-          <DropdownMenuItem onClick={() => { setOpen(false); router.push("/bible/en/study"); }} className="text-xs">
-            Create a study list first →
-          </DropdownMenuItem>
-        ) : (
-          <>
-            {lists.map((list) => (
-              <DropdownMenuItem
-                key={list.id}
-                onClick={() => handleAdd(list.id)}
-                className="flex items-center justify-between text-xs"
-              >
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium">{list.title}</p>
-                  <p className="text-muted-foreground">{list.passageCount} saved</p>
-                </div>
-                {added[list.id] !== undefined && (
-                  added[list.id]
-                    ? <Check className="ml-2 h-3.5 w-3.5 shrink-0 text-green-500" />
-                    : <span className="ml-2 text-[10px] text-muted-foreground">Removed</span>
-                )}
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => { setOpen(false); router.push("/bible/en/study"); }} className="text-xs text-muted-foreground">
-              Manage study lists →
-            </DropdownMenuItem>
-          </>
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
+// State is lifted to ReadingPanelContent — no sub-component needed here
 
 const fontSizeToClass = (fontSize: FontSize, focus: boolean) => {
   if (focus) {
@@ -200,7 +94,49 @@ export function ReadingPanelContent({
       ? { fontFamily: faceOption.fontFamily }
       : undefined;
   const highlightSet = highlightedVerses.length > 0 ? new Set(highlightedVerses) : null;
-  // Track which verse has its bookmark dropdown open so toolbar stays visible when mouse leaves
+  // ── Verse-save panel state ───────────────────────────────────────────────────
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+  const [activeVerse, setActiveVerse] = useState<{ num: number; text: string } | null>(null);
+  const [lists, setLists] = useState<BibleStudyListWithCount[]>([]);
+  const [listsLoading, setListsLoading] = useState(false);
+  const [added, setAdded] = useState<Record<string, boolean>>({});
+  const [flyingChip, setFlyingChip] = useState<{ from: DOMRect; to: DOMRect; label: string } | null>(null);
+  const chipRef = useRef<HTMLDivElement>(null);
+  const [, startAddTransition] = useTransition();
+
+  const openPanel = async (verseNum: number, verseText: string) => {
+    setActiveVerse({ num: verseNum, text: verseText });
+    setAdded({});
+    if (lists.length === 0) {
+      setListsLoading(true);
+      const result = await getStudyListsForCurrentUser();
+      setLists(result);
+      setListsLoading(false);
+    }
+  };
+
+  const closePanel = () => setActiveVerse(null);
+
+  const handleAdd = (listId: string, targetRect: DOMRect) => {
+    if (!activeVerse || !book || !content) return;
+    // Trigger flying chip
+    if (chipRef.current) {
+      setFlyingChip({ from: chipRef.current.getBoundingClientRect(), to: targetRect, label: `${book.nameEn} ${content.chapter}:${activeVerse.num}` });
+    }
+    startAddTransition(async () => {
+      const result = await toggleStudyPassage({
+        listId,
+        bookId: book.id,
+        chapter: content.chapter,
+        verseStart: activeVerse.num,
+        verseEnd: activeVerse.num,
+      });
+      setAdded((prev) => ({ ...prev, [listId]: result.added }));
+    });
+  };
+
+  // Track which verse has its bookmark open so toolbar stays visible
   const [openDropdownVerse, setOpenDropdownVerse] = useState<number | null>(null);
 
   // Auto-scroll to target verse after content is in the DOM (run when content + targetVerse available)
@@ -343,32 +279,44 @@ export function ReadingPanelContent({
               </p>
             </div>
             {showToolbar && (
-              <div
-                className="absolute top-0 -right-2 flex gap-1"
-              >
+              <div className="absolute top-0 -right-2 flex gap-1">
                 <Button
                   type="button"
                   variant="outline"
                   size="icon"
                   title={t("readCopyVerse")}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    void navigator.clipboard.writeText(text);
-                  }}
+                  onClick={(e) => { e.stopPropagation(); void navigator.clipboard.writeText(text); }}
                   className="border-border bg-card hover:bg-accent h-8 w-8 rounded"
                 >
                   <Copy className="text-muted-foreground h-3.5 w-3.5" />
                 </Button>
-                {book && content && (
-                  <VerseBookmarkDropdown
-                    book={book}
-                    chapter={content.chapter}
-                    verseNum={verseNum}
-                    onOpenChange={(o) => {
-                      setOpenDropdownVerse(o ? verseNum : null);
-                      if (!o) onVerseHover(null);
-                    }}
-                  />
+                {book && content && isSignedIn && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    title="Save verse to study list"
+                    onClick={(e) => { e.stopPropagation(); openPanel(verseNum, text); }}
+                    className={cn(
+                      "border-border bg-card hover:bg-accent h-8 w-8 rounded transition-colors",
+                      activeVerse?.num === verseNum && "border-primary/40 bg-primary/10"
+                    )}
+                  >
+                    {/* layoutId so the chip morphs from here into the panel */}
+                    <AnimatePresence>
+                      {activeVerse?.num === verseNum ? (
+                        <motion.div
+                          ref={chipRef}
+                          layoutId="verse-add-chip"
+                          className="flex h-full w-full items-center justify-center"
+                        >
+                          <BookmarkPlus className="h-3.5 w-3.5 text-primary" />
+                        </motion.div>
+                      ) : (
+                        <BookmarkPlus className="text-muted-foreground h-3.5 w-3.5" />
+                      )}
+                    </AnimatePresence>
+                  </Button>
                 )}
                 <Button
                   type="button"
@@ -384,6 +332,36 @@ export function ReadingPanelContent({
           </div>
         );
       })}
+
+      {/* ── Verse save panel (fixed right) ── */}
+      <AnimatePresence>
+        {activeVerse && book && content && (
+          <VerseAddPanel
+            bookName={book.nameEn}
+            chapter={content.chapter}
+            verseNum={activeVerse.num}
+            verseText={activeVerse.text}
+            lists={lists}
+            loading={listsLoading}
+            added={added}
+            onAdd={handleAdd}
+            onClose={closePanel}
+            onCreateList={() => { closePanel(); router.push(`/bible/en/study`); }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Flying chip animation ── */}
+      <AnimatePresence>
+        {flyingChip && (
+          <FlyingChip
+            from={flyingChip.from}
+            to={flyingChip.to}
+            label={flyingChip.label}
+            onDone={() => setFlyingChip(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
