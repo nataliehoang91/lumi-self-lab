@@ -1101,7 +1101,7 @@ export function StudyReaderShell({
 
         {/* Stats bar */}
         {totalSelected > 0 && (
-          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-lime-600 bg-lime-50/40 px-4 py-3 text-xs dark:border-lime-700/60 dark:bg-lime-950/10">
+          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-lime-800 bg-lime-50/40 px-4 py-3 text-xs dark:border-lime-700/60 dark:bg-lime-950/10">
             <span className="text-muted-foreground">{t.books(uniqueBooks)}</span>
             <span className="text-muted-foreground">{t.chapters(totalSelected)}</span>
             <span className="text-muted-foreground">{t.otLabel} {otCount} · {t.ntLabel} {ntCount}</span>
@@ -1109,7 +1109,7 @@ export function StudyReaderShell({
               <>
                 <div className="flex flex-1 items-center gap-2">
                   <div className="bg-muted h-1.5 flex-1 overflow-hidden rounded-full">
-                    <div className="bg-lime-400 h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%` }} />
+                    <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, background: "linear-gradient(to right, #4d7c0f, #84cc16)" }} />
                   </div>
                   <span className="text-muted-foreground shrink-0">{t.studied(totalStudied, totalSelected)}</span>
                 </div>
