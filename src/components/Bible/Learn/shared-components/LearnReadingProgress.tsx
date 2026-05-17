@@ -49,7 +49,7 @@ export function LearnReadingProgress() {
       <div
         className="absolute inset-0 rounded-full transition-opacity duration-500"
         style={{
-          background: `radial-gradient(circle, oklch(0.7 0.15 270 / 0.2) 0%, transparent 70%)`,
+          background: `radial-gradient(circle, color-mix(in oklch, var(--second) 20%, transparent) 0%, transparent 70%)`,
           opacity: pct > 5 ? 1 : 0,
         }}
       />
@@ -77,7 +77,7 @@ export function LearnReadingProgress() {
           style={{
             strokeDasharray: C,
             strokeDashoffset: offset,
-            filter: pct > 10 ? "drop-shadow(0 0 5px oklch(0.7 0.15 270 / 0.5))" : "none",
+            filter: pct > 10 ? "drop-shadow(0 0 5px color-mix(in oklch, var(--second) 50%, transparent))" : "none",
           }}
         />
         {/* Completion fill */}

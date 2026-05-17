@@ -17,6 +17,23 @@ import type { BibleTopic } from "@/lib/bible-topics-data";
 import { TOPIC_CATEGORIES } from "@/lib/bible-topics-data";
 import type { TopicVerseText } from "@/app/actions/bible/topic-verses";
 
+const RELATED_PILL_COLORS = [
+  "border-violet-200 bg-violet-50 text-violet-700 hover:bg-violet-100 dark:border-violet-800/40 dark:bg-violet-950/20 dark:text-violet-300",
+  "border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100 dark:border-sky-800/40 dark:bg-sky-950/20 dark:text-sky-300",
+  "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-800/40 dark:bg-emerald-950/20 dark:text-emerald-300",
+  "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 dark:border-amber-800/40 dark:bg-amber-950/20 dark:text-amber-300",
+  "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 dark:border-rose-800/40 dark:bg-rose-950/20 dark:text-rose-300",
+  "border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:border-indigo-800/40 dark:bg-indigo-950/20 dark:text-indigo-300",
+  "border-teal-200 bg-teal-50 text-teal-700 hover:bg-teal-100 dark:border-teal-800/40 dark:bg-teal-950/20 dark:text-teal-300",
+  "border-lime-200 bg-lime-50 text-lime-700 hover:bg-lime-100 dark:border-lime-800/40 dark:bg-lime-950/20 dark:text-lime-300",
+];
+
+function strHash(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h;
+}
+
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Flame, Sparkles, RefreshCcw, Droplets, Wind, Heart, Shield, CloudRain,
   Sun, Zap, User, Sunrise, Anchor, Home, Users, HeartHandshake, Baby,
@@ -224,7 +241,8 @@ export function TopicDetailClient({ topic, segment, relatedTopics, verseTextMap 
                 key={t.slug}
                 href={`/bible/${segment}/topics/${t.slug}`}
                 className={cn(
-                  "border-border hover:border-second/50 hover:text-second inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 transition-all",
+                  "inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 transition-all",
+                  RELATED_PILL_COLORS[strHash(t.slug) % RELATED_PILL_COLORS.length],
                   bodyClass,
                   isVi && "font-vietnamese-flashcard"
                 )}

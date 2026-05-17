@@ -256,15 +256,18 @@ function NoteEditor({
 }) {
   const [, start] = useTransition();
   const [isDeleting, setIsDeleting] = useState(false);
+  const deletedRef = useRef(false);
 
   const handleDelete = async () => {
     if (!existing || isDeleting) return;
+    deletedRef.current = true;
     setIsDeleting(true);
     try {
       await deleteNote(existing.id);
       onDelete(existing.id);
       onClose();
-    } finally {
+    } catch {
+      deletedRef.current = false;
       setIsDeleting(false);
     }
   };
@@ -281,10 +284,11 @@ function NoteEditor({
   });
 
   const handleSave = () => {
-    if (!editor) return;
+    if (!editor || deletedRef.current) return;
     const html = editor.getHTML();
     if (!editor.getText().trim()) return;
     start(async () => {
+      if (deletedRef.current) return;
       const note = await saveNote({
         listId,
         bookId,

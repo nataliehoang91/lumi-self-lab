@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useBibleApp } from "@/components/Bible/BibleAppContext";
 import {
@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { getBibleIntl } from "@/lib/bible-intl";
 import type { Language, FontSize, LayoutMode } from "@/components/Bible/BibleAppContext";
 import { Container } from "@/components/ui/container";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 const ALL_BATCH_SIZE = 50;
 
@@ -55,6 +56,13 @@ export function FlashCardShell({
   const searchParams = useSearchParams();
   const { registerShuffle, fontSize } = useBibleApp();
   const intl = getBibleIntl(lang);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const pushParams = useCallback(
     (updates: {
@@ -145,10 +153,35 @@ export function FlashCardShell({
       </div>
     ) : null;
 
+  const isVi = lang === "VI";
+  const { bodyClass, h1Class } = useBibleFontClasses();
+
+  const hero = (
+    <div className="mx-auto w-full max-w-7xl px-4 pt-10 pb-4 sm:px-6">
+      <div className="bg-second/10 theme-warm:bg-second/15 mb-4 inline-flex items-center rounded-full px-3 py-1">
+        <span className={cn("text-second font-mono font-semibold tracking-widest uppercase text-xs", isVi && "font-vietnamese-flashcard")}>
+          {isVi ? "Thẻ Ghi Nhớ" : "Flashcards"}
+        </span>
+      </div>
+      <h1 className={cn("text-2xl font-semibold text-foreground sm:text-3xl", h1Class, isVi && "font-vietnamese-flashcard")}>
+        {isVi ? "Ghi Nhớ Kinh Thánh" : "Memorize Scripture"}
+      </h1>
+      <p className={cn("mt-2 max-w-xl text-sm text-muted-foreground", bodyClass, isVi && "font-vietnamese-flashcard")}>
+        {isVi
+          ? "Ôn luyện các câu Kinh Thánh quan trọng qua thẻ ghi nhớ tương tác."
+          : "Review key Bible verses with interactive flashcards. Flip, navigate, and build your memory."}
+      </p>
+    </div>
+  );
+
   const header = (
     <header
-      className="bg-background/95 border-border sticky top-14 z-40 border-b transition-all
-        duration-300"
+      className={cn(
+        "sticky top-14 z-40 transition-all duration-300",
+        scrolled
+          ? "bg-background/95 border-border border-b shadow-sm backdrop-blur-sm"
+          : "bg-transparent border-transparent border-b"
+      )}
     >
       <Container className="mx-auto px-4 py-3 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -170,6 +203,7 @@ export function FlashCardShell({
   if (total === 0) {
     return (
       <>
+        {hero}
         {header}
         <div
           className={cn(
@@ -197,6 +231,7 @@ export function FlashCardShell({
   if (isAll) {
     return (
       <>
+        {hero}
         {header}
         <div
           className={cn(
@@ -245,6 +280,7 @@ export function FlashCardShell({
 
   return (
     <>
+      {hero}
       {header}
       <div
         className={cn(

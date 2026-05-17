@@ -11,7 +11,7 @@ import Link from "next/link";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
-interface NavLink { label: string; href: string; type: "topic" | "book" | "learn" | "page" }
+interface NavLink { label: string; href: string; type: "topic" | "book" | "learn" | "page" | "overview" }
 interface Message { role: "user" | "assistant"; content: string; links?: NavLink[]; id: string }
 
 const LINKS_MARKER = "\n\nLINKS:";
@@ -25,14 +25,15 @@ const VERSION_LABELS: Record<BibleVersionPref, string> = { vi: "VI 1925", niv: "
 // ── Static maps ──────────────────────────────────────────────────────────────
 
 const LINK_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  topic: Hash, book: BookOpen, learn: GraduationCap, page: Map,
+  topic: Hash, book: BookOpen, learn: GraduationCap, page: Map, overview: BookMarked,
 };
 
 const LINK_COLORS: Record<string, string> = {
-  topic: "bg-violet-50 border-violet-200 text-violet-700 hover:bg-violet-100 dark:bg-violet-950/30 dark:border-violet-800/40 dark:text-violet-300",
-  book:  "bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100 dark:bg-amber-950/30 dark:border-amber-800/40 dark:text-amber-300",
-  learn: "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:border-emerald-800/40 dark:text-emerald-300",
-  page:  "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 dark:bg-blue-950/30 dark:border-blue-800/40 dark:text-blue-300",
+  topic:    "bg-violet-50 border-violet-200 text-violet-700 hover:bg-violet-100 dark:bg-violet-950/30 dark:border-violet-800/40 dark:text-violet-300",
+  book:     "bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100 dark:bg-amber-950/30 dark:border-amber-800/40 dark:text-amber-300",
+  learn:    "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:border-emerald-800/40 dark:text-emerald-300",
+  page:     "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 dark:bg-blue-950/30 dark:border-blue-800/40 dark:text-blue-300",
+  overview: "bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/30 dark:border-indigo-800/40 dark:text-indigo-300",
 };
 
 // ── Thinking indicator ───────────────────────────────────────────────────────
