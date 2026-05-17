@@ -255,6 +255,19 @@ function NoteEditor({
   onClose: () => void;
 }) {
   const [, start] = useTransition();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!existing || isDeleting) return;
+    setIsDeleting(true);
+    try {
+      await deleteNote(existing.id);
+      onDelete(existing.id);
+      onClose();
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const editor = useEditor({
     extensions: [StarterKit, Underline],
@@ -334,10 +347,12 @@ function NoteEditor({
         {existing && (
           <button
             type="button"
-            onClick={() => { start(async () => { await deleteNote(existing.id); onDelete(existing.id); onClose(); }); }}
-            className="text-muted-foreground hover:text-destructive text-[11px] transition-colors"
+            onClick={handleDelete}
+            disabled={isDeleting}
+            title={t.deleteNote}
+            className="text-muted-foreground hover:text-destructive rounded p-1 transition-colors disabled:opacity-40"
           >
-            {t.deleteNote}
+            {isDeleting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
           </button>
         )}
       </div>
