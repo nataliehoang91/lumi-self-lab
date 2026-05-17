@@ -61,8 +61,8 @@ export default async function StudyPrintPage({ params, searchParams }: PrintPage
     });
   });
   items.sort((a, b) => {
-    const oa = books.find((b) => b.id === a.bookId)?.order ?? 0;
-    const ob = books.find((b) => b.id === b.bookId)?.order ?? 0;
+    const oa = books.find((bk) => bk.id === a.bookId)?.order ?? 0;
+    const ob = books.find((bk) => bk.id === b.bookId)?.order ?? 0;
     return oa !== ob ? oa - ob : a.chapter - b.chapter;
   });
 

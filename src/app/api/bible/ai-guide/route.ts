@@ -315,8 +315,14 @@ export async function POST(req: NextRequest) {
             result = matches;
             matches.forEach((b) => {
               const testament = b.id >= 40 ? "&testament1=nt" : "&testament1=ot";
+              const bookName = isVi ? b.nameVi : b.nameEn;
               toolLinks.push({
-                label: isVi ? b.nameVi : b.nameEn,
+                label: isVi ? `${bookName} — Tổng quan` : `${bookName} — Overview`,
+                href: `/bible/${lang}/book-overviews/${b.slugEn}`,
+                type: "book",
+              });
+              toolLinks.push({
+                label: isVi ? `${bookName} — Đọc` : `${bookName} — Read`,
                 href: `/bible/${lang}/read?version1=${bookVersion}&book1=${b.slugEn}&chapter1=1${testament}`,
                 type: "book",
               });

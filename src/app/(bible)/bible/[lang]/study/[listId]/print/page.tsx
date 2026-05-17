@@ -59,8 +59,8 @@ export default async function StudyPrintPage({ params }: PrintPageProps) {
     groups.push({ bookId: p.bookId, bookName, chapter: p.chapter, content });
   });
   groups.sort((a, b) => {
-    const ba = books.find((b) => b.id === a.bookId)!;
-    const bb = books.find((b) => b.id === b.bookId)!;
+    const ba = books.find((bk) => bk.id === a.bookId)!;
+    const bb = books.find((bk) => bk.id === b.bookId)!;
     return ba.order !== bb.order ? ba.order - bb.order : a.chapter - b.chapter;
   });
 
