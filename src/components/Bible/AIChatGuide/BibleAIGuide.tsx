@@ -377,7 +377,7 @@ export function BibleAIGuide({ lang }: { lang: string }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed right-0 top-14 bottom-0 z-40 flex w-[480px] flex-col border-l border-border bg-background/95 shadow-2xl backdrop-blur-sm"
+            className="fixed right-0 top-14 bottom-0 z-40 flex w-full flex-col border-l border-border bg-background/95 shadow-2xl backdrop-blur-sm sm:w-[480px]"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}

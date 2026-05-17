@@ -9,7 +9,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/bible-navigation-menu";
-import { GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   NAV_MENU_TRIGGER_ACTIVE,
@@ -68,11 +67,9 @@ export function BibleNavMenuDesktop() {
     learnLinks,
     bibleLinks,
     glossaryLinks,
-    studyLinks,
     isLearn,
     isBible,
     isGlossary,
-    isStudy,
     intl,
   } = useBibleNavData();
 
@@ -178,24 +175,6 @@ export function BibleNavMenuDesktop() {
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               {renderDropdownLinks(glossaryLinks, intl, true)}
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <span className="bg-border mx-2 h-4 w-px" aria-hidden />
-          {/* Study Hub — always visually distinct as a premium feature */}
-          <NavigationMenuItem>
-            <NavigationMenuTrigger
-              className={cn(
-                "flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-all",
-                isStudy
-                  ? "bg-violet-600 text-white shadow-md shadow-violet-500/25"
-                  : "border border-violet-200 bg-violet-50 text-violet-700 hover:bg-violet-100 hover:border-violet-300 dark:border-violet-800/50 dark:bg-violet-950/30 dark:text-violet-300 dark:hover:bg-violet-900/40"
-              )}
-            >
-              <GraduationCap className="h-3.5 w-3.5 shrink-0" />
-              {intl.t("navStudy")}
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              {renderDropdownLinks(studyLinks, intl, true)}
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>

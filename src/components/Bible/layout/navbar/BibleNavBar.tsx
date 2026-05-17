@@ -13,6 +13,7 @@ import { BibleNavSettingsDropdown } from "./BibleNavSettingsDropdown";
 import { BibleNavMobileSheet } from "./BibleNavMobileSheet";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { GraduationCap } from "lucide-react";
 import { useBibleNavData } from "./useBibleNavData";
 import { LearnReadingProgress } from "@/components/Bible/Learn/shared-components/LearnReadingProgress";
 
@@ -21,7 +22,7 @@ export function BibleNavBar() {
   const { readFocusMode } = useReadFocus();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { intl } = useBibleNavData();
+  const { intl, isStudy, langSegment } = useBibleNavData();
 
   const isLangLanding = /^\/bible\/(en|vi|zh)$/.test(pathname ?? "");
 
@@ -51,7 +52,7 @@ export function BibleNavBar() {
         className="relative flex h-14 w-full items-center justify-between gap-2 px-4 py-3
           sm:px-6"
       >
-        {/* Left: logo */}
+        {/* Left: logo + search */}
         <div className="flex shrink-0 items-center gap-2">
           <Link href="/bible" className="flex shrink-0 items-center gap-3">
             <WhiteBibleLogo />
@@ -59,6 +60,9 @@ export function BibleNavBar() {
               ScriptureSpace
             </h1>
           </Link>
+          <div className="hidden md:block">
+            <BibleReferenceSearch />
+          </div>
         </div>
         <LearnReadingProgress />
 
@@ -67,17 +71,25 @@ export function BibleNavBar() {
 
         {/* Right cluster */}
         <div className="flex shrink-0 items-center gap-1.5">
-          {/* md–xl: compact search + settings + sheet */}
+          {/* md–xl: settings + sheet (search is on left) */}
           <div className="flex items-center gap-1.5 md:flex xl:hidden">
-            <div className="max-w-[160px] md:max-w-none">
-              <BibleReferenceSearch />
-            </div>
             <BibleNavSettingsDropdown variant="mobile" />
           </div>
 
-          {/* xl+: search + settings */}
+          {/* xl+: Study Hub + settings */}
           <div className="hidden items-center gap-1.5 xl:flex">
-            <BibleReferenceSearch />
+            <Link
+              href={`/bible/${langSegment}/study`}
+              className={cn(
+                "flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-all",
+                isStudy
+                  ? "bg-violet-600 text-white shadow-md shadow-violet-500/25"
+                  : "border border-violet-200 bg-violet-50 text-violet-700 hover:border-violet-300 hover:bg-violet-100 dark:border-violet-800/50 dark:bg-violet-950/30 dark:text-violet-300 dark:hover:bg-violet-900/40"
+              )}
+            >
+              <GraduationCap className="h-3.5 w-3.5 shrink-0" />
+              {intl.t("navStudy")}
+            </Link>
             <BibleNavSettingsDropdown variant="desktop" />
           </div>
 

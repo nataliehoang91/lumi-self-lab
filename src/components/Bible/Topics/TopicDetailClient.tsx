@@ -25,6 +25,36 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Cloud, Infinity, ArrowUp, Crown, Swords,
 };
 
+function renderExplanation(text: string, className: string) {
+  const lines = text.trim().split("\n").map((l) => l.trim()).filter(Boolean);
+  const isBullet = lines.some((l) => /^[-*]\s/.test(l));
+  const isNumbered = lines.some((l) => /^\d+\.\s/.test(l));
+
+  if (isBullet) {
+    return (
+      <ul className={cn("mt-3 list-disc space-y-1 pl-5", className)}>
+        {lines.map((l, i) => <li key={i}>{l.replace(/^[-*]\s+/, "")}</li>)}
+      </ul>
+    );
+  }
+  if (isNumbered) {
+    return (
+      <ol className={cn("mt-3 list-decimal space-y-1 pl-5", className)}>
+        {lines.map((l, i) => <li key={i}>{l.replace(/^\d+\.\s+/, "")}</li>)}
+      </ol>
+    );
+  }
+  const paragraphs = text.split(/\n\n+/).filter((p) => p.trim());
+  if (paragraphs.length > 1) {
+    return (
+      <div className={cn("mt-3 space-y-2", className)}>
+        {paragraphs.map((p, i) => <p key={i}>{p.trim()}</p>)}
+      </div>
+    );
+  }
+  return <p className={cn("mt-3", className)}>{text}</p>;
+}
+
 const CATEGORY_COLORS: Record<string, { bg: string; icon: string; pill: string }> = {
   faith:         { bg: "bg-violet-50 dark:bg-violet-950/20",  icon: "text-violet-600 dark:text-violet-400",  pill: "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300" },
   emotions:      { bg: "bg-rose-50 dark:bg-rose-950/20",      icon: "text-rose-600 dark:text-rose-400",      pill: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300" },
@@ -171,15 +201,11 @@ export function TopicDetailClient({ topic, segment, relatedTopics, verseTextMap 
                 )}>
                   &ldquo;{text}&rdquo;
                 </p>
-                {explanation ? (
-                  <p className={cn("text-muted-foreground mt-3 leading-relaxed", bodyClass, isVi && "font-vietnamese-flashcard")}>
-                    {explanation}
-                  </p>
-                ) : note ? (
-                  <p className={cn("text-muted-foreground mt-3 leading-relaxed", bodyClass, isVi && "font-vietnamese-flashcard")}>
-                    {note}
-                  </p>
-                ) : null}
+                {explanation
+                  ? renderExplanation(explanation, cn("text-muted-foreground leading-relaxed", bodyClass, isVi && "font-vietnamese-flashcard"))
+                  : note
+                  ? renderExplanation(note, cn("text-muted-foreground leading-relaxed", bodyClass, isVi && "font-vietnamese-flashcard"))
+                  : null}
               </div>
             </div>
           );
