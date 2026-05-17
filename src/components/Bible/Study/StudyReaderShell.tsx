@@ -28,9 +28,11 @@ import {
 import type { ChapterInsightData } from "@/app/actions/bible/insights";
 import { getInsightsForChapter } from "@/app/actions/bible/insights";
 import {
+  Bookmark,
   BookOpen,
   Check,
   CheckCircle2,
+  ChevronDown,
   ChevronLeft,
   Copy,
   Eye,
@@ -38,10 +40,12 @@ import {
   Expand,
   Lightbulb,
   Link2,
+  Loader2,
   Maximize2,
   Minimize2,
   Pencil,
   Printer,
+  Send,
   Share2,
   Sparkles,
   Star,
@@ -51,6 +55,9 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
 import { VerseChatPanel } from "./VerseChatPanel";
 import type { VerseRef } from "@/app/api/bible/verse-chat/route";
 
@@ -203,6 +210,25 @@ function highlightBg(color: HighlightColor) {
   return HIGHLIGHT_COLORS.find((h) => h.color === color)?.bg ?? "";
 }
 
+// ── Note rich-text helpers ────────────────────────────────────────────────────
+
+function NoteContent({ content }: { content: string }) {
+  // Content is stored as HTML from Tiptap; legacy plain-text notes render as-is
+  const isHtml = content.trimStart().startsWith("<");
+  if (isHtml) {
+    return (
+      <span
+        className="note-content text-xs leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    );
+  }
+  // Legacy plain text — preserve line breaks
+  return (
+    <span className="text-xs leading-relaxed whitespace-pre-wrap">{content}</span>
+  );
+}
+
 // ── Note inline editor ────────────────────────────────────────────────────────
 
 type TIntl = typeof INTL.en;
@@ -228,18 +254,30 @@ function NoteEditor({
   onDelete: (id: string) => void;
   onClose: () => void;
 }) {
-  const [text, setText] = useState(existing?.content ?? "");
   const [, start] = useTransition();
 
+  const editor = useEditor({
+    extensions: [StarterKit, Underline],
+    content: existing?.content ?? "",
+    autofocus: true,
+    editorProps: {
+      attributes: {
+        class: "outline-none min-h-[4rem] text-xs text-foreground leading-relaxed [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_strong]:font-semibold [&_em]:italic [&_u]:underline",
+      },
+    },
+  });
+
   const handleSave = () => {
-    if (!text.trim()) return;
+    if (!editor) return;
+    const html = editor.getHTML();
+    if (!editor.getText().trim()) return;
     start(async () => {
       const note = await saveNote({
         listId,
         bookId,
         chapter,
         verseNumber: verseNumber ?? null,
-        content: text.trim(),
+        content: html,
         noteId: existing?.id,
       });
       onSave(note);
@@ -247,22 +285,40 @@ function NoteEditor({
     });
   };
 
+  const btn = (active: boolean, action: () => void, label: React.ReactNode, title: string, cls = "") => (
+    <button
+      type="button"
+      title={title}
+      onMouseDown={(e) => { e.preventDefault(); action(); }}
+      className={cn(
+        "rounded px-1.5 py-0.5 text-[11px] transition-colors",
+        active
+          ? "bg-violet-200 text-violet-800 dark:bg-violet-700/50 dark:text-violet-100"
+          : "text-violet-700 hover:bg-violet-200 dark:text-violet-300 dark:hover:bg-violet-800/40",
+        cls
+      )}
+    >
+      {label}
+    </button>
+  );
+
   return (
     <div className="mt-1.5 rounded-xl border border-violet-300 bg-violet-50 p-3 dark:border-violet-700/50 dark:bg-violet-950/20">
-      <textarea
-        autoFocus
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        rows={3}
-        placeholder={verseNumber ? t.noteOnVerse(verseNumber) : t.chapterNote}
-        className="w-full resize-none bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground"
-      />
+      {/* Toolbar */}
+      <div className="mb-2 flex items-center gap-0.5 border-b border-violet-200 pb-2 dark:border-violet-700/40">
+        {btn(!!editor?.isActive("bold"),    () => editor?.chain().focus().toggleBold().run(),        <strong>B</strong>, "Bold")}
+        {btn(!!editor?.isActive("italic"),  () => editor?.chain().focus().toggleItalic().run(),      <em>I</em>,         "Italic")}
+        {btn(!!editor?.isActive("underline"), () => editor?.chain().focus().toggleUnderline().run(), <u>U</u>,           "Underline")}
+        <div className="mx-1 h-3 w-px bg-violet-200 dark:bg-violet-700/40" />
+        {btn(!!editor?.isActive("bulletList"), () => editor?.chain().focus().toggleBulletList().run(), "• List", "Bullet list")}
+      </div>
+      <EditorContent editor={editor} />
       <div className="mt-2 flex items-center justify-between gap-2">
         <div className="flex gap-2">
           <button
             type="button"
             onClick={handleSave}
-            disabled={!text.trim()}
+            disabled={!editor || !editor.getText().trim()}
             className="rounded-lg bg-violet-600 px-3 py-1 text-[11px] font-semibold text-white disabled:opacity-40"
           >
             {t.save}
@@ -291,32 +347,121 @@ function NoteEditor({
 
 // ── Verse row ─────────────────────────────────────────────────────────────────
 
+function VerseAskAI({ verseRef, lang, onClose }: { verseRef: { bookNameEn: string; chapter: number; verseNum: number; text: string }; lang: string; onClose: () => void }) {
+  const [input, setInput] = useState("");
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => { setTimeout(() => inputRef.current?.focus(), 50); }, []);
+
+  const send = async () => {
+    const q = input.trim();
+    if (!q || loading) return;
+    setLoading(true);
+    setResponse("");
+    setInput("");
+    try {
+      const res = await fetch("/api/bible/verse-chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          verses: [{ bookName: verseRef.bookNameEn, chapter: verseRef.chapter, verseNum: verseRef.verseNum, text: verseRef.text }],
+          question: q,
+          lang,
+        }),
+      });
+      if (!res.ok || !res.body) throw new Error("Failed");
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let acc = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        setResponse(acc);
+      }
+    } catch {
+      setResponse(lang === "vi" ? "Đã xảy ra lỗi." : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-2 rounded-xl border border-border bg-background shadow-sm">
+      <div className="flex items-center justify-between border-b border-border/60 px-3 py-2">
+        <div className="flex items-center gap-1.5">
+          <Sparkles className="h-3 w-3 text-primary" />
+          <span className="text-[11px] font-semibold text-foreground">{lang === "vi" ? "Hỏi AI" : "Ask AI"}</span>
+          <span className="text-[10px] text-muted-foreground">· {verseRef.bookNameEn} {verseRef.chapter}:{verseRef.verseNum}</span>
+        </div>
+        <button type="button" onClick={onClose} className="text-muted-foreground hover:text-foreground rounded p-0.5 transition-colors">
+          <X className="h-3 w-3" />
+        </button>
+      </div>
+      {response && (
+        <div className="px-3 py-2.5">
+          <p className="text-xs leading-relaxed text-foreground/80">{response}</p>
+        </div>
+      )}
+      <div className="flex items-center gap-2 px-3 py-2">
+        <input
+          ref={inputRef}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") send(); }}
+          placeholder={lang === "vi" ? "Hỏi về câu này…" : "Ask about this verse…"}
+          className="min-w-0 flex-1 bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground/60"
+        />
+        <button
+          type="button"
+          onClick={send}
+          disabled={!input.trim() || loading}
+          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity disabled:opacity-40"
+        >
+          {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Send className="h-3 w-3" />}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function VerseRow({
   listId,
   bookId,
   chapter,
   verseNum,
   text,
+  bookNameEn,
   highlight,
   note,
   isSelected,
+  isSaved,
+  lang,
   onHighlight,
   onNote,
   onSelect,
+  onSaveVerse,
 }: {
   listId: string;
   bookId: string;
   chapter: number;
   verseNum: number;
   text: string;
+  bookNameEn: string;
   highlight?: BibleStudyHighlight;
   note?: BibleStudyNote;
   isSelected?: boolean;
+  isSaved?: boolean;
+  lang: string;
   onHighlight: (verseNum: number, color: HighlightColor) => void;
   onNote: (verseNum: number) => void;
   onSelect: (verseNum: number) => void;
+  onSaveVerse: (verseNum: number) => void;
 }) {
   const [showTools, setShowTools] = useState(false);
+  const [showAsk, setShowAsk] = useState(false);
   const [, startHL] = useTransition();
 
   const handleCopy = () => navigator.clipboard.writeText(text);
@@ -350,8 +495,15 @@ function VerseRow({
             onClick={() => onNote(verseNum)}
           >
             <Pencil className="text-violet-500 mt-0.5 h-3 w-3 shrink-0" />
-            <p className="text-xs text-violet-800 dark:text-violet-200 leading-snug">{note.content}</p>
+            <p className="text-xs text-violet-800 dark:text-violet-200 leading-snug"><NoteContent content={note.content} /></p>
           </div>
+        )}
+        {showAsk && (
+          <VerseAskAI
+            verseRef={{ bookNameEn, chapter, verseNum, text }}
+            lang={lang}
+            onClose={() => setShowAsk(false)}
+          />
         )}
       </div>
       {/* Hover toolbar */}
@@ -391,6 +543,23 @@ function VerseRow({
             className="text-muted-foreground hover:text-foreground rounded p-0.5 transition-colors"
           >
             <Copy className="h-3 w-3" />
+          </button>
+          <button
+            type="button"
+            title={isSaved ? "Remove verse from list" : "Save verse to list"}
+            onClick={() => onSaveVerse(verseNum)}
+            className={cn("rounded p-0.5 transition-colors", isSaved ? "text-primary" : "text-muted-foreground hover:text-primary")}
+          >
+            <Bookmark className={cn("h-3 w-3", isSaved && "fill-current")} />
+          </button>
+          <div className="mx-1 h-3 w-px bg-border" />
+          <button
+            type="button"
+            title="Ask AI about this verse"
+            onClick={() => setShowAsk((v) => !v)}
+            className={cn("rounded p-0.5 transition-colors", showAsk ? "text-primary" : "text-muted-foreground hover:text-primary")}
+          >
+            <MessageCircle className="h-3 w-3" />
           </button>
         </div>
       )}
@@ -569,12 +738,15 @@ export function StudyReaderShell({
   const [selectedBookId, setSelectedBookId] = useState<string | null>(books[0]?.id ?? null);
   const [testament, setTestament] = useState<"ot" | "nt">("ot");
   const [loadedChapters, setLoadedChapters] = useState<LoadedChapterMap>({});
-  const [passages, setPassages] = useState<BibleStudyPassage[]>(initialPassages);
+  const [passages, setPassages] = useState<BibleStudyPassage[]>(initialPassages.filter(p => p.verseStart === null));
+  const [verseBookmarks, setVerseBookmarks] = useState<BibleStudyPassage[]>(initialPassages.filter(p => p.verseStart !== null));
   const [notes, setNotes] = useState<BibleStudyNote[]>(initialNotes);
   const [highlights, setHighlights] = useState<BibleStudyHighlight[]>(initialHighlights);
   const [isSaving, startSaving] = useTransition();
   const [focusMode, setFocusMode] = useState(false);
   const [showInsights, setShowInsights] = useState(false);
+  const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(new Set());
+  const [chapterInsightsOpen, setChapterInsightsOpen] = useState<Set<string>>(new Set());
   const [selectedVerses, setSelectedVerses] = useState<VerseRef[]>([]);
   const [chatOpen, setChatOpen] = useState(false);
   const [editingNoteFor, setEditingNoteFor] = useState<{ chapter: number; verseNumber: number | null } | null>(null);
@@ -606,12 +778,11 @@ export function StudyReaderShell({
     void key;
   }, [lang]);
 
-  // Split passages by type
-  const chapterPassages = useMemo(() => passages.filter((p) => p.verseStart === null), [passages]);
-  const versePassages = useMemo(() => passages.filter((p) => p.verseStart !== null), [passages]);
+  // passages only contains whole-chapter entries (verseStart === null)
+  const chapterPassages = passages;
 
-  const chapterPassagesRef = useRef(chapterPassages);
-  chapterPassagesRef.current = chapterPassages;
+  const chapterPassagesRef = useRef(passages);
+  chapterPassagesRef.current = passages;
 
   const otBooks = useMemo(() => books.filter((b) => b.order <= OT_MAX), [books]);
   const ntBooks = useMemo(() => books.filter((b) => b.order > OT_MAX), [books]);
@@ -749,7 +920,7 @@ export function StudyReaderShell({
 
   const handleNoteDeleted = (id: string) => setNotes((prev) => prev.filter((n) => n.id !== id));
 
-  const handleDeleteVersePassage = (id: string) => setPassages((prev) => prev.filter((p) => p.id !== id));
+  const handleDeleteVersePassage = (id: string) => setVerseBookmarks((prev) => prev.filter((p) => p.id !== id));
 
   const handleShare = () => {
     startShare(async () => {
@@ -831,9 +1002,6 @@ export function StudyReaderShell({
               <Share2 className="h-4 w-4" />
             </button>
             {shareMsg && <span className="text-xs text-primary animate-in fade-in">{shareMsg}</span>}
-            <button type="button" onClick={() => setShowInsights((v) => !v)} title={t.toggleInsights} className={cn("rounded-lg p-2 transition-colors", showInsights ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
-              <Lightbulb className="h-4 w-4" />
-            </button>
             <button
               type="button"
               onClick={() => setChatOpen((v) => !v)}
@@ -855,7 +1023,7 @@ export function StudyReaderShell({
 
         {/* Stats bar */}
         {totalSelected > 0 && (
-          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-border bg-card/50 px-4 py-3 text-xs">
+          <div className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-indigo-200/70 bg-indigo-50/50 px-4 py-3 text-xs dark:border-indigo-800/30 dark:bg-indigo-950/10">
             <span className="text-muted-foreground">{t.books(uniqueBooks)}</span>
             <span className="text-muted-foreground">{t.chapters(totalSelected)}</span>
             <span className="text-muted-foreground">{t.otLabel} {otCount} · {t.ntLabel} {ntCount}</span>
@@ -884,10 +1052,10 @@ export function StudyReaderShell({
                     {VERSIONS.map((v) => (
                       <button key={v.id} type="button" onClick={() => setVersion(v.id)}
                         className={cn("flex items-center gap-2.5 rounded-xl border px-3 py-2 text-left text-xs transition-colors",
-                          version === v.id ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground/80 border-border hover:bg-muted"
+                          version === v.id ? "border-primary/50 bg-background text-foreground" : "border-border bg-background text-foreground/70 hover:bg-muted"
                         )}>
                         <span className={cn("flex h-5 w-8 shrink-0 items-center justify-center rounded text-[10px] font-bold",
-                          version === v.id ? "bg-white/20 text-primary-foreground" : "bg-muted text-muted-foreground")}>
+                          version === v.id ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
                           {v.short}
                         </span>
                         <span className="font-medium">{t.versionLabels[v.id]}</span>
@@ -918,7 +1086,7 @@ export function StudyReaderShell({
                   <div className="max-h-64 space-y-0.5 overflow-y-auto pr-1 lg:max-h-80">
                     {visibleBooks.map((b) => {
                       const count = passages.filter((p) => p.bookId === b.id && p.verseStart === null).length;
-                      const bookLabel = lang === "vi" ? (b.nameVi ?? b.nameEn) : b.nameEn;
+                      const bookLabel = (lang === "vi" || version === "vi") ? (b.nameVi ?? b.nameEn) : b.nameEn;
                       return (
                         <button key={b.id} type="button" onClick={() => setSelectedBookId(b.id)}
                           className={cn("flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors",
@@ -1003,15 +1171,15 @@ export function StudyReaderShell({
             )}
 
             {/* Saved Verses */}
-            {versePassages.length > 0 && (
+            {verseBookmarks.length > 0 && (
               <div className="mb-6">
                 <div className="mb-3 flex items-center gap-2">
                   <Star className="text-primary h-4 w-4" />
                   <h2 className="text-foreground text-sm font-semibold">{t.savedVerses}</h2>
-                  <span className="text-muted-foreground text-xs">· {versePassages.length}</span>
+                  <span className="text-muted-foreground text-xs">· {verseBookmarks.length}</span>
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2">
-                  {versePassages.map((p) => (
+                  {verseBookmarks.map((p) => (
                     <VerseQuoteCard
                       key={p.id}
                       passage={p}
@@ -1026,7 +1194,7 @@ export function StudyReaderShell({
             )}
 
             {/* Reading area */}
-            {sortedChapters.length === 0 && versePassages.length === 0 ? (
+            {sortedChapters.length === 0 && verseBookmarks.length === 0 ? (
               <div className="text-muted-foreground flex min-h-[40vh] flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border p-8 text-center">
                 <BookCircleIcon size="lg" className="mb-1 opacity-50" />
                 <p className="text-foreground text-sm font-medium">{t.selectChapters}</p>
@@ -1057,18 +1225,30 @@ export function StudyReaderShell({
                           const chapterHlKey = `${content.book.id}:${content.chapter}`;
                           const isHighlightedOnly = highlightedOnlySet.has(chapterHlKey);
 
+                          const isChapterCollapsed = collapsedChapters.has(chapterHlKey);
+                          const isInsightsOpen = chapterInsightsOpen.has(chapterHlKey);
+
                           return (
                             <article key={key} className="border-border bg-background/80 rounded-2xl border">
                               <header className={cn(
                                 "border-border/60 sticky top-0 z-10 flex items-center justify-between gap-3 border-b px-5 py-3 rounded-t-2xl backdrop-blur-sm",
                                 isStudied ? "from-green-500/10 bg-gradient-to-r to-background/95" : "from-primary/5 bg-gradient-to-r to-background/95"
                               )}>
-                                <div className="flex items-center gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => setCollapsedChapters((prev) => {
+                                    const next = new Set(prev);
+                                    next.has(chapterHlKey) ? next.delete(chapterHlKey) : next.add(chapterHlKey);
+                                    return next;
+                                  })}
+                                  className="flex items-center gap-2 text-left"
+                                >
                                   <h3 className="text-foreground text-sm font-semibold">{t.chapter(content.chapter)}</h3>
                                   {content.sectionTitle?.trim() && (
                                     <span className="text-muted-foreground text-xs italic">{content.sectionTitle.trim()}</span>
                                   )}
-                                </div>
+                                  <ChevronDown className={cn("h-3.5 w-3.5 text-muted-foreground transition-transform", isChapterCollapsed && "-rotate-90")} />
+                                </button>
                                 <div className="flex items-center gap-1.5">
                                   <span className="text-muted-foreground text-[10px] font-semibold tracking-[0.14em] uppercase">{version.toUpperCase()}</span>
                                   {/* Highlighted-only toggle — per chapter */}
@@ -1085,6 +1265,18 @@ export function StudyReaderShell({
                                     className={cn("rounded-lg p-1 transition-colors", chapterNote ? "text-violet-500" : "text-muted-foreground hover:text-violet-500")}>
                                     <Pencil className="h-3.5 w-3.5" />
                                   </button>
+                                  <button
+                                    type="button"
+                                    title="AI insights for this chapter"
+                                    onClick={() => setChapterInsightsOpen((prev) => {
+                                      const next = new Set(prev);
+                                      next.has(chapterHlKey) ? next.delete(chapterHlKey) : next.add(chapterHlKey);
+                                      return next;
+                                    })}
+                                    className={cn("rounded-lg p-1 transition-colors", isInsightsOpen ? "text-primary" : "text-muted-foreground hover:text-primary")}
+                                  >
+                                    <Lightbulb className="h-3.5 w-3.5" />
+                                  </button>
                                   <button type="button" onClick={() => handleMarkStudied(content.book.id, content.chapter)}
                                     title={isStudied ? t.markUnread : t.markStudied}
                                     className={cn("rounded-lg p-1 transition-colors", isStudied ? "text-green-500" : "text-muted-foreground hover:text-green-500")}>
@@ -1093,13 +1285,14 @@ export function StudyReaderShell({
                                 </div>
                               </header>
 
-                              <div className="px-5 py-4">
+                              {!isChapterCollapsed && (
+                              <div className={cn("flex gap-0", isInsightsOpen && "divide-x divide-border")}><div className="min-w-0 flex-1 px-5 py-4">
                                 {/* Chapter note */}
                                 {chapterNote && !isEditingChapterNote && (
                                   <div className="mb-3 flex items-start gap-1.5 rounded-xl border border-violet-200 bg-violet-50 dark:border-violet-700/40 dark:bg-violet-950/20 px-3 py-2 cursor-pointer"
                                     onClick={() => setEditingNoteFor({ chapter: content.chapter, verseNumber: null })}>
                                     <Pencil className="text-violet-500 mt-0.5 h-3.5 w-3.5 shrink-0" />
-                                    <p className="text-xs text-violet-800 dark:text-violet-200">{chapterNote.content}</p>
+                                    <p className="text-xs text-violet-800 dark:text-violet-200"><NoteContent content={chapterNote.content} /></p>
                                   </div>
                                 )}
                                 {isEditingChapterNote && (
@@ -1128,24 +1321,42 @@ export function StudyReaderShell({
                                     const vNote = noteIndex[`${content.book.id}:${content.chapter}:${v.number}`];
                                     const isEditingVerse = editingNoteFor?.chapter === content.chapter && editingNoteFor?.verseNumber === v.number;
                                     const isDimmed = verseRange !== undefined && !verseRange.has(v.number);
+                                    const isInRangeNoHighlight = verseRange !== undefined && verseRange.has(v.number) && !hl && !vNote;
                                     // Hide non-highlighted verses when per-chapter highlighted-only mode is on
                                     if (isHighlightedOnly && !hl && !vNote && !isEditingVerse) return null;
                                     return (
-                                      <div key={v.number} className={cn(isDimmed && !isHighlightedOnly && "opacity-30 select-none pointer-events-none")}>
+                                      <div key={v.number} className={cn(
+                                        isDimmed && !isHighlightedOnly && "opacity-30 select-none pointer-events-none",
+                                        isInRangeNoHighlight && !isHighlightedOnly && !isEditingVerse && "opacity-50",
+                                      )}>
                                         <VerseRow
                                           listId={list.id}
                                           bookId={content.book.id}
                                           chapter={content.chapter}
                                           verseNum={v.number}
                                           text={v.text}
+                                          bookNameEn={content.book.nameEn}
+                                          lang={lang}
                                           highlight={hl}
                                           note={vNote}
                                           isSelected={selectedVerses.some(s => s.bookName === (lang === "vi" ? (content.book.nameVi ?? content.book.nameEn) : content.book.nameEn) && s.chapter === content.chapter && s.verseNum === v.number)}
+                                          isSaved={verseBookmarks.some(p => p.bookId === content.book.id && p.chapter === content.chapter && p.verseStart === v.number)}
                                           onHighlight={(vn, color) => handleHighlight(content.book.id, content.chapter, vn, color)}
                                           onNote={(vn) => setEditingNoteFor(isEditingVerse ? null : { chapter: content.chapter, verseNumber: vn })}
                                           onSelect={(vn) => {
                                             handleSelectVerse(content.book.id, content.chapter, vn, v.text, content.book.nameEn, content.book.nameVi ?? content.book.nameEn);
                                             setChatOpen(true);
+                                          }}
+                                          onSaveVerse={(vn) => {
+                                            const existing = verseBookmarks.find(p => p.bookId === content.book.id && p.chapter === content.chapter && p.verseStart === vn);
+                                            if (existing) {
+                                              setVerseBookmarks(prev => prev.filter(p => p.id !== existing.id));
+                                            } else {
+                                              const now = new Date();
+                                              const newP = { id: `v-${content.book.id}-${content.chapter}-${vn}`, listId: list.id, bookId: content.book.id, chapter: content.chapter, verseStart: vn, verseEnd: vn, isStudied: false, studiedAt: null, createdAt: now, updatedAt: now };
+                                              setVerseBookmarks(prev => [...prev, newP]);
+                                            }
+                                            void toggleStudyPassage({ listId: list.id, bookId: content.book.id, chapter: content.chapter, verseStart: vn, verseEnd: vn }).catch(console.error);
                                           }}
                                         />
                                         {isEditingVerse && (
@@ -1167,6 +1378,14 @@ export function StudyReaderShell({
                                 </div>
 
                               </div>
+                                {/* Per-chapter AI Insights — right column */}
+                                {isInsightsOpen && (
+                                  <div className="w-72 shrink-0 px-4 py-4 xl:w-80">
+                                    <InlineInsights bookId={content.book.id} chapter={content.chapter} version={version} t={t} />
+                                  </div>
+                                )}
+                              </div>
+                              )}
                             </article>
                           );
                         })}
@@ -1177,38 +1396,6 @@ export function StudyReaderShell({
               </div>
             )}
           </main>
-
-          {/* ── Right: Insights Panel ── */}
-          {showInsights && !focusMode && sortedChapters.length > 0 && (
-            <aside className="shrink-0 lg:w-80 xl:w-96">
-              <div className="sticky top-20">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Lightbulb className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-semibold text-foreground">{t.chapterInsights}</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowInsights(false)}
-                    className="text-muted-foreground hover:text-foreground rounded-lg p-1 transition-colors"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-                <div className="max-h-[calc(100vh-6rem)] space-y-3 overflow-y-auto pr-1">
-                  {sortedChapters.map(({ key, content }) => (
-                    <div key={key} className="rounded-2xl border border-border bg-background/80 p-4">
-                      <p className="mb-3 text-xs font-semibold text-foreground">
-                        {lang === "vi" ? (content.book.nameVi ?? content.book.nameEn) : content.book.nameEn}{" "}
-                        {t.chapter(content.chapter)}
-                      </p>
-                      <InlineInsights bookId={content.book.id} chapter={content.chapter} version={version} t={t} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </aside>
-          )}
 
           {/* ── Right: AI Chat Panel ── */}
           <AnimatePresence>
