@@ -1,14 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { Search, TrendingUp, Clock, Sparkles, Heart } from "lucide-react";
+import Link from "next/link";
+import { Search, TrendingUp, Clock, Sparkles, Heart, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { BibleTopic, TopicCategory } from "@/lib/bible-topics-data";
 import { TOPIC_CATEGORIES, getTopicBySlug } from "@/lib/bible-topics-data";
-import { TopicCard } from "./TopicCard";
+import { TopicCard, ICON_MAP, CATEGORY_COLORS } from "./TopicCard";
 import { useRecentTopics, useFavoriteTopics } from "./useRecentTopics";
+
+function TopicBadge({ topic, segment }: { topic: BibleTopic; segment: string }) {
+  const isVi = segment === "vi";
+  const colors = CATEGORY_COLORS[topic.category] ?? CATEGORY_COLORS.faith;
+  const Icon = ICON_MAP[topic.icon] ?? Flame;
+  const name = isVi ? topic.nameVi : topic.nameEn;
+  return (
+    <Link
+      href={`/bible/${segment}/topics/${topic.slug}`}
+      className={cn(
+        "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:shadow-sm active:scale-95",
+        "bg-card whitespace-nowrap",
+        colors.border
+      )}
+    >
+      <Icon className={cn("h-3.5 w-3.5 shrink-0", colors.icon)} />
+      <span>{name}</span>
+    </Link>
+  );
+}
 
 const ALL_KEY = "all";
 
@@ -227,15 +248,15 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
                   bodyClass={bodyClass}
                   isVi={isVi}
                 />
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {recentTopics.slice(0, 3).map((topic, i) => (
+                <div className="flex flex-wrap gap-2">
+                  {recentTopics.map((topic, i) => (
                     <motion.div
                       key={topic.slug}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: i * 0.06 }}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.2, delay: i * 0.04 }}
                     >
-                      <TopicCard topic={topic} segment={segment} />
+                      <TopicBadge topic={topic} segment={segment} />
                     </motion.div>
                   ))}
                 </div>
@@ -274,15 +295,15 @@ export function TopicsIndexClient({ topics, segment }: TopicsIndexClientProps) {
                 bodyClass={bodyClass}
                 isVi={isVi}
               />
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="flex flex-wrap gap-2">
                 {popularTopics.map((topic, i) => (
                   <motion.div
                     key={topic.slug}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: i * 0.05 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2, delay: i * 0.04 }}
                   >
-                    <TopicCard topic={topic} segment={segment} />
+                    <TopicBadge topic={topic} segment={segment} />
                   </motion.div>
                 ))}
               </div>

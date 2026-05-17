@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import type { BibleTopic } from "@/lib/bible-topics-data";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+export const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Flame, Sparkles, RefreshCcw, Droplets, Wind, Heart, Shield, CloudRain,
   Sun, Zap, User, Sunrise, Anchor, Home, Users, HeartHandshake, Baby,
   Compass, GitBranch, Lock, CheckCircle, Coins, Briefcase, Star, Gem,
@@ -21,7 +21,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Cloud, Infinity, ArrowUp, Crown, Swords,
 };
 
-const CATEGORY_COLORS: Record<string, { bg: string; icon: string; border: string }> = {
+export const CATEGORY_COLORS: Record<string, { bg: string; icon: string; border: string }> = {
   faith:         { bg: "bg-violet-50 dark:bg-violet-950/20",  icon: "text-violet-600 dark:text-violet-400",  border: "border-violet-200/60 dark:border-violet-800/30 hover:border-violet-400/60" },
   emotions:      { bg: "bg-rose-50 dark:bg-rose-950/20",      icon: "text-rose-600 dark:text-rose-400",      border: "border-rose-200/60 dark:border-rose-800/30 hover:border-rose-400/60" },
   relationships: { bg: "bg-pink-50 dark:bg-pink-950/20",      icon: "text-pink-600 dark:text-pink-400",      border: "border-pink-200/60 dark:border-pink-800/30 hover:border-pink-400/60" },

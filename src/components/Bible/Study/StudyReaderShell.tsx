@@ -884,10 +884,10 @@ export function StudyReaderShell({
                     {VERSIONS.map((v) => (
                       <button key={v.id} type="button" onClick={() => setVersion(v.id)}
                         className={cn("flex items-center gap-2.5 rounded-xl border px-3 py-2 text-left text-xs transition-colors",
-                          version === v.id ? "bg-foreground text-background border-foreground" : "bg-background text-foreground/80 border-border hover:bg-muted"
+                          version === v.id ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground/80 border-border hover:bg-muted"
                         )}>
                         <span className={cn("flex h-5 w-8 shrink-0 items-center justify-center rounded text-[10px] font-bold",
-                          version === v.id ? "bg-background/20" : "bg-muted text-muted-foreground")}>
+                          version === v.id ? "bg-primary-foreground/20 text-primary-foreground" : "bg-muted text-muted-foreground")}>
                           {v.short}
                         </span>
                         <span className="font-medium">{t.versionLabels[v.id]}</span>
@@ -954,7 +954,7 @@ export function StudyReaderShell({
                     onClick={() => startSaving(async () => { await saveStudyPassages({ listId: list.id, chapters: chapterPassages.map((p) => ({ bookId: p.bookId, chapter: p.chapter })) }).catch(console.error); })}
                     disabled={totalSelected === 0 || isSaving}
                     className={cn("w-full rounded-xl py-2 text-xs font-semibold transition-colors",
-                      totalSelected === 0 || isSaving ? "bg-muted text-muted-foreground cursor-not-allowed" : "bg-foreground text-background hover:bg-foreground/90")}>
+                      totalSelected === 0 || isSaving ? "bg-muted text-muted-foreground cursor-not-allowed" : "bg-primary text-primary-foreground hover:bg-primary/90")}>
                     {isSaving ? t.saving : t.saveList}
                   </button>
                 </div>
