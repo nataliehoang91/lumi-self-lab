@@ -1101,28 +1101,42 @@ export function StudyReaderShell({
 
         {/* Stats bar */}
         {totalSelected > 0 && (
-          <div className="mb-5 flex flex-wrap items-center gap-2 rounded-2xl border border-amber-400/70 bg-amber-50/50 px-4 py-3 text-xs dark:border-amber-700/40 dark:bg-amber-950/10">
-            <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-100/70 px-2.5 py-0.5 text-[11px] font-medium text-amber-900 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
-              {uniqueBooks} {uniqueBooks === 1 ? t.otLabel === "OT" ? "book" : "sách" : t.otLabel === "OT" ? "books" : "sách"}
+          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-amber-400/70 bg-amber-50/50 px-4 py-3 text-xs dark:border-amber-700/40 dark:bg-amber-950/10">
+            {/* Books badge */}
+            <span className="flex items-center gap-1.5">
+              <span className="text-[11px] font-bold text-amber-900/80 dark:text-amber-300">{t.otLabel === "OT" ? "Books" : "Sách"}</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] font-bold text-amber-900 dark:bg-amber-800/50 dark:text-amber-200">{uniqueBooks}</span>
             </span>
-            <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-100/70 px-2.5 py-0.5 text-[11px] font-medium text-amber-900 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
-              {totalSelected} {t.otLabel === "OT" ? totalSelected === 1 ? "chapter" : "chapters" : "chương"}
+            <span className="h-3 w-px bg-amber-300/60" />
+            {/* Chapters badge */}
+            <span className="flex items-center gap-1.5">
+              <span className="text-[11px] font-bold text-amber-900/80 dark:text-amber-300">{t.otLabel === "OT" ? "Chapters" : "Chương"}</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] font-bold text-amber-900 dark:bg-amber-800/50 dark:text-amber-200">{totalSelected}</span>
             </span>
             {otCount > 0 && (
-              <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-100/70 px-2.5 py-0.5 text-[11px] font-medium text-amber-900 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
-                {t.otLabel} {otCount}
-              </span>
+              <>
+                <span className="h-3 w-px bg-amber-300/60" />
+                <span className="flex items-center gap-1.5">
+                  <span className="text-[11px] font-bold text-amber-900/80 dark:text-amber-300">{t.otLabel}</span>
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] font-bold text-amber-900 dark:bg-amber-800/50 dark:text-amber-200">{otCount}</span>
+                </span>
+              </>
             )}
             {ntCount > 0 && (
-              <span className="inline-flex items-center rounded-full border border-amber-400/60 bg-amber-100/70 px-2.5 py-0.5 text-[11px] font-medium text-amber-900 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
-                {t.ntLabel} {ntCount}
-              </span>
+              <>
+                <span className="h-3 w-px bg-amber-300/60" />
+                <span className="flex items-center gap-1.5">
+                  <span className="text-[11px] font-bold text-amber-900/80 dark:text-amber-300">{t.ntLabel}</span>
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] font-bold text-amber-900 dark:bg-amber-800/50 dark:text-amber-200">{ntCount}</span>
+                </span>
+              </>
             )}
+            {/* Progress */}
             <div className="flex flex-1 items-center gap-2">
               <div className="bg-amber-100 h-1.5 flex-1 overflow-hidden rounded-full dark:bg-amber-950/30">
                 <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, background: "linear-gradient(to right, #f59e0b, #fde68a)" }} />
               </div>
-              <span className="text-amber-800/70 shrink-0 text-[11px] dark:text-amber-400/70">{t.studied(totalStudied, totalSelected)}</span>
+              <span className="text-amber-800/70 shrink-0 text-[11px] font-semibold dark:text-amber-400/70">{t.studied(totalStudied, totalSelected)}</span>
             </div>
           </div>
         )}
