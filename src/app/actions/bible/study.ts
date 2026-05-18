@@ -336,14 +336,14 @@ export async function createStudyList(
   const description = (formData.get("description") || "").toString().trim();
   if (!title) return { errors: { title: ["required"] } };
 
-  // Free tier limit: 10 lists
+  // Free tier limit: 5 lists
   const { getUserFeatureAccess } = await import("@/lib/feature-access");
   const features = await getUserFeatureAccess(userId);
   if (!features.bible_study_unlimited) {
     const count = await prisma.bibleStudyList.count({
       where: { clerkUserId: userId, isArchived: false },
     });
-    if (count >= 10) {
+    if (count >= 5) {
       return { errors: { general: ["limit_reached"] } };
     }
   }

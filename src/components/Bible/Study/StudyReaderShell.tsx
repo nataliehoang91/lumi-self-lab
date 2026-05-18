@@ -45,6 +45,7 @@ import {
   Maximize2,
   Minimize2,
   Pencil,
+  Plus,
   Printer,
   Send,
   Share2,
@@ -59,7 +60,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import { VerseChatPanel } from "./VerseChatPanel";
 import type { VerseRef } from "@/app/api/bible/verse-chat/route";
 
 // ── i18n ──────────────────────────────────────────────────────────────────────
@@ -465,13 +465,25 @@ function VerseAskAI({ verseRef, lang, onClose }: { verseRef: { bookNameEn: strin
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [usage, setUsage] = useState<{ used: number; limit: number } | null>(null);
+  const [limitReached, setLimitReached] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { setTimeout(() => inputRef.current?.focus(), 50); }, []);
 
+  useEffect(() => {
+    fetch("/api/bible/ai-guide")
+      .then((r) => r.json())
+      .then((d: { used: number; limit: number }) => {
+        setUsage(d);
+        if (d.used >= d.limit) setLimitReached(true);
+      })
+      .catch(() => {});
+  }, []);
+
   const send = async () => {
     const q = input.trim();
-    if (!q || loading) return;
+    if (!q || loading || limitReached) return;
     setLoading(true);
     setResponse("");
     setInput("");
@@ -485,6 +497,13 @@ function VerseAskAI({ verseRef, lang, onClose }: { verseRef: { bookNameEn: strin
           lang,
         }),
       });
+      if (res.status === 429) {
+        const data = await res.json() as { used: number; limit: number };
+        setUsage(data);
+        setLimitReached(true);
+        setInput(q);
+        return;
+      }
       if (!res.ok || !res.body) throw new Error("Failed");
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -495,6 +514,7 @@ function VerseAskAI({ verseRef, lang, onClose }: { verseRef: { bookNameEn: strin
         acc += decoder.decode(value, { stream: true });
         setResponse(acc);
       }
+      setUsage((prev) => prev ? { ...prev, used: prev.used + 1 } : null);
     } catch {
       setResponse(lang === "vi" ? "Đã xảy ra lỗi." : "Something went wrong.");
     } finally {
@@ -540,24 +560,43 @@ function VerseAskAI({ verseRef, lang, onClose }: { verseRef: { bookNameEn: strin
           )}
         </div>
       )}
-      <div className="flex items-center gap-2 border-t border-border/40 px-3 py-2">
-        <input
-          ref={inputRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") send(); }}
-          placeholder={lang === "vi" ? "Hỏi về câu này…" : "Ask about this verse…"}
-          className="min-w-0 flex-1 bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground/60"
-        />
-        <button
-          type="button"
-          onClick={send}
-          disabled={!input.trim() || loading}
-          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity disabled:opacity-40"
-        >
-          {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Send className="h-3 w-3" />}
-        </button>
-      </div>
+      {limitReached ? (
+        <div className="border-t border-border/40 px-3 py-2 text-center">
+          <p className="text-[11px] font-medium text-amber-700 dark:text-amber-400">
+            {lang === "vi" ? `Đã dùng hết ${usage?.limit ?? 30} tin nhắn tháng này` : `Monthly limit of ${usage?.limit ?? 30} messages reached`}
+          </p>
+        </div>
+      ) : (
+        <div className="border-t border-border/40 px-3 py-2 space-y-1.5">
+          <div className="flex items-center gap-2">
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") void send(); }}
+              placeholder={lang === "vi" ? "Hỏi về câu này…" : "Ask about this verse…"}
+              className="min-w-0 flex-1 bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground/60"
+            />
+            <button
+              type="button"
+              onClick={() => void send()}
+              disabled={!input.trim() || loading}
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity disabled:opacity-40"
+            >
+              {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Send className="h-3 w-3" />}
+            </button>
+          </div>
+          {usage && (
+            <div className="flex items-center gap-2">
+              <div className="h-0.5 flex-1 overflow-hidden rounded-full bg-muted">
+                <div className="h-full rounded-full bg-primary/40 transition-all"
+                  style={{ width: `${Math.min(100, (usage.used / usage.limit) * 100)}%` }} />
+              </div>
+              <span className="shrink-0 text-[9px] text-muted-foreground">{usage.used}/{usage.limit} {lang === "vi" ? "msgs" : "msgs"}</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -883,7 +922,8 @@ export function StudyReaderShell({
   const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(new Set());
   const [chapterInsightsOpen, setChapterInsightsOpen] = useState<Set<string>>(new Set());
   const [selectedVerses, setSelectedVerses] = useState<VerseRef[]>([]);
-  const [chatOpen, setChatOpen] = useState(false);
+  const [printModalOpen, setPrintModalOpen] = useState(false);
+  const [printSelected, setPrintSelected] = useState<Set<string>>(new Set());
   const [editingNoteFor, setEditingNoteFor] = useState<{ chapter: number; verseNumber: number | null } | null>(null);
   const [isPublic, setIsPublic] = useState(list.isPublic);
   const [publicSlug, setPublicSlug] = useState(list.publicSlug);
@@ -893,6 +933,9 @@ export function StudyReaderShell({
   const [, startTagUpdate] = useTransition();
   const [editingTagColor, setEditingTagColor] = useState<string | null>(null);
   const [listTags, setListTags] = useState<string[]>(list.tags);
+  const [addingTag, setAddingTag] = useState(false);
+  const [newTagInput, setNewTagInput] = useState("");
+  const [newTagColor, setNewTagColor] = useState<TagColorKey>("sage");
   // Per-chapter highlighted-only toggle: key = `${bookId}:${chapter}`
   const [highlightedOnlySet, setHighlightedOnlySet] = useState<Set<string>>(new Set());
   const toggleHighlightedOnly = (key: string) =>
@@ -932,6 +975,18 @@ export function StudyReaderShell({
     const first = testament === "ot" ? otBooks[0] : ntBooks[0];
     setSelectedBookId(first?.id ?? null);
   }, [testament, otBooks, ntBooks]);
+
+  useEffect(() => {
+    if (!addingTag && editingTagColor === null) return;
+    const handler = (e: MouseEvent) => {
+      if (!(e.target as Element).closest?.("[data-tag-area]")) {
+        setAddingTag(false);
+        setEditingTagColor(null);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [addingTag, editingTagColor]);
 
   // Chapter grid only counts whole-chapter passages
   const chaptersForBook = useMemo(
@@ -1078,9 +1133,16 @@ export function StudyReaderShell({
   };
 
   const handlePrint = () => {
-    // Open standalone server-rendered print page — user can Cmd+P to save as PDF
+    const allKeys = new Set(passages.map((p) => `${p.bookId}:${p.chapter}`));
+    setPrintSelected(allKeys);
+    setPrintModalOpen(true);
+  };
+
+  const handleOpenPrint = () => {
     const listId = window.location.pathname.split("/").pop() ?? "";
-    window.open(`/print/study/${listId}?lang=${lang}&version=${version}`, "_blank");
+    const chaptersParam = Array.from(printSelected).join(",");
+    window.open(`/print/study/${listId}?lang=${lang}&version=${version}&chapters=${chaptersParam}`, "_blank");
+    setPrintModalOpen(false);
   };
 
   const handleCopyAll = () => {
@@ -1114,54 +1176,104 @@ export function StudyReaderShell({
             <p className="text-muted-foreground mb-1 text-xs tracking-[0.18em] uppercase">{t.studyList}</p>
             <h1 className="text-foreground text-2xl font-semibold">{list.title}</h1>
             {list.description && <p className="text-muted-foreground mt-1 max-w-xl text-sm">{list.description}</p>}
-            {listTags.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {listTags.map((raw) => {
-                  const { color, label } = parseTag(raw);
-                  const isPickingColor = editingTagColor === raw;
-                  return (
-                    <div key={raw} className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setEditingTagColor(isPickingColor ? null : raw)}
-                        className={cn(
-                          "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium transition-all",
-                          TAG_COLOR_CLASSES[color],
-                          isPickingColor && "ring-2 ring-offset-1 ring-current"
-                        )}
-                      >
+            <div className="mt-2 flex flex-wrap items-center gap-1.5" data-tag-area>
+              {listTags.map((raw) => {
+                const { color, label } = parseTag(raw);
+                const isPickingColor = editingTagColor === raw;
+                return (
+                  <div key={raw} className="relative">
+                    <span className={cn("group inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium", TAG_COLOR_CLASSES[color])}>
+                      <button type="button" onClick={() => setEditingTagColor(isPickingColor ? null : raw)}
+                        className="flex items-center gap-1 leading-none">
                         <Tag className="h-2.5 w-2.5" />{label}
                       </button>
-                      {isPickingColor && (
-                        <div className="absolute top-full left-0 z-20 mt-1 flex items-center gap-1 rounded-xl border border-border bg-background px-2 py-1.5 shadow-lg">
-                          {TAG_COLOR_KEYS.map((ck) => (
-                            <button
-                              key={ck}
-                              type="button"
-                              title={ck}
-                              onClick={() => {
-                                const newRaw = `${ck}|${label}`;
-                                const newTags = listTags.map((t) => t === raw ? newRaw : t);
-                                setListTags(newTags);
-                                setEditingTagColor(null);
-                                startTagUpdate(async () => {
-                                  await updateStudyList({ listId: list.id, tags: newTags });
-                                });
-                              }}
-                              className={cn(
-                                "h-4 w-4 rounded-full border-2 transition-transform hover:scale-110",
-                                TAG_SWATCH_CLASSES[ck],
-                                color === ck ? "border-foreground" : "border-transparent"
-                              )}
-                            />
-                          ))}
-                        </div>
-                      )}
+                      <button type="button"
+                        onClick={() => {
+                          const next = listTags.filter((t) => t !== raw);
+                          setListTags(next);
+                          setEditingTagColor(null);
+                          startTagUpdate(async () => { await updateStudyList({ listId: list.id, tags: next }); });
+                        }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity leading-none hover:text-destructive">
+                        <X className="h-2.5 w-2.5" />
+                      </button>
+                    </span>
+                    {isPickingColor && (
+                      <div className="absolute top-full left-0 z-20 mt-1 flex items-center gap-1 rounded-xl border border-border bg-background px-2 py-1.5 shadow-lg">
+                        {TAG_COLOR_KEYS.map((ck) => (
+                          <button key={ck} type="button"
+                            onClick={() => {
+                              const newRaw = `${ck}|${label}`;
+                              const newTags = listTags.map((t) => t === raw ? newRaw : t);
+                              setListTags(newTags);
+                              setEditingTagColor(null);
+                              startTagUpdate(async () => { await updateStudyList({ listId: list.id, tags: newTags }); });
+                            }}
+                            className={cn("h-4 w-4 rounded-full border-2 transition-transform hover:scale-110", TAG_SWATCH_CLASSES[ck], color === ck ? "border-foreground" : "border-transparent")}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Add new tag */}
+              <div className="relative">
+                <button type="button" onClick={() => { setAddingTag((v) => !v); setEditingTagColor(null); }}
+                  className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-2 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary">
+                  <Plus className="h-2.5 w-2.5" />{lang === "vi" ? "Thêm nhãn" : "Add tag"}
+                </button>
+                {addingTag && (
+                  <div className="absolute left-0 top-full z-30 mt-1 w-52 rounded-xl border border-border bg-background p-3 shadow-lg">
+                    <div className="mb-2 flex items-center gap-1.5">
+                      {TAG_COLOR_KEYS.map((ck) => (
+                        <button key={ck} type="button"
+                          onMouseDown={(e) => { e.preventDefault(); setNewTagColor(ck); }}
+                          className={cn("h-4 w-4 rounded-full border-2 transition-transform hover:scale-110", TAG_SWATCH_CLASSES[ck], newTagColor === ck ? "border-foreground scale-110" : "border-transparent")}
+                        />
+                      ))}
                     </div>
-                  );
-                })}
+                    <div className="flex items-center gap-1.5">
+                      <input autoFocus value={newTagInput} onChange={(e) => setNewTagInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            const label = newTagInput.trim().toLowerCase();
+                            if (label && !listTags.map((t) => parseTag(t).label).includes(label)) {
+                              const raw = `${newTagColor}|${label}`;
+                              const next = [...listTags, raw];
+                              setListTags(next);
+                              startTagUpdate(async () => { await updateStudyList({ listId: list.id, tags: next }); });
+                            }
+                            setNewTagInput("");
+                            setAddingTag(false);
+                          }
+                          if (e.key === "Escape") setAddingTag(false);
+                        }}
+                        placeholder={lang === "vi" ? "Tên nhãn..." : "Tag name..."}
+                        className="flex-1 rounded-lg border border-border bg-muted/30 px-2 py-1 text-xs outline-none focus:border-primary/50"
+                      />
+                      <button type="button"
+                        onClick={() => {
+                          const label = newTagInput.trim().toLowerCase();
+                          if (label && !listTags.map((t) => parseTag(t).label).includes(label)) {
+                            const raw = `${newTagColor}|${label}`;
+                            const next = [...listTags, raw];
+                            setListTags(next);
+                            startTagUpdate(async () => { await updateStudyList({ listId: list.id, tags: next }); });
+                          }
+                          setNewTagInput("");
+                          setAddingTag(false);
+                        }}
+                        className="rounded-lg bg-primary px-2 py-1 text-primary-foreground">
+                        <Check className="h-3 w-3" />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
           {/* Toolbar */}
           <div className="flex shrink-0 flex-wrap items-center gap-1.5">
@@ -1182,9 +1294,14 @@ export function StudyReaderShell({
             {shareMsg && <span className="text-xs text-primary animate-in fade-in">{shareMsg}</span>}
             <button
               type="button"
-              onClick={() => setChatOpen((v) => !v)}
-              title="Ask AI about verses"
-              className={cn("relative rounded-lg p-2 transition-colors", chatOpen ? "text-primary" : "text-muted-foreground hover:text-foreground")}
+              onClick={() => {
+                const initialMessage = selectedVerses.length > 0
+                  ? `${lang === "vi" ? "Hãy giải thích các câu này:" : "Please explain these verses:"} ${selectedVerses.map(v => `${v.bookName} ${v.chapter}:${v.verseNum} — "${v.text}"`).join(" | ")}`
+                  : undefined;
+                window.dispatchEvent(new CustomEvent("bible-ai-open", { detail: { initialMessage } }));
+              }}
+              title={t.print ? "Ask AI" : "Ask AI"}
+              className="relative text-muted-foreground hover:text-foreground rounded-lg p-2 transition-colors"
             >
               <MessageCircle className="h-4 w-4" />
               {selectedVerses.length > 0 && (
@@ -1554,7 +1671,6 @@ export function StudyReaderShell({
                                           onNote={(vn) => setEditingNoteFor(isEditingVerse ? null : { chapter: content.chapter, verseNumber: vn })}
                                           onSelect={(vn) => {
                                             handleSelectVerse(content.book.id, content.chapter, vn, v.text, content.book.nameEn, content.book.nameVi ?? content.book.nameEn);
-                                            setChatOpen(true);
                                           }}
                                           onSaveVerse={(vn) => {
                                             const existing = verseBookmarks.find(p => p.bookId === content.book.id && p.chapter === content.chapter && p.verseStart === vn);
@@ -1606,25 +1722,17 @@ export function StudyReaderShell({
             )}
           </main>
 
-          {/* ── Right: AI Chat Panel ── */}
-          <AnimatePresence>
-            {chatOpen && !focusMode && (
-              <VerseChatPanel
-                selectedVerses={selectedVerses}
-                lang={lang}
-                onClose={() => setChatOpen(false)}
-                onClearSelection={() => setSelectedVerses([])}
-              />
-            )}
-          </AnimatePresence>
         </div>
 
-        {/* Floating "Ask AI" button when verses selected and chat closed */}
+        {/* Floating "Ask AI" button when verses selected */}
         <AnimatePresence>
-          {selectedVerses.length > 0 && !chatOpen && (
+          {selectedVerses.length > 0 && (
             <motion.button
               type="button"
-              onClick={() => setChatOpen(true)}
+              onClick={() => {
+                const initialMessage = `${lang === "vi" ? "Hãy giải thích các câu này:" : "Please explain these verses:"} ${selectedVerses.map(v => `${v.bookName} ${v.chapter}:${v.verseNum} — "${v.text}"`).join(" | ")}`;
+                window.dispatchEvent(new CustomEvent("bible-ai-open", { detail: { initialMessage } }));
+              }}
               className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg hover:bg-primary/90 transition-colors"
               initial={{ opacity: 0, scale: 0.8, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1635,6 +1743,113 @@ export function StudyReaderShell({
               {lang === "vi" ? `Hỏi AI về ${selectedVerses.length} câu` : `Ask AI · ${selectedVerses.length} verse${selectedVerses.length > 1 ? "s" : ""}`}
             </motion.button>
           )}
+        </AnimatePresence>
+
+        {/* Print section-selection modal */}
+        <AnimatePresence>
+          {printModalOpen && (() => {
+            // Group passages by book for display
+            const bookGroups: { bookId: string; bookName: string; chapters: number[] }[] = [];
+            const sortedPassages = [...passages].sort((a, b) => {
+              const oa = books.find((bk) => bk.id === a.bookId)?.order ?? 0;
+              const ob = books.find((bk) => bk.id === b.bookId)?.order ?? 0;
+              return oa !== ob ? oa - ob : a.chapter - b.chapter;
+            });
+            for (const p of sortedPassages) {
+              const last = bookGroups[bookGroups.length - 1];
+              const bk = books.find((b) => b.id === p.bookId);
+              const bookName = bk ? (lang === "vi" ? (bk.nameVi ?? bk.nameEn) : bk.nameEn) : p.bookId;
+              if (last && last.bookId === p.bookId) last.chapters.push(p.chapter);
+              else bookGroups.push({ bookId: p.bookId, bookName, chapters: [p.chapter] });
+            }
+            const toggleChapter = (key: string) => {
+              setPrintSelected((prev) => {
+                const next = new Set(prev);
+                if (next.has(key)) next.delete(key); else next.add(key);
+                return next;
+              });
+            };
+            const toggleBook = (bookId: string, chapters: number[]) => {
+              const keys = chapters.map((ch) => `${bookId}:${ch}`);
+              const allOn = keys.every((k) => printSelected.has(k));
+              setPrintSelected((prev) => {
+                const next = new Set(prev);
+                if (allOn) keys.forEach((k) => next.delete(k)); else keys.forEach((k) => next.add(k));
+                return next;
+              });
+            };
+            return (
+              <motion.div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={() => setPrintModalOpen(false)}
+              >
+                <motion.div
+                  className="bg-background border border-border rounded-2xl shadow-xl w-full max-w-md max-h-[80vh] flex flex-col"
+                  initial={{ scale: 0.95, y: 16 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 16 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+                    <div className="flex items-center gap-2">
+                      <Printer className="h-4 w-4 text-primary" />
+                      <span className="font-semibold text-foreground text-sm">{lang === "vi" ? "Chọn phần in" : "Select sections to print"}</span>
+                    </div>
+                    <button type="button" onClick={() => setPrintModalOpen(false)} className="text-muted-foreground hover:text-foreground">
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="overflow-y-auto flex-1 px-5 py-3 space-y-3">
+                    {bookGroups.length === 0 && (
+                      <p className="text-muted-foreground text-sm text-center py-6">{lang === "vi" ? "Chưa có chương nào" : "No chapters in this list"}</p>
+                    )}
+                    {bookGroups.map(({ bookId, bookName, chapters }) => {
+                      const allOn = chapters.every((ch) => printSelected.has(`${bookId}:${ch}`));
+                      return (
+                        <div key={bookId}>
+                          <button type="button" onClick={() => toggleBook(bookId, chapters)}
+                            className="flex items-center gap-2 w-full text-left mb-1.5 group">
+                            <div className={cn("h-4 w-4 rounded border flex items-center justify-center shrink-0 transition-colors", allOn ? "bg-primary border-primary" : "border-border group-hover:border-primary/50")}>
+                              {allOn && <Check className="h-2.5 w-2.5 text-primary-foreground" />}
+                            </div>
+                            <span className="text-sm font-semibold text-foreground">{bookName}</span>
+                            <span className="text-xs text-muted-foreground">· {chapters.length} {lang === "vi" ? "chương" : "ch"}</span>
+                          </button>
+                          <div className="flex flex-wrap gap-1.5 pl-6">
+                            {chapters.map((ch) => {
+                              const key = `${bookId}:${ch}`;
+                              const on = printSelected.has(key);
+                              return (
+                                <button key={ch} type="button" onClick={() => toggleChapter(key)}
+                                  className={cn("rounded-lg border px-2 py-0.5 text-xs font-medium transition-colors", on ? "bg-primary/10 border-primary/40 text-primary" : "border-border text-muted-foreground hover:border-primary/30")}>
+                                  {ch}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="px-5 py-4 border-t border-border flex items-center justify-between gap-3">
+                    <span className="text-xs text-muted-foreground">{printSelected.size} {lang === "vi" ? "chương được chọn" : "chapters selected"}</span>
+                    <div className="flex gap-2">
+                      <button type="button" onClick={() => setPrintModalOpen(false)}
+                        className="text-sm text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-lg transition-colors">
+                        {lang === "vi" ? "Hủy" : "Cancel"}
+                      </button>
+                      <button type="button" onClick={handleOpenPrint} disabled={printSelected.size === 0}
+                        className="flex items-center gap-1.5 rounded-lg bg-primary px-4 py-1.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40">
+                        <Printer className="h-3.5 w-3.5" />
+                        {lang === "vi" ? "Xem trước & In" : "Preview & Print"}
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            );
+          })()}
         </AnimatePresence>
       </Container>
     </div>

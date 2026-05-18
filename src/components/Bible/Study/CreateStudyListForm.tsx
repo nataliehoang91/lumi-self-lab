@@ -24,7 +24,8 @@ export function CreateStudyListForm({ onSuccess }: CreateStudyListFormProps) {
     startTransition(async () => {
       const result = await createStudyList(data);
       if (result.errors) {
-        setError(result.errors.general?.[0] ?? result.errors.title?.[0] ?? "Something went wrong.");
+        const raw = result.errors.general?.[0] ?? result.errors.title?.[0] ?? "Something went wrong.";
+        setError(raw === "limit_reached" ? "You've reached the 5-list limit. Upgrade to create more." : raw);
         return;
       }
       router.refresh();

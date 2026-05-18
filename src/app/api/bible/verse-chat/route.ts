@@ -1,5 +1,10 @@
 import { NextRequest } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { anthropic } from "@/lib/anthropic";
+import { prisma } from "@/lib/prisma";
+
+const FREE_LIMIT = 30;
+const PRO_LIMIT = 300;
 
 export interface VerseRef {
   bookName: string;
@@ -9,6 +14,9 @@ export interface VerseRef {
 }
 
 export async function POST(req: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) return new Response("Unauthorized", { status: 401 });
+
   const { verses, question, lang } = (await req.json()) as {
     verses: VerseRef[];
     question: string;
@@ -18,6 +26,36 @@ export async function POST(req: NextRequest) {
   if (!verses?.length || !question?.trim()) {
     return new Response("Missing verses or question", { status: 400 });
   }
+
+  // Check monthly limit
+  const { getUserFeatureAccess } = await import("@/lib/feature-access");
+  const features = await getUserFeatureAccess(userId);
+  const isPro = features.bible_study_unlimited === true;
+  const limit = isPro ? PRO_LIMIT : FREE_LIMIT;
+
+  let user = await prisma.user.findUnique({ where: { clerkUserId: userId } });
+  if (!user) user = await prisma.user.create({ data: { clerkUserId: userId } });
+
+  const now = new Date();
+  const resetAt = user.aiMsgResetAt;
+  const needsReset = !resetAt || resetAt.getFullYear() < now.getFullYear() || resetAt.getMonth() < now.getMonth();
+  const currentCount = needsReset ? 0 : user.aiMsgCount;
+
+  if (currentCount >= limit) {
+    return new Response(
+      JSON.stringify({ error: "limit_reached", used: currentCount, limit }),
+      { status: 429, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
+  // Increment count before streaming
+  await prisma.user.update({
+    where: { clerkUserId: userId },
+    data: {
+      aiMsgCount: needsReset ? 1 : { increment: 1 },
+      aiMsgResetAt: needsReset ? now : undefined,
+    },
+  });
 
   const isVi = lang === "vi";
   const verseBlock = verses

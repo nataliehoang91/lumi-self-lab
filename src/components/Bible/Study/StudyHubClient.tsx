@@ -5,8 +5,9 @@ import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import {
   BookOpen, Star, Archive, ArchiveRestore, Trash2, Tag, X, Pencil, Check, AlertTriangle,
-  Flame, ListChecks, ArrowRight, ChevronDown, ChevronUp, TrendingUp, GraduationCap,
+  Flame, ListChecks, ArrowRight, ChevronDown, ChevronUp, TrendingUp, GraduationCap, Zap,
 } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
@@ -20,18 +21,21 @@ import { GoalWidget } from "./GoalWidget";
 
 type Tab = "all" | "favorites" | "archived";
 
+const FREE_LIST_LIMIT = 5;
+
 interface StudyHubClientProps {
   lists: BibleStudyListWithCount[];
   archived: BibleStudyListWithCount[];
   streak: StudyStreak | null;
   continueToday: ContinueTodayItem | null;
+  isUnlimited?: boolean;
 }
 
 const INTL = {
   en: {
     personal: "Personal",
-    title: "Study",
-    subtitle: "Build study lists, select chapters, and read Scripture in any translation.",
+    title: "Study Hub",
+    subtitle: "",
     tabAll: "All", tabFavorites: "Favorites", tabArchived: "Archived",
     noArchived: "No archived lists",
     noFavorites: "No favorites yet — star a list to find it here",
@@ -57,8 +61,8 @@ const INTL = {
   },
   vi: {
     personal: "Cá nhân",
-    title: "Học Kinh Thánh",
-    subtitle: "Tạo danh sách học, chọn chương và đọc Kinh Thánh theo bản dịch bạn thích.",
+    title: "Góc ghi chú",
+    subtitle: "",
     tabAll: "Tất cả", tabFavorites: "Yêu thích", tabArchived: "Đã lưu trữ",
     noArchived: "Không có danh sách nào được lưu trữ",
     noFavorites: "Chưa có danh sách yêu thích — nhấn ngôi sao để lưu vào đây",
@@ -655,7 +659,7 @@ function ArchivedCard({ list, lang, t, onUnarchive, onDelete }: {
 // ── Hub ───────────────────────────────────────────────────────────────────────
 
 export function StudyHubClient({
-  lists: initialLists, archived: initialArchived, streak, continueToday,
+  lists: initialLists, archived: initialArchived, streak, continueToday, isUnlimited = false,
 }: StudyHubClientProps) {
   const pathname = usePathname();
   const lang = pathname?.match(/^\/bible\/(en|vi)/)?.[1] ?? "en";
@@ -740,9 +744,9 @@ export function StudyHubClient({
   return (
     <Container maxWidth="7xl" className="flex min-h-screen flex-col px-4 sm:px-6 py-8">
       {/* Header */}
-      <motion.header className="mb-6 flex items-end justify-between gap-4" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <motion.header className="mb-6 flex items-start justify-between gap-4" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
         <div>
-          <div className="mb-2 flex items-center gap-2.5">
+          <div className="mb-1.5 flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10">
               <GraduationCap className="h-5 w-5 text-primary" />
             </div>
@@ -751,8 +755,34 @@ export function StudyHubClient({
               <h1 className={cn(bodyTitleClassUp, "text-foreground font-bold leading-tight")}>{t.title}</h1>
             </div>
           </div>
-          <p className={cn(bodyClass, "text-muted-foreground")}>{t.subtitle}</p>
         </div>
+        {!isUnlimited && (
+          <div className="shrink-0 flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 shadow-sm">
+            <div className="flex flex-col gap-1.5 min-w-[90px]">
+              <div className="flex items-center justify-between gap-4">
+                <span className={cn(subBodyClass, "text-muted-foreground")}>{lang === "vi" ? "Danh sách" : "Lists"}</span>
+                <span className={cn(subBodyClass, "font-semibold tabular-nums", lists.length >= FREE_LIST_LIMIT ? "text-destructive" : "text-foreground")}>
+                  {lists.length}/{FREE_LIST_LIMIT}
+                </span>
+              </div>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                <div className="h-full rounded-full transition-all"
+                  style={{
+                    width: `${Math.min(100, (lists.length / FREE_LIST_LIMIT) * 100)}%`,
+                    background: lists.length >= FREE_LIST_LIMIT ? "var(--destructive)" : "var(--primary)",
+                    opacity: 0.65,
+                  }} />
+              </div>
+            </div>
+            {lists.length >= FREE_LIST_LIMIT && (
+              <Link href="/pricing"
+                className="flex items-center gap-1 rounded-lg bg-primary px-2.5 py-1.5 text-[11px] font-semibold text-primary-foreground hover:opacity-90 transition-opacity">
+                <Zap className="h-3 w-3" />
+                {lang === "vi" ? "Nâng cấp" : "Upgrade"}
+              </Link>
+            )}
+          </div>
+        )}
       </motion.header>
 
       {/* Stats cards */}

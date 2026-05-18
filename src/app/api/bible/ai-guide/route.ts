@@ -1,5 +1,10 @@
 import { NextRequest } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { anthropic } from "@/lib/anthropic";
+import { prisma } from "@/lib/prisma";
+
+const FREE_LIMIT = 30;
+const PRO_LIMIT = 300;
 
 const TOPICS_DATA = [
   { slug: "faith", nameEn: "Faith", nameVi: "Đức tin", category: "faith" },
@@ -186,7 +191,33 @@ function getLearnArticles() {
   return LEARN_ARTICLES;
 }
 
+export async function GET() {
+  const { userId } = await auth();
+  if (!userId) return Response.json({ used: 0, limit: FREE_LIMIT });
+
+  const { getUserFeatureAccess } = await import("@/lib/feature-access");
+  const features = await getUserFeatureAccess(userId);
+  const isPro = features.bible_study_unlimited === true;
+  const limit = isPro ? PRO_LIMIT : FREE_LIMIT;
+
+  const user = await prisma.user.findUnique({ where: { clerkUserId: userId } });
+  if (!user) return Response.json({ used: 0, limit });
+
+  const now = new Date();
+  const resetAt = user.aiMsgResetAt;
+  const needsReset = !resetAt || resetAt.getFullYear() < now.getFullYear() || resetAt.getMonth() < now.getMonth();
+  const used = needsReset ? 0 : user.aiMsgCount;
+
+  return Response.json({ used, limit });
+}
+
 export async function POST(req: NextRequest) {
+  // Auth check
+  const { userId } = await auth();
+  if (!userId) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const { message, lang, history = [], recentTopics = [], preferredVersion } = (await req.json()) as {
     message: string;
     lang: "en" | "vi";
@@ -198,6 +229,30 @@ export async function POST(req: NextRequest) {
 
   if (!message?.trim()) {
     return new Response("Missing message", { status: 400 });
+  }
+
+  // Check AI message limit
+  const { getUserFeatureAccess } = await import("@/lib/feature-access");
+  const features = await getUserFeatureAccess(userId);
+  const isPro = features.bible_study_unlimited === true;
+  const limit = isPro ? PRO_LIMIT : FREE_LIMIT;
+
+  // Get or create user record, check monthly reset
+  let user = await prisma.user.findUnique({ where: { clerkUserId: userId } });
+  if (!user) {
+    user = await prisma.user.create({ data: { clerkUserId: userId } });
+  }
+
+  const now = new Date();
+  const resetAt = user.aiMsgResetAt;
+  const needsReset = !resetAt || resetAt.getFullYear() < now.getFullYear() || resetAt.getMonth() < now.getMonth();
+  const currentCount = needsReset ? 0 : user.aiMsgCount;
+
+  if (currentCount >= limit) {
+    return new Response(
+      JSON.stringify({ error: "limit_reached", used: currentCount, limit }),
+      { status: 429, headers: { "Content-Type": "application/json" } }
+    );
   }
 
   const isVi = lang === "vi";
@@ -274,9 +329,19 @@ export async function POST(req: NextRequest) {
       const textContent = response.content.find((c) => c.type === "text");
       const finalText = textContent && textContent.type === "text" ? textContent.text : "";
 
+      // Increment message count
+      await prisma.user.update({
+        where: { clerkUserId: userId },
+        data: {
+          aiMsgCount: needsReset ? 1 : { increment: 1 },
+          aiMsgResetAt: needsReset ? now : undefined,
+        },
+      });
+
       const encoder = new TextEncoder();
       const linksJson = JSON.stringify(toolLinks);
-      const fullResponse = finalText + "\n\nLINKS:" + linksJson;
+      const usageJson = JSON.stringify({ used: currentCount + 1, limit });
+      const fullResponse = finalText + "\n\nLINKS:" + linksJson + "\n\nUSAGE:" + usageJson;
 
       const readable = new ReadableStream({
         start(controller) {

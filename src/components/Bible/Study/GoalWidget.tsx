@@ -101,7 +101,7 @@ export function GoalWidget({
         <button
           type="button"
           onClick={() => setEditing(true)}
-          className={cn(buttonClass, "flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors")}
+          className={cn(buttonClass, "inline-flex items-center gap-1.5 rounded-full border border-dashed border-primary/40 bg-primary/5 px-3 py-1 text-primary transition-colors hover:bg-primary/10 hover:border-primary/60")}
         >
           <Target className="h-3 w-3" />
           {label ? "Đặt mục tiêu hoàn thành" : "Set completion goal"}
