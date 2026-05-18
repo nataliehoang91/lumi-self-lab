@@ -1,3 +1,4 @@
+import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +10,8 @@ interface LearnHeroImageProps {
   /** Link for the credit (e.g. Unsplash photo URL) */
   creditHref?: string;
   className?: string;
+  /** Optional overlay element rendered centered on top of the image */
+  overlay?: React.ReactNode;
 }
 
 export function LearnHeroImage({
@@ -17,6 +20,7 @@ export function LearnHeroImage({
   credit,
   creditHref,
   className,
+  overlay,
 }: LearnHeroImageProps) {
   return (
     <figure className={cn("my-8 overflow-hidden rounded-2xl shadow-sm", className)}>
@@ -29,6 +33,11 @@ export function LearnHeroImage({
           sizes="(max-width: 768px) 100vw, 800px"
           priority={false}
         />
+        {overlay && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            {overlay}
+          </div>
+        )}
       </div>
       {credit && (
         <figcaption className="mt-2 text-center text-xs text-muted-foreground">

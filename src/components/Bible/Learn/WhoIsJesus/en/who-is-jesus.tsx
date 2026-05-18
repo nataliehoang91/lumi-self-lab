@@ -292,8 +292,13 @@ export function EnWhoIsJesus({ books }: { books: BibleBook[] }) {
 
       <RevealSection>
         <LearnHeroImage
-          src="https://images.unsplash.com/photo-1499561385668-5ebdb06a79bc?auto=format&fit=crop&w=1200&q=80"
-          alt="Cross silhouette against a sunrise sky"
+          src="https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?auto=format&fit=crop&w=1200&q=80"
+          alt="Soft sky — who is Jesus?"
+          overlay={
+            <span className="text-[120px] font-bold leading-none text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] select-none">
+              ?
+            </span>
+          }
           credit="Photo on Unsplash"
           creditHref="https://unsplash.com"
         />

@@ -58,7 +58,7 @@ export default function BookOverviewsLayout({ children }: { children: React.Reac
       <main>
         <Container
           maxWidth="7xl"
-          className={cn("px-4 py-16", lang === "vi" && "font-vietnamese-flashcard")}
+          className={cn("px-4 sm:px-6 py-16", lang === "vi" && "font-vietnamese-flashcard")}
         >
           {/* Breadcrumb — same as learn layout */}
           <div

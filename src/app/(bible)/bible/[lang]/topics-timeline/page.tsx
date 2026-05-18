@@ -18,7 +18,7 @@ export default async function TopicsTimelinePage({
   return (
     <div className="bg-read min-h-screen dark:bg-[#050408]">
       <main>
-        <Container maxWidth="7xl" className="px-4 py-16">
+        <Container maxWidth="7xl" className="px-4 sm:px-6 py-16">
           <TopicsTimelineClient segment={segment} />
         </Container>
       </main>

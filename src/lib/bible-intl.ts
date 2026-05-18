@@ -177,6 +177,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     navSoon: "Soon",
     navSignIn: "Sign In",
     navSignUp: "Sign Up",
+    navSignOut: "Sign Out",
+    navProfileSettings: "Profile Settings",
     langPageBannerTitle: "Begin where you are.",
     langPageBannerParagraph:
       "Whether you are new or have read for years — there is always more to discover.",
@@ -339,7 +341,7 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     langPageNavRead: "Đọc",
     langPageNavFlashcards: "Flashcard",
     langPageNavGlossary: "Glossary",
-    navStudy: "Study Hub",
+    navStudy: "Góc ghi chú",
     navStudyLists: "Danh sách của tôi",
     navAppName: "Ghi nhớ Kinh thánh",
     navBible: "Kinh thánh",
@@ -350,6 +352,8 @@ const MESSAGES: Record<BibleLocale, Record<string, string>> = {
     navSoon: "Sắp có",
     navSignIn: "Đăng nhập",
     navSignUp: "Đăng ký",
+    navSignOut: "Đăng xuất",
+    navProfileSettings: "Cài đặt tài khoản",
     langPageBannerTitle: "Bắt đầu từ một bước nhỏ.",
     langPageBannerParagraph:
       "Dù bạn mới bắt đầu hay đã đọc nhiều năm, bạn có thể tiếp tục học và lớn lên từng ngày.",

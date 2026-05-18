@@ -9,10 +9,10 @@ import { useReadFocus } from "@/components/Bible/ReadFocusContext";
 import { WhiteBibleLogo } from "@/components/Bible/BibleLogo";
 import { BibleReferenceSearch } from "@/components/Bible/BibleReferenceSearch";
 import { BibleNavMenuDesktop } from "./BibleNavMenuDesktop";
-import { BibleNavSettingsDropdown } from "./BibleNavSettingsDropdown";
 import { BibleNavMobileSheet } from "./BibleNavMobileSheet";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
+import { BibleNavProfileDropdown } from "./BibleNavProfileDropdown";
+import { BibleNavGuestDropdown } from "./BibleNavGuestDropdown";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { GraduationCap } from "lucide-react";
 import { useBibleNavData } from "./useBibleNavData";
 import { LearnReadingProgress } from "@/components/Bible/Learn/shared-components/LearnReadingProgress";
@@ -58,9 +58,6 @@ export function BibleNavBar() {
             <div className="origin-left scale-[1.35] transform-gpu">
               <WhiteBibleLogo />
             </div>
-            <h1 className="hidden truncate text-lg font-semibold 2xl:block">
-              ScriptureSpace
-            </h1>
           </Link>
           <div className="hidden md:block ml-4">
             <BibleReferenceSearch />
@@ -73,13 +70,8 @@ export function BibleNavBar() {
 
         {/* Right cluster */}
         <div className="flex shrink-0 items-center gap-1.5">
-          {/* md–xl: settings + sheet (search is on left) */}
-          <div className="flex items-center gap-1.5 md:flex xl:hidden">
-            <BibleNavSettingsDropdown variant="mobile" />
-          </div>
-
-          {/* xl+: Study Hub + settings */}
-          <div className="hidden items-center gap-1.5 xl:flex">
+          {/* xl+: Study Hub + profile/guest dropdown */}
+          <div className="hidden items-center gap-3 xl:flex">
             <Link
               href={`/bible/${langSegment}/study`}
               className={cn(
@@ -92,41 +84,11 @@ export function BibleNavBar() {
               <GraduationCap className="h-3.5 w-3.5 shrink-0" />
               {intl.t("navStudy")}
             </Link>
-            <BibleNavSettingsDropdown variant="desktop" />
-          </div>
-
-          {/* xl+: auth — UserButton when signed in, compact buttons when signed out */}
-          <div className="hidden items-center gap-1 xl:flex">
             <SignedIn>
-              <UserButton
-                appearance={{
-                  elements: {
-                    avatarBox: "rounded-xl transition-all hover:scale-105 shadow-sm",
-                    userButtonPopoverCard:
-                      "rounded-3xl border-border/40 bg-card/80 backdrop-blur-xl",
-                    userButtonPopoverActionButton: "rounded-2xl",
-                  },
-                }}
-                userProfileMode="modal"
-                afterSignOutUrl="/waitlist"
-              />
+              <BibleNavProfileDropdown />
             </SignedIn>
             <SignedOut>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-7 rounded-lg px-2.5 text-xs"
-                asChild
-              >
-                <Link href="/sign-in">{intl.t("navSignIn")}</Link>
-              </Button>
-              <Button
-                size="sm"
-                className="h-7 rounded-lg px-2.5 text-xs shadow-sm"
-                asChild
-              >
-                <Link href="/sign-up">{intl.t("navSignUp")}</Link>
-              </Button>
+              <BibleNavGuestDropdown />
             </SignedOut>
           </div>
 

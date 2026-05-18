@@ -1065,7 +1065,7 @@ export function StudyReaderShell({
 
   return (
     <div className={cn("min-h-screen", focusMode && "bg-background")}>
-      <Container maxWidth="7xl" className="px-4 py-6 lg:px-0">
+      <Container maxWidth="7xl" className="px-4 sm:px-6 py-6">
         {/* Header */}
         <header className="mb-5 flex items-start justify-between gap-4">
           <div>

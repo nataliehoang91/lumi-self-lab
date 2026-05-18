@@ -308,8 +308,13 @@ export function VnWhoIsJesus({ books }: { books: BibleBook[] }) {
 
       <RevealSection>
         <LearnHeroImage
-          src="https://images.unsplash.com/photo-1499561385668-5ebdb06a79bc?auto=format&fit=crop&w=1200&q=80"
-          alt="Cây thập tự trên nền bầu trời bình minh"
+          src="https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?auto=format&fit=crop&w=1200&q=80"
+          alt="Bầu trời — Chúa Giê-xu là ai?"
+          overlay={
+            <span className="text-[120px] font-bold leading-none text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] select-none">
+              ?
+            </span>
+          }
           credit="Ảnh: Unsplash"
           creditHref="https://unsplash.com"
         />

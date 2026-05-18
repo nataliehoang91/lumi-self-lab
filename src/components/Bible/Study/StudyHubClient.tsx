@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { BibleStudyListWithCount, StudyStreak, ContinueTodayItem } from "@/types/bible-study";
 import {
   toggleFavorite, archiveStudyList, unarchiveStudyList, deleteStudyList, updateStudyList,
@@ -100,6 +101,7 @@ function StatsCards({
   streak: StudyStreak | null;
   t: TDict;
 }) {
+  const { subBodyClass, statValueClassDown } = useBibleFontClasses();
   const stats = [
     {
       icon: <Flame className="h-4 w-4 text-orange-500" />,
@@ -148,9 +150,9 @@ function StatsCards({
         >
           <div className="flex items-center gap-1.5">
             {s.icon}
-            <span className="text-xs text-muted-foreground">{s.label}</span>
+            <span className={cn(subBodyClass, "text-muted-foreground")}>{s.label}</span>
           </div>
-          <p className="text-2xl font-bold text-foreground">{s.value}</p>
+          <p className={cn(statValueClassDown, "font-bold text-foreground")}>{s.value}</p>
           {s.sub && <p className="text-[10px] text-muted-foreground">{s.sub}</p>}
         </motion.div>
       ))}
@@ -170,6 +172,7 @@ function ContinueTodayBanner({
   t: TDict;
 }) {
   const router = useRouter();
+  const { bodyClass } = useBibleFontClasses();
   const bookName = lang === "vi" ? item.bookNameVi : item.bookNameEn;
   const href = `/bible/${lang}/study/${item.listId}`;
 
@@ -190,7 +193,7 @@ function ContinueTodayBanner({
           <p className="text-[10px] font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-400">
             {t.continueToday}
           </p>
-          <p className="text-sm font-medium text-foreground">
+          <p className={cn(bodyClass, "font-medium text-foreground")}>
             {bookName} {item.chapter}
             <span className="ml-1.5 text-xs text-muted-foreground">
               {t.in} {item.listTitle}
@@ -265,6 +268,7 @@ function StudyListCard({
   onTitleChange: (id: string, title: string, description: string | null) => void;
 }) {
   const router = useRouter();
+  const { bodyClass, subBodyClass, buttonClass } = useBibleFontClasses();
   const [list, setList] = useState(initialList);
   const [editingTags, setEditingTags] = useState(false);
   const [tagInput, setTagInput] = useState("");
@@ -361,9 +365,9 @@ function StudyListCard({
         ) : (
           <div className="min-w-0 flex-1 pr-1 cursor-pointer"
             onClick={() => router.push(`/bible/${lang}/study/${list.id}`)}>
-            <p className="text-foreground line-clamp-1 text-sm font-semibold">{list.title}</p>
+            <p className={cn(buttonClass, "text-foreground line-clamp-1 font-semibold")}>{list.title}</p>
             {list.description && (
-              <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">{list.description}</p>
+              <p className={cn(subBodyClass, "text-muted-foreground mt-0.5 line-clamp-2")}>{list.description}</p>
             )}
           </div>
         )}
@@ -492,6 +496,7 @@ function ArchivedCard({ list, lang, t, onUnarchive, onDelete }: {
   onUnarchive: (id: string) => void; onDelete: (id: string) => void;
 }) {
   const router = useRouter();
+  const { buttonClass, subBodyClass } = useBibleFontClasses();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -510,8 +515,8 @@ function ArchivedCard({ list, lang, t, onUnarchive, onDelete }: {
       <div className="flex flex-1 cursor-pointer items-start gap-2 px-4 py-3"
         onClick={() => router.push(`/bible/${lang}/study/${list.id}`)}>
         <div className="min-w-0 flex-1">
-          <p className="text-foreground line-clamp-1 text-sm font-medium">{list.title}</p>
-          <p className="text-muted-foreground mt-0.5 text-xs">
+          <p className={cn(buttonClass, "text-foreground line-clamp-1 font-medium")}>{list.title}</p>
+          <p className={cn(subBodyClass, "text-muted-foreground mt-0.5")}>
             {list.passageCount} {t.chapters(list.passageCount)} · {t.archived}
           </p>
         </div>
@@ -586,6 +591,7 @@ export function StudyHubClient({
 
   const baseList = tab === "all" ? lists : tab === "favorites" ? favorites : archived;
   const visibleLists = activeTag ? baseList.filter((l) => l.tags.includes(activeTag)) : baseList;
+  const { bodyClass, subBodyClass, bodyTitleClassUp, buttonClass } = useBibleFontClasses();
 
   const TAB_CONFIG: { key: Tab; label: string; count?: number }[] = [
     { key: "all", label: t.tabAll, count: lists.length },
@@ -594,7 +600,7 @@ export function StudyHubClient({
   ];
 
   return (
-    <Container maxWidth="7xl" className="flex min-h-screen flex-col px-4 py-8 lg:px-0">
+    <Container maxWidth="7xl" className="flex min-h-screen flex-col px-4 sm:px-6 py-8">
       {/* Header */}
       <motion.header className="mb-6 flex items-end justify-between gap-4" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
         <div>
@@ -603,11 +609,11 @@ export function StudyHubClient({
               <GraduationCap className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="text-muted-foreground text-[10px] font-semibold tracking-[0.18em] uppercase">{t.personal}</p>
-              <h1 className="text-foreground text-xl font-bold leading-tight">{t.title}</h1>
+              <p className={cn(subBodyClass, "text-muted-foreground font-semibold tracking-[0.18em] uppercase")}>{t.personal}</p>
+              <h1 className={cn(bodyTitleClassUp, "text-foreground font-bold leading-tight")}>{t.title}</h1>
             </div>
           </div>
-          <p className="text-muted-foreground text-sm">{t.subtitle}</p>
+          <p className={cn(bodyClass, "text-muted-foreground")}>{t.subtitle}</p>
         </div>
       </motion.header>
 
@@ -624,7 +630,7 @@ export function StudyHubClient({
         {TAB_CONFIG.map((tc) => (
           <button key={tc.key} type="button"
             onClick={() => { setTab(tc.key); setActiveTag(null); }}
-            className={cn("flex items-center gap-1.5 border-b-2 px-3 pb-2.5 text-sm font-medium transition-colors",
+            className={cn("flex items-center gap-1.5 border-b-2 px-3 pb-2.5 font-medium transition-colors", buttonClass,
               tab === tc.key ? "border-second text-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}>
             {tc.label}
             {tc.count !== undefined && tc.count > 0 && (
