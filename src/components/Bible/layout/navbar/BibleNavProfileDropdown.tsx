@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useClerk, useUser } from "@clerk/nextjs";
-import { LogOut, User, Settings } from "lucide-react";
+import { LogOut, User, Check, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +24,7 @@ const BADGE_BASE =
 export function BibleNavProfileDropdown() {
   const { user } = useUser();
   const { openUserProfile, signOut } = useClerk();
+  const [confirmSignOut, setConfirmSignOut] = useState(false);
   const { fontSize, setFontSize, globalLanguage, handleLanguageChange, intl } = useBibleNavData();
 
   const avatarUrl = user?.imageUrl;
@@ -131,11 +134,54 @@ export function BibleNavProfileDropdown() {
 
         {/* Sign out */}
         <DropdownMenuItem
-          onClick={() => signOut({ redirectUrl: "/waitlist" })}
-          className="cursor-pointer gap-2 text-sm text-destructive focus:text-destructive"
+          onSelect={(e) => e.preventDefault()}
+          className="cursor-pointer overflow-hidden p-0 focus:bg-transparent"
         >
-          <LogOut className="h-3.5 w-3.5 shrink-0" />
-          {intl.t("navSignOut")}
+          <div className="relative w-full overflow-hidden">
+            <AnimatePresence mode="wait" initial={false}>
+              {!confirmSignOut ? (
+                <motion.button
+                  key="signout"
+                  type="button"
+                  onClick={() => setConfirmSignOut(true)}
+                  className="flex w-full items-center gap-2 px-2 py-1.5 text-sm text-destructive hover:bg-destructive/8 rounded-sm transition-colors"
+                  initial={{ x: 0, opacity: 1 }}
+                  exit={{ x: -40, opacity: 0 }}
+                  transition={{ duration: 0.18, ease: "easeIn" }}
+                >
+                  <LogOut className="h-3.5 w-3.5 shrink-0" />
+                  {intl.t("navSignOut")}
+                </motion.button>
+              ) : (
+                <motion.div
+                  key="confirm"
+                  className="flex w-full items-center gap-2 px-2 py-1.5"
+                  initial={{ x: 40, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: 40, opacity: 0 }}
+                  transition={{ duration: 0.18, ease: "easeOut" }}
+                >
+                  <span className="flex-1 text-xs text-muted-foreground">
+                    {globalLanguage === "VI" ? "Xác nhận?" : "Confirm?"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => signOut({ redirectUrl: "/bible" })}
+                    className="flex items-center gap-1 rounded-lg bg-destructive px-2.5 py-1 text-xs font-semibold text-white hover:opacity-90 transition-opacity"
+                  >
+                    <Check className="h-3 w-3" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmSignOut(false)}
+                    className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
