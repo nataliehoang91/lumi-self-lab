@@ -825,7 +825,8 @@ export function StudyHubClient({
             return (
               <button key={raw} type="button" onClick={() => setActiveTag(isActive ? null : raw)}
                 className={cn(buttonClass, "inline-flex items-center gap-1 rounded-full border px-3 py-1 font-medium transition-all",
-                  isActive ? TAG_COLOR_CLASSES[color] : "border-border text-muted-foreground hover:text-foreground")}>
+                  TAG_COLOR_CLASSES[color],
+                  !isActive && "opacity-50 hover:opacity-80")}>
                 <Tag className="h-3 w-3" />{label}
               </button>
             );
