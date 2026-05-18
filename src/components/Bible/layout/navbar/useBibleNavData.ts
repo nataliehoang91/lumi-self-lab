@@ -23,6 +23,8 @@ export function useBibleNavData() {
   const isGlossary =
     pathname?.includes("/bible/") &&
     (pathname?.includes("/flashcard") || pathname?.includes("/glossary"));
+  const isArticles =
+    pathname?.includes("/bible/") && pathname?.includes("/learn/deep-dive");
   const isStudy = (pathname?.includes("/bible/") && pathname?.includes("/study")) ?? false;
 
   const learnLang = globalLanguage === "VI" ? "vi" : "en";
@@ -48,6 +50,7 @@ export function useBibleNavData() {
     { href: `/bible/${learnLang}/learn/who-is-jesus`, label: intl.t("langPageJ1Link3"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/who-is-jesus")) ?? false },
     { href: `/bible/${learnLang}/learn/what-happens-after-death`, label: intl.t("langPageJ1Link4"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/what-happens-after-death")) ?? false },
     { href: `/bible/${learnLang}/learn/what-is-faith`, label: intl.t("langPageJ1Link5"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/learn/what-is-faith")) ?? false },
+    { href: `/bible/${learnLang}/learn/deep-dive`, label: intl.t("langPageNavArticles"), isActive: isArticles },
   ];
 
   const bibleLinks: NavLink[] = [
@@ -66,6 +69,8 @@ export function useBibleNavData() {
     { href: `/bible/${langSegment}/study`, label: intl.t("navStudyLists"), isActive: (pathname?.startsWith("/bible/") && pathname?.includes("/study")) ?? false },
   ];
 
+  const articlesHref = `/bible/${langSegment}/learn/deep-dive`;
+
   return {
     pathname,
     intl,
@@ -75,9 +80,11 @@ export function useBibleNavData() {
     bibleLinks,
     glossaryLinks,
     studyLinks,
+    articlesHref,
     isLearn,
     isBible,
     isGlossary,
+    isArticles,
     isStudy,
     handleLanguageChange,
     globalLanguage,

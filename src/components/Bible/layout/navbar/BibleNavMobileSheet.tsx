@@ -3,7 +3,8 @@
 import Link from "next/link";
 import {
   SquareMenu, Play, LayoutGrid, BookMarked, User, Sparkles, Heart,
-  BookOpen, Library, Compass, Clock, Layers, MoreHorizontal, List,
+  BookOpen, Library, Compass, Clock, Layers, MoreHorizontal, List, Newspaper,
+  BookOpenText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -83,7 +84,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function BibleNavMobileSheet({ open, onOpenChange }: BibleNavMobileSheetProps) {
-  const { learnLinks, bibleLinks, glossaryLinks, studyLinks, learnLang, intl } = useBibleNavData();
+  const { learnLinks, bibleLinks, glossaryLinks, studyLinks, articlesHref, isArticles, learnLang, intl } = useBibleNavData();
   const close = () => onOpenChange(false);
 
   return (
@@ -147,6 +148,22 @@ export function BibleNavMobileSheet({ open, onOpenChange }: BibleNavMobileSheetP
                     onClose={close}
                   />
                 ))}
+              </ul>
+            </section>
+
+            <div className="border-t" />
+
+            {/* Articles */}
+            <section>
+              <SectionLabel>{intl.t("langPageNavArticles")}</SectionLabel>
+              <ul className="space-y-0.5">
+                <NavItem
+                  href={articlesHref}
+                  label={intl.t("langPageNavArticles")}
+                  isActive={isArticles}
+                  icon={Newspaper}
+                  onClose={close}
+                />
               </ul>
             </section>
 

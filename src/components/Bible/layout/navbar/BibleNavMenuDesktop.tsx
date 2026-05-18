@@ -100,37 +100,69 @@ export function BibleNavMenuDesktop() {
               {intl.t("langPageNavLearn")}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <NavigationMenuLink asChild>
-                <Link
-                  href={learnLinks[0].href}
-                  className={cn(
-                    "group/item text-foreground relative flex w-full flex-row items-center justify-start overflow-visible rounded-lg px-2 py-1.5 text-left text-sm font-semibold whitespace-nowrap transition-colors duration-200 outline-none hover:bg-transparent active:scale-[0.98]",
-                    learnLinks[0].isActive && "bg-primary-light/20"
-                  )}
-                >
-                  {!learnLinks[0].isActive && (
-                    <span className="bg-primary-dark absolute bottom-0 left-0 h-0.5 w-0 rounded-full transition-[width] duration-200 ease-out group-hover/item:w-full" />
-                  )}
-                  <span className="whitespace-nowrap">{learnLinks[0].label}</span>
-                </Link>
-              </NavigationMenuLink>
-              <div className="bg-border my-1 h-px" />
-              {learnLinks.slice(1).map((link) => (
-                <NavigationMenuLink key={link.href} asChild>
-                  <Link
-                    href={link.href}
-                    className={cn(
-                      "group/item text-foreground relative flex w-full flex-row items-center justify-start overflow-visible rounded-lg px-2 py-1.5 text-left text-sm whitespace-nowrap transition-colors duration-200 outline-none hover:bg-transparent active:scale-[0.98]",
-                      link.isActive && "bg-primary-light/20"
-                    )}
-                  >
-                    {!link.isActive && (
-                      <span className="bg-primary-dark absolute bottom-0 left-0 h-0.5 w-0 rounded-full transition-[width] duration-200 ease-out group-hover/item:w-full" />
-                    )}
-                    <span className="whitespace-nowrap">{link.label}</span>
-                  </Link>
-                </NavigationMenuLink>
-              ))}
+              <div className="flex w-[480px] gap-0">
+                {/* Col 1: modules */}
+                <div className="flex-1 p-2">
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={learnLinks[0].href}
+                      className={cn(
+                        "group/item text-foreground relative flex w-full flex-row items-center justify-start overflow-visible rounded-lg px-2 py-1.5 text-left text-sm font-semibold whitespace-nowrap transition-colors duration-200 outline-none hover:bg-transparent active:scale-[0.98]",
+                        learnLinks[0].isActive && "bg-primary-light/20"
+                      )}
+                    >
+                      {!learnLinks[0].isActive && (
+                        <span className="bg-primary-dark absolute bottom-0 left-0 h-0.5 w-0 rounded-full transition-[width] duration-200 ease-out group-hover/item:w-full" />
+                      )}
+                      <span className="whitespace-nowrap">{learnLinks[0].label}</span>
+                    </Link>
+                  </NavigationMenuLink>
+                  <div className="bg-border my-1 h-px" />
+                  {learnLinks.slice(1, -1).map((link) => (
+                    <NavigationMenuLink key={link.href} asChild>
+                      <Link
+                        href={link.href}
+                        className={cn(
+                          "group/item text-foreground relative flex w-full flex-row items-center justify-start overflow-visible rounded-lg px-2 py-1.5 text-left text-sm whitespace-nowrap transition-colors duration-200 outline-none hover:bg-transparent active:scale-[0.98]",
+                          link.isActive && "bg-primary-light/20"
+                        )}
+                      >
+                        {!link.isActive && (
+                          <span className="bg-primary-dark absolute bottom-0 left-0 h-0.5 w-0 rounded-full transition-[width] duration-200 ease-out group-hover/item:w-full" />
+                        )}
+                        <span className="whitespace-nowrap">{link.label}</span>
+                      </Link>
+                    </NavigationMenuLink>
+                  ))}
+                </div>
+
+                {/* Divider */}
+                <div className="bg-border w-px self-stretch my-2" />
+
+                {/* Col 2: Deep Dive */}
+                <div className="w-44 p-2">
+                  {(() => {
+                    const deepDive = learnLinks[learnLinks.length - 1];
+                    return (
+                      <NavigationMenuLink asChild>
+                        <Link
+                          href={deepDive.href}
+                          className={cn(
+                            "group/item relative flex w-full flex-col justify-start rounded-lg px-2 py-2 text-left outline-none transition-colors duration-200 hover:bg-transparent active:scale-[0.98]",
+                            deepDive.isActive && "bg-primary-light/20"
+                          )}
+                        >
+                          {!deepDive.isActive && (
+                            <span className="bg-primary-dark absolute bottom-0 left-0 h-0.5 w-0 rounded-full transition-[width] duration-200 ease-out group-hover/item:w-full" />
+                          )}
+                          <span className="text-sm font-semibold text-foreground whitespace-nowrap">{deepDive.label}</span>
+                          <span className="mt-1 text-xs text-muted-foreground leading-snug">{intl.t("langPageNavArticlesDesc")}</span>
+                        </Link>
+                      </NavigationMenuLink>
+                    );
+                  })()}
+                </div>
+              </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <span className="bg-border mx-1 h-4 w-px" aria-hidden />

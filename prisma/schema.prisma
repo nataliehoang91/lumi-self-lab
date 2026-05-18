@@ -470,11 +470,14 @@ model ExperimentFieldResponse {
 
 model BibleDeepDive {
   id             String    @id @default(cuid())
-  slug           String    @unique  // URL-friendly key e.g. "john-17-chosen"
+  slug           String    // URL-friendly key e.g. "john-17-chosen"
   lang           String    // "en" | "vi"
   title          String
   scriptureRef   String    // e.g. "John 17:6-10"
   scriptureText  String    @db.Text
+  coverImage     String?   // URL to cover image
+  sourceUrl      String?   // Reference source URL (we do not copy; for attribution)
+  sourceLabel    String?   // e.g. "Our Daily Bread, May 2025"
   reflection     String    @db.Text
   application    String?   @db.Text
   prayer         String?   @db.Text
@@ -484,6 +487,7 @@ model BibleDeepDive {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
+  @@unique([slug, lang])
   @@index([lang, isPublished, publishedAt])
 }
 
