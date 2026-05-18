@@ -24,6 +24,7 @@ import {
   deleteNote,
   toggleHighlight,
   togglePublicShare,
+  updateStudyList,
 } from "@/app/actions/bible/study";
 import type { ChapterInsightData } from "@/app/actions/bible/insights";
 import { getInsightsForChapter } from "@/app/actions/bible/insights";
@@ -171,6 +172,44 @@ const INTL = {
     },
   },
 } as const;
+
+// ── Tag color helpers ─────────────────────────────────────────────────────────
+
+const TAG_COLOR_KEYS = ["sage", "peach", "rose", "sky", "lavender"] as const;
+type TagColorKey = typeof TAG_COLOR_KEYS[number];
+
+const TAG_COLOR_CLASSES: Record<TagColorKey, string> = {
+  sage:     "bg-sage/15 border-sage/30 text-sage",
+  peach:    "bg-tertiary/20 border-tertiary/40 text-tertiary-foreground",
+  rose:     "bg-coral/15 border-coral/30 text-coral",
+  sky:      "bg-sky-blue/15 border-sky-blue/30 text-sky-blue",
+  lavender: "bg-second/15 border-second/30 text-second",
+};
+
+const TAG_SWATCH_CLASSES: Record<TagColorKey, string> = {
+  sage:     "bg-sage",
+  peach:    "bg-tertiary",
+  rose:     "bg-coral",
+  sky:      "bg-sky-blue",
+  lavender: "bg-second",
+};
+
+function hashTagColor(label: string): TagColorKey {
+  let h = 0;
+  for (let i = 0; i < label.length; i++) h = (h * 31 + label.charCodeAt(i)) >>> 0;
+  return TAG_COLOR_KEYS[h % TAG_COLOR_KEYS.length]!;
+}
+
+function parseTag(raw: string): { color: TagColorKey; label: string } {
+  const sep = raw.indexOf("|");
+  if (sep > 0) {
+    const maybeColor = raw.slice(0, sep) as TagColorKey;
+    if ((TAG_COLOR_KEYS as readonly string[]).includes(maybeColor)) {
+      return { color: maybeColor, label: raw.slice(sep + 1) };
+    }
+  }
+  return { color: hashTagColor(raw), label: raw };
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -851,6 +890,9 @@ export function StudyReaderShell({
   const [shareMsg, setShareMsg] = useState<string | null>(null);
   const [, startStudied] = useTransition();
   const [, startShare] = useTransition();
+  const [, startTagUpdate] = useTransition();
+  const [editingTagColor, setEditingTagColor] = useState<string | null>(null);
+  const [listTags, setListTags] = useState<string[]>(list.tags);
   // Per-chapter highlighted-only toggle: key = `${bookId}:${chapter}`
   const [highlightedOnlySet, setHighlightedOnlySet] = useState<Set<string>>(new Set());
   const toggleHighlightedOnly = (key: string) =>
@@ -1072,13 +1114,52 @@ export function StudyReaderShell({
             <p className="text-muted-foreground mb-1 text-xs tracking-[0.18em] uppercase">{t.studyList}</p>
             <h1 className="text-foreground text-2xl font-semibold">{list.title}</h1>
             {list.description && <p className="text-muted-foreground mt-1 max-w-xl text-sm">{list.description}</p>}
-            {list.tags.length > 0 && (
+            {listTags.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-1.5">
-                {list.tags.map((tag) => (
-                  <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-500 dark:bg-slate-800/50 dark:text-slate-400">
-                    <Tag className="h-2.5 w-2.5" />{tag}
-                  </span>
-                ))}
+                {listTags.map((raw) => {
+                  const { color, label } = parseTag(raw);
+                  const isPickingColor = editingTagColor === raw;
+                  return (
+                    <div key={raw} className="relative">
+                      <button
+                        type="button"
+                        onClick={() => setEditingTagColor(isPickingColor ? null : raw)}
+                        className={cn(
+                          "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium transition-all",
+                          TAG_COLOR_CLASSES[color],
+                          isPickingColor && "ring-2 ring-offset-1 ring-current"
+                        )}
+                      >
+                        <Tag className="h-2.5 w-2.5" />{label}
+                      </button>
+                      {isPickingColor && (
+                        <div className="absolute top-full left-0 z-20 mt-1 flex items-center gap-1 rounded-xl border border-border bg-background px-2 py-1.5 shadow-lg">
+                          {TAG_COLOR_KEYS.map((ck) => (
+                            <button
+                              key={ck}
+                              type="button"
+                              title={ck}
+                              onClick={() => {
+                                const newRaw = `${ck}|${label}`;
+                                const newTags = listTags.map((t) => t === raw ? newRaw : t);
+                                setListTags(newTags);
+                                setEditingTagColor(null);
+                                startTagUpdate(async () => {
+                                  await updateStudyList({ listId: list.id, tags: newTags });
+                                });
+                              }}
+                              className={cn(
+                                "h-4 w-4 rounded-full border-2 transition-transform hover:scale-110",
+                                TAG_SWATCH_CLASSES[ck],
+                                color === ck ? "border-foreground" : "border-transparent"
+                              )}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -1120,42 +1201,42 @@ export function StudyReaderShell({
 
         {/* Stats bar */}
         {totalSelected > 0 && (
-          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-amber-400/70 bg-amber-50/50 px-4 py-3 text-xs dark:border-amber-700/40 dark:bg-amber-950/10">
+          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-border/50 bg-background/60 px-4 py-3 text-xs shadow-sm">
             {/* Books badge */}
             <span className="flex items-center gap-1.5">
-              <span className="text-[11px] font-bold text-amber-900/80 dark:text-amber-300">{t.otLabel === "OT" ? "Books" : "Sách"}</span>
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] font-bold text-amber-900 dark:bg-amber-800/50 dark:text-amber-200">{uniqueBooks}</span>
+              <span className="text-[11px] font-bold text-foreground/60">{t.otLabel === "OT" ? "Books" : "Sách"}</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-coral/20 text-[10px] font-bold text-coral">{uniqueBooks}</span>
             </span>
-            <span className="h-3 w-px bg-amber-300/60" />
+            <span className="h-3 w-px bg-border" />
             {/* Chapters badge */}
             <span className="flex items-center gap-1.5">
-              <span className="text-[11px] font-bold text-amber-900/80 dark:text-amber-300">{t.otLabel === "OT" ? "Chapters" : "Chương"}</span>
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] font-bold text-amber-900 dark:bg-amber-800/50 dark:text-amber-200">{totalSelected}</span>
+              <span className="text-[11px] font-bold text-foreground/60">{t.otLabel === "OT" ? "Chapters" : "Chương"}</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-blue/20 text-[10px] font-bold text-sky-blue">{totalSelected}</span>
             </span>
             {otCount > 0 && (
               <>
-                <span className="h-3 w-px bg-amber-300/60" />
+                <span className="h-3 w-px bg-border" />
                 <span className="flex items-center gap-1.5">
-                  <span className="text-[11px] font-bold text-amber-900/80 dark:text-amber-300">{t.otLabel}</span>
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] font-bold text-amber-900 dark:bg-amber-800/50 dark:text-amber-200">{otCount}</span>
+                  <span className="text-[11px] font-bold text-foreground/60">{t.otLabel}</span>
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-tertiary/25 text-[10px] font-bold text-tertiary-foreground">{otCount}</span>
                 </span>
               </>
             )}
             {ntCount > 0 && (
               <>
-                <span className="h-3 w-px bg-amber-300/60" />
+                <span className="h-3 w-px bg-border" />
                 <span className="flex items-center gap-1.5">
-                  <span className="text-[11px] font-bold text-amber-900/80 dark:text-amber-300">{t.ntLabel}</span>
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-200 text-[10px] font-bold text-amber-900 dark:bg-amber-800/50 dark:text-amber-200">{ntCount}</span>
+                  <span className="text-[11px] font-bold text-foreground/60">{t.ntLabel}</span>
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-second/20 text-[10px] font-bold text-second">{ntCount}</span>
                 </span>
               </>
             )}
             {/* Progress */}
             <div className="flex flex-1 items-center gap-2">
-              <div className="bg-amber-100 h-1.5 flex-1 overflow-hidden rounded-full dark:bg-amber-950/30">
-                <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, background: "linear-gradient(to right, #f59e0b, #fde68a)" }} />
+              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted/60 border border-border/30">
+                <div className="h-full rounded-full transition-all" style={{ width: `${Math.round((totalStudied / totalSelected) * 100)}%`, background: "linear-gradient(to right, var(--coral), var(--primary))" }} />
               </div>
-              <span className="text-amber-800/70 shrink-0 text-[11px] font-semibold dark:text-amber-400/70">{t.studied(totalStudied, totalSelected)}</span>
+              <span className="shrink-0 text-[11px] font-semibold text-muted-foreground">{t.studied(totalStudied, totalSelected)}</span>
             </div>
           </div>
         )}

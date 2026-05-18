@@ -208,59 +208,105 @@ function ContinueTodayBanner({
 
 // ── Tag color palette ─────────────────────────────────────────────────────────
 
-const TAG_COLORS = [
-  "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/20 dark:text-orange-300 dark:border-orange-800/30",
-  "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-300 dark:border-amber-800/30",
-  "bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-950/20 dark:text-rose-300 dark:border-rose-800/30",
-  "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/20 dark:text-red-300 dark:border-red-800/30",
-  "bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-950/20 dark:text-yellow-300 dark:border-yellow-800/30",
-  "bg-stone-100 text-stone-600 border-stone-200 dark:bg-stone-950/20 dark:text-stone-300 dark:border-stone-800/30",
-  "bg-pink-50 text-pink-700 border-pink-200 dark:bg-pink-950/20 dark:text-pink-300 dark:border-pink-800/30",
-  "bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-950/25 dark:text-orange-200 dark:border-orange-700/40",
-];
+const TAG_COLOR_KEYS = ["sage", "peach", "rose", "sky", "lavender"] as const;
+type TagColorKey = typeof TAG_COLOR_KEYS[number];
 
-const CARD_BORDER_COLORS = [
-  "border-t-orange-400",
-  "border-t-orange-400",
-  "border-t-orange-400",
-  "border-t-orange-400",
-  "border-t-orange-400",
-  "border-t-orange-400",
-  "border-t-orange-400",
-  "border-t-orange-400",
-];
+const TAG_COLOR_CLASSES: Record<TagColorKey, string> = {
+  sage:     "bg-sage/15 border-sage/30 text-sage",
+  peach:    "bg-tertiary/20 border-tertiary/40 text-tertiary-foreground",
+  rose:     "bg-coral/15 border-coral/30 text-coral",
+  sky:      "bg-sky-blue/15 border-sky-blue/30 text-sky-blue",
+  lavender: "bg-second/15 border-second/30 text-second",
+};
 
-function strHash(s: string): number {
+const TAG_SWATCH_CLASSES: Record<TagColorKey, string> = {
+  sage:     "bg-sage",
+  peach:    "bg-tertiary",
+  rose:     "bg-coral",
+  sky:      "bg-sky-blue",
+  lavender: "bg-second",
+};
+
+function hashTagColor(label: string): TagColorKey {
   let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-  return h;
+  for (let i = 0; i < label.length; i++) h = (h * 31 + label.charCodeAt(i)) >>> 0;
+  return TAG_COLOR_KEYS[h % TAG_COLOR_KEYS.length]!;
+}
+
+function parseTag(raw: string): { color: TagColorKey; label: string } {
+  const sep = raw.indexOf("|");
+  if (sep > 0) {
+    const maybeColor = raw.slice(0, sep) as TagColorKey;
+    if ((TAG_COLOR_KEYS as readonly string[]).includes(maybeColor)) {
+      return { color: maybeColor, label: raw.slice(sep + 1) };
+    }
+  }
+  return { color: hashTagColor(raw), label: raw };
 }
 
 // ── Tag Pill ──────────────────────────────────────────────────────────────────
 
-function TagPill({ tag, onRemove }: { tag: string; onRemove?: () => void }) {
-  const colorClass = TAG_COLORS[strHash(tag) % TAG_COLORS.length]!;
+function TagPill({ tag, onRemove, onColorChange, sizeClass }: {
+  tag: string;
+  onRemove?: () => void;
+  onColorChange?: (newRaw: string) => void;
+  sizeClass?: string;
+}) {
+  const { color, label } = parseTag(tag);
+  const [showPicker, setShowPicker] = useState(false);
+
   return (
-    <span className={cn("inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium", colorClass)}>
-      {tag}
-      {onRemove && (
-        <button type="button" onClick={onRemove} className="opacity-60 hover:opacity-100">
-          <X className="h-2.5 w-2.5" />
-        </button>
+    <div className="relative">
+      <span className={cn("inline-flex items-center gap-1 rounded-full border px-2.5 py-1 font-medium", sizeClass, TAG_COLOR_CLASSES[color])}>
+        {onColorChange ? (
+          <button
+            type="button"
+            onClick={() => setShowPicker((v) => !v)}
+            className="leading-none"
+          >
+            {label}
+          </button>
+        ) : label}
+        {onRemove && (
+          <button type="button" onClick={onRemove} className="opacity-60 hover:opacity-100 leading-none">
+            <X className="h-3 w-3" />
+          </button>
+        )}
+      </span>
+      {showPicker && onColorChange && (
+        <div className="absolute top-full left-0 z-20 mt-1 flex items-center gap-1.5 rounded-xl border border-border bg-background px-2.5 py-2 shadow-lg">
+          {TAG_COLOR_KEYS.map((ck) => (
+            <button
+              key={ck}
+              type="button"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                onColorChange(`${ck}|${label}`);
+                setShowPicker(false);
+              }}
+              className={cn(
+                "h-4 w-4 rounded-full border-2 transition-transform hover:scale-110",
+                TAG_SWATCH_CLASSES[ck],
+                color === ck ? "border-foreground scale-110" : "border-transparent"
+              )}
+            />
+          ))}
+        </div>
       )}
-    </span>
+    </div>
   );
 }
 
 // ── Study List Card ───────────────────────────────────────────────────────────
 
 function StudyListCard({
-  list: initialList, lang, t,
+  list: initialList, lang, t, allTags: globalTags,
   onFavorite, onArchive, onDelete, onTagsChange, onTitleChange,
 }: {
   list: BibleStudyListWithCount;
   lang: string;
   t: TDict;
+  allTags: string[];
   onFavorite: (id: string) => void;
   onArchive: (id: string) => void;
   onDelete: (id: string) => void;
@@ -272,6 +318,7 @@ function StudyListCard({
   const [list, setList] = useState(initialList);
   const [editingTags, setEditingTags] = useState(false);
   const [tagInput, setTagInput] = useState("");
+  const [tagColor, setTagColor] = useState<TagColorKey>("sage");
   const [localTags, setLocalTags] = useState(list.tags);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -285,11 +332,23 @@ function StudyListCard({
 
   useEffect(() => { setList(initialList); }, [initialList]);
   useEffect(() => { if (editing) titleInputRef.current?.focus(); }, [editing]);
+  useEffect(() => {
+    if (!editingTags) return;
+    const handler = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (!(target as Element).closest?.("[data-tag-dropdown]")) setEditingTags(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [editingTags]);
 
   const addTag = () => {
-    const tag = tagInput.trim().toLowerCase();
-    if (!tag || localTags.includes(tag)) { setTagInput(""); return; }
-    const next = [...localTags, tag];
+    const label = tagInput.trim().toLowerCase();
+    if (!label) { setTagInput(""); return; }
+    const existingLabels = localTags.map((t) => parseTag(t).label);
+    if (existingLabels.includes(label)) { setTagInput(""); return; }
+    const raw = `${tagColor}|${label}`;
+    const next = [...localTags, raw];
     setLocalTags(next);
     setTagInput("");
     startTagTransition(async () => { await updateStudyList({ listId: list.id, tags: next }); onTagsChange(list.id, next); });
@@ -297,6 +356,12 @@ function StudyListCard({
 
   const removeTag = (tag: string) => {
     const next = localTags.filter((t) => t !== tag);
+    setLocalTags(next);
+    startTagTransition(async () => { await updateStudyList({ listId: list.id, tags: next }); onTagsChange(list.id, next); });
+  };
+
+  const changeTagColor = (oldRaw: string, newRaw: string) => {
+    const next = localTags.map((t) => t === oldRaw ? newRaw : t);
     setLocalTags(next);
     startTagTransition(async () => { await updateStudyList({ listId: list.id, tags: next }); onTagsChange(list.id, next); });
   };
@@ -352,12 +417,12 @@ function StudyListCard({
             />
             <div className="flex gap-2">
               <button type="button" onClick={handleSaveEdit}
-                className="flex items-center gap-1 rounded-lg bg-primary px-2.5 py-1 text-[11px] font-semibold text-primary-foreground">
+                className={cn(buttonClass, "flex items-center gap-1 rounded-lg bg-primary px-2.5 py-1 font-semibold text-primary-foreground")}>
                 <Check className="h-3 w-3" />{t.saveEdit}
               </button>
               <button type="button"
                 onClick={() => { setEditing(false); setEditTitle(list.title); setEditDesc(list.description ?? ""); }}
-                className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">
+                className={cn(buttonClass, "text-muted-foreground hover:text-foreground transition-colors")}>
                 {t.cancelEdit}
               </button>
             </div>
@@ -398,26 +463,76 @@ function StudyListCard({
       </div>
 
       {confirmDelete && (
-        <div className="bg-destructive/5 border-b border-destructive/10 px-4 py-1.5 text-[11px] text-destructive">
+        <div className={cn(buttonClass, "bg-destructive/5 border-b border-destructive/10 px-4 py-1.5 text-destructive")}>
           {t.confirmDelete}
         </div>
       )}
 
       {/* Tags */}
-      <div className="flex flex-wrap items-center gap-1.5 px-4 pt-2" onClick={(e) => e.stopPropagation()}>
-        {localTags.map((tag) => (
-          <TagPill key={tag} tag={tag} onRemove={() => removeTag(tag)} />
-        ))}
-        {editingTags ? (
-          <input autoFocus value={tagInput} onChange={(e) => setTagInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } if (e.key === "Escape") setEditingTags(false); }}
-            onBlur={() => { addTag(); setEditingTags(false); }}
-            placeholder={t.tag} className="bg-muted h-5 w-20 rounded px-1.5 text-[10px] outline-none" />
-        ) : (
-          <button type="button" onClick={() => setEditingTags(true)}
-            className="text-muted-foreground hover:text-foreground flex items-center gap-0.5 text-[10px] transition-colors">
-            <Tag className="h-2.5 w-2.5" /><span>{t.tag}</span>
+      <div className="relative px-4 pt-2.5" data-tag-dropdown onClick={(e) => e.stopPropagation()}>
+        <div className="flex flex-wrap items-center gap-1.5">
+          {localTags.map((tag) => (
+            <TagPill
+              key={tag}
+              tag={tag}
+              sizeClass={buttonClass}
+              onRemove={() => removeTag(tag)}
+              onColorChange={(newRaw) => changeTagColor(tag, newRaw)}
+            />
+          ))}
+          <button type="button" onClick={() => setEditingTags((v) => !v)}
+            className={cn(buttonClass, "text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors")}>
+            <Tag className="h-3 w-3" /><span>{t.tag}</span>
           </button>
+        </div>
+        {editingTags && (
+          <div className="absolute left-0 top-full z-30 mt-1 w-64 rounded-xl border border-border bg-background p-3 shadow-lg">
+            {/* Existing global tags not yet on this list */}
+            {globalTags.filter((raw) => !localTags.includes(raw)).length > 0 && (
+              <div className="mb-2.5">
+                <p className={cn(buttonClass, "mb-1.5 text-muted-foreground")}>{lang === "vi" ? "Chọn nhãn" : "Pick existing"}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {globalTags.filter((raw) => !localTags.includes(raw)).map((raw) => {
+                    const { color, label } = parseTag(raw);
+                    return (
+                      <button key={raw} type="button"
+                        onMouseDown={(e) => { e.preventDefault(); }}
+                        onClick={() => {
+                          const next = [...localTags, raw];
+                          setLocalTags(next);
+                          setEditingTags(false);
+                          startTagTransition(async () => { await updateStudyList({ listId: list.id, tags: next }); onTagsChange(list.id, next); });
+                        }}
+                        className={cn("inline-flex items-center gap-1 rounded-full border px-2 py-0.5 font-medium transition-all hover:opacity-80", buttonClass, TAG_COLOR_CLASSES[color])}>
+                        + {label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="my-2 h-px bg-border" />
+              </div>
+            )}
+            {/* New tag input with color picker */}
+            <p className={cn(buttonClass, "mb-1.5 text-muted-foreground")}>{lang === "vi" ? "Tạo nhãn mới" : "New tag"}</p>
+            <div className="flex items-center gap-1.5 mb-2">
+              {TAG_COLOR_KEYS.map((ck) => (
+                <button key={ck} type="button"
+                  onMouseDown={(e) => { e.preventDefault(); setTagColor(ck); }}
+                  className={cn("h-4 w-4 rounded-full border-2 transition-transform hover:scale-110", TAG_SWATCH_CLASSES[ck], tagColor === ck ? "border-foreground scale-110" : "border-transparent")}
+                />
+              ))}
+            </div>
+            <div className="flex items-center gap-1.5">
+              <input autoFocus value={tagInput} onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } if (e.key === "Escape") setEditingTags(false); }}
+                placeholder={t.tag}
+                className={cn(buttonClass, "flex-1 rounded-lg border border-border bg-muted/30 px-2 py-1 outline-none focus:border-primary/50")} />
+              <button type="button" onClick={() => { addTag(); setEditingTags(false); }}
+                className="rounded-lg bg-primary px-2.5 py-1.5 text-primary-foreground transition-opacity hover:opacity-90">
+                <Check className="h-3 w-3" />
+              </button>
+            </div>
+          </div>
         )}
       </div>
 
@@ -433,11 +548,11 @@ function StudyListCard({
         {list.passageCount > 0 && (
           <div className="mb-1.5 mt-2">
             <div className="bg-muted h-1 w-full overflow-hidden rounded-full">
-              <div className="h-full rounded-full bg-indigo-400 transition-all dark:bg-indigo-500" style={{ width: `${progressPct}%` }} />
+              <div className="h-full rounded-full transition-all" style={{ width: `${progressPct}%`, background: "linear-gradient(to right, var(--coral), var(--primary))" }} />
             </div>
           </div>
         )}
-        <div className="text-muted-foreground flex items-center justify-between pb-3 text-xs">
+        <div className={cn(buttonClass, "text-muted-foreground flex items-center justify-between pb-3")}>
           <span className="inline-flex items-center gap-1">
             <BookOpen className="h-3.5 w-3.5" />
             {list.passageCount} {t.chapters(list.passageCount)}
@@ -455,7 +570,7 @@ function StudyListCard({
           <button
             type="button"
             onClick={() => setChecklistOpen((v) => !v)}
-            className="flex w-full items-center justify-between border-t border-border/50 px-4 py-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className={cn(buttonClass, "flex w-full items-center justify-between border-t border-border/50 px-4 py-2.5 text-muted-foreground hover:text-foreground transition-colors")}
           >
             <span className="flex items-center gap-1.5">
               <ListChecks className="h-3.5 w-3.5" />
@@ -549,13 +664,36 @@ export function StudyHubClient({
   const [lists, setLists] = useState(initialLists);
   const [archived, setArchived] = useState(initialArchived);
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [pendingTags, setPendingTags] = useState<string[]>([]);
+  const [addingTag, setAddingTag] = useState(false);
+  const [newTagInput, setNewTagInput] = useState("");
+  const [newTagColor, setNewTagColor] = useState<TagColorKey>("sage");
   const [, startTransition] = useTransition();
 
   useEffect(() => { setLists(initialLists); }, [initialLists]);
   useEffect(() => { setArchived(initialArchived); }, [initialArchived]);
+  useEffect(() => {
+    if (!addingTag) return;
+    const handler = (e: MouseEvent) => {
+      if (!(e.target as Element).closest?.("[data-hub-tag-dropdown]")) setAddingTag(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [addingTag]);
+
+  const addGlobalTag = () => {
+    const label = newTagInput.trim().toLowerCase();
+    if (!label) { setNewTagInput(""); return; }
+    const raw = `${newTagColor}|${label}`;
+    const existingLabels = allTags.map((t) => parseTag(t).label);
+    if (!existingLabels.includes(label)) setPendingTags((prev) => [...prev, raw]);
+    setNewTagInput("");
+    setAddingTag(false);
+  };
 
   const favorites = lists.filter((l) => l.isFavorite);
-  const allTags = Array.from(new Set(lists.flatMap((l) => l.tags))).sort();
+  const listTags = Array.from(new Set(lists.flatMap((l) => l.tags)));
+  const allTags = Array.from(new Set([...listTags, ...pendingTags])).sort((a, b) => parseTag(a).label.localeCompare(parseTag(b).label));
   const totalStudied = lists.reduce((sum, l) => sum + l.studiedCount, 0);
   const activeLists = lists.filter((l) => l.passageCount > 0 && l.studiedCount < l.passageCount).length;
 
@@ -643,21 +781,54 @@ export function StudyHubClient({
         ))}
       </div>
 
-      {/* Tag filter */}
-      {allTags.length > 0 && tab !== "archived" && (
+      {/* Tag filter — always visible when not archived */}
+      {tab !== "archived" && (
         <div className="mb-4 flex flex-wrap items-center gap-1.5">
           <button type="button" onClick={() => setActiveTag(null)}
-            className={cn("rounded-full border px-3 py-1 text-[11px] font-medium transition-all",
-              activeTag === null ? "border-second/40 bg-second/10 text-second" : "border-border text-muted-foreground hover:border-second/30 hover:text-foreground")}>
+            className={cn(buttonClass, "rounded-full border px-3 py-1 font-medium transition-all",
+              activeTag === null ? "border-second/40 bg-second/10 text-second" : "border-border text-muted-foreground hover:text-foreground")}>
             {t.allTags}
           </button>
-          {allTags.map((tag) => (
-            <button key={tag} type="button" onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-              className={cn("inline-flex items-center gap-1 rounded-full border px-3 py-1 text-[11px] font-medium transition-all",
-                activeTag === tag ? "border-second/40 bg-second/10 text-second" : "border-border text-muted-foreground hover:border-second/30 hover:text-foreground")}>
-              <Tag className="h-2.5 w-2.5" />{tag}
+          {allTags.map((raw) => {
+            const { color, label } = parseTag(raw);
+            const isActive = activeTag === raw;
+            return (
+              <button key={raw} type="button" onClick={() => setActiveTag(isActive ? null : raw)}
+                className={cn(buttonClass, "inline-flex items-center gap-1 rounded-full border px-3 py-1 font-medium transition-all",
+                  isActive ? TAG_COLOR_CLASSES[color] : "border-border text-muted-foreground hover:text-foreground")}>
+                <Tag className="h-3 w-3" />{label}
+              </button>
+            );
+          })}
+          {/* Add new global tag */}
+          <div className="relative" data-hub-tag-dropdown>
+            <button type="button" onClick={() => setAddingTag((v) => !v)}
+              className={cn(buttonClass, "inline-flex items-center gap-1 rounded-full border border-dashed border-border px-3 py-1 font-medium text-muted-foreground transition-all hover:border-primary/40 hover:text-primary")}>
+              <Tag className="h-3 w-3" />+
             </button>
-          ))}
+            {addingTag && (
+              <div className="absolute left-0 top-full z-30 mt-1.5 w-60 rounded-xl border border-border bg-background p-3 shadow-lg">
+                <div className="mb-2 flex items-center gap-1.5">
+                  {TAG_COLOR_KEYS.map((ck) => (
+                    <button key={ck} type="button"
+                      onMouseDown={(e) => { e.preventDefault(); setNewTagColor(ck); }}
+                      className={cn("h-4 w-4 rounded-full border-2 transition-transform hover:scale-110", TAG_SWATCH_CLASSES[ck], newTagColor === ck ? "border-foreground scale-110" : "border-transparent")}
+                    />
+                  ))}
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <input autoFocus value={newTagInput} onChange={(e) => setNewTagInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addGlobalTag(); } if (e.key === "Escape") setAddingTag(false); }}
+                    placeholder={lang === "vi" ? "Tên nhãn..." : "Tag name..."}
+                    className={cn(buttonClass, "flex-1 rounded-lg border border-border bg-muted/30 px-2 py-1 outline-none focus:border-primary/50")} />
+                  <button type="button" onClick={addGlobalTag}
+                    className="rounded-lg bg-primary px-2.5 py-1.5 text-primary-foreground transition-opacity hover:opacity-90">
+                    <Check className="h-3 w-3" />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -669,7 +840,7 @@ export function StudyHubClient({
             <p className="text-muted-foreground text-sm">{t.noArchived}</p>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence>
               {archived.map((list, i) => (
                 <motion.div key={list.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
@@ -688,21 +859,22 @@ export function StudyHubClient({
             <p className="text-foreground font-semibold">{t.createTitle}</p>
             <p className="text-muted-foreground mt-1 text-sm">{t.createSub}</p>
           </div>
-          <p className="text-muted-foreground mt-2 text-xs italic">{t.suggested}</p>
+          <NewStudyListPlaceholderCard />
+          <p className="text-muted-foreground text-xs italic">{t.suggested}</p>
         </motion.div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence>
             {visibleLists.map((list, i) => (
-              <motion.div key={list.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              <motion.div key={list.id} className="h-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.2, delay: i * 0.05 }}>
-                <StudyListCard list={list} lang={lang} t={t}
+                <StudyListCard list={list} lang={lang} t={t} allTags={allTags}
                   onFavorite={handleFavorite} onArchive={handleArchive} onDelete={handleDelete}
                   onTagsChange={handleTagsChange} onTitleChange={handleTitleChange} />
               </motion.div>
             ))}
             {tab === "all" && (
-              <motion.div key="new" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              <motion.div key="new" className="h-full" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2, delay: visibleLists.length * 0.05 }}>
                 <NewStudyListPlaceholderCard />
               </motion.div>

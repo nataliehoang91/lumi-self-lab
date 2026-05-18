@@ -5,6 +5,7 @@ import { Target, Calendar, X, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { setStudyGoal } from "@/app/actions/bible/study";
 import type { BibleStudyListWithCount } from "@/types/bible-study";
+import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 
 function computeGoal(list: BibleStudyListWithCount) {
   if (!list.targetDate) return null;
@@ -32,6 +33,7 @@ export function GoalWidget({
   );
   const [, startTransition] = useTransition();
 
+  const { buttonClass } = useBibleFontClasses();
   const goal = computeGoal(list);
 
   const handleSave = () => {
@@ -65,12 +67,12 @@ export function GoalWidget({
           value={dateValue}
           onChange={(e) => setDateValue(e.target.value)}
           min={new Date().toISOString().slice(0, 10)}
-          className="flex-1 rounded-lg border border-border bg-muted/30 px-2 py-1 text-xs text-foreground outline-none focus:border-primary/50"
+          className={cn(buttonClass, "flex-1 rounded-lg border border-border bg-muted/30 px-2 py-1 text-foreground outline-none focus:border-primary/50")}
         />
         <button
           type="button"
           onClick={handleSave}
-          className="rounded-lg bg-primary px-2 py-1 text-[10px] font-semibold text-primary-foreground"
+          className={cn(buttonClass, "rounded-lg bg-primary px-2 py-1 font-semibold text-primary-foreground")}
         >
           <Check className="h-3 w-3" />
         </button>
@@ -82,7 +84,7 @@ export function GoalWidget({
         <button
           type="button"
           onClick={() => setEditing(false)}
-          className="text-[10px] text-muted-foreground hover:text-foreground"
+          className={cn(buttonClass, "text-muted-foreground hover:text-foreground")}
         >
           {label ? "Hủy" : "Cancel"}
         </button>
@@ -99,7 +101,7 @@ export function GoalWidget({
         <button
           type="button"
           onClick={() => setEditing(true)}
-          className="flex items-center gap-1.5 text-[10px] text-muted-foreground hover:text-primary transition-colors"
+          className={cn(buttonClass, "flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors")}
         >
           <Target className="h-3 w-3" />
           {label ? "Đặt mục tiêu hoàn thành" : "Set completion goal"}
@@ -116,7 +118,7 @@ export function GoalWidget({
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5">
           <Target className="h-3 w-3 shrink-0 text-primary" />
-          <span className="text-[11px] text-foreground">
+          <span className={cn(buttonClass, "text-foreground")}>
             {goal.daysLeft <= 0
               ? (label ? "Đã đến hạn" : "Due today")
               : (label ? `${goal.daysLeft} ngày còn lại` : `${goal.daysLeft} days left`)}
@@ -124,7 +126,7 @@ export function GoalWidget({
           {goal.remaining > 0 && (
             <span
               className={cn(
-                "rounded-full px-1.5 py-0.5 text-[9px] font-semibold",
+                "rounded-full px-1.5 py-0.5 text-xs font-semibold",
                 goal.onTrack
                   ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
                   : "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400"
@@ -136,7 +138,7 @@ export function GoalWidget({
             </span>
           )}
           {goal.remaining === 0 && (
-            <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+            <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
               {label ? "Hoàn thành!" : "Complete!"}
             </span>
           )}
@@ -144,7 +146,7 @@ export function GoalWidget({
         <button
           type="button"
           onClick={() => setEditing(true)}
-          className="text-[10px] text-muted-foreground hover:text-foreground transition-colors"
+          className={cn(buttonClass, "text-muted-foreground hover:text-foreground transition-colors")}
         >
           {label ? "Sửa" : "Edit"}
         </button>

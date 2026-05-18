@@ -2,7 +2,7 @@
 
 import type { BibleStudyListWithCount } from "@/types/bible-study";
 import { deleteStudyList } from "@/app/actions/bible/study";
-import { BookOpen, Clock, Loader2, X } from "lucide-react";
+import { BookOpen, Clock, Loader2, Tag, X } from "lucide-react";
 import {
   InteractiveForm,
   LoadingMessage,
@@ -11,6 +11,31 @@ import {
 } from "@/components/CoreAdvancedComponent/behaviors/interactive-form";
 import { ReserveLayout } from "@/components/ui/reverse-layout";
 import { useRouter, usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+
+const TAG_COLOR_KEYS = ["sage", "peach", "rose", "sky", "lavender"] as const;
+type TagColorKey = typeof TAG_COLOR_KEYS[number];
+
+const TAG_COLOR_CLASSES: Record<TagColorKey, string> = {
+  sage:     "bg-sage/15 border-sage/30 text-sage",
+  peach:    "bg-tertiary/20 border-tertiary/40 text-tertiary-foreground",
+  rose:     "bg-coral/15 border-coral/30 text-coral",
+  sky:      "bg-sky-blue/15 border-sky-blue/30 text-sky-blue",
+  lavender: "bg-second/15 border-second/30 text-second",
+};
+
+function parseTag(raw: string): { color: TagColorKey; label: string } {
+  const sep = raw.indexOf("|");
+  if (sep > 0) {
+    const maybeColor = raw.slice(0, sep) as TagColorKey;
+    if ((TAG_COLOR_KEYS as readonly string[]).includes(maybeColor)) {
+      return { color: maybeColor, label: raw.slice(sep + 1) };
+    }
+  }
+  let h = 0;
+  for (let i = 0; i < raw.length; i++) h = (h * 31 + raw.charCodeAt(i)) >>> 0;
+  return { color: TAG_COLOR_KEYS[h % TAG_COLOR_KEYS.length]!, label: raw };
+}
 
 interface StudyListCardProps {
   list: BibleStudyListWithCount;
@@ -27,7 +52,7 @@ export function StudyListCard({ list }: StudyListCardProps) {
 
   return (
     <div
-      className="border-border bg-background hover:border-primary/40 flex min-h-[180px]
+      className="border-border bg-background hover:border-primary/40 flex h-full min-h-[180px]
         cursor-pointer flex-col rounded-2xl border text-left text-sm transition-colors
         hover:shadow-sm"
       onClick={handleOpen}
@@ -43,6 +68,18 @@ export function StudyListCard({ list }: StudyListCardProps) {
           {list.description && (
             <div className="text-muted-foreground mt-1 line-clamp-2 text-xs">
               {list.description}
+            </div>
+          )}
+          {list.tags.length > 0 && (
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              {list.tags.map((raw) => {
+                const { color, label } = parseTag(raw);
+                return (
+                  <span key={raw} className={cn("inline-flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-[9px] font-medium", TAG_COLOR_CLASSES[color])}>
+                    <Tag className="h-2 w-2" />{label}
+                  </span>
+                );
+              })}
             </div>
           )}
         </div>

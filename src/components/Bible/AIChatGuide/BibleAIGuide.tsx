@@ -64,7 +64,7 @@ function ThinkingIndicator({ isVi }: { isVi: boolean }) {
       <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10">
         <Sparkles className="h-3.5 w-3.5 text-primary" />
       </div>
-      <div className="rounded-2xl rounded-tl-sm bg-muted px-3 py-2.5 text-xs">
+      <div className="rounded-2xl rounded-tl-sm bg-muted px-3 py-2.5 text-sm">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -187,7 +187,7 @@ function NavCard({
       <Link
         href={link.href}
         className={cn(
-          "flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition-all hover:scale-[1.02] active:scale-[0.98]",
+          "flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98]",
           LINK_COLORS[link.type]
         )}
       >
@@ -511,7 +511,7 @@ export function BibleAIGuide({ lang }: { lang: string }) {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.08, type: "spring", stiffness: 300, damping: 25 }}
                         whileHover={{ x: 3 }}
-                        className="w-full text-left rounded-xl border border-border bg-muted/40 px-3 py-2 text-xs text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors"
+                        className="w-full text-left rounded-xl border border-border bg-muted/40 px-3 py-2 text-sm text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors"
                       >
                         {s}
                       </motion.button>
@@ -533,7 +533,7 @@ export function BibleAIGuide({ lang }: { lang: string }) {
                       >
                         <div
                           className={cn(
-                            "max-w-[85%] rounded-2xl px-3 py-2 text-xs leading-relaxed",
+                            "max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed",
                             msg.role === "user"
                               ? "bg-primary text-primary-foreground rounded-tr-sm"
                               : "bg-muted text-foreground rounded-tl-sm"
@@ -589,7 +589,7 @@ export function BibleAIGuide({ lang }: { lang: string }) {
                     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void send(input); }
                   }}
                   placeholder={isVi ? "Hỏi gì đó..." : "Ask something..."}
-                  className="flex-1 bg-transparent text-xs text-foreground placeholder:text-muted-foreground outline-none"
+                  className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
                   disabled={loading || atLimit}
                 />
                 <motion.button
