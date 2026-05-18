@@ -12,6 +12,7 @@ const isPublicRoute = createRouteMatcher([
   "/api/cron(.*)",
   "/bible(.*)",
   "/study/shared(.*)",
+  "/admin(.*)",  // admin uses its own cookie-based auth, not Clerk
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
