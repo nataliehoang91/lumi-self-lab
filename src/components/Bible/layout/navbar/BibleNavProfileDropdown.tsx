@@ -167,9 +167,9 @@ export function BibleNavProfileDropdown() {
                   <button
                     type="button"
                     onClick={() => signOut({ redirectUrl: "/bible" })}
-                    className="flex items-center gap-1 rounded-lg bg-destructive px-2.5 py-1 text-xs font-semibold text-white hover:opacity-90 transition-opacity"
+                    className="flex items-center gap-1 rounded-lg bg-destructive/60 px-2.5 py-1 text-xs font-semibold text-white hover:bg-destructive/80 transition-colors"
                   >
-                    <Check className="h-3 w-3" />
+                    <Check className="h-3 w-3 text-white" />
                   </button>
                   <button
                     type="button"
