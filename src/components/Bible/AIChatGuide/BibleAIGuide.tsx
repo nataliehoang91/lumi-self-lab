@@ -189,6 +189,82 @@ const STARTERS_VI = [
   "Cho tôi biết về đức tin",
 ];
 
+const STARTER_ANSWERS_EN: Record<string, { text: string; links: NavLink[] }> = {
+  "What does the Bible say about anxiety?": {
+    text: "**Philippians** 4:6-7 is one of the most powerful verses on anxiety: \"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.\" **Matthew** 6:25-34 also reminds us that God cares for even the birds and flowers — how much more will He care for you. Casting your worries on Him through prayer is the Bible's consistent answer to anxiety.",
+    links: [
+      { label: "Anxiety", href: "/bible/en/topics/anxiety", type: "topic" },
+      { label: "Peace", href: "/bible/en/topics/peace", type: "topic" },
+      { label: "Philippians — Read", href: "/bible/en/read?version1=niv&book1=philippians&chapter1=4&testament1=nt", type: "book" },
+    ],
+  },
+  "Where should I start reading?": {
+    text: "The best starting point for most people is the Gospel of **John** — it tells the story of Jesus in a deeply personal way and answers the big question: who is He? After John, try **Psalms** for honest prayers about every human emotion, and **Proverbs** for practical daily wisdom. If you want the full story from the beginning, **Genesis** is where it all starts.",
+    links: [
+      { label: "John — Read", href: "/bible/en/read?version1=niv&book1=john&chapter1=1&testament1=nt", type: "book" },
+      { label: "John — Overview", href: "/bible/en/book-overviews/john", type: "overview" },
+      { label: "Psalms — Read", href: "/bible/en/read?version1=niv&book1=psalms&chapter1=1&testament1=ot", type: "book" },
+      { label: "Who Is Jesus?", href: "/bible/en/learn/who-is-jesus", type: "learn" },
+    ],
+  },
+  "Topics related to relationships?": {
+    text: "Scripture has rich wisdom on every kind of relationship. **1 Corinthians** 13 defines love beautifully. **Ephesians** 5 speaks to marriage. **Proverbs** 17:17 says \"A friend loves at all times.\" There are dedicated topics for love, marriage, family, forgiveness, and conflict — each with curated verses to guide you.",
+    links: [
+      { label: "Love", href: "/bible/en/topics/love", type: "topic" },
+      { label: "Marriage", href: "/bible/en/topics/marriage", type: "topic" },
+      { label: "Forgiveness", href: "/bible/en/topics/forgiveness", type: "topic" },
+      { label: "Family", href: "/bible/en/topics/family", type: "topic" },
+    ],
+  },
+  "Tell me about faith": {
+    text: "**Hebrews** 11:1 gives the classic definition: \"Faith is confidence in what we hope for and assurance about what we do not see.\" Faith in the Bible is not just belief — it is trust and action. **Romans** 10:17 says faith comes from hearing the Word of God. The entire book of **James** shows that true faith produces works. Faith is the foundation of the Christian life.",
+    links: [
+      { label: "Faith", href: "/bible/en/topics/faith", type: "topic" },
+      { label: "What Is Faith?", href: "/bible/en/learn/what-is-faith", type: "learn" },
+      { label: "Hebrews — Read", href: "/bible/en/read?version1=niv&book1=hebrews&chapter1=11&testament1=nt", type: "book" },
+      { label: "Romans — Read", href: "/bible/en/read?version1=niv&book1=romans&chapter1=10&testament1=nt", type: "book" },
+    ],
+  },
+};
+
+const STARTER_ANSWERS_VI: Record<string, { text: string; links: NavLink[] }> = {
+  "Kinh Thánh nói gì về lo lắng?": {
+    text: "**Phi-líp** 4:6-7 là một trong những câu Kinh Thánh mạnh mẽ nhất về sự lo lắng: \"Chớ lo phiền chi hết, nhưng trong mọi sự hãy dùng lời cầu nguyện, nài xin, và sự tạ ơn mà trình các sự cầu xin của mình cho Đức Chúa Trời.\" **Ma-thi-ơ** 6:25-34 cũng nhắc nhở rằng Đức Chúa Trời chăm sóc cho cả chim trời và hoa cỏ — huống chi là bạn. Cầu nguyện và phó thác là câu trả lời nhất quán của Kinh Thánh cho sự lo âu.",
+    links: [
+      { label: "Lo lắng", href: "/bible/vi/topics/anxiety", type: "topic" },
+      { label: "Bình an", href: "/bible/vi/topics/peace", type: "topic" },
+      { label: "Phi-líp — Đọc", href: "/bible/vi/read?version1=vi&book1=philippians&chapter1=4&testament1=nt", type: "book" },
+    ],
+  },
+  "Tôi nên bắt đầu đọc từ đâu?": {
+    text: "Điểm bắt đầu tốt nhất cho hầu hết mọi người là Phúc âm **Giăng** — kể câu chuyện về Chúa Giêsu một cách sâu sắc và trả lời câu hỏi lớn: Ngài là ai? Sau Giăng, hãy đọc **Thi Thiên** để tìm những lời cầu nguyện chân thật về mọi cảm xúc con người, và **Châm Ngôn** cho sự khôn ngoan thực tế hàng ngày.",
+    links: [
+      { label: "Giăng — Đọc", href: "/bible/vi/read?version1=vi&book1=john&chapter1=1&testament1=nt", type: "book" },
+      { label: "Giăng — Tổng quan", href: "/bible/vi/book-overviews/john", type: "overview" },
+      { label: "Thi Thiên — Đọc", href: "/bible/vi/read?version1=vi&book1=psalms&chapter1=1&testament1=ot", type: "book" },
+      { label: "Chúa Giêsu là ai?", href: "/bible/vi/learn/who-is-jesus", type: "learn" },
+    ],
+  },
+  "Chủ đề về các mối quan hệ?": {
+    text: "Kinh Thánh có nhiều lời khuyên quý báu về mọi loại mối quan hệ. **1 Cô-rinh-tô** 13 định nghĩa tình yêu một cách đẹp đẽ. **Ê-phê-sô** 5 nói về hôn nhân. **Châm Ngôn** 17:17 nói \"Bạn hữu thương nhau luôn luôn.\" Có nhiều chủ đề về tình yêu, hôn nhân, gia đình, sự tha thứ và xung đột.",
+    links: [
+      { label: "Tình yêu thương", href: "/bible/vi/topics/love", type: "topic" },
+      { label: "Hôn nhân", href: "/bible/vi/topics/marriage", type: "topic" },
+      { label: "Sự tha thứ", href: "/bible/vi/topics/forgiveness", type: "topic" },
+      { label: "Gia đình", href: "/bible/vi/topics/family", type: "topic" },
+    ],
+  },
+  "Cho tôi biết về đức tin": {
+    text: "**Hê-bơ-rơ** 11:1 đưa ra định nghĩa kinh điển: \"Đức tin là sự biết chắc vững vàng của những điều mình đang trông mong.\" Đức tin trong Kinh Thánh không chỉ là tin tưởng — mà còn là hành động. **Rô-ma** 10:17 nói đức tin đến bởi nghe Lời Đức Chúa Trời. Sách **Gia-cơ** cho thấy đức tin thật sự sinh ra việc làm tốt lành.",
+    links: [
+      { label: "Đức tin", href: "/bible/vi/topics/faith", type: "topic" },
+      { label: "Đức tin là gì?", href: "/bible/vi/learn/what-is-faith", type: "learn" },
+      { label: "Hê-bơ-rơ — Đọc", href: "/bible/vi/read?version1=vi&book1=hebrews&chapter1=11&testament1=nt", type: "book" },
+      { label: "Rô-ma — Đọc", href: "/bible/vi/read?version1=vi&book1=romans&chapter1=10&testament1=nt", type: "book" },
+    ],
+  },
+};
+
 function uid() { return Math.random().toString(36).slice(2); }
 
 function newTopic(): Topic {
@@ -404,6 +480,20 @@ export function BibleAIGuide({ lang }: { lang: string }) {
   const starters = isVi ? STARTERS_VI : STARTERS_EN;
   const atLimit = messages.length >= MAX_MESSAGES || aiLimitReached;
 
+  const sendInstant = useCallback((text: string) => {
+    const answers = isVi ? STARTER_ANSWERS_VI : STARTER_ANSWERS_EN;
+    const preset = answers[text];
+    if (!preset) { void send(text); return; }
+    const userMsg: Message = { role: "user", content: text, id: uid() };
+    const assistantId = uid();
+    setNewestId(assistantId);
+    updateActiveMessages((prev) => [
+      ...prev,
+      userMsg,
+      { role: "assistant", content: preset.text, links: preset.links, id: assistantId },
+    ]);
+  }, [isVi, send, updateActiveMessages]);
+
   return (
     <>
       {/* Floating button */}
@@ -583,7 +673,7 @@ export function BibleAIGuide({ lang }: { lang: string }) {
                     </p>
                     <div className="space-y-2">
                       {starters.map((s, i) => (
-                        <motion.button key={s} type="button" onClick={() => void send(s)}
+                        <motion.button key={s} type="button" onClick={() => sendInstant(s)}
                           initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.08, type: "spring", stiffness: 300, damping: 25 }}
                           whileHover={{ x: 3 }}
