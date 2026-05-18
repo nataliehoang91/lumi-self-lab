@@ -1182,10 +1182,10 @@ export function StudyReaderShell({
                 const isPickingColor = editingTagColor === raw;
                 return (
                   <div key={raw} className="relative">
-                    <span className={cn("group inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium", TAG_COLOR_CLASSES[color])}>
+                    <span className={cn("group inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium", TAG_COLOR_CLASSES[color])}>
                       <button type="button" onClick={() => setEditingTagColor(isPickingColor ? null : raw)}
                         className="flex items-center gap-1 leading-none">
-                        <Tag className="h-2.5 w-2.5" />{label}
+                        <Tag className="h-3 w-3" />{label}
                       </button>
                       <button type="button"
                         onClick={() => {
@@ -1221,8 +1221,8 @@ export function StudyReaderShell({
               {/* Add new tag */}
               <div className="relative">
                 <button type="button" onClick={() => { setAddingTag((v) => !v); setEditingTagColor(null); }}
-                  className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-2 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary">
-                  <Plus className="h-2.5 w-2.5" />{lang === "vi" ? "Thêm nhãn" : "Add tag"}
+                  className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-3 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary">
+                  <Plus className="h-3 w-3" />{lang === "vi" ? "Thêm nhãn" : "Add tag"}
                 </button>
                 {addingTag && (
                   <div className="absolute left-0 top-full z-30 mt-1 w-52 rounded-xl border border-border bg-background p-3 shadow-lg">
