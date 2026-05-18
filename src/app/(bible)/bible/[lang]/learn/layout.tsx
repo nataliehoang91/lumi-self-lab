@@ -16,7 +16,7 @@ export default async function LearnLayout({
   return (
     <div className="bg-read min-h-screen font-sans dark:bg-[#050408]">
       <main>
-        <Container maxWidth="5xl" className={cn("px-4 sm:px-6 py-16")}>
+        <Container maxWidth="7xl" className={cn("px-4 sm:px-6 lg:px-16 xl:px-24 py-16")}>
           <LearnBreadcrumb lang={lang} />
           {children}
           <LearnDeepDiveCta />

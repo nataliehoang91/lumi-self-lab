@@ -11,6 +11,7 @@ import type { JourneyItem, NavLink } from "../shared-components/types";
 import type { StatAccent } from "../shared-components/AnimatedStat";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { BibleBook } from "@/components/Bible/Read/types";
+import type { VerseOfDay } from "@/app/actions/bible/read";
 
 function buildReadHrefEn(
   bookId: string | null,
@@ -122,19 +123,23 @@ function getNavLinksEn(base: string): NavLink[] {
 export interface EnBibleLangPageProps {
   lang: string;
   books: BibleBook[];
+  verseOfDay?: VerseOfDay | null;
 }
 
-export function EnBibleLangPage({ lang, books }: EnBibleLangPageProps) {
+export function EnBibleLangPage({ lang, books, verseOfDay }: EnBibleLangPageProps) {
   const base = `/bible/${lang}`;
 
-  const verseIdx = new Date().getDate() % DAILY_VERSES_EN.length;
-  const verse = DAILY_VERSES_EN[verseIdx];
-  const verseRefHref = buildReadHrefEn(
-    findBookIdByEn(books, verse.bookEn),
-    verse.chapter,
-    verse.verse,
-    verse.testament
-  );
+  const fallbackIdx = new Date().getDate() % DAILY_VERSES_EN.length;
+  const fallback = DAILY_VERSES_EN[fallbackIdx];
+  const verse = verseOfDay ?? fallback;
+  const verseRefHref = verseOfDay
+    ? buildReadHrefEn(verseOfDay.bookId, verseOfDay.chapter, verseOfDay.verse, verseOfDay.testament)
+    : buildReadHrefEn(
+        findBookIdByEn(books, fallback.bookEn),
+        fallback.chapter,
+        fallback.verse,
+        fallback.testament
+      );
   const journey = getJourneyEn(base);
   const navLinks = getNavLinksEn(base);
 

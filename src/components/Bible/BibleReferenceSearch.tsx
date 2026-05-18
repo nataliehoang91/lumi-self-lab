@@ -27,6 +27,7 @@ import {
   buildReadSearchParams,
   type ReadVersionId,
 } from "@/app/(bible)/bible/[lang]/read/params";
+import type { BibleSearchContextMatch } from "@/app/api/bible/search/route";
 
 /** Reading versions offered in smart search (URL `version1`). */
 const SMART_SEARCH_VERSIONS = ["vi", "niv", "kjv"] as const satisfies readonly ReadVersionId[];
@@ -89,6 +90,7 @@ export function BibleReferenceSearch() {
     defaultSmartSearchVersion(globalLanguage)
   );
   const [searchBook, setSearchBook] = useState<BibleBook | null>(null);
+  const [contextMatches, setContextMatches] = useState<BibleSearchContextMatch[]>([]);
   const [searching, setSearching] = useState(false);
   const lastRequestRef = useRef<string>("");
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -122,11 +124,11 @@ export function BibleReferenceSearch() {
       .trim();
 
     if (!q) {
-      // Clear immediately — no debounce needed for empty input
       abortControllerRef.current?.abort();
       abortControllerRef.current = null;
       lastRequestRef.current = "";
       setSearchBook(null);
+      setContextMatches([]);
       setSearching(false);
       return;
     }
@@ -149,27 +151,22 @@ export function BibleReferenceSearch() {
 
       fetch(`/api/bible/search?${params}`, { signal: controller.signal })
         .then(async (res) => {
-          // Parse body first, then check ok — avoids double-consume of the stream
-          let data: { book: BibleBook | null } = { book: null };
-          try {
-            data = await res.json();
-          } catch {
-            // non-JSON body (e.g. 500 HTML error page) — treat as no result
-          }
-          if (!res.ok) return { book: null };
+          let data: { book: BibleBook | null; contextMatches?: BibleSearchContextMatch[] } = { book: null, contextMatches: [] };
+          try { data = await res.json(); } catch { /* non-JSON */ }
+          if (!res.ok) return { book: null, contextMatches: [] };
           return data;
         })
         .then((data) => {
-          // Stale response guard: discard if a newer request has already been issued
           if (lastRequestRef.current !== requested) return;
           setSearchBook(data?.book ?? null);
+          setContextMatches(data?.contextMatches ?? []);
           setSearching(false);
         })
         .catch((err: unknown) => {
-          // AbortError is expected when a newer keystroke cancels this request — ignore silently
           if (err instanceof Error && err.name === "AbortError") return;
           if (lastRequestRef.current !== requested) return;
           setSearchBook(null);
+          setContextMatches([]);
           setSearching(false);
         });
       // Note: no .finally — setSearching(false) is handled in .then and .catch above
@@ -220,6 +217,25 @@ export function BibleReferenceSearch() {
     }
     return items;
   }, [searchBook, chapterHint, verse, searchVersion, seg, intl]);
+
+  const contextSuggestions = useMemo(() => {
+    return contextMatches.slice(0, 8).map((m) => {
+      const bookName = globalLanguage === "VI" ? m.nameVi : m.nameEn;
+      const testament = m.order <= OT_ORDER_MAX ? "ot" : "nt";
+      const qs = buildReadSearchParams({
+        version1: searchVersion,
+        book1Id: m.bookId,
+        chapter1: m.chapterNumber,
+        testament1: testament,
+      });
+      return {
+        id: `ctx-${m.bookId}-${m.chapterNumber}`,
+        label: `${bookName} ${m.chapterNumber}`,
+        subtitle: m.subtitle ?? "",
+        href: `/bible/${seg}/read?${qs}`,
+      };
+    });
+  }, [contextMatches, globalLanguage, searchVersion, seg]);
 
   const [open, setOpen] = useState(false);
 
@@ -423,7 +439,7 @@ export function BibleReferenceSearch() {
                   <Loader2 className="text-primary h-5 w-5 animate-spin" />
                   <p className="text-muted-foreground text-sm">{intl.t("searchSearching")}</p>
                 </CommandEmpty>
-              ) : suggestions.length === 0 ? (
+              ) : suggestions.length === 0 && contextSuggestions.length === 0 ? (
                 <CommandEmpty
                   className="flex h-full min-h-[min(26rem,calc(85dvh-8rem))] flex-col
                     items-center justify-center py-8 text-center"
@@ -440,32 +456,47 @@ export function BibleReferenceSearch() {
                 </CommandEmpty>
               ) : (
                 <div className="h-full min-h-[min(26rem,calc(85dvh-8rem))] p-1">
-                  <CommandGroup
-                    heading={intl.t("searchGoTo")}
-                    className="overflow-hidden"
-                  >
-                    {suggestions.map((s) => (
-                      <CommandItem
-                        key={s.id}
-                        value={s.label}
-                        onPointerDown={(e) => {
-                          e.preventDefault();
-                        }}
-                        onSelect={() => {
-                          setOpen(false);
-                          setQuery("");
-                          router.push(s.href);
-                        }}
-                        className="flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
-                          transition-colors focus-visible:ring-0 data-disabled:opacity-50
-                          hover:bg-accent hover:text-accent-foreground
-                          focus-visible:bg-accent focus-visible:text-accent-foreground"
-                      >
-                        <span className="text-sm font-semibold">{s.label}</span>
-                        <span className="text-xs opacity-75">{s.secondary}</span>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
+                  {suggestions.length > 0 && (
+                    <CommandGroup heading={intl.t("searchGoTo")} className="overflow-hidden">
+                      {suggestions.map((s) => (
+                        <CommandItem
+                          key={s.id}
+                          value={s.label}
+                          onPointerDown={(e) => e.preventDefault()}
+                          onSelect={() => { setOpen(false); setQuery(""); router.push(s.href); }}
+                          className="flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
+                            transition-colors focus-visible:ring-0 data-disabled:opacity-50
+                            hover:bg-accent hover:text-accent-foreground
+                            focus-visible:bg-accent focus-visible:text-accent-foreground"
+                        >
+                          <span className="text-sm font-semibold">{s.label}</span>
+                          <span className="text-xs opacity-75">{s.secondary}</span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  )}
+                  {contextSuggestions.length > 0 && (
+                    <CommandGroup
+                      heading={globalLanguage === "VI" ? "Theo nội dung" : "In context"}
+                      className="overflow-hidden"
+                    >
+                      {contextSuggestions.map((s) => (
+                        <CommandItem
+                          key={s.id}
+                          value={s.label}
+                          onPointerDown={(e) => e.preventDefault()}
+                          onSelect={() => { setOpen(false); setQuery(""); router.push(s.href); }}
+                          className="flex cursor-pointer flex-col items-start rounded-md px-2 py-2.5
+                            transition-colors focus-visible:ring-0 data-disabled:opacity-50
+                            hover:bg-accent hover:text-accent-foreground
+                            focus-visible:bg-accent focus-visible:text-accent-foreground"
+                        >
+                          <span className="text-sm font-semibold">{s.label}</span>
+                          {s.subtitle && <span className="text-muted-foreground text-xs">{s.subtitle}</span>}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  )}
                 </div>
               )}
             </CommandList>

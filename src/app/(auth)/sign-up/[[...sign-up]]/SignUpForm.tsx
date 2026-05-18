@@ -3,12 +3,15 @@
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
 import { Logo } from "@/components/GeneralComponents/Logo";
+import { useSearchParams } from "next/navigation";
 
 /**
  * Client-only sign-up form (Clerk may access request data).
  * Rendered inside Suspense by the page so prerender works with cacheComponents.
  */
 export function SignUpForm() {
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect_url") ?? "/dashboard";
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -70,8 +73,8 @@ export function SignUpForm() {
           waitlistUrl="/waitlist"
           signInFallbackRedirectUrl="/dashboard"
           signInForceRedirectUrl="/dashboard"
-          fallbackRedirectUrl="/dashboard"
-          forceRedirectUrl="/dashboard"
+          fallbackRedirectUrl={redirectUrl}
+          forceRedirectUrl={redirectUrl}
           oauthFlow="redirect"
         />
 

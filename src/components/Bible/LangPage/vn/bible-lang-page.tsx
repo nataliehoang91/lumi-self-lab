@@ -9,6 +9,7 @@ import { LangPageFooter } from "../shared-components/LangPageFooter";
 import type { JourneyItem, NavLink } from "../shared-components/types";
 import { useBibleFontClasses } from "@/components/Bible/useBibleFontClasses";
 import type { BibleBook } from "@/components/Bible/Read/types";
+import type { VerseOfDay } from "@/app/actions/bible/read";
 
 function buildReadHrefVi(
   bookId: string | null,
@@ -133,19 +134,24 @@ function getNavLinksVn(base: string): NavLink[] {
 export interface VnBibleLangPageProps {
   lang: string;
   books: BibleBook[];
+  verseOfDay?: VerseOfDay | null;
 }
 
-export function VnBibleLangPage({ lang, books }: VnBibleLangPageProps) {
+export function VnBibleLangPage({ lang, books, verseOfDay }: VnBibleLangPageProps) {
   const base = `/bible/${lang}`;
 
-  const verseIdx = new Date().getDate() % DAILY_VERSES_VN.length;
-  const verse = DAILY_VERSES_VN[verseIdx];
-  const verseRefHref = buildReadHrefVi(
-    findBookIdByVi(books, verse.nameVi, verse.nameEn),
-    verse.chapter,
-    verse.verse,
-    verse.testament
-  );
+  // Use server-fetched verse of day; fall back to hardcoded if unavailable
+  const fallbackIdx = new Date().getDate() % DAILY_VERSES_VN.length;
+  const fallback = DAILY_VERSES_VN[fallbackIdx];
+  const verse = verseOfDay ?? fallback;
+  const verseRefHref = verseOfDay
+    ? buildReadHrefVi(verseOfDay.bookId, verseOfDay.chapter, verseOfDay.verse, verseOfDay.testament)
+    : buildReadHrefVi(
+        findBookIdByVi(books, fallback.nameVi, fallback.nameEn),
+        fallback.chapter,
+        fallback.verse,
+        fallback.testament
+      );
   const journey = getJourneyVn(base);
   const navLinks = getNavLinksVn(base);
 

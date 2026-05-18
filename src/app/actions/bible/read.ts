@@ -106,3 +106,71 @@ export async function getChapterContent(
     sectionTitle: effectiveSectionTitle,
   };
 }
+
+export type VerseOfDay = {
+  text: string;
+  ref: string;
+  bookId: string;
+  bookNameEn: string;
+  bookNameVi: string;
+  chapter: number;
+  verse: number;
+  testament: "ot" | "nt";
+};
+
+export async function getVerseOfDay(lang: "vi" | "en"): Promise<VerseOfDay | null> {
+  "use cache";
+  cacheLife("days");
+
+  const contentField = lang === "vi" ? "contentVIE1923" : "contentKJV";
+  const count = await prisma.flashVerse.count({
+    where: { [contentField]: { not: null }, bookId: { not: null } },
+  });
+  if (count === 0) return null;
+
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const dayOfYear = Math.floor((now.getTime() - start.getTime()) / 86_400_000);
+  const idx = dayOfYear % count;
+
+  const rows = await prisma.flashVerse.findMany({
+    where: { [contentField]: { not: null }, bookId: { not: null } },
+    orderBy: { createdAt: "asc" },
+    skip: idx,
+    take: 1,
+    select: {
+      contentVIE1923: true,
+      contentKJV: true,
+      referenceLabelVi: true,
+      referenceLabelEn: true,
+      titleVi: true,
+      titleEn: true,
+      chapter: true,
+      verse: true,
+      bookId: true,
+      bibleBook: { select: { nameEn: true, nameVi: true, order: true } },
+    },
+  });
+
+  const row = rows[0];
+  if (!row?.bookId || !row.bibleBook) return null;
+
+  const text = lang === "vi" ? row.contentVIE1923 : row.contentKJV;
+  if (!text) return null;
+
+  const ref =
+    lang === "vi"
+      ? (row.referenceLabelVi ?? row.titleVi ?? `${row.bibleBook.nameVi} ${row.chapter}:${row.verse}`)
+      : (row.referenceLabelEn ?? row.titleEn ?? `${row.bibleBook.nameEn} ${row.chapter}:${row.verse}`);
+
+  return {
+    text,
+    ref,
+    bookId: row.bookId,
+    bookNameEn: row.bibleBook.nameEn,
+    bookNameVi: row.bibleBook.nameVi,
+    chapter: row.chapter,
+    verse: row.verse,
+    testament: row.bibleBook.order <= 39 ? "ot" : "nt",
+  };
+}

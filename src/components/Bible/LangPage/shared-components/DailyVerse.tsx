@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Copy, Check } from "lucide-react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { QuoteCard } from "@/components/GeneralComponents/QuoteCard";
 import { Card } from "@/components/ui/card";
@@ -12,16 +13,13 @@ export interface DailyVerseProps {
   label: string;
   text: string;
   verseRef: string;
-  /** When set, verseRef is rendered as a link to this verse (e.g. read page). */
   verseRefHref?: string;
   readHref: string;
   readLabel: string;
-  /** Optional overrides; if omitted, sizes come from font system. */
   labelClassName?: string;
   quoteClassName?: string;
   refClassName?: string;
   linkClassName?: string;
-  /** When "vi", use Vietnamese main font for label and link. */
   locale?: "en" | "vi";
 }
 
@@ -38,23 +36,44 @@ export function DailyVerse({
 }: DailyVerseProps) {
   const { bodyClass } = useBibleFontClasses();
   const { titleFont, bodyFont } = useLocaleFonts(locale);
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy() {
+    navigator.clipboard.writeText(`"${text}" — ${verseRef}`).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
 
   return (
     <Card
       className="border-primary-100 bg-primary-300/5 dark:border-muted-foreground/25
         dark:bg-muted/50 rounded-lg border px-12 py-6 text-center"
     >
-      <p
-        className={cn(
-          `text-muted-foreground dark:text-foreground/80 mb-8 font-medium
-          tracking-[0.18em] uppercase`,
-          bodyClass,
-          titleFont,
-          labelClassName
-        )}
-      >
-        {label}
-      </p>
+      <div className="mb-8 flex items-center justify-center gap-3">
+        <p
+          className={cn(
+            "text-muted-foreground dark:text-foreground/80 font-medium tracking-[0.18em] uppercase",
+            bodyClass,
+            titleFont,
+            labelClassName
+          )}
+        >
+          {label}
+        </p>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="text-muted-foreground hover:text-foreground rounded-md p-1 transition-colors"
+          aria-label="Copy verse"
+        >
+          {copied ? (
+            <Check className="h-3.5 w-3.5 text-green-500" />
+          ) : (
+            <Copy className="h-3.5 w-3.5" />
+          )}
+        </button>
+      </div>
       <QuoteCard
         verseAlign="center"
         footnoteAlign="center"
@@ -77,9 +96,7 @@ export function DailyVerse({
         )}
       >
         {readLabel}
-        <ArrowRight
-          className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
-        />
+        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
       </Link>
     </Card>
   );

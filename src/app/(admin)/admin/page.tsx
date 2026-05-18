@@ -1,21 +1,22 @@
 import Link from "next/link";
-import { Package, Users, Building2, CreditCard, ArrowRight } from "lucide-react";
+import { Package, Users, Building2, CreditCard, ArrowRight, BookOpenText } from "lucide-react";
 import { AdminShell } from "@/components/Admin/AdminShell";
 import { getAccessPackages } from "@/app/actions/admin/packages";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminDashboardPage() {
-  const [packages, userCount, orgCount] = await Promise.all([
+  const [packages, userCount, orgCount, deepDiveCount] = await Promise.all([
     getAccessPackages(),
     prisma.user.count(),
     prisma.organisation.count(),
+    prisma.bibleDeepDive.count({ where: { isPublished: true } }),
   ]);
 
   const stats = [
+    { label: "Deep Dive Articles", value: deepDiveCount, href: "/admin/deep-dive", icon: BookOpenText, color: "text-orange-500" },
     { label: "Packages", value: packages.length, href: "/admin/packages", icon: Package, color: "text-violet-600" },
     { label: "Users", value: userCount, href: "/admin/users", icon: Users, color: "text-blue-600" },
     { label: "Organisations", value: orgCount, href: "/admin/orgs", icon: Building2, color: "text-emerald-600" },
-    { label: "Billing", value: "—", href: "/admin/billing", icon: CreditCard, color: "text-amber-600" },
   ];
 
   return (

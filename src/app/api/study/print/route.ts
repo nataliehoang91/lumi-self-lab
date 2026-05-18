@@ -43,10 +43,14 @@ export async function GET(req: NextRequest) {
 
     await page.goto(url, { waitUntil: "networkidle0", timeout: 30_000 });
 
+    const title = await page.title();
+    const safeName = title.replace(/[^a-z0-9\s\-_]/gi, "").trim() || "study-list";
+
     const pdfBuffer = await page.pdf({
       format: "A4",
-      printBackground: false,
-      margin: { top: "15mm", right: "15mm", bottom: "15mm", left: "15mm" },
+      printBackground: true,
+      displayHeaderFooter: false,
+      margin: { top: "16mm", right: "0", bottom: "14mm", left: "0" },
     });
 
     await browser.close();
@@ -54,7 +58,7 @@ export async function GET(req: NextRequest) {
     return new NextResponse(Buffer.from(pdfBuffer), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `inline; filename="study-list.pdf"`,
+        "Content-Disposition": `attachment; filename="${safeName}.pdf"`,
       },
     });
   } catch (err) {

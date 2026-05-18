@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { SquareMenu } from "lucide-react";
+import {
+  SquareMenu, Play, LayoutGrid, BookMarked, User, Sparkles, Heart,
+  BookOpen, Library, Compass, Clock, Layers, MoreHorizontal, List,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -9,7 +12,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetFooter,
 } from "@/components/ui/sheet";
 import { BibleLogo } from "@/components/Bible/BibleLogo";
 import { ThemePaletteSwitch } from "@/components/GeneralComponents/ThemePaletteSwitch";
@@ -22,8 +24,68 @@ interface BibleNavMobileSheetProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const LEARN_ICONS = [Play, LayoutGrid, BookMarked, User, Sparkles, Heart];
+const BIBLE_ICONS = [BookOpen, Library, Compass, Clock];
+const GLOSSARY_ICONS = [Layers, MoreHorizontal];
+
+function NavItem({
+  href,
+  label,
+  isActive,
+  comingSoon,
+  icon: Icon,
+  onClose,
+}: {
+  href: string;
+  label: string;
+  isActive: boolean;
+  comingSoon?: boolean;
+  icon?: React.ElementType;
+  onClose: () => void;
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        onClick={onClose}
+        className={cn(
+          "group flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all",
+          isActive
+            ? "bg-primary/10 text-primary font-semibold"
+            : "text-foreground/70 hover:bg-muted hover:text-foreground"
+        )}
+      >
+        {Icon && (
+          <Icon
+            className={cn(
+              "h-4 w-4 shrink-0 transition-colors",
+              isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+            )}
+          />
+        )}
+        <span className="flex-1 leading-snug">{label}</span>
+        {comingSoon && (
+          <span className="rounded-full bg-muted px-2 py-0.5 text-[9px] font-semibold tracking-wider text-muted-foreground uppercase">
+            Soon
+          </span>
+        )}
+      </Link>
+    </li>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-1 px-3 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+      {children}
+    </p>
+  );
+}
+
 export function BibleNavMobileSheet({ open, onOpenChange }: BibleNavMobileSheetProps) {
   const { learnLinks, bibleLinks, glossaryLinks, studyLinks, learnLang, intl } = useBibleNavData();
+  const close = () => onOpenChange(false);
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>
@@ -40,9 +102,10 @@ export function BibleNavMobileSheet({ open, onOpenChange }: BibleNavMobileSheetP
         side="right"
         className="flex w-full max-w-[min(20rem,85vw)] flex-col border-l p-0 sm:max-w-sm"
       >
-        <SheetHeader className="flex flex-row items-center gap-3 border-b px-4 py-3 pr-12">
+        {/* Header */}
+        <SheetHeader className="flex flex-row items-center gap-2 border-b px-4 py-3 pr-12">
           <BibleLogo />
-          <SheetTitle className="truncate text-left text-lg font-semibold">
+          <SheetTitle className="truncate text-left text-base font-semibold">
             {intl.t("navAppName")}
           </SheetTitle>
           <div className="ml-auto flex items-center gap-1">
@@ -50,113 +113,90 @@ export function BibleNavMobileSheet({ open, onOpenChange }: BibleNavMobileSheetP
             <ThemeToggleButtonBibleApp variant="desktop" />
           </div>
         </SheetHeader>
-        <nav className="flex-1 overflow-y-auto px-4 py-3">
-          <div className="space-y-6">
+
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          <div className="space-y-5">
+
+            {/* Learn */}
             <section>
-              <h2 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
-                {intl.t("langPageNavLearn")}
-              </h2>
+              <SectionLabel>{intl.t("langPageNavLearn")}</SectionLabel>
               <ul className="space-y-0.5">
-                {learnLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={() => onOpenChange(false)}
-                      className={cn(
-                        "hover:bg-muted block rounded-lg px-3 py-2.5 text-sm transition-colors",
-                        link.isActive && "bg-primary-light/20 text-foreground font-medium"
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
+                {learnLinks.map((link, i) => (
+                  <NavItem
+                    key={link.href}
+                    {...link}
+                    icon={LEARN_ICONS[i]}
+                    onClose={close}
+                  />
                 ))}
               </ul>
             </section>
+
+            <div className="border-t" />
+
+            {/* Bible */}
             <section>
-              <h2 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
-                {intl.t("navBible")}
-              </h2>
+              <SectionLabel>{intl.t("navBible")}</SectionLabel>
               <ul className="space-y-0.5">
-                {bibleLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={() => onOpenChange(false)}
-                      className={cn(
-                        "hover:bg-muted flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors",
-                        link.isActive && "bg-primary-light/20 text-foreground font-medium"
-                      )}
-                    >
-                      <span>{link.label}</span>
-                      {link.comingSoon && (
-                        <span className="text-muted-foreground text-[10px] tracking-wide uppercase">
-                          {intl.t("navSoon")}
-                        </span>
-                      )}
-                    </Link>
-                  </li>
+                {bibleLinks.map((link, i) => (
+                  <NavItem
+                    key={link.href}
+                    {...link}
+                    icon={BIBLE_ICONS[i]}
+                    onClose={close}
+                  />
                 ))}
               </ul>
             </section>
+
+            <div className="border-t" />
+
+            {/* Glossary */}
             <section>
-              <h2 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
-                {intl.t("langPageNavGlossary")}
-              </h2>
+              <SectionLabel>{intl.t("langPageNavGlossary")}</SectionLabel>
               <ul className="space-y-0.5">
-                {glossaryLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={() => onOpenChange(false)}
-                      className={cn(
-                        "hover:bg-muted flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors",
-                        link.isActive && "bg-primary-light/20 text-foreground font-medium"
-                      )}
-                    >
-                      <span>{link.label}</span>
-                      {link.comingSoon && (
-                        <span className="text-muted-foreground text-[10px] tracking-wide uppercase">
-                          {intl.t("navSoon")}
-                        </span>
-                      )}
-                    </Link>
-                  </li>
+                {glossaryLinks.map((link, i) => (
+                  <NavItem
+                    key={link.href}
+                    {...link}
+                    icon={GLOSSARY_ICONS[i]}
+                    onClose={close}
+                  />
                 ))}
               </ul>
             </section>
+
+            <div className="border-t" />
+
+            {/* Study */}
             <section>
-              <h2 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
-                {intl.t("navStudy")}
-              </h2>
+              <SectionLabel>{intl.t("navStudy")}</SectionLabel>
               <ul className="space-y-0.5">
                 {studyLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={() => onOpenChange(false)}
-                      className={cn(
-                        "hover:bg-muted block rounded-lg px-3 py-2.5 text-sm transition-colors",
-                        link.isActive && "bg-primary-light/20 text-foreground font-medium"
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
+                  <NavItem
+                    key={link.href}
+                    {...link}
+                    icon={List}
+                    onClose={close}
+                  />
                 ))}
               </ul>
             </section>
+
           </div>
         </nav>
-        <SheetFooter className="border-t py-3">
+
+        {/* Footer CTA */}
+        <div className="border-t p-3">
           <Button
             asChild
             className="bg-primary-dark text-primary-foreground hover:bg-primary-dark w-full hover:opacity-90"
-            onClick={() => onOpenChange(false)}
+            onClick={close}
           >
             <Link href={`/bible/${learnLang}/study`}>{intl.t("navStudy")}</Link>
           </Button>
-        </SheetFooter>
+        </div>
       </SheetContent>
     </Sheet>
   );

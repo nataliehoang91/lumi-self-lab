@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Package, Users, Building2, LayoutDashboard, CreditCard } from "lucide-react";
+import { Package, Users, Building2, LayoutDashboard, CreditCard, BookOpenText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/admin/deep-dive", label: "Deep Dive", icon: BookOpenText },
   { href: "/admin/packages", label: "Packages", icon: Package },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/orgs", label: "Organisations", icon: Building2 },
