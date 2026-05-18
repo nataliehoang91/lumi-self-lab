@@ -19,7 +19,7 @@ export function ReadContentContainer({ children }: { children: ReactNode }) {
         "flex min-h-0 min-w-0 flex-1 flex-col transition-[padding] duration-300",
         insightOpen && "pb-120",
         navAtBottom && "pb-20",
-        studyPanelOpen && "pr-72"
+        studyPanelOpen && "xl:pr-72"
       )}
     >
       {children}
