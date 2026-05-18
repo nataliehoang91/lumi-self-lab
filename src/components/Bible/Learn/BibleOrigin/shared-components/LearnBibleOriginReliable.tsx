@@ -34,7 +34,7 @@ export function LearnBibleOriginReliable({
         </span>
       </div>
 
-      <h2 className={cn("text-foreground mb-4 text-3xl font-bold leading-snug", titleFont)}>
+      <h2 className={cn("text-foreground mb-4 text-2xl font-semibold leading-snug", titleFont)}>
         {reliableTitle}
       </h2>
 

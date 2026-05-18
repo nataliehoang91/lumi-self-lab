@@ -29,7 +29,7 @@ export function LearnWhatHappensAfterDeathTwoDestinies({
 
   return (
     <section className="mb-10">
-      <h2 className={cn(titleFont, "mb-5 text-xl font-semibold")}>{heading}</h2>
+      <h2 className={cn(titleFont, "mb-5 text-2xl font-semibold")}>{heading}</h2>
       <p className={cn("mb-5 leading-relaxed", bodyClassUp)}>{intro}</p>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {items.map((item) => (

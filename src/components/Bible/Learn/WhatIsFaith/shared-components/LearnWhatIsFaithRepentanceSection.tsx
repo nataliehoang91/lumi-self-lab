@@ -31,7 +31,7 @@ export function LearnWhatIsFaithRepentanceSection({
 
   return (
     <section className="bg-card border-sage-dark/20 mb-10 rounded-2xl border p-6">
-      <h2 className={cn("text-foreground mb-3 text-xl font-semibold", titleFont)}>
+      <h2 className={cn("text-foreground mb-3 text-2xl font-semibold", titleFont)}>
         {repentanceTitle}
       </h2>
       <p className={cn(bodyColor, "leading-relaxed", bodyClassUp, bodyFont)}>

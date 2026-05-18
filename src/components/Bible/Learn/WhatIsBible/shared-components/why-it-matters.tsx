@@ -30,7 +30,7 @@ export function LearnWhyItMatters({
           {title}
         </span>
       </div>
-      <h2 className={cn("text-foreground mb-4 text-3xl font-bold leading-snug", titleFont)}>
+      <h2 className={cn("text-foreground mb-4 text-2xl font-semibold leading-snug", titleFont)}>
         {title}
       </h2>
       {body && <p className={cn("text-lg leading-relaxed", bodyClassUp, bodyFont)}>{body}</p>}

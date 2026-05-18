@@ -18,7 +18,7 @@ export function LearnWhatIsFaithRelationshipSection({
 
   return (
     <section className="bg-foreground text-background mb-12 rounded-2xl p-6">
-      <h2 className="font-bible-english mb-3 text-xl font-semibold">
+      <h2 className="font-bible-english mb-3 text-2xl font-semibold">
         {relationshipTitle}
       </h2>
       <p className={cn("mb-4 leading-relaxed opacity-80", bodyClass)}>
