@@ -8,6 +8,7 @@ import { getBibleIntl } from "@/lib/bible-intl";
 import { cn } from "@/lib/utils";
 
 const LESSON_ORDER = [
+  "bible-structure",
   "what-is-bible",
   "bible-origin",
   "who-is-jesus",
@@ -16,6 +17,10 @@ const LESSON_ORDER = [
 ] as const;
 
 const LESSON_TITLES: Record<(typeof LESSON_ORDER)[number], { en: string; vi: string }> = {
+  "bible-structure": {
+    en: "Bible Structure Overview",
+    vi: "Tổng quan cấu trúc Kinh Thánh",
+  },
   "what-is-bible": {
     en: "What Is the Bible?",
     vi: "Kinh thánh là gì?",

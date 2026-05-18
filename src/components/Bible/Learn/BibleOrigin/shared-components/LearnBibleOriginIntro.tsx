@@ -40,9 +40,9 @@ export function LearnBibleOriginIntro({
       >
         {title}
       </h1>
-      <p className={cn(bodyColor, "mt-4 leading-relaxed", bodyFont, bodyClassUp)}>
+      <div className={cn(bodyColor, "mt-4 leading-relaxed", bodyFont, bodyClassUp)}>
         {intro}
-      </p>
+      </div>
     </div>
   );
 }
