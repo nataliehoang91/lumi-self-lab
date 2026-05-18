@@ -27,21 +27,21 @@ export function NewStudyListPlaceholderCard({
         <Button
           variant="secondaryLight"
           className="group bg-primary/10 border-primary/40 hover:border-primary/40
-            hover:bg-primary/5 flex min-h-[180px] flex-col items-center justify-center
-            gap-2 rounded-xl border-2 border-dashed p-6 transition-all duration-200"
+            hover:bg-primary/5 flex w-full min-h-[180px] lg:min-h-[120px] flex-col items-center justify-center
+            gap-3 rounded-xl border-2 border-dashed p-6 lg:p-4 transition-all duration-200"
         >
           <div
-            className="bg-primary/30 group-hover:bg-primary/10 flex h-10 w-10 items-center
+            className="bg-primary/30 group-hover:bg-primary/10 flex h-12 w-12 items-center
               justify-center rounded-xl transition-colors"
           >
             <Plus
-              className="text-foreground group-hover:text-muted-foreground h-5 w-5
+              className="text-foreground group-hover:text-muted-foreground h-6 w-6
                 transition-colors"
             />
           </div>
           <span
-            className="text-foreground group-hover:text-muted-foreground text-sm
-              font-medium transition-colors"
+            className="text-foreground group-hover:text-muted-foreground text-base
+              font-semibold transition-colors"
           >
             {label}
           </span>

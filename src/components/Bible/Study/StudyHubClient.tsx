@@ -889,7 +889,9 @@ export function StudyHubClient({
             <p className="text-foreground font-semibold">{t.createTitle}</p>
             <p className="text-muted-foreground mt-1 text-sm">{t.createSub}</p>
           </div>
-          <NewStudyListPlaceholderCard />
+          <div className="w-full lg:max-w-xs">
+            <NewStudyListPlaceholderCard />
+          </div>
           <p className="text-muted-foreground text-xs italic">{t.suggested}</p>
         </motion.div>
       ) : (
