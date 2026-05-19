@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BookOpen, Calendar, ChevronRight } from "lucide-react";
+import { connection } from "next/server";
 import { getPublishedDeepDiveArchive } from "@/app/actions/admin/deep-dive";
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ const LABELS = {
 };
 
 export default async function DeepDivePage({ params }: { params: Promise<{ lang: string }> }) {
+  await connection();
   const { lang } = await params;
   const l = lang === "vi" ? "vi" : "en";
   const labels = LABELS[l];
