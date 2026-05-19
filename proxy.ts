@@ -7,11 +7,7 @@ const isPublicRoute = createRouteMatcher([
   "/sign-up(.*)",
   "/api/waitlist(.*)",
   "/api/webhooks(.*)",
-  "/api/bible(.*)",
-  "/api/flash(.*)",
   "/api/cron(.*)",
-  "/bible(.*)",
-  "/study/shared(.*)",
   "/admin(.*)",  // admin uses its own cookie-based auth, not Clerk
 ]);
 
