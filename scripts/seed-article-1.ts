@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 async function main() {
   const slug = "the-light-of-the-gospel";
 
-  const existing = await prisma.bibleDeepDive.findUnique({ where: { slug } });
+  const existing = await prisma.bibleDeepDive.findUnique({ where: { slug_lang: { slug, lang: "en" } } });
   if (existing) {
     console.log(`Already exists: "${existing.title}" — skipping.`);
     return;
