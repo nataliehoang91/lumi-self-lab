@@ -3,17 +3,6 @@ import type { Metadata } from "next";
 import {
   Inter,
   Geist_Mono,
-  Lora,
-  Merriweather,
-  Noto_Serif,
-  Be_Vietnam_Pro,
-  Roboto,
-  Noto_Sans,
-  Open_Sans,
-  Playfair_Display,
-  Libre_Baskerville,
-  Chivo,
-  Sora,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -30,75 +19,6 @@ const inter = Inter({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-const loraSerif = Lora({
-  variable: "--font-bible-serif",
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
-
-const vietnameseScripture = Merriweather({
-  variable: "--font-vietnamese",
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "700"],
-});
-
-/* Noto Serif: strong Vietnamese diacritic support for flashcards (clearer than Merriweather at card sizes) */
-const notoSerifVietnamese = Noto_Serif({
-  variable: "--font-vietnamese-flashcard",
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "700"],
-});
-
-/* Vietnamese reading fonts (Google Fonts suggestions: good diacritics, UI-friendly) */
-const beVietnamPro = Be_Vietnam_Pro({
-  variable: "--font-be-vietnam-pro",
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "700"],
-});
-
-const notoSans = Noto_Sans({
-  variable: "--font-noto-sans",
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "600", "700"],
-});
-
-const openSans = Open_Sans({
-  variable: "--font-open-sans",
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "600", "700"],
-});
-
-/* English reading fonts (NIV/KJV – serif & display, from reference design) */
-const playfairDisplay = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-});
-
-const libreBaskerville = Libre_Baskerville({
-  variable: "--font-libre-baskerville",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
-
-const chivo = Chivo({
-  variable: "--font-chivo",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-});
-
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -133,12 +53,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${geistMono.variable}
-          ${vietnameseScripture.variable} ${loraSerif.variable}
-          ${notoSerifVietnamese.variable}
-          ${beVietnamPro.variable} ${roboto.variable} ${notoSans.variable} ${openSans.variable}
-          ${playfairDisplay.variable} ${libreBaskerville.variable} ${chivo.variable} ${sora.variable}
-          font-sans antialiased`}
+        className={`${inter.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <Suspense
           fallback={

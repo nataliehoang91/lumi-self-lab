@@ -12,17 +12,6 @@ export interface FeatureGroup {
 
 export const FEATURE_CATALOG: FeatureGroup[] = [
   {
-    key: "bible",
-    label: "Bible Study",
-    features: [
-      { key: "bible_study_unlimited", label: "Unlimited study lists", description: "Free plan: max 3 lists" },
-      { key: "bible_ai_insights", label: "AI chapter insights", description: "Context, explanation & reflection per chapter" },
-      { key: "bible_public_sharing", label: "Public share links", description: "Share study lists with a public URL" },
-      { key: "bible_export_print", label: "Export / Print PDF", description: "Print or export study list to PDF" },
-      { key: "bible_study_plans", label: "Study plans", description: "Curated 30/90-day reading plans" },
-    ],
-  },
-  {
     key: "experiments",
     label: "Experiments",
     features: [

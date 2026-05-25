@@ -32,7 +32,6 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
     setTheme(savedTheme);
     setPaletteState(savedPalette);
     document.documentElement.classList.toggle("dark", savedTheme === "dark");
-    // theme-warm is scoped to /bible only — applied in BibleLayoutClient, not globally
   }, []);
 
   const toggleTheme = React.useCallback(() => {
@@ -45,7 +44,6 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const setPalette = React.useCallback((p: Palette) => {
     setPaletteState(p);
     localStorage.setItem("theme-palette", p);
-    // theme-warm scoped to bible only — BibleLayoutClient handles the class
   }, []);
 
   if (!mounted) {
