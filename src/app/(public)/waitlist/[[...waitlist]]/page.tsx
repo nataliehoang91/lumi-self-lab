@@ -7,5 +7,5 @@ import { WaitlistClient } from "./WaitlistClient";
 export default function WaitlistPage() {
   const isProduction = process.env.VERCEL_ENV === "production";
 
-  return <WaitlistClient showMarketing={!isProduction} />;
+  return <WaitlistClient showMarketing={true} />;
 }
