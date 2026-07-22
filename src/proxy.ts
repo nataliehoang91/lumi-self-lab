@@ -9,7 +9,11 @@ function isWaitlistAllowedPath(pathname: string): boolean {
   return (
     pathname === "/waitlist" ||
     pathname.startsWith("/waitlist/") ||
-    pathname === "/api/waitlist"
+    pathname === "/api/waitlist" ||
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/") ||
+    pathname === "/api/cron" ||
+    pathname.startsWith("/api/cron/")
   );
 }
 
@@ -24,6 +28,8 @@ const isPublicRoute = createRouteMatcher([
   "/welcome", // Welcome page (sign in / get started)
   "/api/waitlist", // Waitlist signup (unauthenticated)
   "/api/webhooks(.*)", // Clerk webhooks (no auth; verified by signature)
+  "/api/cron(.*)", // Vercel Cron; auth'd via CRON_SECRET inside the route, not Clerk
+  "/admin(.*)", // admin uses its own cookie-based auth, not Clerk
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
